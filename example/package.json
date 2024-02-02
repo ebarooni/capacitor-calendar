@@ -4,7 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "preinstall:capacitor-calendar": "cd .. && npm ci && npm run build",
+    "build": "rm -rf .angular && npm run preinstall:capacitor-calendar && npm ci && ng build && npx cap sync",
+    "open:ios": "npx cap open ios",
+    "open:android": "npx cap open android",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
