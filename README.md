@@ -9,6 +9,10 @@ npm install capacitor-calendar
 npx cap sync
 ```
 
+## Permissions
+
+* [iOS](./ios/SETUP.md)
+
 ## API
 
 <docgen-index>

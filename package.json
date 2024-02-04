@@ -1,7 +1,7 @@
 {
   "name": "@ebarooni/capacitor-calendar",
   "version": "0.0.1",
-  "description": "Plugin for interacting with calendar",
+  "description": "The Capacitor Calendar Plugin exposes functionalities for interacting with the device calendar.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -13,7 +13,7 @@
     "ios/Plugin/",
     "CapacitorCalendar.podspec"
   ],
-  "author": "",
+  "author": "Ehsan Barooni",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,7 +25,8 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "calendar"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
@@ -76,5 +77,8 @@
     "android": {
       "src": "android"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
