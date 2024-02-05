@@ -17,24 +17,22 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`createEventWithPrompt()`](#createeventwithprompt)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### createEventWithPrompt()
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+createEventWithPrompt() => Promise<{ action: string; }>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+Creates an event in the calendar by displaying a prompt.
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+**Returns:** <code>Promise&lt;{ action: string; }&gt;</code>
 
 --------------------
 
