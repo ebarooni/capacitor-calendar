@@ -11,7 +11,7 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorCalendar.podspec"
+    "EbarooniCapacitorCalendar.podspec"
   ],
   "author": "Ehsan Barooni",
   "license": "MIT",
