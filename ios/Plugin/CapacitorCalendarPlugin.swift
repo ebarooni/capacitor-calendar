@@ -8,11 +8,10 @@ import Capacitor
 @objc(CapacitorCalendarPlugin)
 public class CapacitorCalendarPlugin: CAPPlugin {
     private let implementation = CapacitorCalendar()
-
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
+    
+    @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            return self.implementation.createEventWithPrompt(call, self.bridge)
+        }
     }
 }

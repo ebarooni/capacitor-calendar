@@ -1,13 +1,12 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { CapacitorCalendarPlugin } from './definitions';
+import type {CapacitorCalendarPlugin, ICreateEventAction} from './definitions';
 
 export class CapacitorCalendarWeb
-  extends WebPlugin
-  implements CapacitorCalendarPlugin
+    extends WebPlugin
+    implements CapacitorCalendarPlugin
 {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
-  }
+    public createEventWithPrompt(): Promise<ICreateEventAction> {
+        throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
+    }
 }
