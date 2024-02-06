@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {IonApp, IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/angular/standalone";
+import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [IonApp, IonContent, IonHeader, IonToolbar, IonTitle, IonButton],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'example';
+  public createEventWithPrompt(): Promise<{ action: string }> {
+    return CapacitorCalendar.createEventWithPrompt();
+  }
 }
