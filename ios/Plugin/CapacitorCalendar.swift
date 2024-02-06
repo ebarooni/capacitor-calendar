@@ -4,13 +4,12 @@ import EventKitUI
 
 
 public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
-    private let TAG = "[CapacitorCalendar]"
     private let store = EKEventStore()
     private var eventCall: CAPPluginCall?
     
     public func createEventWithPrompt(_ call: CAPPluginCall, _ bridge: (any CAPBridgeProtocol)?) {
         guard let viewController = bridge?.viewController else {
-            call.reject("\(TAG) unable to retrieve view controller")
+            call.reject("\(#function) unable to retrieve view controller")
             return
         }
         
