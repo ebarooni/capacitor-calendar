@@ -1,6 +1,6 @@
 # capacitor-calendar
 
-Plugin for interacting with calendar
+The Capacitor Calendar Plugin exposes functionalities for interacting with the calendar of the device.
 
 ## Install
 
@@ -11,6 +11,9 @@ npx cap sync
 
 ## Permissions
 
+To be able to use the plugin, you will need to add the required permissions to your app. The required platform-specific 
+permissions can be found below:
+
 * [iOS](./ios/SETUP.md)
 
 ## API
@@ -18,6 +21,7 @@ npx cap sync
 <docgen-index>
 
 * [`createEventWithPrompt()`](#createeventwithprompt)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -27,13 +31,23 @@ npx cap sync
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<{ action: string; }>
+createEventWithPrompt() => Promise<ICreateEventAction>
 ```
 
 Creates an event in the calendar by displaying a prompt.
 
-**Returns:** <code>Promise&lt;{ action: string; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#icreateeventaction">ICreateEventAction</a>&gt;</code>
 
 --------------------
+
+
+### Interfaces
+
+
+#### ICreateEventAction
+
+| Prop         | Type                                          |
+| ------------ | --------------------------------------------- |
+| **`action`** | <code>'error' \| 'saved' \| 'canceled'</code> |
 
 </docgen-api>
