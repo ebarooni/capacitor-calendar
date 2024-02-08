@@ -1,4 +1,4 @@
-export interface ICreateEventAction {
+export interface CreateEventAction {
   action: 'saved' | 'canceled' | 'error'
 }
 
@@ -9,5 +9,5 @@ export interface CapacitorCalendarPlugin {
    * @method
    * @returns { Promise } – The action of the user. It can be saved, canceled or error.
    */
-  createEventWithPrompt(): Promise<ICreateEventAction>;
+  createEventWithPrompt(): Promise<CreateEventAction>;
 }
