@@ -22,7 +22,7 @@ import com.getcapacitor.annotation.PermissionCallback
         name = "CapacitorCalendar",
         permissions = [
             Permission(
-                    alias = "readCalendar",
+                    alias = "read",
                     strings = [
                         Manifest.permission.READ_CALENDAR
                     ]
@@ -30,14 +30,20 @@ import com.getcapacitor.annotation.PermissionCallback
         ]
 )
 class CapacitorCalendarPlugin : Plugin() {
+    private enum class CalendarEventActionResult(val value: String) {
+        SAVED("saved"),
+        CANCELED("canceled"),
+        ERROR("error")
+    }
+
     private var totalNumberOfEvents: Int = 0
 
     @PluginMethod
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            if (getPermissionState("readCalendar") != PermissionState.GRANTED) {
+            if (getPermissionState("read") != PermissionState.GRANTED) {
                 requestPermissionForAlias(
-                        "readCalendar",
+                        "read",
                         call,
                         "readCalendarPermsCallback"
                 )
@@ -82,19 +88,19 @@ class CapacitorCalendarPlugin : Plugin() {
         val ret = JSObject()
         val currentEventsCount: Int = getTotalNumberOfEvents(context)
         val action: String = if (currentEventsCount > totalNumberOfEvents) {
-            "saved"
+            CalendarEventActionResult.SAVED.value
         } else if (totalNumberOfEvents == currentEventsCount) {
-            "canceled"
+            CalendarEventActionResult.CANCELED.value
         } else {
-            "error"
+            CalendarEventActionResult.ERROR.value
         }
-        ret.put("action", action)
+        ret.put("result", action)
         call.resolve(ret)
     }
 
     @PermissionCallback
     private fun readCalendarPermsCallback(call: PluginCall) {
-        if (getPermissionState("readCalendar") == PermissionState.GRANTED) {
+        if (getPermissionState("read") == PermissionState.GRANTED) {
             totalNumberOfEvents = getTotalNumberOfEvents(context)
             openCalendarIntent(call)
         } else {

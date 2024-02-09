@@ -1,23 +1,54 @@
 import type { PermissionState } from '@capacitor/core';
 
-export interface CreateEventAction {
-  action: 'saved' | 'canceled' | 'error'
+/**
+ * Enum for the possible results of actions performed on a calendar event.
+ * This includes creating, editing, and error events.
+ *
+ * @enum
+ */
+export enum CalendarEventActionResult {
+  Saved = 'saved',
+  Canceled = 'canceled',
+  Error = 'error'
 }
 
-export interface PermissionStatus {
-  readCalendar: PermissionState;
+/**
+ * Describes the permission status for reading from the calendar.
+ *
+ * @interface
+ */
+export interface CalendarPermissionStatus {
+  read: PermissionState;
 }
 
+
+/**
+ * Represents the interface for the Calendar plugin in Capacitor.
+ *
+ * @interface
+ */
 export interface CapacitorCalendarPlugin {
-  checkPermissions(): Promise<PermissionStatus>;
-
-  requestPermissions(): Promise<PermissionStatus>;
-
   /**
-   * Creates an event in the calendar by displaying a prompt.
+   * Checks the current permission status for accessing the calendar.
    *
    * @method
-   * @returns { Promise } – The action of the user. It can be saved, canceled or error.
+   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the current permission status.
    */
-  createEventWithPrompt(): Promise<CreateEventAction>;
+  checkPermissions(): Promise<CalendarPermissionStatus>;
+
+  /**
+   * Requests permissions to access the calendar, if they have not already been granted.
+   *
+   * @method
+   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the new permission status after the request is made.
+   */
+  requestPermissions(): Promise<CalendarPermissionStatus>;
+
+  /**
+   * Performs an action (create) on a calendar event by displaying a system prompt to the user.
+   *
+   * @method
+   * @returns {Promise&lt;{ result: CalendarEventActionResult }&gt;} – A promise that resolves with the result of the event action attempt, which includes the status (saved, canceled, error) and a message in case of an error.
+   */
+  createEventWithPrompt(): Promise<{ result: CalendarEventActionResult }>;
 }

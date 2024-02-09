@@ -4,6 +4,12 @@ import EventKitUI
 
 
 public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
+    private enum CalendarEventActionResult: String {
+        case saved = "saved"
+        case canceled = "canceled"
+        case error = "error"
+    }
+    
     private let store = EKEventStore()
     private var eventCall: CAPPluginCall?
     
@@ -29,15 +35,15 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
             print(action)
             if action == .saved {
                 self.eventCall?.resolve([
-                    "action": "saved"
+                    "result": CalendarEventActionResult.saved.rawValue
                 ])
             } else if action == .canceled {
                 self.eventCall?.resolve([
-                    "action": "canceled"
+                    "result": CalendarEventActionResult.canceled.rawValue
                 ])
             } else {
                 self.eventCall?.resolve([
-                    "action": "error"
+                    "result": CalendarEventActionResult.error.rawValue
                 ])
             }
         }

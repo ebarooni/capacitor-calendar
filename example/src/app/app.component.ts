@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {IonApp, IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/angular/standalone";
-import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
+import {CalendarEventActionResult, CapacitorCalendar} from "@ebarooni/capacitor-calendar";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  public createEventWithPrompt(): Promise<{ action: string }> {
+  public createEventWithPrompt(): Promise<{ result: CalendarEventActionResult }> {
     return CapacitorCalendar.createEventWithPrompt();
   }
 }

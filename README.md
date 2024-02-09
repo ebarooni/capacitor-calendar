@@ -25,19 +25,24 @@ permissions can be found below:
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
+Represents the interface for the Calendar plugin in Capacitor.
+
 ### checkPermissions()
 
 ```typescript
-checkPermissions() => Promise<PermissionStatus>
+checkPermissions() => Promise<CalendarPermissionStatus>
 ```
 
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+Checks the current permission status for accessing the calendar.
+
+**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
 
 --------------------
 
@@ -45,10 +50,12 @@ checkPermissions() => Promise<PermissionStatus>
 ### requestPermissions()
 
 ```typescript
-requestPermissions() => Promise<PermissionStatus>
+requestPermissions() => Promise<CalendarPermissionStatus>
 ```
 
-**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+Requests permissions to access the calendar, if they have not already been granted.
+
+**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
 
 --------------------
 
@@ -56,12 +63,12 @@ requestPermissions() => Promise<PermissionStatus>
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<CreateEventAction>
+createEventWithPrompt() => Promise<{ result: CalendarEventActionResult; }>
 ```
 
-Creates an event in the calendar by displaying a prompt.
+Performs an action (create) on a calendar event by displaying a system prompt to the user.
 
-**Returns:** <code>Promise&lt;<a href="#createeventaction">CreateEventAction</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendareventactionresult">CalendarEventActionResult</a>; }&gt;</code>
 
 --------------------
 
@@ -69,18 +76,13 @@ Creates an event in the calendar by displaying a prompt.
 ### Interfaces
 
 
-#### PermissionStatus
+#### CalendarPermissionStatus
 
-| Prop               | Type                                                        |
-| ------------------ | ----------------------------------------------------------- |
-| **`readCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+Describes the permission status for reading from the calendar.
 
-
-#### CreateEventAction
-
-| Prop         | Type                                          |
-| ------------ | --------------------------------------------- |
-| **`action`** | <code>'error' \| 'saved' \| 'canceled'</code> |
+| Prop       | Type                                                        |
+| ---------- | ----------------------------------------------------------- |
+| **`read`** | <code><a href="#permissionstate">PermissionState</a></code> |
 
 
 ### Type Aliases
@@ -89,5 +91,17 @@ Creates an event in the calendar by displaying a prompt.
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+### Enums
+
+
+#### CalendarEventActionResult
+
+| Members        | Value                   |
+| -------------- | ----------------------- |
+| **`Saved`**    | <code>'saved'</code>    |
+| **`Canceled`** | <code>'canceled'</code> |
+| **`Error`**    | <code>'error'</code>    |
 
 </docgen-api>
