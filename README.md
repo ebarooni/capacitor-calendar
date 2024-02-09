@@ -20,23 +20,48 @@ permissions can be found below:
 
 <docgen-index>
 
+* [`checkPermissions()`](#checkpermissions)
+* [`requestPermissions()`](#requestpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
+### checkPermissions()
+
+```typescript
+checkPermissions() => Promise<PermissionStatus>
+```
+
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+
+--------------------
+
+
+### requestPermissions()
+
+```typescript
+requestPermissions() => Promise<PermissionStatus>
+```
+
+**Returns:** <code>Promise&lt;<a href="#permissionstatus">PermissionStatus</a>&gt;</code>
+
+--------------------
+
+
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<ICreateEventAction>
+createEventWithPrompt() => Promise<CreateEventAction>
 ```
 
 Creates an event in the calendar by displaying a prompt.
 
-**Returns:** <code>Promise&lt;<a href="#icreateeventaction">ICreateEventAction</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#createeventaction">CreateEventAction</a>&gt;</code>
 
 --------------------
 
@@ -44,10 +69,25 @@ Creates an event in the calendar by displaying a prompt.
 ### Interfaces
 
 
-#### ICreateEventAction
+#### PermissionStatus
+
+| Prop               | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`readCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+
+
+#### CreateEventAction
 
 | Prop         | Type                                          |
 | ------------ | --------------------------------------------- |
 | **`action`** | <code>'error' \| 'saved' \| 'canceled'</code> |
+
+
+### Type Aliases
+
+
+#### PermissionState
+
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
 </docgen-api>
