@@ -5,20 +5,9 @@
       <app-theme-toggle></app-theme-toggle>
     </div>
     <div class="ion-padding-top">
-      <ion-list>
-        <ion-list-header>
-          <app-condensed-header [title]="headerTitle"></app-condensed-header>
-        </ion-list-header>
-        <ion-item
-          button
-          [lines]="'full'"
-          [detail]="false"
-          (click)="createEventWithPrompt()"
-        >
-          <ion-label>{{ createEventWithPrompt.name }}</ion-label>
-          <ion-icon name="information-circle" slot="end"></ion-icon>
-        </ion-item>
-      </ion-list>
+      <app-methods-list>
+        <app-condensed-header [title]="headerTitle"></app-condensed-header>
+      </app-methods-list>
     </div>
   </ion-content>
 </ion-app>
