@@ -1,35 +1,24 @@
 <ion-app>
-  <ion-header>
-    <ion-toolbar [color]="'primary'">
-      <ion-title>
-        Capacitor Calendar
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ng-container *ngrxLet="isDarkTheme$ as isDarkTheme">
+  <app-header [title]="headerTitle"></app-header>
+  <ion-content [fullscreen]="true" class="ion-padding" >
+    <div class="ion-padding-bottom">
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+    <div class="ion-padding-top">
       <ion-list>
-        <ion-item [lines]="'full'">
-          <ion-icon name="moon" slot="start"></ion-icon>
-          <ion-label>Dark Mode</ion-label>
-          <ion-toggle slot="end" color="success" [checked]="isDarkTheme" (ionChange)="toggleDarkTheme(isDarkTheme)"
-          ></ion-toggle>
+        <ion-list-header>
+          <app-condensed-header [title]="headerTitle"></app-condensed-header>
+        </ion-list-header>
+        <ion-item
+          button
+          [lines]="'full'"
+          [detail]="false"
+          (click)="createEventWithPrompt()"
+        >
+          <ion-label>{{ createEventWithPrompt.name }}</ion-label>
+          <ion-icon name="information-circle" slot="end"></ion-icon>
         </ion-item>
       </ion-list>
-    </ng-container>
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Implemented Methods</ion-label>
-      </ion-list-header>
-      <ion-item
-        button
-        [lines]="'full'"
-        [detail]="false"
-        (click)="createEventWithPrompt()"
-      >
-        <ion-label>{{ createEventWithPrompt.name }}</ion-label>
-        <ion-icon name="information-circle" slot="end"></ion-icon>
-      </ion-item>
-    </ion-list>
+    </div>
   </ion-content>
 </ion-app>

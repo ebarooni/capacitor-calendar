@@ -1,9 +1,17 @@
 <ng-container *ngrxLet="isDarkTheme$ as isDarkTheme">
   <ion-list>
     <ion-item [lines]="'full'">
-      <ion-icon name="moon" slot="start"></ion-icon>
+      <ion-icon
+        [name]="'moon'"
+        [slot]="'start'"
+      ></ion-icon>
       <ion-label>Dark Mode</ion-label>
-      <ion-toggle slot="end" color="success" [checked]="isDarkTheme" (ionChange)="toggleDarkTheme(isDarkTheme)"
+      <ion-toggle
+        aria-label="Toggle app theme"
+        [slot]="'end'"
+        [color]="'success'"
+        [checked]="isDarkTheme"
+        (ionChange)="toggleDarkTheme(isDarkTheme)"
       ></ion-toggle>
     </ion-item>
   </ion-list>
