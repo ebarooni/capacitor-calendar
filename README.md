@@ -20,8 +20,10 @@ permissions can be found below:
 
 <docgen-index>
 
-* [`checkPermissions()`](#checkpermissions)
-* [`requestPermissions()`](#requestpermissions)
+* [`checkPermission(...)`](#checkpermission)
+* [`checkAllPermissions()`](#checkallpermissions)
+* [`requestPermission(...)`](#requestpermission)
+* [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -34,26 +36,60 @@ permissions can be found below:
 
 Represents the interface for the Calendar plugin in Capacitor.
 
-### checkPermissions()
+### checkPermission(...)
 
 ```typescript
-checkPermissions() => Promise<CalendarPermissionStatus>
+checkPermission(permission: keyof CalendarPermissionStatus) => Promise<{ result: PermissionState; }>
 ```
 
-Checks the current permission status for accessing the calendar.
+Checks the current permission status of a specific permission.
+
+| Param            | Type                        |
+| ---------------- | --------------------------- |
+| **`permission`** | <code>'readCalendar'</code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+--------------------
+
+
+### checkAllPermissions()
+
+```typescript
+checkAllPermissions() => Promise<CalendarPermissionStatus>
+```
+
+Checks the current permission status for all the required permissions for the plugin.
 
 **Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
 
 --------------------
 
 
-### requestPermissions()
+### requestPermission(...)
 
 ```typescript
-requestPermissions() => Promise<CalendarPermissionStatus>
+requestPermission(permission: keyof CalendarPermissionStatus) => Promise<{ result: PermissionState; }>
 ```
 
-Requests permissions to access the calendar, if they have not already been granted.
+Requests authorization to a specific permission, if not already granted.
+
+| Param            | Type                        |
+| ---------------- | --------------------------- |
+| **`permission`** | <code>'readCalendar'</code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+--------------------
+
+
+### requestAllPermissions()
+
+```typescript
+requestAllPermissions() => Promise<CalendarPermissionStatus>
+```
+
+Requests authorization to all the required permissions for the plugin, if they have not already been granted.
 
 **Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
 
@@ -80,9 +116,9 @@ Performs an action (create) on a calendar event by displaying a system prompt to
 
 Describes the permission status for reading from the calendar.
 
-| Prop       | Type                                                        |
-| ---------- | ----------------------------------------------------------- |
-| **`read`** | <code><a href="#permissionstate">PermissionState</a></code> |
+| Prop               | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`readCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
 
 
 ### Type Aliases

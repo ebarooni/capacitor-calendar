@@ -5,7 +5,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.JSObject
 import com.getcapacitor.PermissionState
@@ -22,7 +21,7 @@ import com.getcapacitor.annotation.PermissionCallback
         name = "CapacitorCalendar",
         permissions = [
             Permission(
-                    alias = "read",
+                    alias = "readCalendar",
                     strings = [
                         Manifest.permission.READ_CALENDAR
                     ]
@@ -41,18 +40,66 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            if (getPermissionState("read") != PermissionState.GRANTED) {
-                requestPermissionForAlias(
-                        "read",
-                        call,
-                        "readCalendarPermsCallback"
-                )
+            if (getPermissionState("readCalendar") != PermissionState.GRANTED) {
+                throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Missing readCalendar permission")
             } else {
                 totalNumberOfEvents = getTotalNumberOfEvents(context)
                 openCalendarIntent(call)
             }
         } catch (error: Exception) {
             call.reject(error.message)
+            return
+        }
+    }
+
+    @PluginMethod
+    fun checkPermission(call: PluginCall) {
+        try {
+            val permissionName = call.getString("permission")
+                    ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Permission name is not defined")
+            val state = getPermissionState(permissionName)
+                    ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Could not determine the status of the requested permission")
+            val ret = JSObject()
+            ret.put("result", state)
+            call.resolve(ret)
+        } catch (error: Exception) {
+            call.reject(error.message)
+            return
+        }
+    }
+
+    @PluginMethod
+    fun checkAllPermissions(call: PluginCall) {
+        try {
+            checkPermissions(call)
+        } catch (_: Exception) {
+            call.reject("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Could not determine the status of the requested permissions")
+            return
+        }
+    }
+
+    @PluginMethod
+    fun requestPermission(call: PluginCall) {
+        try {
+            val permissionName = call.getString("permission")
+                    ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Permission name is not defined")
+            requestPermissionForAlias(
+                    permissionName,
+                    call,
+                    "permissionsCallback"
+            )
+        } catch (error: Exception) {
+            call.reject(error.message)
+            return
+        }
+    }
+
+    @PluginMethod
+    fun requestAllPermissions(call: PluginCall) {
+        try {
+            requestPermissions(call)
+        } catch (_: Exception) {
+            call.reject("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Could not request permissions")
             return
         }
     }
@@ -73,7 +120,7 @@ class CapacitorCalendarPlugin : Plugin() {
             try {
                 cursor.count
             } catch (_: Exception) {
-                throw Exception("${Thread.currentThread().stackTrace[1].methodName} failed to get the total events count")
+                throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Failed to get the total events count")
             } finally {
                 cursor.close()
             }
@@ -83,7 +130,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @ActivityCallback
     private fun openCalendarIntentActivityCallback(call: PluginCall?, result: ActivityResult) {
         if (call == null) {
-            throw Exception("${Thread.currentThread().stackTrace[1].methodName} call is not defined")
+            throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Call is not defined")
         }
         val ret = JSObject()
         val currentEventsCount: Int = getTotalNumberOfEvents(context)
@@ -99,12 +146,14 @@ class CapacitorCalendarPlugin : Plugin() {
     }
 
     @PermissionCallback
-    private fun readCalendarPermsCallback(call: PluginCall) {
-        if (getPermissionState("read") == PermissionState.GRANTED) {
-            totalNumberOfEvents = getTotalNumberOfEvents(context)
-            openCalendarIntent(call)
-        } else {
-            throw Exception("${Thread.currentThread().stackTrace[1].methodName} READ_CALENDAR permission was not granted by the user")
+    private fun permissionsCallback(call: PluginCall) {
+        val permissionName = call.getString("permission")
+        try {
+            val ret = JSObject()
+            ret.put("result", getPermissionState(permissionName))
+            call.resolve(ret)
+        } catch (_: Exception) {
+            throw Exception("${Thread.currentThread().stackTrace[1].methodName} Could not authorize $permissionName")
         }
     }
 }
