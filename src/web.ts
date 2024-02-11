@@ -6,7 +6,7 @@ export class CapacitorCalendarWeb
     extends WebPlugin
     implements CapacitorCalendarPlugin
 {
-    public checkPermission(_permission: keyof CalendarPermissionStatus): Promise<{ result: PermissionState }> {
+    public checkPermission(_permission: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }> {
         throw this.unimplemented(`${this.checkPermission.name} is not implemented on the web`)
     }
 
@@ -14,7 +14,7 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.checkAllPermissions.name} is not implemented on the web`);
     }
 
-    public requestPermission(_permission: keyof CalendarPermissionStatus): Promise<{ result: PermissionState }> {
+    public requestPermission(_permission: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }> {
         throw this.unimplemented(`${this.requestPermission.name} is not implemented on the web`);
     }
 

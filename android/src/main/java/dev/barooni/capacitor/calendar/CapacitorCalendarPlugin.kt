@@ -55,7 +55,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun checkPermission(call: PluginCall) {
         try {
-            val permissionName = call.getString("permission")
+            val permissionName = call.getString("alias")
                     ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Permission name is not defined")
             val state = getPermissionState(permissionName)
                     ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Could not determine the status of the requested permission")
@@ -81,7 +81,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestPermission(call: PluginCall) {
         try {
-            val permissionName = call.getString("permission")
+            val permissionName = call.getString("alias")
                     ?: throw Exception("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Permission name is not defined")
             requestPermissionForAlias(
                     permissionName,
@@ -147,7 +147,7 @@ class CapacitorCalendarPlugin : Plugin() {
 
     @PermissionCallback
     private fun permissionsCallback(call: PluginCall) {
-        val permissionName = call.getString("permission")
+        val permissionName = call.getString("alias")
         try {
             val ret = JSObject()
             ret.put("result", getPermissionState(permissionName))
