@@ -1,16 +1,23 @@
 import { Component } from '@angular/core';
-import {IonApp, IonButton, IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/angular/standalone";
-import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
+import {IonApp, IonContent} from "@ionic/angular/standalone";
+import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
+import {HeaderComponent} from "./header/header.component";
+import {CondensedHeaderComponent} from "./condensed-header/condensed-header.component";
+import {MethodsListComponent} from "./methods-list/methods-list.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonApp, IonContent, IonHeader, IonToolbar, IonTitle, IonButton],
+  imports: [
+    IonApp,
+    IonContent,
+    ThemeToggleComponent,
+    HeaderComponent,
+    CondensedHeaderComponent,
+    MethodsListComponent
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  public createEventWithPrompt(): Promise<{ action: string }> {
-    return CapacitorCalendar.createEventWithPrompt();
-  }
+  readonly headerTitle = 'CapacitorCalendar';
 }

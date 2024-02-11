@@ -1,16 +1,13 @@
 <ion-app>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        Capacitor Calendar Demo
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-button
-      (click)="createEventWithPrompt()"
-    >
-      Create Event with Prompt
-    </ion-button>
+  <app-header [title]="headerTitle"></app-header>
+  <ion-content [fullscreen]="true" class="ion-padding" >
+    <div class="ion-padding-bottom">
+      <app-theme-toggle></app-theme-toggle>
+    </div>
+    <div class="ion-padding-top">
+      <app-methods-list>
+        <app-condensed-header [title]="headerTitle"></app-condensed-header>
+      </app-methods-list>
+    </div>
   </ion-content>
 </ion-app>

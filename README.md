@@ -20,23 +20,91 @@ permissions can be found below:
 
 <docgen-index>
 
+* [`checkPermission(...)`](#checkpermission)
+* [`checkAllPermissions()`](#checkallpermissions)
+* [`requestPermission(...)`](#requestpermission)
+* [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
+Represents the interface for the Calendar plugin in Capacitor.
+
+### checkPermission(...)
+
+```typescript
+checkPermission(permission: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+```
+
+Checks the current permission status of a specific permission.
+
+| Param            | Type                                    |
+| ---------------- | --------------------------------------- |
+| **`permission`** | <code>{ alias: 'readCalendar'; }</code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+--------------------
+
+
+### checkAllPermissions()
+
+```typescript
+checkAllPermissions() => Promise<CalendarPermissionStatus>
+```
+
+Checks the current permission status for all the required permissions for the plugin.
+
+**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+
+--------------------
+
+
+### requestPermission(...)
+
+```typescript
+requestPermission(permission: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+```
+
+Requests authorization to a specific permission, if not already granted.
+
+| Param            | Type                                    |
+| ---------------- | --------------------------------------- |
+| **`permission`** | <code>{ alias: 'readCalendar'; }</code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+--------------------
+
+
+### requestAllPermissions()
+
+```typescript
+requestAllPermissions() => Promise<CalendarPermissionStatus>
+```
+
+Requests authorization to all the required permissions for the plugin, if they have not already been granted.
+
+**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+
+--------------------
+
+
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<ICreateEventAction>
+createEventWithPrompt() => Promise<{ result: CalendarEventActionResult; }>
 ```
 
-Creates an event in the calendar by displaying a prompt.
+Performs an action (create) on a calendar event by displaying a system prompt to the user.
 
-**Returns:** <code>Promise&lt;<a href="#icreateeventaction">ICreateEventAction</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendareventactionresult">CalendarEventActionResult</a>; }&gt;</code>
 
 --------------------
 
@@ -44,10 +112,32 @@ Creates an event in the calendar by displaying a prompt.
 ### Interfaces
 
 
-#### ICreateEventAction
+#### CalendarPermissionStatus
 
-| Prop         | Type                                          |
-| ------------ | --------------------------------------------- |
-| **`action`** | <code>'error' \| 'saved' \| 'canceled'</code> |
+Describes the permission status for reading from the calendar.
+
+| Prop               | Type                                                        |
+| ------------------ | ----------------------------------------------------------- |
+| **`readCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+
+
+### Type Aliases
+
+
+#### PermissionState
+
+<code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+### Enums
+
+
+#### CalendarEventActionResult
+
+| Members        | Value                   |
+| -------------- | ----------------------- |
+| **`Saved`**    | <code>'saved'</code>    |
+| **`Canceled`** | <code>'canceled'</code> |
+| **`Error`**    | <code>'error'</code>    |
 
 </docgen-api>
