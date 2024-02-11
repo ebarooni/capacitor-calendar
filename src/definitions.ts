@@ -18,7 +18,7 @@ export enum CalendarEventActionResult {
  * @interface
  */
 export interface CalendarPermissionStatus {
-  read: PermissionState;
+  readCalendar: PermissionState;
 }
 
 
@@ -29,20 +29,36 @@ export interface CalendarPermissionStatus {
  */
 export interface CapacitorCalendarPlugin {
   /**
-   * Checks the current permission status for accessing the calendar.
+   * Checks the current permission status of a specific permission.
    *
    * @method
-   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the current permission status.
+   * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the current status of the requested permission.
    */
-  checkPermissions(): Promise<CalendarPermissionStatus>;
+  checkPermission(permission: keyof CalendarPermissionStatus): Promise<{ result: PermissionState }>;
 
   /**
-   * Requests permissions to access the calendar, if they have not already been granted.
+   * Checks the current permission status for all the required permissions for the plugin.
    *
    * @method
-   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the new permission status after the request is made.
+   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the current permissions status.
    */
-  requestPermissions(): Promise<CalendarPermissionStatus>;
+  checkAllPermissions(): Promise<CalendarPermissionStatus>;
+
+  /**
+   * Requests authorization to a specific permission, if not already granted.
+   *
+   * @method
+   * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the new permission status after the request is made.
+   */
+  requestPermission(permission: keyof CalendarPermissionStatus): Promise<{ result: PermissionState }>;
+
+  /**
+   * Requests authorization to all the required permissions for the plugin, if they have not already been granted.
+   *
+   * @method
+   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the new permission statuses after the request is made.
+   */
+  requestAllPermissions(): Promise<CalendarPermissionStatus>;
 
   /**
    * Performs an action (create) on a calendar event by displaying a system prompt to the user.
