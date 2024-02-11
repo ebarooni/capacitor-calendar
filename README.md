@@ -39,14 +39,14 @@ Represents the interface for the Calendar plugin in Capacitor.
 ### checkPermission(...)
 
 ```typescript
-checkPermission(permission: keyof CalendarPermissionStatus) => Promise<{ result: PermissionState; }>
+checkPermission(permission: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
 ```
 
 Checks the current permission status of a specific permission.
 
-| Param            | Type                        |
-| ---------------- | --------------------------- |
-| **`permission`** | <code>'readCalendar'</code> |
+| Param            | Type                                    |
+| ---------------- | --------------------------------------- |
+| **`permission`** | <code>{ alias: 'readCalendar'; }</code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -69,14 +69,14 @@ Checks the current permission status for all the required permissions for the pl
 ### requestPermission(...)
 
 ```typescript
-requestPermission(permission: keyof CalendarPermissionStatus) => Promise<{ result: PermissionState; }>
+requestPermission(permission: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
 ```
 
 Requests authorization to a specific permission, if not already granted.
 
-| Param            | Type                        |
-| ---------------- | --------------------------- |
-| **`permission`** | <code>'readCalendar'</code> |
+| Param            | Type                                    |
+| ---------------- | --------------------------------------- |
+| **`permission`** | <code>{ alias: 'readCalendar'; }</code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
