@@ -10,21 +10,67 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
         case error = "error"
     }
     
+    private enum PermissionState: String {
+        case granted = "granted"
+        case denied = "denied"
+        case prompt = "prompt"
+        case promptWithRationale = "prompt-with-rationale"
+    }
+    
+    private let bridge: (any CAPBridgeProtocol)?
     private let store = EKEventStore()
     private var eventCall: CAPPluginCall?
     
-    public func createEventWithPrompt(_ call: CAPPluginCall, _ bridge: (any CAPBridgeProtocol)?) {
+    init(bridge: (any CAPBridgeProtocol)?) {
+        self.bridge = bridge
+    }
+    
+    public func createEventWithPrompt(_ call: CAPPluginCall) {
         guard let viewController = bridge?.viewController else {
-            call.reject("\(#function) unable to retrieve view controller")
+            call.reject("[CapacitorCalendar.\(#function)] Unable to retrieve view controller")
             return
         }
         
-        self.eventCall = call
+        eventCall = call
         let eventEditViewController = EKEventEditViewController()
         eventEditViewController.eventStore = store
-        eventEditViewController.event = nil
         viewController.present(eventEditViewController, animated: true, completion: nil)
         eventEditViewController.editViewDelegate = self
+    }
+    
+    public func checkPermission(_ call: CAPPluginCall) {
+        guard let permissionName = call.getString("alias") else {
+            call.reject("[CapacitorCalendar.\(#function)] Permission name is not defined")
+            return
+        }
+        
+        var permissionState: String
+        switch EKEventStore.authorizationStatus(for: .event) {
+        case .authorized, .fullAccess:
+            permissionState = PermissionState.granted.rawValue
+        case .denied, .restricted:
+            permissionState = PermissionState.denied.rawValue
+        case .notDetermined, .writeOnly:
+            permissionState = PermissionState.prompt.rawValue
+        @unknown default:
+            call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
+            return
+        }
+        call.resolve(["result": permissionState])
+    }
+    
+    public func checkAllPermissions(_ call: CAPPluginCall) {
+        switch EKEventStore.authorizationStatus(for: .event) {
+        case .authorized, .fullAccess:
+            call.resolve(["readCalendar": PermissionState.granted.rawValue])
+        case .denied, .restricted:
+            call.resolve(["readCalendar": PermissionState.denied.rawValue])
+        case .notDetermined, .writeOnly:
+            call.resolve(["readCalendar": PermissionState.prompt.rawValue])
+        @unknown default:
+            call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permissions")
+            return
+        }
     }
     
     public func eventEditViewController(
