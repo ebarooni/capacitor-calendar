@@ -73,6 +73,66 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
         }
     }
     
+    public func requestPermission(_ call: CAPPluginCall) {
+        guard let permissionName = call.getString("alias") else {
+            call.reject("[CapacitorCalendar.\(#function)] Permission name is not defined")
+            return
+        }
+        
+        switch permissionName {
+        case "readCalendar":
+            return requestReadAccessToEvents(call)
+        default:
+            call.reject("[CapacitorCalendar.\(#function)] Could not authorize \(permissionName)")
+            return
+        }
+    }
+    
+    public func requestAllPermissions(_ call: CAPPluginCall) {
+        return requestAllAccessToEvents(call)
+        
+    }
+    
+    private func requestReadAccessToEvents(_ call: CAPPluginCall) {
+        if #available(iOS 17.0, *) {
+            store.requestFullAccessToEvents { granted, error in
+                if let error = error {
+                    call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar")
+                    return
+                }
+                call.resolve(["result": granted])
+            }
+        } else {
+            store.requestAccess(to: .event) { granted, error in
+                if let error = error {
+                    call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar")
+                    return
+                }
+                call.resolve(["result": granted])
+            }
+        }
+    }
+    
+    private func requestAllAccessToEvents(_ call: CAPPluginCall) {
+        if #available(iOS 17.0, *) {
+            store.requestFullAccessToEvents { granted, error in
+                if let error = error {
+                    call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar and writeCalendar")
+                    return
+                }
+                call.resolve(["readCalendar": granted])
+            }
+        } else {
+            store.requestAccess(to: .event) { granted, error in
+                if let error = error {
+                    call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar and writeCalendar")
+                    return
+                }
+                call.resolve(["readCalendar": granted])
+            }
+        }
+    }
+    
     public func eventEditViewController(
         _ controller: EKEventEditViewController,
         didCompleteWith action: EKEventEditViewAction
