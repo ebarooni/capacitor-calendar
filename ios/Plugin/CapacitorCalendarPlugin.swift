@@ -18,11 +18,11 @@ public class CapacitorCalendarPlugin: CAPPlugin {
     }
     
     @objc public func requestPermission(_ call: CAPPluginCall) {
-        call.unimplemented("Not implemented yet on iOS")
+        return implementation.requestPermission(call)
     }
     
     @objc public func requestAllPermissions(_ call: CAPPluginCall) {
-        call.unimplemented("Not implemented yet on iOS")
+        return implementation.requestAllPermissions(call)
     }
     
     @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
