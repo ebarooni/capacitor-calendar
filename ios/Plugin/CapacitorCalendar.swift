@@ -100,7 +100,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
                     call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar")
                     return
                 }
-                call.resolve(["result": granted])
+                var permissionState: String
+                if granted {
+                    permissionState = PermissionState.granted.rawValue
+                } else {
+                    permissionState = PermissionState.denied.rawValue
+                }
+                call.resolve(["result": permissionState])
             }
         } else {
             store.requestAccess(to: .event) { granted, error in
@@ -108,7 +114,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
                     call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar")
                     return
                 }
-                call.resolve(["result": granted])
+                var permissionState: String
+                if granted {
+                    permissionState = PermissionState.granted.rawValue
+                } else {
+                    permissionState = PermissionState.denied.rawValue
+                }
+                call.resolve(["result": permissionState])
             }
         }
     }
@@ -120,7 +132,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
                     call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar and writeCalendar")
                     return
                 }
-                call.resolve(["readCalendar": granted])
+                var permissionState: String
+                if granted {
+                    permissionState = PermissionState.granted.rawValue
+                } else {
+                    permissionState = PermissionState.denied.rawValue
+                }
+                call.resolve(["readCalendar": permissionState])
             }
         } else {
             store.requestAccess(to: .event) { granted, error in
@@ -128,7 +146,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
                     call.reject("[CapacitorCalendar.\(#function)] Could not authorize readCalendar and writeCalendar")
                     return
                 }
-                call.resolve(["readCalendar": granted])
+                var permissionState: String
+                if granted {
+                    permissionState = PermissionState.granted.rawValue
+                } else {
+                    permissionState = PermissionState.denied.rawValue
+                }
+                call.resolve(["readCalendar": permissionState])
             }
         }
     }
