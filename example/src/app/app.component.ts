@@ -4,6 +4,7 @@ import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
 import {HeaderComponent} from "./header/header.component";
 import {CondensedHeaderComponent} from "./condensed-header/condensed-header.component";
 import {MethodsListComponent} from "./methods-list/methods-list.component";
+import {PermissionsStatusComponent} from "./permissions-status/permissions-status.component";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import {MethodsListComponent} from "./methods-list/methods-list.component";
     ThemeToggleComponent,
     HeaderComponent,
     CondensedHeaderComponent,
-    MethodsListComponent
+    MethodsListComponent,
+    PermissionsStatusComponent
   ],
   templateUrl: './app.component.html',
 })

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {IonIcon, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/angular/standalone";
-import {addIcons} from "ionicons";
-import {informationCircle} from "ionicons/icons";
 import {CalendarEventActionResult, CapacitorCalendar} from "@ebarooni/capacitor-calendar";
+import {PermissionStatusService} from "../permissions-status/permission-status.service";
 
 @Component({
   selector: 'app-methods-list',
@@ -17,9 +16,8 @@ import {CalendarEventActionResult, CapacitorCalendar} from "@ebarooni/capacitor-
   standalone: true
 })
 export class MethodsListComponent {
-  constructor() {
-    addIcons({ 'information-circle': informationCircle });
-  }
+
+  constructor(readonly permissionStatusService: PermissionStatusService) {}
 
   public createEventWithPrompt(): Promise<{ result: CalendarEventActionResult }> {
     return CapacitorCalendar.createEventWithPrompt();

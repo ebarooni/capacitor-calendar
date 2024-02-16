@@ -9,6 +9,13 @@
     (click)="createEventWithPrompt()"
   >
     <ion-label>{{ createEventWithPrompt.name }}</ion-label>
-    <ion-icon [name]="'information-circle'" [slot]="'start'"></ion-icon>
+  </ion-item>
+  <ion-item
+    button
+    [lines]="'full'"
+    [detail]="true"
+    (click)="permissionStatusService.checkAllPermissions()"
+  >
+    <ion-label>{{ permissionStatusService.checkAllPermissions.name }}</ion-label>
   </ion-item>
 </ion-list>

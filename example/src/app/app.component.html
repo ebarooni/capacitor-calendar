@@ -4,10 +4,11 @@
     <div class="ion-padding-bottom">
       <app-theme-toggle></app-theme-toggle>
     </div>
-    <div class="ion-padding-top">
-      <app-methods-list>
-        <app-condensed-header [title]="headerTitle"></app-condensed-header>
-      </app-methods-list>
+    <div class="ion-padding-bottom">
+      <app-permissions-status></app-permissions-status>
     </div>
+    <app-methods-list>
+      <app-condensed-header [title]="headerTitle"></app-condensed-header>
+    </app-methods-list>
   </ion-content>
 </ion-app>
