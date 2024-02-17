@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {IonIcon, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/angular/standalone";
-import {CalendarEventActionResult, CapacitorCalendar} from "@ebarooni/capacitor-calendar";
+import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
 import {PermissionStatusService} from "../permissions-status/permission-status.service";
+import {LogsService} from "../logs-list/logs.service";
 
 @Component({
   selector: 'app-methods-list',
@@ -17,9 +18,14 @@ import {PermissionStatusService} from "../permissions-status/permission-status.s
 })
 export class MethodsListComponent {
 
-  constructor(readonly permissionStatusService: PermissionStatusService) {}
+  constructor(
+    readonly permissionStatusService: PermissionStatusService,
+    private readonly logsService: LogsService
+  ) {}
 
-  public createEventWithPrompt(): Promise<{ result: CalendarEventActionResult }> {
-    return CapacitorCalendar.createEventWithPrompt();
+  public createEventWithPrompt(): void {
+    CapacitorCalendar.createEventWithPrompt()
+      .then((response) => this.logsService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.logsService.dispatchLog(JSON.stringify(error)));
   }
 }
