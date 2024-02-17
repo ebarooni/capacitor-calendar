@@ -1,10 +1,9 @@
-<ion-list>
+<ion-list [inset]="true">
   <ion-list-header>
-    <ng-content></ng-content>
+    <ion-label>CapacitorCalendar</ion-label>
   </ion-list-header>
   <ion-item
     button
-    [lines]="'full'"
     [detail]="true"
     (click)="createEventWithPrompt()"
   >
@@ -12,7 +11,6 @@
   </ion-item>
   <ion-item
     button
-    [lines]="'full'"
     [detail]="true"
     (click)="permissionStatusService.checkAllPermissions()"
   >
