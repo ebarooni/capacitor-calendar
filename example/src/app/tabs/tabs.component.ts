@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import {IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs} from "@ionic/angular/standalone";
+import {IonBadge, IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs} from "@ionic/angular/standalone";
 import {addIcons} from "ionicons";
 import {codeSlashOutline, clipboardOutline, settingsOutline} from "ionicons/icons";
+import {LogsService} from "../components/logs-list/logs.service";
+import {LetDirective} from "@ngrx/component";
 
 @Component({
   selector: 'app-tabs',
@@ -12,12 +14,14 @@ import {codeSlashOutline, clipboardOutline, settingsOutline} from "ionicons/icon
     IonTabButton,
     IonIcon,
     IonLabel,
-    IonTabs
+    IonTabs,
+    IonBadge,
+    LetDirective
   ],
   standalone: true
 })
 export class TabsComponent {
-  constructor() {
+  constructor(readonly logsService: LogsService) {
     addIcons({
       'code-slash-outline': codeSlashOutline,
       'clipboard-outline': clipboardOutline,

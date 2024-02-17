@@ -5,6 +5,11 @@
     </ion-tab-button>
     <ion-tab-button tab="logs">
       <ion-icon name="clipboard-outline"></ion-icon>
+      <ng-container *ngrxLet="logsService.logsNotification$ as logsNotification">
+        @if (logsNotification) {
+          <ion-badge>{{ logsNotification }}</ion-badge>
+        }
+      </ng-container>
     </ion-tab-button>
     <ion-tab-button tab="settings">
       <ion-icon name="settings-outline"></ion-icon>

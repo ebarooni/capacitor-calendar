@@ -18,5 +18,5 @@ import {DatePipe} from "@angular/common";
   standalone: true
 })
 export class LogsListComponent {
-  constructor(readonly logsService: LogsService) { }
+  constructor(readonly logsService: LogsService) {}
 }
