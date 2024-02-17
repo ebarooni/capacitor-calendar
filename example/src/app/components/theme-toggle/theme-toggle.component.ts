@@ -27,7 +27,7 @@ export class ThemeToggleComponent {
   ).pipe(tap((isDarkTheme) => document.body.classList.toggle('dark', isDarkTheme)));
 
   constructor() {
-    addIcons({'moon': moon});
+    addIcons({ 'moon': moon });
   }
 
   toggleDarkTheme(isDarkTheme: boolean): void {
