@@ -1,6 +1,15 @@
 # capacitor-calendar
 
-The Capacitor Calendar Plugin exposes functionalities for interacting with the calendar of the device.
+This CapacitorJS plugin simplifies the process of managing calendar events within your hybrid mobile applications. 
+With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
+calendar directly from your app.
+
+## Support Range
+
+|  Platform  |                range                |
+|:----------:|:-----------------------------------:|
+|    iOS     |               \>= 13                |
+|  Android   | \>= 4 (SDK 14 – Ice Cream Sandwich) |
 
 ## Install
 
@@ -14,7 +23,15 @@ npx cap sync
 To be able to use the plugin, you will need to add the required permissions to your app. The required platform-specific 
 permissions can be found below:
 
-* [iOS](./ios/SETUP.md)
+* [iOS](./ios/PERMISSIONS.md)
+* [Android](./android/PERMISSIONS.md)
+
+## TODOs
+
+- [ ] Create calendar events without native prompts
+- [ ] Create reminders (iOS)
+- [ ] Find calendar events
+- [ ] Delete calendar events
 
 ## API
 
@@ -34,19 +51,17 @@ permissions can be found below:
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-Represents the interface for the Calendar plugin in Capacitor.
-
 ### checkPermission(...)
 
 ```typescript
 checkPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
 ```
 
-Checks the current permission status of a specific permission.
+Checks the current authorization status of a specific permission.
 
-| Param         | Type                                    |
-| ------------- | --------------------------------------- |
-| **`options`** | <code>{ alias: 'readCalendar'; }</code> |
+| Param         | Type                                    | Description                               |
+| ------------- | --------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: 'readCalendar'; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -59,7 +74,7 @@ Checks the current permission status of a specific permission.
 checkAllPermissions() => Promise<CalendarPermissionStatus>
 ```
 
-Checks the current permission status for all the required permissions for the plugin.
+Checks the current authorization status of all the required permissions for the plugin.
 
 **Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
 
@@ -73,10 +88,11 @@ requestPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promis
 ```
 
 Requests authorization to a specific permission, if not already granted.
+If the permission is already granted, it will directly return the status.
 
-| Param         | Type                                    |
-| ------------- | --------------------------------------- |
-| **`options`** | <code>{ alias: 'readCalendar'; }</code> |
+| Param         | Type                                    | Description                               |
+| ------------- | --------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: 'readCalendar'; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -102,7 +118,10 @@ Requests authorization to all the required permissions for the plugin, if they h
 createEventWithPrompt() => Promise<{ result: CalendarEventActionResult; }>
 ```
 
-Performs an action (create) on a calendar event by displaying a system prompt to the user.
+Creates an event in the calendar by using the native calendar.
+On iOS opens a native sheet and on Android opens an intent.
+This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
+On Android, the user has to authorize for read access.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendareventactionresult">CalendarEventActionResult</a>; }&gt;</code>
 

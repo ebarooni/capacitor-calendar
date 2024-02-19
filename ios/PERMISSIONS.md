@@ -1,6 +1,4 @@
-# Setup CapacitorCalendar for iOS
-
-## Permissions
+# Permissions
 
 Depending on what iOS version is your app linked on, you must include in your `Info.plist` the usage description keys 
 for the types of data that you need to access.
