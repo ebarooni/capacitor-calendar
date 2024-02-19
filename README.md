@@ -9,7 +9,7 @@ calendar directly from your app.
 |  Platform  |                range                |
 |:----------:|:-----------------------------------:|
 |    iOS     |               \>= 13                |
-|  Android   | \>= 4 (SDk 14 – Ice Cream Sandwich) |
+|  Android   | \>= 4 (SDK 14 – Ice Cream Sandwich) |
 
 ## Install
 
@@ -25,6 +25,13 @@ permissions can be found below:
 
 * [iOS](./ios/PERMISSIONS.md)
 * [Android](./android/PERMISSIONS.md)
+
+## TODOs
+
+- [ ] Create calendar events without native prompts
+- [ ] Create reminders (iOS)
+- [ ] Find calendar events
+- [ ] Delete calendar events
 
 ## API
 
