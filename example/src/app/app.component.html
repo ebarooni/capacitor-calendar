@@ -1,13 +1,3 @@
 <ion-app>
-  <app-header [title]="headerTitle"></app-header>
-  <ion-content [fullscreen]="true" class="ion-padding" >
-    <div class="ion-padding-bottom">
-      <app-theme-toggle></app-theme-toggle>
-    </div>
-    <div class="ion-padding-top">
-      <app-methods-list>
-        <app-condensed-header [title]="headerTitle"></app-condensed-header>
-      </app-methods-list>
-    </div>
-  </ion-content>
+  <ion-router-outlet></ion-router-outlet>
 </ion-app>

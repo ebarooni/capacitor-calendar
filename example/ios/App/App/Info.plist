@@ -10,6 +10,8 @@
 	<string>Capacitor Calendar</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>To read and write calendar events</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
