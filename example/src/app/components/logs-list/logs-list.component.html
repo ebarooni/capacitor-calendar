@@ -1,0 +1,14 @@
+<ion-list [inset]="true">
+  <ng-container *ngrxLet="logsService.logs$ as logs">
+    @for (log of logs; track $index) {
+      <ion-item>
+        <ion-label class="ion-text-wrap">
+          {{ log.message }}
+        </ion-label>
+        <ion-note [slot]="'end'">
+          {{ log.timestamp | date : 'HH:mm:ss' }}
+        </ion-note>
+      </ion-item>
+    }
+  </ng-container>
+</ion-list>

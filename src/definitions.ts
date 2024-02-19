@@ -34,7 +34,7 @@ export interface CapacitorCalendarPlugin {
    * @method
    * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the current status of the requested permission.
    */
-  checkPermission(permission: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
+  checkPermission(options: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
 
   /**
    * Checks the current permission status for all the required permissions for the plugin.
@@ -50,7 +50,7 @@ export interface CapacitorCalendarPlugin {
    * @method
    * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the new permission status after the request is made.
    */
-  requestPermission(permission: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
+  requestPermission(options: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
 
   /**
    * Requests authorization to all the required permissions for the plugin, if they have not already been granted.

@@ -1,0 +1,26 @@
+<ion-list [inset]="true">
+  <ion-list-header>
+    <ion-label>Permissions</ion-label>
+    <ion-chip
+      (click)="permissionsStatusService.requestAllPermissions()"
+      [color]="'primary'"
+      class="ion-margin-horizontal"
+    >
+      Request All
+    </ion-chip>
+  </ion-list-header>
+  <ion-item [button]="true" [lines]="'none'" (click)="permissionsStatusService.requestPermission('readCalendar')">
+    <ion-label>Read Calendar</ion-label>
+    <ng-container *ngrxLet="permissionsStatusService.readCalendarPermission$ as readCalendarState; suspenseTpl: loading">
+      <ion-badge
+        [slot]="'end'"
+        [color]="readCalendarState === 'granted' ? 'success' : readCalendarState === 'denied' ? 'danger' : 'warning'"
+      >
+        {{ readCalendarState }}
+      </ion-badge>
+    </ng-container>
+  </ion-item>
+</ion-list>
+<ng-template #loading>
+  <ion-spinner [slot]="'end'"></ion-spinner>
+</ng-template>

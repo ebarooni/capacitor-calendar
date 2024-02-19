@@ -1,23 +1,13 @@
 import { Component } from '@angular/core';
-import {IonApp, IonContent} from "@ionic/angular/standalone";
-import {ThemeToggleComponent} from "./theme-toggle/theme-toggle.component";
-import {HeaderComponent} from "./header/header.component";
-import {CondensedHeaderComponent} from "./condensed-header/condensed-header.component";
-import {MethodsListComponent} from "./methods-list/methods-list.component";
+import {IonApp, IonRouterOutlet} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [
     IonApp,
-    IonContent,
-    ThemeToggleComponent,
-    HeaderComponent,
-    CondensedHeaderComponent,
-    MethodsListComponent
+    IonRouterOutlet
   ],
   templateUrl: './app.component.html',
+  standalone: true
 })
-export class AppComponent {
-  readonly headerTitle = 'CapacitorCalendar';
-}
+export class AppComponent {}

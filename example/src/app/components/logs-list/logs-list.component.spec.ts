@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CondensedHeaderComponent } from './condensed-header.component';
+import { LogsListComponent } from './logs-list.component';
 
-describe('CondensedHeaderComponent', () => {
-  let component: CondensedHeaderComponent;
-  let fixture: ComponentFixture<CondensedHeaderComponent>;
+describe('LogsListComponent', () => {
+  let component: LogsListComponent;
+  let fixture: ComponentFixture<LogsListComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CondensedHeaderComponent ],
+      declarations: [ LogsListComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CondensedHeaderComponent);
+    fixture = TestBed.createComponent(LogsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
