@@ -4,17 +4,43 @@ This CapacitorJS plugin simplifies the process of managing calendar events withi
 With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
 calendar directly from your app.
 
+## Table of Contents
+
+- [Demo](#demo)
+- [Upcoming Features](#upcoming-features)
+- [Support Range](#support-range)
+- [Install](#install)
+- [Permissions](#permissions)
+- [API](#api)
+
+## Demo
+
+
+|                 iOS 17                 |                 Android 14                 |
+|:--------------------------------------:|:------------------------------------------:|
+| ![](./example/src/assets/ios-demo.gif) | ![](./example/src/assets/android-demo.gif) |
+
+On iOS, `readCalendar` permission is not needed when you are creating an event using the native prompt. 
+The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
+
+## Upcoming Features
+
+- [ ] Create calendar events without native prompts
+- [ ] Create reminders (iOS)
+- [ ] Find calendar events
+- [ ] Delete calendar events
+
 ## Support Range
 
-|  Platform  |                range                |
-|:----------:|:-----------------------------------:|
-|    iOS     |               \>= 13                |
-|  Android   | \>= 4 (SDK 14 – Ice Cream Sandwich) |
+|  Platform  |                range                 |
+|:----------:|:------------------------------------:|
+|    iOS     |               &ge; 13                |
+|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
 
 ## Install
 
 ```bash
-npm install capacitor-calendar
+npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
 
@@ -25,13 +51,6 @@ permissions can be found below:
 
 * [iOS](./ios/PERMISSIONS.md)
 * [Android](./android/PERMISSIONS.md)
-
-## TODOs
-
-- [ ] Create calendar events without native prompts
-- [ ] Create reminders (iOS)
-- [ ] Find calendar events
-- [ ] Delete calendar events
 
 ## API
 
