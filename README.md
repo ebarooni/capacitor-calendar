@@ -13,7 +13,7 @@ calendar directly from your app.
 - [Permissions](#permissions)
 - [API](#api)
 
-## Demo
+## [Demo (click for details)](./example/README.md)
 
 
 |                 iOS 17                 |                 Android 14                 |
