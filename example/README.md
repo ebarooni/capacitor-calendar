@@ -4,15 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Running the project
 
-1. **capacitor-calendar: Install dependencies and build**
-   ```
-   npm run preinstall:capacitor-calendar
-   ```
-2. **example: Install dependencies**
-   ```
-   npm ci
-   ```
-3. **example: Build and sync**
+**Install dependencies, Build and sync:**
    ```
    npm run build
    ```
