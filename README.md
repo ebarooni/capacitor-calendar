@@ -18,7 +18,7 @@
 
 ## Table of Contents
 
-- [Demo](#demo)
+- [Demo](#demo--click-for-details-)
 - [Upcoming Features](#upcoming-features)
 - [Support Range](#support-range)
 - [Install](#install)
