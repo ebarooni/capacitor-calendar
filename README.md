@@ -1,8 +1,20 @@
-# capacitor-calendar
-
-This CapacitorJS plugin simplifies the process of managing calendar events within your hybrid mobile applications. 
-With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
-calendar directly from your app.
+<h1 align="center">CapacitorCalendar</h1>
+<p align="center">
+    <em>
+        This CapacitorJS plugin simplifies the process of managing calendar events within your hybrid mobile applications. 
+        With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
+        calendar directly from your app.
+    </em>
+</p>
+<p align="center">
+    <a href="https://capacitor-calendar.netlify.app/"><strong>https://capacitor-calendar.netlify.app</strong></a>
+    <br>
+</p>
+<p align="center">
+    <a href="https://app.netlify.com/sites/capacitor-calendar/deploys">
+        <img src="https://api.netlify.com/api/v1/badges/0f1a6d09-740f-4f52-889c-38ff57d11380/deploy-status" alt="Netlify Status">
+    </a>&nbsp;
+</p>
 
 ## Table of Contents
 
