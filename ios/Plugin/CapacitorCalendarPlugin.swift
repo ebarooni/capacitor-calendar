@@ -30,4 +30,10 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return self.implementation.createEventWithPrompt(call)
         }
     }
+    
+    @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            return self.implementation.selectCalendarsWithPrompt(call)
+        }
+    }
 }

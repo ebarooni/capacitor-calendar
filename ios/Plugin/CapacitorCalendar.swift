@@ -3,7 +3,7 @@ import Capacitor
 import EventKitUI
 
 
-public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
+public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
     private enum CalendarEventActionResult: String {
         case saved = "saved"
         case canceled = "canceled"
@@ -36,6 +36,24 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
         eventEditViewController.eventStore = store
         viewController.present(eventEditViewController, animated: true, completion: nil)
         eventEditViewController.editViewDelegate = self
+    }
+    
+    public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
+        guard let viewController = bridge?.viewController else {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to retrieve view controller")
+            return
+        }
+        
+        eventCall = call
+        let calendarChooser = EKCalendarChooser(selectionStyle: .multiple, displayStyle: .allCalendars, eventStore: store)
+        calendarChooser.showsDoneButton = true
+        calendarChooser.showsCancelButton = true
+        viewController.present(
+            UINavigationController(rootViewController: calendarChooser),
+            animated: true,
+            completion: nil
+        )
+        calendarChooser.delegate = self
     }
     
     public func checkPermission(_ call: CAPPluginCall) {
@@ -176,6 +194,24 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate {
                     "result": CalendarEventActionResult.error.rawValue
                 ])
             }
+        }
+    }
+    
+    public func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
+        let selectedCalendars = calendarChooser.selectedCalendars.map { $0.source }
+        print(selectedCalendars)
+        bridge?.viewController?.dismiss(animated: true) {
+            self.eventCall?.resolve([
+                "result": selectedCalendars
+            ])
+        }
+    }
+
+    public func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
+        bridge?.viewController?.dismiss(animated: true) {
+            self.eventCall?.resolve([
+                "result": []
+            ])
         }
     }
 }
