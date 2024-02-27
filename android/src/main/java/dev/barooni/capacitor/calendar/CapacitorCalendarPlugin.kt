@@ -104,6 +104,12 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
+    @PluginMethod
+    fun selectCalendarsWithPrompt(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Not implemented on Android")
+        return
+    }
+
     private fun openCalendarIntent(call: PluginCall) {
         val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
         startActivityForResult(call, intent, "openCalendarIntentActivityCallback")
