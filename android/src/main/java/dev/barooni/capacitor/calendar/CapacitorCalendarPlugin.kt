@@ -29,12 +29,6 @@ import com.getcapacitor.annotation.PermissionCallback
         ]
 )
 class CapacitorCalendarPlugin : Plugin() {
-    private enum class CalendarEventActionResult(val value: String) {
-        SAVED("saved"),
-        CANCELED("canceled"),
-        ERROR("error")
-    }
-
     private var totalNumberOfEvents: Int = 0
 
     @PluginMethod
@@ -140,14 +134,15 @@ class CapacitorCalendarPlugin : Plugin() {
         }
         val ret = JSObject()
         val currentEventsCount: Int = getTotalNumberOfEvents(context)
-        val action: String = if (currentEventsCount > totalNumberOfEvents) {
-            CalendarEventActionResult.SAVED.value
+        val createEventResult = if (currentEventsCount > totalNumberOfEvents) {
+            true
         } else if (totalNumberOfEvents == currentEventsCount) {
-            CalendarEventActionResult.CANCELED.value
+            false
         } else {
-            CalendarEventActionResult.ERROR.value
+            call.reject("[CapacitorCalendar.${Thread.currentThread().stackTrace[1].methodName}] Could not create the event")
+            return
         }
-        ret.put("result", action)
+        ret.put("eventCreated", createEventResult)
         call.resolve(ret)
     }
 
