@@ -28,4 +28,10 @@ export class MethodsListComponent {
       .then((response) => this.logsService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.logsService.dispatchLog(JSON.stringify(error)));
   }
+
+  public selectCalendarsWithPrompt(): void {
+    CapacitorCalendar.selectCalendarsWithPrompt()
+      .then((response) => this.logsService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.logsService.dispatchLog(JSON.stringify(error)));
+  }
 }
