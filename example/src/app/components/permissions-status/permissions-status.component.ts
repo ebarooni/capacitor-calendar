@@ -1,4 +1,4 @@
-import { Component, } from '@angular/core';
+import {Component, OnInit,} from '@angular/core';
 import {
   IonBadge,
   IonChip,
@@ -8,8 +8,9 @@ import {
   IonListHeader,
   IonSpinner,
 } from "@ionic/angular/standalone";
-import {PermissionStatusService} from "./permission-status.service";
 import {LetDirective} from "@ngrx/component";
+import {StoreService} from "../../store/store.service";
+import {CalendarPermissionStatus, CapacitorCalendar} from "@ebarooni/capacitor-calendar";
 
 @Component({
   selector: 'app-permissions-status',
@@ -26,6 +27,39 @@ import {LetDirective} from "@ngrx/component";
   ],
   standalone: true
 })
-export class PermissionsStatusComponent {
-  constructor(readonly permissionsStatusService: PermissionStatusService) {}
+export class PermissionsStatusComponent implements OnInit {
+  constructor(readonly storeService: StoreService) {}
+
+  ngOnInit() {
+    CapacitorCalendar.checkAllPermissions()
+      .then((result) => this.storeService.updateState({ permissions: result }))
+      .catch((error) => this.storeService.dispatchLog(error));
+  }
+
+  requestAllPermissions(): void {
+    CapacitorCalendar.requestAllPermissions()
+      .then((response) => {
+        this.storeService.updateState({ permissions: response });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  requestPermission(alias: keyof CalendarPermissionStatus): void {
+    CapacitorCalendar.requestPermission({ alias: alias })
+      .then((result) => {
+        let update: Partial<CalendarPermissionStatus>
+        switch (alias) {
+          case 'readCalendar':
+            update = { 'readCalendar': result.result };
+            break;
+          case "writeCalendar":
+            update = { 'writeCalendar': result.result };
+            break;
+        }
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(result));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
