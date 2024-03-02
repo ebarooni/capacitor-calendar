@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {IonIcon, IonItem, IonLabel, IonList, IonListHeader} from "@ionic/angular/standalone";
 import {CapacitorCalendar} from "@ebarooni/capacitor-calendar";
-import {PermissionStatusService} from "../permissions-status/permission-status.service";
 import {StoreService} from "../../store/store.service";
 
 @Component({
@@ -18,10 +17,7 @@ import {StoreService} from "../../store/store.service";
 })
 export class MethodsListComponent {
 
-  constructor(
-    readonly permissionStatusService: PermissionStatusService,
-    private readonly storeService: StoreService
-  ) {}
+  constructor(private readonly storeService: StoreService) {}
 
   public createEventWithPrompt(): void {
     CapacitorCalendar.createEventWithPrompt()
@@ -31,6 +27,12 @@ export class MethodsListComponent {
 
   public selectCalendarsWithPrompt(): void {
     CapacitorCalendar.selectCalendarsWithPrompt()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public checkAllPermissions(): void {
+    CapacitorCalendar.checkAllPermissions()
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
