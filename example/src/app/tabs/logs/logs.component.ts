@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {HeaderComponent} from "../../components/header/header.component";
 import {IonContent} from "@ionic/angular/standalone";
 import {LogsListComponent} from "../../components/logs-list/logs-list.component";
-import {LogsService} from "../../components/logs-list/logs.service";
+import {StoreService} from "../../store/store.service";
 
 @Component({
   selector: 'app-logs',
@@ -15,9 +15,9 @@ import {LogsService} from "../../components/logs-list/logs.service";
   standalone: true
 })
 export class LogsComponent {
-  constructor(private readonly logsService: LogsService) {}
+  constructor(private readonly storeService: StoreService) {}
 
-  ionViewDidEnter(){
-    this.logsService.resetNotificationsCounter();
+  ionViewDidEnter(): void {
+    this.storeService.updateState({ unreadLogs: 0 });
   }
 }
