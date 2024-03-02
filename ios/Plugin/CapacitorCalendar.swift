@@ -7,7 +7,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
     private var currentCreateEventContinuation: CheckedContinuation<Bool, any Error>?
-    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: Any]], any Error>?
+    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String : String]], any Error>?
     
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
         self.bridge = bridge
