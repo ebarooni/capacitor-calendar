@@ -1,16 +1,15 @@
 import type { PermissionState } from '@capacitor/core';
 
 /**
- * Enum for the possible results of actions performed on a calendar event.
- * "saved" for completion of an operation. "Canceled" for a canceled process and "error"
- * for when something went wrong.
+ * Represents a calendar object with an ID and title.
  *
- * @enum
+ * @interface Calendar
+ * @property {string} id - The unique identifier of the calendar.
+ * @property {string} title - The title or name of the calendar.
  */
-export enum CalendarEventActionResult {
-  Saved = 'saved',
-  Canceled = 'canceled',
-  Error = 'error'
+export interface Calendar {
+  id: string;
+  title: string;
 }
 
 /**
@@ -20,6 +19,7 @@ export enum CalendarEventActionResult {
  */
 export interface CalendarPermissionStatus {
   readCalendar: PermissionState;
+  writeCalendar: PermissionState;
 }
 
 export interface CapacitorCalendarPlugin {
@@ -73,11 +73,11 @@ export interface CapacitorCalendarPlugin {
    * On Android, the user has to authorize for read access.
    *
    * @method
-   * @returns {Promise&lt;{ result: CalendarEventActionResult }&gt;} – A promise that resolves with the result of the action.
+   * @returns {Promise&lt;{ eventCreated: boolean }&gt;} – A promise that resolves with the result of the action.
    * @example
    * let result: CalendarEventActionResult;
    * if (capacitor.getPlatform() === 'android') {
-   *     const readCalendarStatus = this.requestPermission({ alias: 'readCalendar' }).result;
+   *     const readCalendarStatus = (await this.requestPermission({ alias: 'readCalendar' })).result;
    *     if (readCalendarStatus === 'granted') {
    *         result = await this.createEventWithPrompt();
    *     } else {
@@ -87,5 +87,20 @@ export interface CapacitorCalendarPlugin {
    *     result = await this.createEventWithPrompt();
    * }
    */
-  createEventWithPrompt(): Promise<{ result: CalendarEventActionResult }>;
+  createEventWithPrompt(): Promise<{ eventCreated: boolean }>;
+
+  /**
+   * Presents a prompt to the user to select calendars. This method is available only on iOS.
+   *
+   * @method selectCalendarsWithPrompt
+   * @async
+   * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
+   * where each calendar object contains an ID and a title.
+   * @example
+   * if (capacitor.getPlatform() === 'ios') {
+   *     const selectedCalendars = await selectCalendarsWithPrompt();
+   *     console.log(selectedCalendars); // [{ id: '1', title: 'Work Calendar' }]
+   * }
+   */
+  selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }>
 }
