@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, distinctUntilChanged, map, Observable, scan, shareReplay} from "rxjs";
+import {CalendarPermissionStatus} from "@ebarooni/capacitor-calendar";
 
 export interface Log {
   message: string;
@@ -10,23 +11,33 @@ export interface State {
   isDarkMode: boolean;
   logs: Log[];
   unreadLogs: number;
+  permissions: CalendarPermissionStatus
 }
+
+type PartialStateUpdate<T> = {
+  [P in keyof T]?: PartialStateUpdate<T[P]>;
+};
 
 const initialState = <State>{
   isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
   logs: [],
-  unreadLogs: 0
+  unreadLogs: 0,
+  permissions: {
+    readCalendar: 'prompt',
+    writeCalendar: 'prompt',
+  },
 }
 
 @Injectable()
 export class StoreService {
-  private readonly stateSubject: BehaviorSubject<Partial<State>> = new BehaviorSubject<Partial<State>>(initialState);
+  private readonly stateSubject: BehaviorSubject<PartialStateUpdate<State>> = new BehaviorSubject<PartialStateUpdate<State>>(initialState);
   readonly state$: Observable<State> = this.stateSubject.asObservable()
     .pipe(
       scan((currentState, partialState): State => ({
         ...currentState,
         ...partialState,
-        logs: (partialState?.logs || []).concat(currentState.logs),
+        permissions: partialState?.permissions ? { ...currentState.permissions, ...partialState.permissions } : currentState.permissions,
+        logs: ((partialState?.logs as Log[]) || []).concat(currentState.logs),
         unreadLogs: partialState?.logs
           ? currentState.unreadLogs + partialState.logs.length
           : (partialState?.unreadLogs ?? currentState.unreadLogs)
@@ -34,7 +45,7 @@ export class StoreService {
       shareReplay(1)
     );
 
-  updateState(update: Partial<State>): void {
+  updateState(update: PartialStateUpdate<State>): void {
     this.stateSubject.next(update);
   }
 
@@ -57,6 +68,20 @@ export class StoreService {
   readonly selectUnreadLogs$ = this.state$
     .pipe(
       map((state) => state.unreadLogs),
+      distinctUntilChanged()
+    );
+
+  readonly selectReadCalendarStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ readCalendar }) => readCalendar),
+      distinctUntilChanged()
+    );
+
+  readonly selectWriteCalendarStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ writeCalendar }) => writeCalendar),
       distinctUntilChanged()
     );
 }

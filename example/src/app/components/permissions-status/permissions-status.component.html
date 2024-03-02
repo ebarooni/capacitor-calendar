@@ -2,23 +2,32 @@
   <ion-list-header>
     <ion-label>Permissions</ion-label>
     <ion-chip
-      (click)="permissionsStatusService.requestAllPermissions()"
+      (click)="requestAllPermissions()"
       [color]="'primary'"
       class="ion-margin-horizontal"
     >
-      Request All
+      {{ requestAllPermissions.name }}
     </ion-chip>
   </ion-list-header>
-  <ion-item [button]="true" [lines]="'none'" (click)="permissionsStatusService.requestPermission('readCalendar')">
-    <ion-label>Read Calendar</ion-label>
-    <ng-container *ngrxLet="permissionsStatusService.readCalendarPermission$ as readCalendarState; suspenseTpl: loading">
-      <ion-badge
-        [slot]="'end'"
-        [color]="readCalendarState === 'granted' ? 'success' : readCalendarState === 'denied' ? 'danger' : 'warning'"
-      >
-        {{ readCalendarState }}
-      </ion-badge>
-    </ng-container>
+  <ion-item [button]="true" [lines]="'none'" (click)="requestPermission('readCalendar')">
+    <ion-label>readCalendar</ion-label>
+    <ion-badge
+      *ngrxLet="storeService.selectReadCalendarStatus$ as readCalendarState; suspenseTpl: loading"
+      [slot]="'end'"
+      [color]="readCalendarState === 'granted' ? 'success' : readCalendarState === 'denied' ? 'danger' : 'warning'"
+    >
+      {{ readCalendarState }}
+    </ion-badge>
+  </ion-item>
+  <ion-item [button]="true" [lines]="'none'" (click)="requestPermission('writeCalendar')">
+    <ion-label>writeCalendar</ion-label>
+    <ion-badge
+      *ngrxLet="storeService.selectWriteCalendarStatus$ as writeCalendarState; suspenseTpl: loading"
+      [slot]="'end'"
+      [color]="writeCalendarState === 'granted' ? 'success' : writeCalendarState === 'denied' ? 'danger' : 'warning'"
+    >
+      {{ writeCalendarState }}
+    </ion-badge>
   </ion-item>
 </ion-list>
 <ng-template #loading>
