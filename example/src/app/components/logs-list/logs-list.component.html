@@ -1,5 +1,5 @@
 <ion-list [inset]="true">
-  <ng-container *ngrxLet="logsService.logs$ as logs">
+  <ng-container *ngrxLet="storeService.selectLogs$ as logs">
     @for (log of logs; track $index) {
       <ion-item>
         <ion-label class="ion-text-wrap">
