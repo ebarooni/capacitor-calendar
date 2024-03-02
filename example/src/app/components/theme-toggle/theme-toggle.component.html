@@ -5,14 +5,13 @@
       [slot]="'start'"
     ></ion-icon>
     <ion-label>Dark Mode</ion-label>
-    <ng-container *ngrxLet="isDarkTheme$ as isDarkTheme">
-      <ion-toggle
-        aria-label="Toggle app theme"
-        [slot]="'end'"
-        [color]="'success'"
-        [checked]="isDarkTheme"
-        (ionChange)="toggleDarkTheme(isDarkTheme)"
-      ></ion-toggle>
-    </ng-container>
+    <ion-toggle
+      *ngrxLet="storeService.selectIsDarkMode$ as isDarkMode"
+      aria-label="Toggle app theme"
+      [slot]="'end'"
+      [color]="'success'"
+      [checked]="isDarkMode"
+      (ionChange)="storeService.updateState({ isDarkMode: !isDarkMode })"
+    ></ion-toggle>
   </ion-item>
 </ion-list>

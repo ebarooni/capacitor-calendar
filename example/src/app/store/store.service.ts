@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, scan} from "rxjs";
+import {BehaviorSubject, distinctUntilChanged, map, Observable, scan, shareReplay} from "rxjs";
 
 export interface State {
-  darkModeEnabled: boolean;
+  isDarkMode: boolean;
   logs: string[];
 }
 
 const initialState = <State>{
-  darkModeEnabled: false,
+  isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
   logs: []
 }
 
@@ -19,10 +19,23 @@ export class StoreService {
       scan((currentState, partialState): State => ({
         ...currentState,
         ...partialState
-      }), initialState)
+      }), initialState),
+      shareReplay(1)
     );
 
   updateState(update: Partial<State>): void {
     this.stateSubject.next(update);
   }
+
+  readonly selectIsDarkMode$ = this.state$
+    .pipe(
+      map((state) => state.isDarkMode),
+      distinctUntilChanged()
+    );
+
+  readonly selectLogs$ = this.state$
+    .pipe(
+      map((state) => state.logs),
+      distinctUntilChanged()
+    );
 }
