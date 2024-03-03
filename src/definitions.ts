@@ -1,6 +1,39 @@
 import type { PermissionState } from '@capacitor/core';
 
 /**
+ * Enum representing the selection style for the calendar chooser.
+ * @readonly
+ * @enum
+ */
+export enum CalendarChooserSelectionStyle {
+  /**
+   * Allows only a single selection in the calendar chooser.
+   */
+  SINGLE,
+
+  /**
+   * Allows multiple selections in the calendar chooser.
+   */
+  MULTIPLE
+}
+
+/**
+ * Enum representing the display styles for the calendar chooser.
+ * @enum
+ */
+export enum CalendarChooserDisplayStyle {
+  /**
+   * Display all calendars available for selection.
+   */
+  ALL_CALENDARS,
+
+  /**
+   * Display only writable calendars available for selection.
+   */
+  WRITABLE_CALENDARS_ONLY
+}
+
+/**
  * Represents a calendar object with an ID and title.
  *
  * @interface Calendar
@@ -93,6 +126,7 @@ export interface CapacitorCalendarPlugin {
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
    * @method selectCalendarsWithPrompt
+   * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
    * @async
    * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
    * where each calendar object contains an ID and a title.
@@ -102,5 +136,8 @@ export interface CapacitorCalendarPlugin {
    *     console.log(selectedCalendars); // [{ id: '1', title: 'Work Calendar' }]
    * }
    */
-  selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }>
+  selectCalendarsWithPrompt(options: {
+    displayStyle: CalendarChooserDisplayStyle,
+    selectionStyle: CalendarChooserSelectionStyle
+  }): Promise<{ result: Calendar[] }>
 }
