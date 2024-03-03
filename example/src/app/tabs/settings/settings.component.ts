@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import {HeaderComponent} from "../../components/header/header.component";
-import {IonContent} from "@ionic/angular/standalone";
-import {ThemeToggleComponent} from "../../components/theme-toggle/theme-toggle.component";
+import {IonContent, IonIcon, IonItem, IonLabel, IonList, IonNote, IonToggle} from "@ionic/angular/standalone";
+import {LetDirective} from "@ngrx/component";
+import {StoreService} from "../../store/store.service";
+import {addIcons} from "ionicons";
+import {moon, informationCircleOutline} from "ionicons/icons";
 
 @Component({
   selector: 'app-settings',
@@ -9,8 +12,18 @@ import {ThemeToggleComponent} from "../../components/theme-toggle/theme-toggle.c
   imports: [
     HeaderComponent,
     IonContent,
-    ThemeToggleComponent
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonToggle,
+    LetDirective,
+    IonNote
   ],
   standalone: true
 })
-export class SettingsComponent {}
+export class SettingsComponent {
+  constructor(readonly storeService: StoreService) {
+    addIcons({ 'moon': moon, 'information-circle-outline': informationCircleOutline });
+  }
+}
