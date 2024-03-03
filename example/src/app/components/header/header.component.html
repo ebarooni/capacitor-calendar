@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>{{ title }}</ion-title>
+    <ng-content></ng-content>
   </ion-toolbar>
   @if (!isNativePlatform) {
     <ion-toolbar [color]="'warning'">
