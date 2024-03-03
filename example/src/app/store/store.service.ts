@@ -11,7 +11,8 @@ export interface State {
   isDarkMode: boolean;
   logs: Log[];
   unreadLogs: number;
-  permissions: CalendarPermissionStatus
+  permissions: CalendarPermissionStatus;
+  appVersion: string;
 }
 
 type PartialStateUpdate<T> = {
@@ -26,6 +27,7 @@ const initialState = <State>{
     readCalendar: 'prompt',
     writeCalendar: 'prompt',
   },
+  appVersion: '0.2.0'
 }
 
 @Injectable()
@@ -86,6 +88,12 @@ export class StoreService {
     .pipe(
       map((state) => state.permissions),
       map(({ writeCalendar }) => writeCalendar),
+      distinctUntilChanged()
+    );
+
+  readonly selectAppVersion$ = this.state$
+    .pipe(
+      map((state) => state.appVersion),
       distinctUntilChanged()
     );
 }

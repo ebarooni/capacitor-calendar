@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonApp, IonRouterOutlet} from "@ionic/angular/standalone";
 import {fromEvent, map, tap} from "rxjs";
 import {StoreService} from "./store/store.service";
+import {App} from "@capacitor/app";
 
 @Component({
   selector: 'app-root',
@@ -25,5 +26,9 @@ export class AppComponent {
     this.storeService.selectIsDarkMode$
       .pipe(tap((isDarkTheme) => document.body.classList.toggle('dark', isDarkTheme)))
       .subscribe();
+
+    App.getInfo()
+      .then(({ version }) => this.storeService.updateState({ appVersion: version }))
+      .catch((reason) => this.storeService.dispatchLog(JSON.stringify(reason)));
   }
 }
