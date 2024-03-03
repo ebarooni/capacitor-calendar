@@ -69,9 +69,10 @@ permissions can be found below:
 * [`requestPermission(...)`](#requestpermission)
 * [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
-* [`selectCalendarsWithPrompt()`](#selectcalendarswithprompt)
+* [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -155,13 +156,17 @@ On Android, the user has to authorize for read access.
 --------------------
 
 
-### selectCalendarsWithPrompt()
+### selectCalendarsWithPrompt(...)
 
 ```typescript
-selectCalendarsWithPrompt() => Promise<{ result: Calendar[]; }>
+selectCalendarsWithPrompt(options: { displayStyle: CalendarChooserDisplayStyle; selectionStyle: CalendarChooserSelectionStyle; }) => Promise<{ result: Calendar[]; }>
 ```
 
 Presents a prompt to the user to select calendars. This method is available only on iOS.
+
+| Param         | Type                                                                                                                                                                                               | Description                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
@@ -197,5 +202,24 @@ Represents a calendar object with an ID and title.
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
+
+
+### Enums
+
+
+#### CalendarChooserDisplayStyle
+
+| Members                       | Description                                              |
+| ----------------------------- | -------------------------------------------------------- |
+| **`ALL_CALENDARS`**           | Display all calendars available for selection.           |
+| **`WRITABLE_CALENDARS_ONLY`** | Display only writable calendars available for selection. |
+
+
+#### CalendarChooserSelectionStyle
+
+| Members        | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
+| **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
 
 </docgen-api>

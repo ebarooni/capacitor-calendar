@@ -18,9 +18,15 @@
   </ion-item>
   <ion-item
     button
+    id="open-calendar-chooser-picker"
     [detail]="true"
-    (click)="selectCalendarsWithPrompt()"
   >
     <ion-label>{{ selectCalendarsWithPrompt.name }}</ion-label>
   </ion-item>
 </ion-list>
+
+<ion-picker
+  trigger="open-calendar-chooser-picker"
+  [columns]="calendarChooserPickerColumns"
+  [buttons]="calendarChooserPickerButtons"
+></ion-picker>
