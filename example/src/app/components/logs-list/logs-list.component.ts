@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {LogsService} from "./logs.service";
 import {LetDirective} from "@ngrx/component";
 import {IonItem, IonLabel, IonList, IonNote} from "@ionic/angular/standalone";
 import {DatePipe} from "@angular/common";
+import {StoreService} from "../../store/store.service";
 
 @Component({
   selector: 'app-logs-list',
@@ -18,5 +18,5 @@ import {DatePipe} from "@angular/common";
   standalone: true
 })
 export class LogsListComponent {
-  constructor(readonly logsService: LogsService) {}
+  constructor(readonly storeService: StoreService) {}
 }

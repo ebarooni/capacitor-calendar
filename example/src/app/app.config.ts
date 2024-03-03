@@ -6,6 +6,7 @@ import {TabsComponent} from "./tabs/tabs.component";
 import {ApiComponent} from "./tabs/api/api.component";
 import {SettingsComponent} from "./tabs/settings/settings.component";
 import {LogsComponent} from "./tabs/logs/logs.component";
+import {provideStore} from "./store/provide-store";
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideIonicAngular({
       mode: 'ios'
-    })
+    }),
+    provideStore()
   ]
 };

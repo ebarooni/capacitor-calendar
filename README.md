@@ -7,19 +7,14 @@
     </em>
 </p>
 <p align="center">
-    <a href="https://capacitor-calendar.netlify.app/"><strong>https://capacitor-calendar.netlify.app</strong></a>
+    <a href="https://capacitor-calendar.pages.dev/"><strong>https://capacitor-calendar.pages.dev</strong></a>
     <br>
-</p>
-<p align="center">
-    <a href="https://app.netlify.com/sites/capacitor-calendar/deploys">
-        <img src="https://api.netlify.com/api/v1/badges/0f1a6d09-740f-4f52-889c-38ff57d11380/deploy-status" alt="Netlify Status">
-    </a>&nbsp;
 </p>
 
 ## Table of Contents
 
 - [Demo](#demo--click-for-details-)
-- [Upcoming Features](#upcoming-features)
+- [MVP](#mvp)
 - [Support Range](#support-range)
 - [Install](#install)
 - [Permissions](#permissions)
@@ -35,12 +30,13 @@
 On iOS, `readCalendar` permission is not needed when you are creating an event using the native prompt. 
 The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
 
-## Upcoming Features
+## MVP
 
-- [ ] Create calendar events without native prompts
-- [ ] Create reminders (iOS)
-- [ ] Find calendar events
-- [ ] Delete calendar events
+- ✅ Choose calendars with prompt (only supported on iOS)
+- ⌛ Create calendar events without native prompts
+- ⌛️ Create reminders (only supported on iOS)
+- ⌛️ Find calendar events
+- ⌛️ Delete calendar events
 
 ## Support Range
 
@@ -73,6 +69,7 @@ permissions can be found below:
 * [`requestPermission(...)`](#requestpermission)
 * [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
+* [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -90,9 +87,9 @@ checkPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<
 
 Checks the current authorization status of a specific permission.
 
-| Param         | Type                                    | Description                               |
-| ------------- | --------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: 'readCalendar'; }</code> | An object with the name of the permission |
+| Param         | Type                                                                                            | Description                               |
+| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -121,9 +118,9 @@ requestPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promis
 Requests authorization to a specific permission, if not already granted.
 If the permission is already granted, it will directly return the status.
 
-| Param         | Type                                    | Description                               |
-| ------------- | --------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: 'readCalendar'; }</code> | An object with the name of the permission |
+| Param         | Type                                                                                            | Description                               |
+| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -146,7 +143,7 @@ Requests authorization to all the required permissions for the plugin, if they h
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<{ result: CalendarEventActionResult; }>
+createEventWithPrompt() => Promise<{ eventCreated: boolean; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
@@ -154,7 +151,24 @@ On iOS opens a native sheet and on Android opens an intent.
 This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
 On Android, the user has to authorize for read access.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendareventactionresult">CalendarEventActionResult</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+
+--------------------
+
+
+### selectCalendarsWithPrompt(...)
+
+```typescript
+selectCalendarsWithPrompt(options: { displayStyle: CalendarChooserDisplayStyle; selectionStyle: CalendarChooserSelectionStyle; }) => Promise<{ result: Calendar[]; }>
+```
+
+Presents a prompt to the user to select calendars. This method is available only on iOS.
+
+| Param         | Type                                                                                                                                                                                               | Description                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
+
+**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
 --------------------
 
@@ -166,9 +180,20 @@ On Android, the user has to authorize for read access.
 
 Describes the permission status for reading from the calendar.
 
-| Prop               | Type                                                        |
-| ------------------ | ----------------------------------------------------------- |
-| **`readCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+| Prop                | Type                                                        |
+| ------------------- | ----------------------------------------------------------- |
+| **`readCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> |
+| **`writeCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+
+
+#### Calendar
+
+Represents a calendar object with an ID and title.
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`id`**    | <code>string</code> |
+| **`title`** | <code>string</code> |
 
 
 ### Type Aliases
@@ -182,12 +207,19 @@ Describes the permission status for reading from the calendar.
 ### Enums
 
 
-#### CalendarEventActionResult
+#### CalendarChooserDisplayStyle
 
-| Members        | Value                   |
-| -------------- | ----------------------- |
-| **`Saved`**    | <code>'saved'</code>    |
-| **`Canceled`** | <code>'canceled'</code> |
-| **`Error`**    | <code>'error'</code>    |
+| Members                       | Description                                              |
+| ----------------------------- | -------------------------------------------------------- |
+| **`ALL_CALENDARS`**           | Display all calendars available for selection.           |
+| **`WRITABLE_CALENDARS_ONLY`** | Display only writable calendars available for selection. |
+
+
+#### CalendarChooserSelectionStyle
+
+| Members        | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
+| **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
 
 </docgen-api>

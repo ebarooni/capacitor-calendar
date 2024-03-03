@@ -1,6 +1,6 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The Capacitor Calendar Plugin exposes functionalities for interacting with the calendar of iOS and Android devices.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -28,7 +28,7 @@
     "native",
     "calendar"
   ],
-  "homepage": "https://github.com/ebarooni/capacitor-calendar",
+  "homepage": "https://capacitor-calendar.pages.dev",
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
