@@ -31,7 +31,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
     
-    public func selectCalendarsWithPrompt() async throws -> [[String: String]] {
+    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: String]] {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
@@ -39,7 +39,11 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
             
             Task { @MainActor in
-                let calendarChooser = EKCalendarChooser(selectionStyle: .multiple, displayStyle: .allCalendars, eventStore: eventStore)
+                let calendarChooser = EKCalendarChooser(
+                    selectionStyle: EKCalendarChooserSelectionStyle(rawValue: selectionStyle)!,
+                    displayStyle: EKCalendarChooserDisplayStyle(rawValue: displayStyle)!, 
+                    eventStore: eventStore
+                )
                 calendarChooser.showsDoneButton = true
                 calendarChooser.showsCancelButton = true
                 viewController.present(

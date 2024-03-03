@@ -110,9 +110,18 @@ public class CapacitorCalendarPlugin: CAPPlugin {
     }
     
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
+        guard let selectionStyle = call.getInt("selectionStyle") else {
+            call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
+            return
+        }
+        guard let displayStyle = call.getInt("displayStyle") else {
+            call.reject("[CapacitorCalendar.\(#function)] Display style was not provided")
+            return
+        }
+        
         Task {
             do {
-                let result = try await implementation.selectCalendarsWithPrompt()
+                let result = try await implementation.selectCalendarsWithPrompt(selectionStyle: selectionStyle, displayStyle: displayStyle)
                 call.resolve(["result": result])
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Calendars selection prompt got canceled")
