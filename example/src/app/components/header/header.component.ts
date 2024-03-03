@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {IonHeader, IonTitle, IonToolbar} from "@ionic/angular/standalone";
+import {IonHeader, IonText, IonTitle, IonToolbar} from "@ionic/angular/standalone";
+import {Capacitor} from "@capacitor/core";
 
 @Component({
   selector: 'app-header',
@@ -7,10 +8,12 @@ import {IonHeader, IonTitle, IonToolbar} from "@ionic/angular/standalone";
   imports: [
     IonHeader,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    IonText
   ],
   standalone: true
 })
 export class HeaderComponent {
   @Input() title?: string;
+  readonly isNativePlatform = Capacitor.isNativePlatform();
 }
