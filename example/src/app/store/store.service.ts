@@ -36,8 +36,12 @@ export class StoreService {
       scan((currentState, partialState): State => ({
         ...currentState,
         ...partialState,
-        permissions: partialState?.permissions ? { ...currentState.permissions, ...partialState.permissions } : currentState.permissions,
-        logs: ((partialState?.logs as Log[]) || []).concat(currentState.logs),
+        permissions: partialState?.permissions
+          ? { ...currentState.permissions, ...partialState.permissions }
+          : currentState.permissions,
+        logs: partialState?.logs?.length === 0
+          ? []
+          : ((partialState?.logs as Log[]) || []).concat(currentState.logs),
         unreadLogs: partialState?.logs
           ? currentState.unreadLogs + partialState.logs.length
           : (partialState?.unreadLogs ?? currentState.unreadLogs)
