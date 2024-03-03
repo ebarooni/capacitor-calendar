@@ -1,4 +1,17 @@
-<app-header [title]="'Logs'"></app-header>
+<app-header [title]="'Logs'">
+  <ion-button
+    [slot]="'end'"
+    [fill]="'clear'"
+    [size]="'small'"
+    [color]="'danger'"
+    (click)="eraseLogs()"
+  >
+    <ion-icon
+      [slot]="'icon-only'"
+      [name]="'trash-outline'"
+    ></ion-icon>
+  </ion-button>
+</app-header>
 <ion-content [fullscreen]="true" [color]="'light'">
   <app-logs-list></app-logs-list>
 </ion-content>

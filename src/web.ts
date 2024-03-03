@@ -1,6 +1,6 @@
 import {PermissionState, WebPlugin} from '@capacitor/core';
 
-import  {CapacitorCalendarPlugin, CalendarEventActionResult, CalendarPermissionStatus} from './definitions';
+import {CapacitorCalendarPlugin, CalendarPermissionStatus, Calendar} from './definitions';
 
 export class CapacitorCalendarWeb
     extends WebPlugin
@@ -22,7 +22,11 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.requestAllPermissions.name} is not implemented on the web`);
     }
 
-    public createEventWithPrompt(): Promise<{ result: CalendarEventActionResult}> {
+    public createEventWithPrompt(): Promise<{ eventCreated: boolean}> {
+        throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
+    }
+
+    public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
         throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
     }
 }

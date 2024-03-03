@@ -1,4 +1,33 @@
 <app-header [title]="'Settings'"></app-header>
 <ion-content [fullscreen]="true" [color]="'light'">
-  <app-theme-toggle></app-theme-toggle>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-icon
+        [name]="'moon'"
+        [slot]="'start'"
+      ></ion-icon>
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle
+        *ngrxLet="storeService.selectIsDarkMode$ as isDarkMode"
+        aria-label="Toggle app theme"
+        [slot]="'end'"
+        [color]="'success'"
+        [checked]="isDarkMode"
+        (ionChange)="storeService.updateState({ isDarkMode: !isDarkMode })"
+      ></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-icon
+        [name]="'information-circle-outline'"
+        [slot]="'start'"
+      ></ion-icon>
+      <ion-label>Version</ion-label>
+      <ion-note
+        *ngrxLet="storeService.selectAppVersion$ as appVersion"
+        [slot]="'end'"
+      >
+        {{ appVersion }}
+      </ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>
