@@ -7,13 +7,8 @@
     </em>
 </p>
 <p align="center">
-    <a href="https://capacitor-calendar.netlify.app/"><strong>https://capacitor-calendar.netlify.app</strong></a>
+    <a href="https://capacitor-calendar.pages.dev/"><strong>https://capacitor-calendar.pages.dev</strong></a>
     <br>
-</p>
-<p align="center">
-    <a href="https://app.netlify.com/sites/capacitor-calendar/deploys">
-        <img src="https://api.netlify.com/api/v1/badges/0f1a6d09-740f-4f52-889c-38ff57d11380/deploy-status" alt="Netlify Status">
-    </a>&nbsp;
 </p>
 
 ## Table of Contents

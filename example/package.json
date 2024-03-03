@@ -1,6 +1,7 @@
 {
   "name": "capacitor-calendar",
   "version": "0.2.0",
+  "homepage": "https://capacitor-calendar.pages.dev",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
