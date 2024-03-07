@@ -140,4 +140,9 @@ export interface CapacitorCalendarPlugin {
     displayStyle: CalendarChooserDisplayStyle,
     selectionStyle: CalendarChooserSelectionStyle
   }): Promise<{ result: Calendar[] }>
+
+
+  listCalendars(): Promise<{ result: Calendar[] }>;
+
+  getDefaultCalendar(): Promise<{ result: Calendar }>;
 }

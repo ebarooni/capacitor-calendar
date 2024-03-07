@@ -70,6 +70,8 @@ permissions can be found below:
 * [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+* [`listCalendars()`](#listcalendars)
+* [`getDefaultCalendar()`](#getdefaultcalendar)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -169,6 +171,28 @@ Presents a prompt to the user to select calendars. This method is available only
 | **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+--------------------
+
+
+### listCalendars()
+
+```typescript
+listCalendars() => Promise<{ result: Calendar[]; }>
+```
+
+**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+--------------------
+
+
+### getDefaultCalendar()
+
+```typescript
+getDefaultCalendar() => Promise<{ result: Calendar; }>
+```
+
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
 --------------------
 
