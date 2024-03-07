@@ -1,13 +1,6 @@
 <ion-list [inset]="true">
   <ion-list-header>
     <ion-label>Permissions</ion-label>
-    <ion-chip
-      (click)="requestAllPermissions()"
-      [color]="'primary'"
-      class="ion-margin-horizontal"
-    >
-      {{ requestAllPermissions.name }}
-    </ion-chip>
   </ion-list-header>
   <ion-item [button]="true" [lines]="'none'" (click)="requestPermission('readCalendar')">
     <ion-label>readCalendar</ion-label>
