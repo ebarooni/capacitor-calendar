@@ -4,6 +4,13 @@
   </ion-list-header>
   <ion-item
     button
+    id="open-check-permission-picker"
+    [detail]="true"
+  >
+    <ion-label>{{ checkPermission.name }}</ion-label>
+  </ion-item>
+  <ion-item
+    button
     [detail]="true"
     (click)="checkAllPermissions()"
   >
@@ -50,4 +57,9 @@
   trigger="open-calendar-chooser-picker"
   [columns]="calendarChooserPickerColumns"
   [buttons]="calendarChooserPickerButtons"
+></ion-picker>
+<ion-picker
+  trigger="open-check-permission-picker"
+  [columns]="checkPermissionPickerColumns"
+  [buttons]="checkPermissionPickerButtons"
 ></ion-picker>
