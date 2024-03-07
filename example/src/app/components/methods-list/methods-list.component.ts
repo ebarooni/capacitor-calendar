@@ -8,6 +8,9 @@ import {
 import {StoreService} from "../../store/store.service";
 import {calendarChooserPickerColumns} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns";
 import {getCalendarChooserPickerButtons} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons";
+import {CalendarPermissionStatus} from "@ebarooni/capacitor-calendar";
+import {checkPermissionPickerColumns} from "../../ion-picker-data/check-permission/check-permission-picker-columns";
+import {getCheckPermissionPickerButtons} from "../../ion-picker-data/check-permission/check-permission-picker-buttons";
 
 @Component({
   selector: 'app-methods-list',
@@ -23,10 +26,14 @@ import {getCalendarChooserPickerButtons} from "../../ion-picker-data/calendar-ch
   standalone: true
 })
 export class MethodsListComponent {
-  public calendarChooserPickerColumns = calendarChooserPickerColumns;
-  public calendarChooserPickerButtons = getCalendarChooserPickerButtons(
+  public readonly calendarChooserPickerColumns = calendarChooserPickerColumns;
+  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons(
     (result: any) => this.zone.run(() => this.selectCalendarsWithPrompt(result.selectionStyle.value, result.displayStyle.value))
   );
+  public readonly checkPermissionPickerColumns = checkPermissionPickerColumns;
+  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
+    (result: any) => this.zone.run(() => this.checkPermission(result.alias.value))
+  )
 
   constructor(
     private readonly storeService: StoreService,
@@ -75,6 +82,17 @@ export class MethodsListComponent {
   public getDefaultCalendar(): void {
     CapacitorCalendar.getDefaultCalendar()
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public checkPermission(alias: keyof CalendarPermissionStatus): void {
+    CapacitorCalendar.checkPermission({ alias: alias })
+      .then((response) => {
+        const permissionState: Partial<CalendarPermissionStatus> = {};
+        permissionState[alias] = response.result;
+        this.storeService.updateState({ permissions: permissionState });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }
