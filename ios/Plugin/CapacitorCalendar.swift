@@ -57,6 +57,22 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
     
+    public func listCalendars() -> [[String: String]] {
+        return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .event)))
+    }
+    
+    public func getDefaultCalendar() throws -> [String: String] {
+        let defaultCalendar = eventStore.defaultCalendarForNewEvents
+        if (defaultCalendar != nil) {
+            return [
+                "id": defaultCalendar!.calendarIdentifier,
+                "title": defaultCalendar!.title
+            ]
+        } else {
+            throw CapacitorCalendarPluginError.noDefaultCalendar
+        }
+    }
+    
     public func checkAllPermissions() async throws -> [String: String] {
         return try await withCheckedThrowingContinuation { continuation in
             var permissionsState: [String: String]
