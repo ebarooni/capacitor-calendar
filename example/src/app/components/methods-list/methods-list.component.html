@@ -5,16 +5,23 @@
   <ion-item
     button
     [detail]="true"
-    (click)="createEventWithPrompt()"
+    (click)="checkAllPermissions()"
   >
-    <ion-label>{{ createEventWithPrompt.name }}</ion-label>
+    <ion-label>{{ checkAllPermissions.name }}</ion-label>
   </ion-item>
   <ion-item
     button
     [detail]="true"
-    (click)="checkAllPermissions()"
+    (click)="requestAllPermissions()"
   >
-    <ion-label>{{ checkAllPermissions.name }}</ion-label>
+    <ion-label>{{ requestAllPermissions.name }}</ion-label>
+  </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="createEventWithPrompt()"
+  >
+    <ion-label>{{ createEventWithPrompt.name }}</ion-label>
   </ion-item>
   <ion-item
     button
@@ -22,6 +29,20 @@
     [detail]="true"
   >
     <ion-label>{{ selectCalendarsWithPrompt.name }}</ion-label>
+  </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="listCalendars()"
+  >
+    <ion-label>{{ listCalendars.name }}</ion-label>
+  </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="getDefaultCalendar()"
+  >
+    <ion-label>{{ getDefaultCalendar.name }}</ion-label>
   </ion-item>
 </ion-list>
 
