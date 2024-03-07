@@ -129,4 +129,16 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
+    
+    @objc public func listCalendars(_ call: CAPPluginCall) {
+        call.resolve(["result": implementation.listCalendars()])
+    }
+    
+    @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
+        do {
+            try call.resolve(["result": implementation.getDefaultCalendar()])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
+        }
+    }
 }

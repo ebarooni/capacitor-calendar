@@ -14,4 +14,5 @@ public enum CapacitorCalendarPluginError: Error {
     case viewControllerUnavailable
     case unknownActionEventCreationPrompt
     case canceledCalendarsSelectionPrompt
+    case noDefaultCalendar
 }
