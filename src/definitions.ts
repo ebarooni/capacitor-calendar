@@ -142,7 +142,29 @@ export interface CapacitorCalendarPlugin {
   }): Promise<{ result: Calendar[] }>
 
 
+  /**
+   * Retrieves a list of calendars available on the device.
+   *
+   * @async
+   * @method listCalendars
+   * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of calendars available on the device.
+   * Each calendar object in the array contains an ID and a title.
+   * @example
+   * const calendars = await listCalendars();
+   * console.log(calendars); // [{ id: '1', title: 'Work Calendar' }, { id: '2', title: 'Personal Calendar' }]
+   */
   listCalendars(): Promise<{ result: Calendar[] }>;
 
+  /**
+   * Retrieves the default calendar set on the device.
+   *
+   * @async
+   * @method getDefaultCalendar
+   * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default calendar set on the device.
+   * The returned calendar object contains an ID and a title.
+   * @example
+   * const defaultCalendar = await getDefaultCalendar();
+   * console.log(defaultCalendar); // { id: '1', title: 'Default Calendar' }
+   */
   getDefaultCalendar(): Promise<{ result: Calendar }>;
 }

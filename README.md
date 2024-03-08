@@ -13,12 +13,26 @@
 
 ## Table of Contents
 
+- [Install](#install)
+- [Support Range](#support-range)
 - [Demo](#demo--click-for-details-)
 - [MVP](#mvp)
-- [Support Range](#support-range)
-- [Install](#install)
 - [Permissions](#permissions)
 - [API](#api)
+
+## Install
+
+```bash
+npm install @ebarooni/capacitor-calendar
+npx cap sync
+```
+
+## Support Range
+
+|  Platform  |                range                 |
+|:----------:|:------------------------------------:|
+|    iOS     |               &ge; 13                |
+|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
 
 ## [Demo (click for details)](./example/README.md)
 
@@ -33,24 +47,12 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 ## MVP
 
 - ✅ Choose calendars with prompt (only supported on iOS)
+- ✅ Get list of available calendars
+- ✅ Get default calendar
 - ⌛ Create calendar events without native prompts
 - ⌛️ Create reminders (only supported on iOS)
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
-
-## Support Range
-
-|  Platform  |                range                 |
-|:----------:|:------------------------------------:|
-|    iOS     |               &ge; 13                |
-|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
-
-## Install
-
-```bash
-npm install @ebarooni/capacitor-calendar
-npx cap sync
-```
 
 ## Permissions
 
@@ -181,6 +183,8 @@ Presents a prompt to the user to select calendars. This method is available only
 listCalendars() => Promise<{ result: Calendar[]; }>
 ```
 
+Retrieves a list of calendars available on the device.
+
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
 --------------------
@@ -191,6 +195,8 @@ listCalendars() => Promise<{ result: Calendar[]; }>
 ```typescript
 getDefaultCalendar() => Promise<{ result: Calendar; }>
 ```
+
+Retrieves the default calendar set on the device.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
