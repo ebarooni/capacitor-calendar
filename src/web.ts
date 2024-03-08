@@ -29,4 +29,12 @@ export class CapacitorCalendarWeb
     public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
         throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
     }
+
+    listCalendars(): Promise<{ result: Calendar[] }> {
+        throw this.unimplemented(`${this.listCalendars.name} is not implemented on the web`);
+    }
+
+    getDefaultCalendar(): Promise<{ result: Calendar }> {
+        throw this.unimplemented(`${this.getDefaultCalendar.name} is not implemented on the web`);
+    }
 }

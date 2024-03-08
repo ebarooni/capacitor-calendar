@@ -10,4 +10,6 @@ CAP_PLUGIN(CapacitorCalendarPlugin, "CapacitorCalendar",
            CAP_PLUGIN_METHOD(requestPermission, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(requestAllPermissions, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(selectCalendarsWithPrompt, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(listCalendars, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getDefaultCalendar, CAPPluginReturnPromise);
 )
