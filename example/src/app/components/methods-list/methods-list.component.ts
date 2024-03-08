@@ -33,7 +33,7 @@ export class MethodsListComponent {
   public readonly checkPermissionPickerColumns = checkPermissionPickerColumns;
   public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
     (result: any) => this.zone.run(() => this.checkPermission(result.alias.value))
-  )
+  );
 
   constructor(
     private readonly storeService: StoreService,
