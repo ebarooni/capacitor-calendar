@@ -1,7 +1,6 @@
 import {Component, OnInit,} from '@angular/core';
 import {
   IonBadge,
-  IonChip,
   IonItem,
   IonLabel,
   IonList,
@@ -22,8 +21,7 @@ import {CalendarPermissionStatus, CapacitorCalendar} from "@ebarooni/capacitor-c
     IonListHeader,
     LetDirective,
     IonBadge,
-    IonSpinner,
-    IonChip,
+    IonSpinner
   ],
   standalone: true
 })
@@ -34,15 +32,6 @@ export class PermissionsStatusComponent implements OnInit {
     CapacitorCalendar.checkAllPermissions()
       .then((result) => this.storeService.updateState({ permissions: result }))
       .catch((error) => this.storeService.dispatchLog(error));
-  }
-
-  requestAllPermissions(): void {
-    CapacitorCalendar.requestAllPermissions()
-      .then((response) => {
-        this.storeService.updateState({ permissions: response });
-        this.storeService.dispatchLog(JSON.stringify(response));
-      })
-      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
   requestPermission(alias: keyof CalendarPermissionStatus): void {

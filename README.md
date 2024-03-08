@@ -13,12 +13,26 @@
 
 ## Table of Contents
 
+- [Install](#install)
+- [Support Range](#support-range)
 - [Demo](#demo--click-for-details-)
 - [MVP](#mvp)
-- [Support Range](#support-range)
-- [Install](#install)
 - [Permissions](#permissions)
 - [API](#api)
+
+## Install
+
+```bash
+npm install @ebarooni/capacitor-calendar
+npx cap sync
+```
+
+## Support Range
+
+|  Platform  |                range                 |
+|:----------:|:------------------------------------:|
+|    iOS     |               &ge; 13                |
+|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
 
 ## [Demo (click for details)](./example/README.md)
 
@@ -33,24 +47,12 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 ## MVP
 
 - ✅ Choose calendars with prompt (only supported on iOS)
+- ✅ Get list of available calendars
+- ✅ Get default calendar
 - ⌛ Create calendar events without native prompts
 - ⌛️ Create reminders (only supported on iOS)
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
-
-## Support Range
-
-|  Platform  |                range                 |
-|:----------:|:------------------------------------:|
-|    iOS     |               &ge; 13                |
-|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
-
-## Install
-
-```bash
-npm install @ebarooni/capacitor-calendar
-npx cap sync
-```
 
 ## Permissions
 
@@ -70,6 +72,8 @@ permissions can be found below:
 * [`requestAllPermissions()`](#requestallpermissions)
 * [`createEventWithPrompt()`](#createeventwithprompt)
 * [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+* [`listCalendars()`](#listcalendars)
+* [`getDefaultCalendar()`](#getdefaultcalendar)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -169,6 +173,32 @@ Presents a prompt to the user to select calendars. This method is available only
 | **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+--------------------
+
+
+### listCalendars()
+
+```typescript
+listCalendars() => Promise<{ result: Calendar[]; }>
+```
+
+Retrieves a list of calendars available on the device.
+
+**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+--------------------
+
+
+### getDefaultCalendar()
+
+```typescript
+getDefaultCalendar() => Promise<{ result: Calendar; }>
+```
+
+Retrieves the default calendar set on the device.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
 --------------------
 
