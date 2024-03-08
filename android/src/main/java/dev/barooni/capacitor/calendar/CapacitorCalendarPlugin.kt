@@ -138,5 +138,27 @@ class CapacitorCalendarPlugin: Plugin() {
         return
     }
 
+    @PluginMethod
+    fun listCalendars(call: PluginCall) {
+        try {
+            val calendars = implementation.listCalendars(context)
+            val ret = JSObject()
+            ret.put("result", calendars)
+            call.resolve(ret)
+        } catch (_: Exception) {
+            call.reject("", "[CapacitorCalendar.${::listCalendars.name}] Failed to get the list of calendars")
+        }
+    }
 
+    @PluginMethod
+    fun getDefaultCalendar(call: PluginCall) {
+        try {
+            val primaryCalendar = implementation.getDefaultCalendar(context)
+            val ret = JSObject()
+            ret.put("result", primaryCalendar)
+            call.resolve(ret)
+        } catch (_: Exception) {
+            call.reject("", "[CapacitorCalendar.${::getDefaultCalendar.name}] No default calendar found")
+        }
+    }
 }
