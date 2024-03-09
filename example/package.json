@@ -25,6 +25,7 @@
     "@capacitor/android": "^5.6.0",
     "@capacitor/angular": "^2.0.3",
     "@capacitor/app": "^5.0.7",
+    "@capacitor/browser": "^5.2.0",
     "@capacitor/core": "latest",
     "@capacitor/ios": "^5.6.0",
     "@ebarooni/capacitor-calendar": "file:..",
