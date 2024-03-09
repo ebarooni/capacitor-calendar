@@ -27,7 +27,7 @@ const initialState = <State>{
     readCalendar: 'prompt',
     writeCalendar: 'prompt',
   },
-  appVersion: '0.2.0'
+  appVersion: '0.3.1'
 }
 
 @Injectable()
