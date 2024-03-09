@@ -30,11 +30,17 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
     }
 
-    listCalendars(): Promise<{ result: Calendar[] }> {
+    public listCalendars(): Promise<{ result: Calendar[] }> {
         throw this.unimplemented(`${this.listCalendars.name} is not implemented on the web`);
     }
 
-    getDefaultCalendar(): Promise<{ result: Calendar }> {
+    public getDefaultCalendar(): Promise<{ result: Calendar }> {
         throw this.unimplemented(`${this.getDefaultCalendar.name} is not implemented on the web`);
+    }
+
+    public createEvent(_options: { title: string; location?: string; startDate?: Date; endDate?: Date, allDay?: boolean }): Promise<{
+        eventCreated: boolean
+    }> {
+        throw this.unimplemented(`${this.createEvent.name} is not implemented on the web`);
     }
 }
