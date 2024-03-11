@@ -176,7 +176,7 @@ export interface CapacitorCalendarPlugin {
    * @param {string} [options.location] - The location of the event. (Optional)
    * @param {Date} [options.startDate] - The start date and time of the event. (Optional)
    * @param {Date} [options.endDate] - The end date and time of the event. (Optional)
-   * @param {boolean} [options.allDay] - Weather the event is for the entire day or not. (Optional)
+   * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
    * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
    * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
    * @example
@@ -189,5 +189,5 @@ export interface CapacitorCalendarPlugin {
    * const { eventCreated } = await createEvent(eventOptions);
    * console.log(eventCreated); // true
    */
-  createEvent(options: { title: string, location?: string, startDate?: Date, endDate?: Date, allDay?: boolean }): Promise<{ eventCreated: boolean }>;
+  createEvent(options: { title: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
 }

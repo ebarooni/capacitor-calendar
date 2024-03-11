@@ -38,7 +38,7 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.getDefaultCalendar.name} is not implemented on the web`);
     }
 
-    public createEvent(_options: { title: string; location?: string; startDate?: Date; endDate?: Date, allDay?: boolean }): Promise<{
+    public createEvent(_options: { title: string; location?: string; startDate?: Date; endDate?: Date, isAllDay?: boolean }): Promise<{
         eventCreated: boolean
     }> {
         throw this.unimplemented(`${this.createEvent.name} is not implemented on the web`);
