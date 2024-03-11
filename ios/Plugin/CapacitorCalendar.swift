@@ -73,6 +73,35 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
     
+    public func createEvent(title: String, location: String?, startDate: Date?, endDate: Date?, isAllDay: Bool?) throws -> Void {
+        let fallbackStartDate = Date()
+        let newEvent = EKEvent(eventStore: eventStore)
+        newEvent.calendar = eventStore.defaultCalendarForNewEvents
+        newEvent.title = title
+        if let location = location {
+            newEvent.location = location
+        }
+        if let startDate = startDate {
+            newEvent.startDate = startDate
+        } else {
+            newEvent.startDate = fallbackStartDate
+        }
+        if let endDate = endDate {
+            newEvent.endDate = endDate
+        } else {
+            newEvent.endDate = fallbackStartDate.addingTimeInterval(3600)
+        }
+        if let isAllDay = isAllDay {
+            newEvent.isAllDay = isAllDay
+        }
+        
+        do {
+            try eventStore.save(newEvent, span: .thisEvent)
+        } catch {
+            throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
+        }
+    }
+    
     public func checkAllPermissions() async throws -> [String: String] {
         return try await withCheckedThrowingContinuation { continuation in
             var permissionsState: [String: String]
