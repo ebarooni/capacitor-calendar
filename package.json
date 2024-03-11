@@ -26,7 +26,11 @@
     "capacitor",
     "plugin",
     "native",
-    "calendar"
+    "calendar",
+    "eventkit",
+    "eventkitui",
+    "angular",
+    "ionic"
   ],
   "homepage": "https://capacitor-calendar.pages.dev",
   "scripts": {
