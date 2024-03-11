@@ -139,6 +139,32 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             try call.resolve(["result": implementation.getDefaultCalendar()])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
+            return
+        }
+    }
+    
+    @objc public func createEvent(_ call: CAPPluginCall) {
+        guard let title = call.getString("title") else {
+            call.reject("[CapacitorCalendar.\(#function)] A title for the event was not provided")
+            return
+        }
+        let location = call.getString("location")
+        let startDate = call.getDate("startDate")
+        let endDate = call.getDate("endDate")
+        let isAllDay = call.getBool("isAllDay")
+        
+        do {
+            try implementation.createEvent(
+                title: title,
+                location: location,
+                startDate: startDate,
+                endDate: endDate,
+                isAllDay: isAllDay
+            )
+            call.resolve(["eventCreated": true])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
+            return
         }
     }
 }
