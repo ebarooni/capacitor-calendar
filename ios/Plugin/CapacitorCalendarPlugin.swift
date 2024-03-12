@@ -152,10 +152,12 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let startDate = call.getDate("startDate")
         let endDate = call.getDate("endDate")
         let isAllDay = call.getBool("isAllDay")
+        let calendarId = call.getString("calendarId")
         
         do {
             try implementation.createEvent(
                 title: title,
+                calendarId: calendarId,
                 location: location,
                 startDate: startDate,
                 endDate: endDate,
