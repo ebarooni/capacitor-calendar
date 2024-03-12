@@ -27,6 +27,7 @@
     "plugin",
     "native",
     "calendar",
+    "reminders",
     "eventkit",
     "eventkitui",
     "angular",
