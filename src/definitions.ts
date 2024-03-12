@@ -173,6 +173,7 @@ export interface CapacitorCalendarPlugin {
    * @method createEvent
    * @param {object} options - Options for creating the event.
    * @param {string} options.title - The title of the event.
+   * @param {string} options.calendarId - The id of the destination calendar. (Optional)
    * @param {string} [options.location] - The location of the event. (Optional)
    * @param {Date} [options.startDate] - The start date and time of the event. (Optional)
    * @param {Date} [options.endDate] - The end date and time of the event. (Optional)
@@ -189,5 +190,5 @@ export interface CapacitorCalendarPlugin {
    * const { eventCreated } = await createEvent(eventOptions);
    * console.log(eventCreated); // true
    */
-  createEvent(options: { title: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
+  createEvent(options: { title: string, calendarId?: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
 }
