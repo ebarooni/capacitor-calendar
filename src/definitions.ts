@@ -181,11 +181,13 @@ export interface CapacitorCalendarPlugin {
    * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
    * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
    * @example
+   * const now = Date.now();
    * const eventOptions = {
    *   title: 'Team Meeting',
    *   location: 'Conference Room A',
-   *   startDate: new Date('2024-03-03T09:00:00'),
-   *   endDate: new Date('2024-03-03T10:00:00')
+   *   startDate: new Date(now),
+   *   endDate: new Date(now + 2 * 60 * 60 * 1000),
+   *   isAllDay: false
    * };
    * const { eventCreated } = await createEvent(eventOptions);
    * console.log(eventCreated); // true
