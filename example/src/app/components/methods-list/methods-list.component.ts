@@ -95,4 +95,16 @@ export class MethodsListComponent {
       })
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public createEvent(): void {
+    const now = Date.now();
+    CapacitorCalendar.createEvent({
+      title: 'Test',
+      endDate: new Date(now + 2 * 60 * 60 * 1000),
+      location: 'CapacitorCalendar',
+      isAllDay: false
+    })
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }

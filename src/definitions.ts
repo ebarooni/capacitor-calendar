@@ -132,8 +132,8 @@ export interface CapacitorCalendarPlugin {
    * where each calendar object contains an ID and a title.
    * @example
    * if (capacitor.getPlatform() === 'ios') {
-   *     const selectedCalendars = await selectCalendarsWithPrompt();
-   *     console.log(selectedCalendars); // [{ id: '1', title: 'Work Calendar' }]
+   *     const { result } = await selectCalendarsWithPrompt();
+   *     console.log(result); // [{ id: '1', title: 'Work Calendar' }]
    * }
    */
   selectCalendarsWithPrompt(options: {
@@ -150,21 +150,47 @@ export interface CapacitorCalendarPlugin {
    * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of calendars available on the device.
    * Each calendar object in the array contains an ID and a title.
    * @example
-   * const calendars = await listCalendars();
-   * console.log(calendars); // [{ id: '1', title: 'Work Calendar' }, { id: '2', title: 'Personal Calendar' }]
+   * const { result } = await listCalendars();
+   * console.log(result); // [{ id: '1', title: 'Work Calendar' }, { id: '2', title: 'Personal Calendar' }]
    */
   listCalendars(): Promise<{ result: Calendar[] }>;
 
   /**
    * Retrieves the default calendar set on the device.
    *
-   * @async
    * @method getDefaultCalendar
    * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default calendar set on the device.
    * The returned calendar object contains an ID and a title.
    * @example
-   * const defaultCalendar = await getDefaultCalendar();
-   * console.log(defaultCalendar); // { id: '1', title: 'Default Calendar' }
+   * const { result } = await getDefaultCalendar();
+   * console.log(result); // { id: '1', title: 'Default Calendar' }
    */
   getDefaultCalendar(): Promise<{ result: Calendar }>;
+
+  /**
+   * Creates an event with the provided options.
+   *
+   * @method createEvent
+   * @param {object} options - Options for creating the event.
+   * @param {string} options.title - The title of the event.
+   * @param {string} options.calendarId - The id of the destination calendar. (Optional)
+   * @param {string} [options.location] - The location of the event. (Optional)
+   * @param {Date} [options.startDate] - The start date and time of the event. (Optional)
+   * @param {Date} [options.endDate] - The end date and time of the event. (Optional)
+   * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
+   * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
+   * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
+   * @example
+   * const now = Date.now();
+   * const eventOptions = {
+   *   title: 'Team Meeting',
+   *   location: 'Conference Room A',
+   *   startDate: new Date(now),
+   *   endDate: new Date(now + 2 * 60 * 60 * 1000),
+   *   isAllDay: false
+   * };
+   * const { eventCreated } = await createEvent(eventOptions);
+   * console.log(eventCreated); // true
+   */
+  createEvent(options: { title: string, calendarId?: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
 }
