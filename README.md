@@ -49,7 +49,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - ✅ Choose calendars with prompt (only supported on iOS)
 - ✅ Get list of available calendars
 - ✅ Get default calendar
-- ⌛ Create calendar events without native prompts
+- ✅ Create calendar events without native prompts
 - ⌛️ Create reminders (only supported on iOS)
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
