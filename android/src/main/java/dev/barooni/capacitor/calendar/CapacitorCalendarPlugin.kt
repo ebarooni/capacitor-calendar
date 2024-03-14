@@ -3,6 +3,7 @@ package dev.barooni.capacitor.calendar
 import android.Manifest
 import android.content.Intent
 import android.provider.CalendarContract
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
@@ -159,6 +160,27 @@ class CapacitorCalendarPlugin: Plugin() {
             call.resolve(ret)
         } catch (_: Exception) {
             call.reject("", "[CapacitorCalendar.${::getDefaultCalendar.name}] No default calendar found")
+        }
+    }
+
+    @PluginMethod
+    fun createEvent(call: PluginCall) {
+        try {
+            val title = call.getString("title")
+                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
+            val calendarId = call.getString("calendarId")
+            val location = call.getString("location")
+            val startDate = call.getString("startDate")
+            val endDate = call.getString("endDate")
+            val isAllDay = call.getBoolean("isAllDay", false)
+
+            val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)
+            val ret = JSObject()
+            ret.put("eventCreated", eventUri != null)
+            call.resolve(ret)
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::createEvent.name}] Unable to create event")
+            return
         }
     }
 }

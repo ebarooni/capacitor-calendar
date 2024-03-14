@@ -1,6 +1,6 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "The Capacitor Calendar Plugin exposes functionalities for interacting with the calendar of iOS and Android devices.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -26,7 +26,12 @@
     "capacitor",
     "plugin",
     "native",
-    "calendar"
+    "calendar",
+    "reminders",
+    "eventkit",
+    "eventkitui",
+    "angular",
+    "ionic"
   ],
   "homepage": "https://capacitor-calendar.pages.dev",
   "scripts": {
