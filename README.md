@@ -29,10 +29,10 @@ npx cap sync
 
 ## Support Range
 
-|  Platform  |                range                 |
-|:----------:|:------------------------------------:|
-|    iOS     |               &ge; 13                |
-|  Android   | &ge; 4 (SDK 14 – Ice Cream Sandwich) |
+| Platform |           range           |
+|:--------:|:-------------------------:|
+|   iOS    |          &ge; 13          |
+| Android  | &ge; 7 (SDK 24 or Nougat) |
 
 ## [Demo (click for details)](./example/README.md)
 
