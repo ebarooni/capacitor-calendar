@@ -1,10 +1,16 @@
 package dev.barooni.capacitor.calendar
 
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 class CapacitorCalendar() {
     var eventsCount: Int = 0
@@ -87,5 +93,34 @@ class CapacitorCalendar() {
             }
         }
         throw Exception("No primary calendar found")
+    }
+
+    @Throws(Exception::class)
+    fun createEvent(
+            context: Context,
+            title: String,
+            calendarId: String?,
+            location: String?,
+            startDate: String?,
+            endDate: String?,
+            isAllDay: Boolean?
+    ): Uri? {
+        val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        val startMillis = startDate?.let { isoFormatter.parse(it)?.time } ?: Calendar.getInstance().timeInMillis
+        val endMillis = endDate?.let { isoFormatter.parse(it)?.time } ?: (startMillis + 3600 * 1000)
+
+        val values = ContentValues().apply {
+            put(CalendarContract.Events.DTSTART, startMillis)
+            put(CalendarContract.Events.DTEND, endMillis)
+            put(CalendarContract.Events.TITLE, title)
+            location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
+            put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context).getString("id"))
+            put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+            isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
+        }
+
+        return context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
     }
 }
