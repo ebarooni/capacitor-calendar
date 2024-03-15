@@ -28,6 +28,10 @@
 	<string>To read and write calendar events</string>
 	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
 	<string>To create an add events to the calendar</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>To create reminders for the user</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>To create reminders for the user</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
