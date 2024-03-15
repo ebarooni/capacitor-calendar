@@ -34,6 +34,9 @@ export class MethodsListComponent {
   public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
     (result: any) => this.zone.run(() => this.checkPermission(result.alias.value))
   );
+  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons(
+    (result: any) => this.zone.run(() => this.requestPermission(result.alias.value))
+  );
 
   constructor(
     private readonly storeService: StoreService,
@@ -99,12 +102,30 @@ export class MethodsListComponent {
   public createEvent(): void {
     const now = Date.now();
     CapacitorCalendar.createEvent({
-      title: 'Test',
+      title: 'CapacitorCalendar',
       endDate: new Date(now + 2 * 60 * 60 * 1000),
       location: 'CapacitorCalendar',
       isAllDay: false
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public requestPermission(alias: keyof CalendarPermissionStatus): void {
+    CapacitorCalendar.requestPermission({ alias: alias })
+      .then((result) => {
+        let update: Partial<CalendarPermissionStatus>
+        switch (alias) {
+          case 'readCalendar':
+            update = { 'readCalendar': result.result };
+            break;
+          case "writeCalendar":
+            update = { 'writeCalendar': result.result };
+            break;
+        }
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(result));
+      })
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }
