@@ -2,7 +2,7 @@
   <ion-list-header>
     <ion-label>Permissions</ion-label>
   </ion-list-header>
-  <ion-item [button]="true" [lines]="'none'" (click)="requestPermission('readCalendar')">
+  <ion-item [lines]="'none'">
     <ion-label>readCalendar</ion-label>
     <ion-badge
       *ngrxLet="storeService.selectReadCalendarStatus$ as readCalendarState; suspenseTpl: loading"
@@ -12,7 +12,7 @@
       {{ readCalendarState }}
     </ion-badge>
   </ion-item>
-  <ion-item [button]="true" [lines]="'none'" (click)="requestPermission('writeCalendar')">
+  <ion-item [lines]="'none'">
     <ion-label>writeCalendar</ion-label>
     <ion-badge
       *ngrxLet="storeService.selectWriteCalendarStatus$ as writeCalendarState; suspenseTpl: loading"
