@@ -119,8 +119,11 @@ export class MethodsListComponent {
           case 'readCalendar':
             update = { 'readCalendar': result.result };
             break;
-          case "writeCalendar":
+          case 'writeCalendar':
             update = { 'writeCalendar': result.result };
+            break;
+          case 'writeReminders':
+            update = { 'writeReminders': result.result };
             break;
         }
         this.storeService.updateState({ permissions: update });

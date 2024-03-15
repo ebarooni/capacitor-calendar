@@ -2,8 +2,8 @@ import type { PermissionState } from '@capacitor/core';
 
 /**
  * Enum representing the selection style for the calendar chooser.
- * @readonly
  * @enum
+ * @platform iOS
  */
 export enum CalendarChooserSelectionStyle {
   /**
@@ -20,6 +20,7 @@ export enum CalendarChooserSelectionStyle {
 /**
  * Enum representing the display styles for the calendar chooser.
  * @enum
+ * @platform iOS
  */
 export enum CalendarChooserDisplayStyle {
   /**
@@ -37,6 +38,7 @@ export enum CalendarChooserDisplayStyle {
  * Represents a calendar object with an ID and title.
  *
  * @interface Calendar
+ * @platform iOS, Android
  * @property {string} id - The unique identifier of the calendar.
  * @property {string} title - The title or name of the calendar.
  */
@@ -46,13 +48,25 @@ export interface Calendar {
 }
 
 /**
- * Describes the permission status for reading from the calendar.
- *
+ * Represents the status of calendar permissions.
  * @interface
  */
 export interface CalendarPermissionStatus {
+  /**
+   * Represents the permission state for reading calendar.
+   * @platform iOS, Android
+   */
   readCalendar: PermissionState;
+  /**
+   * Represents the permission state for writing calendar.
+   * @platform iOS, Android
+   */
   writeCalendar: PermissionState;
+  /**
+   * Represents the permission state for writing reminders.
+   * @platform iOS
+   */
+  writeReminders: PermissionState;
 }
 
 export interface CapacitorCalendarPlugin {
@@ -60,6 +74,7 @@ export interface CapacitorCalendarPlugin {
    * Checks the current authorization status of a specific permission.
    *
    * @method
+   * @platform iOS, Android
    * @param options An object with the name of the permission
    * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the current status of the requested permission.
    * @example
@@ -71,6 +86,7 @@ export interface CapacitorCalendarPlugin {
    * Checks the current authorization status of all the required permissions for the plugin.
    *
    * @method
+   * @platform iOS, Android
    * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with an object containing all the permissions and their status.
    * @example
    * const permissionsStatus = await this.checkAllPermissions();
@@ -82,6 +98,7 @@ export interface CapacitorCalendarPlugin {
    * If the permission is already granted, it will directly return the status.
    *
    * @method
+   * @platform iOS, Android
    * @param options An object with the name of the permission
    * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the new permission status after the request is made.
    * @example
@@ -93,6 +110,7 @@ export interface CapacitorCalendarPlugin {
    * Requests authorization to all the required permissions for the plugin, if they have not already been granted.
    *
    * @method
+   * @platform iOS, Android
    * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the new permission statuses after the request is made.
    * @example
    * const permissionResults = await this.requestAllPermissions();
@@ -106,6 +124,7 @@ export interface CapacitorCalendarPlugin {
    * On Android, the user has to authorize for read access.
    *
    * @method
+   * @platform iOS, Android
    * @returns {Promise&lt;{ eventCreated: boolean }&gt;} – A promise that resolves with the result of the action.
    * @example
    * let result: CalendarEventActionResult;
@@ -126,6 +145,7 @@ export interface CapacitorCalendarPlugin {
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
    * @method selectCalendarsWithPrompt
+   * @platform iOS
    * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
    * @async
    * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
@@ -147,6 +167,7 @@ export interface CapacitorCalendarPlugin {
    *
    * @async
    * @method listCalendars
+   * @platform iOS, Android
    * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of calendars available on the device.
    * Each calendar object in the array contains an ID and a title.
    * @example
@@ -159,6 +180,7 @@ export interface CapacitorCalendarPlugin {
    * Retrieves the default calendar set on the device.
    *
    * @method getDefaultCalendar
+   * @platform iOS, Android
    * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default calendar set on the device.
    * The returned calendar object contains an ID and a title.
    * @example
@@ -171,6 +193,7 @@ export interface CapacitorCalendarPlugin {
    * Creates an event with the provided options.
    *
    * @method createEvent
+   * @platform iOS, Android
    * @param {object} options - Options for creating the event.
    * @param {string} options.title - The title of the event.
    * @param {string} options.calendarId - The id of the destination calendar. (Optional)
@@ -193,4 +216,6 @@ export interface CapacitorCalendarPlugin {
    * console.log(eventCreated); // true
    */
   createEvent(options: { title: string, calendarId?: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
+
+  createReminder(options: { title: string }): Promise<{ reminderCreated: boolean }>;
 }

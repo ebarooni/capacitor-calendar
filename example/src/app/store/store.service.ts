@@ -26,6 +26,7 @@ const initialState = <State>{
   permissions: {
     readCalendar: 'prompt',
     writeCalendar: 'prompt',
+    writeReminders: 'prompt'
   },
   appVersion: '0.4.1'
 }

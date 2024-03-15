@@ -77,6 +77,7 @@ permissions can be found below:
 * [`listCalendars()`](#listcalendars)
 * [`getDefaultCalendar()`](#getdefaultcalendar)
 * [`createEvent(...)`](#createevent)
+* [`createReminder(...)`](#createreminder)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -223,17 +224,33 @@ Creates an event with the provided options.
 --------------------
 
 
+### createReminder(...)
+
+```typescript
+createReminder(options: { title: string; }) => Promise<{ reminderCreated: boolean; }>
+```
+
+| Param         | Type                            |
+| ------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
+
+--------------------
+
+
 ### Interfaces
 
 
 #### CalendarPermissionStatus
 
-Describes the permission status for reading from the calendar.
+Represents the status of calendar permissions.
 
-| Prop                | Type                                                        |
-| ------------------- | ----------------------------------------------------------- |
-| **`readCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> |
-| **`writeCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+| Prop                 | Type                                                        | Description                                            |
+| -------------------- | ----------------------------------------------------------- | ------------------------------------------------------ |
+| **`readCalendar`**   | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for reading calendar.  |
+| **`writeCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing calendar.  |
+| **`writeReminders`** | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing reminders. |
 
 
 #### Calendar
