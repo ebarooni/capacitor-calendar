@@ -11,6 +11,7 @@ range of iOS version that you app is linked on.
 * `NSCalendarsWriteOnlyAccessUsageDescription` if your app needs only write access to the calendar but does not have to
 read any events (including the events that your app creates).
 * `NSCalendarsFullAccessUsageDescription` if you app needs read and write access for the calendar events.
+* `NSRemindersFullAccessUsageDescription` if your app needs access to reminders.
 
 If you only request for write access, your app will not be able to read from the calendar. However, read access mean your
 app has full access (read and write) to the calendar.
@@ -18,6 +19,7 @@ app has full access (read and write) to the calendar.
 ### iOS 10 until iOS 16
 
 * `NSCalendarsUsageDescription` if your app needs read and write access for calendar events.
+* `NSRemindersUsageDescription` if your app needs access to reminders.
 
 ### macOS
 
