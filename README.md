@@ -41,7 +41,9 @@ npx cap sync
 |:--------------------------------------:|:------------------------------------------:|
 | ![](./example/src/assets/ios-demo.gif) | ![](./example/src/assets/android-demo.gif) |
 
-On iOS, `readCalendar` permission is not needed when you are creating an event using the native prompt. 
+On iOS, `readCalendar` permission is not needed when you a
+
+re creating an event using the native prompt. 
 The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
 
 ## MVP
@@ -49,7 +51,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - ✅ Choose calendars with prompt (only supported on iOS)
 - ✅ Get list of available calendars
 - ✅ Get default calendar
-- ⌛ Create calendar events without native prompts
+- ✅ Create calendar events without native prompts
 - ⌛️ Create reminders (only supported on iOS)
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
