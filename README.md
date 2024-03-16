@@ -78,6 +78,7 @@ permissions can be found below:
 * [`getDefaultCalendar()`](#getdefaultcalendar)
 * [`createEvent(...)`](#createevent)
 * [`getDefaultRemindersList()`](#getdefaultreminderslist)
+* [`getRemindersLists()`](#getreminderslists)
 * [`createReminder(...)`](#createreminder)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -234,6 +235,19 @@ getDefaultRemindersList() => Promise<{ result: Calendar; }>
 Retrieves the default reminders list set on the device.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
+
+--------------------
+
+
+### getRemindersLists()
+
+```typescript
+getRemindersLists() => Promise<{ result: Calendar[]; }>
+```
+
+Retrieves all available reminders lists on the device.
+
+**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
 --------------------
 

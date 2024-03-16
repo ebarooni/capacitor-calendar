@@ -51,4 +51,8 @@ export class CapacitorCalendarWeb
     public getDefaultRemindersList(): Promise<{ result: Calendar }> {
         throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
     }
+
+    getRemindersLists(): Promise<{ result: Calendar[] }> {
+        throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    }
 }

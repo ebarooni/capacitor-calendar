@@ -198,4 +198,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+    
+    @objc public func getRemindersLists(_ call: CAPPluginCall) {
+        call.resolve(["result": reminders.getRemindersLists()])
+    }
 }

@@ -55,6 +55,10 @@ public class CapacitorReminders: NSObject {
         }
     }
     
+    public func getRemindersLists() -> [[String: String]] {
+        return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
+    }
+    
     public func requestFullAccessToReminders() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             if #available(iOS 17.0, *) {
@@ -89,5 +93,19 @@ public class CapacitorReminders: NSObject {
                 }
             }
         }
+    }
+    
+    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
+        var result: [[String: String]] = []
+
+        for calendar in calendars {
+            let calendarDict: [String: String] = [
+                "id": calendar.calendarIdentifier,
+                "title": calendar.title
+            ]
+            result.append(calendarDict)
+        }
+
+        return result
     }
 }
