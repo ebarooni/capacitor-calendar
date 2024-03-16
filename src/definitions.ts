@@ -235,5 +235,19 @@ export interface CapacitorCalendarPlugin {
    */
   getDefaultRemindersList(): Promise<{ result: Calendar }>;
 
+  /**
+   * Retrieves all available reminders lists on the device.
+   *
+   * @async
+   * @method getRemindersLists
+   * @platform iOS
+   * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of reminders lists available on the device.
+   * Each calendar object in the array contains an ID and a title.
+   * @example
+   * const { result } = await getRemindersLists();
+   * console.log(result); // [{ id: '1', title: 'Groceries' }, { id: '2', title: 'Subscriptions' }]
+   */
+  getRemindersLists(): Promise<{ result: Calendar[] }>;
+
   createReminder(options: { title: string }): Promise<{ reminderCreated: boolean }>;
 }
