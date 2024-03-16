@@ -59,6 +59,34 @@ public class CapacitorReminders: NSObject {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
     
+    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?) throws -> Void {
+        let newReminder = EKReminder(eventStore: eventStore)
+        newReminder.title = title
+        if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
+            newReminder.calendar = list
+        } else {
+            newReminder.calendar = eventStore.defaultCalendarForNewReminders()
+        }
+        if let priority = priority {
+            if priority > 9 {
+                newReminder.priority = 9
+            } else if priority < 0 {
+                newReminder.priority = 0
+            } else {
+                newReminder.priority = priority
+            }
+        }
+        if let isCompleted = isCompleted {
+            newReminder.isCompleted = isCompleted
+        }
+        
+        do {
+            try eventStore.save(newReminder, commit: true)
+        } catch {
+            throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
+        }
+    }
+    
     public func requestFullAccessToReminders() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             if #available(iOS 17.0, *) {
