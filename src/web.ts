@@ -52,7 +52,7 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
     }
 
-    getRemindersLists(): Promise<{ result: Calendar[] }> {
+    public getRemindersLists(): Promise<{ result: Calendar[] }> {
         throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
     }
 }
