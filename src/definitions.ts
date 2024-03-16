@@ -249,5 +249,45 @@ export interface CapacitorCalendarPlugin {
    */
   getRemindersLists(): Promise<{ result: Calendar[] }>;
 
-  createReminder(options: { title: string }): Promise<{ reminderCreated: boolean }>;
+  /**
+   * Creates a reminder with the provided options.
+   *
+   * @method createReminder
+   * @platform iOS
+   * @param {object} options - Options for creating the reminder.
+   * @param {string} options.title - The title of the reminder.
+   * @param {string} options.listId - The id of the destination reminders list. (Optional)
+   * @param {number} [options.priority] - The priority of the reminder. A number between one and nine where nine
+   * has the least priority and 0 means no priority at all. Values outside of this range will be rounded to the
+   * nearest border. (Optional)
+   * @param {boolean} [options.isCompleted] - Whether the reminder is completed already or not. (Optional)
+   * @param {number} [options.startDate] - The start date of the reminder. (Optional)
+   * @param {number} [options.dueDate] - The due date of the reminder. (Optional)
+   * @param {number} [options.completionDate] - The date at which the reminder was completed. (Optional)
+   * @param {string} [options.notes] - Additional notes about the reminder. (Optional)
+   * @returns {Promise<{ reminderCreated: boolean }>} A Promise that resolves with an object indicating whether the reminder was created successfully.
+   * The resolved object has a property 'reminderCreated' which is a boolean value representing whether the reminder was created.
+   * @example
+   * const now = Date.now();
+   * const eventOptions = {
+   *   title: 'Buy cucumber',
+   *   listId: 'ABC12',
+   *   priority: 5,
+   *   isCompleted: false,
+   *   startDateComponents: now,
+   *   notes: 'Also buy tomatoes'
+   * };
+   * const { eventCreated } = await createEvent(eventOptions);
+   * console.log(eventCreated); // true
+   */
+  createReminder(options: {
+    title: string,
+    listId?: string,
+    priority?: number,
+    isCompleted?: boolean,
+    startDate?: number,
+    dueDate?: number,
+    completionDate?: number,
+    notes?: string,
+  }): Promise<{ reminderCreated: boolean }>;
 }

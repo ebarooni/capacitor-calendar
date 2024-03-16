@@ -255,12 +255,14 @@ Retrieves all available reminders lists on the device.
 ### createReminder(...)
 
 ```typescript
-createReminder(options: { title: string; }) => Promise<{ reminderCreated: boolean; }>
+createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; }) => Promise<{ reminderCreated: boolean; }>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; }</code> |
+Creates a reminder with the provided options.
+
+| Param         | Type                                                                                                                                                                      | Description                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; }</code> | - Options for creating the reminder. |
 
 **Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
 

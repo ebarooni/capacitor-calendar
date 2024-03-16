@@ -59,7 +59,7 @@ public class CapacitorReminders: NSObject {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
     
-    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?) throws -> Void {
+    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?) throws -> Void {
         let newReminder = EKReminder(eventStore: eventStore)
         newReminder.title = title
         if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
@@ -78,6 +78,21 @@ public class CapacitorReminders: NSObject {
         }
         if let isCompleted = isCompleted {
             newReminder.isCompleted = isCompleted
+        }
+        if let startDate = startDate {
+            newReminder.startDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: startDate / 1000))
+            newReminder.startDateComponents?.timeZone = Calendar.current.timeZone
+        }
+        if let dueDate = dueDate {
+            newReminder.dueDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: dueDate / 1000))
+            newReminder.dueDateComponents?.timeZone = Calendar.current.timeZone
+        }
+        if let completionDate = completionDate {
+            newReminder.completionDate = Date(timeIntervalSince1970: completionDate / 1000)
+            newReminder.timeZone = Calendar.current.timeZone
+        }
+        if let notes = notes {
+            newReminder.notes = notes
         }
         
         do {
