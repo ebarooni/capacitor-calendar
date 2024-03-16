@@ -77,6 +77,7 @@ permissions can be found below:
 * [`listCalendars()`](#listcalendars)
 * [`getDefaultCalendar()`](#getdefaultcalendar)
 * [`createEvent(...)`](#createevent)
+* [`getDefaultRemindersList()`](#getdefaultreminderslist)
 * [`createReminder(...)`](#createreminder)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -220,6 +221,19 @@ Creates an event with the provided options.
 | **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: <a href="#date">Date</a>; endDate?: <a href="#date">Date</a>; isAllDay?: boolean; }</code> | - Options for creating the event. |
 
 **Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+
+--------------------
+
+
+### getDefaultRemindersList()
+
+```typescript
+getDefaultRemindersList() => Promise<{ result: Calendar; }>
+```
+
+Retrieves the default reminders list set on the device.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
 --------------------
 
