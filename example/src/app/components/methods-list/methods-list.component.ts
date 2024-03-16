@@ -102,9 +102,9 @@ export class MethodsListComponent {
   public createEvent(): void {
     const now = Date.now();
     CapacitorCalendar.createEvent({
-      title: 'CapacitorCalendar',
+      title: 'Capacitor Calendar',
       endDate: new Date(now + 2 * 60 * 60 * 1000),
-      location: 'CapacitorCalendar',
+      location: 'Capacitor Calendar',
       isAllDay: false
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
@@ -143,6 +143,18 @@ export class MethodsListComponent {
 
   public getRemindersLists(): void {
     CapacitorCalendar.getRemindersLists()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public createReminder(): void {
+    CapacitorCalendar.createReminder({
+      title: 'Capacitor Calendar',
+      notes: 'A CapacitorJS Plugin',
+      priority: 5,
+      dueDate: Date.now(),
+      isCompleted: false,
+    })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }

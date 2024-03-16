@@ -44,7 +44,16 @@ export class CapacitorCalendarWeb
         throw this.unimplemented(`${this.createEvent.name} is not implemented on the web`);
     }
 
-    public createReminder(_options: { title: string }): Promise<{ reminderCreated: boolean }> {
+    public createReminder(_options: {
+        title: string,
+        listId?: string,
+        priority?: number,
+        isCompleted?: boolean,
+        startDate?: number,
+        dueDate?: number,
+        completionDate?: number,
+        notes?: string,
+    }): Promise<{ reminderCreated: boolean }> {
         throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
     }
 
