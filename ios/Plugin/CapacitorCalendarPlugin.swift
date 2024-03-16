@@ -202,4 +202,22 @@ public class CapacitorCalendarPlugin: CAPPlugin {
     @objc public func getRemindersLists(_ call: CAPPluginCall) {
         call.resolve(["result": reminders.getRemindersLists()])
     }
+    
+    @objc public func createReminder (_ call: CAPPluginCall) {
+        guard let title = call.getString("title") else {
+            call.reject("[CapacitorCalendar.\(#function)] A title for the reminder was not provided")
+            return
+        }
+        let listId = call.getString("listId")
+        let priority = call.getInt("priority")
+        let isCompleted = call.getBool("isCompleted")
+        
+        do {
+            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted)
+            call.resolve(["reminderCreated": true])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
+            return
+        }
+    }
 }
