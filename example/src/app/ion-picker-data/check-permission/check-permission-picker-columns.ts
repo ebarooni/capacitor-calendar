@@ -13,6 +13,10 @@ export const checkPermissionPickerColumns = [
       {
         text: 'writeReminders',
         value: 'writeReminders'
+      },
+      {
+        text: 'readReminders',
+        value: 'readReminders'
       }
     ]
   }

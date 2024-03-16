@@ -27,6 +27,9 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 case "writeCalendar":
                     let permissionsState = try await calendar.checkAllPermissions()
                     call.resolve(["result": permissionsState["writeCalendar"]!])
+                case "readReminders":
+                    let permissionsState = try await reminders.checkAllPermissions()
+                    call.resolve(["result": permissionsState["readReminders"]!])
                 case "writeReminders":
                     let permissionsState = try await reminders.checkAllPermissions()
                     call.resolve(["result": permissionsState["writeReminders"]!])
@@ -72,6 +75,9 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 case "writeReminders":
                     let result = try await reminders.requestFullAccessToReminders()
                     call.resolve(["result": result])
+                case "readReminders":
+                    let result = try await reminders.requestFullAccessToReminders()
+                    call.resolve(["result": result])
                 default:
                     call.reject("[CapacitorCalendar.\(#function)] Could not authorize \(alias)")
                     return
@@ -89,16 +95,19 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 let calendarResult = try await calendar.requestFullAccessToEvents()
                 let remindersResult = try await reminders.requestFullAccessToReminders()
                 var result: [String: String] = [
-                        "readCalendar": PermissionState.denied.rawValue,
-                        "writeCalendar": PermissionState.denied.rawValue,
-                        "writeReminders": PermissionState.denied.rawValue
+                    "readCalendar": PermissionState.denied.rawValue,
+                    "writeCalendar": PermissionState.denied.rawValue,
+                    "readReminders": PermissionState.denied.rawValue,
+                    "writeReminders": PermissionState.denied.rawValue
                 ]
                 if calendarResult == PermissionState.granted.rawValue {
-                        result["readCalendar"] = PermissionState.granted.rawValue
-                        result["writeCalendar"] = PermissionState.granted.rawValue
+                    result["readCalendar"] = PermissionState.granted.rawValue
+                    result["writeCalendar"] = PermissionState.granted.rawValue
                 }
                 if remindersResult == PermissionState.granted.rawValue {
-                        result["writeReminders"] = PermissionState.granted.rawValue
+                    result["readReminders"] = PermissionState.granted.rawValue
+                    result["writeReminders"] = PermissionState.granted.rawValue
+                    
                 }
                 call.resolve(result)
             } catch {

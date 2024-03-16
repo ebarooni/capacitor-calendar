@@ -63,6 +63,11 @@ export interface CalendarPermissionStatus {
    */
   writeCalendar: PermissionState;
   /**
+   * Represents the permission state for reading reminders.
+   * @platform iOS
+   */
+  readReminders: PermissionState;
+  /**
    * Represents the permission state for writing reminders.
    * @platform iOS
    */
