@@ -92,6 +92,13 @@ export class StoreService {
       distinctUntilChanged()
     );
 
+  readonly selectWriteRemindersStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ writeReminders }) => writeReminders),
+      distinctUntilChanged()
+    );
+
   readonly selectAppVersion$ = this.state$
     .pipe(
       map((state) => state.appVersion),
