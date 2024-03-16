@@ -131,4 +131,10 @@ export class MethodsListComponent {
       })
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public getDefaultRemindersList(): void {
+    CapacitorCalendar.getDefaultRemindersList()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
