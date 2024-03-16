@@ -264,6 +264,7 @@ Represents the status of calendar permissions.
 | -------------------- | ----------------------------------------------------------- | ------------------------------------------------------ |
 | **`readCalendar`**   | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for reading calendar.  |
 | **`writeCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing calendar.  |
+| **`readReminders`**  | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for reading reminders. |
 | **`writeReminders`** | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing reminders. |
 
 

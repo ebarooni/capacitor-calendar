@@ -35,14 +35,17 @@ public class CapacitorReminders: NSObject {
             case .authorized, .fullAccess:
                 permissionsState = [
                     "writeReminders": PermissionState.granted.rawValue,
+                    "readReminders": PermissionState.granted.rawValue,
                 ]
             case .denied, .restricted:
                 permissionsState = [
                     "writeReminders": PermissionState.denied.rawValue,
+                    "readReminders": PermissionState.denied.rawValue,
                 ]
             case .writeOnly, .notDetermined:
                 permissionsState = [
                     "writeReminders": PermissionState.prompt.rawValue,
+                    "readReminders": PermissionState.prompt.rawValue,
                 ]
             @unknown default:
                 continuation.resume(throwing: CapacitorCalendarPluginError.unknownPermissionStatus)

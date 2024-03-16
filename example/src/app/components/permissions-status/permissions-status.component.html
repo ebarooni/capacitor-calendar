@@ -23,6 +23,16 @@
     </ion-badge>
   </ion-item>
   <ion-item>
+    <ion-label>readReminders</ion-label>
+    <ion-badge
+      *ngrxLet="storeService.selectReadRemindersStatus$ as readRemindersState; suspenseTpl: loading"
+      [slot]="'end'"
+      [color]="readRemindersState === 'granted' ? 'success' : readRemindersState === 'denied' ? 'danger' : 'warning'"
+    >
+      {{ readRemindersState }}
+    </ion-badge>
+  </ion-item>
+  <ion-item>
     <ion-label>writeReminders</ion-label>
     <ion-badge
       *ngrxLet="storeService.selectWriteRemindersStatus$ as writeRemindersState; suspenseTpl: loading"

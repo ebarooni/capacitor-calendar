@@ -26,6 +26,7 @@ const initialState = <State>{
   permissions: {
     readCalendar: 'prompt',
     writeCalendar: 'prompt',
+    readReminders: 'prompt',
     writeReminders: 'prompt'
   },
   appVersion: '0.4.1'
@@ -89,6 +90,13 @@ export class StoreService {
     .pipe(
       map((state) => state.permissions),
       map(({ writeCalendar }) => writeCalendar),
+      distinctUntilChanged()
+    );
+
+  readonly selectReadRemindersStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ readReminders }) => readReminders),
       distinctUntilChanged()
     );
 

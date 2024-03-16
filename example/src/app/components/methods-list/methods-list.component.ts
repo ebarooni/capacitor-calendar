@@ -122,6 +122,9 @@ export class MethodsListComponent {
           case 'writeCalendar':
             update = { 'writeCalendar': result.result };
             break;
+          case 'readReminders':
+            update = { 'readReminders': result.result };
+            break;
           case 'writeReminders':
             update = { 'writeReminders': result.result };
             break;
