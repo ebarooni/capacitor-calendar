@@ -65,6 +65,13 @@
   >
     <ion-label>{{ selectCalendarsWithPrompt.name }}</ion-label>
   </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="getDefaultRemindersList()"
+  >
+    <ion-label>{{ getDefaultRemindersList.name }}</ion-label>
+  </ion-item>
 </ion-list>
 
 <ion-picker
