@@ -217,5 +217,18 @@ export interface CapacitorCalendarPlugin {
    */
   createEvent(options: { title: string, calendarId?: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
 
+  /**
+   * Retrieves the default reminders list set on the device.
+   *
+   * @method getDefaultRemindersList
+   * @platform iOS
+   * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default reminder list set on the device.
+   * The returned calendar object contains an ID and a title.
+   * @example
+   * const { result } = await getDefaultRemindersList();
+   * console.log(result); // { id: '1', title: 'Default Reminders List' }
+   */
+  getDefaultRemindersList(): Promise<{ result: Calendar }>;
+
   createReminder(options: { title: string }): Promise<{ reminderCreated: boolean }>;
 }

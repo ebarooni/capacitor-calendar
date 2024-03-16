@@ -180,4 +180,13 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+    
+    @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
+        do {
+            try call.resolve(["result": reminders.getDefaultRemindersList()])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] No default Reminders list was found")
+            return
+        }
+    }
 }

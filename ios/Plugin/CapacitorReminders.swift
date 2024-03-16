@@ -16,6 +16,18 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
     
+    public func getDefaultRemindersList() throws -> [String: String] {
+        let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
+        if (defaultRemindersList != nil) {
+            return [
+                "id": defaultRemindersList!.calendarIdentifier,
+                "title": defaultRemindersList!.title
+            ]
+        } else {
+            throw CapacitorCalendarPluginError.noDefaultCalendar
+        }
+    }
+    
     public func checkAllPermissions() async throws -> [String: String] {
         return try await withCheckedThrowingContinuation { continuation in
             var permissionsState: [String: String]
