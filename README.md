@@ -92,14 +92,14 @@ permissions can be found below:
 ### checkPermission(...)
 
 ```typescript
-checkPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+checkPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
 ```
 
 Checks the current authorization status of a specific permission.
 
-| Param         | Type                                                                                            | Description                               |
-| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                      | Description                               |
+| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -109,12 +109,12 @@ Checks the current authorization status of a specific permission.
 ### checkAllPermissions()
 
 ```typescript
-checkAllPermissions() => Promise<CalendarPermissionStatus>
+checkAllPermissions() => Promise<PluginPermissionsMap>
 ```
 
 Checks the current authorization status of all the required permissions for the plugin.
 
-**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
 --------------------
 
@@ -122,15 +122,15 @@ Checks the current authorization status of all the required permissions for the 
 ### requestPermission(...)
 
 ```typescript
-requestPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+requestPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
 ```
 
 Requests authorization to a specific permission, if not already granted.
 If the permission is already granted, it will directly return the status.
 
-| Param         | Type                                                                                            | Description                               |
-| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                      | Description                               |
+| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -140,12 +140,12 @@ If the permission is already granted, it will directly return the status.
 ### requestAllPermissions()
 
 ```typescript
-requestAllPermissions() => Promise<CalendarPermissionStatus>
+requestAllPermissions() => Promise<PluginPermissionsMap>
 ```
 
 Requests authorization to all the required permissions for the plugin, if they have not already been granted.
 
-**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
 --------------------
 
@@ -229,12 +229,12 @@ Creates an event with the provided options.
 ### getDefaultRemindersList()
 
 ```typescript
-getDefaultRemindersList() => Promise<{ result: Calendar; }>
+getDefaultRemindersList() => Promise<{ result: RemindersList; }>
 ```
 
 Retrieves the default reminders list set on the device.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#reminderslist">RemindersList</a>; }&gt;</code>
 
 --------------------
 
@@ -242,12 +242,12 @@ Retrieves the default reminders list set on the device.
 ### getRemindersLists()
 
 ```typescript
-getRemindersLists() => Promise<{ result: Calendar[]; }>
+getRemindersLists() => Promise<{ result: RemindersList[]; }>
 ```
 
 Retrieves all available reminders lists on the device.
 
-**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: RemindersList[]; }&gt;</code>
 
 --------------------
 
@@ -272,16 +272,7 @@ Creates a reminder with the provided options.
 ### Interfaces
 
 
-#### CalendarPermissionStatus
-
-Represents the status of calendar permissions.
-
-| Prop                 | Type                                                        | Description                                            |
-| -------------------- | ----------------------------------------------------------- | ------------------------------------------------------ |
-| **`readCalendar`**   | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for reading calendar.  |
-| **`writeCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing calendar.  |
-| **`readReminders`**  | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for reading reminders. |
-| **`writeReminders`** | <code><a href="#permissionstate">PermissionState</a></code> | Represents the permission state for writing reminders. |
+#### PluginPermissionsMap
 
 
 #### Calendar
@@ -345,6 +336,9 @@ Enables basic storage and retrieval of dates and times.
 | **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
 
 
+#### RemindersList
+
+
 ### Type Aliases
 
 
@@ -354,6 +348,16 @@ Enables basic storage and retrieval of dates and times.
 
 
 ### Enums
+
+
+#### PluginPermission
+
+| Members               | Value                         | Description                                            |
+| --------------------- | ----------------------------- | ------------------------------------------------------ |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Represents the permission state for reading calendar.  |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Represents the permission state for writing calendar.  |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
 
 
 #### CalendarChooserDisplayStyle
