@@ -5,7 +5,8 @@ import {
   CalendarChooserSelectionStyle,
   CapacitorCalendar,
   PluginPermission,
-  PluginPermissionsMap
+  PluginPermissionsMap,
+  ReminderRecurrenceFrequency
 } from "@ebarooni/capacitor-calendar";
 import {StoreService} from "../../store/store.service";
 import {calendarChooserPickerColumns} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns";
@@ -43,9 +44,7 @@ export class MethodsListComponent {
   constructor(
     private readonly storeService: StoreService,
     private readonly zone: NgZone
-  ) {
-    CalendarChooserDisplayStyle
-  }
+  ) {}
 
   public createEventWithPrompt(): void {
     CapacitorCalendar.createEventWithPrompt()
@@ -160,6 +159,11 @@ export class MethodsListComponent {
       isCompleted: false,
       url: 'https://capacitor-calendar.pages.dev/',
       location: 'Remote',
+      recurrence: {
+        frequency: ReminderRecurrenceFrequency.WEEKLY,
+        interval: 3,
+        end: Date.now() + (6 * 7 * 24 * 60 * 60 * 1000) // 6 weeks from now
+      }
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));

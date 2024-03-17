@@ -5,6 +5,7 @@ import type { PermissionState } from '@capacitor/core';
 import type {Calendar} from "./schemas/interfaces/calendar";
 import type {RemindersList} from "./schemas/interfaces/reminders-list";
 import type {PluginPermissionsMap} from './schemas/interfaces/plugin-permissions-map';
+import type {ReminderRecurrenceRule} from "./schemas/interfaces/reminder-recurrence-rule";
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -199,6 +200,7 @@ export interface CapacitorCalendarPlugin {
    * @param {string} [options.notes] - Additional notes about the reminder. (Optional)
    * @param {string} [options.url] - A URL to save under the reminder. (Optional)
    * @param {string} [options.location] - A location to save under the reminder. (Optional)
+   * @param {string} [options.recurrence] - The rules for the recurrence of the reminder. (Optional)
    * @returns {Promise<{ reminderCreated: boolean }>} A Promise that resolves with an object indicating whether the reminder was created successfully.
    * The resolved object has a property 'reminderCreated' which is a boolean value representing whether the reminder was created.
    * @example
@@ -227,5 +229,6 @@ export interface CapacitorCalendarPlugin {
     notes?: string,
     url?: string,
     location?: string,
+    recurrence?: ReminderRecurrenceRule,
   }): Promise<{ reminderCreated: boolean }>;
 }

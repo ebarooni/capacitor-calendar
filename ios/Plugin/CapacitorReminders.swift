@@ -11,6 +11,12 @@ import EventKit
 
 public class CapacitorReminders: NSObject {
     private let eventStore: EKEventStore
+    private let recurrenceFrequencyMapping: [Int: EKRecurrenceFrequency] = [
+        0: .daily,
+        1: .weekly,
+        2: .monthly,
+        3: .yearly
+    ]
     
     init(eventStore: EKEventStore) {
         self.eventStore = eventStore
@@ -59,7 +65,7 @@ public class CapacitorReminders: NSObject {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
     
-    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?, location: String?) throws -> Void {
+    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?, location: String?, frequency: Int?, interval: Int?, end: Double?) throws -> Void {
         let newReminder = EKReminder(eventStore: eventStore)
         newReminder.title = title
         if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
@@ -99,6 +105,17 @@ public class CapacitorReminders: NSObject {
         }
         if let location = location {
             newReminder.location = location
+        }
+        if let frequency = frequency, let interval = interval {
+            var endDate: EKRecurrenceEnd? = nil
+            if let end = end {
+                endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
+            }
+            newReminder.recurrenceRules = [EKRecurrenceRule(
+                recurrenceWith: recurrenceFrequencyMapping[frequency]!,
+                interval: interval,
+                end: endDate
+            )]
         }
         
         do {

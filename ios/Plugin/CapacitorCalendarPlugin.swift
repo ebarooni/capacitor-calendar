@@ -217,9 +217,33 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let notes = call.getString("notes")
         let url = call.getString("url")
         let location = call.getString("location")
+        var frequency: Int? = nil
+        var interval: Int? = nil
+        var end: Double? = nil
+        if let recurrence = call.getObject("recurrence") {
+            if let repFrequency = recurrence["frequency"] as? Int? {
+                frequency = repFrequency
+            } else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must me provided when using recurrence")
+                return
+            }
+            if let repInterval = recurrence["interval"] as? Int {
+                if (repInterval < 1) {
+                    call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0")
+                    return
+                }
+                interval = repInterval
+            } else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must me provided when using recurrence")
+                return
+            }
+            if let repEnd = recurrence["end"] as? Double {
+                end = repEnd
+            }
+        }
         
         do {
-            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes, url: url, location: location)
+            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes, url: url, location: location, frequency: frequency, interval: interval, end: end)
             call.resolve(["reminderCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
