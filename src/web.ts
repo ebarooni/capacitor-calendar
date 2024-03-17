@@ -1,6 +1,7 @@
 import {PermissionState, WebPlugin} from '@capacitor/core';
 import {CapacitorCalendarPlugin} from './definitions';
 import {PluginPermission} from './schemas/enums/plugin-permission';
+import {ReminderRecurrenceRule} from "./schemas/interfaces/reminder-recurrence-rule";
 import type {Calendar} from "./schemas/interfaces/calendar";
 import type {RemindersList} from "./schemas/interfaces/reminders-list";
 import type {PluginPermissionsMap} from './schemas/interfaces/plugin-permissions-map';
@@ -58,6 +59,7 @@ export class CapacitorCalendarWeb
         notes?: string,
         url?: string,
         location?: string,
+        recurrence?: ReminderRecurrenceRule,
     }): Promise<{ reminderCreated: boolean }> {
         throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
     }

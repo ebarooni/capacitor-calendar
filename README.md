@@ -255,14 +255,14 @@ Retrieves all available reminders lists on the device.
 ### createReminder(...)
 
 ```typescript
-createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; }) => Promise<{ reminderCreated: boolean; }>
+createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ reminderCreated: boolean; }>
 ```
 
 Creates a reminder with the provided options.
 
-| Param         | Type                                                                                                                                                                                                       | Description                          |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; }</code> | - Options for creating the reminder. |
+| Param         | Type                                                                                                                                                                                                                                                                                  | Description                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | - Options for creating the reminder. |
 
 **Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
 
@@ -339,6 +339,15 @@ Enables basic storage and retrieval of dates and times.
 #### RemindersList
 
 
+#### ReminderRecurrenceRule
+
+| Prop            | Type                                                                                |
+| --------------- | ----------------------------------------------------------------------------------- |
+| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> |
+| **`interval`**  | <code>number</code>                                                                 |
+| **`end`**       | <code>number</code>                                                                 |
+
+
 ### Type Aliases
 
 
@@ -374,5 +383,15 @@ Enables basic storage and retrieval of dates and times.
 | -------------- | ------------------------------------------------------- |
 | **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
 | **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
+
+
+#### ReminderRecurrenceFrequency
+
+| Members       |
+| ------------- |
+| **`DAILY`**   |
+| **`WEEKLY`**  |
+| **`MONTHLY`** |
+| **`YEARLY`**  |
 
 </docgen-api>
