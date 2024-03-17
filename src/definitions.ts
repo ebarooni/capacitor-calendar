@@ -1,78 +1,10 @@
+import {CalendarChooserDisplayStyle} from "./schemas/enums/calendar-chooser-display-style";
+import {CalendarChooserSelectionStyle} from "./schemas/enums/calendar-chooser-selection-style";
+import {PluginPermission} from "./schemas/enums/plugin-permission";
 import type { PermissionState } from '@capacitor/core';
-
-/**
- * Enum representing the selection style for the calendar chooser.
- * @enum
- * @platform iOS
- */
-export enum CalendarChooserSelectionStyle {
-  /**
-   * Allows only a single selection in the calendar chooser.
-   */
-  SINGLE,
-
-  /**
-   * Allows multiple selections in the calendar chooser.
-   */
-  MULTIPLE
-}
-
-/**
- * Enum representing the display styles for the calendar chooser.
- * @enum
- * @platform iOS
- */
-export enum CalendarChooserDisplayStyle {
-  /**
-   * Display all calendars available for selection.
-   */
-  ALL_CALENDARS,
-
-  /**
-   * Display only writable calendars available for selection.
-   */
-  WRITABLE_CALENDARS_ONLY
-}
-
-/**
- * Represents a calendar object with an ID and title.
- *
- * @interface Calendar
- * @platform iOS, Android
- * @property {string} id - The unique identifier of the calendar.
- * @property {string} title - The title or name of the calendar.
- */
-export interface Calendar {
-  id: string;
-  title: string;
-}
-
-/**
- * Represents the status of calendar permissions.
- * @interface
- */
-export interface CalendarPermissionStatus {
-  /**
-   * Represents the permission state for reading calendar.
-   * @platform iOS, Android
-   */
-  readCalendar: PermissionState;
-  /**
-   * Represents the permission state for writing calendar.
-   * @platform iOS, Android
-   */
-  writeCalendar: PermissionState;
-  /**
-   * Represents the permission state for reading reminders.
-   * @platform iOS
-   */
-  readReminders: PermissionState;
-  /**
-   * Represents the permission state for writing reminders.
-   * @platform iOS
-   */
-  writeReminders: PermissionState;
-}
+import type {Calendar} from "./schemas/interfaces/calendar";
+import type {RemindersList} from "./schemas/interfaces/reminders-list";
+import type {PluginPermissionsMap} from './schemas/interfaces/plugin-permissions-map';
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -85,18 +17,18 @@ export interface CapacitorCalendarPlugin {
    * @example
    * const status = await this.checkPermission({ alias: 'readCalendar' });
    */
-  checkPermission(options: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
+  checkPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
 
   /**
    * Checks the current authorization status of all the required permissions for the plugin.
    *
    * @method
    * @platform iOS, Android
-   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with an object containing all the permissions and their status.
+   * @returns {Promise&lt;PluginPermissionsMap&gt;} – A promise that resolves with an object containing all the permissions and their status.
    * @example
    * const permissionsStatus = await this.checkAllPermissions();
    */
-  checkAllPermissions(): Promise<CalendarPermissionStatus>;
+  checkAllPermissions(): Promise<PluginPermissionsMap>;
 
   /**
    * Requests authorization to a specific permission, if not already granted.
@@ -109,18 +41,18 @@ export interface CapacitorCalendarPlugin {
    * @example
    * const result = await this.requestPermission({ alias: 'readCalendar' });
    */
-  requestPermission(options: { alias: keyof CalendarPermissionStatus }): Promise<{ result: PermissionState }>;
+  requestPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
 
   /**
    * Requests authorization to all the required permissions for the plugin, if they have not already been granted.
    *
    * @method
    * @platform iOS, Android
-   * @returns {Promise&lt;CalendarPermissionStatus&gt;} – A promise that resolves with the new permission statuses after the request is made.
+   * @returns {Promise&lt;PluginPermissionsMap&gt;} – A promise that resolves with the new permission statuses after the request is made.
    * @example
    * const permissionResults = await this.requestAllPermissions();
    */
-  requestAllPermissions(): Promise<CalendarPermissionStatus>;
+  requestAllPermissions(): Promise<PluginPermissionsMap>;
 
   /**
    * Creates an event in the calendar by using the native calendar.
@@ -227,13 +159,13 @@ export interface CapacitorCalendarPlugin {
    *
    * @method getDefaultRemindersList
    * @platform iOS
-   * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default reminder list set on the device.
-   * The returned calendar object contains an ID and a title.
+   * @returns {Promise<{ result: RemindersList }>} A promise that resolves with the default reminder list set on the device.
+   * The returned reminders list object contains an ID and a title.
    * @example
    * const { result } = await getDefaultRemindersList();
    * console.log(result); // { id: '1', title: 'Default Reminders List' }
    */
-  getDefaultRemindersList(): Promise<{ result: Calendar }>;
+  getDefaultRemindersList(): Promise<{ result: RemindersList }>;
 
   /**
    * Retrieves all available reminders lists on the device.
@@ -241,13 +173,13 @@ export interface CapacitorCalendarPlugin {
    * @async
    * @method getRemindersLists
    * @platform iOS
-   * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of reminders lists available on the device.
-   * Each calendar object in the array contains an ID and a title.
+   * @returns {Promise<{ result: RemindersList[] }>} A promise that resolves with an array of reminders lists available on the device.
+   * Each reminders list object in the array contains an ID and a title.
    * @example
    * const { result } = await getRemindersLists();
    * console.log(result); // [{ id: '1', title: 'Groceries' }, { id: '2', title: 'Subscriptions' }]
    */
-  getRemindersLists(): Promise<{ result: Calendar[] }>;
+  getRemindersLists(): Promise<{ result: RemindersList[] }>;
 
   /**
    * Creates a reminder with the provided options.
