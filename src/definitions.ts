@@ -266,6 +266,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.completionDate] - The date at which the reminder was completed. (Optional)
    * @param {string} [options.notes] - Additional notes about the reminder. (Optional)
    * @param {string} [options.url] - A URL to save under the reminder. (Optional)
+   * @param {string} [options.location] - A location to save under the reminder. (Optional)
    * @returns {Promise<{ reminderCreated: boolean }>} A Promise that resolves with an object indicating whether the reminder was created successfully.
    * The resolved object has a property 'reminderCreated' which is a boolean value representing whether the reminder was created.
    * @example
@@ -277,7 +278,8 @@ export interface CapacitorCalendarPlugin {
    *   isCompleted: false,
    *   startDateComponents: now,
    *   notes: 'Also buy tomatoes',
-   *   url: 'https://capacitor-calendar.pages.dev/'
+   *   url: 'https://capacitor-calendar.pages.dev/',
+   *   location: 'My Local Supermarket'
    * };
    * const { eventCreated } = await createEvent(eventOptions);
    * console.log(eventCreated); // true
@@ -292,5 +294,6 @@ export interface CapacitorCalendarPlugin {
     completionDate?: number,
     notes?: string,
     url?: string,
+    location?: string,
   }): Promise<{ reminderCreated: boolean }>;
 }
