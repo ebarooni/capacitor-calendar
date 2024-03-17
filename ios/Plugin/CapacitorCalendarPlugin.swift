@@ -215,9 +215,10 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let dueDate = call.getDouble("dueDate")
         let completionDate = call.getDouble("completionDate")
         let notes = call.getString("notes")
+        let url = call.getString("url")
         
         do {
-            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes)
+            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes, url: url)
             call.resolve(["reminderCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
