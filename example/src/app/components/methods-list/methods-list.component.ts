@@ -154,6 +154,7 @@ export class MethodsListComponent {
       priority: 5,
       dueDate: Date.now(),
       isCompleted: false,
+      url: 'https://capacitor-calendar.pages.dev/'
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));

@@ -59,7 +59,7 @@ public class CapacitorReminders: NSObject {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
     
-    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?) throws -> Void {
+    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?) throws -> Void {
         let newReminder = EKReminder(eventStore: eventStore)
         newReminder.title = title
         if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
@@ -93,6 +93,9 @@ public class CapacitorReminders: NSObject {
         }
         if let notes = notes {
             newReminder.notes = notes
+        }
+        if let url = url {
+            newReminder.url = URL(string: url)
         }
         
         do {
