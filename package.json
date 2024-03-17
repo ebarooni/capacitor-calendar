@@ -45,7 +45,7 @@
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"
@@ -64,7 +64,7 @@
     "prettier": "~2.3.0",
     "prettier-plugin-java": "~1.0.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.32.0",
+    "rollup": "^4.13.0",
     "swiftlint": "^1.0.1",
     "typescript": "~5.3.3"
   },
