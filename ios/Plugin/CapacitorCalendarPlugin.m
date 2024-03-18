@@ -13,4 +13,7 @@ CAP_PLUGIN(CapacitorCalendarPlugin, "CapacitorCalendar",
            CAP_PLUGIN_METHOD(listCalendars, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getDefaultCalendar, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(createEvent, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getDefaultRemindersList, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getRemindersLists, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createReminder, CAPPluginReturnPromise);
 )

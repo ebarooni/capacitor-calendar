@@ -1,9 +1,7 @@
 <h1 align="center">CapacitorCalendar</h1>
 <p align="center">
     <em>
-        This CapacitorJS plugin simplifies the process of managing calendar events within your hybrid mobile applications. 
-        With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
-        calendar directly from your app.
+        The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.
     </em>
 </p>
 <p align="center">
@@ -77,6 +75,9 @@ permissions can be found below:
 * [`listCalendars()`](#listcalendars)
 * [`getDefaultCalendar()`](#getdefaultcalendar)
 * [`createEvent(...)`](#createevent)
+* [`getDefaultRemindersList()`](#getdefaultreminderslist)
+* [`getRemindersLists()`](#getreminderslists)
+* [`createReminder(...)`](#createreminder)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 * [Enums](#enums)
@@ -89,14 +90,14 @@ permissions can be found below:
 ### checkPermission(...)
 
 ```typescript
-checkPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+checkPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
 ```
 
 Checks the current authorization status of a specific permission.
 
-| Param         | Type                                                                                            | Description                               |
-| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                      | Description                               |
+| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -106,12 +107,12 @@ Checks the current authorization status of a specific permission.
 ### checkAllPermissions()
 
 ```typescript
-checkAllPermissions() => Promise<CalendarPermissionStatus>
+checkAllPermissions() => Promise<PluginPermissionsMap>
 ```
 
 Checks the current authorization status of all the required permissions for the plugin.
 
-**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
 --------------------
 
@@ -119,15 +120,15 @@ Checks the current authorization status of all the required permissions for the 
 ### requestPermission(...)
 
 ```typescript
-requestPermission(options: { alias: keyof CalendarPermissionStatus; }) => Promise<{ result: PermissionState; }>
+requestPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
 ```
 
 Requests authorization to a specific permission, if not already granted.
 If the permission is already granted, it will directly return the status.
 
-| Param         | Type                                                                                            | Description                               |
-| ------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: keyof <a href="#calendarpermissionstatus">CalendarPermissionStatus</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                      | Description                               |
+| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -137,12 +138,12 @@ If the permission is already granted, it will directly return the status.
 ### requestAllPermissions()
 
 ```typescript
-requestAllPermissions() => Promise<CalendarPermissionStatus>
+requestAllPermissions() => Promise<PluginPermissionsMap>
 ```
 
 Requests authorization to all the required permissions for the plugin, if they have not already been granted.
 
-**Returns:** <code>Promise&lt;<a href="#calendarpermissionstatus">CalendarPermissionStatus</a>&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
 --------------------
 
@@ -223,17 +224,53 @@ Creates an event with the provided options.
 --------------------
 
 
+### getDefaultRemindersList()
+
+```typescript
+getDefaultRemindersList() => Promise<{ result: RemindersList; }>
+```
+
+Retrieves the default reminders list set on the device.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#reminderslist">RemindersList</a>; }&gt;</code>
+
+--------------------
+
+
+### getRemindersLists()
+
+```typescript
+getRemindersLists() => Promise<{ result: RemindersList[]; }>
+```
+
+Retrieves all available reminders lists on the device.
+
+**Returns:** <code>Promise&lt;{ result: RemindersList[]; }&gt;</code>
+
+--------------------
+
+
+### createReminder(...)
+
+```typescript
+createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ reminderCreated: boolean; }>
+```
+
+Creates a reminder with the provided options.
+
+| Param         | Type                                                                                                                                                                                                                                                                                  | Description                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | - Options for creating the reminder. |
+
+**Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
+
+--------------------
+
+
 ### Interfaces
 
 
-#### CalendarPermissionStatus
-
-Describes the permission status for reading from the calendar.
-
-| Prop                | Type                                                        |
-| ------------------- | ----------------------------------------------------------- |
-| **`readCalendar`**  | <code><a href="#permissionstate">PermissionState</a></code> |
-| **`writeCalendar`** | <code><a href="#permissionstate">PermissionState</a></code> |
+#### PluginPermissionsMap
 
 
 #### Calendar
@@ -297,6 +334,18 @@ Enables basic storage and retrieval of dates and times.
 | **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
 
 
+#### RemindersList
+
+
+#### ReminderRecurrenceRule
+
+| Prop            | Type                                                                                | Description                                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
+| **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
+| **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
+
+
 ### Type Aliases
 
 
@@ -306,6 +355,16 @@ Enables basic storage and retrieval of dates and times.
 
 
 ### Enums
+
+
+#### PluginPermission
+
+| Members               | Value                         | Description                                            |
+| --------------------- | ----------------------------- | ------------------------------------------------------ |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Represents the permission state for reading calendar.  |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Represents the permission state for writing calendar.  |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
 
 
 #### CalendarChooserDisplayStyle
@@ -322,5 +381,15 @@ Enables basic storage and retrieval of dates and times.
 | -------------- | ------------------------------------------------------- |
 | **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
 | **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
+
+
+#### ReminderRecurrenceFrequency
+
+| Members       |
+| ------------- |
+| **`DAILY`**   |
+| **`WEEKLY`**  |
+| **`MONTHLY`** |
+| **`YEARLY`**  |
 
 </docgen-api>

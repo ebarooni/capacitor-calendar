@@ -2,7 +2,7 @@
   <ion-list-header>
     <ion-label>Permissions</ion-label>
   </ion-list-header>
-  <ion-item [lines]="'none'">
+  <ion-item>
     <ion-label>readCalendar</ion-label>
     <ion-badge
       *ngrxLet="storeService.selectReadCalendarStatus$ as readCalendarState; suspenseTpl: loading"
@@ -12,7 +12,7 @@
       {{ readCalendarState }}
     </ion-badge>
   </ion-item>
-  <ion-item [lines]="'none'">
+  <ion-item>
     <ion-label>writeCalendar</ion-label>
     <ion-badge
       *ngrxLet="storeService.selectWriteCalendarStatus$ as writeCalendarState; suspenseTpl: loading"
@@ -20,6 +20,26 @@
       [color]="writeCalendarState === 'granted' ? 'success' : writeCalendarState === 'denied' ? 'danger' : 'warning'"
     >
       {{ writeCalendarState }}
+    </ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>readReminders</ion-label>
+    <ion-badge
+      *ngrxLet="storeService.selectReadRemindersStatus$ as readRemindersState; suspenseTpl: loading"
+      [slot]="'end'"
+      [color]="readRemindersState === 'granted' ? 'success' : readRemindersState === 'denied' ? 'danger' : 'warning'"
+    >
+      {{ readRemindersState }}
+    </ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>writeReminders</ion-label>
+    <ion-badge
+      *ngrxLet="storeService.selectWriteRemindersStatus$ as writeRemindersState; suspenseTpl: loading"
+      [slot]="'end'"
+      [color]="writeRemindersState === 'granted' ? 'success' : writeRemindersState === 'denied' ? 'danger' : 'warning'"
+    >
+      {{ writeRemindersState }}
     </ion-badge>
   </ion-item>
 </ion-list>

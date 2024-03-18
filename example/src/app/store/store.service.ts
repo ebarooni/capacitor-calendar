@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, distinctUntilChanged, map, Observable, scan, shareReplay} from "rxjs";
-import {CalendarPermissionStatus} from "@ebarooni/capacitor-calendar";
+import {PluginPermission, PluginPermissionsMap} from "@ebarooni/capacitor-calendar";
 
 export interface Log {
   message: string;
@@ -11,7 +11,7 @@ export interface State {
   isDarkMode: boolean;
   logs: Log[];
   unreadLogs: number;
-  permissions: CalendarPermissionStatus;
+  permissions: PluginPermissionsMap;
   appVersion: string;
 }
 
@@ -24,10 +24,12 @@ const initialState = <State>{
   logs: [],
   unreadLogs: 0,
   permissions: {
-    readCalendar: 'prompt',
-    writeCalendar: 'prompt',
+    [PluginPermission.READ_CALENDAR]: 'prompt',
+    [PluginPermission.WRITE_CALENDAR]: 'prompt',
+    [PluginPermission.READ_REMINDERS]: 'prompt',
+    [PluginPermission.WRITE_REMINDERS]: 'prompt'
   },
-  appVersion: '0.4.1'
+  appVersion: '0.5.0'
 }
 
 @Injectable()
@@ -39,7 +41,7 @@ export class StoreService {
         ...currentState,
         ...partialState,
         permissions: partialState?.permissions
-          ? { ...currentState.permissions, ...partialState.permissions }
+          ? { ...currentState.permissions, ...(partialState.permissions as PluginPermissionsMap) }
           : currentState.permissions,
         logs: partialState?.logs?.length === 0
           ? []
@@ -88,6 +90,20 @@ export class StoreService {
     .pipe(
       map((state) => state.permissions),
       map(({ writeCalendar }) => writeCalendar),
+      distinctUntilChanged()
+    );
+
+  readonly selectReadRemindersStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ readReminders }) => readReminders),
+      distinctUntilChanged()
+    );
+
+  readonly selectWriteRemindersStatus$ = this.state$
+    .pipe(
+      map((state) => state.permissions),
+      map(({ writeReminders }) => writeReminders),
       distinctUntilChanged()
     );
 
