@@ -3,12 +3,14 @@ import {IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker} from "@io
 import {
   CalendarChooserDisplayStyle,
   CalendarChooserSelectionStyle,
-  CapacitorCalendar
+  CapacitorCalendar,
+  PluginPermission,
+  PluginPermissionsMap,
+  ReminderRecurrenceFrequency
 } from "@ebarooni/capacitor-calendar";
 import {StoreService} from "../../store/store.service";
 import {calendarChooserPickerColumns} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns";
 import {getCalendarChooserPickerButtons} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons";
-import {CalendarPermissionStatus} from "@ebarooni/capacitor-calendar";
 import {checkPermissionPickerColumns} from "../../ion-picker-data/check-permission/check-permission-picker-columns";
 import {getCheckPermissionPickerButtons} from "../../ion-picker-data/check-permission/check-permission-picker-buttons";
 
@@ -37,6 +39,7 @@ export class MethodsListComponent {
   public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons(
     (result: any) => this.zone.run(() => this.requestPermission(result.alias.value))
   );
+
 
   constructor(
     private readonly storeService: StoreService,
@@ -88,10 +91,10 @@ export class MethodsListComponent {
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
-  public checkPermission(alias: keyof CalendarPermissionStatus): void {
+  public checkPermission(alias: PluginPermission): void {
     CapacitorCalendar.checkPermission({ alias: alias })
       .then((response) => {
-        const permissionState: Partial<CalendarPermissionStatus> = {};
+        const permissionState: Partial<PluginPermissionsMap> = {};
         permissionState[alias] = response.result;
         this.storeService.updateState({ permissions: permissionState });
         this.storeService.dispatchLog(JSON.stringify(response));
@@ -102,30 +105,67 @@ export class MethodsListComponent {
   public createEvent(): void {
     const now = Date.now();
     CapacitorCalendar.createEvent({
-      title: 'CapacitorCalendar',
+      title: 'Capacitor Calendar',
       endDate: new Date(now + 2 * 60 * 60 * 1000),
-      location: 'CapacitorCalendar',
+      location: 'Capacitor Calendar',
       isAllDay: false
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
-  public requestPermission(alias: keyof CalendarPermissionStatus): void {
+  public requestPermission(alias: PluginPermission): void {
     CapacitorCalendar.requestPermission({ alias: alias })
       .then((result) => {
-        let update: Partial<CalendarPermissionStatus>
+        let update: Partial<PluginPermissionsMap> = {}
         switch (alias) {
-          case 'readCalendar':
-            update = { 'readCalendar': result.result };
+          case PluginPermission.READ_CALENDAR:
+            update[PluginPermission.READ_CALENDAR] = result.result;
             break;
-          case "writeCalendar":
-            update = { 'writeCalendar': result.result };
+          case PluginPermission.WRITE_CALENDAR:
+            update[PluginPermission.WRITE_CALENDAR] = result.result;
+            break;
+          case PluginPermission.READ_REMINDERS:
+            update[PluginPermission.READ_REMINDERS] = result.result;
+            break;
+          case PluginPermission.WRITE_REMINDERS:
+            update[PluginPermission.WRITE_REMINDERS] = result.result;
             break;
         }
         this.storeService.updateState({ permissions: update });
         this.storeService.dispatchLog(JSON.stringify(result));
       })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public getDefaultRemindersList(): void {
+    CapacitorCalendar.getDefaultRemindersList()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public getRemindersLists(): void {
+    CapacitorCalendar.getRemindersLists()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public createReminder(): void {
+    CapacitorCalendar.createReminder({
+      title: 'Capacitor Calendar',
+      notes: 'A CapacitorJS Plugin',
+      priority: 5,
+      dueDate: Date.now(),
+      isCompleted: false,
+      url: 'https://capacitor-calendar.pages.dev/',
+      location: 'Remote',
+      recurrence: {
+        frequency: ReminderRecurrenceFrequency.WEEKLY,
+        interval: 3,
+        end: Date.now() + (6 * 7 * 24 * 60 * 60 * 1000) // 6 weeks from now
+      }
+    })
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }
