@@ -341,11 +341,11 @@ Enables basic storage and retrieval of dates and times.
 
 #### ReminderRecurrenceRule
 
-| Prop            | Type                                                                                |
-| --------------- | ----------------------------------------------------------------------------------- |
-| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> |
-| **`interval`**  | <code>number</code>                                                                 |
-| **`end`**       | <code>number</code>                                                                 |
+| Prop            | Type                                                                                | Description                                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
+| **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
+| **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
 
 
 ### Type Aliases
