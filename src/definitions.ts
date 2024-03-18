@@ -205,7 +205,12 @@ export interface CapacitorCalendarPlugin {
    * The resolved object has a property 'reminderCreated' which is a boolean value representing whether the reminder was created.
    * @example
    * const now = Date.now();
-   * const eventOptions = {
+   * const rules: ReminderRecurrenceRule = {
+   *     frequency: ReminderRecurrenceFrequency.MONTHLY,
+   *     interval: 10,
+   *     end: Date.now()
+   * }
+   * const reminderOptions = {
    *   title: 'Buy cucumber',
    *   listId: 'ABC12',
    *   priority: 5,
@@ -213,10 +218,11 @@ export interface CapacitorCalendarPlugin {
    *   startDateComponents: now,
    *   notes: 'Also buy tomatoes',
    *   url: 'https://capacitor-calendar.pages.dev/',
-   *   location: 'My Local Supermarket'
+   *   location: 'My Local Supermarket',
+   *   recurrence: rules
    * };
-   * const { eventCreated } = await createEvent(eventOptions);
-   * console.log(eventCreated); // true
+   * const { reminderCreated } = await createReminder(reminderOptions);
+   * console.log(reminderCreated); // true
    */
   createReminder(options: {
     title: string,
