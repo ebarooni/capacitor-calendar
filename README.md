@@ -1,9 +1,7 @@
 <h1 align="center">CapacitorCalendar</h1>
 <p align="center">
     <em>
-        This CapacitorJS plugin simplifies the process of managing calendar events within your hybrid mobile applications. 
-        With CRUD functionalities (Create, Read, Update, Delete), you can seamlessly interact with the device's native 
-        calendar directly from your app.
+        The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.
     </em>
 </p>
 <p align="center">
