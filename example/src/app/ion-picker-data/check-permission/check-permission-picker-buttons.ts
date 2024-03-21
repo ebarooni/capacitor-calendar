@@ -8,5 +8,5 @@ export function getCheckPermissionPickerButtons(successCallback: (result: any) =
       text: 'Confirm',
       handler: successCallback,
     },
-  ]
+  ];
 }

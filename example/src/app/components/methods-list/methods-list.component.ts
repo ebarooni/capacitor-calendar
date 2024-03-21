@@ -1,45 +1,37 @@
-import {Component, NgZone} from '@angular/core';
-import {IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker} from "@ionic/angular/standalone";
+import { Component, NgZone } from '@angular/core';
+import { IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker } from '@ionic/angular/standalone';
 import {
   CalendarChooserDisplayStyle,
   CalendarChooserSelectionStyle,
   CapacitorCalendar,
   PluginPermission,
   PluginPermissionsMap,
-  ReminderRecurrenceFrequency
-} from "@ebarooni/capacitor-calendar";
-import {StoreService} from "../../store/store.service";
-import {calendarChooserPickerColumns} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns";
-import {getCalendarChooserPickerButtons} from "../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons";
-import {checkPermissionPickerColumns} from "../../ion-picker-data/check-permission/check-permission-picker-columns";
-import {getCheckPermissionPickerButtons} from "../../ion-picker-data/check-permission/check-permission-picker-buttons";
+  ReminderRecurrenceFrequency,
+} from '@ebarooni/capacitor-calendar';
+import { StoreService } from '../../store/store.service';
+import { calendarChooserPickerColumns } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns';
+import { getCalendarChooserPickerButtons } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons';
+import { checkPermissionPickerColumns } from '../../ion-picker-data/check-permission/check-permission-picker-columns';
+import { getCheckPermissionPickerButtons } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
 
 @Component({
   selector: 'app-methods-list',
   templateUrl: './methods-list.component.html',
-  imports: [
-    IonIcon,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonListHeader,
-    IonPicker
-  ],
-  standalone: true
+  imports: [IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker],
+  standalone: true,
 })
 export class MethodsListComponent {
   public readonly calendarChooserPickerColumns = calendarChooserPickerColumns;
-  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons(
-    (result: any) => this.zone.run(() => this.selectCalendarsWithPrompt(result.selectionStyle.value, result.displayStyle.value))
+  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons((result: any) =>
+    this.zone.run(() => this.selectCalendarsWithPrompt(result.selectionStyle.value, result.displayStyle.value))
   );
   public readonly checkPermissionPickerColumns = checkPermissionPickerColumns;
-  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
-    (result: any) => this.zone.run(() => this.checkPermission(result.alias.value))
+  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons((result: any) =>
+    this.zone.run(() => this.checkPermission(result.alias.value))
   );
-  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons(
-    (result: any) => this.zone.run(() => this.requestPermission(result.alias.value))
+  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons((result: any) =>
+    this.zone.run(() => this.requestPermission(result.alias.value))
   );
-
 
   constructor(
     private readonly storeService: StoreService,
@@ -108,7 +100,7 @@ export class MethodsListComponent {
       title: 'Capacitor Calendar',
       endDate: new Date(now + 2 * 60 * 60 * 1000),
       location: 'Capacitor Calendar',
-      isAllDay: false
+      isAllDay: false,
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
@@ -117,7 +109,7 @@ export class MethodsListComponent {
   public requestPermission(alias: PluginPermission): void {
     CapacitorCalendar.requestPermission({ alias: alias })
       .then((result) => {
-        let update: Partial<PluginPermissionsMap> = {}
+        const update: Partial<PluginPermissionsMap> = {};
         switch (alias) {
           case PluginPermission.READ_CALENDAR:
             update[PluginPermission.READ_CALENDAR] = result.result;
@@ -162,8 +154,8 @@ export class MethodsListComponent {
       recurrence: {
         frequency: ReminderRecurrenceFrequency.WEEKLY,
         interval: 3,
-        end: Date.now() + (6 * 7 * 24 * 60 * 60 * 1000) // 6 weeks from now
-      }
+        end: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
+      },
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
