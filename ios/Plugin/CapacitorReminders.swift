@@ -17,14 +17,14 @@ public class CapacitorReminders: NSObject {
         2: .monthly,
         3: .yearly
     ]
-    
+
     init(eventStore: EKEventStore) {
         self.eventStore = eventStore
     }
-    
+
     public func getDefaultRemindersList() throws -> [String: String] {
         let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
-        if (defaultRemindersList != nil) {
+        if defaultRemindersList != nil {
             return [
                 "id": defaultRemindersList!.calendarIdentifier,
                 "title": defaultRemindersList!.title
@@ -33,7 +33,7 @@ public class CapacitorReminders: NSObject {
             throw CapacitorCalendarPluginError.noDefaultCalendar
         }
     }
-    
+
     public func checkAllPermissions() async throws -> [String: String] {
         return try await withCheckedThrowingContinuation { continuation in
             var permissionsState: [String: String]
@@ -41,17 +41,17 @@ public class CapacitorReminders: NSObject {
             case .authorized, .fullAccess:
                 permissionsState = [
                     "writeReminders": PermissionState.granted.rawValue,
-                    "readReminders": PermissionState.granted.rawValue,
+                    "readReminders": PermissionState.granted.rawValue
                 ]
             case .denied, .restricted:
                 permissionsState = [
                     "writeReminders": PermissionState.denied.rawValue,
-                    "readReminders": PermissionState.denied.rawValue,
+                    "readReminders": PermissionState.denied.rawValue
                 ]
             case .writeOnly, .notDetermined:
                 permissionsState = [
                     "writeReminders": PermissionState.prompt.rawValue,
-                    "readReminders": PermissionState.prompt.rawValue,
+                    "readReminders": PermissionState.prompt.rawValue
                 ]
             @unknown default:
                 continuation.resume(throwing: CapacitorCalendarPluginError.unknownPermissionStatus)
@@ -60,12 +60,12 @@ public class CapacitorReminders: NSObject {
             continuation.resume(returning: permissionsState)
         }
     }
-    
+
     public func getRemindersLists() -> [[String: String]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
-    
-    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?, location: String?, frequency: Int?, interval: Int?, end: Double?) throws -> Void {
+
+    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?, location: String?, frequency: Int?, interval: Int?, end: Double?) throws {
         let newReminder = EKReminder(eventStore: eventStore)
         newReminder.title = title
         if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
@@ -107,7 +107,7 @@ public class CapacitorReminders: NSObject {
             newReminder.location = location
         }
         if let frequency = frequency, let interval = interval {
-            var endDate: EKRecurrenceEnd? = nil
+            var endDate: EKRecurrenceEnd?
             if let end = end {
                 endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
             }
@@ -117,14 +117,14 @@ public class CapacitorReminders: NSObject {
                 end: endDate
             )]
         }
-        
+
         do {
             try eventStore.save(newReminder, commit: true)
         } catch {
             throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
         }
     }
-    
+
     public func requestFullAccessToReminders() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             if #available(iOS 17.0, *) {
@@ -133,7 +133,7 @@ public class CapacitorReminders: NSObject {
                         continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
                         return
                     }
-                    
+
                     var permissionState: String
                     if granted {
                         permissionState = PermissionState.granted.rawValue
@@ -148,7 +148,7 @@ public class CapacitorReminders: NSObject {
                         continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
                         return
                     }
-                    
+
                     var permissionState: String
                     if granted {
                         permissionState = PermissionState.granted.rawValue
@@ -160,7 +160,7 @@ public class CapacitorReminders: NSObject {
             }
         }
     }
-    
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
         var result: [[String: String]] = []
 
