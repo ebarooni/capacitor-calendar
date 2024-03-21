@@ -1,4 +1,4 @@
-import {CalendarChooserDisplayStyle, CalendarChooserSelectionStyle} from "../../../../../dist/esm";
+import { CalendarChooserDisplayStyle, CalendarChooserSelectionStyle } from '@ebarooni/capacitor-calendar';
 
 export const calendarChooserPickerColumns = [
   {

@@ -1,11 +1,11 @@
-import {CalendarChooserDisplayStyle} from "./schemas/enums/calendar-chooser-display-style";
-import {CalendarChooserSelectionStyle} from "./schemas/enums/calendar-chooser-selection-style";
-import {PluginPermission} from "./schemas/enums/plugin-permission";
+import { CalendarChooserDisplayStyle } from './schemas/enums/calendar-chooser-display-style';
+import { CalendarChooserSelectionStyle } from './schemas/enums/calendar-chooser-selection-style';
+import { PluginPermission } from './schemas/enums/plugin-permission';
 import type { PermissionState } from '@capacitor/core';
-import type {Calendar} from "./schemas/interfaces/calendar";
-import type {RemindersList} from "./schemas/interfaces/reminders-list";
-import type {PluginPermissionsMap} from './schemas/interfaces/plugin-permissions-map';
-import type {ReminderRecurrenceRule} from "./schemas/interfaces/reminder-recurrence-rule";
+import type { Calendar } from './schemas/interfaces/calendar';
+import type { RemindersList } from './schemas/interfaces/reminders-list';
+import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
+import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -95,10 +95,9 @@ export interface CapacitorCalendarPlugin {
    * }
    */
   selectCalendarsWithPrompt(options: {
-    displayStyle: CalendarChooserDisplayStyle,
-    selectionStyle: CalendarChooserSelectionStyle
-  }): Promise<{ result: Calendar[] }>
-
+    displayStyle: CalendarChooserDisplayStyle;
+    selectionStyle: CalendarChooserSelectionStyle;
+  }): Promise<{ result: Calendar[] }>;
 
   /**
    * Retrieves a list of calendars available on the device.
@@ -153,7 +152,14 @@ export interface CapacitorCalendarPlugin {
    * const { eventCreated } = await createEvent(eventOptions);
    * console.log(eventCreated); // true
    */
-  createEvent(options: { title: string, calendarId?: string, location?: string, startDate?: Date, endDate?: Date, isAllDay?: boolean }): Promise<{ eventCreated: boolean }>;
+  createEvent(options: {
+    title: string;
+    calendarId?: string;
+    location?: string;
+    startDate?: Date;
+    endDate?: Date;
+    isAllDay?: boolean;
+  }): Promise<{ eventCreated: boolean }>;
 
   /**
    * Retrieves the default reminders list set on the device.
@@ -225,16 +231,16 @@ export interface CapacitorCalendarPlugin {
    * console.log(reminderCreated); // true
    */
   createReminder(options: {
-    title: string,
-    listId?: string,
-    priority?: number,
-    isCompleted?: boolean,
-    startDate?: number,
-    dueDate?: number,
-    completionDate?: number,
-    notes?: string,
-    url?: string,
-    location?: string,
-    recurrence?: ReminderRecurrenceRule,
+    title: string;
+    listId?: string;
+    priority?: number;
+    isCompleted?: boolean;
+    startDate?: number;
+    dueDate?: number;
+    completionDate?: number;
+    notes?: string;
+    url?: string;
+    location?: string;
+    recurrence?: ReminderRecurrenceRule;
   }): Promise<{ reminderCreated: boolean }>;
 }

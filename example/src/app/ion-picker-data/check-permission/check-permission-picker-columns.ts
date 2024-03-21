@@ -12,12 +12,12 @@ export const checkPermissionPickerColumns = [
       },
       {
         text: 'writeReminders',
-        value: 'writeReminders'
+        value: 'writeReminders',
       },
       {
         text: 'readReminders',
-        value: 'readReminders'
-      }
-    ]
-  }
-]
+        value: 'readReminders',
+      },
+    ],
+  },
+];

@@ -8,5 +8,5 @@ export function getCalendarChooserPickerButtons(successCallback: (result: any) =
       text: 'Confirm',
       handler: successCallback,
     },
-  ]
+  ];
 }

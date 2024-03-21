@@ -1,6 +1,6 @@
 export enum ReminderRecurrenceFrequency {
-    DAILY,
-    WEEKLY,
-    MONTHLY,
-    YEARLY,
+  DAILY,
+  WEEKLY,
+  MONTHLY,
+  YEARLY,
 }
