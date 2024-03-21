@@ -5,18 +5,19 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Running the project
 
 **Install dependencies, Build and sync:**
-   ```
-   npm run build
-   ```
 
-* **iOS**
-   1. ```
+```
+npm run build
+```
+
+- **iOS**
+
+  1.  ```
       npx cap open ios
       ```
-   2. Select a team under "Signing and Capabilities"
+  2.  Select a team under "Signing and Capabilities"
 
-
-* **Android**
+- **Android**
   1. ```
      npx cap open android
      ```
