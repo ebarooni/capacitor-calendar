@@ -5,9 +5,18 @@
   <ion-item>
     <ion-label>readCalendar</ion-label>
     <ion-badge
-      *ngrxLet="storeService.selectReadCalendarStatus$ as readCalendarState; suspenseTpl: loading"
+      *ngrxLet="
+        storeService.selectReadCalendarStatus$ as readCalendarState;
+        suspenseTpl: loading
+      "
       [slot]="'end'"
-      [color]="readCalendarState === 'granted' ? 'success' : readCalendarState === 'denied' ? 'danger' : 'warning'"
+      [color]="
+        readCalendarState === 'granted'
+          ? 'success'
+          : readCalendarState === 'denied'
+            ? 'danger'
+            : 'warning'
+      "
     >
       {{ readCalendarState }}
     </ion-badge>
@@ -15,9 +24,18 @@
   <ion-item>
     <ion-label>writeCalendar</ion-label>
     <ion-badge
-      *ngrxLet="storeService.selectWriteCalendarStatus$ as writeCalendarState; suspenseTpl: loading"
+      *ngrxLet="
+        storeService.selectWriteCalendarStatus$ as writeCalendarState;
+        suspenseTpl: loading
+      "
       [slot]="'end'"
-      [color]="writeCalendarState === 'granted' ? 'success' : writeCalendarState === 'denied' ? 'danger' : 'warning'"
+      [color]="
+        writeCalendarState === 'granted'
+          ? 'success'
+          : writeCalendarState === 'denied'
+            ? 'danger'
+            : 'warning'
+      "
     >
       {{ writeCalendarState }}
     </ion-badge>
@@ -25,9 +43,18 @@
   <ion-item>
     <ion-label>readReminders</ion-label>
     <ion-badge
-      *ngrxLet="storeService.selectReadRemindersStatus$ as readRemindersState; suspenseTpl: loading"
+      *ngrxLet="
+        storeService.selectReadRemindersStatus$ as readRemindersState;
+        suspenseTpl: loading
+      "
       [slot]="'end'"
-      [color]="readRemindersState === 'granted' ? 'success' : readRemindersState === 'denied' ? 'danger' : 'warning'"
+      [color]="
+        readRemindersState === 'granted'
+          ? 'success'
+          : readRemindersState === 'denied'
+            ? 'danger'
+            : 'warning'
+      "
     >
       {{ readRemindersState }}
     </ion-badge>
@@ -35,9 +62,18 @@
   <ion-item>
     <ion-label>writeReminders</ion-label>
     <ion-badge
-      *ngrxLet="storeService.selectWriteRemindersStatus$ as writeRemindersState; suspenseTpl: loading"
+      *ngrxLet="
+        storeService.selectWriteRemindersStatus$ as writeRemindersState;
+        suspenseTpl: loading
+      "
       [slot]="'end'"
-      [color]="writeRemindersState === 'granted' ? 'success' : writeRemindersState === 'denied' ? 'danger' : 'warning'"
+      [color]="
+        writeRemindersState === 'granted'
+          ? 'success'
+          : writeRemindersState === 'denied'
+            ? 'danger'
+            : 'warning'
+      "
     >
       {{ writeRemindersState }}
     </ion-badge>
