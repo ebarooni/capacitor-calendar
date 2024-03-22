@@ -228,33 +228,40 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let notes = call.getString("notes")
         let url = call.getString("url")
         let location = call.getString("location")
-        var frequency: Int?
-        var interval: Int?
-        var end: Double?
-        if let recurrence = call.getObject("recurrence") {
-            if let repFrequency = recurrence["frequency"] as? Int? {
-                frequency = repFrequency
-            } else {
-                call.reject("[CapacitorCalendar.\(#function)] Frequency must me provided when using recurrence")
+
+        var recurrence: RecurrenceParameters?
+        if let recurrenceData = call.getObject("recurrence") {
+            guard let frequency = recurrenceData["frequency"] as? Int else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
                 return
             }
-            if let repInterval = recurrence["interval"] as? Int {
-                if repInterval < 1 {
-                    call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0")
-                    return
-                }
-                interval = repInterval
-            } else {
-                call.reject("[CapacitorCalendar.\(#function)] Interval must me provided when using recurrence")
+
+            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
                 return
             }
-            if let repEnd = recurrence["end"] as? Double {
-                end = repEnd
-            }
+
+            let end = recurrenceData["end"] as? Double
+
+            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
         }
 
+        let reminderParams = ReminderCreationParameters(
+            title: title,
+            listId: listId,
+            priority: priority,
+            isCompleted: isCompleted,
+            startDate: startDate,
+            dueDate: dueDate,
+            completionDate: completionDate,
+            notes: notes,
+            url: url,
+            location: location,
+            recurrence: recurrence
+        )
+
         do {
-            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes, url: url, location: location, frequency: frequency, interval: interval, end: end)
+            try reminders.createReminder(with: reminderParams)
             call.resolve(["reminderCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
