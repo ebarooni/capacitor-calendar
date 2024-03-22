@@ -185,15 +185,17 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
 
+        let eventParameters = EventCreationParameters(
+            title: title,
+            calendarId: calendarId,
+            location: location,
+            startDate: startDate,
+            endDate: endDate,
+            isAllDay: isAllDay
+        )
+
         do {
-            try calendar.createEvent(
-                title: title,
-                calendarId: calendarId,
-                location: location,
-                startDate: startDate,
-                endDate: endDate,
-                isAllDay: isAllDay
-            )
+            try calendar.createEvent(with: eventParameters)
             call.resolve(["eventCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
