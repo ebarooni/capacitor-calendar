@@ -78,29 +78,29 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func createEvent(title: String, calendarId: String?, location: String?, startDate: Date?, endDate: Date?, isAllDay: Bool?) throws {
+    public func createEvent(with parameters: EventCreationParameters) throws {
         let fallbackStartDate = Date()
         let newEvent = EKEvent(eventStore: eventStore)
-        if let calendarId = calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
+        if let calendarId = parameters.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
             newEvent.calendar = calendar
         } else {
             newEvent.calendar = eventStore.defaultCalendarForNewEvents
         }
-        newEvent.title = title
-        if let location = location {
+        newEvent.title = parameters.title
+        if let location = parameters.location {
             newEvent.location = location
         }
-        if let startDate = startDate {
+        if let startDate = parameters.startDate {
             newEvent.startDate = startDate
         } else {
             newEvent.startDate = fallbackStartDate
         }
-        if let endDate = endDate {
+        if let endDate = parameters.endDate {
             newEvent.endDate = endDate
         } else {
             newEvent.endDate = fallbackStartDate.addingTimeInterval(3600)
         }
-        if let isAllDay = isAllDay {
+        if let isAllDay = parameters.isAllDay {
             newEvent.isAllDay = isAllDay
         }
 
