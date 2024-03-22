@@ -10,9 +10,15 @@ import {
 } from '@ebarooni/capacitor-calendar';
 import { StoreService } from '../../store/store.service';
 import { calendarChooserPickerColumns } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns';
-import { getCalendarChooserPickerButtons } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons';
+import {
+  getCalendarChooserPickerButtons,
+  CalendarChooserResult,
+} from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons';
 import { checkPermissionPickerColumns } from '../../ion-picker-data/check-permission/check-permission-picker-columns';
-import { getCheckPermissionPickerButtons } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
+import {
+  getCheckPermissionPickerButtons,
+  CheckPermissionPickerResult,
+} from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
 
 @Component({
   selector: 'app-methods-list',
@@ -22,15 +28,15 @@ import { getCheckPermissionPickerButtons } from '../../ion-picker-data/check-per
 })
 export class MethodsListComponent {
   public readonly calendarChooserPickerColumns = calendarChooserPickerColumns;
-  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons((result: any) =>
+  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons((result: CalendarChooserResult) =>
     this.zone.run(() => this.selectCalendarsWithPrompt(result.selectionStyle.value, result.displayStyle.value))
   );
   public readonly checkPermissionPickerColumns = checkPermissionPickerColumns;
-  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons((result: any) =>
-    this.zone.run(() => this.checkPermission(result.alias.value))
+  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
+    (result: CheckPermissionPickerResult) => this.zone.run(() => this.checkPermission(result.alias.value))
   );
-  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons((result: any) =>
-    this.zone.run(() => this.requestPermission(result.alias.value))
+  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons(
+    (result: CheckPermissionPickerResult) => this.zone.run(() => this.requestPermission(result.alias.value))
   );
 
   constructor(

@@ -16,6 +16,6 @@ export class PermissionsStatusComponent implements OnInit {
   ngOnInit() {
     CapacitorCalendar.checkAllPermissions()
       .then((result) => this.storeService.updateState({ permissions: result }))
-      .catch((error) => this.storeService.dispatchLog(error));
+      .catch((error: Error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }
