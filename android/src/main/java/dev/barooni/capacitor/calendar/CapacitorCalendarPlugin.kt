@@ -3,7 +3,6 @@ package dev.barooni.capacitor.calendar
 import android.Manifest
 import android.content.Intent
 import android.provider.CalendarContract
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
@@ -14,25 +13,24 @@ import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
 
-
 @CapacitorPlugin(
-        name = "CapacitorCalendar",
-        permissions = [
-            Permission(
-                    alias = "readCalendar",
-                    strings = [
-                        Manifest.permission.READ_CALENDAR
-                    ]
-            ),
-            Permission(
-                    alias = "writeCalendar",
-                    strings = [
-                        Manifest.permission.WRITE_CALENDAR
-                    ]
-            )
-        ]
+    name = "CapacitorCalendar",
+    permissions = [
+        Permission(
+            alias = "readCalendar",
+            strings = [
+                Manifest.permission.READ_CALENDAR,
+            ],
+        ),
+        Permission(
+            alias = "writeCalendar",
+            strings = [
+                Manifest.permission.WRITE_CALENDAR,
+            ],
+        ),
+    ],
 )
-class CapacitorCalendarPlugin: Plugin() {
+class CapacitorCalendarPlugin : Plugin() {
     private var implementation = CapacitorCalendar()
 
     @PluginMethod
@@ -40,9 +38,9 @@ class CapacitorCalendarPlugin: Plugin() {
         try {
             implementation.eventsCount = implementation.getTotalEventsCount(context)
             return startActivityForResult(
-                    call,
-                    Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI),
-                    "openCalendarIntentActivityCallback"
+                call,
+                Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI),
+                "openCalendarIntentActivityCallback",
             )
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
@@ -51,19 +49,23 @@ class CapacitorCalendarPlugin: Plugin() {
     }
 
     @ActivityCallback
-    private fun openCalendarIntentActivityCallback(call: PluginCall?, result: ActivityResult) {
+    private fun openCalendarIntentActivityCallback(
+        call: PluginCall?,
+        result: ActivityResult,
+    ) {
         if (call == null) {
             throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
         }
         val currentEventsCount: Int = implementation.getTotalEventsCount(context)
-        val createEventResult = if (currentEventsCount > implementation.eventsCount) {
-            true
-        } else if (implementation.eventsCount == currentEventsCount) {
-            false
-        } else {
-            call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
-            return
-        }
+        val createEventResult =
+            if (currentEventsCount > implementation.eventsCount) {
+                true
+            } else if (implementation.eventsCount == currentEventsCount) {
+                false
+            } else {
+                call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
+                return
+            }
         val ret = JSObject()
         ret.put("eventCreated", createEventResult)
         call.resolve(ret)
@@ -72,10 +74,14 @@ class CapacitorCalendarPlugin: Plugin() {
     @PluginMethod
     fun checkPermission(call: PluginCall) {
         try {
-            val permissionName = call.getString("alias")
+            val permissionName =
+                call.getString("alias")
                     ?: throw Exception("[CapacitorCalendar.${::checkPermission.name}] Permission name is not defined")
-            val permissionState = getPermissionState(permissionName)
-                    ?: throw Exception("[CapacitorCalendar.${::checkPermission.name}] Could not determine the status of the requested permission")
+            val permissionState =
+                getPermissionState(permissionName)
+                    ?: throw Exception(
+                        "[CapacitorCalendar.${::checkPermission.name}] Could not determine the status of the requested permission",
+                    )
             val ret = JSObject()
             ret.put("result", permissionState)
             call.resolve(ret)
@@ -98,12 +104,13 @@ class CapacitorCalendarPlugin: Plugin() {
     @PluginMethod
     fun requestPermission(call: PluginCall) {
         try {
-            val alias = call.getString("alias")
+            val alias =
+                call.getString("alias")
                     ?: throw Exception("[CapacitorCalendar.${::requestPermission.name}] Permission name is not defined")
             return requestPermissionForAlias(
-                    alias,
-                    call,
-                    "requestPermissionCallback"
+                alias,
+                call,
+                "requestPermissionCallback",
             )
         } catch (error: Exception) {
             call.reject("", error.message)
@@ -166,7 +173,8 @@ class CapacitorCalendarPlugin: Plugin() {
     @PluginMethod
     fun createEvent(call: PluginCall) {
         try {
-            val title = call.getString("title")
+            val title =
+                call.getString("title")
                     ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
             val calendarId = call.getString("calendarId")
             val location = call.getString("location")
