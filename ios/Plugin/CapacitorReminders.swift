@@ -86,11 +86,17 @@ public class CapacitorReminders: NSObject {
             newReminder.isCompleted = isCompleted
         }
         if let startDate = parameters.startDate {
-            newReminder.startDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: startDate / 1000))
+            newReminder.startDateComponents = Calendar.current.dateComponents(
+                [.year, .month, .day, .hour, .minute],
+                from: Date(timeIntervalSince1970: startDate / 1000)
+            )
             newReminder.startDateComponents?.timeZone = Calendar.current.timeZone
         }
         if let dueDate = parameters.dueDate {
-            newReminder.dueDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: dueDate / 1000))
+            newReminder.dueDateComponents = Calendar.current.dateComponents(
+                [.year, .month, .day, .hour, .minute],
+                from: Date(timeIntervalSince1970: dueDate / 1000)
+            )
             newReminder.dueDateComponents?.timeZone = Calendar.current.timeZone
         }
         if let completionDate = parameters.completionDate {
