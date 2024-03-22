@@ -23,19 +23,30 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 switch alias {
                 case "readCalendar":
                     let permissionsState = try await calendar.checkAllPermissions()
-                    call.resolve(["result": permissionsState["readCalendar"]!])
+                    guard let readCalendarPermission = permissionsState["readCalendar"] else {
+                        throw CapacitorCalendarPluginError.unknownPermissionStatus
+                    }
+                    call.resolve(["result": readCalendarPermission])
                 case "writeCalendar":
                     let permissionsState = try await calendar.checkAllPermissions()
-                    call.resolve(["result": permissionsState["writeCalendar"]!])
+                    guard let writeCalendarPermission = permissionsState["writeCalendar"] else {
+                        throw CapacitorCalendarPluginError.unknownPermissionStatus
+                    }
+                    call.resolve(["result": writeCalendarPermission])
                 case "readReminders":
                     let permissionsState = try await reminders.checkAllPermissions()
-                    call.resolve(["result": permissionsState["readReminders"]!])
+                    guard let readRemindersPermission = permissionsState["readReminders"] else {
+                        throw CapacitorCalendarPluginError.unknownPermissionStatus
+                    }
+                    call.resolve(["result": readRemindersPermission])
                 case "writeReminders":
                     let permissionsState = try await reminders.checkAllPermissions()
-                    call.resolve(["result": permissionsState["writeReminders"]!])
+                    guard let writeRemindersPermission = permissionsState["writeReminders"] else {
+                        throw CapacitorCalendarPluginError.unknownPermissionStatus
+                    }
+                    call.resolve(["result": writeRemindersPermission])
                 default:
-                    call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
-                    return
+                    throw CapacitorCalendarPluginError.unknownPermissionStatus
                 }
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")

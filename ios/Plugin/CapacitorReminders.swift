@@ -24,10 +24,10 @@ public class CapacitorReminders: NSObject {
 
     public func getDefaultRemindersList() throws -> [String: String] {
         let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
-        if defaultRemindersList != nil {
+        if let defaultRemindersList = defaultRemindersList {
             return [
-                "id": defaultRemindersList!.calendarIdentifier,
-                "title": defaultRemindersList!.title
+                "id": defaultRemindersList.calendarIdentifier,
+                "title": defaultRemindersList.title
             ]
         } else {
             throw CapacitorCalendarPluginError.noDefaultCalendar
