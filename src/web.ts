@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PermissionState, WebPlugin } from '@capacitor/core';
 import { CapacitorCalendarPlugin } from './definitions';
 import { PluginPermission } from './schemas/enums/plugin-permission';

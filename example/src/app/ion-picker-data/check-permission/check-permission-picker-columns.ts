@@ -1,4 +1,6 @@
-export const checkPermissionPickerColumns = [
+import { PickerColumn } from '@ionic/angular';
+
+export const checkPermissionPickerColumns: PickerColumn[] = [
   {
     name: 'alias',
     options: [
