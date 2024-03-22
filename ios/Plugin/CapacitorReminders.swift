@@ -111,11 +111,13 @@ public class CapacitorReminders: NSObject {
             if let end = end {
                 endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
             }
-            newReminder.recurrenceRules = [EKRecurrenceRule(
-                recurrenceWith: recurrenceFrequencyMapping[frequency]!,
-                interval: interval,
-                end: endDate
-            )]
+            if let recurrenceFrequency = recurrenceFrequencyMapping[frequency] {
+                newReminder.recurrenceRules = [EKRecurrenceRule(
+                    recurrenceWith: recurrenceFrequency,
+                    interval: interval,
+                    end: endDate
+                )]
+            }
         }
 
         do {

@@ -38,20 +38,26 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
 
             Task { @MainActor in
-                let calendarChooser = EKCalendarChooser(
-                    selectionStyle: EKCalendarChooserSelectionStyle(rawValue: selectionStyle)!,
-                    displayStyle: EKCalendarChooserDisplayStyle(rawValue: displayStyle)!,
-                    eventStore: eventStore
-                )
-                calendarChooser.showsDoneButton = true
-                calendarChooser.showsCancelButton = true
-                viewController.present(
-                    UINavigationController(rootViewController: calendarChooser),
-                    animated: true,
-                    completion: nil
-                )
-                calendarChooser.delegate = self
-                currentSelectCalendarsContinuation = continuation
+                if let selectionStyle = EKCalendarChooserSelectionStyle(rawValue: selectionStyle),
+                   let displayStyle = EKCalendarChooserDisplayStyle(rawValue: displayStyle) {
+                    let calendarChooser = EKCalendarChooser(
+                        selectionStyle: selectionStyle,
+                        displayStyle: displayStyle,
+                        eventStore: eventStore
+                    )
+                    calendarChooser.showsDoneButton = true
+                    calendarChooser.showsCancelButton = true
+                    viewController.present(
+                        UINavigationController(rootViewController: calendarChooser),
+                        animated: true,
+                        completion: nil
+                    )
+                    calendarChooser.delegate = self
+                    currentSelectCalendarsContinuation = continuation
+                } else {
+                    continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
+                    return
+                }
             }
         }
     }
@@ -62,10 +68,10 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
     public func getDefaultCalendar() throws -> [String: String] {
         let defaultCalendar = eventStore.defaultCalendarForNewEvents
-        if defaultCalendar != nil {
+        if let defaultCalendar = defaultCalendar {
             return [
-                "id": defaultCalendar!.calendarIdentifier,
-                "title": defaultCalendar!.title
+                "id": defaultCalendar.calendarIdentifier,
+                "title": defaultCalendar.title
             ]
         } else {
             throw CapacitorCalendarPluginError.noDefaultCalendar
