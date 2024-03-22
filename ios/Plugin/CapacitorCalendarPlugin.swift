@@ -20,39 +20,34 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
         Task {
             do {
-                switch alias {
-                case "readCalendar":
-                    let permissionsState = try await calendar.checkAllPermissions()
-                    guard let readCalendarPermission = permissionsState["readCalendar"] else {
-                        throw CapacitorCalendarPluginError.unknownPermissionStatus
-                    }
-                    call.resolve(["result": readCalendarPermission])
-                case "writeCalendar":
-                    let permissionsState = try await calendar.checkAllPermissions()
-                    guard let writeCalendarPermission = permissionsState["writeCalendar"] else {
-                        throw CapacitorCalendarPluginError.unknownPermissionStatus
-                    }
-                    call.resolve(["result": writeCalendarPermission])
-                case "readReminders":
-                    let permissionsState = try await reminders.checkAllPermissions()
-                    guard let readRemindersPermission = permissionsState["readReminders"] else {
-                        throw CapacitorCalendarPluginError.unknownPermissionStatus
-                    }
-                    call.resolve(["result": readRemindersPermission])
-                case "writeReminders":
-                    let permissionsState = try await reminders.checkAllPermissions()
-                    guard let writeRemindersPermission = permissionsState["writeReminders"] else {
-                        throw CapacitorCalendarPluginError.unknownPermissionStatus
-                    }
-                    call.resolve(["result": writeRemindersPermission])
-                default:
-                    throw CapacitorCalendarPluginError.unknownPermissionStatus
-                }
+                try await handlePermissionCheck(for: alias, with: call)
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
-                return
             }
         }
+    }
+
+    private func handlePermissionCheck(for alias: String, with call: CAPPluginCall) async throws {
+        let permissionsState: [String: String]
+
+        switch alias {
+        case "readCalendar":
+            permissionsState = try await calendar.checkAllPermissions()
+        case "writeCalendar":
+            permissionsState = try await calendar.checkAllPermissions()
+        case "readReminders":
+            permissionsState = try await reminders.checkAllPermissions()
+        case "writeReminders":
+            permissionsState = try await reminders.checkAllPermissions()
+        default:
+            throw CapacitorCalendarPluginError.unknownPermissionStatus
+        }
+
+        guard let permissionResult = permissionsState[alias] else {
+            throw CapacitorCalendarPluginError.unknownPermissionStatus
+        }
+
+        call.resolve(["result": permissionResult])
     }
 
     @objc public func checkAllPermissions(_ call: CAPPluginCall) {
