@@ -66,42 +66,32 @@ public class CapacitorReminders: NSObject {
     }
 
     public func createReminder(with parameters: ReminderCreationParameters) throws {
-        let newReminder = EKReminder(eventStore: eventStore)
-        newReminder.title = parameters.title
-        if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
-            newReminder.calendar = list
-        } else {
-            newReminder.calendar = eventStore.defaultCalendarForNewReminders()
-        }
-        if let priority = parameters.priority {
-            if priority > 9 {
-                newReminder.priority = 9
-            } else if priority < 0 {
-                newReminder.priority = 0
+        func setCalendar() {
+            if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
+                newReminder.calendar = list
             } else {
-                newReminder.priority = priority
+                newReminder.calendar = eventStore.defaultCalendarForNewReminders()
             }
         }
+
+        func setPriority() {
+            guard let priority = parameters.priority else { return }
+            newReminder.priority = max(0, min(9, priority))
+        }
+
+        let newReminder = EKReminder(eventStore: eventStore)
+        setCalendar()
+        setPriority()
+        setReminderDateComponents(
+            reminder: newReminder,
+            startDate: parameters.startDate,
+            dueDate: parameters.dueDate,
+            completionDate: parameters.completionDate
+        )
+        setReminderFrequency(reminder: newReminder, recurrence: parameters.recurrence)
+        newReminder.title = parameters.title
         if let isCompleted = parameters.isCompleted {
             newReminder.isCompleted = isCompleted
-        }
-        if let startDate = parameters.startDate {
-            newReminder.startDateComponents = Calendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute],
-                from: Date(timeIntervalSince1970: startDate / 1000)
-            )
-            newReminder.startDateComponents?.timeZone = Calendar.current.timeZone
-        }
-        if let dueDate = parameters.dueDate {
-            newReminder.dueDateComponents = Calendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute],
-                from: Date(timeIntervalSince1970: dueDate / 1000)
-            )
-            newReminder.dueDateComponents?.timeZone = Calendar.current.timeZone
-        }
-        if let completionDate = parameters.completionDate {
-            newReminder.completionDate = Date(timeIntervalSince1970: completionDate / 1000)
-            newReminder.timeZone = Calendar.current.timeZone
         }
         if let notes = parameters.notes {
             newReminder.notes = notes
@@ -111,19 +101,6 @@ public class CapacitorReminders: NSObject {
         }
         if let location = parameters.location {
             newReminder.location = location
-        }
-        if let frequency = parameters.recurrence?.frequency, let interval = parameters.recurrence?.interval {
-            var endDate: EKRecurrenceEnd?
-            if let end = parameters.recurrence?.end {
-                endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
-            }
-            if let recurrenceFrequency = recurrenceFrequencyMapping[frequency] {
-                newReminder.recurrenceRules = [EKRecurrenceRule(
-                    recurrenceWith: recurrenceFrequency,
-                    interval: interval,
-                    end: endDate
-                )]
-            }
         }
 
         do {
@@ -181,5 +158,53 @@ public class CapacitorReminders: NSObject {
         }
 
         return result
+    }
+
+    private func setReminderFrequency(reminder: EKReminder, recurrence: RecurrenceParameters?) {
+        guard let frequency = recurrence?.frequency, let interval = recurrence?.interval else { return }
+        var endDate: EKRecurrenceEnd?
+        if let end = recurrence?.end {
+            endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
+        }
+        if let recurrenceFrequency = recurrenceFrequencyMapping[frequency] {
+            reminder.recurrenceRules = [EKRecurrenceRule(
+                recurrenceWith: recurrenceFrequency,
+                interval: interval,
+                end: endDate
+            )]
+        }
+    }
+
+    private func setReminderDateComponents(reminder: EKReminder, startDate: Double?, dueDate: Double?, completionDate: Double?) {
+        func setStartDate() {
+            if let startDate = startDate {
+                reminder.startDateComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute],
+                    from: Date(timeIntervalSince1970: startDate / 1000)
+                )
+                reminder.startDateComponents?.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        func setDueDate() {
+            if let dueDate = dueDate {
+                reminder.dueDateComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute],
+                    from: Date(timeIntervalSince1970: dueDate / 1000)
+                )
+                reminder.dueDateComponents?.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        func setCompletionDate() {
+            if let completionDate = completionDate {
+                reminder.completionDate = Date(timeIntervalSince1970: completionDate / 1000)
+                reminder.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        setStartDate()
+        setDueDate()
+        setCompletionDate()
     }
 }
