@@ -1,5 +1,6 @@
-<h1 align="center">CapacitorCalendar</h1>
 <p align="center">
+  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
+  <br>
     <em>
         The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.
     </em>
