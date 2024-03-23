@@ -1,5 +1,6 @@
-<h1 align="center">CapacitorCalendar</h1>
 <p align="center">
+  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
+  <br>
     <em>
         The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.
     </em>
@@ -28,20 +29,19 @@ npx cap sync
 ## Support Range
 
 | Platform |           range           |
-|:--------:|:-------------------------:|
+| :------: | :-----------------------: |
 |   iOS    |          &ge; 13          |
 | Android  | &ge; 7 (SDK 24 or Nougat) |
 
 ## [Demo (click for details)](./example/README.md)
 
-
 |                 iOS 17                 |                 Android 14                 |
-|:--------------------------------------:|:------------------------------------------:|
+| :------------------------------------: | :----------------------------------------: |
 | ![](./example/src/assets/ios-demo.gif) | ![](./example/src/assets/android-demo.gif) |
 
 On iOS, `readCalendar` permission is not needed when you a
 
-re creating an event using the native prompt. 
+re creating an event using the native prompt.
 The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
 
 ## MVP
@@ -56,31 +56,31 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 
 ## Permissions
 
-To be able to use the plugin, you will need to add the required permissions to your app. The required platform-specific 
+To be able to use the plugin, you will need to add the required permissions to your app. The required platform-specific
 permissions can be found below:
 
-* [iOS](./ios/PERMISSIONS.md)
-* [Android](./android/PERMISSIONS.md)
+- [iOS](./ios/PERMISSIONS.md)
+- [Android](./android/PERMISSIONS.md)
 
 ## API
 
 <docgen-index>
 
-* [`checkPermission(...)`](#checkpermission)
-* [`checkAllPermissions()`](#checkallpermissions)
-* [`requestPermission(...)`](#requestpermission)
-* [`requestAllPermissions()`](#requestallpermissions)
-* [`createEventWithPrompt()`](#createeventwithprompt)
-* [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
-* [`listCalendars()`](#listcalendars)
-* [`getDefaultCalendar()`](#getdefaultcalendar)
-* [`createEvent(...)`](#createevent)
-* [`getDefaultRemindersList()`](#getdefaultreminderslist)
-* [`getRemindersLists()`](#getreminderslists)
-* [`createReminder(...)`](#createreminder)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
-* [Enums](#enums)
+- [`checkPermission(...)`](#checkpermission)
+- [`checkAllPermissions()`](#checkallpermissions)
+- [`requestPermission(...)`](#requestpermission)
+- [`requestAllPermissions()`](#requestallpermissions)
+- [`createEventWithPrompt()`](#createeventwithprompt)
+- [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+- [`listCalendars()`](#listcalendars)
+- [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`createEvent(...)`](#createevent)
+- [`getDefaultRemindersList()`](#getdefaultreminderslist)
+- [`getRemindersLists()`](#getreminderslists)
+- [`createReminder(...)`](#createreminder)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
+- [Enums](#enums)
 
 </docgen-index>
 
@@ -101,8 +101,7 @@ Checks the current authorization status of a specific permission.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
---------------------
-
+---
 
 ### checkAllPermissions()
 
@@ -114,8 +113,7 @@ Checks the current authorization status of all the required permissions for the 
 
 **Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
---------------------
-
+---
 
 ### requestPermission(...)
 
@@ -132,8 +130,7 @@ If the permission is already granted, it will directly return the status.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
---------------------
-
+---
 
 ### requestAllPermissions()
 
@@ -145,8 +142,7 @@ Requests authorization to all the required permissions for the plugin, if they h
 
 **Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
 
---------------------
-
+---
 
 ### createEventWithPrompt()
 
@@ -161,8 +157,7 @@ On Android, the user has to authorize for read access.
 
 **Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
 
---------------------
-
+---
 
 ### selectCalendarsWithPrompt(...)
 
@@ -178,8 +173,7 @@ Presents a prompt to the user to select calendars. This method is available only
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
---------------------
-
+---
 
 ### listCalendars()
 
@@ -191,8 +185,7 @@ Retrieves a list of calendars available on the device.
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
---------------------
-
+---
 
 ### getDefaultCalendar()
 
@@ -204,8 +197,7 @@ Retrieves the default calendar set on the device.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
---------------------
-
+---
 
 ### createEvent(...)
 
@@ -221,8 +213,7 @@ Creates an event with the provided options.
 
 **Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
 
---------------------
-
+---
 
 ### getDefaultRemindersList()
 
@@ -234,8 +225,7 @@ Retrieves the default reminders list set on the device.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#reminderslist">RemindersList</a>; }&gt;</code>
 
---------------------
-
+---
 
 ### getRemindersLists()
 
@@ -247,8 +237,7 @@ Retrieves all available reminders lists on the device.
 
 **Returns:** <code>Promise&lt;{ result: RemindersList[]; }&gt;</code>
 
---------------------
-
+---
 
 ### createReminder(...)
 
@@ -264,14 +253,11 @@ Creates a reminder with the provided options.
 
 **Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
 
---------------------
-
+---
 
 ### Interfaces
 
-
 #### PluginPermissionsMap
-
 
 #### Calendar
 
@@ -281,7 +267,6 @@ Represents a calendar object with an ID and title.
 | ----------- | ------------------- |
 | **`id`**    | <code>string</code> |
 | **`title`** | <code>string</code> |
-
 
 #### Date
 
@@ -333,9 +318,7 @@ Enables basic storage and retrieval of dates and times.
 | **toISOString**        | () =&gt; string                                                                                              | Returns a date as a string value in ISO format.                                                                                         |
 | **toJSON**             | (key?: any) =&gt; string                                                                                     | Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization. |
 
-
 #### RemindersList
-
 
 #### ReminderRecurrenceRule
 
@@ -345,17 +328,13 @@ Enables basic storage and retrieval of dates and times.
 | **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
 | **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
 
-
 ### Type Aliases
-
 
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
-
 ### Enums
-
 
 #### PluginPermission
 
@@ -366,7 +345,6 @@ Enables basic storage and retrieval of dates and times.
 | **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
 | **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
 
-
 #### CalendarChooserDisplayStyle
 
 | Members                       | Description                                              |
@@ -374,14 +352,12 @@ Enables basic storage and retrieval of dates and times.
 | **`ALL_CALENDARS`**           | Display all calendars available for selection.           |
 | **`WRITABLE_CALENDARS_ONLY`** | Display only writable calendars available for selection. |
 
-
 #### CalendarChooserSelectionStyle
 
 | Members        | Description                                             |
 | -------------- | ------------------------------------------------------- |
 | **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
 | **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
-
 
 #### ReminderRecurrenceFrequency
 

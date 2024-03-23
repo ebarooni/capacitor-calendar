@@ -1,6 +1,7 @@
-import {CalendarChooserDisplayStyle, CalendarChooserSelectionStyle} from "../../../../../dist/esm";
+import { CalendarChooserDisplayStyle, CalendarChooserSelectionStyle } from '@ebarooni/capacitor-calendar';
+import { PickerColumn } from '@ionic/angular';
 
-export const calendarChooserPickerColumns = [
+export const calendarChooserPickerColumns: PickerColumn[] = [
   {
     name: 'selectionStyle',
     options: [

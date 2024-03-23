@@ -8,9 +8,9 @@ describe('PermissionsStatusComponent', () => {
   let fixture: ComponentFixture<PermissionsStatusComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PermissionsStatusComponent ],
-      imports: [IonicModule.forRoot()]
+    void TestBed.configureTestingModule({
+      declarations: [PermissionsStatusComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PermissionsStatusComponent);

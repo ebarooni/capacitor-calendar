@@ -11,39 +11,45 @@ public class CapacitorCalendarPlugin: CAPPlugin {
     private let eventStore = EKEventStore()
     private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.eventStore)
     private lazy var reminders = CapacitorReminders(eventStore: self.eventStore)
-    
+
     @objc public func checkPermission(_ call: CAPPluginCall) {
         guard let alias = call.getString("alias") else {
             call.reject("[CapacitorCalendar.\(#function)] Permission name is not defined")
             return
         }
-        
+
         Task {
             do {
-                switch alias {
-                case "readCalendar":
-                    let permissionsState = try await calendar.checkAllPermissions()
-                    call.resolve(["result": permissionsState["readCalendar"]!])
-                case "writeCalendar":
-                    let permissionsState = try await calendar.checkAllPermissions()
-                    call.resolve(["result": permissionsState["writeCalendar"]!])
-                case "readReminders":
-                    let permissionsState = try await reminders.checkAllPermissions()
-                    call.resolve(["result": permissionsState["readReminders"]!])
-                case "writeReminders":
-                    let permissionsState = try await reminders.checkAllPermissions()
-                    call.resolve(["result": permissionsState["writeReminders"]!])
-                default:
-                    call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
-                    return
-                }
+                try await handlePermissionCheck(for: alias, with: call)
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
-                return
             }
         }
     }
-    
+
+    private func handlePermissionCheck(for alias: String, with call: CAPPluginCall) async throws {
+        let permissionsState: [String: String]
+
+        switch alias {
+        case "readCalendar":
+            permissionsState = try await calendar.checkAllPermissions()
+        case "writeCalendar":
+            permissionsState = try await calendar.checkAllPermissions()
+        case "readReminders":
+            permissionsState = try await reminders.checkAllPermissions()
+        case "writeReminders":
+            permissionsState = try await reminders.checkAllPermissions()
+        default:
+            throw CapacitorCalendarPluginError.unknownPermissionStatus
+        }
+
+        guard let permissionResult = permissionsState[alias] else {
+            throw CapacitorCalendarPluginError.unknownPermissionStatus
+        }
+
+        call.resolve(["result": permissionResult])
+    }
+
     @objc public func checkAllPermissions(_ call: CAPPluginCall) {
         Task {
             do {
@@ -56,13 +62,13 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func requestPermission(_ call: CAPPluginCall) {
         guard let alias = call.getString("alias") else {
             call.reject("[CapacitorCalendar.\(#function)] Permission name is not defined")
             return
         }
-        
+
         Task {
             do {
                 switch alias {
@@ -88,7 +94,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func requestAllPermissions(_ call: CAPPluginCall) {
         Task {
             do {
@@ -107,7 +113,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 if remindersResult == PermissionState.granted.rawValue {
                     result["readReminders"] = PermissionState.granted.rawValue
                     result["writeReminders"] = PermissionState.granted.rawValue
-                    
+
                 }
                 call.resolve(result)
             } catch {
@@ -116,7 +122,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
         Task {
             do {
@@ -128,7 +134,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
         guard let selectionStyle = call.getInt("selectionStyle") else {
             call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
@@ -138,7 +144,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             call.reject("[CapacitorCalendar.\(#function)] Display style was not provided")
             return
         }
-        
+
         Task {
             do {
                 let result = try await calendar.selectCalendarsWithPrompt(selectionStyle: selectionStyle, displayStyle: displayStyle)
@@ -149,11 +155,11 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func listCalendars(_ call: CAPPluginCall) {
         call.resolve(["result": calendar.listCalendars()])
     }
-    
+
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
         do {
             try call.resolve(["result": calendar.getDefaultCalendar()])
@@ -162,7 +168,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
-    
+
     @objc public func createEvent(_ call: CAPPluginCall) {
         guard let title = call.getString("title") else {
             call.reject("[CapacitorCalendar.\(#function)] A title for the event was not provided")
@@ -173,23 +179,25 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let endDate = call.getDate("endDate")
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
-        
+
+        let eventParameters = EventCreationParameters(
+            title: title,
+            calendarId: calendarId,
+            location: location,
+            startDate: startDate,
+            endDate: endDate,
+            isAllDay: isAllDay
+        )
+
         do {
-            try calendar.createEvent(
-                title: title,
-                calendarId: calendarId,
-                location: location,
-                startDate: startDate,
-                endDate: endDate,
-                isAllDay: isAllDay
-            )
+            try calendar.createEvent(with: eventParameters)
             call.resolve(["eventCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
             return
         }
     }
-    
+
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
         do {
             try call.resolve(["result": reminders.getDefaultRemindersList()])
@@ -198,11 +206,11 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
-    
+
     @objc public func getRemindersLists(_ call: CAPPluginCall) {
         call.resolve(["result": reminders.getRemindersLists()])
     }
-    
+
     @objc public func createReminder (_ call: CAPPluginCall) {
         guard let title = call.getString("title") else {
             call.reject("[CapacitorCalendar.\(#function)] A title for the reminder was not provided")
@@ -217,33 +225,40 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let notes = call.getString("notes")
         let url = call.getString("url")
         let location = call.getString("location")
-        var frequency: Int? = nil
-        var interval: Int? = nil
-        var end: Double? = nil
-        if let recurrence = call.getObject("recurrence") {
-            if let repFrequency = recurrence["frequency"] as? Int? {
-                frequency = repFrequency
-            } else {
-                call.reject("[CapacitorCalendar.\(#function)] Frequency must me provided when using recurrence")
+
+        var recurrence: RecurrenceParameters?
+        if let recurrenceData = call.getObject("recurrence") {
+            guard let frequency = recurrenceData["frequency"] as? Int else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
                 return
             }
-            if let repInterval = recurrence["interval"] as? Int {
-                if (repInterval < 1) {
-                    call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0")
-                    return
-                }
-                interval = repInterval
-            } else {
-                call.reject("[CapacitorCalendar.\(#function)] Interval must me provided when using recurrence")
+
+            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
                 return
             }
-            if let repEnd = recurrence["end"] as? Double {
-                end = repEnd
-            }
+
+            let end = recurrenceData["end"] as? Double
+
+            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
         }
-        
+
+        let reminderParams = ReminderCreationParameters(
+            title: title,
+            listId: listId,
+            priority: priority,
+            isCompleted: isCompleted,
+            startDate: startDate,
+            dueDate: dueDate,
+            completionDate: completionDate,
+            notes: notes,
+            url: url,
+            location: location,
+            recurrence: recurrence
+        )
+
         do {
-            try reminders.createReminder(title: title, listId: listId, priority: priority, isCompleted: isCompleted, startDate: startDate, dueDate: dueDate, completionDate: completionDate, notes: notes, url: url, location: location, frequency: frequency, interval: interval, end: end)
+            try reminders.createReminder(with: reminderParams)
             call.resolve(["reminderCreated": true])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")

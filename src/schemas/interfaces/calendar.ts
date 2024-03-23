@@ -7,6 +7,6 @@
  * @property {string} title - The title or name of the calendar.
  */
 export interface Calendar {
-    id: string;
-    title: string;
+  id: string;
+  title: string;
 }

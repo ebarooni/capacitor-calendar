@@ -19,6 +19,9 @@
 		7C0211BF2B8FC54B0040107B /* PermissionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0211BE2B8FC54B0040107B /* PermissionState.swift */; };
 		7C13B8262BA4F89C001A0DFA /* CapacitorReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C13B8252BA4F89C001A0DFA /* CapacitorReminders.swift */; };
 		7C6A81062B8E917A003E43B9 /* CapacitorCalendarPluginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A81052B8E917A003E43B9 /* CapacitorCalendarPluginError.swift */; };
+		7CB9D6072BAE292500FFAB90 /* ReminderCreationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */; };
+		7CB9D6092BAE298400FFAB90 /* RecurrenceParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */; };
+		7CB9D60B2BAE356800FFAB90 /* EventCreationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		7C0211BE2B8FC54B0040107B /* PermissionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionState.swift; sourceTree = "<group>"; };
 		7C13B8252BA4F89C001A0DFA /* CapacitorReminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitorReminders.swift; sourceTree = "<group>"; };
 		7C6A81052B8E917A003E43B9 /* CapacitorCalendarPluginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitorCalendarPluginError.swift; sourceTree = "<group>"; };
+		7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCreationParameters.swift; sourceTree = "<group>"; };
+		7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceParameters.swift; sourceTree = "<group>"; };
+		7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreationParameters.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +112,9 @@
 				7C6A81052B8E917A003E43B9 /* CapacitorCalendarPluginError.swift */,
 				7C0211BE2B8FC54B0040107B /* PermissionState.swift */,
 				7C13B8252BA4F89C001A0DFA /* CapacitorReminders.swift */,
+				7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */,
+				7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */,
+				7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -315,12 +324,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB9D6072BAE292500FFAB90 /* ReminderCreationParameters.swift in Sources */,
 				50E1A94820377CB70090CE1A /* CapacitorCalendarPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* CapacitorCalendar.swift in Sources */,
 				7C0211BF2B8FC54B0040107B /* PermissionState.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* CapacitorCalendarPlugin.m in Sources */,
 				7C13B8262BA4F89C001A0DFA /* CapacitorReminders.swift in Sources */,
 				7C6A81062B8E917A003E43B9 /* CapacitorCalendarPluginError.swift in Sources */,
+				7CB9D6092BAE298400FFAB90 /* RecurrenceParameters.swift in Sources */,
+				7CB9D60B2BAE356800FFAB90 /* EventCreationParameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
