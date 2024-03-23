@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, distinctUntilChanged, map, Observable, scan, shareReplay} from "rxjs";
-import {PluginPermission, PluginPermissionsMap} from "@ebarooni/capacitor-calendar";
+import { BehaviorSubject, distinctUntilChanged, map, Observable, scan, shareReplay } from 'rxjs';
+import { PluginPermission, PluginPermissionsMap } from '@ebarooni/capacitor-calendar';
 
 export interface Log {
   message: string;
@@ -27,31 +27,33 @@ const initialState = <State>{
     [PluginPermission.READ_CALENDAR]: 'prompt',
     [PluginPermission.WRITE_CALENDAR]: 'prompt',
     [PluginPermission.READ_REMINDERS]: 'prompt',
-    [PluginPermission.WRITE_REMINDERS]: 'prompt'
+    [PluginPermission.WRITE_REMINDERS]: 'prompt',
   },
-  appVersion: '0.5.0'
-}
+  appVersion: '0.6.0',
+};
 
 @Injectable()
 export class StoreService {
-  private readonly stateSubject: BehaviorSubject<PartialStateUpdate<State>> = new BehaviorSubject<PartialStateUpdate<State>>(initialState);
-  readonly state$: Observable<State> = this.stateSubject.asObservable()
-    .pipe(
-      scan((currentState, partialState): State => ({
+  private readonly stateSubject: BehaviorSubject<PartialStateUpdate<State>> = new BehaviorSubject<
+    PartialStateUpdate<State>
+  >(initialState);
+  readonly state$: Observable<State> = this.stateSubject.asObservable().pipe(
+    scan(
+      (currentState, partialState): State => ({
         ...currentState,
         ...partialState,
         permissions: partialState?.permissions
           ? { ...currentState.permissions, ...(partialState.permissions as PluginPermissionsMap) }
           : currentState.permissions,
-        logs: partialState?.logs?.length === 0
-          ? []
-          : ((partialState?.logs as Log[]) || []).concat(currentState.logs),
+        logs: partialState?.logs?.length === 0 ? [] : ((partialState?.logs as Log[]) || []).concat(currentState.logs),
         unreadLogs: partialState?.logs
           ? currentState.unreadLogs + partialState.logs.length
-          : (partialState?.unreadLogs ?? currentState.unreadLogs)
-      }), initialState),
-      shareReplay(1)
-    );
+          : partialState?.unreadLogs ?? currentState.unreadLogs,
+      }),
+      initialState
+    ),
+    shareReplay(1)
+  );
 
   updateState(update: PartialStateUpdate<State>): void {
     this.stateSubject.next(update);
@@ -61,55 +63,47 @@ export class StoreService {
     this.updateState({ logs: [{ message: log, timestamp: Date.now() }] });
   }
 
-  readonly selectIsDarkMode$ = this.state$
-    .pipe(
-      map((state) => state.isDarkMode),
-      distinctUntilChanged()
-    );
+  readonly selectIsDarkMode$ = this.state$.pipe(
+    map((state) => state.isDarkMode),
+    distinctUntilChanged()
+  );
 
-  readonly selectLogs$ = this.state$
-    .pipe(
-      map((state) => state.logs),
-      distinctUntilChanged()
-    );
+  readonly selectLogs$ = this.state$.pipe(
+    map((state) => state.logs),
+    distinctUntilChanged()
+  );
 
-  readonly selectUnreadLogs$ = this.state$
-    .pipe(
-      map((state) => state.unreadLogs),
-      distinctUntilChanged()
-    );
+  readonly selectUnreadLogs$ = this.state$.pipe(
+    map((state) => state.unreadLogs),
+    distinctUntilChanged()
+  );
 
-  readonly selectReadCalendarStatus$ = this.state$
-    .pipe(
-      map((state) => state.permissions),
-      map(({ readCalendar }) => readCalendar),
-      distinctUntilChanged()
-    );
+  readonly selectReadCalendarStatus$ = this.state$.pipe(
+    map((state) => state.permissions),
+    map(({ readCalendar }) => readCalendar),
+    distinctUntilChanged()
+  );
 
-  readonly selectWriteCalendarStatus$ = this.state$
-    .pipe(
-      map((state) => state.permissions),
-      map(({ writeCalendar }) => writeCalendar),
-      distinctUntilChanged()
-    );
+  readonly selectWriteCalendarStatus$ = this.state$.pipe(
+    map((state) => state.permissions),
+    map(({ writeCalendar }) => writeCalendar),
+    distinctUntilChanged()
+  );
 
-  readonly selectReadRemindersStatus$ = this.state$
-    .pipe(
-      map((state) => state.permissions),
-      map(({ readReminders }) => readReminders),
-      distinctUntilChanged()
-    );
+  readonly selectReadRemindersStatus$ = this.state$.pipe(
+    map((state) => state.permissions),
+    map(({ readReminders }) => readReminders),
+    distinctUntilChanged()
+  );
 
-  readonly selectWriteRemindersStatus$ = this.state$
-    .pipe(
-      map((state) => state.permissions),
-      map(({ writeReminders }) => writeReminders),
-      distinctUntilChanged()
-    );
+  readonly selectWriteRemindersStatus$ = this.state$.pipe(
+    map((state) => state.permissions),
+    map(({ writeReminders }) => writeReminders),
+    distinctUntilChanged()
+  );
 
-  readonly selectAppVersion$ = this.state$
-    .pipe(
-      map((state) => state.appVersion),
-      distinctUntilChanged()
-    );
+  readonly selectAppVersion$ = this.state$.pipe(
+    map((state) => state.appVersion),
+    distinctUntilChanged()
+  );
 }

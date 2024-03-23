@@ -17,23 +17,23 @@ public class CapacitorReminders: NSObject {
         2: .monthly,
         3: .yearly
     ]
-    
+
     init(eventStore: EKEventStore) {
         self.eventStore = eventStore
     }
-    
+
     public func getDefaultRemindersList() throws -> [String: String] {
         let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
-        if (defaultRemindersList != nil) {
+        if let defaultRemindersList = defaultRemindersList {
             return [
-                "id": defaultRemindersList!.calendarIdentifier,
-                "title": defaultRemindersList!.title
+                "id": defaultRemindersList.calendarIdentifier,
+                "title": defaultRemindersList.title
             ]
         } else {
             throw CapacitorCalendarPluginError.noDefaultCalendar
         }
     }
-    
+
     public func checkAllPermissions() async throws -> [String: String] {
         return try await withCheckedThrowingContinuation { continuation in
             var permissionsState: [String: String]
@@ -41,17 +41,17 @@ public class CapacitorReminders: NSObject {
             case .authorized, .fullAccess:
                 permissionsState = [
                     "writeReminders": PermissionState.granted.rawValue,
-                    "readReminders": PermissionState.granted.rawValue,
+                    "readReminders": PermissionState.granted.rawValue
                 ]
             case .denied, .restricted:
                 permissionsState = [
                     "writeReminders": PermissionState.denied.rawValue,
-                    "readReminders": PermissionState.denied.rawValue,
+                    "readReminders": PermissionState.denied.rawValue
                 ]
             case .writeOnly, .notDetermined:
                 permissionsState = [
                     "writeReminders": PermissionState.prompt.rawValue,
-                    "readReminders": PermissionState.prompt.rawValue,
+                    "readReminders": PermissionState.prompt.rawValue
                 ]
             @unknown default:
                 continuation.resume(throwing: CapacitorCalendarPluginError.unknownPermissionStatus)
@@ -60,71 +60,56 @@ public class CapacitorReminders: NSObject {
             continuation.resume(returning: permissionsState)
         }
     }
-    
+
     public func getRemindersLists() -> [[String: String]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
-    
-    public func createReminder(title: String, listId: String?, priority: Int?, isCompleted: Bool?, startDate: Double?, dueDate: Double?, completionDate: Double?, notes: String?, url: String?, location: String?, frequency: Int?, interval: Int?, end: Double?) throws -> Void {
-        let newReminder = EKReminder(eventStore: eventStore)
-        newReminder.title = title
-        if let listId = listId, let list = eventStore.calendar(withIdentifier: listId) {
-            newReminder.calendar = list
-        } else {
-            newReminder.calendar = eventStore.defaultCalendarForNewReminders()
-        }
-        if let priority = priority {
-            if priority > 9 {
-                newReminder.priority = 9
-            } else if priority < 0 {
-                newReminder.priority = 0
+
+    public func createReminder(with parameters: ReminderCreationParameters) throws {
+        func setCalendar() {
+            if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
+                newReminder.calendar = list
             } else {
-                newReminder.priority = priority
+                newReminder.calendar = eventStore.defaultCalendarForNewReminders()
             }
         }
-        if let isCompleted = isCompleted {
+
+        func setPriority() {
+            guard let priority = parameters.priority else { return }
+            newReminder.priority = max(0, min(9, priority))
+        }
+
+        let newReminder = EKReminder(eventStore: eventStore)
+        setCalendar()
+        setPriority()
+        setReminderDateComponents(
+            reminder: newReminder,
+            startDate: parameters.startDate,
+            dueDate: parameters.dueDate,
+            completionDate: parameters.completionDate
+        )
+        setReminderFrequency(reminder: newReminder, recurrence: parameters.recurrence)
+        newReminder.title = parameters.title
+        if let isCompleted = parameters.isCompleted {
             newReminder.isCompleted = isCompleted
         }
-        if let startDate = startDate {
-            newReminder.startDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: startDate / 1000))
-            newReminder.startDateComponents?.timeZone = Calendar.current.timeZone
-        }
-        if let dueDate = dueDate {
-            newReminder.dueDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeIntervalSince1970: dueDate / 1000))
-            newReminder.dueDateComponents?.timeZone = Calendar.current.timeZone
-        }
-        if let completionDate = completionDate {
-            newReminder.completionDate = Date(timeIntervalSince1970: completionDate / 1000)
-            newReminder.timeZone = Calendar.current.timeZone
-        }
-        if let notes = notes {
+        if let notes = parameters.notes {
             newReminder.notes = notes
         }
-        if let url = url {
+        if let url = parameters.url {
             newReminder.url = URL(string: url)
         }
-        if let location = location {
+        if let location = parameters.location {
             newReminder.location = location
         }
-        if let frequency = frequency, let interval = interval {
-            var endDate: EKRecurrenceEnd? = nil
-            if let end = end {
-                endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
-            }
-            newReminder.recurrenceRules = [EKRecurrenceRule(
-                recurrenceWith: recurrenceFrequencyMapping[frequency]!,
-                interval: interval,
-                end: endDate
-            )]
-        }
-        
+
         do {
             try eventStore.save(newReminder, commit: true)
         } catch {
             throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
         }
     }
-    
+
     public func requestFullAccessToReminders() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             if #available(iOS 17.0, *) {
@@ -133,7 +118,7 @@ public class CapacitorReminders: NSObject {
                         continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
                         return
                     }
-                    
+
                     var permissionState: String
                     if granted {
                         permissionState = PermissionState.granted.rawValue
@@ -148,7 +133,7 @@ public class CapacitorReminders: NSObject {
                         continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
                         return
                     }
-                    
+
                     var permissionState: String
                     if granted {
                         permissionState = PermissionState.granted.rawValue
@@ -160,7 +145,7 @@ public class CapacitorReminders: NSObject {
             }
         }
     }
-    
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
         var result: [[String: String]] = []
 
@@ -173,5 +158,53 @@ public class CapacitorReminders: NSObject {
         }
 
         return result
+    }
+
+    private func setReminderFrequency(reminder: EKReminder, recurrence: RecurrenceParameters?) {
+        guard let frequency = recurrence?.frequency, let interval = recurrence?.interval else { return }
+        var endDate: EKRecurrenceEnd?
+        if let end = recurrence?.end {
+            endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
+        }
+        if let recurrenceFrequency = recurrenceFrequencyMapping[frequency] {
+            reminder.recurrenceRules = [EKRecurrenceRule(
+                recurrenceWith: recurrenceFrequency,
+                interval: interval,
+                end: endDate
+            )]
+        }
+    }
+
+    private func setReminderDateComponents(reminder: EKReminder, startDate: Double?, dueDate: Double?, completionDate: Double?) {
+        func setStartDate() {
+            if let startDate = startDate {
+                reminder.startDateComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute],
+                    from: Date(timeIntervalSince1970: startDate / 1000)
+                )
+                reminder.startDateComponents?.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        func setDueDate() {
+            if let dueDate = dueDate {
+                reminder.dueDateComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute],
+                    from: Date(timeIntervalSince1970: dueDate / 1000)
+                )
+                reminder.dueDateComponents?.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        func setCompletionDate() {
+            if let completionDate = completionDate {
+                reminder.completionDate = Date(timeIntervalSince1970: completionDate / 1000)
+                reminder.timeZone = Calendar.current.timeZone
+            }
+        }
+
+        setStartDate()
+        setDueDate()
+        setCompletionDate()
     }
 }

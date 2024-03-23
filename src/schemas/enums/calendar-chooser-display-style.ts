@@ -4,13 +4,13 @@
  * @platform iOS
  */
 export enum CalendarChooserDisplayStyle {
-    /**
-     * Display all calendars available for selection.
-     */
-    ALL_CALENDARS,
+  /**
+   * Display all calendars available for selection.
+   */
+  ALL_CALENDARS,
 
-    /**
-     * Display only writable calendars available for selection.
-     */
-    WRITABLE_CALENDARS_ONLY
+  /**
+   * Display only writable calendars available for selection.
+   */
+  WRITABLE_CALENDARS_ONLY,
 }
