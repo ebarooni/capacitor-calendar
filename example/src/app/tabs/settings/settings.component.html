@@ -20,9 +20,14 @@
       <ion-icon [name]="'logo-github'" [slot]="'start'"></ion-icon>
       <ion-label>GitHub Repository</ion-label>
     </ion-item>
-    <ion-item (click)="openLink('https://barooni.dev/github')" [button]="true">
-      <ion-icon [name]="'globe-outline'" [slot]="'start'"></ion-icon>
-      <ion-label>Developer's Website</ion-label>
+    <ion-item
+      (click)="
+        openLink('https://www.npmjs.com/package/@ebarooni/capacitor-calendar')
+      "
+      [button]="true"
+    >
+      <ion-icon [name]="'logo-npm'" [slot]="'start'"></ion-icon>
+      <ion-label>NPM Package</ion-label>
     </ion-item>
     <ion-item>
       <ion-icon
