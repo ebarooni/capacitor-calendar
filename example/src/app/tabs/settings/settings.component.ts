@@ -4,7 +4,7 @@ import { IonContent, IonIcon, IonItem, IonLabel, IonList, IonNote, IonToggle } f
 import { LetDirective } from '@ngrx/component';
 import { StoreService } from '../../store/store.service';
 import { addIcons } from 'ionicons';
-import { moon, informationCircleOutline, logoGithub, globeOutline } from 'ionicons/icons';
+import { moon, informationCircleOutline, logoGithub, logoNpm } from 'ionicons/icons';
 import { Browser, OpenOptions } from '@capacitor/browser';
 import { Capacitor } from '@capacitor/core';
 
@@ -20,7 +20,7 @@ export class SettingsComponent {
       moon: moon,
       'information-circle-outline': informationCircleOutline,
       'logo-github': logoGithub,
-      'globe-outline': globeOutline,
+      'logo-npm': logoNpm,
     });
   }
 
