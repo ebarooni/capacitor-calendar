@@ -12,7 +12,7 @@ public struct EventCreationParameters {
     public var title: String
     public var calendarId: String?
     public var location: String?
-    public var startDate: Date?
-    public var endDate: Date?
+    public var startDate: Double?
+    public var endDate: Double?
     public var isAllDay: Bool?
 }

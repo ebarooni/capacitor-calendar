@@ -44,8 +44,8 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     title: string;
     calendarId?: string;
     location?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: number;
+    endDate?: number;
     isAllDay?: boolean;
   }): Promise<{
     eventCreated: boolean;
