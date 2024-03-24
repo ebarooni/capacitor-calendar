@@ -243,4 +243,17 @@ export interface CapacitorCalendarPlugin {
     location?: string;
     recurrence?: ReminderRecurrenceRule;
   }): Promise<{ reminderCreated: boolean }>;
+
+  /**
+   * Opens the calendar app.
+   *
+   * @method openCalendar
+   * @platform iOS, Android
+   * @param {object} options - Options for opening the calendar.
+   * @param {number} options.date - The date at which the calendar should be opened. (Optional)
+   * @returns {Promise<void>}
+   * @example
+   * void CapacitorCalendar.openCalendar({ date: Date.now() })
+   */
+  openCalendar(options: { date?: number }): Promise<void>;
 }
