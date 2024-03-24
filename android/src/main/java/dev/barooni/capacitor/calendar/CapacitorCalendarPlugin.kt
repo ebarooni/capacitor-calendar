@@ -178,8 +178,8 @@ class CapacitorCalendarPlugin : Plugin() {
                     ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
             val calendarId = call.getString("calendarId")
             val location = call.getString("location")
-            val startDate = call.getString("startDate")
-            val endDate = call.getString("endDate")
+            val startDate = call.getLong("startDate")
+            val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
 
             val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)

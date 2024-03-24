@@ -7,9 +7,7 @@ import android.net.Uri
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 import java.util.TimeZone
 
 class CapacitorCalendar() {
@@ -105,16 +103,12 @@ class CapacitorCalendar() {
         title: String,
         calendarId: String?,
         location: String?,
-        startDate: String?,
-        endDate: String?,
+        startDate: Long?,
+        endDate: Long?,
         isAllDay: Boolean?,
     ): Uri? {
-        val isoFormatter =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault()).apply {
-                timeZone = TimeZone.getTimeZone("UTC")
-            }
-        val startMillis = startDate?.let { isoFormatter.parse(it)?.time } ?: Calendar.getInstance().timeInMillis
-        val endMillis = endDate?.let { isoFormatter.parse(it)?.time } ?: (startMillis + 3600 * 1000)
+        val startMillis = startDate ?: Calendar.getInstance().timeInMillis
+        val endMillis = endDate ?: (startMillis + 3600 * 1000)
 
         val values =
             ContentValues().apply {
