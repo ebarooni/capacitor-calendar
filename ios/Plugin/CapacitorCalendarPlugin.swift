@@ -175,8 +175,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
         let location = call.getString("location")
-        let startDate = call.getDate("startDate")
-        let endDate = call.getDate("endDate")
+        let startDate = call.getDouble("startDate")
+        let endDate = call.getDouble("endDate")
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
 

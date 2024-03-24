@@ -91,12 +91,12 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             newEvent.location = location
         }
         if let startDate = parameters.startDate {
-            newEvent.startDate = startDate
+            newEvent.startDate = Date(timeIntervalSince1970: startDate / 1000)
         } else {
             newEvent.startDate = fallbackStartDate
         }
         if let endDate = parameters.endDate {
-            newEvent.endDate = endDate
+            newEvent.endDate = Date(timeIntervalSince1970: endDate / 1000)
         } else {
             newEvent.endDate = fallbackStartDate.addingTimeInterval(3600)
         }

@@ -104,7 +104,7 @@ export class MethodsListComponent {
     const now = Date.now();
     CapacitorCalendar.createEvent({
       title: 'Capacitor Calendar',
-      endDate: new Date(now + 2 * 60 * 60 * 1000),
+      endDate: now + 2 * 60 * 60 * 1000,
       location: 'Capacitor Calendar',
       isAllDay: false,
     })
