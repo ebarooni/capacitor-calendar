@@ -1,5 +1,5 @@
 /**
- * Represents a calendar object with an ID and title.
+ * Represents a calendar object.
  *
  * @interface Calendar
  * @platform iOS, Android

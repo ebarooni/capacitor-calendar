@@ -51,6 +51,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - ✅ Get default calendar
 - ✅ Create calendar events without native prompts
 - ✅️ Create reminders (only supported on iOS)
+- ✅ Open calendar app at a specific date
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
 
@@ -78,6 +79,7 @@ permissions can be found below:
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
+- [`openCalendar(...)`](#opencalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -255,13 +257,27 @@ Creates a reminder with the provided options.
 
 ---
 
+### openCalendar(...)
+
+```typescript
+openCalendar(options: { date?: number; }) => Promise<void>
+```
+
+Opens the calendar app.
+
+| Param         | Type                            | Description                         |
+| ------------- | ------------------------------- | ----------------------------------- |
+| **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
 
 #### Calendar
 
-Represents a calendar object with an ID and title.
+Represents a calendar object.
 
 | Prop        | Type                |
 | ----------- | ------------------- |
@@ -311,11 +327,11 @@ Represents a calendar object with an ID and title.
 
 #### ReminderRecurrenceFrequency
 
-| Members       |
-| ------------- |
-| **`DAILY`**   |
-| **`WEEKLY`**  |
-| **`MONTHLY`** |
-| **`YEARLY`**  |
+| Members       | Description                             |
+| ------------- | --------------------------------------- |
+| **`DAILY`**   | The reminder repeats on a daily basis   |
+| **`WEEKLY`**  | The reminder repeats on a weekly basis  |
+| **`MONTHLY`** | The reminder repeats on a monthly basis |
+| **`YEARLY`**  | The reminder repeats on a yearly basis  |
 
 </docgen-api>
