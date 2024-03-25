@@ -3,6 +3,7 @@ package dev.barooni.capacitor.calendar
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
@@ -122,5 +123,12 @@ class CapacitorCalendar() {
             }
 
         return context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+    }
+
+    @Throws(Exception::class)
+    fun openCalendar(timestamp: Long): Intent {
+        return Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("content://com.android.calendar/time/$timestamp")
+        }
     }
 }

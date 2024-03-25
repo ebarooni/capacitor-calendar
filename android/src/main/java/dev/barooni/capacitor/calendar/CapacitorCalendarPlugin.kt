@@ -209,4 +209,15 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented("[CapacitorCalendar.${::createReminder.name}] Not implemented on Android")
         return
     }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    fun openCalendar(call: PluginCall) {
+        val timestamp = call.getLong("date") ?: System.currentTimeMillis()
+        try {
+            return activity.startActivity(implementation.openCalendar(timestamp))
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::openCalendar.name}] Unable to open calendar")
+            return
+        }
+    }
 }
