@@ -29,14 +29,17 @@
   <ion-item button id="open-calendar-chooser-picker" [detail]="true">
     <ion-label>{{ selectCalendarsWithPrompt.name }}</ion-label>
   </ion-item>
+  <ion-item button [detail]="true" (click)="openCalendar()">
+    <ion-label>{{ openCalendar.name }}</ion-label>
+  </ion-item>
+  <ion-item button [detail]="true" (click)="createReminder()">
+    <ion-label>{{ createReminder.name }}</ion-label>
+  </ion-item>
   <ion-item button [detail]="true" (click)="getRemindersLists()">
     <ion-label>{{ getRemindersLists.name }}</ion-label>
   </ion-item>
   <ion-item button [detail]="true" (click)="getDefaultRemindersList()">
     <ion-label>{{ getDefaultRemindersList.name }}</ion-label>
-  </ion-item>
-  <ion-item button [detail]="true" (click)="createReminder()">
-    <ion-label>{{ createReminder.name }}</ion-label>
   </ion-item>
 </ion-list>
 

@@ -135,8 +135,8 @@ export interface CapacitorCalendarPlugin {
    * @param {string} options.title - The title of the event.
    * @param {string} options.calendarId - The id of the destination calendar. (Optional)
    * @param {string} [options.location] - The location of the event. (Optional)
-   * @param {Date} [options.startDate] - The start date and time of the event. (Optional)
-   * @param {Date} [options.endDate] - The end date and time of the event. (Optional)
+   * @param {number} [options.startDate] - The start date and time of the event. (Optional)
+   * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
    * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
    * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
@@ -145,8 +145,8 @@ export interface CapacitorCalendarPlugin {
    * const eventOptions = {
    *   title: 'Team Meeting',
    *   location: 'Conference Room A',
-   *   startDate: new Date(now),
-   *   endDate: new Date(now + 2 * 60 * 60 * 1000),
+   *   startDate: now,
+   *   endDate: now + 2 * 60 * 60 * 1000,
    *   isAllDay: false
    * };
    * const { eventCreated } = await createEvent(eventOptions);
@@ -156,8 +156,8 @@ export interface CapacitorCalendarPlugin {
     title: string;
     calendarId?: string;
     location?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: number;
+    endDate?: number;
     isAllDay?: boolean;
   }): Promise<{ eventCreated: boolean }>;
 
@@ -243,4 +243,17 @@ export interface CapacitorCalendarPlugin {
     location?: string;
     recurrence?: ReminderRecurrenceRule;
   }): Promise<{ reminderCreated: boolean }>;
+
+  /**
+   * Opens the calendar app. Since the user leaves your app, use this method with caution.
+   *
+   * @method openCalendar
+   * @platform iOS, Android
+   * @param {object} options - Options for opening the calendar.
+   * @param {number} options.date - The date at which the calendar should be opened. (Optional)
+   * @returns {Promise<void>}
+   * @example
+   * void CapacitorCalendar.openCalendar({ date: Date.now() })
+   */
+  openCalendar(options: { date?: number }): Promise<void>;
 }

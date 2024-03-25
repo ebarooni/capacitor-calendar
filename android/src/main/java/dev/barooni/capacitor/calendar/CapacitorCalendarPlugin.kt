@@ -178,8 +178,8 @@ class CapacitorCalendarPlugin : Plugin() {
                     ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
             val calendarId = call.getString("calendarId")
             val location = call.getString("location")
-            val startDate = call.getString("startDate")
-            val endDate = call.getString("endDate")
+            val startDate = call.getLong("startDate")
+            val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
 
             val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)
@@ -208,5 +208,16 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createReminder(call: PluginCall) {
         call.unimplemented("[CapacitorCalendar.${::createReminder.name}] Not implemented on Android")
         return
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    fun openCalendar(call: PluginCall) {
+        val timestamp = call.getLong("date") ?: System.currentTimeMillis()
+        try {
+            return activity.startActivity(implementation.openCalendar(timestamp))
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::openCalendar.name}] Unable to open calendar")
+            return
+        }
     }
 }
