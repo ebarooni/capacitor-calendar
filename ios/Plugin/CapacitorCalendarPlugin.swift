@@ -265,7 +265,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
-    
+
     @objc public func openCalendar(_ call: CAPPluginCall) {
         let interval: Double
         if let date = call.getDouble("date") {
@@ -273,7 +273,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         } else {
             interval = Date.timeIntervalSinceReferenceDate
         }
-        
+
         Task {
             do {
                 try await calendar.openCalendar(date: interval)
