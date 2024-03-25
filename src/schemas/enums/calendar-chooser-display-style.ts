@@ -1,6 +1,7 @@
 /**
  * Enum representing the display styles for the calendar chooser.
- * @enum
+ *
+ * @enum CalendarChooserDisplayStyle
  * @platform iOS
  */
 export enum CalendarChooserDisplayStyle {

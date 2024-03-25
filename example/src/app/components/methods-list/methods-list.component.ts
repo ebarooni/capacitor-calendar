@@ -104,7 +104,8 @@ export class MethodsListComponent {
     const now = Date.now();
     CapacitorCalendar.createEvent({
       title: 'Capacitor Calendar',
-      endDate: new Date(now + 2 * 60 * 60 * 1000),
+      startDate: now,
+      endDate: now + 2 * 60 * 60 * 1000,
       location: 'Capacitor Calendar',
       isAllDay: false,
     })
@@ -165,5 +166,11 @@ export class MethodsListComponent {
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public openCalendar(): void {
+    CapacitorCalendar.openCalendar({
+      date: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
+    }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }

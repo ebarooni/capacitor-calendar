@@ -175,8 +175,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
         let location = call.getString("location")
-        let startDate = call.getDate("startDate")
-        let endDate = call.getDate("endDate")
+        let startDate = call.getDouble("startDate")
+        let endDate = call.getDouble("endDate")
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
 
@@ -263,6 +263,24 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
             return
+        }
+    }
+
+    @objc public func openCalendar(_ call: CAPPluginCall) {
+        let interval: Double
+        if let date = call.getDouble("date") {
+            interval = Date(timeIntervalSince1970: date / 1000).timeIntervalSinceReferenceDate
+        } else {
+            interval = Date.timeIntervalSinceReferenceDate
+        }
+
+        Task {
+            do {
+                try await calendar.openCalendar(date: interval)
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Unable to open the calendar")
+                return
+            }
         }
     }
 }

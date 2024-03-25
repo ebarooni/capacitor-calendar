@@ -91,12 +91,12 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             newEvent.location = location
         }
         if let startDate = parameters.startDate {
-            newEvent.startDate = startDate
+            newEvent.startDate = Date(timeIntervalSince1970: startDate / 1000)
         } else {
             newEvent.startDate = fallbackStartDate
         }
         if let endDate = parameters.endDate {
-            newEvent.endDate = endDate
+            newEvent.endDate = Date(timeIntervalSince1970: endDate / 1000)
         } else {
             newEvent.endDate = fallbackStartDate.addingTimeInterval(3600)
         }
@@ -213,6 +213,35 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 }
             }
         }
+    }
+
+    public func openCalendar(date: Double) async throws {
+        guard let url = URL(string: "calshow:\(date)") else {
+            throw CapacitorCalendarPluginError.unableToOpenCalendar
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            guard let url = URL(string: "calshow:\(date)") else {
+                continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
+                return
+            }
+
+            Task { @MainActor in
+                guard UIApplication.shared.canOpenURL(url) else {
+                    continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
+                    return
+                }
+
+                UIApplication.shared.open(url, options: [:]) { success in
+                    if success {
+                        continuation.resume()
+                    } else {
+                        continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
+                    }
+                }
+            }
+        }
+
     }
 
     public func eventEditViewController(
