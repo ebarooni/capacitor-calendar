@@ -245,7 +245,7 @@ export interface CapacitorCalendarPlugin {
   }): Promise<{ reminderCreated: boolean }>;
 
   /**
-   * Opens the calendar app.
+   * Opens the calendar app. Since the user leaves your app, use this method with caution.
    *
    * @method openCalendar
    * @platform iOS, Android

@@ -265,4 +265,22 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+    
+    @objc public func openCalendar(_ call: CAPPluginCall) {
+        let interval: Double
+        if let date = call.getDouble("date") {
+            interval = Date(timeIntervalSince1970: date / 1000).timeIntervalSinceReferenceDate
+        } else {
+            interval = Date.timeIntervalSinceReferenceDate
+        }
+        
+        Task {
+            do {
+                try await calendar.openCalendar(date: interval)
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Unable to open the calendar")
+                return
+            }
+        }
+    }
 }

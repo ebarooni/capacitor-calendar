@@ -167,4 +167,10 @@ export class MethodsListComponent {
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public openCalendar(): void {
+    CapacitorCalendar.openCalendar({
+      date: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
+    }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
