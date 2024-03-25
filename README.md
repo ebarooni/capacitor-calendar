@@ -263,7 +263,7 @@ Creates a reminder with the provided options.
 openCalendar(options: { date?: number; }) => Promise<void>
 ```
 
-Opens the calendar app.
+Opens the calendar app. Since the user leaves your app, use this method with caution.
 
 | Param         | Type                            | Description                         |
 | ------------- | ------------------------------- | ----------------------------------- |

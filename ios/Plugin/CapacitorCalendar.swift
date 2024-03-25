@@ -214,24 +214,24 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
         }
     }
-    
-    public func openCalendar(date: Double) async throws -> Void {
+
+    public func openCalendar(date: Double) async throws {
         guard let url = URL(string: "calshow:\(date)") else {
             throw CapacitorCalendarPluginError.unableToOpenCalendar
         }
-        
+
         return try await withCheckedThrowingContinuation { continuation in
             guard let url = URL(string: "calshow:\(date)") else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
                 return
             }
-            
+
             Task { @MainActor in
                 guard UIApplication.shared.canOpenURL(url) else {
                     continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
                     return
                 }
-                
+
                 UIApplication.shared.open(url, options: [:]) { success in
                     if success {
                         continuation.resume()
@@ -241,7 +241,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 }
             }
         }
-        
+
     }
 
     public func eventEditViewController(
