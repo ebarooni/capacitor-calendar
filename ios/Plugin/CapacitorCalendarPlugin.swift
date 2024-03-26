@@ -283,4 +283,15 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
+
+    @objc public func openReminders(_ call: CAPPluginCall) {
+        Task {
+            do {
+                try await reminders.openReminders()
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Unable to open reminders")
+                return
+            }
+        }
+    }
 }

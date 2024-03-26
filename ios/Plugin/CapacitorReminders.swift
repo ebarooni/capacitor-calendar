@@ -8,6 +8,7 @@
 
 import Foundation
 import EventKit
+import UIKit
 
 public class CapacitorReminders: NSObject {
     private let eventStore: EKEventStore
@@ -141,6 +142,30 @@ public class CapacitorReminders: NSObject {
                         permissionState = PermissionState.denied.rawValue
                     }
                     continuation.resume(returning: permissionState)
+                }
+            }
+        }
+    }
+
+    public func openReminders() async throws {
+        return try await withCheckedThrowingContinuation { continuation in
+            guard let url = URL(string: "x-apple-reminderkit://") else {
+                continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenReminders)
+                return
+            }
+
+            Task { @MainActor in
+                guard UIApplication.shared.canOpenURL(url) else {
+                    continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenReminders)
+                    return
+                }
+
+                UIApplication.shared.open(url, options: [:]) { success in
+                    if success {
+                        continuation.resume()
+                    } else {
+                        continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenReminders)
+                    }
                 }
             }
         }

@@ -16,4 +16,5 @@ public enum CapacitorCalendarPluginError: Error {
     case canceledCalendarsSelectionPrompt
     case noDefaultCalendar
     case unableToOpenCalendar
+    case unableToOpenReminders
 }

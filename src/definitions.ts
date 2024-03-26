@@ -246,6 +246,7 @@ export interface CapacitorCalendarPlugin {
 
   /**
    * Opens the calendar app. Since the user leaves your app, use this method with caution.
+   * It will open the calendar on today's date if no date is provided.
    *
    * @method openCalendar
    * @platform iOS, Android
@@ -253,7 +254,18 @@ export interface CapacitorCalendarPlugin {
    * @param {number} options.date - The date at which the calendar should be opened. (Optional)
    * @returns {Promise<void>}
    * @example
-   * void CapacitorCalendar.openCalendar({ date: Date.now() })
+   * void CapacitorCalendar.openCalendar({ date: Date.now() });
    */
   openCalendar(options: { date?: number }): Promise<void>;
+
+  /**
+   * Opens the reminders app. Since the user leaves your app, use this method with caution.
+   *
+   * @method openReminders
+   * @platform iOS
+   * @returns {Promise<void>}
+   * @example
+   * void CapacitorCalendar.openReminders();
+   */
+  openReminders(): Promise<void>;
 }
