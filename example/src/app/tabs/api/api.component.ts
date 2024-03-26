@@ -25,7 +25,10 @@ export class ApiComponent {
 
   public handlePageRefresh(event: CustomEvent<RefresherEventDetail>): void {
     CapacitorCalendar.checkAllPermissions()
-      .then((result) => this.storeService.updateState({ permissions: result }))
+      .then((result) => {
+        this.storeService.updateState({ permissions: result });
+        this.storeService.dispatchLog(JSON.stringify(result));
+      })
       .catch((error: Error) => this.storeService.dispatchLog(JSON.stringify(error)))
       .finally(() => event.detail.complete());
   }
