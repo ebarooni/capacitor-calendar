@@ -80,6 +80,7 @@ permissions can be found below:
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
 - [`openCalendar(...)`](#opencalendar)
+- [`openReminders()`](#openreminders)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -264,10 +265,21 @@ openCalendar(options: { date?: number; }) => Promise<void>
 ```
 
 Opens the calendar app. Since the user leaves your app, use this method with caution.
+It will open the calendar on today's date if no date is provided.
 
 | Param         | Type                            | Description                         |
 | ------------- | ------------------------------- | ----------------------------------- |
 | **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
+
+---
+
+### openReminders()
+
+```typescript
+openReminders() => Promise<void>
+```
+
+Opens the reminders app. Since the user leaves your app, use this method with caution.
 
 ---
 
