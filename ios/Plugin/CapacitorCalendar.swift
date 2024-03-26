@@ -216,10 +216,6 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     }
 
     public func openCalendar(date: Double) async throws {
-        guard let url = URL(string: "calshow:\(date)") else {
-            throw CapacitorCalendarPluginError.unableToOpenCalendar
-        }
-
         return try await withCheckedThrowingContinuation { continuation in
             guard let url = URL(string: "calshow:\(date)") else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
@@ -241,7 +237,6 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 }
             }
         }
-
     }
 
     public func eventEditViewController(

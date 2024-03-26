@@ -80,4 +80,8 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   public openCalendar(_options: { date?: number }): Promise<void> {
     throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
   }
+
+  public openReminders(): Promise<void> {
+    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+  }
 }
