@@ -173,4 +173,8 @@ export class MethodsListComponent {
       date: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
     }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public openReminders(): void {
+    CapacitorCalendar.openReminders().catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
