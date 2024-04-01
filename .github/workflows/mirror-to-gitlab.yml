@@ -1,0 +1,31 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        run: |
+          REPO_URL=$(echo "https://github.com/${{ github.repository }}" | sed "s|://|://x-access-token:${{ secrets.GITHUB_TOKEN }}@|g")
+          git clone --bare $REPO_URL
+
+      - name: Set git config
+        run: |
+          cd $(basename ${{ github.repository }}).git
+          git config user.name "Ehsan Barooni"
+          git config user.email "66495214+ebarooni.noreply@barooni.dev"
+
+      - name: Mirror to GitLab
+        env:
+          GITLAB_MIRROR_TOKEN: ${{ secrets.GITLAB_MIRROR_TOKEN }}
+        run: |
+          cd $(basename ${{ github.repository }}).git
+          GITLAB_REPO="https://gitlab.com/ebarooni/capacitor-calendar.git"
+          git remote add gitlab https://oauth2:${GITLAB_MIRROR_TOKEN}@${GITLAB_REPO#https://}
+          git push --mirror gitlab
