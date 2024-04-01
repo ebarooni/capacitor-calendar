@@ -46,12 +46,14 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 
 ## MVP
 
-- ✅ Choose calendars with prompt (only supported on iOS)
+- ✅ Choose calendars with prompt (iOS)
 - ✅ Get list of available calendars
 - ✅ Get default calendar
 - ✅ Create calendar events without native prompts
-- ✅️ Create reminders (only supported on iOS)
+- ✅️ Create reminders (iOS)
 - ✅ Open calendar app at a specific date
+- ✅ Open reminders app (iOS)
+- ⌛️ Open reminders app at a specific list using id (iOS)
 - ⌛️ Find calendar events
 - ⌛️ Delete calendar events
 
