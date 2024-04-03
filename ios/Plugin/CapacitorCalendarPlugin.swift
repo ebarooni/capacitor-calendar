@@ -294,4 +294,22 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
+
+    @objc public func listEventsInRange(_ call: CAPPluginCall) {
+        guard let startDate = call.getDouble("startDate") else {
+            call.reject("[CapacitorCalendar.\(#function)] A start date was not provided")
+            return
+        }
+        guard let endDate = call.getDouble("endDate") else {
+            call.reject("[CapacitorCalendar.\(#function)] An end date was not provided")
+            return
+        }
+
+        do {
+            try call.resolve(["result": calendar.listEventsInRange(startDate: startDate, endDate: endDate)])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Could not get the list of events in requested range")
+            return
+        }
+    }
 }

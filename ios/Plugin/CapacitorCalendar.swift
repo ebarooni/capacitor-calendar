@@ -239,6 +239,18 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
+    public func listEventsInRange(
+        startDate: Double,
+        endDate: Double
+    ) throws -> [[String: String?]] {
+        let predicate = eventStore.predicateForEvents(
+            withStart: Date(timeIntervalSince1970: startDate / 1000),
+            end: Date(timeIntervalSince1970: endDate / 1000), calendars: nil
+        )
+        let events = self.eventStore.events(matching: predicate)
+        return dictionaryRepresentationOfEvents(events: events)
+    }
+
     public func eventEditViewController(
         _ controller: EKEventEditViewController,
         didCompleteWith action: EKEventEditViewAction
@@ -279,5 +291,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
 
         return result
+    }
+
+    private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: String?]] {
+        return events.map { event in
+            let eventID = event.eventIdentifier
+            let eventTitle = event.title
+            return ["id": eventID, "title": eventTitle]
+        }
     }
 }

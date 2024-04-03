@@ -177,4 +177,13 @@ export class MethodsListComponent {
   public openReminders(): void {
     CapacitorCalendar.openReminders().catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public listEventsInRange(): void {
+    CapacitorCalendar.listEventsInRange({
+      startDate: Date.now(),
+      endDate: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
+    })
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
