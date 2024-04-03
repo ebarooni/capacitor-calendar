@@ -6,6 +6,7 @@ import type { Calendar } from './schemas/interfaces/calendar';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
+import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -268,4 +269,21 @@ export interface CapacitorCalendarPlugin {
    * void CapacitorCalendar.openReminders();
    */
   openReminders(): Promise<void>;
+
+  /**
+   * Retrieves the list of calendar events present in the given date range.
+   *
+   * @method listEventsInRange
+   * @platform iOS, Android
+   * @param {object} options Options for defining the date range.
+   * @param {number} options.startDate The start of the date range.
+   * @param {number} options.endDate The end of the date range.
+   * @returns {Promise<{ result: CalendarEvent[] }>} A Promise that resolves with the list of events.
+   * @example
+   * const { result } = await CapacitorCalendar.listEventsInRange({
+   *   startDate: Date.now(),
+   *   endDate: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
+   * })
+   */
+  listEventsInRange(options: { startDate: number; endDate: number }): Promise<{ result: CalendarEvent[] }>;
 }
