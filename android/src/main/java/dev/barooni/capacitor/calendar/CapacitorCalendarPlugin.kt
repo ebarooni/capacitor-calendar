@@ -224,9 +224,11 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listEventsInRange(call: PluginCall) {
         try {
-            val startDate = call.getLong("startDate")
+            val startDate =
+                call.getLong("startDate")
                     ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A start date was not provided")
-            val endDate = call.getLong("endDate")
+            val endDate =
+                call.getLong("endDate")
                     ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] An end date was not provided")
             val ret = JSObject()
             ret.put("result", implementation.listEventsInRange(context, startDate, endDate))

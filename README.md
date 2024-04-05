@@ -53,8 +53,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - ✅️ Create reminders (iOS)
 - ✅ Open calendar app at a specific date
 - ✅ Open reminders app (iOS)
-- ⌛️ Open reminders app at a specific list using id (iOS)
-- ⌛️ Find calendar events
+- ✅️ Find calendar events
 - ⌛️ Delete calendar events
 
 ## Permissions
@@ -329,10 +328,21 @@ Represents a calendar object.
 
 Represents an event in the calendar.
 
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`id`**    | <code>string</code> |
-| **`title`** | <code>string</code> |
+| Prop                   | Type                 |
+| ---------------------- | -------------------- |
+| **`id`**               | <code>string</code>  |
+| **`title`**            | <code>string</code>  |
+| **`location`**         | <code>string</code>  |
+| **`eventColor`**       | <code>string</code>  |
+| **`organizer`**        | <code>string</code>  |
+| **`description`**      | <code>string</code>  |
+| **`startDate`**        | <code>number</code>  |
+| **`endDate`**          | <code>number</code>  |
+| **`eventTimezone`**    | <code>string</code>  |
+| **`eventEndTimezone`** | <code>string</code>  |
+| **`duration`**         | <code>string</code>  |
+| **`isAllDay`**         | <code>boolean</code> |
+| **`calendarId`**       | <code>string</code>  |
 
 ### Type Aliases
 

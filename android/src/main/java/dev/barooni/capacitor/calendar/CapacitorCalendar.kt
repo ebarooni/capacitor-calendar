@@ -133,8 +133,13 @@ class CapacitorCalendar() {
     }
 
     @Throws(Exception::class)
-    fun listEventsInRange(context: Context, startDate: Long, endDate: Long): JSArray {
-        val projection = arrayOf(
+    fun listEventsInRange(
+        context: Context,
+        startDate: Long,
+        endDate: Long,
+    ): JSArray {
+        val projection =
+            arrayOf(
                 CalendarContract.Events._ID,
                 CalendarContract.Events.TITLE,
                 CalendarContract.Events.EVENT_LOCATION,
@@ -147,19 +152,19 @@ class CapacitorCalendar() {
                 CalendarContract.Events.EVENT_END_TIMEZONE,
                 CalendarContract.Events.DURATION,
                 CalendarContract.Events.ALL_DAY,
-                CalendarContract.Events.CALENDAR_ID
-        )
+                CalendarContract.Events.CALENDAR_ID,
+            )
         val selection = "(${CalendarContract.Events.DTSTART} >= ?) AND (${CalendarContract.Events.DTEND} <= ?)"
         val selectionArgs = arrayOf(startDate.toString(), endDate.toString())
 
         val events = JSArray()
 
         context.contentResolver.query(
-                CalendarContract.Events.CONTENT_URI,
-                projection,
-                selection,
-                selectionArgs,
-                null
+            CalendarContract.Events.CONTENT_URI,
+            projection,
+            selection,
+            selectionArgs,
+            null,
         )?.use { cursor ->
             val idColumnIndex = cursor.getColumnIndex(CalendarContract.Events._ID)
             val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Events.TITLE)
@@ -191,21 +196,21 @@ class CapacitorCalendar() {
                 val calendarId = cursor.getLong(calendarIdColumnIndex)
 
                 val event =
-                        JSObject().apply {
-                            put("id", id.toString())
-                            title?.takeIf { it.isNotEmpty() }?.let { put("title", it) }
-                            location?.takeIf { it.isNotEmpty() }?.let { put("location", it) }
-                            eventColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
-                            organizer?.takeIf { it.isNotEmpty() }?.let { put("organizer", it) }
-                            desc?.takeIf { it.isNotEmpty() }?.let { put("description", it) }
-                            dtStart.takeIf { it != 0.toLong() }?.let { put("startDate", it) }
-                            dtEnd.takeIf { it != 0.toLong() }?.let { put("endDate", it) }
-                            eventTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventTimezone", it) }
-                            eventEndTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventEndTimezone", it) }
-                            duration?.takeIf { it.isNotEmpty() }?.let { put("duration", it) }
-                            put("isAllDay", allDay)
-                            calendarId.takeIf { it != 0.toLong() }?.let { put("calendarId", it.toString()) }
-                        }
+                    JSObject().apply {
+                        put("id", id.toString())
+                        title?.takeIf { it.isNotEmpty() }?.let { put("title", it) }
+                        location?.takeIf { it.isNotEmpty() }?.let { put("location", it) }
+                        eventColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
+                        organizer?.takeIf { it.isNotEmpty() }?.let { put("organizer", it) }
+                        desc?.takeIf { it.isNotEmpty() }?.let { put("description", it) }
+                        dtStart.takeIf { it != 0.toLong() }?.let { put("startDate", it) }
+                        dtEnd.takeIf { it != 0.toLong() }?.let { put("endDate", it) }
+                        eventTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventTimezone", it) }
+                        eventEndTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventEndTimezone", it) }
+                        duration?.takeIf { it.isNotEmpty() }?.let { put("duration", it) }
+                        put("isAllDay", allDay)
+                        calendarId.takeIf { it != 0.toLong() }?.let { put("calendarId", it.toString()) }
+                    }
                 events.put(event)
             }
         } ?: throw Exception("Cursor is null")
