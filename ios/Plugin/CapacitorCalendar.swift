@@ -295,9 +295,14 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
     private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: String?]] {
         return events.map { event in
-            let eventID = event.eventIdentifier
-            let eventTitle = event.title
-            return ["id": eventID, "title": eventTitle]
+            var dict = [String: String?]()
+            dict["id"] = event.eventIdentifier
+
+            if let title = event.title, !title.isEmpty {
+                dict["title"] = title
+            }
+
+            return dict
         }
     }
 }
