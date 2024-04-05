@@ -33,7 +33,7 @@ import com.getcapacitor.annotation.PermissionCallback
 class CapacitorCalendarPlugin : Plugin() {
     private var implementation = CapacitorCalendar()
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEventWithPrompt(call: PluginCall) {
         try {
             implementation.eventsCount = implementation.getTotalEventsCount(context)
@@ -71,7 +71,7 @@ class CapacitorCalendarPlugin : Plugin() {
         call.resolve(ret)
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun checkPermission(call: PluginCall) {
         try {
             val permissionName =
@@ -91,7 +91,7 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun checkAllPermissions(call: PluginCall) {
         try {
             return checkPermissions(call)
@@ -101,7 +101,7 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun requestPermission(call: PluginCall) {
         try {
             val alias =
@@ -130,7 +130,7 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun requestAllPermissions(call: PluginCall) {
         try {
             return requestPermissions(call)
@@ -146,7 +146,7 @@ class CapacitorCalendarPlugin : Plugin() {
         return
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listCalendars(call: PluginCall) {
         try {
             val calendars = implementation.listCalendars(context)
@@ -158,7 +158,7 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getDefaultCalendar(call: PluginCall) {
         try {
             val primaryCalendar = implementation.getDefaultCalendar(context)
@@ -170,7 +170,7 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEvent(call: PluginCall) {
         try {
             val title =
@@ -217,6 +217,22 @@ class CapacitorCalendarPlugin : Plugin() {
             return activity.startActivity(implementation.openCalendar(timestamp))
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::openCalendar.name}] Unable to open calendar")
+            return
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun listEventsInRange(call: PluginCall) {
+        try {
+            val startDate = call.getLong("startDate")
+                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A start date was not provided")
+            val endDate = call.getLong("endDate")
+                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] An end date was not provided")
+            val ret = JSObject()
+            ret.put("result", implementation.listEventsInRange(context, startDate, endDate))
+            call.resolve(ret)
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::createEvent.name}] Could not get the list of events in requested range")
             return
         }
     }
