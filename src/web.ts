@@ -6,6 +6,7 @@ import { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence
 import type { Calendar } from './schemas/interfaces/calendar';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
+import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: { alias: PluginPermission }): Promise<{ result: PermissionState }> {
@@ -82,6 +83,10 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }
 
   public openReminders(): Promise<void> {
+    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+  }
+
+  public listEventsInRange(_options: { startDate: number; endDate: number }): Promise<{ result: CalendarEvent[] }> {
     throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
   }
 }

@@ -53,8 +53,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - ✅️ Create reminders (iOS)
 - ✅ Open calendar app at a specific date
 - ✅ Open reminders app (iOS)
-- ⌛️ Open reminders app at a specific list using id (iOS)
-- ⌛️ Find calendar events
+- ✅️ Find calendar events
 - ⌛️ Delete calendar events
 
 ## Permissions
@@ -83,6 +82,7 @@ permissions can be found below:
 - [`createReminder(...)`](#createreminder)
 - [`openCalendar(...)`](#opencalendar)
 - [`openReminders()`](#openreminders)
+- [`listEventsInRange(...)`](#listeventsinrange)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -285,6 +285,22 @@ Opens the reminders app. Since the user leaves your app, use this method with ca
 
 ---
 
+### listEventsInRange(...)
+
+```typescript
+listEventsInRange(options: { startDate: number; endDate: number; }) => Promise<{ result: CalendarEvent[]; }>
+```
+
+Retrieves the list of calendar events present in the given date range.
+
+| Param         | Type                                                 | Description                          |
+| ------------- | ---------------------------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ startDate: number; endDate: number; }</code> | Options for defining the date range. |
+
+**Returns:** <code>Promise&lt;{ result: CalendarEvent[]; }&gt;</code>
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
@@ -307,6 +323,26 @@ Represents a calendar object.
 | **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
 | **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
 | **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
+
+#### CalendarEvent
+
+Represents an event in the calendar.
+
+| Prop                   | Type                 |
+| ---------------------- | -------------------- |
+| **`id`**               | <code>string</code>  |
+| **`title`**            | <code>string</code>  |
+| **`location`**         | <code>string</code>  |
+| **`eventColor`**       | <code>string</code>  |
+| **`organizer`**        | <code>string</code>  |
+| **`description`**      | <code>string</code>  |
+| **`startDate`**        | <code>number</code>  |
+| **`endDate`**          | <code>number</code>  |
+| **`eventTimezone`**    | <code>string</code>  |
+| **`eventEndTimezone`** | <code>string</code>  |
+| **`duration`**         | <code>string</code>  |
+| **`isAllDay`**         | <code>boolean</code> |
+| **`calendarId`**       | <code>string</code>  |
 
 ### Type Aliases
 
