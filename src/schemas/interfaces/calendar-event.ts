@@ -38,32 +38,32 @@ export interface CalendarEvent {
   eventColor?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   organizer?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   description?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   startDate?: number;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   endDate?: number;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   eventTimezone?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   eventEndTimezone?: string;
 
@@ -73,12 +73,12 @@ export interface CalendarEvent {
   duration?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   isAllDay?: boolean;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   calendarId: string;
 }

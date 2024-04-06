@@ -242,7 +242,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     public func listEventsInRange(
         startDate: Double,
         endDate: Double
-    ) throws -> [[String: String?]] {
+    ) throws -> [[String: Any]] {
         let predicate = eventStore.predicateForEvents(
             withStart: Date(timeIntervalSince1970: startDate / 1000),
             end: Date(timeIntervalSince1970: endDate / 1000), calendars: nil
@@ -293,15 +293,34 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         return result
     }
 
-    private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: String?]] {
+    private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: Any]] {
         return events.map { event in
-            var dict = [String: String?]()
+            var dict = [String: Any]()
             dict["id"] = event.eventIdentifier
-
             if let title = event.title, !title.isEmpty {
                 dict["title"] = title
             }
-
+            if let location = event.location, !location.isEmpty {
+                dict["location"] = location
+            }
+            if let organizer = event.organizer?.name, !organizer.isEmpty {
+                dict["organizer"] = organizer
+            }
+            if let notes = event.notes, !notes.isEmpty {
+                dict["description"] = notes
+            }
+            if let startDate = event.startDate {
+                dict["startDate"] = startDate.timeIntervalSince1970
+            }
+            if let endDate = event.endDate {
+                dict["endDate"] = endDate.timeIntervalSince1970
+            }
+            if let timezone = event.timeZone, (timezone.abbreviation()?.isEmpty) == nil {
+                dict["eventTimezone"] = timezone.abbreviation()
+                dict["eventEndTimezone"] = timezone.abbreviation()
+            }
+            dict["isAllDay"] = event.isAllDay
+            dict["calendarId"] = event.calendar.calendarIdentifier
             return dict
         }
     }
