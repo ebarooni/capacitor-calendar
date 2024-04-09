@@ -152,15 +152,13 @@ Requests authorization to all the required permissions for the plugin, if they h
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<{ eventCreated: boolean; }>
+createEventWithPrompt() => Promise<{ result: string; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
 On iOS opens a native sheet and on Android opens an intent.
-This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
-On Android, the user has to authorize for read access.
 
-**Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
 ---
 

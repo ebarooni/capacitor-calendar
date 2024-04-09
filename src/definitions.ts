@@ -59,26 +59,25 @@ export interface CapacitorCalendarPlugin {
   /**
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
-   * This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
-   * On Android, the user has to authorize for read access.
    *
    * @method
    * @platform iOS, Android
-   * @returns {Promise&lt;{ eventCreated: boolean }&gt;} – A promise that resolves with the result of the action.
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>Android:</strong> readCalendar</li>
+   * </ul>
+   * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
+   * @throws Error If prompt gets cancelled.
    * @example
-   * let result: CalendarEventActionResult;
    * if (capacitor.getPlatform() === 'android') {
-   *     const readCalendarStatus = (await this.requestPermission({ alias: 'readCalendar' })).result;
-   *     if (readCalendarStatus === 'granted') {
-   *         result = await this.createEventWithPrompt();
-   *     } else {
-   *         //  handle the case when user rejects the permission
-   *     }
+   *     await this.requestPermission({ alias: 'readCalendar' });
+   *     { result } = result = await this.createEventWithPrompt();
    * } else {
-   *     result = await this.createEventWithPrompt();
+   *     { result } = await this.createEventWithPrompt();
    * }
    */
-  createEventWithPrompt(): Promise<{ eventCreated: boolean }>;
+  createEventWithPrompt(): Promise<{ result: string }>;
 
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.

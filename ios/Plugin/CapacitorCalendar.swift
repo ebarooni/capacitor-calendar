@@ -5,7 +5,7 @@ import EventKitUI
 public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
-    private var currentCreateEventContinuation: CheckedContinuation<Bool, any Error>?
+    private var currentCreateEventContinuation: CheckedContinuation<String, any Error>?
     private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: String]], any Error>?
 
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
@@ -13,7 +13,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         self.eventStore = eventStore
     }
 
-    public func createEventWithPrompt() async throws -> Bool {
+    public func createEventWithPrompt() async throws -> String {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
@@ -257,9 +257,14 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     ) {
         controller.dismiss(animated: true) {
             if action == .saved {
-                self.currentCreateEventContinuation?.resume(returning: true)
+                if let event = controller.event {
+                    self.currentCreateEventContinuation?.resume(returning: event.eventIdentifier)
+                } else {
+                    self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
+                    return
+                }
             } else if action == .canceled {
-                self.currentCreateEventContinuation?.resume(returning: false)
+                self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.createEventCancelled)
             } else {
                 self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.unknownActionEventCreationPrompt)
             }
