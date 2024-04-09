@@ -28,4 +28,4 @@ jobs:
           cd $(basename ${{ github.repository }}).git
           GITLAB_REPO="https://gitlab.com/ebarooni/capacitor-calendar.git"
           git remote add gitlab https://oauth2:${GITLAB_MIRROR_TOKEN}@${GITLAB_REPO#https://}
-          git push --mirror gitlab
+          git push --mirror gitlab main:main
