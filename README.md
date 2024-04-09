@@ -205,7 +205,7 @@ Retrieves the default calendar set on the device.
 ### createEvent(...)
 
 ```typescript
-createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }) => Promise<{ eventCreated: boolean; }>
+createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }) => Promise<{ result: string; }>
 ```
 
 Creates an event with the provided options.
@@ -214,7 +214,7 @@ Creates an event with the provided options.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }</code> | - Options for creating the event. |
 
-**Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
 ---
 

@@ -49,7 +49,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     endDate?: number;
     isAllDay?: boolean;
   }): Promise<{
-    eventCreated: boolean;
+    result: string;
   }> {
     throw this.unimplemented(`${this.createEvent.name} is not implemented on the web`);
   }

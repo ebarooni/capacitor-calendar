@@ -78,7 +78,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func createEvent(with parameters: EventCreationParameters) throws {
+    public func createEvent(with parameters: EventCreationParameters) throws -> String {
         let fallbackStartDate = Date()
         let newEvent = EKEvent(eventStore: eventStore)
         if let calendarId = parameters.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
@@ -106,8 +106,9 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
         do {
             try eventStore.save(newEvent, span: .thisEvent)
+            return newEvent.eventIdentifier
         } catch {
-            throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
+            throw CapacitorCalendarPluginError.undefinedEvent
         }
     }
 

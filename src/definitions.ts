@@ -131,6 +131,13 @@ export interface CapacitorCalendarPlugin {
    *
    * @method createEvent
    * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS 17 &le;:</strong> writeCalendar</li>
+   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> writeCalendar</li>
+   *   <li><strong>Android:</strong> readCalendar, writeCalendar</li>
+   * </ul>
    * @param {object} options - Options for creating the event.
    * @param {string} options.title - The title of the event.
    * @param {string} options.calendarId - The id of the destination calendar. (Optional)
@@ -138,8 +145,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
-   * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
+   * @returns {Promise<{ result: string }>} A Promise that resolves with the id of the created event.
    * @example
    * const now = Date.now();
    * const eventOptions = {
@@ -149,8 +155,7 @@ export interface CapacitorCalendarPlugin {
    *   endDate: now + 2 * 60 * 60 * 1000,
    *   isAllDay: false
    * };
-   * const { eventCreated } = await createEvent(eventOptions);
-   * console.log(eventCreated); // true
+   * const { result } = await createEvent(eventOptions);
    */
   createEvent(options: {
     title: string;
@@ -159,7 +164,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-  }): Promise<{ eventCreated: boolean }>;
+  }): Promise<{ result: string }>;
 
   /**
    * Retrieves the default reminders list set on the device.
