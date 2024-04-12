@@ -191,7 +191,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
         do {
             let id = try calendar.createEvent(with: eventParameters)
-            call.resolve(["result": [id]])
+            call.resolve(["result": id])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
             return
