@@ -59,26 +59,25 @@ export interface CapacitorCalendarPlugin {
   /**
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
-   * This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
-   * On Android, the user has to authorize for read access.
    *
    * @method
    * @platform iOS, Android
-   * @returns {Promise&lt;{ eventCreated: boolean }&gt;} – A promise that resolves with the result of the action.
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>Android:</strong> readCalendar</li>
+   * </ul>
+   * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
+   * @throws Error If prompt gets cancelled.
    * @example
-   * let result: CalendarEventActionResult;
    * if (capacitor.getPlatform() === 'android') {
-   *     const readCalendarStatus = (await this.requestPermission({ alias: 'readCalendar' })).result;
-   *     if (readCalendarStatus === 'granted') {
-   *         result = await this.createEventWithPrompt();
-   *     } else {
-   *         //  handle the case when user rejects the permission
-   *     }
+   *     await this.requestPermission({ alias: 'readCalendar' });
+   *     { result } = result = await this.createEventWithPrompt();
    * } else {
-   *     result = await this.createEventWithPrompt();
+   *     { result } = await this.createEventWithPrompt();
    * }
    */
-  createEventWithPrompt(): Promise<{ eventCreated: boolean }>;
+  createEventWithPrompt(): Promise<{ result: string[] }>;
 
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
@@ -132,6 +131,13 @@ export interface CapacitorCalendarPlugin {
    *
    * @method createEvent
    * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS 17 &le;:</strong> writeCalendar</li>
+   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> writeCalendar</li>
+   *   <li><strong>Android:</strong> readCalendar, writeCalendar</li>
+   * </ul>
    * @param {object} options - Options for creating the event.
    * @param {string} options.title - The title of the event.
    * @param {string} options.calendarId - The id of the destination calendar. (Optional)
@@ -139,8 +145,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @returns {Promise<{ eventCreated: boolean }>} A Promise that resolves with an object indicating whether the event was created successfully.
-   * The resolved object has a property 'eventCreated' which is a boolean value representing whether the event was created.
+   * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @example
    * const now = Date.now();
    * const eventOptions = {
@@ -150,8 +155,7 @@ export interface CapacitorCalendarPlugin {
    *   endDate: now + 2 * 60 * 60 * 1000,
    *   isAllDay: false
    * };
-   * const { eventCreated } = await createEvent(eventOptions);
-   * console.log(eventCreated); // true
+   * const { result } = await createEvent(eventOptions);
    */
   createEvent(options: {
     title: string;
@@ -160,7 +164,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-  }): Promise<{ eventCreated: boolean }>;
+  }): Promise<{ result: string[] }>;
 
   /**
    * Retrieves the default reminders list set on the device.

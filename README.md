@@ -17,6 +17,7 @@
 - [Demo](#demo--click-for-details-)
 - [MVP](#mvp)
 - [Permissions](#permissions)
+- [Contributions](#contributions)
 - [API](#api)
 
 ## Install
@@ -63,6 +64,17 @@ permissions can be found below:
 
 - [iOS](./ios/PERMISSIONS.md)
 - [Android](./android/PERMISSIONS.md)
+
+## Contributions
+
+Thank you for your interest in contributing to the project! At the moment, the focus is on reaching the first major
+release. Until then, the contributions will not be accepted. This approach allows to set a solid
+foundation and maintain consistency throughout the development process.
+
+Community input is highly valued, and you are encouraged to engage with the project by providing feedback and suggestions.
+Feel free to open issues for bugs you've discovered or enhancements you'd like to see.
+
+Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up in the future!
 
 ## API
 
@@ -152,15 +164,13 @@ Requests authorization to all the required permissions for the plugin, if they h
 ### createEventWithPrompt()
 
 ```typescript
-createEventWithPrompt() => Promise<{ eventCreated: boolean; }>
+createEventWithPrompt() => Promise<{ result: string[]; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
 On iOS opens a native sheet and on Android opens an intent.
-This method does not need any read or write authorization from the user on iOS. However, the entries in the Info.plist file are still needed.
-On Android, the user has to authorize for read access.
 
-**Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 
 ---
 
@@ -207,7 +217,7 @@ Retrieves the default calendar set on the device.
 ### createEvent(...)
 
 ```typescript
-createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }) => Promise<{ eventCreated: boolean; }>
+createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }) => Promise<{ result: string[]; }>
 ```
 
 Creates an event with the provided options.
@@ -216,7 +226,7 @@ Creates an event with the provided options.
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }</code> | - Options for creating the event. |
 
-**Returns:** <code>Promise&lt;{ eventCreated: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 
 ---
 

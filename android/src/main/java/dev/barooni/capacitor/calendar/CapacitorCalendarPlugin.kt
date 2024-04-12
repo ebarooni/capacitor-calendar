@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.provider.CalendarContract
 import androidx.activity.result.ActivityResult
+import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -36,7 +37,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            implementation.eventsCount = implementation.getTotalEventsCount(context)
+            implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
             return startActivityForResult(
                 call,
                 Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI),
@@ -56,18 +57,13 @@ class CapacitorCalendarPlugin : Plugin() {
         if (call == null) {
             throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
         }
-        val currentEventsCount: Int = implementation.getTotalEventsCount(context)
-        val createEventResult =
-            if (currentEventsCount > implementation.eventsCount) {
-                true
-            } else if (implementation.eventsCount == currentEventsCount) {
-                false
-            } else {
-                call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
-                return
-            }
+
+        val newEventIds = implementation.getNewEventIds(implementation.fetchCalendarEventIDs(context))
+        val newIdsArray = JSArray()
+        newEventIds.forEach { id -> newIdsArray.put(id.toString()) }
+
         val ret = JSObject()
-        ret.put("eventCreated", createEventResult)
+        ret.put("result", newIdsArray)
         call.resolve(ret)
     }
 
@@ -183,8 +179,12 @@ class CapacitorCalendarPlugin : Plugin() {
             val isAllDay = call.getBoolean("isAllDay", false)
 
             val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)
+            val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
             val ret = JSObject()
-            ret.put("eventCreated", eventUri != null)
+            val array = JSArray()
+            array.put(id)
+
+            ret.put("result", array)
             call.resolve(ret)
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::createEvent.name}] Unable to create event")
