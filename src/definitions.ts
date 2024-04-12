@@ -67,7 +67,7 @@ export interface CapacitorCalendarPlugin {
    * <ul>
    *   <li><strong>Android:</strong> readCalendar</li>
    * </ul>
-   * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
+   * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @throws Error If prompt gets cancelled.
    * @example
    * if (capacitor.getPlatform() === 'android') {
@@ -77,7 +77,7 @@ export interface CapacitorCalendarPlugin {
    *     { result } = await this.createEventWithPrompt();
    * }
    */
-  createEventWithPrompt(): Promise<{ result: string }>;
+  createEventWithPrompt(): Promise<{ result: string[] }>;
 
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
@@ -145,7 +145,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @returns {Promise<{ result: string }>} A Promise that resolves with the id of the created event.
+   * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @example
    * const now = Date.now();
    * const eventOptions = {
@@ -164,7 +164,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-  }): Promise<{ result: string }>;
+  }): Promise<{ result: string[] }>;
 
   /**
    * Retrieves the default reminders list set on the device.

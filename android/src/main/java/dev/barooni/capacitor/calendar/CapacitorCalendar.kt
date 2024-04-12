@@ -1,6 +1,5 @@
 package dev.barooni.capacitor.calendar
 
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -12,17 +11,27 @@ import java.util.Calendar
 import java.util.TimeZone
 
 class CapacitorCalendar() {
-    var eventsCount: Int = 0
+    var eventIdsArray: List<Long> = emptyList()
 
     @Throws(Exception::class)
-    fun getTotalEventsCount(context: Context): Int {
-        val contentResolver: ContentResolver = context.contentResolver
-        val uri = CalendarContract.Events.CONTENT_URI
+    fun fetchCalendarEventIDs(context: Context): List<Long> {
         val projection = arrayOf(CalendarContract.Events._ID)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        val count = cursor?.count ?: 0
-        cursor?.close()
-        return count
+        val uri = CalendarContract.Events.CONTENT_URI
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        val eventIds = mutableListOf<Long>()
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val eventId = it.getLong(0)
+                eventIds.add(eventId)
+            }
+        }
+        return eventIds
+    }
+
+    @Throws(Exception::class)
+    fun getNewEventIds(newIds: List<Long>): List<Long> {
+        return newIds.filterNot { it in eventIdsArray }
     }
 
     @Throws(Exception::class)
