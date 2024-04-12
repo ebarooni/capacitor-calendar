@@ -145,7 +145,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
+   * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
    * @example
    * const now = Date.now();
    * const eventOptions = {
@@ -164,7 +164,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-  }): Promise<{ result: string[] }>;
+  }): Promise<{ result: string }>;
 
   /**
    * Retrieves the default reminders list set on the device.
