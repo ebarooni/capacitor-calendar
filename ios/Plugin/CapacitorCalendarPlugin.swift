@@ -127,7 +127,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         Task {
             do {
                 let result = try await calendar.createEventWithPrompt()
-                call.resolve(["result": result])
+                call.resolve(["result": [result]])
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Unable to retrieve view controller")
                 return
@@ -191,7 +191,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
         do {
             let id = try calendar.createEvent(with: eventParameters)
-            call.resolve(["result": id])
+            call.resolve(["result": [id]])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
             return
