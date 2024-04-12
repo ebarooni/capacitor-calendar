@@ -181,10 +181,7 @@ class CapacitorCalendarPlugin : Plugin() {
             val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)
             val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
             val ret = JSObject()
-            val array = JSArray()
-            array.put(id)
-
-            ret.put("result", array)
+            ret.put("result", id)
             call.resolve(ret)
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::createEvent.name}] Unable to create event")
