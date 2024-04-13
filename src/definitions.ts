@@ -301,7 +301,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Deletes events from the calendar given their IDs.
    *
-   * @method deleteEventsByIds
+   * @method deleteEventsById
    * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>
@@ -312,10 +312,11 @@ export interface CapacitorCalendarPlugin {
    * </ul>
    * @param {object} options Options for defining event IDs.
    * @param {number} options.ids An array of event IDs to be deleted.
-   * @returns {Promise<{deletedIds: string[], failedIds: string[]}>} A promise that resolves to an object with two properties:
-   *  - deletedIds: string[] - An array of IDs that were successfully deleted.
-   *  - failedIds: string[] - An array of IDs that could not be deleted.
+   * @returns {Promise<{ deleted: string[], failed: string[] }>}
+   * A promise that resolves to an object with two properties:
+   *  - deleted: string[] - An array of IDs that were successfully deleted.
+   *  - failed: string[] - An array of IDs that could not be deleted.
    *
    */
-  deleteEventsByIds(options: { ids: string[] }): Promise<{ result: { deletedIds: string[]; failedIds: string[] } }>;
+  deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 }

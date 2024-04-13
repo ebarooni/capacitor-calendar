@@ -74,7 +74,7 @@ foundation and maintain consistency throughout the development process.
 Community input is highly valued, and you are encouraged to engage with the project by providing feedback and suggestions.
 Feel free to open issues for bugs you've discovered or enhancements you'd like to see.
 
-Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up in the future!
+Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up!
 
 ## API
 
@@ -95,6 +95,7 @@ Stay tuned for updates. Looking forward to collaborating with you in the future 
 - [`openCalendar(...)`](#opencalendar)
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
+- [`deleteEventsById(...)`](#deleteeventsbyid)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -308,6 +309,22 @@ Retrieves the list of calendar events present in the given date range.
 | **`options`** | <code>{ startDate: number; endDate: number; }</code> | Options for defining the date range. |
 
 **Returns:** <code>Promise&lt;{ result: CalendarEvent[]; }&gt;</code>
+
+---
+
+### deleteEventsById(...)
+
+```typescript
+deleteEventsById(options: { ids: string[]; }) => Promise<{ result: { deleted: string[]; failed: string[]; }; }>
+```
+
+Deletes events from the calendar given their IDs.
+
+| Param         | Type                            | Description                     |
+| ------------- | ------------------------------- | ------------------------------- |
+| **`options`** | <code>{ ids: string[]; }</code> | Options for defining event IDs. |
+
+**Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 ---
 
