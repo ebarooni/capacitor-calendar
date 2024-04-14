@@ -15,9 +15,9 @@
 - [Install](#install)
 - [Support Range](#support-range)
 - [Demo](#demo--click-for-details-)
-- [MVP](#mvp)
+- [MVP](#-mvp)
 - [Permissions](#permissions)
-- [Contributions](#contributions)
+- [Contributions](#-contributions)
 - [API](#api)
 
 ## Install
@@ -45,17 +45,21 @@ On iOS, `readCalendar` permission is not needed when you a
 re creating an event using the native prompt.
 The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
 
-## MVP
+## 🏅 MVP
 
-- ✅ Choose calendars with prompt (iOS)
-- ✅ Get list of available calendars
-- ✅ Get default calendar
-- ✅ Create calendar events without native prompts
-- ✅️ Create reminders (iOS)
-- ✅ Open calendar app at a specific date
-- ✅ Open reminders app (iOS)
-- ✅️ Find calendar events
-- ⌛️ Delete calendar events
+- [x] Choose calendars with prompt (iOS)
+- [x] Get list of available calendars
+- [x] Get default calendar
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/15
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/18
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/26
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/35
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/37
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/45
+- [x] https://github.com/ebarooni/capacitor-calendar/issues/27
+- [ ] https://github.com/ebarooni/capacitor-calendar/issues/51
+- [ ] https://github.com/ebarooni/capacitor-calendar/issues/44
+- [ ] https://github.com/ebarooni/capacitor-calendar/issues/52
 
 ## Permissions
 
@@ -65,16 +69,17 @@ permissions can be found below:
 - [iOS](./ios/PERMISSIONS.md)
 - [Android](./android/PERMISSIONS.md)
 
-## Contributions
+## 💙 Contributions
 
-Thank you for your interest in contributing to the project! At the moment, the focus is on reaching the first major
+> [!WARNING]
+> Thank you for your interest in contributing to the project! At the moment, the focus is on reaching the first major
 release. Until then, the contributions will not be accepted. This approach allows to set a solid
 foundation and maintain consistency throughout the development process.
-
-Community input is highly valued, and you are encouraged to engage with the project by providing feedback and suggestions.
+>
+> Community input is highly valued, and you are encouraged to engage with the project by providing feedback and suggestions.
 Feel free to open issues for bugs you've discovered or enhancements you'd like to see.
-
-Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up!
+>
+> Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up!
 
 ## API
 
