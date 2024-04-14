@@ -47,21 +47,19 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 
 ## 🏅 MVP
 
-```[tasklist]
-- [x] Choose calendars with prompt (iOS)
-- [x] Get list of available calendars
-- [x] Get default calendar
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/15
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/18
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/26
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/35
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/37
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/45
-- [x] https://github.com/ebarooni/capacitor-calendar/issues/27
-- [ ] https://github.com/ebarooni/capacitor-calendar/issues/51
-- [ ] https://github.com/ebarooni/capacitor-calendar/issues/44
-- [ ] https://github.com/ebarooni/capacitor-calendar/issues/52
-```
+* [x] Choose calendars with prompt (iOS)
+* [x] Get list of available calendars
+* [x] Get default calendar
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/15
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/18
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/26
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/35
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/37
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/45
+* [x] https://github.com/ebarooni/capacitor-calendar/issues/27
+* [ ] https://github.com/ebarooni/capacitor-calendar/issues/51
+* [ ] https://github.com/ebarooni/capacitor-calendar/issues/44
+* [ ] https://github.com/ebarooni/capacitor-calendar/issues/52
 
 ## Permissions
 
