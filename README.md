@@ -47,6 +47,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 
 ## 🏅 MVP
 
+```[tasklist]
 - [x] Choose calendars with prompt (iOS)
 - [x] Get list of available calendars
 - [x] Get default calendar
@@ -60,6 +61,7 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 - [ ] https://github.com/ebarooni/capacitor-calendar/issues/51
 - [ ] https://github.com/ebarooni/capacitor-calendar/issues/44
 - [ ] https://github.com/ebarooni/capacitor-calendar/issues/52
+```
 
 ## Permissions
 
