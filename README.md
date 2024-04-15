@@ -15,7 +15,6 @@
 - [Install](#install)
 - [Support Range](#support-range)
 - [Demo](#demo--click-for-details-)
-- [MVP](#-mvp)
 - [Permissions](#permissions)
 - [Contributions](#-contributions)
 - [API](#api)
@@ -44,22 +43,6 @@ On iOS, `readCalendar` permission is not needed when you a
 
 re creating an event using the native prompt.
 The video is just for showing the functionality, otherwise the `createEventWithPrompt` method works without the `readCalendar` authorization.
-
-## 🏅 MVP
-
-* [x] Choose calendars with prompt (iOS)
-* [x] Get list of available calendars
-* [x] Get default calendar
-* [x] #15
-* [x] #18
-* [x] https://github.com/ebarooni/capacitor-calendar/issues/26
-* [x] https://github.com/ebarooni/capacitor-calendar/issues/35
-* [x] https://github.com/ebarooni/capacitor-calendar/issues/37
-* [x] https://github.com/ebarooni/capacitor-calendar/issues/45
-* [x] https://github.com/ebarooni/capacitor-calendar/issues/27
-* [ ] https://github.com/ebarooni/capacitor-calendar/issues/51
-* [ ] https://github.com/ebarooni/capacitor-calendar/issues/44
-* [ ] https://github.com/ebarooni/capacitor-calendar/issues/52
 
 ## Permissions
 
