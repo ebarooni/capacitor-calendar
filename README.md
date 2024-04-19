@@ -56,11 +56,11 @@ permissions can be found below:
 
 > [!WARNING]
 > Thank you for your interest in contributing to the project! At the moment, the focus is on reaching the first major
-release. Until then, the contributions will not be accepted. This approach allows to set a solid
-foundation and maintain consistency throughout the development process.
+> release. Until then, the contributions will not be accepted. This approach allows to set a solid
+> foundation and maintain consistency throughout the development process.
 >
 > Community input is highly valued, and you are encouraged to engage with the project by providing feedback and suggestions.
-Feel free to open issues for bugs you've discovered or enhancements you'd like to see.
+> Feel free to open issues for bugs you've discovered or enhancements you'd like to see.
 >
 > Stay tuned for updates. Looking forward to collaborating with you in the future once contributions are opened up!
 
