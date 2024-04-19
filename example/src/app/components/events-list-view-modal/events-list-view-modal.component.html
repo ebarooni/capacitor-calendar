@@ -34,8 +34,12 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-button [expand]="'block'" (click)="dispatchEvents()">
-              Delete events
+            <ion-button
+              [color]="'danger'"
+              [expand]="'block'"
+              (click)="dispatchEvents()"
+            >
+              Delete event(s)
             </ion-button>
           </ion-col>
         </ion-row>
