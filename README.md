@@ -298,6 +298,8 @@ Retrieves the list of calendar events present in the given date range.
 
 **Returns:** <code>Promise&lt;{ result: CalendarEvent[]; }&gt;</code>
 
+**Since:** 0.10.0
+
 ---
 
 ### deleteEventsById(...)
@@ -313,6 +315,8 @@ Deletes events from the calendar given their IDs.
 | **`options`** | <code>{ ids: string[]; }</code> | Options for defining event IDs. |
 
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
+
+**Since:** 0.11.0
 
 ---
 
