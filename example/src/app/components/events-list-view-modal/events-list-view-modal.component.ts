@@ -10,6 +10,7 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonListHeader,
   IonModal,
   IonProgressBar,
   IonRow,
@@ -18,7 +19,7 @@ import {
 import { CalendarEvent, CapacitorCalendar } from '@ebarooni/capacitor-calendar';
 import { BehaviorSubject } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
-import { DOCUMENT } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-events-list-view-modal',
@@ -39,6 +40,8 @@ import { DOCUMENT } from '@angular/common';
     IonRow,
     IonCol,
     IonButtons,
+    IonListHeader,
+    DatePipe,
   ],
   standalone: true,
 })
@@ -47,6 +50,8 @@ export class EventsListViewModalComponent {
   @ViewChild('modal') modal?: IonModal;
   public loading = false;
   public checkboxStates: { [key: string]: boolean } = {};
+  public startDate?: Date;
+  public endDate?: Date;
   readonly events$ = new BehaviorSubject<CalendarEvent[]>([]);
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
@@ -74,8 +79,18 @@ export class EventsListViewModalComponent {
     void this.modal?.dismiss();
   }
 
+  dispose(): void {
+    this.checkboxStates = {};
+    this.startDate = undefined;
+    this.endDate = undefined;
+  }
+
   private fetchEvents(): Promise<void> {
     const now = Date.now();
+    const inTwoWeeks = now + 2 * 7 * 24 * 60 * 60 * 1000;
+    this.startDate = new Date(now);
+    this.endDate = new Date(inTwoWeeks);
+
     return CapacitorCalendar.listEventsInRange({
       startDate: now,
       endDate: now + 2 * 7 * 24 * 60 * 60 * 1000,

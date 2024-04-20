@@ -1,4 +1,4 @@
-<ion-modal #modal (ionModalWillDismiss)="checkboxStates = {}">
+<ion-modal #modal (ionModalWillDismiss)="dispose()">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -15,6 +15,11 @@
         <ion-row>
           <ion-col>
             <ion-list>
+              <ion-list-header>
+                <ion-label>
+                  {{ startDate | date }} – {{ endDate | date }}
+                </ion-label>
+              </ion-list-header>
               @for (event of calendarEvents; track $index) {
                 <ion-item>
                   <ion-checkbox
