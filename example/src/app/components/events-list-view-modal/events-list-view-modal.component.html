@@ -11,10 +11,10 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-grid>
+      <ion-grid *ngrxLet="events$ as calendarEvents">
         <ion-row>
           <ion-col>
-            <ion-list *ngrxLet="events$ as calendarEvents">
+            <ion-list>
               @for (event of calendarEvents; track $index) {
                 <ion-item>
                   <ion-checkbox
@@ -32,17 +32,19 @@
             </ion-list>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-button
-              [color]="'danger'"
-              [expand]="'block'"
-              (click)="dispatchEvents()"
-            >
-              Delete event(s)
-            </ion-button>
-          </ion-col>
-        </ion-row>
+        @if (calendarEvents) {
+          <ion-row>
+            <ion-col>
+              <ion-button
+                [color]="'danger'"
+                [expand]="'block'"
+                (click)="dispatchEvents()"
+              >
+                Delete event(s)
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        }
       </ion-grid>
     </ion-content>
   </ng-template>
