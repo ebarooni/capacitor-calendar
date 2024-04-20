@@ -278,6 +278,7 @@ export interface CapacitorCalendarPlugin {
    * Retrieves the list of calendar events present in the given date range.
    *
    * @method listEventsInRange
+   * @since 0.10.0
    * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>
@@ -302,6 +303,7 @@ export interface CapacitorCalendarPlugin {
    * Deletes events from the calendar given their IDs.
    *
    * @method deleteEventsById
+   * @since 0.11.0
    * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>

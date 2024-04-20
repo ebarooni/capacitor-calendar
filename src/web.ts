@@ -93,6 +93,6 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   public deleteEventsById(_options: { ids: string[] }): Promise<{
     result: { deleted: string[]; failed: string[] };
   }> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.deleteEventsById.name} is not implemented on the web`);
   }
 }
