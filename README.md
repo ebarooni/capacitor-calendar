@@ -9,11 +9,14 @@
     <a href="https://capacitor-calendar.pages.dev/"><strong>https://capacitor-calendar.pages.dev</strong></a>
     <br>
 </p>
+<p align="center">
+    <a href="SECURITY.md#deployment-targets">Deployment Targets</a>
+    <br>
+</p>
 
 ## Table of Contents
 
 - [Install](#install)
-- [Support Range](#support-range)
 - [Demo](#demo--click-for-details-)
 - [Permissions](#permissions)
 - [Contributions](#-contributions)
@@ -25,13 +28,6 @@
 npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
-
-## Support Range
-
-| Platform |           range           |
-| :------: | :-----------------------: |
-|   iOS    |          &ge; 13          |
-| Android  | &ge; 7 (SDK 24 or Nougat) |
 
 ## [Demo (click for details)](./example/README.md)
 
