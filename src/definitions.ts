@@ -278,7 +278,15 @@ export interface CapacitorCalendarPlugin {
    * Retrieves the list of calendar events present in the given date range.
    *
    * @method listEventsInRange
+   * @since 0.10.0
    * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS 17 &le;:</strong> readCalendar</li>
+   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> readCalendar</li>
+   *   <li><strong>Android:</strong> readCalendar</li>
+   * </ul>
    * @param {object} options Options for defining the date range.
    * @param {number} options.startDate The start of the date range.
    * @param {number} options.endDate The end of the date range.
@@ -290,4 +298,27 @@ export interface CapacitorCalendarPlugin {
    * })
    */
   listEventsInRange(options: { startDate: number; endDate: number }): Promise<{ result: CalendarEvent[] }>;
+
+  /**
+   * Deletes events from the calendar given their IDs.
+   *
+   * @method deleteEventsById
+   * @since 0.11.0
+   * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS 17 &le;:</strong> writeCalendar</li>
+   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> writeCalendar</li>
+   *   <li><strong>Android:</strong> writeCalendar</li>
+   * </ul>
+   * @param {object} options Options for defining event IDs.
+   * @param {number} options.ids An array of event IDs to be deleted.
+   * @returns {Promise<{ deleted: string[], failed: string[] }>}
+   * A promise that resolves to an object with two properties:
+   *  - deleted: string[] - An array of IDs that were successfully deleted.
+   *  - failed: string[] - An array of IDs that could not be deleted.
+   *
+   */
+  deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 }

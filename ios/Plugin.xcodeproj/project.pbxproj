@@ -19,6 +19,7 @@
 		7C0211BF2B8FC54B0040107B /* PermissionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0211BE2B8FC54B0040107B /* PermissionState.swift */; };
 		7C13B8262BA4F89C001A0DFA /* CapacitorReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C13B8252BA4F89C001A0DFA /* CapacitorReminders.swift */; };
 		7C6A81062B8E917A003E43B9 /* CapacitorCalendarPluginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A81052B8E917A003E43B9 /* CapacitorCalendarPluginError.swift */; };
+		7CB61E612BCB2FC800112098 /* EventDeleteResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB61E602BCB2FC800112098 /* EventDeleteResults.swift */; };
 		7CB9D6072BAE292500FFAB90 /* ReminderCreationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */; };
 		7CB9D6092BAE298400FFAB90 /* RecurrenceParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */; };
 		7CB9D60B2BAE356800FFAB90 /* EventCreationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */; };
@@ -50,6 +51,7 @@
 		7C0211BE2B8FC54B0040107B /* PermissionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionState.swift; sourceTree = "<group>"; };
 		7C13B8252BA4F89C001A0DFA /* CapacitorReminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitorReminders.swift; sourceTree = "<group>"; };
 		7C6A81052B8E917A003E43B9 /* CapacitorCalendarPluginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitorCalendarPluginError.swift; sourceTree = "<group>"; };
+		7CB61E602BCB2FC800112098 /* EventDeleteResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDeleteResults.swift; sourceTree = "<group>"; };
 		7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCreationParameters.swift; sourceTree = "<group>"; };
 		7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceParameters.swift; sourceTree = "<group>"; };
 		7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreationParameters.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				7CB9D6062BAE292500FFAB90 /* ReminderCreationParameters.swift */,
 				7CB9D6082BAE298400FFAB90 /* RecurrenceParameters.swift */,
 				7CB9D60A2BAE356800FFAB90 /* EventCreationParameters.swift */,
+				7CB61E602BCB2FC800112098 /* EventDeleteResults.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB61E612BCB2FC800112098 /* EventDeleteResults.swift in Sources */,
 				7CB9D6072BAE292500FFAB90 /* ReminderCreationParameters.swift in Sources */,
 				50E1A94820377CB70090CE1A /* CapacitorCalendarPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* CapacitorCalendar.swift in Sources */,
