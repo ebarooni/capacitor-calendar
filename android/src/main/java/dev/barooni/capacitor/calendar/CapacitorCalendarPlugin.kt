@@ -223,15 +223,30 @@ class CapacitorCalendarPlugin : Plugin() {
         try {
             val startDate =
                 call.getLong("startDate")
-                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A start date was not provided")
+                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] A start date was not provided")
             val endDate =
                 call.getLong("endDate")
-                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] An end date was not provided")
+                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] An end date was not provided")
             val ret = JSObject()
             ret.put("result", implementation.listEventsInRange(context, startDate, endDate))
             call.resolve(ret)
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::createEvent.name}] Could not get the list of events in requested range")
+            call.reject("", "[CapacitorCalendar.${::listEventsInRange.name}] Could not get the list of events in requested range")
+            return
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun deleteEventsById(call: PluginCall) {
+        try {
+            val ids =
+                call.getArray("ids")
+                    ?: throw Exception("[CapacitorCalendar.${::deleteEventsById.name}] Event ids were not provided")
+            val ret = JSObject()
+            ret.put("result", implementation.deleteEventsById(context, ids))
+            call.resolve(ret)
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
         }
     }
