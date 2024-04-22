@@ -13,7 +13,7 @@ export enum PluginPermission {
    * <h3>Manifest Permissions:</h3>
    * <ul>
    *   <li><strong>iOS 17 &le;:</strong> NSCalendarsFullAccessUsageDescription</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> NSCalendarsUsageDescription</li>
+   *   <li><strong>13 &le; iOS &le; 16:</strong> NSCalendarsUsageDescription</li>
    *   <li><strong>Android:</strong> android.permission.READ_CALENDAR</li>
    * </ul>
    */
@@ -27,7 +27,7 @@ export enum PluginPermission {
    * <h3>Manifest Permissions:</h3>
    * <ul>
    *   <li><strong>iOS 17 &le;:</strong> NSCalendarsWriteOnlyAccessUsageDescription</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> NSCalendarsUsageDescription</li>
+   *   <li><strong>13 &le; iOS &le; 16:</strong> NSCalendarsUsageDescription</li>
    *   <li><strong>Android:</strong> android.permission.WRITE_CALENDAR</li>
    * </ul>
    */
@@ -41,7 +41,7 @@ export enum PluginPermission {
    * <h3>Manifest Permissions:</h3>
    * <ul>
    *   <li><strong>iOS 17 &le;:</strong> NSRemindersFullAccessUsageDescription</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> NSRemindersUsageDescription</li>
+   *   <li><strong>10 &le; iOS &le; 16:</strong> NSRemindersUsageDescription</li>
    * </ul>
    */
   READ_REMINDERS = 'readReminders',
@@ -54,7 +54,7 @@ export enum PluginPermission {
    * <h3>Manifest Permissions:</h3>
    * <ul>
    *   <li><strong>iOS 17 &le;:</strong> NSRemindersFullAccessUsageDescription</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> NSRemindersUsageDescription</li>
+   *   <li><strong>13 &le; iOS &le; 16:</strong> NSRemindersUsageDescription</li>
    * </ul>
    */
   WRITE_REMINDERS = 'writeReminders',
