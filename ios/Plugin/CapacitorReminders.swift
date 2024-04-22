@@ -66,7 +66,7 @@ public class CapacitorReminders: NSObject {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
 
-    public func createReminder(with parameters: ReminderCreationParameters) throws {
+    public func createReminder(with parameters: ReminderCreationParameters) throws -> String {
         func setCalendar() {
             if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
                 newReminder.calendar = list
@@ -106,6 +106,7 @@ public class CapacitorReminders: NSObject {
 
         do {
             try eventStore.save(newReminder, commit: true)
+            return newReminder.calendarItemIdentifier
         } catch {
             throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
         }

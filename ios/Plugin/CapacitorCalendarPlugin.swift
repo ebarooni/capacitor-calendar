@@ -258,8 +258,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         )
 
         do {
-            try reminders.createReminder(with: reminderParams)
-            call.resolve(["reminderCreated": true])
+            let id = try reminders.createReminder(with: reminderParams)
+            call.resolve(["result": id])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
             return
