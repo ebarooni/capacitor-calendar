@@ -29,7 +29,7 @@ const initialState = <State>{
     [PluginPermission.READ_REMINDERS]: 'prompt',
     [PluginPermission.WRITE_REMINDERS]: 'prompt',
   },
-  appVersion: '0.11.0',
+  appVersion: '0.12.0',
 };
 
 @Injectable()

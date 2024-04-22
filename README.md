@@ -242,7 +242,7 @@ Retrieves all available reminders lists on the device.
 ### createReminder(...)
 
 ```typescript
-createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ reminderCreated: boolean; }>
+createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ result: string; }>
 ```
 
 Creates a reminder with the provided options.
@@ -251,7 +251,9 @@ Creates a reminder with the provided options.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | - Options for creating the reminder. |
 
-**Returns:** <code>Promise&lt;{ reminderCreated: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** 0.5.0
 
 ---
 
