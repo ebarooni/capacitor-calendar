@@ -66,7 +66,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     url?: string;
     location?: string;
     recurrence?: ReminderRecurrenceRule;
-  }): Promise<{ reminderCreated: boolean }> {
+  }): Promise<{ result: string }> {
     throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
   }
 

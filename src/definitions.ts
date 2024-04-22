@@ -134,8 +134,7 @@ export interface CapacitorCalendarPlugin {
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
-   *   <li><strong>iOS 17 &le;:</strong> writeCalendar</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> writeCalendar</li>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
    *   <li><strong>Android:</strong> readCalendar, writeCalendar</li>
    * </ul>
    * @param {object} options - Options for creating the event.
@@ -197,7 +196,13 @@ export interface CapacitorCalendarPlugin {
    * Creates a reminder with the provided options.
    *
    * @method createReminder
+   * @since 0.5.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeReminders</li>
+   * </ul>
    * @param {object} options - Options for creating the reminder.
    * @param {string} options.title - The title of the reminder.
    * @param {string} options.listId - The id of the destination reminders list. (Optional)
@@ -212,8 +217,7 @@ export interface CapacitorCalendarPlugin {
    * @param {string} [options.url] - A URL to save under the reminder. (Optional)
    * @param {string} [options.location] - A location to save under the reminder. (Optional)
    * @param {string} [options.recurrence] - The rules for the recurrence of the reminder. (Optional)
-   * @returns {Promise<{ reminderCreated: boolean }>} A Promise that resolves with an object indicating whether the reminder was created successfully.
-   * The resolved object has a property 'reminderCreated' which is a boolean value representing whether the reminder was created.
+   * @returns {Promise<{ result: string }>} A Promise that resolves with the id of the created reminder
    * @example
    * const now = Date.now();
    * const rules: ReminderRecurrenceRule = {
@@ -232,8 +236,8 @@ export interface CapacitorCalendarPlugin {
    *   location: 'My Local Supermarket',
    *   recurrence: rules
    * };
-   * const { reminderCreated } = await createReminder(reminderOptions);
-   * console.log(reminderCreated); // true
+   * const { result } = await createReminder(reminderOptions);
+   * console.log(result); // 'ID_1'
    */
   createReminder(options: {
     title: string;
@@ -247,7 +251,7 @@ export interface CapacitorCalendarPlugin {
     url?: string;
     location?: string;
     recurrence?: ReminderRecurrenceRule;
-  }): Promise<{ reminderCreated: boolean }>;
+  }): Promise<{ result: string }>;
 
   /**
    * Opens the calendar app. Since the user leaves your app, use this method with caution.
@@ -283,8 +287,7 @@ export interface CapacitorCalendarPlugin {
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
-   *   <li><strong>iOS 17 &le;:</strong> readCalendar</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> readCalendar</li>
+   *   <li><strong>iOS:</strong> readCalendar</li>
    *   <li><strong>Android:</strong> readCalendar</li>
    * </ul>
    * @param {object} options Options for defining the date range.
@@ -308,8 +311,7 @@ export interface CapacitorCalendarPlugin {
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
-   *   <li><strong>iOS 17 &le;:</strong> writeCalendar</li>
-   *   <li><strong>iOS 10 &le; x &le; iOS 16:</strong> writeCalendar</li>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
    *   <li><strong>Android:</strong> writeCalendar</li>
    * </ul>
    * @param {object} options Options for defining event IDs.
@@ -318,7 +320,11 @@ export interface CapacitorCalendarPlugin {
    * A promise that resolves to an object with two properties:
    *  - deleted: string[] - An array of IDs that were successfully deleted.
    *  - failed: string[] - An array of IDs that could not be deleted.
-   *
+   * @example
+   * const idsToDelete = ['ID_1', 'ID_2', 'ID_DOES_NOT_EXIST'];
+   * const { result } = await CapacitorCalendar.deleteEventsById(idsToDelete)
+   * console.log(result.deleted)  // ['ID_1', 'ID_2']
+   * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
   deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 }
