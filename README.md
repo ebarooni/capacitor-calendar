@@ -253,7 +253,7 @@ Creates a reminder with the provided options.
 
 **Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
-**Since:** 0.11.0
+**Since:** 0.5.0
 
 ---
 
