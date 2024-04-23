@@ -21,6 +21,7 @@
 - [Install](#install)
 - [Demo](#demo--click-for-details-)
 - [Permissions](#permissions)
+- [API](#-api)
 - [Documentation](#-documentation)
 - [Contributions](#-contributions)
 
@@ -49,6 +50,25 @@ permissions can be found below:
 
 - [iOS](./ios/PERMISSIONS.md)
 - [Android](./android/PERMISSIONS.md)
+
+## 📋 API
+
+- `checkPermission(...)`
+- `checkAllPermissions()`
+- `requestPermission(...)`
+- `requestAllPermissions()`
+- `createEventWithPrompt()`
+- `selectCalendarsWithPrompt(...)`
+- `listCalendars()`
+- `getDefaultCalendar()`
+- `createEvent(...)`
+- `getDefaultRemindersList()`
+- `getRemindersLists()`
+- `createReminder(...)`
+- `openCalendar(...)`
+- `openReminders()`
+- `listEventsInRange(...)`
+- `deleteEventsById(...)`
 
 ## 📚 Documentation
 
