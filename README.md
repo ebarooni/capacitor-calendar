@@ -12,6 +12,8 @@
 <p align="center">
     <a href="documentation.md">Documentation</a>
     ·
+    <a href="SECURITY.md#capacitor-compatibility">Capacitor Compatibility</a>
+    ·
     <a href="SECURITY.md#deployment-targets">Deployment Targets</a>
     <br>
 </p>
