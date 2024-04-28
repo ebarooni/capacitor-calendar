@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker } from '@ionic/angular/standalone';
+import { IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPickerLegacy } from '@ionic/angular/standalone';
 import {
   CalendarChooserDisplayStyle,
   CalendarChooserSelectionStyle,
@@ -24,7 +24,7 @@ import { EventsListViewModalComponent } from '../events-list-view-modal/events-l
 @Component({
   selector: 'app-methods-list',
   templateUrl: './methods-list.component.html',
-  imports: [IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPicker, EventsListViewModalComponent],
+  imports: [IonIcon, IonItem, IonLabel, IonList, IonListHeader, EventsListViewModalComponent, IonPickerLegacy],
   standalone: true,
 })
 export class MethodsListComponent {
