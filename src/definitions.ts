@@ -75,14 +75,22 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
+   * @param {number} [options.alertOffsetInMinutes] - If a number >= 0 is provided, an alert will be set for the event this many
+   * minutes *before* the event. Negative values are ignored. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @throws Error If prompt gets cancelled.
    * @example
    * if (capacitor.getPlatform() === 'android') {
    *     await this.requestPermission({ alias: 'readCalendar' });
-   *     { result } = result = await this.createEventWithPrompt({ title: 'Title' });
+   *     { result } = result = await this.createEventWithPrompt({
+   *        title: 'Title',
+   *        alertOffsetInMinutes: 5,
+   *     });
    * } else {
-   *     { result } = await this.createEventWithPrompt({ title: 'Title' });
+   *     { result } = result = await this.createEventWithPrompt({
+   *        title: 'Title',
+   *        alertOffsetInMinutes: 5,
+   *     });
    * }
    */
   createEventWithPrompt(options: {
@@ -92,6 +100,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
+    alertOffsetInMinutes?: number;
   }): Promise<{ result: string[] }>;
 
   /**
@@ -159,6 +168,8 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
+   * @param {number} [options.alertOffsetInMinutes] - If a number >= 0 is provided, an alert will be set for the event this many
+   * minutes *before* the event. Negative values are ignored. (Optional)
    * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
    * @example
    * const now = Date.now();
@@ -167,7 +178,8 @@ export interface CapacitorCalendarPlugin {
    *   location: 'Conference Room A',
    *   startDate: now,
    *   endDate: now + 2 * 60 * 60 * 1000,
-   *   isAllDay: false
+   *   isAllDay: false,
+   *   alertOffsetInMinutes: 5,
    * };
    * const { result } = await createEvent(eventOptions);
    */
@@ -178,6 +190,7 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
+    alertOffsetInMinutes?: number;
   }): Promise<{ result: string }>;
 
   /**
