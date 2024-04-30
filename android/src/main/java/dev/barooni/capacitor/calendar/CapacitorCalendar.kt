@@ -117,6 +117,7 @@ class CapacitorCalendar() {
         startDate: Long?,
         endDate: Long?,
         isAllDay: Boolean?,
+        alertOffsetInMinutes: Long?,
     ): Uri? {
         val startMillis = startDate ?: Calendar.getInstance().timeInMillis
         val endMillis = endDate ?: (startMillis + 3600 * 1000)
@@ -130,6 +131,8 @@ class CapacitorCalendar() {
                 put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context).getString("id"))
                 put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
                 isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
+                alertOffsetInMinutes?.let { if (it >= 0) put(CalendarContract.Reminders.MINUTES, -it) }
+                alertOffsetInMinutes?.let { if (it >= 0) put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT) }
             }
 
         return context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
