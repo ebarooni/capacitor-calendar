@@ -13,7 +13,27 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         self.eventStore = eventStore
     }
 
-    public func createEventWithPrompt() async throws -> String {
+    public func createEventWithPrompt(with parameters: EventCreationParameters) async throws -> String {
+        let newEvent = EKEvent(eventStore: eventStore)
+        if let calendarId = parameters.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
+            newEvent.calendar = calendar
+        } else {
+            newEvent.calendar = eventStore.defaultCalendarForNewEvents
+        }
+        newEvent.title = parameters.title
+        if let location = parameters.location {
+            newEvent.location = location
+        }
+        if let startDate = parameters.startDate {
+            newEvent.startDate = Date(timeIntervalSince1970: startDate / 1000)
+        }
+        if let endDate = parameters.endDate {
+            newEvent.endDate = Date(timeIntervalSince1970: endDate / 1000)
+        }
+        if let isAllDay = parameters.isAllDay {
+            newEvent.isAllDay = isAllDay
+        }
+
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
@@ -22,10 +42,11 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
             Task { @MainActor in
                 let eventEditViewController = EKEventEditViewController()
+                eventEditViewController.event = newEvent
                 eventEditViewController.eventStore = eventStore
-                viewController.present(eventEditViewController, animated: true, completion: nil)
                 eventEditViewController.editViewDelegate = self
                 currentCreateEventContinuation = continuation
+                viewController.present(eventEditViewController, animated: true, completion: nil)
             }
         }
     }
@@ -47,13 +68,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                     )
                     calendarChooser.showsDoneButton = true
                     calendarChooser.showsCancelButton = true
+                    calendarChooser.delegate = self
+                    currentSelectCalendarsContinuation = continuation
                     viewController.present(
                         UINavigationController(rootViewController: calendarChooser),
                         animated: true,
                         completion: nil
                     )
-                    calendarChooser.delegate = self
-                    currentSelectCalendarsContinuation = continuation
                 } else {
                     continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
                     return

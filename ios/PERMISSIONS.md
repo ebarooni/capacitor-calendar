@@ -8,16 +8,16 @@ range of iOS version that you app is linked on.
 
 ### iOS 17 &le;
 
-| Permission Key                                            | Purpose                                              |
-|:----------------------------------------------------------|:-----------------------------------------------------|
-| `NSCalendarsWriteOnlyAccessUsageDescription`              | Enables write access to the calendar                 |
-| `NSCalendarsFullAccessUsageDescription`                   | Enables read and write access to the calendar        |
-| `NSRemindersFullAccessUsageDescription`                   | Enables read and write access to the reminders       |
+| Permission Key                               | Purpose                                        |
+| :------------------------------------------- | :--------------------------------------------- |
+| `NSCalendarsWriteOnlyAccessUsageDescription` | Enables write access to the calendar           |
+| `NSCalendarsFullAccessUsageDescription`      | Enables read and write access to the calendar  |
+| `NSRemindersFullAccessUsageDescription`      | Enables read and write access to the reminders |
 
 ### 13 &le; iOS &le; 16
 
 | Permission Key                | Purpose                                                                                             |
-|:------------------------------|:----------------------------------------------------------------------------------------------------|
+| :---------------------------- | :-------------------------------------------------------------------------------------------------- |
 | `NSCalendarsUsageDescription` | Enables read and write access to the calendar                                                       |
 | `NSRemindersUsageDescription` | Enables read and write access to the reminders                                                      |
 | `NSContactsUsageDescription`  | Known (so far) to be needed for being able to enter the location when using `createEventWithPrompt` |

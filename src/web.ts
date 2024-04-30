@@ -25,7 +25,14 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     throw this.unimplemented(`${this.requestAllPermissions.name} is not implemented on the web`);
   }
 
-  public createEventWithPrompt(): Promise<{ result: string[] }> {
+  public createEventWithPrompt(_options: {
+    title: string;
+    calendarId?: string;
+    location?: string;
+    startDate?: number;
+    endDate?: number;
+    isAllDay?: boolean;
+  }): Promise<{ result: string[] }> {
     throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
   }
 
