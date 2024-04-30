@@ -6,7 +6,7 @@
 - [`checkAllPermissions()`](#checkallpermissions)
 - [`requestPermission(...)`](#requestpermission)
 - [`requestAllPermissions()`](#requestallpermissions)
-- [`createEventWithPrompt()`](#createeventwithprompt)
+- [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
@@ -84,16 +84,22 @@ Requests authorization to all the required permissions for the plugin, if they h
 
 ---
 
-### createEventWithPrompt()
+### createEventWithPrompt(...)
 
 ```typescript
-createEventWithPrompt() => Promise<{ result: string[]; }>
+createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }) => Promise<{ result: string[]; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
 On iOS opens a native sheet and on Android opens an intent.
 
+| Param         | Type                                                                                                                              | Description                       |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; }</code> | - Options for creating the event. |
+
 **Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
+
+**Since:** 0.1.0
 
 ---
 
