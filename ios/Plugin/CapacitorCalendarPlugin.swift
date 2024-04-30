@@ -124,9 +124,25 @@ public class CapacitorCalendarPlugin: CAPPlugin {
     }
 
     @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
+        let title = call.getString("title", "")
+        let location = call.getString("location")
+        let startDate = call.getDouble("startDate")
+        let endDate = call.getDouble("endDate")
+        let isAllDay = call.getBool("isAllDay")
+        let calendarId = call.getString("calendarId")
+
+        let eventParameters = EventCreationParameters(
+            title: title,
+            calendarId: calendarId,
+            location: location,
+            startDate: startDate,
+            endDate: endDate,
+            isAllDay: isAllDay
+        )
+
         Task {
             do {
-                let result = try await calendar.createEventWithPrompt()
+                let result = try await calendar.createEventWithPrompt(with: eventParameters)
                 call.resolve(["result": [result]])
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Unable to retrieve view controller")
