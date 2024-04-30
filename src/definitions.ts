@@ -61,23 +61,38 @@ export interface CapacitorCalendarPlugin {
    * On iOS opens a native sheet and on Android opens an intent.
    *
    * @method
+   * @since 0.1.0
    * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
    *   <li><strong>Android:</strong> readCalendar</li>
    * </ul>
+   * @param {object} options - Options for creating the event.
+   * @param {string} options.title - The title of the event.
+   * @param {string} options.calendarId - The id of the destination calendar. (Optional)
+   * @param {string} [options.location] - The location of the event. (Optional)
+   * @param {number} [options.startDate] - The start date and time of the event. (Optional)
+   * @param {number} [options.endDate] - The end date and time of the event. (Optional)
+   * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @throws Error If prompt gets cancelled.
    * @example
    * if (capacitor.getPlatform() === 'android') {
    *     await this.requestPermission({ alias: 'readCalendar' });
-   *     { result } = result = await this.createEventWithPrompt();
+   *     { result } = result = await this.createEventWithPrompt({ title: 'Title' });
    * } else {
-   *     { result } = await this.createEventWithPrompt();
+   *     { result } = await this.createEventWithPrompt({ title: 'Title' });
    * }
    */
-  createEventWithPrompt(): Promise<{ result: string[] }>;
+  createEventWithPrompt(options: {
+    title: string;
+    calendarId?: string;
+    location?: string;
+    startDate?: number;
+    endDate?: number;
+    isAllDay?: boolean;
+  }): Promise<{ result: string[] }>;
 
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
