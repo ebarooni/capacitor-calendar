@@ -38,9 +38,26 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createEventWithPrompt(call: PluginCall) {
         try {
             implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
+
+            val title = call.getString("title", "")
+            val calendarId = call.getString("calendarId")
+            val location = call.getString("location")
+            val startDate = call.getLong("startDate")
+            val endDate = call.getLong("endDate")
+            val isAllDay = call.getBoolean("isAllDay", false)
+
+            val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
+
+            intent.putExtra(CalendarContract.Events.TITLE, title)
+            calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
+            location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
+            startDate?.let { intent.putExtra(CalendarContract.Events.DTSTART, it) }
+            endDate?.let { intent.putExtra(CalendarContract.Events.DTEND, it) }
+            isAllDay?.let { intent.putExtra(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
+
             return startActivityForResult(
                 call,
-                Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI),
+                intent,
                 "openCalendarIntentActivityCallback",
             )
         } catch (error: Exception) {
@@ -177,8 +194,20 @@ class CapacitorCalendarPlugin : Plugin() {
             val startDate = call.getLong("startDate")
             val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
+            val alertOffsetInMinutes = call.getFloat("alertOffsetInMinutes")
 
-            val eventUri = implementation.createEvent(context, title, calendarId, location, startDate, endDate, isAllDay)
+            val eventUri =
+                implementation.createEvent(
+                    context,
+                    title,
+                    calendarId,
+                    location,
+                    startDate,
+                    endDate,
+                    isAllDay,
+                    alertOffsetInMinutes,
+                )
+
             val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
             val ret = JSObject()
             ret.put("result", id)

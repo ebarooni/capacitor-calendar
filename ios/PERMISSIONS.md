@@ -6,21 +6,22 @@ for the types of data that you need to access.
 Only include the keys that your app needs and keep in mind that you might need to include multiple keys depending on the
 range of iOS version that you app is linked on.
 
-### &ge; iOS 17
+### iOS 17 &le;
 
-- `NSCalendarsWriteOnlyAccessUsageDescription` if your app needs only write access to the calendar but does not have to
-  read any events (including the events that your app creates).
-- `NSCalendarsFullAccessUsageDescription` if you app needs read and write access for the calendar events.
-- `NSRemindersFullAccessUsageDescription` if your app needs access to reminders.
+| Permission Key                               | Purpose                                        |
+| :------------------------------------------- | :--------------------------------------------- |
+| `NSCalendarsWriteOnlyAccessUsageDescription` | Enables write access to the calendar           |
+| `NSCalendarsFullAccessUsageDescription`      | Enables read and write access to the calendar  |
+| `NSRemindersFullAccessUsageDescription`      | Enables read and write access to the reminders |
 
-If you only request for write access, your app will not be able to read from the calendar. However, read access mean your
-app has full access (read and write) to the calendar.
+### 13 &le; iOS &le; 16
 
-### iOS 10 until iOS 16
-
-- `NSCalendarsUsageDescription` if your app needs read and write access for calendar events.
-- `NSRemindersUsageDescription` if your app needs access to reminders.
+| Permission Key                | Purpose                                                                                             |
+| :---------------------------- | :-------------------------------------------------------------------------------------------------- |
+| `NSCalendarsUsageDescription` | Enables read and write access to the calendar                                                       |
+| `NSRemindersUsageDescription` | Enables read and write access to the reminders                                                      |
+| `NSContactsUsageDescription`  | Known (so far) to be needed for being able to enter the location when using `createEventWithPrompt` |
 
 ### macOS
 
-To access Calendar data, all sandboxed macOS apps must include the `com.apple.security.personal-information.calendars entitlement`.
+To access calendar data, all sandboxed macOS apps must include the `com.apple.security.personal-information.calendars entitlement`.
