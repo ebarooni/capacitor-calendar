@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.1.0] – 2024-05-01
+
+### Changed
+
+- `createEventWithPrompt` accepts options
+- Add an alarm for the created events
+
+### Fixed
+
+- Misplaced code in plugin iOS implementation
+- Example app missing permissions for contact on iOS 16 and lower
+- Permissions documentation on iOS incomplete for iOS 16 and lower
+
 ## [6.0.0] – 2024-04-28
 
 ### Added
@@ -38,6 +51,19 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.1.0] – 2024-05-01
+
+### Changed
+
+- `createEventWithPrompt` accepts options
+- Add an alarm for the created events
+
+### Fixed
+
+- Misplaced code in plugin iOS implementation
+- Example app missing permissions for contact on iOS 16 and lower
+- Permissions documentation on iOS incomplete for iOS 16 and lower
 
 ## [5.0.0] – 2024-04-28
 

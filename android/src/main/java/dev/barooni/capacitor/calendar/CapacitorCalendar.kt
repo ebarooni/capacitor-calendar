@@ -117,11 +117,12 @@ class CapacitorCalendar() {
         startDate: Long?,
         endDate: Long?,
         isAllDay: Boolean?,
+        alertOffsetInMinutes: Float?,
     ): Uri? {
         val startMillis = startDate ?: Calendar.getInstance().timeInMillis
         val endMillis = endDate ?: (startMillis + 3600 * 1000)
 
-        val values =
+        val eventValues =
             ContentValues().apply {
                 put(CalendarContract.Events.DTSTART, startMillis)
                 put(CalendarContract.Events.DTEND, endMillis)
@@ -132,7 +133,23 @@ class CapacitorCalendar() {
                 isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
             }
 
-        return context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
+        val eventUri = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
+
+        if (alertOffsetInMinutes == null || alertOffsetInMinutes < 0) {
+            return eventUri
+        }
+
+        val eventId = eventUri?.lastPathSegment?.toLong() ?: throw IllegalArgumentException("Failed to convert event id to long")
+        val alertValues =
+            ContentValues().apply {
+                put(CalendarContract.Reminders.EVENT_ID, eventId)
+                put(CalendarContract.Reminders.MINUTES, alertOffsetInMinutes)
+                put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
+            }
+
+        context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
+
+        return eventUri
     }
 
     @Throws(Exception::class)

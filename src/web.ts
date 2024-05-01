@@ -32,6 +32,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
+    alertOffsetInMinutes?: number;
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
   }
@@ -55,6 +56,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
+    alertOffsetInMinutes?: number;
   }): Promise<{
     result: string;
   }> {

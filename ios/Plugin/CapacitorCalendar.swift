@@ -33,6 +33,9 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         if let isAllDay = parameters.isAllDay {
             newEvent.isAllDay = isAllDay
         }
+        if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
+            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
+        }
 
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
@@ -123,6 +126,9 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
         if let isAllDay = parameters.isAllDay {
             newEvent.isAllDay = isAllDay
+        }
+        if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
+            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
         }
 
         do {
