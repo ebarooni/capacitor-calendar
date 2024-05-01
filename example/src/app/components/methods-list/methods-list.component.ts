@@ -53,6 +53,7 @@ export class MethodsListComponent {
       endDate: now + 2 * 60 * 60 * 1000,
       location: 'Capacitor Calendar',
       isAllDay: false,
+      alertOffsetInMinutes: 15,
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
@@ -116,6 +117,7 @@ export class MethodsListComponent {
       endDate: now + 2 * 60 * 60 * 1000,
       location: 'Capacitor Calendar',
       isAllDay: false,
+      alertOffsetInMinutes: 15,
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
