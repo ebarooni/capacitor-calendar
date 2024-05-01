@@ -62,22 +62,29 @@ permissions can be found below:
 
 ## 📋 API
 
-- `checkPermission(...)`
-- `checkAllPermissions()`
-- `requestPermission(...)`
-- `requestAllPermissions()`
-- `createEventWithPrompt()`
-- `selectCalendarsWithPrompt(...)`
-- `listCalendars()`
-- `getDefaultCalendar()`
-- `createEvent(...)`
-- `getDefaultRemindersList()`
-- `getRemindersLists()`
-- `createReminder(...)`
-- `openCalendar(...)`
-- `openReminders()`
-- `listEventsInRange(...)`
-- `deleteEventsById(...)`
+<docgen-index>
+
+- [`checkPermission(...)`](#checkpermission)
+- [`checkAllPermissions()`](#checkallpermissions)
+- [`requestPermission(...)`](#requestpermission)
+- [`requestAllPermissions()`](#requestallpermissions)
+- [`createEventWithPrompt(...)`](#createeventwithprompt)
+- [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+- [`listCalendars()`](#listcalendars)
+- [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`createEvent(...)`](#createevent)
+- [`getDefaultRemindersList()`](#getdefaultreminderslist)
+- [`getRemindersLists()`](#getreminderslists)
+- [`createReminder(...)`](#createreminder)
+- [`openCalendar(...)`](#opencalendar)
+- [`openReminders()`](#openreminders)
+- [`listEventsInRange(...)`](#listeventsinrange)
+- [`deleteEventsById(...)`](#deleteeventsbyid)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
+- [Enums](#enums)
+
+</docgen-index>
 
 ## 📚 Documentation
 
