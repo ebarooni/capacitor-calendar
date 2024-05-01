@@ -75,8 +75,9 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.startDate] - The start date and time of the event. (Optional)
    * @param {number} [options.endDate] - The end date and time of the event. (Optional)
    * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @param {number} [options.alertOffsetInMinutes] - If a number >= 0 is provided, an alert will be set for the event this many
-   * minutes *before* the event. Negative values are ignored. (Optional)
+   * @param {number} [options.alertOffsetInMinutes] - Ignored on Android. If a number >= 0 is provided,
+   * an alert will be set for the event this many minutes *before* the event.
+   * Negative values are ignored. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @throws Error If prompt gets cancelled.
    * @example
