@@ -104,4 +104,8 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }> {
     throw this.unimplemented(`${this.deleteEventsById.name} is not implemented on the web`);
   }
+
+  public createCalendar(_options: { title: string; color?: string }): Promise<{ result: string }> {
+    throw this.unimplemented(`${this.deleteEventsById.name} is not implemented on the web`);
+  }
 }

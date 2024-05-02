@@ -356,4 +356,24 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
   deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+
+  /**
+   * Creates a calendar
+   *
+   * @method createCalendar
+   * @since 5.2.0
+   * @platform iOS
+   * @param {object} options Options for creating a calendar
+   * @param {string} options.title The title of the calendar to create
+   * @param {string} options.color The color of the calendar to create.
+   * The color should be a HEX string. (Optional)
+   * @returns {Promise<{ result: string }>} The id of the created calendar
+   * @example
+   * { result } = await CapacitorCalendar.createCalendar({
+   *      title: 'New Calendar',
+   *      color: '#1d00fc',
+   *  });
+   *  console.log(result);   // 'CALENDAR_ID'
+   */
+  createCalendar(options: { title: string; color?: string }): Promise<{ result: string }>;
 }
