@@ -279,4 +279,10 @@ class CapacitorCalendarPlugin : Plugin() {
             return
         }
     }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun createCalendar(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::getRemindersLists.name}] Not implemented on Android")
+        return
+    }
 }
