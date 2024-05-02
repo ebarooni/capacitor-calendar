@@ -80,6 +80,7 @@ permissions can be found below:
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`createCalendar(...)`](#createcalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)

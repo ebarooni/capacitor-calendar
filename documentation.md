@@ -18,6 +18,7 @@
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`createCalendar(...)`](#createcalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -259,6 +260,24 @@ Deletes events from the calendar given their IDs.
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 0.11.0
+
+---
+
+### createCalendar(...)
+
+```typescript
+createCalendar(options: { title: string; color?: string; }) => Promise<{ result: string; }>
+```
+
+Creates a calendar
+
+| Param         | Type                                            | Description                     |
+| ------------- | ----------------------------------------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; color?: string; }</code> | Options for creating a calendar |
+
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** 5.2.0
 
 ---
 
