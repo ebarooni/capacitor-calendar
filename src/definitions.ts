@@ -363,6 +363,11 @@ export interface CapacitorCalendarPlugin {
    * @method createCalendar
    * @since 5.2.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
+   * </ul>
    * @param {object} options Options for creating a calendar
    * @param {string} options.title The title of the calendar to create
    * @param {string} options.color The color of the calendar to create.
