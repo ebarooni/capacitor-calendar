@@ -279,4 +279,16 @@ class CapacitorCalendarPlugin : Plugin() {
             return
         }
     }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun createCalendar(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::createCalendar.name}] Not implemented on Android")
+        return
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun deleteCalendar(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::deleteCalendar.name}] Not implemented on Android")
+        return
+    }
 }

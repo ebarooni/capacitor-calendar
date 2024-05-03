@@ -354,4 +354,35 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
+
+    @objc public func createCalendar(_ call: CAPPluginCall) {
+        guard let title = call.getString("title") else {
+            call.reject("[CapacitorCalendar.\(#function)] A title for the calendar was not provided")
+            return
+        }
+        let color = call.getString("color")
+
+        do {
+            let id = try calendar.createCalendar(title: title, color: color)
+            call.resolve(["result": id])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Could not create calendar")
+            return
+        }
+    }
+
+    @objc public func deleteCalendar(_ call: CAPPluginCall) {
+        guard let id = call.getString("id") else {
+            call.reject("[CapacitorCalendar.\(#function)] An id for the calendar to delete should be provided")
+            return
+        }
+
+        do {
+            try calendar.deleteCalendar(id: id)
+            call.resolve()
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Could not delete calendar")
+            return
+        }
+    }
 }

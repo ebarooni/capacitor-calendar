@@ -19,4 +19,7 @@ public enum CapacitorCalendarPluginError: Error {
     case unableToOpenReminders
     case undefinedEvent
     case createEventCancelled
+    case unableToParseColor
+    case unableToCreateCalendar
+    case calendarNotFound
 }
