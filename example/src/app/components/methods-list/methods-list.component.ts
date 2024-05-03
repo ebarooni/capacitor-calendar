@@ -204,4 +204,12 @@ export class MethodsListComponent {
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public createCalendar(): void {
+    CapacitorCalendar.createCalendar({
+      title: 'Capacitor Calendar',
+      color: '#fe48b3'
+    }).then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
