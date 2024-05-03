@@ -310,6 +310,29 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
+    public func createCalendar(title: String, color: String?) throws -> String {
+        let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
+        newCalendar.title = title
+        if let calendarColor = color {
+            do {
+                let newCalendarCGColor = try ColorParser.hexStringToCGColor(hex: calendarColor)
+            } catch {
+                newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
+            }
+        } else {
+            newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
+        }
+        newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
+
+        do {
+            try eventStore.saveCalendar(newCalendar, commit: true)
+        } catch {
+            throw CapacitorCalendarPluginError.unableToCreateCalendar
+        }
+
+        return newCalendar.calendarIdentifier
+    }
+
     public func eventEditViewController(
         _ controller: EKEventEditViewController,
         didCompleteWith action: EKEventEditViewAction
