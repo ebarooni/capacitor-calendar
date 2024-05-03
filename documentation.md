@@ -19,6 +19,7 @@
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -271,11 +272,27 @@ createCalendar(options: { title: string; color?: string; }) => Promise<{ result:
 
 Creates a calendar
 
-| Param         | Type                                            | Description                     |
-| ------------- | ----------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; color?: string; }</code> | Options for creating a calendar |
+| Param         | Type                                            | Description                      |
+| ------------- | ----------------------------------------------- | -------------------------------- |
+| **`options`** | <code>{ title: string; color?: string; }</code> | Options for creating a calendar. |
 
 **Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** 5.2.0
+
+---
+
+### deleteCalendar(...)
+
+```typescript
+deleteCalendar(options: { id: string; }) => Promise<void>
+```
+
+Deletes a calendar by id
+
+| Param         | Type                         | Description                      |
+| ------------- | ---------------------------- | -------------------------------- |
+| **`options`** | <code>{ id: string; }</code> | Options for deleting a calendar. |
 
 **Since:** 5.2.0
 

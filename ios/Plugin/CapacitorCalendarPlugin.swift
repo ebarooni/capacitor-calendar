@@ -370,4 +370,19 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+
+    @objc public func deleteCalendar(_ call: CAPPluginCall) {
+        guard let id = call.getString("id") else {
+            call.reject("[CapacitorCalendar.\(#function)] An id for the calendar to delete should be provided")
+            return
+        }
+
+        do {
+            try calendar.deleteCalendar(id: id)
+            call.resolve()
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Could not delete calendar")
+            return
+        }
+    }
 }

@@ -81,6 +81,7 @@ permissions can be found below:
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)

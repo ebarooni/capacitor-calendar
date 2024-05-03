@@ -329,6 +329,14 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         return newCalendar.calendarIdentifier
     }
 
+    public func deleteCalendar(id: String) throws {
+        if let calendar = eventStore.calendar(withIdentifier: id) {
+            try eventStore.removeCalendar(calendar, commit: true)
+        } else {
+            throw CapacitorCalendarPluginError.calendarNotFound
+        }
+    }
+
     public func eventEditViewController(
         _ controller: EKEventEditViewController,
         didCompleteWith action: EKEventEditViewAction

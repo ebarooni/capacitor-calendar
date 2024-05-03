@@ -21,4 +21,5 @@ public enum CapacitorCalendarPluginError: Error {
     case createEventCancelled
     case unableToParseColor
     case unableToCreateCalendar
+    case calendarNotFound
 }
