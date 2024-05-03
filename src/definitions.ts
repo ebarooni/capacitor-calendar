@@ -368,11 +368,11 @@ export interface CapacitorCalendarPlugin {
    * <ul>
    *   <li><strong>iOS:</strong> writeCalendar</li>
    * </ul>
-   * @param {object} options Options for creating a calendar
-   * @param {string} options.title The title of the calendar to create
+   * @param {object} options Options for creating a calendar.
+   * @param {string} options.title The title of the calendar to create.
    * @param {string} options.color The color of the calendar to create.
    * The color should be a HEX string. (Optional)
-   * @returns {Promise<{ result: string }>} The id of the created calendar
+   * @returns {Promise<{ result: string }>} The id of the created calendar.
    * @example
    * { result } = await CapacitorCalendar.createCalendar({
    *      title: 'New Calendar',
@@ -381,4 +381,22 @@ export interface CapacitorCalendarPlugin {
    *  console.log(result);   // 'CALENDAR_ID'
    */
   createCalendar(options: { title: string; color?: string }): Promise<{ result: string }>;
+
+  /**
+   * Deletes a calendar by id
+   *
+   * @method deleteCalendar
+   * @since 5.2.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
+   * </ul>
+   * @param {object} options Options for deleting a calendar.
+   * @param {string} options.id The id of the calendar to delete.
+   * @example
+   * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
+   */
+  deleteCalendar(options: { id: string }): Promise<void>;
 }
