@@ -314,11 +314,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = title
         if let calendarColor = color {
-            do {
-                let newCalendarCGColor = try ColorParser.hexStringToCGColor(hex: calendarColor)
-            } catch {
-                newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
-            }
+            newCalendar.cgColor = UIColor(hex: calendarColor)?.cgColor
         } else {
             newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
         }
