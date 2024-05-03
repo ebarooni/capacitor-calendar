@@ -38,7 +38,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }
 
   public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
-    throw this.unimplemented(`${this.createEventWithPrompt.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.selectCalendarsWithPrompt.name} is not implemented on the web`);
   }
 
   public listCalendars(): Promise<{ result: Calendar[] }> {
@@ -80,23 +80,23 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }
 
   public getDefaultRemindersList(): Promise<{ result: RemindersList }> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.getDefaultRemindersList.name} is not implemented on the web`);
   }
 
   public getRemindersLists(): Promise<{ result: RemindersList[] }> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.getRemindersLists.name} is not implemented on the web`);
   }
 
   public openCalendar(_options: { date?: number }): Promise<void> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.openCalendar.name} is not implemented on the web`);
   }
 
   public openReminders(): Promise<void> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.openReminders.name} is not implemented on the web`);
   }
 
   public listEventsInRange(_options: { startDate: number; endDate: number }): Promise<{ result: CalendarEvent[] }> {
-    throw this.unimplemented(`${this.createReminder.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.listEventsInRange.name} is not implemented on the web`);
   }
 
   public deleteEventsById(_options: { ids: string[] }): Promise<{
@@ -106,6 +106,10 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }
 
   public createCalendar(_options: { title: string; color?: string }): Promise<{ result: string }> {
-    throw this.unimplemented(`${this.deleteEventsById.name} is not implemented on the web`);
+    throw this.unimplemented(`${this.createCalendar.name} is not implemented on the web`);
+  }
+
+  public deleteCalendar(_options: { id: string }): Promise<void> {
+    throw this.unimplemented(`${this.deleteCalendar.name} is not implemented on the web`);
   }
 }
