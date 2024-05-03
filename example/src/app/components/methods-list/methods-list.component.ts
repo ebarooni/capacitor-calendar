@@ -11,13 +11,13 @@ import {
 import { StoreService } from '../../store/store.service';
 import { calendarChooserPickerColumns } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-columns';
 import {
-  getCalendarChooserPickerButtons,
   CalendarChooserResult,
+  getCalendarChooserPickerButtons,
 } from '../../ion-picker-data/calendar-chooser/calendar-chooser-picker-buttons';
 import { checkPermissionPickerColumns } from '../../ion-picker-data/check-permission/check-permission-picker-columns';
 import {
-  getCheckPermissionPickerButtons,
   CheckPermissionPickerResult,
+  getCheckPermissionPickerButtons,
 } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
 import { EventsListViewModalComponent } from '../events-list-view-modal/events-list-view-modal.component';
 
@@ -211,6 +211,21 @@ export class MethodsListComponent {
       color: '#fe48b3',
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public deleteCalendar(): void {
+    CapacitorCalendar.selectCalendarsWithPrompt({
+      selectionStyle: CalendarChooserSelectionStyle.SINGLE,
+      displayStyle: CalendarChooserDisplayStyle.ALL_CALENDARS,
+    })
+      .then(({ result }) => {
+        if (result.length) {
+          return CapacitorCalendar.deleteCalendar({ id: result[0].id });
+        } else {
+          return Promise.resolve();
+        }
+      })
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }
