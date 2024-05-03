@@ -366,7 +366,7 @@ export interface CapacitorCalendarPlugin {
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
+   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
    * </ul>
    * @param {object} options Options for creating a calendar.
    * @param {string} options.title The title of the calendar to create.
@@ -391,7 +391,7 @@ export interface CapacitorCalendarPlugin {
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
+   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
    * </ul>
    * @param {object} options Options for deleting a calendar.
    * @param {string} options.id The id of the calendar to delete.
