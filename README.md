@@ -36,8 +36,17 @@
 
 ## Install
 
+### Capacitor 6
+
 ```bash
-npm install @ebarooni/capacitor-calendar
+npm install @ebarooni/capacitor-calendar@latest
+npx cap sync
+```
+
+### Capacitor 5
+
+```bash
+npm install @ebarooni/capacitor-calendar@^5
 npx cap sync
 ```
 

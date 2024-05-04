@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.2.0] – 2024-05-04
+
+### Added
+
+- Create calendars (iOS)
+- Delete calendars (iOS)
+
+### Fixed
+
+- `listCalendars` on Android returning calendar id of type number instead of string
+- `createEventWithPrompt` on Android was not using all options
+- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
+
 ## [6.1.0] – 2024-05-01
 
 ### Changed
@@ -51,6 +64,19 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.2.0] – 2024-05-04
+
+### Added
+
+- Create calendars (iOS)
+- Delete calendars (iOS)
+
+### Fixed
+
+- `listCalendars` on Android returning calendar id of type number instead of string
+- `createEventWithPrompt` on Android was not using all options
+- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
 
 ## [5.1.0] – 2024-05-01
 
