@@ -20,4 +20,6 @@ CAP_PLUGIN(CapacitorCalendarPlugin, "CapacitorCalendar",
            CAP_PLUGIN_METHOD(openReminders, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(listEventsInRange, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(deleteEventsById, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createCalendar, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(deleteCalendar, CAPPluginReturnNone);
 )

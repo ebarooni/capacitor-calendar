@@ -18,6 +18,8 @@
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -116,6 +118,8 @@ Presents a prompt to the user to select calendars. This method is available only
 | **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+**Since:** 0.2.0
 
 ---
 
@@ -259,6 +263,40 @@ Deletes events from the calendar given their IDs.
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 0.11.0
+
+---
+
+### createCalendar(...)
+
+```typescript
+createCalendar(options: { title: string; color?: string; }) => Promise<{ result: string; }>
+```
+
+Creates a calendar
+
+| Param         | Type                                            | Description                      |
+| ------------- | ----------------------------------------------- | -------------------------------- |
+| **`options`** | <code>{ title: string; color?: string; }</code> | Options for creating a calendar. |
+
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** 5.2.0
+
+---
+
+### deleteCalendar(...)
+
+```typescript
+deleteCalendar(options: { id: string; }) => Promise<void>
+```
+
+Deletes a calendar by id
+
+| Param         | Type                         | Description                      |
+| ------------- | ---------------------------- | -------------------------------- |
+| **`options`** | <code>{ id: string; }</code> | Options for deleting a calendar. |
+
+**Since:** 5.2.0
 
 ---
 

@@ -51,9 +51,9 @@ class CapacitorCalendarPlugin : Plugin() {
             intent.putExtra(CalendarContract.Events.TITLE, title)
             calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
             location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-            startDate?.let { intent.putExtra(CalendarContract.Events.DTSTART, it) }
-            endDate?.let { intent.putExtra(CalendarContract.Events.DTEND, it) }
-            isAllDay?.let { intent.putExtra(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
+            startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
+            endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
+            isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (it) 1 else 0) }
 
             return startActivityForResult(
                 call,
@@ -278,5 +278,17 @@ class CapacitorCalendarPlugin : Plugin() {
             call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
         }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun createCalendar(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::createCalendar.name}] Not implemented on Android")
+        return
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun deleteCalendar(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::deleteCalendar.name}] Not implemented on Android")
+        return
     }
 }

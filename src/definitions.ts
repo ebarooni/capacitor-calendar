@@ -60,7 +60,7 @@ export interface CapacitorCalendarPlugin {
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
    *
-   * @method
+   * @method createEventWithPrompt
    * @since 0.1.0
    * @platform iOS, Android
    * @permissions
@@ -79,7 +79,6 @@ export interface CapacitorCalendarPlugin {
    * an alert will be set for the event this many minutes *before* the event.
    * Negative values are ignored. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
-   * @throws Error If prompt gets cancelled.
    * @example
    * if (capacitor.getPlatform() === 'android') {
    *     await this.requestPermission({ alias: 'readCalendar' });
@@ -108,9 +107,16 @@ export interface CapacitorCalendarPlugin {
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
    * @method selectCalendarsWithPrompt
+   * @since 0.2.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
+   * </ul>
    * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
-   * @async
+   * @param {CalendarChooserDisplayStyle} options.displayStyle - To show all or only writeable calendars.
+   * @param {CalendarChooserSelectionStyle} [options.selectionStyle] - To be able to select multiple calendars or only one.
    * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
    * where each calendar object contains an ID and a title.
    * @example
@@ -356,4 +362,47 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
   deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+
+  /**
+   * Creates a calendar
+   *
+   * @method createCalendar
+   * @since 5.2.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
+   * </ul>
+   * @param {object} options Options for creating a calendar.
+   * @param {string} options.title The title of the calendar to create.
+   * @param {string} options.color The color of the calendar to create.
+   * The color should be a HEX string. (Optional)
+   * @returns {Promise<{ result: string }>} The id of the created calendar.
+   * @example
+   * { result } = await CapacitorCalendar.createCalendar({
+   *      title: 'New Calendar',
+   *      color: '#1d00fc',
+   *  });
+   *  console.log(result);   // 'CALENDAR_ID'
+   */
+  createCalendar(options: { title: string; color?: string }): Promise<{ result: string }>;
+
+  /**
+   * Deletes a calendar by id
+   *
+   * @method deleteCalendar
+   * @since 5.2.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
+   * </ul>
+   * @param {object} options Options for deleting a calendar.
+   * @param {string} options.id The id of the calendar to delete.
+   * @example
+   * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
+   */
+  deleteCalendar(options: { id: string }): Promise<void>;
 }

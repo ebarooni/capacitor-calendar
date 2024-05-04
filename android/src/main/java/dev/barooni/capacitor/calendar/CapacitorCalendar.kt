@@ -60,7 +60,7 @@ class CapacitorCalendar() {
                 val title = cursor.getString(nameColumnIndex)
                 val calendar =
                     JSObject().apply {
-                        put("id", id)
+                        put("id", "$id")
                         put("title", title)
                     }
 
