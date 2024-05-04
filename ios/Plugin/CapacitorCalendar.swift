@@ -5,7 +5,7 @@ import EventKitUI
 public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
-    private var currentCreateEventContinuation: CheckedContinuation<String, any Error>?
+    private var currentCreateEventContinuation: CheckedContinuation<[String], any Error>?
     private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: String]], any Error>?
 
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
@@ -13,7 +13,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         self.eventStore = eventStore
     }
 
-    public func createEventWithPrompt(with parameters: EventCreationParameters) async throws -> String {
+    public func createEventWithPrompt(with parameters: EventCreationParameters) async throws -> [String] {
         let newEvent = EKEvent(eventStore: eventStore)
         if let calendarId = parameters.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
             newEvent.calendar = calendar
@@ -344,13 +344,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         controller.dismiss(animated: true) {
             if action == .saved {
                 if let event = controller.event {
-                    self.currentCreateEventContinuation?.resume(returning: event.eventIdentifier)
+                    self.currentCreateEventContinuation?.resume(returning: [event.eventIdentifier])
                 } else {
                     self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
                     return
                 }
             } else if action == .canceled {
-                self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.createEventCancelled)
+                self.currentCreateEventContinuation?.resume(returning: [])
             } else {
                 self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.unknownActionEventCreationPrompt)
             }
@@ -366,7 +366,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
     public func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
         bridge?.viewController?.dismiss(animated: true) {
-            self.currentSelectCalendarsContinuation?.resume(throwing: CapacitorCalendarPluginError.canceledCalendarsSelectionPrompt)
+            self.currentSelectCalendarsContinuation?.resume(returning: [])
         }
     }
 
