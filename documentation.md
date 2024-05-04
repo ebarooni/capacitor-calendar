@@ -119,6 +119,8 @@ Presents a prompt to the user to select calendars. This method is available only
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
+**Since:** 0.2.0
+
 ---
 
 ### listCalendars()

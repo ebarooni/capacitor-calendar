@@ -60,7 +60,7 @@ export interface CapacitorCalendarPlugin {
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
    *
-   * @method
+   * @method createEventWithPrompt
    * @since 0.1.0
    * @platform iOS, Android
    * @permissions
@@ -79,7 +79,6 @@ export interface CapacitorCalendarPlugin {
    * an alert will be set for the event this many minutes *before* the event.
    * Negative values are ignored. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
-   * @throws Error If prompt gets cancelled.
    * @example
    * if (capacitor.getPlatform() === 'android') {
    *     await this.requestPermission({ alias: 'readCalendar' });
@@ -108,9 +107,16 @@ export interface CapacitorCalendarPlugin {
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
    * @method selectCalendarsWithPrompt
+   * @since 0.2.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
+   * </ul>
    * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
-   * @async
+   * @param {CalendarChooserDisplayStyle} options.displayStyle - To show all or only writeable calendars.
+   * @param {CalendarChooserSelectionStyle} [options.selectionStyle] - To be able to select multiple calendars or only one.
    * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
    * where each calendar object contains an ID and a title.
    * @example
