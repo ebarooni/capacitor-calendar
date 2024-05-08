@@ -385,4 +385,18 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+
+    @objc public func getRemindersInLists(_ call: CAPPluginCall) {
+        guard let ids = call.getArray("listIds") else {
+            call.reject("[CapacitorCalendar.\(#function)] An array of list ids was not provided")
+            return
+        }
+
+        do {
+            try call.resolve(["result": reminders.getRemindersInLists(listIds: ids)])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Could not get the list of reminders in list")
+            return
+        }
+    }
 }

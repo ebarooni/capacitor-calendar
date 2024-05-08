@@ -9,6 +9,7 @@
 import Foundation
 import EventKit
 import UIKit
+import Capacitor
 
 public class CapacitorReminders: NSObject {
     private let eventStore: EKEventStore
@@ -172,6 +173,19 @@ public class CapacitorReminders: NSObject {
         }
     }
 
+    public func getRemindersInLists(listIds: JSArray) throws -> [[String: Any]] {
+        var lists: [EKCalendar] = []
+        for id in listIds {
+            if let list = eventStore.calendar(withIdentifier: "\(id)") {
+                lists.append(list)
+            }
+        }
+
+        let predicate = eventStore.predicateForReminders(in: lists)
+        let events = self.eventStore.events(matching: predicate)
+        return dictionaryRepresentationOfReminder(events: events)
+    }
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
         var result: [[String: String]] = []
 
@@ -232,5 +246,17 @@ public class CapacitorReminders: NSObject {
         setStartDate()
         setDueDate()
         setCompletionDate()
+    }
+
+    private func dictionaryRepresentationOfReminder(events: [EKEvent]) -> [[String: Any]] {
+        return events.map { event in
+            var dict = [String: Any]()
+            dict["id"] = event.eventIdentifier
+            if let title = event.title, !title.isEmpty {
+                dict["title"] = title
+            }
+            dict["listId"] = event.calendar.calendarIdentifier
+            return dict
+        }
     }
 }
