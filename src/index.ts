@@ -9,6 +9,7 @@ import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
+import type { Reminder } from './schemas/interfaces/reminder';
 
 const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCalendar', {
   web: () => import('./web').then((m) => new m.CapacitorCalendarWeb()),
@@ -23,5 +24,6 @@ export {
   PluginPermissionsMap,
   ReminderRecurrenceFrequency,
   CalendarEvent,
+  Reminder,
   CapacitorCalendar,
 };
