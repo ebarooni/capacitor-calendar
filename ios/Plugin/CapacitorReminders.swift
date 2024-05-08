@@ -173,11 +173,14 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func getRemindersInLists(listIds: JSArray) throws -> [[String: Any]] {
-        var lists: [EKCalendar] = []
-        for id in listIds {
-            if let list = eventStore.calendar(withIdentifier: "\(id)") {
-                lists.append(list)
+    public func getRemindersInLists(listIds: JSArray?) throws -> [[String: Any]] {
+        let lists: [EKCalendar]?
+        if listIds != nil {
+            lists = []
+            for id in listIds! {
+                if let list = eventStore.calendar(withIdentifier: "\(id)") {
+                    lists?.append(list)
+                }
             }
         }
 
