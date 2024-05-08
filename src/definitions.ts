@@ -420,6 +420,7 @@ export interface CapacitorCalendarPlugin {
    * </ul>
    * @param {object} options Options for defining the date range.
    * @param {string[]} options.listIds An array of reminder list ids.
+   * All reminders from all available lists if not provided. (Optional)
    * @returns {Promise<{ result: Reminder[] }>} A Promise that resolves with the list of reminders.
    * @example
    * const now = Date.now();
@@ -427,5 +428,5 @@ export interface CapacitorCalendarPlugin {
    *   listIds: ['LIST_ID_1', 'LIST_ID_2'],
    * });
    */
-  getRemindersInLists(options: { listIds: string[] }): Promise<{ result: Reminder[] }>;
+  getRemindersInLists(options: { listIds?: string[] }): Promise<{ result: Reminder[] }>;
 }

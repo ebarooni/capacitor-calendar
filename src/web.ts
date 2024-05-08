@@ -114,7 +114,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     throw this.unimplemented(`${this.deleteCalendar.name} is not implemented on the web`);
   }
 
-  public getRemindersInLists(_options: { listIds: string[] }): Promise<{ result: Reminder[] }> {
+  public getRemindersInLists(_options: { listIds?: string[] }): Promise<{ result: Reminder[] }> {
     throw this.unimplemented(`${this.getRemindersInLists.name} is not implemented on the web`);
   }
 }

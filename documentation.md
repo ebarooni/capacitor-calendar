@@ -304,14 +304,14 @@ Deletes a calendar by id
 ### getRemindersInLists(...)
 
 ```typescript
-getRemindersInLists(options: { listIds: string[]; }) => Promise<{ result: Reminder[]; }>
+getRemindersInLists(options: { listIds?: string[]; }) => Promise<{ result: Reminder[]; }>
 ```
 
 Retrieves the list of reminders present in the given date range.
 
-| Param         | Type                                | Description                          |
-| ------------- | ----------------------------------- | ------------------------------------ |
-| **`options`** | <code>{ listIds: string[]; }</code> | Options for defining the date range. |
+| Param         | Type                                 | Description                          |
+| ------------- | ------------------------------------ | ------------------------------------ |
+| **`options`** | <code>{ listIds?: string[]; }</code> | Options for defining the date range. |
 
 **Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
 
