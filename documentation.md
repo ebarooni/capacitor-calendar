@@ -20,6 +20,7 @@
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
+- [`getRemindersInLists(...)`](#getremindersinlists)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -300,6 +301,24 @@ Deletes a calendar by id
 
 ---
 
+### getRemindersInLists(...)
+
+```typescript
+getRemindersInLists(options: { listIds: string[]; }) => Promise<{ result: Reminder[]; }>
+```
+
+Retrieves the list of reminders present in the given date range.
+
+| Param         | Type                                | Description                          |
+| ------------- | ----------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ listIds: string[]; }</code> | Options for defining the date range. |
+
+**Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
+
+**Since:** 5.3.0
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
@@ -342,6 +361,16 @@ Represents an event in the calendar.
 | **`duration`**         | <code>string</code>  |
 | **`isAllDay`**         | <code>boolean</code> |
 | **`calendarId`**       | <code>string</code>  |
+
+#### Reminder
+
+Represents a reminder in a reminders list.
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`id`**     | <code>string</code> |
+| **`title`**  | <code>string</code> |
+| **`listId`** | <code>string</code> |
 
 ### Type Aliases
 
