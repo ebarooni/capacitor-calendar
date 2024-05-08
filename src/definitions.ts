@@ -7,6 +7,7 @@ import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
+import type { Reminder } from './schemas/interfaces/reminder';
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -405,4 +406,28 @@ export interface CapacitorCalendarPlugin {
    * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
    */
   deleteCalendar(options: { id: string }): Promise<void>;
+
+  /**
+   * Retrieves the list of reminders present in the given date range.
+   *
+   * @method listRemindersInRange
+   * @since 5.3.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> readReminders</li>
+   * </ul>
+   * @param {object} options Options for defining the date range.
+   * @param {number} options.startDate The start of the date range.
+   * @param {number} options.endDate The end of the date range.
+   * @returns {Promise<{ result: Reminder[] }>} A Promise that resolves with the list of reminders.
+   * @example
+   * const now = Date.now();
+   * const { result } = await CapacitorCalendar.listRemindersInRange({
+   *   startDate: now,
+   *   endDate: now + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
+   * })
+   */
+  listRemindersInRange(options: { startDate: number; endDate: number }): Promise<{ result: Reminder[] }>;
 }
