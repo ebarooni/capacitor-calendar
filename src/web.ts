@@ -7,6 +7,7 @@ import type { Calendar } from './schemas/interfaces/calendar';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
+import type { Reminder } from './schemas/interfaces/reminder';
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: { alias: PluginPermission }): Promise<{ result: PermissionState }> {
@@ -111,5 +112,9 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
 
   public deleteCalendar(_options: { id: string }): Promise<void> {
     throw this.unimplemented(`${this.deleteCalendar.name} is not implemented on the web`);
+  }
+
+  public getRemindersInLists(_options: { listIds: string[] }): Promise<{ result: Reminder[] }> {
+    throw this.unimplemented(`${this.getRemindersInLists.name} is not implemented on the web`);
   }
 }
