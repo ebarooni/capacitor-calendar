@@ -264,17 +264,64 @@ public class CapacitorReminders: NSObject {
         return events.map { event in
             var dict = [String: Any]()
             dict["id"] = event.calendarItemIdentifier
+            dict["listId"] = event.calendar.calendarIdentifier
+            dict["isCompleted"] = event.isCompleted
+            dict["priority"] = event.priority
 
             if let title = event.title, !title.isEmpty {
                 dict["title"] = title
             }
+            if let url = event.url {
+                dict["url"] = url
+            }
+            if let notes = event.notes {
+                dict["notes"] = notes
+            }
+            if let location = event.location {
+                dict["location"] = location
+            }
+            if let startDate = event.startDateComponents, let startMillis = convertDateComponentToMillis(dateComponent: startDate) {
+                dict["startDate"] = startMillis
+            }
+            if let dueDate = event.dueDateComponents, let dueMillis = convertDateComponentToMillis(dateComponent: dueDate) {
+                dict["dueDate"] = dueMillis
+            }
+            if let completionDate = event.completionDate {
+                dict["completionDate"] = completionDate.timeIntervalSince1970 * 1000
+            }
+            if let recurrenceRules = event.recurrenceRules {
+                let recurrence = extractReminderRecurrenceRules(rules: recurrenceRules)
 
-            dict["listId"] = event.calendar.calendarIdentifier
-            dict["isCompleted"] = event.isCompleted
-            dict["priority"] = event.priority
-            dict["notes"] = event.notes
+                if !recurrence.isEmpty {
+                    dict["recurrence"] = recurrence
+                }
+            }
 
             return dict
+        }
+    }
+
+    private func convertDateComponentToMillis(dateComponent: DateComponents) -> Double? {
+        let calendar = Calendar.current
+        if let startDate = calendar.date(from: dateComponent) {
+            return startDate.timeIntervalSince1970 * 1000
+        } else {
+            return nil
+        }
+    }
+
+    private func extractReminderRecurrenceRules(rules: [EKRecurrenceRule]) -> [[String: Any]] {
+        return rules.map { rule in
+            var obj = [String: Any]()
+
+            obj["frequency"] = rule.frequency.rawValue
+            obj["interval"] = rule.interval
+
+            if let endDate = rule.recurrenceEnd?.endDate {
+                obj["end"] = endDate.timeIntervalSince1970 * 1000
+            }
+
+            return obj
         }
     }
 }
