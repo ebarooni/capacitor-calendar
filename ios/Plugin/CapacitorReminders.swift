@@ -173,7 +173,7 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func getRemindersFromLists(listIds: JSArray?) async throws -> [[String : Any]] {
+    public func getRemindersFromLists(listIds: JSArray?) async throws -> [[String: Any]] {
         return try await withCheckedThrowingContinuation { continuation in
             var lists: [EKCalendar]?
             if let ids = listIds {
@@ -184,16 +184,16 @@ public class CapacitorReminders: NSObject {
                     }
                 }
             }
-            
+
             let predicate = eventStore.predicateForReminders(in: lists)
-            
+
             self.eventStore.fetchReminders(matching: predicate) {reminders in
                 if let result = reminders {
                     continuation.resume(returning: self.dictionaryRepresentationOfReminder(events: result))
                 } else {
                     continuation.resume(returning: [])
                 }
-                
+
             }
         }
     }
@@ -264,11 +264,11 @@ public class CapacitorReminders: NSObject {
         return events.map { event in
             var dict = [String: Any]()
             dict["id"] = event.calendarItemIdentifier
-            
+
             if let title = event.title, !title.isEmpty {
                 dict["title"] = title
             }
-            
+
             dict["listId"] = event.calendar.calendarIdentifier
             dict["isCompleted"] = event.isCompleted
             dict["priority"] = event.priority
