@@ -20,7 +20,7 @@
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
-- [`getRemindersInLists(...)`](#getremindersinlists)
+- [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -301,10 +301,10 @@ Deletes a calendar by id
 
 ---
 
-### getRemindersInLists(...)
+### getRemindersFromLists(...)
 
 ```typescript
-getRemindersInLists(options?: { listIds: string[]; } | undefined) => Promise<{ result: Reminder[]; }>
+getRemindersFromLists(options?: { listIds: string[]; } | undefined) => Promise<{ result: Reminder[]; }>
 ```
 
 Retrieves the list of reminders present in the given date range.
@@ -366,11 +366,13 @@ Represents an event in the calendar.
 
 Represents a reminder in a reminders list.
 
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`id`**     | <code>string</code> |
-| **`title`**  | <code>string</code> |
-| **`listId`** | <code>string</code> |
+| Prop              | Type                 |
+| ----------------- | -------------------- |
+| **`id`**          | <code>string</code>  |
+| **`title`**       | <code>string</code>  |
+| **`listId`**      | <code>string</code>  |
+| **`isCompleted`** | <code>boolean</code> |
+| **`priority`**    | <code>number</code>  |
 
 ### Type Aliases
 
