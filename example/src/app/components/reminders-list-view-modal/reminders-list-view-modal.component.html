@@ -1,0 +1,51 @@
+<ion-modal #modal (ionModalWillDismiss)="dispose()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons [slot]="'end'">
+          <ion-button (click)="modal.dismiss()">Close</ion-button>
+        </ion-buttons>
+        @if (loading) {
+          <ion-progress-bar [type]="'indeterminate'"></ion-progress-bar>
+        }
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-grid *ngrxLet="reminders$ as reminders">
+        <ion-row>
+          <ion-col>
+            <ion-list>
+              @for (reminder of reminders; track $index) {
+                <ion-item>
+                  <ion-checkbox
+                    [slot]="'start'"
+                    (ionChange)="
+                      checkboxStates[reminder.id] = $event.detail.checked
+                    "
+                  ></ion-checkbox>
+                  <ion-label>
+                    <h3>{{ reminder.title }}</h3>
+                    <p>{{ reminder.id }}</p>
+                  </ion-label>
+                </ion-item>
+              }
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        @if (reminders) {
+          <ion-row>
+            <ion-col>
+              <ion-button
+                [color]="'danger'"
+                [expand]="'block'"
+                (click)="dispatchEvents()"
+              >
+                Delete reminder(s)
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        }
+      </ion-grid>
+    </ion-content>
+  </ng-template>
+</ion-modal>

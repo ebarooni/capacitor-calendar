@@ -63,6 +63,13 @@
   <ion-item button [detail]="true" (click)="getRemindersFromLists()">
     <ion-label>{{ getRemindersFromLists.name }}</ion-label>
   </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="remindersListViewModalComponent.present()"
+  >
+    <ion-label>{{ deleteRemindersById.name }}</ion-label>
+  </ion-item>
 </ion-list>
 
 <ion-picker-legacy
@@ -85,3 +92,8 @@
   #eventsListViewModalComponent
   (deleteEvents)="deleteEventsById($event)"
 ></app-events-list-view-modal>
+
+<app-reminders-list-view-modal
+  #remindersListViewModalComponent
+  (deleteReminders)="deleteRemindersById($event)"
+></app-reminders-list-view-modal>
