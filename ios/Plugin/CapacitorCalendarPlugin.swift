@@ -398,13 +398,13 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func deleteRemindersById(_ call: CAPPluginCall) {
         guard let ids = call.getArray("ids") else {
             call.reject("[CapacitorCalendar.\(#function)] Reminder ids were not provided")
             return
         }
-        
+
         Task {
             do {
                 let deleteResult = try await reminders.deleteRemindersById(ids: ids)

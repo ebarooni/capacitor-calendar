@@ -197,7 +197,7 @@ public class CapacitorReminders: NSObject {
             }
         }
     }
-    
+
     public func deleteRemindersById(ids: JSArray) async throws -> EventDeleteResults {
         await withCheckedContinuation { continuation in
 
