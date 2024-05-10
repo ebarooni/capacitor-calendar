@@ -21,6 +21,7 @@
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
+- [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -314,6 +315,24 @@ Retrieves the list of reminders present in the given date range.
 | **`options`** | <code>{ listIds: string[]; }</code> | Options for defining the date range. It Will fetch all reminders from all available lists if not provided. (Optional) |
 
 **Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
+
+**Since:** 5.3.0
+
+---
+
+### deleteRemindersById(...)
+
+```typescript
+deleteRemindersById(options: { ids: string[]; }) => Promise<{ result: { deleted: string[]; failed: string[]; }; }>
+```
+
+Deletes reminders given their IDs.
+
+| Param         | Type                            | Description                        |
+| ------------- | ------------------------------- | ---------------------------------- |
+| **`options`** | <code>{ ids: string[]; }</code> | Options for defining reminder IDs. |
+
+**Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 5.3.0
 
