@@ -410,7 +410,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Retrieves the list of reminders present in the given date range.
    *
-   * @method getRemindersInLists
+   * @method getRemindersFromLists
    * @since 5.3.0
    * @platform iOS
    * @permissions
@@ -424,9 +424,9 @@ export interface CapacitorCalendarPlugin {
    * @returns {Promise<{ result: Reminder[] }>} A Promise that resolves with the list of reminders.
    * @example
    * const now = Date.now();
-   * const { result } = await CapacitorCalendar.listRemindersInRange({
+   * const { result } = await CapacitorCalendar.getRemindersFromLists({
    *   listIds: ['LIST_ID_1', 'LIST_ID_2'],
    * });
    */
-  getRemindersInLists(options?: { listIds: string[] }): Promise<{ result: Reminder[] }>;
+  getRemindersFromLists(options?: { listIds: string[] }): Promise<{ result: Reminder[] }>;
 }
