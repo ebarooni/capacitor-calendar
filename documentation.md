@@ -366,13 +366,20 @@ Represents an event in the calendar.
 
 Represents a reminder in a reminders list.
 
-| Prop              | Type                 |
-| ----------------- | -------------------- |
-| **`id`**          | <code>string</code>  |
-| **`title`**       | <code>string</code>  |
-| **`listId`**      | <code>string</code>  |
-| **`isCompleted`** | <code>boolean</code> |
-| **`priority`**    | <code>number</code>  |
+| Prop                 | Type                                  |
+| -------------------- | ------------------------------------- |
+| **`id`**             | <code>string</code>                   |
+| **`title`**          | <code>string</code>                   |
+| **`listId`**         | <code>string</code>                   |
+| **`isCompleted`**    | <code>boolean</code>                  |
+| **`priority`**       | <code>number</code>                   |
+| **`notes`**          | <code>string</code>                   |
+| **`location`**       | <code>string</code>                   |
+| **`url`**            | <code>string</code>                   |
+| **`startDate`**      | <code>number</code>                   |
+| **`dueDate`**        | <code>number</code>                   |
+| **`completionDate`** | <code>number</code>                   |
+| **`recurrence`**     | <code>ReminderRecurrenceRule[]</code> |
 
 ### Type Aliases
 
