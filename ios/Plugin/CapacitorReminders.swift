@@ -173,20 +173,29 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func getRemindersInLists(listIds: JSArray?) throws -> [[String: Any]] {
-        let lists: [EKCalendar]?
-        if listIds != nil {
-            lists = []
-            for id in listIds! {
-                if let list = eventStore.calendar(withIdentifier: "\(id)") {
-                    lists?.append(list)
+    public func getRemindersFromLists(listIds: JSArray?) async throws -> [[String : Any]] {
+        return try await withCheckedThrowingContinuation { continuation in
+            var lists: [EKCalendar]?
+            if let ids = listIds {
+                lists = []
+                for id in ids {
+                    if let list = eventStore.calendar(withIdentifier: "\(id)") {
+                        lists?.append(list)
+                    }
                 }
             }
+            
+            let predicate = eventStore.predicateForReminders(in: lists)
+            
+            self.eventStore.fetchReminders(matching: predicate) {reminders in
+                if let result = reminders {
+                    continuation.resume(returning: self.dictionaryRepresentationOfReminder(events: result))
+                } else {
+                    continuation.resume(returning: [])
+                }
+                
+            }
         }
-
-        let predicate = eventStore.predicateForReminders(in: lists)
-        let events = self.eventStore.events(matching: predicate)
-        return dictionaryRepresentationOfReminder(events: events)
     }
 
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
@@ -251,14 +260,20 @@ public class CapacitorReminders: NSObject {
         setCompletionDate()
     }
 
-    private func dictionaryRepresentationOfReminder(events: [EKEvent]) -> [[String: Any]] {
+    private func dictionaryRepresentationOfReminder(events: [EKReminder]) -> [[String: Any]] {
         return events.map { event in
             var dict = [String: Any]()
-            dict["id"] = event.eventIdentifier
+            dict["id"] = event.calendarItemIdentifier
+            
             if let title = event.title, !title.isEmpty {
                 dict["title"] = title
             }
+            
             dict["listId"] = event.calendar.calendarIdentifier
+            dict["isCompleted"] = event.isCompleted
+            dict["priority"] = event.priority
+            dict["notes"] = event.notes
+
             return dict
         }
     }
