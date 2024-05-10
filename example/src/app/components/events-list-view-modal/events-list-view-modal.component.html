@@ -22,12 +22,14 @@
               </ion-list-header>
               @for (event of calendarEvents; track $index) {
                 <ion-item>
-                  <ion-checkbox
-                    [slot]="'start'"
-                    (ionChange)="
-                      checkboxStates[event.id] = $event.detail.checked
-                    "
-                  ></ion-checkbox>
+                  <div [slot]="'start'">
+                    <ion-checkbox
+                      [slot]="'start'"
+                      (ionChange)="
+                        checkboxStates[event.id] = $event.detail.checked
+                      "
+                    ></ion-checkbox>
+                  </div>
                   <ion-label>
                     <h3>{{ event.title }}</h3>
                     <p>{{ event.id }}</p>

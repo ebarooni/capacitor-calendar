@@ -17,12 +17,14 @@
             <ion-list>
               @for (reminder of reminders; track $index) {
                 <ion-item>
-                  <ion-checkbox
-                    [slot]="'start'"
-                    (ionChange)="
-                      checkboxStates[reminder.id] = $event.detail.checked
-                    "
-                  ></ion-checkbox>
+                  <div [slot]="'start'">
+                    <ion-checkbox
+                      [slot]="'start'"
+                      (ionChange)="
+                        checkboxStates[reminder.id] = $event.detail.checked
+                      "
+                    ></ion-checkbox>
+                  </div>
                   <ion-label>
                     <h3>{{ reminder.title }}</h3>
                     <p>{{ reminder.id }}</p>
