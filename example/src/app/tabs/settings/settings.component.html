@@ -4,14 +4,15 @@
     <ion-item>
       <ion-icon [name]="'moon'" [slot]="'start'"></ion-icon>
       <ion-label>Dark Mode</ion-label>
-      <ion-toggle
-        *ngrxLet="storeService.selectIsDarkMode$ as isDarkMode"
-        aria-label="Toggle app theme"
-        [slot]="'end'"
-        [color]="'success'"
-        [checked]="isDarkMode"
-        (ionChange)="storeService.updateState({ isDarkMode: !isDarkMode })"
-      ></ion-toggle>
+      <div [slot]="'end'">
+        <ion-toggle
+          *ngrxLet="storeService.selectIsDarkMode$ as isDarkMode"
+          aria-label="Toggle app theme"
+          [color]="'success'"
+          [checked]="isDarkMode"
+          (ionChange)="storeService.updateState({ isDarkMode: !isDarkMode })"
+        ></ion-toggle>
+      </div>
     </ion-item>
     <ion-item
       [button]="true"

@@ -14,6 +14,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.3.0] – 2024-05-10
+
+### Added
+
+- Fetch reminders from selected or all reminder lists (iOS)
+- Delete reminders by id (iOS)
+
+### Fixed
+
+- Using `isAllDay` with `createEventWithPrompt` on Android was not functional
+
 ## [6.2.0] – 2024-05-04
 
 ### Added
@@ -64,6 +75,17 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.3.0] – 2024-05-10
+
+### Added
+
+- Fetch reminders from selected or all reminder lists (iOS)
+- Delete reminders by id (iOS)
+
+### Fixed
+
+- Using `isAllDay` with `createEventWithPrompt` on Android was not functional
 
 ## [5.2.0] – 2024-05-04
 

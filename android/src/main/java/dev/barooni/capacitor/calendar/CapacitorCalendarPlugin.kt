@@ -53,7 +53,7 @@ class CapacitorCalendarPlugin : Plugin() {
             location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
             startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
             endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
-            isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, if (it) 1 else 0) }
+            isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
 
             return startActivityForResult(
                 call,

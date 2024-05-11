@@ -20,6 +20,8 @@
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
+- [`getRemindersFromLists(...)`](#getremindersfromlists)
+- [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -300,6 +302,42 @@ Deletes a calendar by id
 
 ---
 
+### getRemindersFromLists(...)
+
+```typescript
+getRemindersFromLists(options?: { listIds: string[]; } | undefined) => Promise<{ result: Reminder[]; }>
+```
+
+Retrieves the list of reminders present in the given date range.
+
+| Param         | Type                                | Description                                                                                                           |
+| ------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ listIds: string[]; }</code> | Options for defining the date range. It Will fetch all reminders from all available lists if not provided. (Optional) |
+
+**Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
+
+**Since:** 5.3.0
+
+---
+
+### deleteRemindersById(...)
+
+```typescript
+deleteRemindersById(options: { ids: string[]; }) => Promise<{ result: { deleted: string[]; failed: string[]; }; }>
+```
+
+Deletes reminders given their IDs.
+
+| Param         | Type                            | Description                        |
+| ------------- | ------------------------------- | ---------------------------------- |
+| **`options`** | <code>{ ids: string[]; }</code> | Options for defining reminder IDs. |
+
+**Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
+
+**Since:** 5.3.0
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
@@ -342,6 +380,25 @@ Represents an event in the calendar.
 | **`duration`**         | <code>string</code>  |
 | **`isAllDay`**         | <code>boolean</code> |
 | **`calendarId`**       | <code>string</code>  |
+
+#### Reminder
+
+Represents a reminder in a reminders list.
+
+| Prop                 | Type                                  |
+| -------------------- | ------------------------------------- |
+| **`id`**             | <code>string</code>                   |
+| **`title`**          | <code>string</code>                   |
+| **`listId`**         | <code>string</code>                   |
+| **`isCompleted`**    | <code>boolean</code>                  |
+| **`priority`**       | <code>number</code>                   |
+| **`notes`**          | <code>string</code>                   |
+| **`location`**       | <code>string</code>                   |
+| **`url`**            | <code>string</code>                   |
+| **`startDate`**      | <code>number</code>                   |
+| **`dueDate`**        | <code>number</code>                   |
+| **`completionDate`** | <code>number</code>                   |
+| **`recurrence`**     | <code>ReminderRecurrenceRule[]</code> |
 
 ### Type Aliases
 

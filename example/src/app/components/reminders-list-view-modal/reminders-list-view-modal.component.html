@@ -11,35 +11,30 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-grid *ngrxLet="events$ as calendarEvents">
+      <ion-grid *ngrxLet="reminders$ as reminders">
         <ion-row>
           <ion-col>
             <ion-list>
-              <ion-list-header>
-                <ion-label>
-                  {{ startDate | date }} – {{ endDate | date }}
-                </ion-label>
-              </ion-list-header>
-              @for (event of calendarEvents; track $index) {
+              @for (reminder of reminders; track $index) {
                 <ion-item>
                   <div [slot]="'start'">
                     <ion-checkbox
                       [slot]="'start'"
                       (ionChange)="
-                        checkboxStates[event.id] = $event.detail.checked
+                        checkboxStates[reminder.id] = $event.detail.checked
                       "
                     ></ion-checkbox>
                   </div>
                   <ion-label>
-                    <h3>{{ event.title }}</h3>
-                    <p>{{ event.id }}</p>
+                    <h3>{{ reminder.title }}</h3>
+                    <p>{{ reminder.id }}</p>
                   </ion-label>
                 </ion-item>
               }
             </ion-list>
           </ion-col>
         </ion-row>
-        @if (calendarEvents) {
+        @if (reminders) {
           <ion-row>
             <ion-col>
               <ion-button
@@ -47,7 +42,7 @@
                 [expand]="'block'"
                 (click)="dispatchEvents()"
               >
-                Delete event(s)
+                Delete reminder(s)
               </ion-button>
             </ion-col>
           </ion-row>
