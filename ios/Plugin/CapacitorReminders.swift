@@ -9,6 +9,7 @@
 import Foundation
 import EventKit
 import UIKit
+import Capacitor
 
 public class CapacitorReminders: NSObject {
     private let eventStore: EKEventStore
@@ -172,6 +173,62 @@ public class CapacitorReminders: NSObject {
         }
     }
 
+    public func getRemindersFromLists(listIds: JSArray?) async throws -> [[String: Any]] {
+        return try await withCheckedThrowingContinuation { continuation in
+            var lists: [EKCalendar]?
+            if let ids = listIds {
+                lists = []
+                for id in ids {
+                    if let list = eventStore.calendar(withIdentifier: "\(id)") {
+                        lists?.append(list)
+                    }
+                }
+            }
+
+            let predicate = eventStore.predicateForReminders(in: lists)
+
+            self.eventStore.fetchReminders(matching: predicate) {reminders in
+                if let result = reminders {
+                    continuation.resume(returning: self.dictionaryRepresentationOfReminder(events: result))
+                } else {
+                    continuation.resume(returning: [])
+                }
+
+            }
+        }
+    }
+
+    public func deleteRemindersById(ids: JSArray) async throws -> EventDeleteResults {
+        await withCheckedContinuation { continuation in
+
+            var deletedEvents: [String] = []
+            var failedToDeleteEvents: [String] = []
+
+            for id in ids {
+                guard let reminder = eventStore.calendarItem(withIdentifier: "\(id)") else {
+                    failedToDeleteEvents.append("\(id)")
+                    continue
+                }
+
+                do {
+                    try eventStore.remove(reminder as! EKReminder, commit: false)
+                    deletedEvents.append("\(id)")
+                } catch {
+                    failedToDeleteEvents.append("\(id)")
+                }
+            }
+
+            do {
+                try eventStore.commit()
+            } catch {
+                failedToDeleteEvents.append(contentsOf: deletedEvents)
+                deletedEvents.removeAll()
+            }
+
+            continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
+        }
+    }
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
         var result: [[String: String]] = []
 
@@ -232,5 +289,70 @@ public class CapacitorReminders: NSObject {
         setStartDate()
         setDueDate()
         setCompletionDate()
+    }
+
+    private func dictionaryRepresentationOfReminder(events: [EKReminder]) -> [[String: Any]] {
+        return events.map { event in
+            var dict = [String: Any]()
+            dict["id"] = event.calendarItemIdentifier
+            dict["listId"] = event.calendar.calendarIdentifier
+            dict["isCompleted"] = event.isCompleted
+            dict["priority"] = event.priority
+
+            if let title = event.title, !title.isEmpty {
+                dict["title"] = title
+            }
+            if let url = event.url {
+                dict["url"] = url
+            }
+            if let notes = event.notes {
+                dict["notes"] = notes
+            }
+            if let location = event.location {
+                dict["location"] = location
+            }
+            if let startDate = event.startDateComponents, let startMillis = convertDateComponentToMillis(dateComponent: startDate) {
+                dict["startDate"] = startMillis
+            }
+            if let dueDate = event.dueDateComponents, let dueMillis = convertDateComponentToMillis(dateComponent: dueDate) {
+                dict["dueDate"] = dueMillis
+            }
+            if let completionDate = event.completionDate {
+                dict["completionDate"] = completionDate.timeIntervalSince1970 * 1000
+            }
+            if let recurrenceRules = event.recurrenceRules {
+                let recurrence = extractReminderRecurrenceRules(rules: recurrenceRules)
+
+                if !recurrence.isEmpty {
+                    dict["recurrence"] = recurrence
+                }
+            }
+
+            return dict
+        }
+    }
+
+    private func convertDateComponentToMillis(dateComponent: DateComponents) -> Double? {
+        let calendar = Calendar.current
+        if let startDate = calendar.date(from: dateComponent) {
+            return startDate.timeIntervalSince1970 * 1000
+        } else {
+            return nil
+        }
+    }
+
+    private func extractReminderRecurrenceRules(rules: [EKRecurrenceRule]) -> [[String: Any]] {
+        return rules.map { rule in
+            var obj = [String: Any]()
+
+            obj["frequency"] = rule.frequency.rawValue
+            obj["interval"] = rule.interval
+
+            if let endDate = rule.recurrenceEnd?.endDate {
+                obj["end"] = endDate.timeIntervalSince1970 * 1000
+            }
+
+            return obj
+        }
     }
 }

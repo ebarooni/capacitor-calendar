@@ -20,11 +20,21 @@ import {
   getCheckPermissionPickerButtons,
 } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
 import { EventsListViewModalComponent } from '../events-list-view-modal/events-list-view-modal.component';
+import { RemindersListViewModalComponent } from '../reminders-list-view-modal/reminders-list-view-modal.component';
 
 @Component({
   selector: 'app-methods-list',
   templateUrl: './methods-list.component.html',
-  imports: [IonIcon, IonItem, IonLabel, IonList, IonListHeader, EventsListViewModalComponent, IonPickerLegacy],
+  imports: [
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    EventsListViewModalComponent,
+    IonPickerLegacy,
+    RemindersListViewModalComponent,
+  ],
   standalone: true,
 })
 export class MethodsListComponent {
@@ -226,6 +236,20 @@ export class MethodsListComponent {
           return Promise.resolve();
         }
       })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public getRemindersFromLists(): void {
+    CapacitorCalendar.getRemindersFromLists()
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public deleteRemindersById(ids: string[]): void {
+    CapacitorCalendar.deleteRemindersById({
+      ids: ids,
+    })
+      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }

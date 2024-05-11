@@ -7,6 +7,7 @@ import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
+import type { Reminder } from './schemas/interfaces/reminder';
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -405,4 +406,52 @@ export interface CapacitorCalendarPlugin {
    * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
    */
   deleteCalendar(options: { id: string }): Promise<void>;
+
+  /**
+   * Retrieves the list of reminders present in the given date range.
+   *
+   * @method getRemindersFromLists
+   * @since 5.3.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> readReminders</li>
+   * </ul>
+   * @param {object} options Options for defining the date range.
+   * It Will fetch all reminders from all available lists if not provided. (Optional)
+   * @param {string[]} options.listIds An array of reminder list ids.
+   * @returns {Promise<{ result: Reminder[] }>} A Promise that resolves with the list of reminders.
+   * @example
+   * const now = Date.now();
+   * const { result } = await CapacitorCalendar.getRemindersFromLists({
+   *   listIds: ['LIST_ID_1', 'LIST_ID_2'],
+   * });
+   */
+  getRemindersFromLists(options?: { listIds: string[] }): Promise<{ result: Reminder[] }>;
+
+  /**
+   * Deletes reminders given their IDs.
+   *
+   * @method deleteRemindersById
+   * @since 5.3.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeReminders</li>
+   * </ul>
+   * @param {object} options Options for defining reminder IDs.
+   * @param {number} options.ids An array of reminder IDs to be deleted.
+   * @returns {Promise<{ deleted: string[], failed: string[] }>}
+   * A promise that resolves to an object with two properties:
+   *  - deleted: string[] - An array of IDs that were successfully deleted.
+   *  - failed: string[] - An array of IDs that could not be deleted.
+   * @example
+   * const idsToDelete = ['ID_1', 'ID_2', 'ID_DOES_NOT_EXIST'];
+   * const { result } = await CapacitorCalendar.deleteRemindersById(idsToDelete)
+   * console.log(result.deleted)  // ['ID_1', 'ID_2']
+   * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
+   */
+  deleteRemindersById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 }

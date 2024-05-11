@@ -91,6 +91,8 @@ permissions can be found below:
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
+- [`getRemindersFromLists(...)`](#getremindersfromlists)
+- [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
