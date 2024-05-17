@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.4.0] – 2024-05-17
+
+### Added
+
+- New methods to request runtime permissions beside using the permission constants
+
+### Fixed
+
+- `createEventWithPrompt` throwing error because of undefined event id
+
 ## [6.3.0] – 2024-05-10
 
 ### Added
@@ -75,6 +85,16 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.4.0] – 2024-05-17
+
+### Added
+
+- New methods to request runtime permissions beside using the permission constants
+
+### Fixed
+
+- `createEventWithPrompt` throwing error because of undefined event id
 
 ## [5.3.0] – 2024-05-10
 

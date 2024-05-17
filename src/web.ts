@@ -123,4 +123,20 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
     throw this.unimplemented(`${this.deleteRemindersById.name} is not implemented on the web`);
   }
+
+  public requestWriteOnlyCalendarAccess(): Promise<{ result: PermissionState }> {
+    throw this.unimplemented(`${this.requestWriteOnlyCalendarAccess.name} is not implemented on the web`);
+  }
+
+  public requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }> {
+    throw this.unimplemented(`${this.requestReadOnlyCalendarAccess.name} is not implemented on the web`);
+  }
+
+  public requestFullCalendarAccess(): Promise<{ result: PermissionState }> {
+    throw this.unimplemented(`${this.requestFullCalendarAccess.name} is not implemented on the web`);
+  }
+
+  public requestFullRemindersAccess(): Promise<{ result: PermissionState }> {
+    throw this.unimplemented(`${this.requestFullRemindersAccess.name} is not implemented on the web`);
+  }
 }

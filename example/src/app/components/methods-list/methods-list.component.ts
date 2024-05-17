@@ -252,4 +252,50 @@ export class MethodsListComponent {
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public requestWriteOnlyCalendarAccess(): void {
+    CapacitorCalendar.requestWriteOnlyCalendarAccess()
+      .then((response) => {
+        const update: Partial<PluginPermissionsMap> = { [PluginPermission.WRITE_CALENDAR]: response.result };
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public requestReadOnlyCalendarAccess(): void {
+    CapacitorCalendar.requestReadOnlyCalendarAccess()
+      .then((response) => {
+        const update: Partial<PluginPermissionsMap> = { [PluginPermission.READ_CALENDAR]: response.result };
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public requestFullCalendarAccess(): void {
+    CapacitorCalendar.requestFullCalendarAccess()
+      .then((response) => {
+        const update: Partial<PluginPermissionsMap> = {
+          [PluginPermission.READ_CALENDAR]: response.result,
+          [PluginPermission.WRITE_CALENDAR]: response.result,
+        };
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public requestFullRemindersAccess(): void {
+    CapacitorCalendar.requestFullRemindersAccess()
+      .then((response) => {
+        const update: Partial<PluginPermissionsMap> = {
+          [PluginPermission.READ_REMINDERS]: response.result,
+          [PluginPermission.WRITE_REMINDERS]: response.result,
+        };
+        this.storeService.updateState({ permissions: update });
+        this.storeService.dispatchLog(JSON.stringify(response));
+      })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }

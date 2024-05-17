@@ -22,6 +22,10 @@
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
+- [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
+- [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
+- [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
+- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -45,6 +49,8 @@ Checks the current authorization status of a specific permission.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
+**Since:** 0.1.0
+
 ---
 
 ### checkAllPermissions()
@@ -56,6 +62,8 @@ checkAllPermissions() => Promise<PluginPermissionsMap>
 Checks the current authorization status of all the required permissions for the plugin.
 
 **Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
+
+**Since:** 0.1.0
 
 ---
 
@@ -74,6 +82,8 @@ If the permission is already granted, it will directly return the status.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
+**Since:** 0.1.0
+
 ---
 
 ### requestAllPermissions()
@@ -85,6 +95,8 @@ requestAllPermissions() => Promise<PluginPermissionsMap>
 Requests authorization to all the required permissions for the plugin, if they have not already been granted.
 
 **Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
+
+**Since:** 0.1.0
 
 ---
 
@@ -335,6 +347,62 @@ Deletes reminders given their IDs.
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 5.3.0
+
+---
+
+### requestWriteOnlyCalendarAccess()
+
+```typescript
+requestWriteOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests write access for the calendar. If its already granted, it will directly return the state.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestReadOnlyCalendarAccess()
+
+```typescript
+requestReadOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read access for the calendar. If its already granted, it will directly return the state.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestFullCalendarAccess()
+
+```typescript
+requestFullCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read and write access for the calendar. If its already granted, it will directly return the state.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestFullRemindersAccess()
+
+```typescript
+requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read and write access for the reminders. If its already granted, it will directly return the state.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
 
 ---
 

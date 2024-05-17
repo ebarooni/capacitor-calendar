@@ -29,6 +29,13 @@ import com.getcapacitor.annotation.PermissionCallback
                 Manifest.permission.WRITE_CALENDAR,
             ],
         ),
+        Permission(
+            alias = "readWriteCalendar",
+            strings = [
+                Manifest.permission.WRITE_CALENDAR,
+                Manifest.permission.READ_CALENDAR,
+            ],
+        ),
     ],
 )
 class CapacitorCalendarPlugin : Plugin() {
@@ -131,9 +138,87 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun requestWriteOnlyCalendarAccess(call: PluginCall) {
+        val permissionName = "writeCalendar"
+        try {
+            return requestPermissionForAlias(
+                permissionName,
+                call,
+                "requestWriteOnlyCalendarAccessCallback",
+            )
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun requestReadOnlyCalendarAccess(call: PluginCall) {
+        val permissionName = "readCalendar"
+        try {
+            return requestPermissionForAlias(
+                permissionName,
+                call,
+                "requestReadOnlyCalendarAccessCallback",
+            )
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun requestFullCalendarAccess(call: PluginCall) {
+        val permissionName = "readWriteCalendar"
+        try {
+            return requestPermissionForAlias(
+                permissionName,
+                call,
+                "requestFullCalendarAccessCallback",
+            )
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
     @PermissionCallback
     private fun requestPermissionCallback(call: PluginCall) {
         val permissionName = call.getString("alias")
+        try {
+            val ret = JSObject()
+            ret.put("result", getPermissionState(permissionName))
+            call.resolve(ret)
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
+    @PermissionCallback
+    private fun requestWriteOnlyCalendarAccessCallback(call: PluginCall) {
+        val permissionName = "writeCalendar"
+        try {
+            val ret = JSObject()
+            ret.put("result", getPermissionState(permissionName))
+            call.resolve(ret)
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
+    @PermissionCallback
+    private fun requestReadOnlyCalendarAccessCallback(call: PluginCall) {
+        val permissionName = "readCalendar"
+        try {
+            val ret = JSObject()
+            ret.put("result", getPermissionState(permissionName))
+            call.resolve(ret)
+        } catch (_: Exception) {
+            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
+        }
+    }
+
+    @PermissionCallback
+    private fun requestFullCalendarAccessCallbackCallback(call: PluginCall) {
+        val permissionName = "readWriteCalendar"
         try {
             val ret = JSObject()
             ret.put("result", getPermissionState(permissionName))
@@ -289,6 +374,18 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun deleteCalendar(call: PluginCall) {
         call.unimplemented("[CapacitorCalendar.${::deleteCalendar.name}] Not implemented on Android")
+        return
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun getRemindersFromLists(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::getRemindersFromLists.name}] Not implemented on Android")
+        return
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun deleteRemindersById(call: PluginCall) {
+        call.unimplemented("[CapacitorCalendar.${::deleteRemindersById.name}] Not implemented on Android")
         return
     }
 }
