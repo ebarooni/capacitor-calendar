@@ -420,4 +420,40 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
+
+    @objc public func requestWriteOnlyCalendarAccess(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let result = try await calendar.requestWriteAccessToEvents()
+                call.resolve(result)
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Could not authorize write access")
+                return
+            }
+        }
+    }
+
+    @objc public func requestFullCalendarAccess(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let result = try await calendar.requestFullAccessToEvents()
+                call.resolve(["result": result])
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Could not authorize full calendar access")
+                return
+            }
+        }
+    }
+
+    @objc public func requestFullRemindersAccess(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let result = try await reminders.requestFullAccessToReminders()
+                call.resolve(["result": result])
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Could not authorize full reminders access")
+                return
+            }
+        }
+    }
 }
