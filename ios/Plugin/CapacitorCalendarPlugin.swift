@@ -433,6 +433,11 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         }
     }
 
+    @objc public func requestReadOnlyCalendarAccess(_ call: CAPPluginCall) {
+        call.unimplemented("[CapacitorCalendar.\(#function)] Not implemented on iOS")
+        return
+    }
+
     @objc public func requestFullCalendarAccess(_ call: CAPPluginCall) {
         Task {
             do {
