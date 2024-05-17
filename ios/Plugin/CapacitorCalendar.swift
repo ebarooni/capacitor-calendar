@@ -343,8 +343,8 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     ) {
         controller.dismiss(animated: true) {
             if action == .saved {
-                if let event = controller.event {
-                    self.currentCreateEventContinuation?.resume(returning: [event.eventIdentifier])
+                if let event = controller.event, let eventId = event.eventIdentifier {
+                    self.currentCreateEventContinuation?.resume(returning: [eventId])
                 } else {
                     self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
                     return
