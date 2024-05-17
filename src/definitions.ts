@@ -13,21 +13,23 @@ export interface CapacitorCalendarPlugin {
   /**
    * Checks the current authorization status of a specific permission.
    *
-   * @method
+   * @method checkPermission
+   * @since 0.1.0
    * @platform iOS, Android
    * @param options An object with the name of the permission
-   * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the current status of the requested permission.
+   * @returns {Promise&lt;{ result: PermissionState }&gt;} A promise that resolves with the current status of the requested permission.
    * @example
-   * const status = await this.checkPermission({ alias: 'readCalendar' });
+   * const { result } = await this.checkPermission({ alias: 'readCalendar' });
    */
   checkPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
 
   /**
    * Checks the current authorization status of all the required permissions for the plugin.
    *
-   * @method
+   * @method checkAllPermissions
+   * @since 0.1.0
    * @platform iOS, Android
-   * @returns {Promise&lt;PluginPermissionsMap&gt;} – A promise that resolves with an object containing all the permissions and their status.
+   * @returns {Promise&lt;PluginPermissionsMap&gt;} A promise that resolves with an object containing all the permissions and their status.
    * @example
    * const permissionsStatus = await this.checkAllPermissions();
    */
@@ -37,21 +39,23 @@ export interface CapacitorCalendarPlugin {
    * Requests authorization to a specific permission, if not already granted.
    * If the permission is already granted, it will directly return the status.
    *
-   * @method
+   * @method requestPermission
+   * @since 0.1.0
    * @platform iOS, Android
    * @param options An object with the name of the permission
-   * @returns {Promise&lt;{ result: PermissionState }&gt;} – A promise that resolves with the new permission status after the request is made.
+   * @returns {Promise&lt;{ result: PermissionState }&gt;} A promise that resolves with the new permission status after the request is made.
    * @example
-   * const result = await this.requestPermission({ alias: 'readCalendar' });
+   * const { result } = await this.requestPermission({ alias: 'readCalendar' });
    */
   requestPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
 
   /**
    * Requests authorization to all the required permissions for the plugin, if they have not already been granted.
    *
-   * @method
+   * @method requestAllPermissions
+   * @since 0.1.0
    * @platform iOS, Android
-   * @returns {Promise&lt;PluginPermissionsMap&gt;} – A promise that resolves with the new permission statuses after the request is made.
+   * @returns {Promise&lt;PluginPermissionsMap&gt;} A promise that resolves with the new permission statuses after the request is made.
    * @example
    * const permissionResults = await this.requestAllPermissions();
    */
@@ -454,4 +458,52 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
   deleteRemindersById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+
+  /**
+   * Requests write access for the calendar. If its already granted, it will directly return the state.
+   *
+   * @method requestWriteOnlyCalendarAccess
+   * @since 5.4.0
+   * @platform iOS, Android
+   * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of the write access permission.
+   * @example
+   * const { result } = await this.requestWriteOnlyCalendarAccess();
+   */
+  requestWriteOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
+
+  /**
+   * Requests read access for the calendar. If its already granted, it will directly return the state.
+   *
+   * @method requestReadOnlyCalendarAccess
+   * @since 5.4.0
+   * @platform Android
+   * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of the read access permission.
+   * @example
+   * const { result } = await this.requestReadOnlyCalendarAccess();
+   */
+  requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
+
+  /**
+   * Requests read and write access for the calendar. If its already granted, it will directly return the state.
+   *
+   * @method requestFullCalendarAccess
+   * @since 5.4.0
+   * @platform iOS, Android
+   * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of read and write access permission.
+   * @example
+   * const { result } = await this.requestFullCalendarAccess();
+   */
+  requestFullCalendarAccess(): Promise<{ result: PermissionState }>;
+
+  /**
+   * Requests read and write access for the reminders. If its already granted, it will directly return the state.
+   *
+   * @method requestFullRemindersAccess
+   * @since 5.4.0
+   * @platform iOS
+   * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of read and write access permission.
+   * @example
+   * const { result } = await this.requestFullRemindersAccess();
+   */
+  requestFullRemindersAccess(): Promise<{ result: PermissionState }>;
 }
