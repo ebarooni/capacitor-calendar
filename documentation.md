@@ -152,12 +152,14 @@ Retrieves a list of calendars available on the device.
 ### getDefaultCalendar()
 
 ```typescript
-getDefaultCalendar() => Promise<{ result: Calendar; }>
+getDefaultCalendar() => Promise<{ result: Calendar | null; }>
 ```
 
 Retrieves the default calendar set on the device.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
+
+**Since:** 0.3.0
 
 ---
 
