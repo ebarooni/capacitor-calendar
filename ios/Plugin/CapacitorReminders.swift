@@ -24,7 +24,7 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
 
-    public func getDefaultRemindersList() throws -> [String: String] {
+    public func getDefaultRemindersList() throws -> [String: String]? {
         let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
         if let defaultRemindersList = defaultRemindersList {
             return [
@@ -32,7 +32,7 @@ public class CapacitorReminders: NSObject {
                 "title": defaultRemindersList.title
             ]
         } else {
-            throw CapacitorCalendarPluginError.noDefaultCalendar
+            return nil
         }
     }
 

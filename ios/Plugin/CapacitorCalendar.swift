@@ -90,7 +90,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .event)))
     }
 
-    public func getDefaultCalendar() throws -> [String: String] {
+    public func getDefaultCalendar() throws -> [String: String]? {
         let defaultCalendar = eventStore.defaultCalendarForNewEvents
         if let defaultCalendar = defaultCalendar {
             return [
@@ -98,7 +98,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 "title": defaultCalendar.title
             ]
         } else {
-            throw CapacitorCalendarPluginError.noDefaultCalendar
+            return nil
         }
     }
 
