@@ -46,7 +46,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     throw this.unimplemented(`${this.listCalendars.name} is not implemented on the web`);
   }
 
-  public getDefaultCalendar(): Promise<{ result: Calendar }> {
+  public getDefaultCalendar(): Promise<{ result: Calendar | null }> {
     throw this.unimplemented(`${this.getDefaultCalendar.name} is not implemented on the web`);
   }
 

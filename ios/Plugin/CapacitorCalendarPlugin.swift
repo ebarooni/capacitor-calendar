@@ -180,7 +180,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
         do {
-            try call.resolve(["result": calendar.getDefaultCalendar()])
+            try call.resolve(["result": calendar.getDefaultCalendar() ?? NSNull()])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
             return
@@ -220,7 +220,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
         do {
-            try call.resolve(["result": reminders.getDefaultRemindersList()])
+            try call.resolve(["result": reminders.getDefaultRemindersList() ?? NSNull()])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] No default Reminders list was found")
             return
