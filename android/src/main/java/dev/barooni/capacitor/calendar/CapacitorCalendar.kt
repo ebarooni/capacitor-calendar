@@ -72,7 +72,7 @@ class CapacitorCalendar() {
     }
 
     @Throws(Exception::class)
-    fun getDefaultCalendar(context: Context): JSObject {
+    fun getDefaultCalendar(context: Context): JSObject? {
         val projection =
             arrayOf(
                 CalendarContract.Calendars._ID,
@@ -102,7 +102,7 @@ class CapacitorCalendar() {
                     }
                 return calendarObject
             } else {
-                throw Exception("No primary calendar found")
+                return null
             }
         }
         throw Exception("No primary calendar found")
@@ -128,7 +128,7 @@ class CapacitorCalendar() {
                 put(CalendarContract.Events.DTEND, endMillis)
                 put(CalendarContract.Events.TITLE, title)
                 location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context).getString("id"))
+                put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context)?.getString("id"))
                 put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
                 isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
             }

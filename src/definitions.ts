@@ -153,14 +153,21 @@ export interface CapacitorCalendarPlugin {
    * Retrieves the default calendar set on the device.
    *
    * @method getDefaultCalendar
+   * @since 0.3.0
    * @platform iOS, Android
-   * @returns {Promise<{ result: Calendar }>} A promise that resolves with the default calendar set on the device.
-   * The returned calendar object contains an ID and a title.
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> readCalendar</li>
+   *   <li><strong>Android:</strong> readCalendar</li>
+   * </ul>
+   * @returns {Promise<{ result: Calendar | null }>} A promise that resolves with the default calendar set on the device.
+   * The returned calendar object contains an ID and a title. Returns null if there is no default calendar found.
    * @example
    * const { result } = await getDefaultCalendar();
    * console.log(result); // { id: '1', title: 'Default Calendar' }
    */
-  getDefaultCalendar(): Promise<{ result: Calendar }>;
+  getDefaultCalendar(): Promise<{ result: Calendar | null }>;
 
   /**
    * Creates an event with the provided options.
