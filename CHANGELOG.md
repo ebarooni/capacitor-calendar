@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.4.1] – 2024-05-19
+
+### Changed
+
+- Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
+- Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
+
 ## [6.4.0] – 2024-05-17
 
 ### Added
@@ -85,6 +92,13 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.4.1] – 2024-05-19
+
+### Changed
+
+- Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
+- Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
 
 ## [5.4.0] – 2024-05-17
 
