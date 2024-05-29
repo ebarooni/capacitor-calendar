@@ -52,6 +52,8 @@ class CapacitorCalendarPlugin : Plugin() {
             val startDate = call.getLong("startDate")
             val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
+            val url = call.getString("url")
+            val notes = call.getString("notes")
 
             val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
 
@@ -61,6 +63,7 @@ class CapacitorCalendarPlugin : Plugin() {
             startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
             endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
             isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
 
             return startActivityForResult(
                 call,
@@ -280,6 +283,8 @@ class CapacitorCalendarPlugin : Plugin() {
             val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
             val alertOffsetInMinutes = call.getFloat("alertOffsetInMinutes")
+            val url = call.getString("url")
+            val notes = call.getString("notes")
 
             val eventUri =
                 implementation.createEvent(
@@ -291,6 +296,8 @@ class CapacitorCalendarPlugin : Plugin() {
                     endDate,
                     isAllDay,
                     alertOffsetInMinutes,
+                    url,
+                    notes,
                 )
 
             val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
