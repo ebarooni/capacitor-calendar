@@ -33,7 +33,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-    alertOffsetInMinutes?: number;
+    alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
   }): Promise<{ result: string[] }> {
@@ -59,7 +59,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-    alertOffsetInMinutes?: number;
+    alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
   }): Promise<{
