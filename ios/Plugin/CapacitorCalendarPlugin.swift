@@ -131,6 +131,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
         let alertOffsetInMinutes = call.getDouble("alertOffsetInMinutes")
+        let notes = call.getString("notes")
+        let url = call.getString("url")
 
         let eventParameters = EventCreationParameters(
             title: title,
@@ -139,7 +141,9 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             startDate: startDate,
             endDate: endDate,
             isAllDay: isAllDay,
-            alertOffsetInMinutes: alertOffsetInMinutes
+            alertOffsetInMinutes: alertOffsetInMinutes,
+            notes: notes,
+            url: url
         )
 
         Task {
@@ -198,6 +202,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
         let alertOffsetInMinutes = call.getDouble("alertOffsetInMinutes")
+        let notes = call.getString("notes")
+        let url = call.getString("url")
 
         let eventParameters = EventCreationParameters(
             title: title,
@@ -206,7 +212,9 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             startDate: startDate,
             endDate: endDate,
             isAllDay: isAllDay,
-            alertOffsetInMinutes: alertOffsetInMinutes
+            alertOffsetInMinutes: alertOffsetInMinutes,
+            notes: notes,
+            url: url
         )
 
         do {

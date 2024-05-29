@@ -16,4 +16,6 @@ public struct EventCreationParameters {
     public var endDate: Double?
     public var isAllDay: Bool?
     public var alertOffsetInMinutes: Double?
+    public var notes: String?
+    public var url: String?
 }

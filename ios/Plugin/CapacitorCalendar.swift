@@ -36,6 +36,12 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
             newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
         }
+        if let notes = parameters.notes {
+            newEvent.notes = notes
+        }
+        if let urlString = parameters.url, let url = URL(string: urlString) {
+            newEvent.url = url
+        }
 
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
@@ -129,6 +135,12 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
         if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
             newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
+        }
+        if let notes = parameters.notes {
+            newEvent.notes = notes
+        }
+        if let urlString = parameters.url, let url = URL(string: urlString) {
+            newEvent.url = url
         }
 
         do {
