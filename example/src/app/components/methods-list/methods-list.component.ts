@@ -64,6 +64,8 @@ export class MethodsListComponent {
       location: 'Capacitor Calendar',
       isAllDay: false,
       alertOffsetInMinutes: 15,
+      url: 'https://capacitor-calendar.pages.dev',
+      notes: 'A CapacitorJS plugin',
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
@@ -128,6 +130,8 @@ export class MethodsListComponent {
       location: 'Capacitor Calendar',
       isAllDay: false,
       alertOffsetInMinutes: 15,
+      url: 'https://capacitor-calendar.pages.dev',
+      notes: 'A CapacitorJS plugin',
     })
       .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
