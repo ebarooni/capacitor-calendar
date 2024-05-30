@@ -83,7 +83,7 @@ export interface CapacitorCalendarPlugin {
    * @param {number} [options.alertOffsetInMinutes] If a number >= 0 is provided, an alert will be set for the event this many
    * minutes *before* the event. If an array of number >= 0 are provided, it will add multiple alerts.
    * On iOS only the first two valid elements of the array are taken into account.
-   * Negative values are ignored. (Optional)
+   * The parameter is not supported on Android. Negative values are ignored. (Optional)
    * @param {string} [options.url] The URL of the event. (Optional)
    * @param {string} [options.notes] The notes of the event. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
