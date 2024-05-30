@@ -220,7 +220,7 @@ class CapacitorCalendarPlugin : Plugin() {
     }
 
     @PermissionCallback
-    private fun requestFullCalendarAccessCallbackCallback(call: PluginCall) {
+    private fun requestFullCalendarAccessCallback(call: PluginCall) {
         val permissionName = "readWriteCalendar"
         try {
             val ret = JSObject()
@@ -282,7 +282,8 @@ class CapacitorCalendarPlugin : Plugin() {
             val startDate = call.getLong("startDate")
             val endDate = call.getLong("endDate")
             val isAllDay = call.getBoolean("isAllDay", false)
-            val alertOffsetInMinutes = call.getFloat("alertOffsetInMinutes")
+            val alertOffsetInMinutesSingle = call.getFloat("alertOffsetInMinutes")
+            val alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes")
             val url = call.getString("url")
             val notes = call.getString("notes")
 
@@ -295,7 +296,8 @@ class CapacitorCalendarPlugin : Plugin() {
                     startDate,
                     endDate,
                     isAllDay,
-                    alertOffsetInMinutes,
+                    alertOffsetInMinutesSingle,
+                    alertOffsetInMinutesMultiple,
                     url,
                     notes,
                 )
