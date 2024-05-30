@@ -130,19 +130,27 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let endDate = call.getDouble("endDate")
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
-        let alertOffsetInMinutes = call.getDouble("alertOffsetInMinutes")
-
-        let eventParameters = EventCreationParameters(
-            title: title,
-            calendarId: calendarId,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            isAllDay: isAllDay,
-            alertOffsetInMinutes: alertOffsetInMinutes
-        )
+        let notes = call.getString("notes")
+        let url = call.getString("url")
 
         Task {
+            var eventParameters = EventCreationParameters(
+                title: title,
+                calendarId: calendarId,
+                location: location,
+                startDate: startDate,
+                endDate: endDate,
+                isAllDay: isAllDay,
+                notes: notes,
+                url: url
+            )
+
+            if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
+                eventParameters.alertOffsetInMinutesSingle = alertOffsetInMinutesSingle
+            } else if let alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes") as? [Double]? {
+                eventParameters.alertOffsetInMinutesMultiple = alertOffsetInMinutesMultiple
+            }
+
             do {
                 let result = try await calendar.createEventWithPrompt(with: eventParameters)
                 call.resolve(["result": result])
@@ -197,17 +205,25 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let endDate = call.getDouble("endDate")
         let isAllDay = call.getBool("isAllDay")
         let calendarId = call.getString("calendarId")
-        let alertOffsetInMinutes = call.getDouble("alertOffsetInMinutes")
+        let notes = call.getString("notes")
+        let url = call.getString("url")
 
-        let eventParameters = EventCreationParameters(
+        var eventParameters = EventCreationParameters(
             title: title,
             calendarId: calendarId,
             location: location,
             startDate: startDate,
             endDate: endDate,
             isAllDay: isAllDay,
-            alertOffsetInMinutes: alertOffsetInMinutes
+            notes: notes,
+            url: url
         )
+
+        if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
+            eventParameters.alertOffsetInMinutesSingle = alertOffsetInMinutesSingle
+        } else if let alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes") as? [Double]? {
+            eventParameters.alertOffsetInMinutesMultiple = alertOffsetInMinutesMultiple
+        }
 
         do {
             let id = try calendar.createEvent(with: eventParameters)

@@ -33,8 +33,20 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         if let isAllDay = parameters.isAllDay {
             newEvent.isAllDay = isAllDay
         }
-        if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
-            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
+        if let alertOffsetInMinutesSingle = parameters.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
+            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
+        } else if let alertOffsetInMinutesMultiple = parameters.alertOffsetInMinutesMultiple {
+            for alert in alertOffsetInMinutesMultiple {
+                if alert >= 0 {
+                    newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
+                }
+            }
+        }
+        if let notes = parameters.notes {
+            newEvent.notes = notes
+        }
+        if let urlString = parameters.url, let url = URL(string: urlString) {
+            newEvent.url = url
         }
 
         return try await withCheckedThrowingContinuation { continuation in
@@ -127,8 +139,20 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         if let isAllDay = parameters.isAllDay {
             newEvent.isAllDay = isAllDay
         }
-        if let alertOffsetInMinutes = parameters.alertOffsetInMinutes, alertOffsetInMinutes >= 0 {
-            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutes * 60)))
+        if let alertOffsetInMinutesSingle = parameters.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
+            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
+        } else if let alertOffsetInMinutesMultiple = parameters.alertOffsetInMinutesMultiple {
+            for alert in alertOffsetInMinutesMultiple {
+                if alert >= 0 {
+                    newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
+                }
+            }
+        }
+        if let notes = parameters.notes {
+            newEvent.notes = notes
+        }
+        if let urlString = parameters.url, let url = URL(string: urlString) {
+            newEvent.url = url
         }
 
         do {

@@ -73,28 +73,35 @@ export interface CapacitorCalendarPlugin {
    * <ul>
    *   <li><strong>Android:</strong> readCalendar</li>
    * </ul>
-   * @param {object} options - Options for creating the event.
-   * @param {string} options.title - The title of the event.
-   * @param {string} options.calendarId - The id of the destination calendar. (Optional)
-   * @param {string} [options.location] - The location of the event. (Optional)
-   * @param {number} [options.startDate] - The start date and time of the event. (Optional)
-   * @param {number} [options.endDate] - The end date and time of the event. (Optional)
-   * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @param {number} [options.alertOffsetInMinutes] - Ignored on Android. If a number >= 0 is provided,
-   * an alert will be set for the event this many minutes *before* the event.
-   * Negative values are ignored. (Optional)
+   * @param {object} options Options for creating the event.
+   * @param {string} options.title The title of the event.
+   * @param {string} options.calendarId The id of the destination calendar. (Optional)
+   * @param {string} [options.location] The location of the event. (Optional)
+   * @param {number} [options.startDate] The start date and time of the event. (Optional)
+   * @param {number} [options.endDate] The end date and time of the event. (Optional)
+   * @param {boolean} [options.isAllDay] Weather the event is for the entire day or not. (Optional)
+   * @param {number} [options.alertOffsetInMinutes] If a number >= 0 is provided, an alert will be set for the event this many
+   * minutes *before* the event. If an array of number >= 0 are provided, it will add multiple alerts.
+   * On iOS only the first two valid elements of the array are taken into account.
+   * The parameter is not supported on Android. Negative values are ignored. (Optional)
+   * @param {string} [options.url] The URL of the event. (Optional)
+   * @param {string} [options.notes] The notes of the event. (Optional)
    * @returns {Promise<{ result: string[] }>} A promise that resolves with an array of the ids of created events.
    * @example
    * if (capacitor.getPlatform() === 'android') {
    *     await this.requestPermission({ alias: 'readCalendar' });
    *     { result } = result = await this.createEventWithPrompt({
    *        title: 'Title',
-   *        alertOffsetInMinutes: 5,
+   *        alertOffsetInMinutes: [5, 30],
+   *        url: 'https://capacitor-calendar.pages.dev',
+   *        notes: 'A CapacitorJS plugin',
    *     });
    * } else {
    *     { result } = result = await this.createEventWithPrompt({
    *        title: 'Title',
-   *        alertOffsetInMinutes: 5,
+   *        alertOffsetInMinutes: [0, 1440],
+   *        url: 'https://capacitor-calendar.pages.dev',
+   *        notes: 'A CapacitorJS plugin'
    *     });
    * }
    */
@@ -105,7 +112,9 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-    alertOffsetInMinutes?: number;
+    alertOffsetInMinutes?: number | number[];
+    url?: string;
+    notes?: string;
   }): Promise<{ result: string[] }>;
 
   /**
@@ -173,6 +182,7 @@ export interface CapacitorCalendarPlugin {
    * Creates an event with the provided options.
    *
    * @method createEvent
+   * @since 0.4.0
    * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>
@@ -180,15 +190,19 @@ export interface CapacitorCalendarPlugin {
    *   <li><strong>iOS:</strong> writeCalendar</li>
    *   <li><strong>Android:</strong> readCalendar, writeCalendar</li>
    * </ul>
-   * @param {object} options - Options for creating the event.
-   * @param {string} options.title - The title of the event.
-   * @param {string} options.calendarId - The id of the destination calendar. (Optional)
-   * @param {string} [options.location] - The location of the event. (Optional)
-   * @param {number} [options.startDate] - The start date and time of the event. (Optional)
-   * @param {number} [options.endDate] - The end date and time of the event. (Optional)
-   * @param {boolean} [options.isAllDay] - Weather the event is for the entire day or not. (Optional)
-   * @param {number} [options.alertOffsetInMinutes] - If a number >= 0 is provided, an alert will be set for the event this many
-   * minutes *before* the event. Negative values are ignored. (Optional)
+   * @param {object} options Options for creating the event.
+   * @param {string} options.title The title of the event.
+   * @param {string} options.calendarId The id of the destination calendar. (Optional)
+   * @param {string} [options.location] The location of the event. (Optional)
+   * @param {number} [options.startDate] The start date and time of the event. (Optional)
+   * @param {number} [options.endDate] The end date and time of the event. (Optional)
+   * @param {boolean} [options.isAllDay] Weather the event is for the entire day or not. (Optional)
+   * @param {number} [options.alertOffsetInMinutes] If a number >= 0 is provided, an alert will be set for the event this many
+   * minutes *before* the event. If an array of number >= 0 are provided, it will add multiple alerts.
+   * On iOS only the first two valid elements of the array are taken into account.
+   * Negative values are ignored. (Optional)
+   * @param {string} [options.url] The URL of the event. (Optional)
+   * @param {string} [options.notes] The notes of the event. (Optional)
    * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
    * @example
    * const now = Date.now();
@@ -199,6 +213,8 @@ export interface CapacitorCalendarPlugin {
    *   endDate: now + 2 * 60 * 60 * 1000,
    *   isAllDay: false,
    *   alertOffsetInMinutes: 5,
+   *   url: 'https://capacitor-calendar.pages.dev',
+   *   notes: 'A CapacitorJS plugin'
    * };
    * const { result } = await createEvent(eventOptions);
    */
@@ -209,7 +225,9 @@ export interface CapacitorCalendarPlugin {
     startDate?: number;
     endDate?: number;
     isAllDay?: boolean;
-    alertOffsetInMinutes?: number;
+    alertOffsetInMinutes?: number | number[];
+    url?: string;
+    notes?: string;
   }): Promise<{ result: string }>;
 
   /**
