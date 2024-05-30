@@ -63,7 +63,7 @@ export class MethodsListComponent {
       endDate: now + 2 * 60 * 60 * 1000,
       location: 'Capacitor Calendar',
       isAllDay: false,
-      alertOffsetInMinutes: 15,
+      alertOffsetInMinutes: [0, 1440],
       url: 'https://capacitor-calendar.pages.dev',
       notes: 'A CapacitorJS plugin',
     })
