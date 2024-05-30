@@ -14,6 +14,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.5.0] – 2024-05-30
+
+### Changed
+
+- Added URL and notes to create options in `createEvent` and `createEventWithPrompt`
+- Added the ability to set multiple alarms for creating events in `createEvent` and `createEventWithPrompt`
+
+### Fixed
+
+- `requestFullCalendarAccess` on Android was not functional
+
 ## [6.4.1] – 2024-05-19
 
 ### Changed
@@ -92,6 +103,17 @@ Changelogs for the versions supporting Capacitor 6.
 # v5 Releases (LTS)
 
 Changelogs for the versions supporting Capacitor 5.
+
+## [5.5.0] – 2024-05-30
+
+### Changed
+
+- Added URL and notes to create options in `createEvent` and `createEventWithPrompt`
+- Added the ability to set multiple alarms for creating events in `createEvent` and `createEventWithPrompt`
+
+### Fixed
+
+- `requestFullCalendarAccess` on Android was not functional
 
 ## [5.4.1] – 2024-05-19
 

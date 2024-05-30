@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
+import android.util.Log
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import java.util.Calendar
@@ -117,8 +118,11 @@ class CapacitorCalendar() {
         startDate: Long?,
         endDate: Long?,
         isAllDay: Boolean?,
-        alertOffsetInMinutes: Float?,
-    ): Uri? {
+        alertOffsetInMinutesSingle: Float?,
+        alertOffsetInMinutesMultiple: JSArray?,
+        url: String?,
+        notes: String?,
+    ): Uri {
         val startMillis = startDate ?: Calendar.getInstance().timeInMillis
         val endMillis = endDate ?: (startMillis + 3600 * 1000)
 
@@ -131,25 +135,45 @@ class CapacitorCalendar() {
                 put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context)?.getString("id"))
                 put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
                 isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
+                put(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
             }
 
         val eventUri = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
+        val eventId = eventUri?.lastPathSegment?.toLong() ?: throw IllegalArgumentException("Failed to convert event id to long")
 
-        if (alertOffsetInMinutes == null || alertOffsetInMinutes < 0) {
-            return eventUri
+        when {
+            alertOffsetInMinutesSingle != null && alertOffsetInMinutesSingle > -1 -> {
+                val alertValues = createAlertValues(eventId, alertOffsetInMinutesSingle)
+                context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
+            }
+            alertOffsetInMinutesMultiple != null -> {
+                alertOffsetInMinutesMultiple.toList<Any>().mapNotNull { alert ->
+                    try {
+                        val alertFloat = alert.toString().toFloat()
+                        if (alertFloat > -1) alertFloat else null
+                    } catch (e: NumberFormatException) {
+                        Log.e("Error", "Failed to convert alert to float: $alert", e)
+                        null
+                    }
+                }.forEach { alertFloat ->
+                    val alertValues = createAlertValues(eventId, alertFloat)
+                    context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
+                }
+            }
         }
 
-        val eventId = eventUri?.lastPathSegment?.toLong() ?: throw IllegalArgumentException("Failed to convert event id to long")
-        val alertValues =
-            ContentValues().apply {
-                put(CalendarContract.Reminders.EVENT_ID, eventId)
-                put(CalendarContract.Reminders.MINUTES, alertOffsetInMinutes)
-                put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-            }
-
-        context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
-
         return eventUri
+    }
+
+    private fun createAlertValues(
+        eventId: Long,
+        alertOffset: Float,
+    ): ContentValues {
+        return ContentValues().apply {
+            put(CalendarContract.Reminders.EVENT_ID, eventId)
+            put(CalendarContract.Reminders.MINUTES, alertOffset)
+            put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
+        }
     }
 
     @Throws(Exception::class)
