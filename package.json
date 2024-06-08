@@ -73,7 +73,7 @@
     "@capacitor/core": "^6.0.0",
     "@capacitor/docgen": "^0.0.18",
     "@capacitor/ios": "^6.0.0",
-    "@ebarooni/stylelint-config": "^1.0.2",
+    "@ebarooni/stylelint-config": "^1.0.4",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "eslint": "^8.57.0",
