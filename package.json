@@ -42,6 +42,8 @@
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
+    "prettier:check": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write",
     "swiftlint": "node-swiftlint",
     "ktlint": "ktlint 'android/src/main/java/**'",
     "lint:ts": "npx eslint . --ext .ts",
@@ -73,7 +75,8 @@
     "@capacitor/core": "^6.0.0",
     "@capacitor/docgen": "^0.0.18",
     "@capacitor/ios": "^6.0.0",
-    "@ebarooni/stylelint-config": "^1.0.4",
+    "@ebarooni/prettier-config": "^1.0.1",
+    "@ebarooni/stylelint-config": "^1.0.6",
     "@typescript-eslint/eslint-plugin": "^7.3.0",
     "@typescript-eslint/parser": "^7.3.0",
     "eslint": "^8.57.0",
@@ -95,6 +98,7 @@
       "src": "android"
     }
   },
+  "prettier": "@ebarooni/prettier-config",
   "publishConfig": {
     "access": "public"
   }
