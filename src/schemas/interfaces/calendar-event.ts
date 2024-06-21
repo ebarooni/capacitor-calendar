@@ -33,7 +33,7 @@ export interface CalendarEvent {
   location?: string;
 
   /**
-   * @platform Android
+   * @platform iOS, Android
    */
   eventColor?: string;
 
@@ -60,12 +60,18 @@ export interface CalendarEvent {
   /**
    * @platform iOS, Android
    */
-  eventTimezone?: string;
+  eventTimezone?: {
+    region: string;
+    abbreviation: string;
+  };
 
   /**
    * @platform iOS, Android
    */
-  eventEndTimezone?: string;
+  eventEndTimezone?: {
+    region: string;
+    abbreviation: string;
+  };
 
   /**
    * @platform Android

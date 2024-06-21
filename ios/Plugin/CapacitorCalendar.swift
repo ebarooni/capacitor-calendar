@@ -430,13 +430,30 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             if let endDate = event.endDate {
                 dict["endDate"] = endDate.timeIntervalSince1970
             }
-            if let timezone = event.timeZone, (timezone.abbreviation()?.isEmpty) == nil {
-                dict["eventTimezone"] = timezone.abbreviation()
-                dict["eventEndTimezone"] = timezone.abbreviation()
+            if let timezone = event.timeZone, let region = event.timeZone?.identifier, let abbreviation = timezone.abbreviation() {
+                dict["eventTimezone"] = ["region": region, "abbreviation": abbreviation]
+                dict["eventEndTimezone"] = ["region": region, "abbreviation": abbreviation]
+            }
+            if let color = event.calendar.cgColor {
+                dict["eventColor"] = hexStringFromColor(color: color)
             }
             dict["isAllDay"] = event.isAllDay
             dict["calendarId"] = event.calendar.calendarIdentifier
             return dict
         }
+    }
+    
+    private func hexStringFromColor(color: CGColor) -> String {
+        guard let components = color.components, components.count >= 3 else {
+            return "#000000"
+        }
+
+        let red = Float(components[0])
+        let green = Float(components[1])
+        let blue = Float(components[2])
+        return String(format: "#%02lX%02lX%02lX",
+            lroundf(red * 255),
+            lroundf(green * 255),
+            lroundf(blue * 255))
     }
 }
