@@ -194,7 +194,7 @@ class CapacitorCalendar() {
                 CalendarContract.Events._ID,
                 CalendarContract.Events.TITLE,
                 CalendarContract.Events.EVENT_LOCATION,
-                CalendarContract.Events.EVENT_COLOR,
+                CalendarContract.Events.CALENDAR_COLOR,
                 CalendarContract.Events.ORGANIZER,
                 CalendarContract.Events.DESCRIPTION,
                 CalendarContract.Events.DTSTART,
@@ -220,7 +220,7 @@ class CapacitorCalendar() {
             val idColumnIndex = cursor.getColumnIndex(CalendarContract.Events._ID)
             val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Events.TITLE)
             val locationColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)
-            val eventColorColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_COLOR)
+            val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Events.CALENDAR_COLOR)
             val organizerColumnIndex = cursor.getColumnIndex(CalendarContract.Events.ORGANIZER)
             val descriptionColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DESCRIPTION)
             val dtStartColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DTSTART)
@@ -235,7 +235,7 @@ class CapacitorCalendar() {
                 val id = cursor.getLong(idColumnIndex)
                 val title = cursor.getString(nameColumnIndex)
                 val location = cursor.getString(locationColumnIndex)
-                val eventColor = cursor.getInt(eventColorColumnIndex)
+                val calendarColor = cursor.getInt(calendarColorColumnIndex)
                 val organizer = cursor.getString(organizerColumnIndex)
                 val desc = cursor.getString(descriptionColumnIndex)
                 val dtStart = cursor.getLong(dtStartColumnIndex)
@@ -251,13 +251,25 @@ class CapacitorCalendar() {
                         put("id", id.toString())
                         title?.takeIf { it.isNotEmpty() }?.let { put("title", it) }
                         location?.takeIf { it.isNotEmpty() }?.let { put("location", it) }
-                        eventColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
+                        calendarColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
                         organizer?.takeIf { it.isNotEmpty() }?.let { put("organizer", it) }
                         desc?.takeIf { it.isNotEmpty() }?.let { put("description", it) }
                         dtStart.takeIf { it != 0.toLong() }?.let { put("startDate", it) }
                         dtEnd.takeIf { it != 0.toLong() }?.let { put("endDate", it) }
-                        eventTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventTimezone", it) }
-                        eventEndTimezone?.takeIf { it.isNotEmpty() }?.let { put("eventEndTimezone", it) }
+                        eventTimezone?.takeIf { it.isNotEmpty() }?.let { timezone ->
+                            val abbreviation = getTimeZoneAbbreviation(timezone)
+                            val obj = JSObject()
+                            obj.put("region", timezone)
+                            obj.put("abbreviation", abbreviation)
+                            put("eventTimezone", obj)
+                        }
+                        eventEndTimezone?.takeIf { it.isNotEmpty() }?.let {
+                            val abbreviation = getTimeZoneAbbreviation(it)
+                            val obj = JSObject()
+                            obj.put("region", it)
+                            obj.put("abbreviation", abbreviation)
+                            put("eventEndTimezone", obj)
+                        }
                         duration?.takeIf { it.isNotEmpty() }?.let { put("duration", it) }
                         put("isAllDay", allDay)
                         calendarId.takeIf { it != 0.toLong() }?.let { put("calendarId", it.toString()) }
@@ -295,5 +307,11 @@ class CapacitorCalendar() {
         ret.put("deleted", deletedEvents)
         ret.put("failed", failedToDeleteEvents)
         return ret
+    }
+
+    fun getTimeZoneAbbreviation(timeZoneId: String): String {
+        val timeZone = TimeZone.getTimeZone(timeZoneId)
+        val now = Calendar.getInstance(timeZone)
+        return timeZone.getDisplayName(timeZone.inDaylightTime(now.time), TimeZone.SHORT)
     }
 }
