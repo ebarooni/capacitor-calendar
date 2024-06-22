@@ -42,6 +42,7 @@ class CapacitorCalendar() {
             arrayOf(
                 CalendarContract.Calendars._ID,
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                CalendarContract.Calendars.CALENDAR_COLOR
             )
 
         val calendars = JSArray()
@@ -55,14 +56,17 @@ class CapacitorCalendar() {
         )?.use { cursor ->
             val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
             val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+            val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumnIndex)
                 val title = cursor.getString(nameColumnIndex)
+                val calendarColor = cursor.getInt(calendarColorColumnIndex)
                 val calendar =
                     JSObject().apply {
                         put("id", "$id")
                         put("title", title)
+                        put("color", String.format("#%06X", 0xFFFFFF and calendarColor))
                     }
 
                 calendars.put(calendar)
