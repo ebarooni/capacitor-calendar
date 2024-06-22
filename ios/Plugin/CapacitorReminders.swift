@@ -235,7 +235,8 @@ public class CapacitorReminders: NSObject {
         for calendar in calendars {
             let calendarDict: [String: String] = [
                 "id": calendar.calendarIdentifier,
-                "title": calendar.title
+                "title": calendar.title,
+                "color": hexStringFromColor(color: calendar.cgColor)
             ]
             result.append(calendarDict)
         }
@@ -354,5 +355,19 @@ public class CapacitorReminders: NSObject {
 
             return obj
         }
+    }
+    
+    private func hexStringFromColor(color: CGColor) -> String {
+        guard let components = color.components, components.count >= 3 else {
+            return "#000000"
+        }
+
+        let red = Float(components[0])
+        let green = Float(components[1])
+        let blue = Float(components[2])
+        return String(format: "#%02lX%02lX%02lX",
+            lroundf(red * 255),
+            lroundf(green * 255),
+            lroundf(blue * 255))
     }
 }

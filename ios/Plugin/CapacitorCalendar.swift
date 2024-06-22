@@ -400,7 +400,8 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         for calendar in calendars {
             let calendarDict: [String: String] = [
                 "id": calendar.calendarIdentifier,
-                "title": calendar.title
+                "title": calendar.title,
+                "color": hexStringFromColor(color: calendar.cgColor)
             ]
             result.append(calendarDict)
         }
