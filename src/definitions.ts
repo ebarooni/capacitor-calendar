@@ -1,19 +1,19 @@
-import { CalendarChooserDisplayStyle } from './schemas/enums/calendar-chooser-display-style';
-import { CalendarChooserSelectionStyle } from './schemas/enums/calendar-chooser-selection-style';
-import { PluginPermission } from './schemas/enums/plugin-permission';
-import type { PermissionState } from '@capacitor/core';
-import type { Calendar } from './schemas/interfaces/calendar';
-import type { RemindersList } from './schemas/interfaces/reminders-list';
-import type { PluginPermissionsMap } from './schemas/interfaces/plugin-permissions-map';
-import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
-import type { CalendarEvent } from './schemas/interfaces/calendar-event';
-import type { Reminder } from './schemas/interfaces/reminder';
+import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
+import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
+import { PluginPermission } from "./schemas/enums/plugin-permission";
+import type { PermissionState } from "@capacitor/core";
+import type { Calendar } from "./schemas/interfaces/calendar";
+import type { RemindersList } from "./schemas/interfaces/reminders-list";
+import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
+import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
+import type { Reminder } from "./schemas/interfaces/reminder";
 
 export interface CapacitorCalendarPlugin {
   /**
    * Checks the current authorization status of a specific permission.
    *
-   * @method checkPermission
+   * @async
    * @since 0.1.0
    * @platform iOS, Android
    * @param options An object with the name of the permission
@@ -21,12 +21,14 @@ export interface CapacitorCalendarPlugin {
    * @example
    * const { result } = await this.checkPermission({ alias: 'readCalendar' });
    */
-  checkPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
+  checkPermission(options: {
+    alias: PluginPermission;
+  }): Promise<{ result: PermissionState }>;
 
   /**
    * Checks the current authorization status of all the required permissions for the plugin.
    *
-   * @method checkAllPermissions
+   * @async
    * @since 0.1.0
    * @platform iOS, Android
    * @returns {Promise&lt;PluginPermissionsMap&gt;} A promise that resolves with an object containing all the permissions and their status.
@@ -39,7 +41,7 @@ export interface CapacitorCalendarPlugin {
    * Requests authorization to a specific permission, if not already granted.
    * If the permission is already granted, it will directly return the status.
    *
-   * @method requestPermission
+   * @async
    * @since 0.1.0
    * @platform iOS, Android
    * @param options An object with the name of the permission
@@ -47,12 +49,14 @@ export interface CapacitorCalendarPlugin {
    * @example
    * const { result } = await this.requestPermission({ alias: 'readCalendar' });
    */
-  requestPermission(options: { alias: PluginPermission }): Promise<{ result: PermissionState }>;
+  requestPermission(options: {
+    alias: PluginPermission;
+  }): Promise<{ result: PermissionState }>;
 
   /**
    * Requests authorization to all the required permissions for the plugin, if they have not already been granted.
    *
-   * @method requestAllPermissions
+   * @async
    * @since 0.1.0
    * @platform iOS, Android
    * @returns {Promise&lt;PluginPermissionsMap&gt;} A promise that resolves with the new permission statuses after the request is made.
@@ -65,7 +69,7 @@ export interface CapacitorCalendarPlugin {
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
    *
-   * @method createEventWithPrompt
+   * @async
    * @since 0.1.0
    * @platform iOS, Android
    * @permissions
@@ -120,7 +124,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
-   * @method selectCalendarsWithPrompt
+   * @async
    * @since 0.2.0
    * @platform iOS
    * @permissions
@@ -148,7 +152,6 @@ export interface CapacitorCalendarPlugin {
    * Retrieves a list of calendars available on the device.
    *
    * @async
-   * @method listCalendars
    * @platform iOS, Android
    * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of calendars available on the device.
    * Each calendar object in the array contains an ID and a title.
@@ -161,7 +164,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Retrieves the default calendar set on the device.
    *
-   * @method getDefaultCalendar
+   * @async
    * @since 0.3.0
    * @platform iOS, Android
    * @permissions
@@ -181,7 +184,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Creates an event with the provided options.
    *
-   * @method createEvent
+   * @async
    * @since 0.4.0
    * @platform iOS, Android
    * @permissions
@@ -233,7 +236,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Retrieves the default reminders list set on the device.
    *
-   * @method getDefaultRemindersList
+   * @async
    * @platform iOS
    * @returns {Promise<{ result: RemindersList }>} A promise that resolves with the default reminder list set on the device.
    * The returned reminders list object contains an ID and a title.
@@ -247,7 +250,6 @@ export interface CapacitorCalendarPlugin {
    * Retrieves all available reminders lists on the device.
    *
    * @async
-   * @method getRemindersLists
    * @platform iOS
    * @returns {Promise<{ result: RemindersList[] }>} A promise that resolves with an array of reminders lists available on the device.
    * Each reminders list object in the array contains an ID and a title.
@@ -260,7 +262,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Creates a reminder with the provided options.
    *
-   * @method createReminder
+   * @async
    * @since 0.5.0
    * @platform iOS
    * @permissions
@@ -322,7 +324,7 @@ export interface CapacitorCalendarPlugin {
    * Opens the calendar app. Since the user leaves your app, use this method with caution.
    * It will open the calendar on today's date if no date is provided.
    *
-   * @method openCalendar
+   * @async
    * @platform iOS, Android
    * @param {object} options - Options for opening the calendar.
    * @param {number} options.date - The date at which the calendar should be opened. (Optional)
@@ -335,7 +337,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Opens the reminders app. Since the user leaves your app, use this method with caution.
    *
-   * @method openReminders
+   * @async
    * @platform iOS
    * @returns {Promise<void>}
    * @example
@@ -346,7 +348,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Retrieves the list of calendar events present in the given date range.
    *
-   * @method listEventsInRange
+   * @async
    * @since 0.10.0
    * @platform iOS, Android
    * @permissions
@@ -365,12 +367,15 @@ export interface CapacitorCalendarPlugin {
    *   endDate: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
    * })
    */
-  listEventsInRange(options: { startDate: number; endDate: number }): Promise<{ result: CalendarEvent[] }>;
+  listEventsInRange(options: {
+    startDate: number;
+    endDate: number;
+  }): Promise<{ result: CalendarEvent[] }>;
 
   /**
    * Deletes events from the calendar given their IDs.
    *
-   * @method deleteEventsById
+   * @async
    * @since 0.11.0
    * @platform iOS, Android
    * @permissions
@@ -391,12 +396,14 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.deleted)  // ['ID_1', 'ID_2']
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
-  deleteEventsById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+  deleteEventsById(options: {
+    ids: string[];
+  }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 
   /**
    * Creates a calendar
    *
-   * @method createCalendar
+   * @async
    * @since 5.2.0
    * @platform iOS
    * @permissions
@@ -416,12 +423,15 @@ export interface CapacitorCalendarPlugin {
    *  });
    *  console.log(result);   // 'CALENDAR_ID'
    */
-  createCalendar(options: { title: string; color?: string }): Promise<{ result: string }>;
+  createCalendar(options: {
+    title: string;
+    color?: string;
+  }): Promise<{ result: string }>;
 
   /**
    * Deletes a calendar by id
    *
-   * @method deleteCalendar
+   * @async
    * @since 5.2.0
    * @platform iOS
    * @permissions
@@ -439,7 +449,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Retrieves the list of reminders present in the given date range.
    *
-   * @method getRemindersFromLists
+   * @async
    * @since 5.3.0
    * @platform iOS
    * @permissions
@@ -457,12 +467,14 @@ export interface CapacitorCalendarPlugin {
    *   listIds: ['LIST_ID_1', 'LIST_ID_2'],
    * });
    */
-  getRemindersFromLists(options?: { listIds: string[] }): Promise<{ result: Reminder[] }>;
+  getRemindersFromLists(options?: {
+    listIds: string[];
+  }): Promise<{ result: Reminder[] }>;
 
   /**
    * Deletes reminders given their IDs.
    *
-   * @method deleteRemindersById
+   * @async
    * @since 5.3.0
    * @platform iOS
    * @permissions
@@ -482,12 +494,14 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.deleted)  // ['ID_1', 'ID_2']
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
-  deleteRemindersById(options: { ids: string[] }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+  deleteRemindersById(options: {
+    ids: string[];
+  }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 
   /**
    * Requests write access for the calendar. If its already granted, it will directly return the state.
    *
-   * @method requestWriteOnlyCalendarAccess
+   * @async
    * @since 5.4.0
    * @platform iOS, Android
    * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of the write access permission.
@@ -499,7 +513,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Requests read access for the calendar. If its already granted, it will directly return the state.
    *
-   * @method requestReadOnlyCalendarAccess
+   * @async
    * @since 5.4.0
    * @platform Android
    * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of the read access permission.
@@ -511,7 +525,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Requests read and write access for the calendar. If its already granted, it will directly return the state.
    *
-   * @method requestFullCalendarAccess
+   * @async
    * @since 5.4.0
    * @platform iOS, Android
    * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of read and write access permission.
@@ -523,7 +537,7 @@ export interface CapacitorCalendarPlugin {
   /**
    * Requests read and write access for the reminders. If its already granted, it will directly return the state.
    *
-   * @method requestFullRemindersAccess
+   * @async
    * @since 5.4.0
    * @platform iOS
    * @returns {Promise<{ result: PermissionState }>} A promise that resolves with the state of read and write access permission.
@@ -531,4 +545,83 @@ export interface CapacitorCalendarPlugin {
    * const { result } = await this.requestFullRemindersAccess();
    */
   requestFullRemindersAccess(): Promise<{ result: PermissionState }>;
+
+  /**
+   * Opens a native prompt to modify an event given its id.
+   *
+   * @async
+   * @since 5.6.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
+   * </ul>
+   * @param {Object} options The options for modifying an event.
+   * @param {string} options.id The id of the event to be modified.
+   * @param {object} options.update The set of event properties to be modified. (Optional)
+   * If a property is not supported, it will be ignored.
+   * @returns {Promise<{ result: string[] }>} A promise that resolves with an
+   * array contained the id of the modified event. If the array is empty, the
+   * prompt was canceled.
+   * @throws {Error} throws an error if an event for the given id is not found.
+   * @example
+   * const { result } = await CapacitorCalendar.modifyEventWithPrompt({
+   *   id: 'EVENT_ID_ONE',
+   *   update: {
+   *     title: 'newTitle',
+   *     startDate: Date.now(),
+   *   },
+   * });
+   *
+   * console.log(result);  // ['EVENT_ID_ONE']
+   */
+  modifyEventWithPrompt(options: {
+    id: string;
+    update?: {
+      title?: string;
+      calendarId?: string;
+      location?: string;
+      startDate?: number;
+      endDate?: number;
+      isAllDay?: boolean;
+      alertOffsetInMinutes?: number | number[];
+      url?: string;
+      notes?: string;
+    };
+  }): Promise<{ result: string[] }>;
+
+  /**
+   * Modifies an event given its id and update details.
+   *
+   * @async
+   * @since 5.6.0
+   * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
+   *   <li><strong>Android:</strong> writeCalendar, readCalendar</li>
+   * </ul>
+   * @param {Object} options The options for updating an event.
+   * @param {string} options.id The id of the event to be modified.
+   * @param {Object} options.update The set of event properties to be modified.
+   * If a property is not supported, it will be ignored.
+   * @returns {Promise<void>} A promise that resolves when the update operation is complete.
+   * @throws {Error} throws an error if an event for the given id is not found.
+   */
+  modifyEvent(options: {
+    id: string;
+    update: {
+      title?: string;
+      calendarId?: string;
+      location?: string;
+      startDate?: number;
+      endDate?: number;
+      isAllDay?: boolean;
+      alertOffsetInMinutes?: number | number[];
+      url?: string;
+      notes?: string;
+    };
+  }): Promise<void>;
 }
