@@ -495,10 +495,10 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 dict["description"] = notes
             }
             if let startDate = event.startDate {
-                dict["startDate"] = startDate.timeIntervalSince1970
+                dict["startDate"] = startDate.timeIntervalSince1970 * 1000
             }
             if let endDate = event.endDate {
-                dict["endDate"] = endDate.timeIntervalSince1970
+                dict["endDate"] = endDate.timeIntervalSince1970 * 1000
             }
             if let timezone = event.timeZone, let region = event.timeZone?.identifier, let abbreviation = timezone.abbreviation() {
                 dict["eventTimezone"] = ["region": region, "abbreviation": abbreviation]
