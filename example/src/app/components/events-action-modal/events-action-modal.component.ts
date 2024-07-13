@@ -9,7 +9,7 @@ import { IonModal } from '@ionic/angular/standalone';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { CalendarEvent, CapacitorCalendar } from '../../../../../dist/esm';
-import { EventsListComponent } from './events-list-view/events-list.component';
+import { EventsListComponent } from './events-list/events-list.component';
 import { LetDirective } from '@ngrx/component';
 
 @Component({
@@ -25,14 +25,7 @@ export class EventsActionModalComponent {
   @ViewChild('modal') modal?: IonModal;
   public loading = false;
   public readonly views: 'events-list' = 'events-list';
-  readonly events$ = new BehaviorSubject<CalendarEvent[]>([
-    {
-      title: 'HI',
-      id: '32fqcejmop',
-      calendarId: 'fdbgregh',
-      startDate: Date.now(),
-    } as CalendarEvent,
-  ]);
+  readonly events$ = new BehaviorSubject<CalendarEvent[]>([]);
 
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}
 
@@ -48,7 +41,7 @@ export class EventsActionModalComponent {
     }
   }
 
-  private fetchEvents(startDate: number, endDate: number): Promise<void> {
+  fetchEvents(startDate: number, endDate: number): Promise<void> {
     return CapacitorCalendar.listEventsInRange({
       startDate: startDate,
       endDate: endDate,

@@ -4,10 +4,12 @@
       @switch (views) {
         @case ("events-list") {
           <app-events-list
+            #eventsList
             *ngrxLet="events$ as events"
             [calendarEvents]="events"
             (done)="modal.dismiss()"
             (deleteEvent)="deleteEvents.emit($event)"
+            (timeChanged)="fetchEvents(eventsList.fromTime, eventsList.toTime)"
           ></app-events-list>
         }
       }

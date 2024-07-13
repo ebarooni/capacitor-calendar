@@ -70,12 +70,20 @@
 
 <ion-modal [keepContentsMounted]="true">
   <ng-template>
-    <ion-datetime id="fromDatetime" [formatOptions]=""></ion-datetime>
+    <ion-datetime
+      id="fromDatetime"
+      [value]="fromTime | millisToIso"
+      (ionChange)="fromTimeChanged($event)"
+    ></ion-datetime>
   </ng-template>
 </ion-modal>
 
 <ion-modal [keepContentsMounted]="true">
   <ng-template>
-    <ion-datetime id="toDatetime"></ion-datetime>
+    <ion-datetime
+      id="toDatetime"
+      [value]="toTime | millisToIso"
+      (ionChange)="toTimeChanged($event)"
+    ></ion-datetime>
   </ng-template>
 </ion-modal>
