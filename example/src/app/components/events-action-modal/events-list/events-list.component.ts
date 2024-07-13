@@ -21,8 +21,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
-import { CalendarEvent, CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { DatePipe, DOCUMENT } from '@angular/common';
+import { CalendarEvent } from '@ebarooni/capacitor-calendar';
+import { DatePipe } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { create, trash } from 'ionicons/icons';
 

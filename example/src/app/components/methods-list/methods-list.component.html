@@ -42,6 +42,13 @@
   >
     <ion-label>{{ deleteEventsById.name }}</ion-label>
   </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="eventsListViewModalComponent.present()"
+  >
+    <ion-label>{{ modifyEventWithPrompt.name }}</ion-label>
+  </ion-item>
   <ion-item button [detail]="true" (click)="listCalendars()">
     <ion-label>{{ listCalendars.name }}</ion-label>
   </ion-item>
@@ -100,10 +107,10 @@
   [buttons]="requestPermissionPickerButtons"
 ></ion-picker-legacy>
 
-<app-events-list-view-modal
+<app-events-action-modal
   #eventsListViewModalComponent
   (deleteEvents)="deleteEventsById($event)"
-></app-events-list-view-modal>
+></app-events-action-modal>
 
 <app-reminders-list-view-modal
   #remindersListViewModalComponent
