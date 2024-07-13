@@ -1,0 +1,16 @@
+<ion-modal #modal>
+  <ng-template>
+    <div id="modal-content">
+      @switch (views) {
+        @case ("events-list") {
+          <app-events-list
+            *ngrxLet="events$ as events"
+            [calendarEvents]="events"
+            (done)="modal.dismiss()"
+            (deleteEvent)="deleteEvents.emit($event)"
+          ></app-events-list>
+        }
+      }
+    </div>
+  </ng-template>
+</ion-modal>
