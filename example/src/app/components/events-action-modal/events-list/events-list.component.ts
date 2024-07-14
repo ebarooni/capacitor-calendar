@@ -60,7 +60,7 @@ import { MillisToIsoPipe } from '../../../pipes/millis-to-iso/millis-to-iso.pipe
 export class EventsListComponent implements OnInit {
   @Input() calendarEvents: CalendarEvent[] = [];
   @Output() deleteEvent = new EventEmitter<string>();
-  @Output() modifyEvent = new EventEmitter<string>();
+  @Output() modifyEvent = new EventEmitter<CalendarEvent>();
   @Output() timeChanged = new EventEmitter<void>();
   @Output() done = new EventEmitter<void>();
   public fromTime = Date.now();

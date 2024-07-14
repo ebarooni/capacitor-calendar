@@ -16,6 +16,8 @@
         @case (eventView.EVENT_DETAIL) {
           <app-event-detail
             *ngrxLet="selectedEvent$ as selectedEvent"
+            [selectedEvent]="selectedEvent"
+            (closeEventDetailView)="dispose()"
           ></app-event-detail>
         }
       }
