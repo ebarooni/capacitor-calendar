@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button
+      [slot]="'start'"
+      [defaultHref]="'/'"
+      (click)="closeEventDetailView.emit()"
+      >Back</ion-back-button
+    >
+    <ion-title>Edit Event</ion-title>
+    <ion-buttons [slot]="'end'">
+      <ion-button>
+        <ion-icon [slot]="'icon-only'" [name]="'checkmark'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [color]="'light'">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-input
+              [label]="'Title'"
+              [placeholder]="'Title'"
+              [value]="selectedEvent.title"
+              [clearInput]="true"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [label]="'Location'"
+              [placeholder]="'Location'"
+              [value]="selectedEvent.location"
+              [clearInput]="true"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list [inset]="true">
+          <ion-item>
+            <ion-toggle [checked]="selectedEvent.isAllDay">All-day</ion-toggle>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
