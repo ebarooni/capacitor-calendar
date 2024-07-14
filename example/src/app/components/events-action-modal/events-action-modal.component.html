@@ -1,16 +1,22 @@
-<ion-modal #modal>
+<ion-modal #modal (ionModalWillDismiss)="dispose()">
   <ng-template>
     <div id="modal-content">
-      @switch (views) {
-        @case ("events-list") {
+      @switch (currentView) {
+        @case (eventView.EVENTS_LIST) {
           <app-events-list
             #eventsList
-            *ngrxLet="events$ as events"
-            [calendarEvents]="events"
+            *ngrxLet="calendarEvents$ as calendarEvents"
+            [calendarEvents]="calendarEvents"
             (done)="modal.dismiss()"
             (deleteEvent)="deleteEvents.emit($event)"
+            (modifyEvent)="openEventDetailView($event)"
             (timeChanged)="fetchEvents(eventsList.fromTime, eventsList.toTime)"
           ></app-events-list>
+        }
+        @case (eventView.EVENT_DETAIL) {
+          <app-event-detail
+            *ngrxLet="selectedEvent$ as selectedEvent"
+          ></app-event-detail>
         }
       }
     </div>
