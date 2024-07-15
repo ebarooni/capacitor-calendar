@@ -15,6 +15,7 @@
  * @property {string} duration The duration of the event. (Optional)
  * @property {boolean} isAllDay Indicates if the event is all day. (Optional)
  * @property {string} calendarId The calendar that the event belongs to. (Optional)
+ * @property {string} url The URL of the event. (Optional)
  */
 export interface CalendarEvent {
   /**
@@ -87,4 +88,9 @@ export interface CalendarEvent {
    * @platform iOS, Android
    */
   calendarId: string;
+
+  /**
+   * @platform iOS
+   */
+  url: string;
 }
