@@ -489,6 +489,7 @@ Represents an event in the calendar.
 | **`duration`**         | <code>string</code>                                    |
 | **`isAllDay`**         | <code>boolean</code>                                   |
 | **`calendarId`**       | <code>string</code>                                    |
+| **`url`**              | <code>string</code>                                    |
 
 #### Reminder
 
