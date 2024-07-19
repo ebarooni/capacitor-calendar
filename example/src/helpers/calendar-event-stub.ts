@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../../../dist/esm';
+import { CalendarEvent } from '@ebarooni/capacitor-calendar';
 
 export const calendarEventStub = {
   title: 'Test Event',
