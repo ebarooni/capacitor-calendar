@@ -134,6 +134,62 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
         }
     }
+    
+    public func modifyEvent(id: String, span: EKSpan, update: EventCreationParameters) throws -> Void {
+        guard let event = eventStore.event(withIdentifier: id) else {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+        
+        if ((update.title) != nil) {
+            event.title = update.title
+        }
+        if let calendarId = update.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
+            event.calendar = calendar
+        }
+        if (update.location != nil) {
+            event.location = update.location
+        }
+        if let startDate = update.startDate {
+            event.startDate = Date(timeIntervalSince1970: startDate / 1000)
+        }
+        if let endDate = update.endDate {
+            event.endDate = Date(timeIntervalSince1970: endDate / 1000)
+        }
+        if let isAllDay = update.isAllDay {
+            event.isAllDay = isAllDay
+        }
+        if let notes = update.notes {
+            event.notes = notes
+        }
+        if let urlString = update.url, let url = URL(string: urlString) {
+            event.url = url
+        }
+        if let alertOffsetInMinutesSingle = update.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
+            if (event.hasAlarms) {
+                for alarm in event.alarms! {
+                    event.removeAlarm(alarm)
+                }
+            }
+            event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
+        } else if let alertOffsetInMinutesMultiple = update.alertOffsetInMinutesMultiple {
+            if (event.hasAlarms) {
+                for alarm in event.alarms! {
+                    event.removeAlarm(alarm)
+                }
+            }
+            for alert in alertOffsetInMinutesMultiple {
+                if alert >= 0 {
+                    event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
+                }
+            }
+        }
+        
+        do {
+            try eventStore.save(event, span: span)
+        } catch {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+    }
 
     public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: String]] {
         return try await withCheckedThrowingContinuation { continuation in

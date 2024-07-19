@@ -433,14 +433,14 @@ Opens a native prompt to modify an event given its id.
 ### modifyEvent(...)
 
 ```typescript
-modifyEvent(options: { id: string; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
+modifyEvent(options: { id: string; span: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
 ```
 
 Modifies an event given its id and update details.
 
-| Param         | Type                                                                                                                                                                                                                                 | Description                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
-| **`options`** | <code>{ id: string; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
+| Param         | Type                                                                                                                                                                                                                                                                           | Description                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| **`options`** | <code>{ id: string; span: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
 
 **Since:** 5.6.0
 
@@ -549,5 +549,12 @@ Represents a reminder in a reminders list.
 | **`WEEKLY`**  | The reminder repeats on a weekly basis  |
 | **`MONTHLY`** | The reminder repeats on a monthly basis |
 | **`YEARLY`**  | The reminder repeats on a yearly basis  |
+
+#### EventSpan
+
+| Members                      | Description                                                                                   |
+| ---------------------------- | --------------------------------------------------------------------------------------------- |
+| **`THIS_EVENT`**             | The modifications should only be applied to this event.                                       |
+| **`THIS_AND_FUTURE_EVENTS`** | The modifications to this event should also be applied to the future instances of this event. |
 
 </docgen-api>

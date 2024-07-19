@@ -292,6 +292,40 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             call.reject("[CapacitorCalendar.\(#function)] An update for the event was not provided")
             return
         }
+        guard let span = call.getInt("span") else {
+            call.reject("[CapacitorCalendar.\(#function)] Span not provided")
+            return
+        }
+        let title = update["title"] as? String
+        let calendarId = update["calendarId"] as? String
+        let location = update["location"] as? String
+        let startDate = update["startDate"] as? Double
+        let endDate = update["endDate"] as? Double
+        let isAllDay = update["isAllDay"] as? Bool
+        let notes = update["notes"] as? String
+        let url = update["url"] as? String
+        let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
+        let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
+        
+        do {
+            var eventParameters = EventCreationParameters(
+                title: title,
+                calendarId: calendarId,
+                location: location,
+                startDate: startDate,
+                endDate: endDate,
+                isAllDay: isAllDay,
+                alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
+                alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
+                notes: notes,
+                url: url
+            )
+            let result: Void = try calendar.modifyEvent(id: eventId, span: EKSpan(rawValue: span) ?? .thisEvent, update: eventParameters)
+            call.resolve(["result": result])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to modify event")
+            return
+        }
     }
 
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
