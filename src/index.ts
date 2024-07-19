@@ -3,6 +3,7 @@ import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-di
 import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import { PluginPermission } from "./schemas/enums/plugin-permission";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
+import { EventSpan } from "./schemas/enums/event-span";
 import type { CapacitorCalendarPlugin } from "./definitions";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -28,5 +29,6 @@ export {
   ReminderRecurrenceFrequency,
   CalendarEvent,
   Reminder,
+  EventSpan,
   CapacitorCalendar,
 };

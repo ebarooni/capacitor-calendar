@@ -1,6 +1,7 @@
 import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
 import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import { PluginPermission } from "./schemas/enums/plugin-permission";
+import { EventSpan } from "./schemas/enums/event-span";
 import type { PermissionState } from "@capacitor/core";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -551,7 +552,7 @@ export interface CapacitorCalendarPlugin {
    *
    * @async
    * @since 5.6.0
-   * @platform iOS
+   * @platform iOS, Android
    * @permissions
    * <h3>Runtime Permissions:</h3>
    * <ul>
@@ -605,6 +606,7 @@ export interface CapacitorCalendarPlugin {
    * </ul>
    * @param {Object} options The options for updating an event.
    * @param {string} options.id The id of the event to be modified.
+   * @param {EventSpan} options.span The scope of the modifications.
    * @param {Object} options.update The set of event properties to be modified.
    * If a property is not supported, it will be ignored.
    * @returns {Promise<void>} A promise that resolves when the update operation is complete.
@@ -612,6 +614,7 @@ export interface CapacitorCalendarPlugin {
    */
   modifyEvent(options: {
     id: string;
+    span: EventSpan;
     update: {
       title?: string;
       calendarId?: string;
