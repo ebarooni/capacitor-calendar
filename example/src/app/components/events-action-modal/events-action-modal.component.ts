@@ -8,11 +8,12 @@ import {
 import { IonModal } from '@ionic/angular/standalone';
 import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { CalendarEvent, CapacitorCalendar } from '../../../../../dist/esm';
+import { CalendarEvent, CapacitorCalendar } from '@ebarooni/capacitor-calendar';
 import { EventsListComponent } from './events-list/events-list.component';
 import { LetDirective } from '@ngrx/component';
 import { EventView } from './event-view';
 import { EventDetailComponent } from './event-detail/event-detail.component';
+import { EventUpdate } from './event-update';
 
 @Component({
   selector: 'app-events-action-modal',
@@ -23,7 +24,10 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 })
 export class EventsActionModalComponent {
   @Output() deleteEvents = new EventEmitter<string>();
-  @Output() modifyEvent = new EventEmitter<string>();
+  @Output() modifyEvent = new EventEmitter<{
+    id: string;
+    update: EventUpdate;
+  }>();
   @ViewChild('modal') modal?: IonModal;
   public loading = false;
   public currentView = this.eventView.EVENTS_LIST;

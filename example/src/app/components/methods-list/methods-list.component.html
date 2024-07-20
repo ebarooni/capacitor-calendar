@@ -110,6 +110,7 @@
 <app-events-action-modal
   #eventsListViewModalComponent
   (deleteEvents)="deleteEventsById($event)"
+  (modifyEvent)="modifyEventWithPrompt($event.id, $event.update)"
 ></app-events-action-modal>
 
 <app-reminders-list-view-modal

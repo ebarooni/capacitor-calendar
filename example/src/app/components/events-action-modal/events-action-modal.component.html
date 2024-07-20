@@ -18,6 +18,9 @@
             *ngrxLet="selectedEvent$ as selectedEvent"
             [selectedEvent]="selectedEvent"
             (closeEventDetailView)="dispose()"
+            (saveChanges)="
+              modifyEvent.emit({ id: selectedEvent.id, update: $event })
+            "
           ></app-event-detail>
         }
       }

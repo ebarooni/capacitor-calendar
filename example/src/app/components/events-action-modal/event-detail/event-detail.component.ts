@@ -25,6 +25,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CalendarEvent } from '@ebarooni/capacitor-calendar';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { EventUpdate } from '../event-update';
 
 @Component({
   selector: 'app-event-detail',
@@ -58,7 +59,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class EventDetailComponent implements OnInit {
   @Input({ required: true }) selectedEvent!: CalendarEvent;
   @Output() closeEventDetailView = new EventEmitter<void>();
-  @Output() saveChanges = new EventEmitter<typeof this.eventDetailForm.value>();
+  @Output() saveChanges = new EventEmitter<EventUpdate>();
   readonly eventDetailForm = new FormGroup({
     title: new FormControl<string>(''),
     location: new FormControl<string>(''),
@@ -108,6 +109,21 @@ export class EventDetailComponent implements OnInit {
 
   submitChanges(event: SubmitEvent): void {
     event.preventDefault();
-    this.saveChanges.emit(this.eventDetailForm.value);
+    const update: EventUpdate = {};
+    update.title = this.eventDetailForm.value.title ?? undefined;
+    update.notes = this.eventDetailForm.value.description ?? undefined;
+    update.url = this.eventDetailForm.value.url ?? undefined;
+    update.calendarId = this.eventDetailForm.value.calendarId ?? undefined;
+    update.isAllDay = this.eventDetailForm.value.isAllDay ?? undefined;
+    if (this.eventDetailForm.value.startDate) {
+      update.startDate =
+        Date.parse(this.eventDetailForm.value.startDate) ?? undefined;
+    }
+    if (this.eventDetailForm.value.endDate) {
+      update.endDate =
+        Date.parse(this.eventDetailForm.value.endDate) ?? undefined;
+    }
+    update.location = this.eventDetailForm.value.location ?? undefined;
+    this.saveChanges.emit(update);
   }
 }

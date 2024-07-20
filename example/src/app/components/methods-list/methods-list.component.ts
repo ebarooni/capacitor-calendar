@@ -28,6 +28,7 @@ import {
 } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
 import { RemindersListViewModalComponent } from '../reminders-list-view-modal/reminders-list-view-modal.component';
 import { EventsActionModalComponent } from '../events-action-modal/events-action-modal.component';
+import { EventUpdate } from '../events-action-modal/event-update';
 
 @Component({
   selector: 'app-methods-list',
@@ -353,5 +354,14 @@ export class MethodsListComponent {
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
-  public modifyEventWithPrompt(): void {}
+  public modifyEventWithPrompt(id: string, update: EventUpdate): void {
+    void CapacitorCalendar.modifyEventWithPrompt({
+      id: id,
+      update: update,
+    })
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
