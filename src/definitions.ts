@@ -614,6 +614,15 @@ export interface CapacitorCalendarPlugin {
    * If a property is not supported, it will be ignored.
    * @returns {Promise<void>} A promise that resolves when the update operation is complete.
    * @throws {Error} throws an error if an event for the given id is not found.
+   * @example
+   * const { result } = await CapacitorCalendar.modifyEvent({
+   *   id: 'EVENT_ID_ONE',
+   *   span: EventSpan.THIS_SPAN,
+   *   update: {
+   *     title: 'newTitle',
+   *     startDate: Date.now(),
+   *   },
+   * });
    */
   modifyEvent(options: {
     id: string;
