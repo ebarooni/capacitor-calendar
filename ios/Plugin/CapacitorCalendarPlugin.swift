@@ -292,10 +292,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             call.reject("[CapacitorCalendar.\(#function)] An update for the event was not provided")
             return
         }
-        guard let span = call.getInt("span") else {
-            call.reject("[CapacitorCalendar.\(#function)] Span not provided")
-            return
-        }
+        let span = call.getInt("span", 0)
         let title = update["title"] as? String
         let calendarId = update["calendarId"] as? String
         let location = update["location"] as? String

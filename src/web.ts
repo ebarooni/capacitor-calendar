@@ -230,7 +230,7 @@ export class CapacitorCalendarWeb
 
   public modifyEvent(_options: {
     id: string;
-    span: EventSpan;
+    span?: EventSpan;
     update: {
       title?: string;
       calendarId?: string;

@@ -609,6 +609,7 @@ export interface CapacitorCalendarPlugin {
    * @param {Object} options The options for updating an event.
    * @param {string} options.id The id of the event to be modified.
    * @param {EventSpan} options.span The scope of the modifications.
+   * Only supported on iOS. (Optional)
    * @param {Object} options.update The set of event properties to be modified.
    * If a property is not supported, it will be ignored.
    * @returns {Promise<void>} A promise that resolves when the update operation is complete.
@@ -616,7 +617,7 @@ export interface CapacitorCalendarPlugin {
    */
   modifyEvent(options: {
     id: string;
-    span: EventSpan;
+    span?: EventSpan;
     update: {
       title?: string;
       calendarId?: string;
