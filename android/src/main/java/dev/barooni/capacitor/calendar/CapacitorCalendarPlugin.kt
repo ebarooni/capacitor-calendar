@@ -149,6 +149,23 @@ class CapacitorCalendarPlugin : Plugin() {
         call.resolve(ret)
     }
 
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    fun modifyEvent(call: PluginCall) {
+        try {
+            val stringId = call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event ID not defined")
+            val update = call.getObject("update") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Update not provided")
+            val updated = implementation.modifyEvent(context, stringId.toLong(), update)
+            if (updated) {
+                call.resolve()
+            } else {
+                throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event not updated")
+            }
+        } catch (error: Exception) {
+            call.reject("", error.message)
+            return
+        }
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun checkPermission(call: PluginCall) {
         try {
