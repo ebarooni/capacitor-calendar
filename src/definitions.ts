@@ -557,14 +557,16 @@ export interface CapacitorCalendarPlugin {
    * <h3>Runtime Permissions:</h3>
    * <ul>
    *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
+   *   <li><strong>Android:</strong> writeCalendar, readCalendar</li>
    * </ul>
    * @param {Object} options The options for modifying an event.
    * @param {string} options.id The id of the event to be modified.
    * @param {object} options.update The set of event properties to be modified. (Optional)
-   * If a property is not supported, it will be ignored.
-   * @returns {Promise<{ result: string[] }>} A promise that resolves with an
-   * array contained the id of the modified event. If the array is empty, the
-   * prompt was canceled.
+   * If a property is not supported, it will be ignored. Setting alerts with prompt
+   * is only supported on iOS.
+   * @returns {Promise<{ result: string[] }>} On iOS, the promise resolves with an array containing
+   * the initial event id if the modifications were saved and empty if it was cancelled. However, on
+   * Android the array will be empty either way.
    * @throws {Error} throws an error if an event for the given id is not found.
    * @example
    * const { result } = await CapacitorCalendar.modifyEventWithPrompt({
@@ -575,7 +577,7 @@ export interface CapacitorCalendarPlugin {
    *   },
    * });
    *
-   * console.log(result);  // ['EVENT_ID_ONE']
+   * console.log(result);  // ['EVENT_ID_ONE'] or [] if on Android
    */
   modifyEventWithPrompt(options: {
     id: string;

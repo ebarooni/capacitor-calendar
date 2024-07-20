@@ -12,7 +12,7 @@ import com.getcapacitor.JSObject
 import java.util.Calendar
 import java.util.TimeZone
 
-class CapacitorCalendar() {
+class CapacitorCalendar {
     var eventIdsArray: List<Long> = emptyList()
 
     @Throws(Exception::class)
@@ -32,9 +32,7 @@ class CapacitorCalendar() {
     }
 
     @Throws(Exception::class)
-    fun getNewEventIds(newIds: List<Long>): List<Long> {
-        return newIds.filterNot { it in eventIdsArray }
-    }
+    fun getNewEventIds(newIds: List<Long>): List<Long> = newIds.filterNot { it in eventIdsArray }
 
     @Throws(Exception::class)
     fun listCalendars(context: Context): JSArray {
@@ -42,36 +40,37 @@ class CapacitorCalendar() {
             arrayOf(
                 CalendarContract.Calendars._ID,
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.CALENDAR_COLOR
+                CalendarContract.Calendars.CALENDAR_COLOR,
             )
 
         val calendars = JSArray()
 
-        context.contentResolver.query(
-            CalendarContract.Calendars.CONTENT_URI,
-            projection,
-            null,
-            null,
-            null,
-        )?.use { cursor ->
-            val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
-            val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
-            val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)
+        context.contentResolver
+            .query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null,
+            )?.use { cursor ->
+                val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
+                val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+                val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)
 
-            while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumnIndex)
-                val title = cursor.getString(nameColumnIndex)
-                val calendarColor = cursor.getInt(calendarColorColumnIndex)
-                val calendar =
-                    JSObject().apply {
-                        put("id", "$id")
-                        put("title", title)
-                        put("color", String.format("#%06X", 0xFFFFFF and calendarColor))
-                    }
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(idColumnIndex)
+                    val title = cursor.getString(nameColumnIndex)
+                    val calendarColor = cursor.getInt(calendarColorColumnIndex)
+                    val calendar =
+                        JSObject().apply {
+                            put("id", "$id")
+                            put("title", title)
+                            put("color", String.format("#%06X", 0xFFFFFF and calendarColor))
+                        }
 
-                calendars.put(calendar)
-            }
-        } ?: throw Exception("Cursor is null")
+                    calendars.put(calendar)
+                }
+            } ?: throw Exception("Cursor is null")
 
         return calendars
     }
@@ -87,29 +86,30 @@ class CapacitorCalendar() {
         val selection = "${CalendarContract.Calendars.IS_PRIMARY} = ?"
         val selectionArgs = arrayOf("1")
 
-        context.contentResolver.query(
-            CalendarContract.Calendars.CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            null,
-        )?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
-                val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
-                val id = cursor.getLong(idColumnIndex)
-                val title = cursor.getString(nameColumnIndex)
+        context.contentResolver
+            .query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
+                    val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+                    val id = cursor.getLong(idColumnIndex)
+                    val title = cursor.getString(nameColumnIndex)
 
-                val calendarObject =
-                    JSObject().apply {
-                        put("id", id.toString())
-                        put("title", title)
-                    }
-                return calendarObject
-            } else {
-                return null
+                    val calendarObject =
+                        JSObject().apply {
+                            put("id", id.toString())
+                            put("title", title)
+                        }
+                    return calendarObject
+                } else {
+                    return null
+                }
             }
-        }
         throw Exception("No primary calendar found")
     }
 
@@ -151,18 +151,20 @@ class CapacitorCalendar() {
                 context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
             }
             alertOffsetInMinutesMultiple != null -> {
-                alertOffsetInMinutesMultiple.toList<Any>().mapNotNull { alert ->
-                    try {
-                        val alertFloat = alert.toString().toFloat()
-                        if (alertFloat > -1) alertFloat else null
-                    } catch (e: NumberFormatException) {
-                        Log.e("Error", "Failed to convert alert to float: $alert", e)
-                        null
+                alertOffsetInMinutesMultiple
+                    .toList<Any>()
+                    .mapNotNull { alert ->
+                        try {
+                            val alertFloat = alert.toString().toFloat()
+                            if (alertFloat > -1) alertFloat else null
+                        } catch (e: NumberFormatException) {
+                            Log.e("Error", "Failed to convert alert to float: $alert", e)
+                            null
+                        }
+                    }.forEach { alertFloat ->
+                        val alertValues = createAlertValues(eventId, alertFloat)
+                        context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
                     }
-                }.forEach { alertFloat ->
-                    val alertValues = createAlertValues(eventId, alertFloat)
-                    context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
-                }
             }
         }
 
@@ -172,20 +174,18 @@ class CapacitorCalendar() {
     private fun createAlertValues(
         eventId: Long,
         alertOffset: Float,
-    ): ContentValues {
-        return ContentValues().apply {
+    ): ContentValues =
+        ContentValues().apply {
             put(CalendarContract.Reminders.EVENT_ID, eventId)
             put(CalendarContract.Reminders.MINUTES, alertOffset)
             put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
         }
-    }
 
     @Throws(Exception::class)
-    fun openCalendar(timestamp: Long): Intent {
-        return Intent(Intent.ACTION_VIEW).apply {
+    fun openCalendar(timestamp: Long): Intent =
+        Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse("content://com.android.calendar/time/$timestamp")
         }
-    }
 
     @Throws(Exception::class)
     fun listEventsInRange(
@@ -214,73 +214,74 @@ class CapacitorCalendar() {
 
         val events = JSArray()
 
-        context.contentResolver.query(
-            CalendarContract.Events.CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            null,
-        )?.use { cursor ->
-            val idColumnIndex = cursor.getColumnIndex(CalendarContract.Events._ID)
-            val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Events.TITLE)
-            val locationColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)
-            val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Events.CALENDAR_COLOR)
-            val organizerColumnIndex = cursor.getColumnIndex(CalendarContract.Events.ORGANIZER)
-            val descriptionColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DESCRIPTION)
-            val dtStartColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DTSTART)
-            val dtEndColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DTEND)
-            val eventTimezoneColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_TIMEZONE)
-            val eventEndTimezoneColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_END_TIMEZONE)
-            val durationColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DURATION)
-            val isAllDayColumnIndex = cursor.getColumnIndex(CalendarContract.Events.ALL_DAY)
-            val calendarIdColumnIndex = cursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID)
+        context.contentResolver
+            .query(
+                CalendarContract.Events.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+            )?.use { cursor ->
+                val idColumnIndex = cursor.getColumnIndex(CalendarContract.Events._ID)
+                val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Events.TITLE)
+                val locationColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)
+                val calendarColorColumnIndex = cursor.getColumnIndex(CalendarContract.Events.CALENDAR_COLOR)
+                val organizerColumnIndex = cursor.getColumnIndex(CalendarContract.Events.ORGANIZER)
+                val descriptionColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DESCRIPTION)
+                val dtStartColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DTSTART)
+                val dtEndColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DTEND)
+                val eventTimezoneColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_TIMEZONE)
+                val eventEndTimezoneColumnIndex = cursor.getColumnIndex(CalendarContract.Events.EVENT_END_TIMEZONE)
+                val durationColumnIndex = cursor.getColumnIndex(CalendarContract.Events.DURATION)
+                val isAllDayColumnIndex = cursor.getColumnIndex(CalendarContract.Events.ALL_DAY)
+                val calendarIdColumnIndex = cursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID)
 
-            while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumnIndex)
-                val title = cursor.getString(nameColumnIndex)
-                val location = cursor.getString(locationColumnIndex)
-                val calendarColor = cursor.getInt(calendarColorColumnIndex)
-                val organizer = cursor.getString(organizerColumnIndex)
-                val desc = cursor.getString(descriptionColumnIndex)
-                val dtStart = cursor.getLong(dtStartColumnIndex)
-                val dtEnd = cursor.getLong(dtEndColumnIndex)
-                val eventTimezone = cursor.getString(eventTimezoneColumnIndex)
-                val eventEndTimezone = cursor.getString(eventEndTimezoneColumnIndex)
-                val duration = cursor.getString(durationColumnIndex)
-                val allDay = cursor.getInt(isAllDayColumnIndex) == 1
-                val calendarId = cursor.getLong(calendarIdColumnIndex)
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(idColumnIndex)
+                    val title = cursor.getString(nameColumnIndex)
+                    val location = cursor.getString(locationColumnIndex)
+                    val calendarColor = cursor.getInt(calendarColorColumnIndex)
+                    val organizer = cursor.getString(organizerColumnIndex)
+                    val desc = cursor.getString(descriptionColumnIndex)
+                    val dtStart = cursor.getLong(dtStartColumnIndex)
+                    val dtEnd = cursor.getLong(dtEndColumnIndex)
+                    val eventTimezone = cursor.getString(eventTimezoneColumnIndex)
+                    val eventEndTimezone = cursor.getString(eventEndTimezoneColumnIndex)
+                    val duration = cursor.getString(durationColumnIndex)
+                    val allDay = cursor.getInt(isAllDayColumnIndex) == 1
+                    val calendarId = cursor.getLong(calendarIdColumnIndex)
 
-                val event =
-                    JSObject().apply {
-                        put("id", id.toString())
-                        title?.takeIf { it.isNotEmpty() }?.let { put("title", it) }
-                        location?.takeIf { it.isNotEmpty() }?.let { put("location", it) }
-                        calendarColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
-                        organizer?.takeIf { it.isNotEmpty() }?.let { put("organizer", it) }
-                        desc?.takeIf { it.isNotEmpty() }?.let { put("description", it) }
-                        dtStart.takeIf { it != 0.toLong() }?.let { put("startDate", it) }
-                        dtEnd.takeIf { it != 0.toLong() }?.let { put("endDate", it) }
-                        eventTimezone?.takeIf { it.isNotEmpty() }?.let { timezone ->
-                            val abbreviation = getTimeZoneAbbreviation(timezone)
-                            val obj = JSObject()
-                            obj.put("region", timezone)
-                            obj.put("abbreviation", abbreviation)
-                            put("eventTimezone", obj)
+                    val event =
+                        JSObject().apply {
+                            put("id", id.toString())
+                            title?.takeIf { it.isNotEmpty() }?.let { put("title", it) }
+                            location?.takeIf { it.isNotEmpty() }?.let { put("location", it) }
+                            calendarColor.takeIf { it != 0 }?.let { put("eventColor", String.format("#%06X", 0xFFFFFF and it)) }
+                            organizer?.takeIf { it.isNotEmpty() }?.let { put("organizer", it) }
+                            desc?.takeIf { it.isNotEmpty() }?.let { put("description", it) }
+                            dtStart.takeIf { it != 0.toLong() }?.let { put("startDate", it) }
+                            dtEnd.takeIf { it != 0.toLong() }?.let { put("endDate", it) }
+                            eventTimezone?.takeIf { it.isNotEmpty() }?.let { timezone ->
+                                val abbreviation = getTimeZoneAbbreviation(timezone)
+                                val obj = JSObject()
+                                obj.put("region", timezone)
+                                obj.put("abbreviation", abbreviation)
+                                put("eventTimezone", obj)
+                            }
+                            eventEndTimezone?.takeIf { it.isNotEmpty() }?.let {
+                                val abbreviation = getTimeZoneAbbreviation(it)
+                                val obj = JSObject()
+                                obj.put("region", it)
+                                obj.put("abbreviation", abbreviation)
+                                put("eventEndTimezone", obj)
+                            }
+                            duration?.takeIf { it.isNotEmpty() }?.let { put("duration", it) }
+                            put("isAllDay", allDay)
+                            calendarId.takeIf { it != 0.toLong() }?.let { put("calendarId", it.toString()) }
                         }
-                        eventEndTimezone?.takeIf { it.isNotEmpty() }?.let {
-                            val abbreviation = getTimeZoneAbbreviation(it)
-                            val obj = JSObject()
-                            obj.put("region", it)
-                            obj.put("abbreviation", abbreviation)
-                            put("eventEndTimezone", obj)
-                        }
-                        duration?.takeIf { it.isNotEmpty() }?.let { put("duration", it) }
-                        put("isAllDay", allDay)
-                        calendarId.takeIf { it != 0.toLong() }?.let { put("calendarId", it.toString()) }
-                    }
-                events.put(event)
-            }
-        } ?: throw Exception("Cursor is null")
+                    events.put(event)
+                }
+            } ?: throw Exception("Cursor is null")
         return events
     }
 
