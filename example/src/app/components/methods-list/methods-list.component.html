@@ -45,9 +45,16 @@
   <ion-item
     button
     [detail]="true"
-    (click)="eventsListViewModalComponent.present()"
+    (click)="eventsListViewModalComponentWithPrompt.present()"
   >
     <ion-label>{{ modifyEventWithPrompt.name }}</ion-label>
+  </ion-item>
+  <ion-item
+    button
+    [detail]="true"
+    (click)="eventsListViewModalComponent.present()"
+  >
+    <ion-label>{{ modifyEvent.name }}</ion-label>
   </ion-item>
   <ion-item button [detail]="true" (click)="listCalendars()">
     <ion-label>{{ listCalendars.name }}</ion-label>
@@ -108,9 +115,15 @@
 ></ion-picker-legacy>
 
 <app-events-action-modal
-  #eventsListViewModalComponent
+  #eventsListViewModalComponentWithPrompt
   (deleteEvents)="deleteEventsById($event)"
   (modifyEvent)="modifyEventWithPrompt($event.id, $event.update)"
+></app-events-action-modal>
+
+<app-events-action-modal
+  #eventsListViewModalComponent
+  (deleteEvents)="deleteEventsById($event)"
+  (modifyEvent)="modifyEvent($event.id, $event.update)"
 ></app-events-action-modal>
 
 <app-reminders-list-view-modal

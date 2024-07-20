@@ -364,4 +364,11 @@ export class MethodsListComponent {
       )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public modifyEvent(id: string, update: EventUpdate): void {
+    void CapacitorCalendar.modifyEvent({
+      id: id,
+      update: update,
+    }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }
