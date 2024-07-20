@@ -356,7 +356,7 @@ public class CapacitorReminders: NSObject {
             return obj
         }
     }
-    
+
     private func hexStringFromColor(color: CGColor) -> String {
         guard let components = color.components, components.count >= 3 else {
             return "#000000"
@@ -366,8 +366,8 @@ public class CapacitorReminders: NSObject {
         let green = Float(components[1])
         let blue = Float(components[2])
         return String(format: "#%02lX%02lX%02lX",
-            lroundf(red * 255),
-            lroundf(green * 255),
-            lroundf(blue * 255))
+                      lroundf(red * 255),
+                      lroundf(green * 255),
+                      lroundf(blue * 255))
     }
 }

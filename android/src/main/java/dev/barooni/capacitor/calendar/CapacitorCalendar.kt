@@ -172,7 +172,11 @@ class CapacitorCalendar {
     }
 
     @Throws(Exception::class)
-    fun modifyEvent(context: Context, id: Long, update: JSObject): Boolean {
+    fun modifyEvent(
+        context: Context,
+        id: Long,
+        update: JSObject,
+    ): Boolean {
         val title = update.getString("title")
         val calendarId = update.getString("calendarId")
         val location = update.getString("location")
@@ -184,15 +188,20 @@ class CapacitorCalendar {
 
         val eventUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
 
-        val values = ContentValues().apply {
-            if (title != null) put(CalendarContract.Events.TITLE, title)
-            if (calendarId != null) put(CalendarContract.Events.CALENDAR_ID, calendarId)
-            if (location != null) put(CalendarContract.Events.EVENT_LOCATION, location)
-            if (startDate != null) put(CalendarContract.Events.DTSTART, startDate)
-            if (endDate != null) put(CalendarContract.Events.DTEND, endDate)
-            if (isAllDay != null) put(CalendarContract.Events.ALL_DAY, if (isAllDay) 1 else 0)
-            if (notes != null) put(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
-        }
+        val values =
+            ContentValues().apply {
+                if (title != null) put(CalendarContract.Events.TITLE, title)
+                if (calendarId != null) put(CalendarContract.Events.CALENDAR_ID, calendarId)
+                if (location != null) put(CalendarContract.Events.EVENT_LOCATION, location)
+                if (startDate != null) put(CalendarContract.Events.DTSTART, startDate)
+                if (endDate != null) put(CalendarContract.Events.DTEND, endDate)
+                if (isAllDay != null) put(CalendarContract.Events.ALL_DAY, if (isAllDay) 1 else 0)
+                if (notes !=
+                    null
+                ) {
+                    put(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
+                }
+            }
 
         val rows: Int = context.contentResolver.update(eventUri, values, null, null)
         return rows > 0

@@ -65,27 +65,27 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
         }
     }
-    
+
     public func modifyEventWithPrompt(id: String, update: EventCreationParameters? = nil) async throws -> [String] {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
                 return
             }
-            
+
             guard let event = eventStore.event(withIdentifier: id) else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
                 return
             }
-            
-            if (update != nil) {
-                if ((update?.title) != nil) {
+
+            if update != nil {
+                if (update?.title) != nil {
                     event.title = update?.title
                 }
                 if let calendarId = update?.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
                     event.calendar = calendar
                 }
-                if (update?.location != nil) {
+                if update?.location != nil {
                     event.location = update?.location
                 }
                 if let startDate = update?.startDate {
@@ -104,14 +104,14 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                     event.url = url
                 }
                 if let alertOffsetInMinutesSingle = update?.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
-                    if (event.hasAlarms) {
+                    if event.hasAlarms {
                         for alarm in event.alarms! {
                             event.removeAlarm(alarm)
                         }
                     }
                     event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
                 } else if let alertOffsetInMinutesMultiple = update?.alertOffsetInMinutesMultiple {
-                    if (event.hasAlarms) {
+                    if event.hasAlarms {
                         for alarm in event.alarms! {
                             event.removeAlarm(alarm)
                         }
@@ -134,19 +134,19 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
         }
     }
-    
-    public func modifyEvent(id: String, span: EKSpan, update: EventCreationParameters) throws -> Void {
+
+    public func modifyEvent(id: String, span: EKSpan, update: EventCreationParameters) throws {
         guard let event = eventStore.event(withIdentifier: id) else {
             throw CapacitorCalendarPluginError.undefinedEvent
         }
-        
-        if ((update.title) != nil) {
+
+        if (update.title) != nil {
             event.title = update.title
         }
         if let calendarId = update.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
             event.calendar = calendar
         }
-        if (update.location != nil) {
+        if update.location != nil {
             event.location = update.location
         }
         if let startDate = update.startDate {
@@ -165,14 +165,14 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             event.url = url
         }
         if let alertOffsetInMinutesSingle = update.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
-            if (event.hasAlarms) {
+            if event.hasAlarms {
                 for alarm in event.alarms! {
                     event.removeAlarm(alarm)
                 }
             }
             event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
         } else if let alertOffsetInMinutesMultiple = update.alertOffsetInMinutesMultiple {
-            if (event.hasAlarms) {
+            if event.hasAlarms {
                 for alarm in event.alarms! {
                     event.removeAlarm(alarm)
                 }
@@ -183,7 +183,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 }
             }
         }
-        
+
         do {
             try eventStore.save(event, span: span)
         } catch {
@@ -571,7 +571,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             return dict
         }
     }
-    
+
     private func hexStringFromColor(color: CGColor) -> String {
         guard let components = color.components, components.count >= 3 else {
             return "#000000"
@@ -581,8 +581,8 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         let green = Float(components[1])
         let blue = Float(components[2])
         return String(format: "#%02lX%02lX%02lX",
-            lroundf(red * 255),
-            lroundf(green * 255),
-            lroundf(blue * 255))
+                      lroundf(red * 255),
+                      lroundf(green * 255),
+                      lroundf(blue * 255))
     }
 }

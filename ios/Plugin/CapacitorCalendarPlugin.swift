@@ -160,19 +160,19 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             }
         }
     }
-    
+
     @objc public func modifyEventWithPrompt(_ call: CAPPluginCall) {
         guard let id = call.getString("id") else {
             call.reject("[CapacitorCalendar.\(#function)] Missing event id")
             return
         }
-        
+
         Task {
             do {
                 let result: [String]
-                
+
                 if let update = call.getObject("update") {
-                    
+
                     let title = update["title"] as? String
                     let calendarId = update["calendarId"] as? String
                     let location = update["location"] as? String
@@ -183,7 +183,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                     let url = update["url"] as? String
                     let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
                     let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
-                    
+
                     var eventParameters = EventCreationParameters(
                         title: title,
                         calendarId: calendarId,
@@ -201,7 +201,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 } else {
                     result = try await calendar.modifyEventWithPrompt(id: id)
                 }
-                
+
                 call.resolve(["result": result])
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Unable to modify event")
@@ -282,7 +282,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
-    
+
     @objc public func modifyEvent(_ call: CAPPluginCall) {
         guard let eventId = call.getString("id") else {
             call.reject("[CapacitorCalendar.\(#function)] An id for the event was not provided")
@@ -303,7 +303,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let url = update["url"] as? String
         let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
         let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
-        
+
         do {
             var eventParameters = EventCreationParameters(
                 title: title,
