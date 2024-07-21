@@ -38,6 +38,11 @@ jobs:
       - name: Run npm version
         run: npm version ${{ env.NEW_VERSION }} --no-git-tag-version
 
+      - name: Add logo asset to the files property in package.json
+        run: |
+          NEW_FILE="assets/images/text-logo.png"
+          jq --arg newfile "$NEW_FILE" '.files += [$newfile]' package.json > package.temp.json && mv package.temp.json package.json
+
       - uses: actions/setup-node@v3
         with:
           node-version: "20.x"
