@@ -611,7 +611,8 @@ export interface CapacitorCalendarPlugin {
    * @param {EventSpan} options.span The scope of the modifications.
    * Only supported on iOS. (Optional)
    * @param {Object} options.update The set of event properties to be modified.
-   * If a property is not supported, it will be ignored.
+   * If a property is not supported, it will be ignored. Modifying the reminder of an
+   * event is currently not supported on Android.
    * @returns {Promise<void>} A promise that resolves when the update operation is complete.
    * @throws {Error} throws an error if an event for the given id is not found.
    * @example
