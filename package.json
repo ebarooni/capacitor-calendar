@@ -1,6 +1,6 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "6.5.0",
+  "version": "6.6.0",
   "description": "The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,9 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "EbarooniCapacitorCalendar.podspec"
+    "EbarooniCapacitorCalendar.podspec",
+    "LICENSE.txt",
+    "assets/images/text-logo.png"
   ],
   "author": "Ehsan Barooni",
   "license": "MIT",
