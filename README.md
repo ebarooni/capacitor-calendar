@@ -27,26 +27,67 @@
 
 ## Table of Contents
 
-- [Install](#install)
+- [Installation](#installation)
+  - [Stable](#stable)
+    - [Capacitor 6](#capacitor-6)
+    - [Capacitor 5](#capacitor-5)
+  - [Development](#development)
+    - [Setup](#setup)
+    - [Install](#install-1)
 - [Demo](#demo--click-for-details-)
 - [Permissions](#permissions)
 - [API](#-api)
 - [Documentation](#-documentation)
 - [Contributions](#-contributions)
 
-## Install
+## Installation
 
-### Capacitor 6
+To use this package, follow the instructions for installing either the stable or development release.
+Stable releases are recommended for production, while development releases provide access to the latest features and
+fixes which are still under development.
+
+### Stable
+
+The stable releases are published to the npm package registry.
+
+#### Capacitor 6
 
 ```bash
 npm install @ebarooni/capacitor-calendar@latest
 npx cap sync
 ```
 
-### Capacitor 5
+#### Capacitor 5
 
 ```bash
 npm install @ebarooni/capacitor-calendar@^5
+npx cap sync
+```
+
+### Development
+
+Development releases are published to the GitHub package registry. These releases are automatically generated from the
+latest state of the `develop branch every time a pull request is merged into it.
+
+> [!WARNING]
+> Development releases are not recommended for production use as they may contain untested or experimental changes.
+
+#### Setup
+
+Create an `.npmrc` file and place it in the root of your project with the following content:
+
+```
+//npm.pkg.github.com/:_authToken=$GITHUB_PAT
+@ebarooni:registry=https://npm.pkg.github.com
+always-auth=true
+```
+
+Replace `$GITHUB_PAT` with your own personal access token with at least `read:packages` scope.
+
+#### Install
+
+```bash
+npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
 
