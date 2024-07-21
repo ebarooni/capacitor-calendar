@@ -1,7 +1,9 @@
 package dev.barooni.capacitor.calendar
 
 import android.Manifest
+import android.content.ContentUris
 import android.content.Intent
+import android.net.Uri
 import android.provider.CalendarContract
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.JSArray
@@ -92,6 +94,77 @@ class CapacitorCalendarPlugin : Plugin() {
         val ret = JSObject()
         ret.put("result", newIdsArray)
         call.resolve(ret)
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun modifyEventWithPrompt(call: PluginCall) {
+        try {
+            val stringId =
+                call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEventWithPrompt.name}] Event ID not defined")
+            val update = call.getObject("update")
+            val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, stringId.toLong())
+            val intent =
+                Intent(Intent.ACTION_EDIT)
+                    .setData(uri)
+
+            if (update != null) {
+                val title = update.getString("title")
+                val calendarId = update.getString("calendarId")
+                val location = update.getString("location")
+                val startDate = update.getLong("startDate")
+                val endDate = update.getLong("endDate")
+                val isAllDay = update.getBoolean("isAllDay")
+                val url = update.getString("url")
+                val notes = update.getString("notes")
+
+                intent.putExtra(CalendarContract.Events.TITLE, title)
+                calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
+                location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
+                startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
+                endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
+                isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
+                intent.putExtra(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
+            }
+
+            return startActivityForResult(
+                call,
+                intent,
+                "openEventEditIntentActivityCallback",
+            )
+        } catch (error: Exception) {
+            call.reject("", error.message)
+            return
+        }
+    }
+
+    @ActivityCallback
+    private fun openEventEditIntentActivityCallback(
+        call: PluginCall?,
+        result: ActivityResult,
+    ) {
+        if (call == null) {
+            throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
+        }
+        val ret = JSObject()
+        ret.put("result", JSArray())
+        call.resolve(ret)
+    }
+
+    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    fun modifyEvent(call: PluginCall) {
+        try {
+            val stringId = call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event ID not defined")
+            val update = call.getObject("update") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Update not provided")
+            val updated = implementation.modifyEvent(context, stringId.toLong(), update)
+            if (updated) {
+                call.resolve()
+            } else {
+                throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event not updated")
+            }
+        } catch (error: Exception) {
+            call.reject("", error.message)
+            return
+        }
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)

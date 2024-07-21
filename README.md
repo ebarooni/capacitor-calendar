@@ -97,6 +97,8 @@ permissions can be found below:
 - [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
 - [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
 - [`requestFullRemindersAccess()`](#requestfullremindersaccess)
+- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
+- [`modifyEvent(...)`](#modifyevent)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)

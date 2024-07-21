@@ -26,6 +26,8 @@
 - [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
 - [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
 - [`requestFullRemindersAccess()`](#requestfullremindersaccess)
+- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
+- [`modifyEvent(...)`](#modifyevent)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -410,6 +412,40 @@ Requests read and write access for the reminders. If its already granted, it wil
 
 ---
 
+### modifyEventWithPrompt(...)
+
+```typescript
+modifyEventWithPrompt(options: { id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<{ result: string[]; }>
+```
+
+Opens a native prompt to modify an event given its id.
+
+| Param         | Type                                                                                                                                                                                                                                  | Description                         |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| **`options`** | <code>{ id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for modifying an event. |
+
+**Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
+
+**Since:** 5.6.0
+
+---
+
+### modifyEvent(...)
+
+```typescript
+modifyEvent(options: { id: string; span?: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
+```
+
+Modifies an event given its id and update details.
+
+| Param         | Type                                                                                                                                                                                                                                                                            | Description                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
+
+**Since:** 5.6.0
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
@@ -422,6 +458,7 @@ Represents a calendar object.
 | ----------- | ------------------- |
 | **`id`**    | <code>string</code> |
 | **`title`** | <code>string</code> |
+| **`color`** | <code>string</code> |
 
 #### RemindersList
 
@@ -437,21 +474,22 @@ Represents a calendar object.
 
 Represents an event in the calendar.
 
-| Prop                   | Type                 |
-| ---------------------- | -------------------- |
-| **`id`**               | <code>string</code>  |
-| **`title`**            | <code>string</code>  |
-| **`location`**         | <code>string</code>  |
-| **`eventColor`**       | <code>string</code>  |
-| **`organizer`**        | <code>string</code>  |
-| **`description`**      | <code>string</code>  |
-| **`startDate`**        | <code>number</code>  |
-| **`endDate`**          | <code>number</code>  |
-| **`eventTimezone`**    | <code>string</code>  |
-| **`eventEndTimezone`** | <code>string</code>  |
-| **`duration`**         | <code>string</code>  |
-| **`isAllDay`**         | <code>boolean</code> |
-| **`calendarId`**       | <code>string</code>  |
+| Prop                   | Type                                                   |
+| ---------------------- | ------------------------------------------------------ |
+| **`id`**               | <code>string</code>                                    |
+| **`title`**            | <code>string</code>                                    |
+| **`location`**         | <code>string</code>                                    |
+| **`eventColor`**       | <code>string</code>                                    |
+| **`organizer`**        | <code>string</code>                                    |
+| **`description`**      | <code>string</code>                                    |
+| **`startDate`**        | <code>number</code>                                    |
+| **`endDate`**          | <code>number</code>                                    |
+| **`eventTimezone`**    | <code>{ region: string; abbreviation: string; }</code> |
+| **`eventEndTimezone`** | <code>{ region: string; abbreviation: string; }</code> |
+| **`duration`**         | <code>string</code>                                    |
+| **`isAllDay`**         | <code>boolean</code>                                   |
+| **`calendarId`**       | <code>string</code>                                    |
+| **`url`**              | <code>string</code>                                    |
 
 #### Reminder
 
@@ -511,5 +549,12 @@ Represents a reminder in a reminders list.
 | **`WEEKLY`**  | The reminder repeats on a weekly basis  |
 | **`MONTHLY`** | The reminder repeats on a monthly basis |
 | **`YEARLY`**  | The reminder repeats on a yearly basis  |
+
+#### EventSpan
+
+| Members                      | Description                                                                                   |
+| ---------------------------- | --------------------------------------------------------------------------------------------- |
+| **`THIS_EVENT`**             | The modifications should only be applied to this event.                                       |
+| **`THIS_AND_FUTURE_EVENTS`** | The modifications to this event should also be applied to the future instances of this event. |
 
 </docgen-api>

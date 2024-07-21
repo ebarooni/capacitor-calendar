@@ -161,6 +161,55 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         }
     }
 
+    @objc public func modifyEventWithPrompt(_ call: CAPPluginCall) {
+        guard let id = call.getString("id") else {
+            call.reject("[CapacitorCalendar.\(#function)] Missing event id")
+            return
+        }
+
+        Task {
+            do {
+                let result: [String]
+
+                if let update = call.getObject("update") {
+
+                    let title = update["title"] as? String
+                    let calendarId = update["calendarId"] as? String
+                    let location = update["location"] as? String
+                    let startDate = update["startDate"] as? Double
+                    let endDate = update["endDate"] as? Double
+                    let isAllDay = update["isAllDay"] as? Bool
+                    let notes = update["notes"] as? String
+                    let url = update["url"] as? String
+                    let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
+                    let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
+
+                    var eventParameters = EventCreationParameters(
+                        title: title,
+                        calendarId: calendarId,
+                        location: location,
+                        startDate: startDate,
+                        endDate: endDate,
+                        isAllDay: isAllDay,
+                        alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
+                        alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
+                        notes: notes,
+                        url: url
+                    )
+
+                    result = try await calendar.modifyEventWithPrompt(id: id, update: eventParameters)
+                } else {
+                    result = try await calendar.modifyEventWithPrompt(id: id)
+                }
+
+                call.resolve(["result": result])
+            } catch {
+                call.reject("[CapacitorCalendar.\(#function)] Unable to modify event")
+                return
+            }
+        }
+    }
+
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
         guard let selectionStyle = call.getInt("selectionStyle") else {
             call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
@@ -230,6 +279,48 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             call.resolve(["result": id])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
+            return
+        }
+    }
+
+    @objc public func modifyEvent(_ call: CAPPluginCall) {
+        guard let eventId = call.getString("id") else {
+            call.reject("[CapacitorCalendar.\(#function)] An id for the event was not provided")
+            return
+        }
+        guard let update = call.getObject("update") else {
+            call.reject("[CapacitorCalendar.\(#function)] An update for the event was not provided")
+            return
+        }
+        let span = call.getInt("span", 0)
+        let title = update["title"] as? String
+        let calendarId = update["calendarId"] as? String
+        let location = update["location"] as? String
+        let startDate = update["startDate"] as? Double
+        let endDate = update["endDate"] as? Double
+        let isAllDay = update["isAllDay"] as? Bool
+        let notes = update["notes"] as? String
+        let url = update["url"] as? String
+        let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
+        let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
+
+        do {
+            var eventParameters = EventCreationParameters(
+                title: title,
+                calendarId: calendarId,
+                location: location,
+                startDate: startDate,
+                endDate: endDate,
+                isAllDay: isAllDay,
+                alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
+                alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
+                notes: notes,
+                url: url
+            )
+            let result: Void = try calendar.modifyEvent(id: eventId, span: EKSpan(rawValue: span) ?? .thisEvent, update: eventParameters)
+            call.resolve(["result": result])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to modify event")
             return
         }
     }

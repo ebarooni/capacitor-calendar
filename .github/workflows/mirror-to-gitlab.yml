@@ -19,14 +19,14 @@ jobs:
       - name: Set git config
         run: |
           cd $(basename ${{ github.repository }}).git
-          git config user.name "Ehsan Barooni"
-          git config user.email "66495214+ebarooni.noreply@barooni.dev"
+          git config user.name ${{ github.event.pusher.name }}
+          git config user.email ${{ github.event.pusher.email }}
 
       - name: Mirror to GitLab
         env:
           GITLAB_MIRROR_TOKEN: ${{ secrets.GITLAB_MIRROR_TOKEN }}
         run: |
           cd $(basename ${{ github.repository }}).git
-          GITLAB_REPO="https://gitlab.com/ebarooni/capacitor-calendar.git"
+          GITLAB_REPO=${{ secrets.GITLAB_REPO_URL }}
           git remote add gitlab https://oauth2:${GITLAB_MIRROR_TOKEN}@${GITLAB_REPO#https://}
           git push --mirror gitlab

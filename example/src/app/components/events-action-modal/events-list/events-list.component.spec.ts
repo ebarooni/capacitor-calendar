@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EventsListViewModalComponent } from './events-list-view-modal.component';
+import { EventsListComponent } from './events-list.component';
 
-describe('EventsListViewModalComponent', () => {
-  let component: EventsListViewModalComponent;
-  let fixture: ComponentFixture<EventsListViewModalComponent>;
+describe('EventsListComponent', () => {
+  let component: EventsListComponent;
+  let fixture: ComponentFixture<EventsListComponent>;
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [EventsListViewModalComponent],
+      declarations: [EventsListComponent],
       imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EventsListViewModalComponent);
+    fixture = TestBed.createComponent(EventsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
