@@ -12,7 +12,8 @@
     "dist/",
     "ios/Plugin/",
     "EbarooniCapacitorCalendar.podspec",
-    "LICENSE.txt"
+    "LICENSE.txt",
+    "assets/images/text-logo.png"
   ],
   "author": "Ehsan Barooni",
   "license": "MIT",

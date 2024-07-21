@@ -2,7 +2,7 @@ name: Publish develop package to GitHub package registry
 on:
   push:
     branches:
-      - capacitor-calendar-110_Publish_dev_releases_from_develop_on_github_package_registry
+      - develop
 jobs:
   deploy:
     runs-on: ubuntu-latest
