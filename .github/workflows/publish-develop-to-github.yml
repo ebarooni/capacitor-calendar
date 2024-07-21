@@ -18,29 +18,30 @@ jobs:
         run: npm ci
 
       - name: Get version from package.json
-        id: get_version
         run: |
           VERSION=$(jq -r '.version' package.json)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Get current timestamp
-        id: get_timestamp
         run: |
           TIMESTAMP=$(date +"%S%M%H%d%m%y")
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
 
-      - name: Construct version-dev.timestamp variable
-        id: construct_variable
+      - name: Construct new dev version
         run: |
           NEW_VERSION="${{ env.VERSION }}-dev.${{ env.TIMESTAMP }}"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Print new version
         run: echo "New version is ${{ env.NEW_VERSION }}"
-#      - uses: actions/setup-node@v3
-#        with:
-#          node-version: "20.x"
-#          registry-url: "https://npm.pkg.github.com"
-#      - run: npm publish --access public
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run npm version
+        run: npm version ${{ env.NEW_VERSION }} --no-git-tag-version
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
