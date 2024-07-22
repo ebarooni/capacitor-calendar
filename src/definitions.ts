@@ -9,6 +9,7 @@ import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissio
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { Reminder } from "./schemas/interfaces/reminder";
+import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -415,18 +416,23 @@ export interface CapacitorCalendarPlugin {
    * @param {object} options Options for creating a calendar.
    * @param {string} options.title The title of the calendar to create.
    * @param {string} options.color The color of the calendar to create.
+   * @param {CalendarSourceType} options.source The source of the calendar. This
+   * property is only supported on iOS. If not provided, the source of the default
+   * calendar will be used.
    * The color should be a HEX string. (Optional)
    * @returns {Promise<{ result: string }>} The id of the created calendar.
    * @example
    * { result } = await CapacitorCalendar.createCalendar({
    *      title: 'New Calendar',
    *      color: '#1d00fc',
+   *      source: CalendarSourceType.LOCAL,
    *  });
    *  console.log(result);   // 'CALENDAR_ID'
    */
   createCalendar(options: {
     title: string;
     color?: string;
+    source?: CalendarSourceType;
   }): Promise<{ result: string }>;
 
   /**
