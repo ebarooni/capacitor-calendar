@@ -468,9 +468,10 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
         let color = call.getString("color")
+        let source = call.getInt("source")
 
         do {
-            let id = try calendar.createCalendar(title: title, color: color)
+            let id = try calendar.createCalendar(title: title, color: color, source: source)
             call.resolve(["result": id])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Could not create calendar")
