@@ -10,6 +10,7 @@ import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recur
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
+import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -646,4 +647,18 @@ export interface CapacitorCalendarPlugin {
       notes?: string;
     };
   }): Promise<void>;
+
+  /**
+   * Retrieves a list of calendar sources
+   *
+   * @async
+   * @since 6.6.0
+   * @platform iOS
+   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
+   * calendar sources.
+   * @example
+   * const { result } = await fetchAllCalendarSources();
+   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
+   */
+  fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
 }

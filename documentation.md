@@ -28,6 +28,7 @@
 - [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
+- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -289,14 +290,14 @@ Deletes events from the calendar given their IDs.
 ### createCalendar(...)
 
 ```typescript
-createCalendar(options: { title: string; color?: string; }) => Promise<{ result: string; }>
+createCalendar(options: { title: string; color?: string; source?: CalendarSourceType; }) => Promise<{ result: string; }>
 ```
 
 Creates a calendar
 
-| Param         | Type                                            | Description                      |
-| ------------- | ----------------------------------------------- | -------------------------------- |
-| **`options`** | <code>{ title: string; color?: string; }</code> | Options for creating a calendar. |
+| Param         | Type                                                                                                           | Description                      |
+| ------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **`options`** | <code>{ title: string; color?: string; source?: <a href="#calendarsourcetype">CalendarSourceType</a>; }</code> | Options for creating a calendar. |
 
 **Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
@@ -446,6 +447,20 @@ Modifies an event given its id and update details.
 
 ---
 
+### fetchAllCalendarSources()
+
+```typescript
+fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
+```
+
+Retrieves a list of calendar sources
+
+**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+
+**Since:** 6.6.0
+
+---
+
 ### Interfaces
 
 #### PluginPermissionsMap
@@ -454,11 +469,26 @@ Modifies an event given its id and update details.
 
 Represents a calendar object.
 
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`id`**    | <code>string</code> |
-| **`title`** | <code>string</code> |
-| **`color`** | <code>string</code> |
+| Prop                             | Type                                                      |
+| -------------------------------- | --------------------------------------------------------- |
+| **`id`**                         | <code>string</code>                                       |
+| **`title`**                      | <code>string</code>                                       |
+| **`color`**                      | <code>string</code>                                       |
+| **`isImmutable`**                | <code>boolean</code>                                      |
+| **`allowsContentModifications`** | <code>boolean</code>                                      |
+| **`type`**                       | <code>string</code>                                       |
+| **`isSubscribed`**               | <code>boolean</code>                                      |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> |
+
+#### CalendarSource
+
+Represents the account a calendar belongs to
+
+| Prop        | Type                                                              |
+| ----------- | ----------------------------------------------------------------- |
+| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> |
+| **`id`**    | <code>string</code>                                               |
+| **`title`** | <code>string</code>                                               |
 
 #### RemindersList
 
@@ -526,6 +556,17 @@ Represents a reminder in a reminders list.
 | **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Represents the permission state for writing calendar.  |
 | **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
 | **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
+
+#### CalendarSourceType
+
+| Members          | Description                                                                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`LOCAL`**      | Calendars that are stored locally on the device. These calendars are not synced with any external service.                                                                                 |
+| **`EXCHANGE`**   | Calendars that are associated with an Exchange server. Exchange is a popular calendar and email service used by many enterprises.                                                          |
+| **`CAL_DAV`**    | Calendars that use the CalDAV protocol for synchronization. This includes calendars from services like Google <a href="#calendar">Calendar</a> and Yahoo <a href="#calendar">Calendar</a>. |
+| **`MOBILE_ME`**  | Calendars that were previously associated with MobileMe, Apple's cloud service before iCloud. This source type is largely obsolete now.                                                    |
+| **`SUBSCRIBED`** | Calendars that the user has subscribed to. These are read-only calendars that can be added by subscribing to a calendar URL.                                                               |
+| **`BIRTHDAYS`**  | The built-in Birthdays calendar, which shows birthdays of contacts from the user's address book. This calendar is typically read-only and is managed by the system.                        |
 
 #### CalendarChooserDisplayStyle
 

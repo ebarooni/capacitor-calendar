@@ -527,6 +527,21 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
+    public func fetchAllCalendarSources() throws -> [[String: Any]] {
+        var result: [[String: Any]] = []
+
+        for source in eventStore.sources {
+            let sourceDict: [String: Any] = [
+                "id": source.sourceIdentifier,
+                "title": source.title,
+                "type": source.sourceType.rawValue
+            ]
+            result.append(sourceDict)
+        }
+
+        return result
+    }
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
         var result: [[String: String]] = []
 
