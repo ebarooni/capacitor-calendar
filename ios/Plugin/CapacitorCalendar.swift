@@ -237,7 +237,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 "isImmutable": defaultCalendar.isImmutable,
                 "allowsContentModifications": defaultCalendar.allowsContentModifications,
                 "type": defaultCalendar.type.rawValue,
-                "isSubscribed": defaultCalendar.isSubscribed,
+                "isSubscribed": defaultCalendar.isSubscribed
             ]
             if let calendarSource = defaultCalendar.source {
                 calendarDict["source"] = [
@@ -566,7 +566,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 "isImmutable": calendar.isImmutable,
                 "allowsContentModifications": calendar.allowsContentModifications,
                 "type": calendar.type.rawValue,
-                "isSubscribed": calendar.isSubscribed,
+                "isSubscribed": calendar.isSubscribed
             ]
             if let calendarSource = calendar.source {
                 calendarDict["source"] = [

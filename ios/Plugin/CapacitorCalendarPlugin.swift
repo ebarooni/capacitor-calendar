@@ -578,7 +578,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
-    
+
     @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
         do {
             call.resolve(["result": try reminders.fetchAllRemindersSources()])

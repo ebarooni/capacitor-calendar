@@ -34,7 +34,7 @@ public class CapacitorReminders: NSObject {
                 "isImmutable": defaultRemindersList.isImmutable,
                 "allowsContentModifications": defaultRemindersList.allowsContentModifications,
                 "type": defaultRemindersList.type.rawValue,
-                "isSubscribed": defaultRemindersList.isSubscribed,
+                "isSubscribed": defaultRemindersList.isSubscribed
             ]
             if let calendarSource = defaultRemindersList.source {
                 calendarDict["source"] = [
@@ -241,7 +241,7 @@ public class CapacitorReminders: NSObject {
             continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
         }
     }
-    
+
     public func fetchAllRemindersSources() throws -> [[String: Any]] {
         var result: [[String: Any]] = []
 
@@ -268,7 +268,7 @@ public class CapacitorReminders: NSObject {
                 "isImmutable": calendar.isImmutable,
                 "allowsContentModifications": calendar.allowsContentModifications,
                 "type": calendar.type.rawValue,
-                "isSubscribed": calendar.isSubscribed,
+                "isSubscribed": calendar.isSubscribed
             ]
             if let calendarSource = calendar.source {
                 calendarDict["source"] = [
