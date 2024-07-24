@@ -468,9 +468,10 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
         let color = call.getString("color")
+        let sourceId = call.getString("sourceId")
 
         do {
-            let id = try calendar.createCalendar(title: title, color: color)
+            let id = try calendar.createCalendar(title: title, color: color, sourceId: sourceId)
             call.resolve(["result": id])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Could not create calendar")
@@ -566,6 +567,24 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 call.reject("[CapacitorCalendar.\(#function)] Could not authorize full reminders access")
                 return
             }
+        }
+    }
+
+    @objc public func fetchAllCalendarSources(_ call: CAPPluginCall) {
+        do {
+            call.resolve(["result": try calendar.fetchAllCalendarSources()])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to fetch calendar sources")
+            return
+        }
+    }
+
+    @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
+        do {
+            call.resolve(["result": try reminders.fetchAllRemindersSources()])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to fetch calendar sources")
+            return
         }
     }
 }

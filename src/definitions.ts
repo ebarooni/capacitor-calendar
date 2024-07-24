@@ -9,6 +9,7 @@ import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissio
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { Reminder } from "./schemas/interfaces/reminder";
+import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 
 export interface CapacitorCalendarPlugin {
   /**
@@ -416,17 +417,23 @@ export interface CapacitorCalendarPlugin {
    * @param {string} options.title The title of the calendar to create.
    * @param {string} options.color The color of the calendar to create.
    * The color should be a HEX string. (Optional)
+   * @param {string} options.sourceId The id of the source of the calendar.
+   * If not provided, the source of the default calendar will be used. It is
+   * recommended to use fetchAllCalendarSources method to fetch the id of the
+   * desired source type.
    * @returns {Promise<{ result: string }>} The id of the created calendar.
    * @example
    * { result } = await CapacitorCalendar.createCalendar({
    *      title: 'New Calendar',
    *      color: '#1d00fc',
+   *      sourceId: 'local-source-id',
    *  });
    *  console.log(result);   // 'CALENDAR_ID'
    */
   createCalendar(options: {
     title: string;
     color?: string;
+    sourceId?: string;
   }): Promise<{ result: string }>;
 
   /**
@@ -640,4 +647,32 @@ export interface CapacitorCalendarPlugin {
       notes?: string;
     };
   }): Promise<void>;
+
+  /**
+   * Retrieves a list of calendar sources.
+   *
+   * @async
+   * @since 6.6.0
+   * @platform iOS
+   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
+   * calendar sources.
+   * @example
+   * const { result } = await fetchAllCalendarSources();
+   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
+   */
+  fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
+
+  /**
+   * Retrieves a list of reminders sources.
+   *
+   * @async
+   * @since 6.6.0
+   * @platform iOS
+   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
+   * reminders sources.
+   * @example
+   * const { result } = await fetchAllRemindersSources();
+   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
+   */
+  fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }>;
 }

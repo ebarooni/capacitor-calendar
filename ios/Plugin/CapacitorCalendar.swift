@@ -6,7 +6,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
     private var currentCreateEventContinuation: CheckedContinuation<[String], any Error>?
-    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: String]], any Error>?
+    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: Any]], any Error>?
 
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
         self.bridge = bridge
@@ -191,7 +191,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: String]] {
+    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: Any]] {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
@@ -223,17 +223,30 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func listCalendars() -> [[String: String]] {
+    public func listCalendars() -> [[String: Any]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .event)))
     }
 
-    public func getDefaultCalendar() throws -> [String: String]? {
+    public func getDefaultCalendar() throws -> [String: Any]? {
         let defaultCalendar = eventStore.defaultCalendarForNewEvents
         if let defaultCalendar = defaultCalendar {
-            return [
+            var calendarDict: [String: Any] = [
                 "id": defaultCalendar.calendarIdentifier,
-                "title": defaultCalendar.title
+                "title": defaultCalendar.title,
+                "color": hexStringFromColor(color: defaultCalendar.cgColor),
+                "isImmutable": defaultCalendar.isImmutable,
+                "allowsContentModifications": defaultCalendar.allowsContentModifications,
+                "type": defaultCalendar.type.rawValue,
+                "isSubscribed": defaultCalendar.isSubscribed
             ]
+            if let calendarSource = defaultCalendar.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
+            return calendarDict
         } else {
             return nil
         }
@@ -459,7 +472,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func createCalendar(title: String, color: String?) throws -> String {
+    public func createCalendar(title: String, color: String?, sourceId: String?) throws -> String {
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = title
         if let calendarColor = color {
@@ -467,7 +480,15 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         } else {
             newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
         }
-        newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
+        if let calendarSourceId = sourceId {
+            let matchingSource = eventStore.sources.first(where: { $0.sourceIdentifier == calendarSourceId })
+            if let requestedSource = matchingSource {
+                newCalendar.source = requestedSource
+            }
+
+        } else {
+            newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
+        }
 
         do {
             try eventStore.saveCalendar(newCalendar, commit: true)
@@ -519,15 +540,41 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
-        var result: [[String: String]] = []
+    public func fetchAllCalendarSources() throws -> [[String: Any]] {
+        var result: [[String: Any]] = []
+
+        for source in eventStore.sources {
+            let sourceDict: [String: Any] = [
+                "id": source.sourceIdentifier,
+                "title": source.title,
+                "type": source.sourceType.rawValue
+            ]
+            result.append(sourceDict)
+        }
+
+        return result
+    }
+
+    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
+        var result: [[String: Any]] = []
 
         for calendar in calendars {
-            let calendarDict: [String: String] = [
+            var calendarDict: [String: Any] = [
                 "id": calendar.calendarIdentifier,
                 "title": calendar.title,
-                "color": hexStringFromColor(color: calendar.cgColor)
+                "color": hexStringFromColor(color: calendar.cgColor),
+                "isImmutable": calendar.isImmutable,
+                "allowsContentModifications": calendar.allowsContentModifications,
+                "type": calendar.type.rawValue,
+                "isSubscribed": calendar.isSubscribed
             ]
+            if let calendarSource = calendar.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
             result.append(calendarDict)
         }
 

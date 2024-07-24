@@ -371,4 +371,20 @@ export class MethodsListComponent {
       update: update,
     }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
+
+  public fetchAllCalendarSources(): void {
+    void CapacitorCalendar.fetchAllCalendarSources()
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public fetchAllRemindersSources(): void {
+    void CapacitorCalendar.fetchAllRemindersSources()
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
 }

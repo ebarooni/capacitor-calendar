@@ -8,6 +8,7 @@ import type { RemindersList } from "./schemas/interfaces/reminders-list";
 import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { Reminder } from "./schemas/interfaces/reminder";
+import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 
 export class CapacitorCalendarWeb
   extends WebPlugin
@@ -155,6 +156,7 @@ export class CapacitorCalendarWeb
   public createCalendar(_options: {
     title: string;
     color?: string;
+    sourceId?: string;
   }): Promise<{ result: string }> {
     throw this.unimplemented(
       `${this.createCalendar.name} is not implemented on the web`,
@@ -245,6 +247,18 @@ export class CapacitorCalendarWeb
   }): Promise<void> {
     throw this.unimplemented(
       `${this.modifyEvent.name} is not implemented on the web`,
+    );
+  }
+
+  public fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }> {
+    throw this.unimplemented(
+      `${this.fetchAllCalendarSources.name} is not implemented on the web`,
+    );
+  }
+
+  public fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }> {
+    throw this.unimplemented(
+      `${this.fetchAllRemindersSources.name} is not implemented on the web`,
     );
   }
 }

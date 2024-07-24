@@ -140,6 +140,8 @@ permissions can be found below:
 - [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
+- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
+- [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
