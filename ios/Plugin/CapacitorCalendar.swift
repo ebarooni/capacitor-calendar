@@ -459,7 +459,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func createCalendar(title: String, color: String?, source: Int?) throws -> String {
+    public func createCalendar(title: String, color: String?, sourceId: String?) throws -> String {
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = title
         if let calendarColor = color {
@@ -467,8 +467,8 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         } else {
             newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
         }
-        if let calendarSource = source {
-            let matchingSource = eventStore.sources.first(where: { $0.sourceType.rawValue == calendarSource })
+        if let calendarSourceId = sourceId {
+            let matchingSource = eventStore.sources.first(where: { $0.sourceIdentifier == calendarSourceId })
             if let requestedSource = matchingSource {
                 newCalendar.source = requestedSource
             }
