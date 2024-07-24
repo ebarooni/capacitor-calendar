@@ -5,6 +5,7 @@ import { PluginPermission } from "./schemas/enums/plugin-permission";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
 import { EventSpan } from "./schemas/enums/event-span";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
+import { CalendarType } from "./schemas/enums/calendar-type";
 import type { CapacitorCalendarPlugin } from "./definitions";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -33,5 +34,6 @@ export {
   Reminder,
   EventSpan,
   CalendarSourceType,
+  CalendarType,
   CapacitorCalendar,
 };
