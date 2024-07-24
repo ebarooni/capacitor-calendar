@@ -29,6 +29,7 @@
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
+- [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -290,14 +291,14 @@ Deletes events from the calendar given their IDs.
 ### createCalendar(...)
 
 ```typescript
-createCalendar(options: { title: string; color?: string; source?: CalendarSourceType; }) => Promise<{ result: string; }>
+createCalendar(options: { title: string; color?: string; sourceId?: string; }) => Promise<{ result: string; }>
 ```
 
 Creates a calendar
 
-| Param         | Type                                                                                                           | Description                      |
-| ------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| **`options`** | <code>{ title: string; color?: string; source?: <a href="#calendarsourcetype">CalendarSourceType</a>; }</code> | Options for creating a calendar. |
+| Param         | Type                                                               | Description                      |
+| ------------- | ------------------------------------------------------------------ | -------------------------------- |
+| **`options`** | <code>{ title: string; color?: string; sourceId?: string; }</code> | Options for creating a calendar. |
 
 **Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
@@ -453,7 +454,21 @@ Modifies an event given its id and update details.
 fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
 ```
 
-Retrieves a list of calendar sources
+Retrieves a list of calendar sources.
+
+**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+
+**Since:** 6.6.0
+
+---
+
+### fetchAllRemindersSources()
+
+```typescript
+fetchAllRemindersSources() => Promise<{ result: CalendarSource[]; }>
+```
+
+Retrieves a list of reminders sources.
 
 **Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
 
@@ -476,7 +491,7 @@ Represents a calendar object.
 | **`color`**                      | <code>string</code>                                       |
 | **`isImmutable`**                | <code>boolean</code>                                      |
 | **`allowsContentModifications`** | <code>boolean</code>                                      |
-| **`type`**                       | <code>string</code>                                       |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a></code>     |
 | **`isSubscribed`**               | <code>boolean</code>                                      |
 | **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> |
 
@@ -556,6 +571,16 @@ Represents a reminder in a reminders list.
 | **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Represents the permission state for writing calendar.  |
 | **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
 | **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
+
+#### CalendarType
+
+| Members            | Description                                                |
+| ------------------ | ---------------------------------------------------------- |
+| **`LOCAL`**        | This calendar is sync'd from either Mobile Me or tethered. |
+| **`CAL_DAV`**      | This calendar is from a CalDAV server.                     |
+| **`EXCHANGE`**     | This calendar comes from an Exchange server.               |
+| **`SUBSCRIPTION`** | This is a locally subscribed calendar.                     |
+| **`BIRTHDAY`**     | This is the built-in birthday calendar.                    |
 
 #### CalendarSourceType
 

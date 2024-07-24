@@ -141,6 +141,7 @@ permissions can be found below:
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
+- [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
