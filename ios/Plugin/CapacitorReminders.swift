@@ -24,13 +24,26 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
 
-    public func getDefaultRemindersList() throws -> [String: String]? {
+    public func getDefaultRemindersList() throws -> [String: Any]? {
         let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
         if let defaultRemindersList = defaultRemindersList {
-            return [
+            var calendarDict: [String: Any] = [
                 "id": defaultRemindersList.calendarIdentifier,
-                "title": defaultRemindersList.title
+                "title": defaultRemindersList.title,
+                "color": hexStringFromColor(color: defaultRemindersList.cgColor),
+                "isImmutable": defaultRemindersList.isImmutable,
+                "allowsContentModifications": defaultRemindersList.allowsContentModifications,
+                "type": defaultRemindersList.type.rawValue,
+                "isSubscribed": defaultRemindersList.isSubscribed,
             ]
+            if let calendarSource = defaultRemindersList.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
+            return calendarDict
         } else {
             return nil
         }
@@ -63,7 +76,7 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func getRemindersLists() -> [[String: String]] {
+    public func getRemindersLists() -> [[String: Any]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
 
@@ -229,15 +242,26 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
-        var result: [[String: String]] = []
+    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
+        var result: [[String: Any]] = []
 
         for calendar in calendars {
-            let calendarDict: [String: String] = [
+            var calendarDict: [String: Any] = [
                 "id": calendar.calendarIdentifier,
                 "title": calendar.title,
-                "color": hexStringFromColor(color: calendar.cgColor)
+                "color": hexStringFromColor(color: calendar.cgColor),
+                "isImmutable": calendar.isImmutable,
+                "allowsContentModifications": calendar.allowsContentModifications,
+                "type": calendar.type.rawValue,
+                "isSubscribed": calendar.isSubscribed,
             ]
+            if let calendarSource = calendar.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
             result.append(calendarDict)
         }
 
