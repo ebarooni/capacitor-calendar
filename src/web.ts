@@ -255,4 +255,10 @@ export class CapacitorCalendarWeb
       `${this.fetchAllCalendarSources.name} is not implemented on the web`,
     );
   }
+
+  public fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }> {
+    throw this.unimplemented(
+      `${this.fetchAllRemindersSources.name} is not implemented on the web`,
+    );
+  }
 }

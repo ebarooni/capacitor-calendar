@@ -241,6 +241,21 @@ public class CapacitorReminders: NSObject {
             continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
         }
     }
+    
+    public func fetchAllRemindersSources() throws -> [[String: Any]] {
+        var result: [[String: Any]] = []
+
+        for source in eventStore.sources {
+            let sourceDict: [String: Any] = [
+                "id": source.sourceIdentifier,
+                "title": source.title,
+                "type": source.sourceType.rawValue
+            ]
+            result.append(sourceDict)
+        }
+
+        return result
+    }
 
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
         var result: [[String: Any]] = []

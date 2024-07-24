@@ -649,7 +649,7 @@ export interface CapacitorCalendarPlugin {
   }): Promise<void>;
 
   /**
-   * Retrieves a list of calendar sources
+   * Retrieves a list of calendar sources.
    *
    * @async
    * @since 6.6.0
@@ -661,4 +661,18 @@ export interface CapacitorCalendarPlugin {
    * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
    */
   fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
+
+  /**
+   * Retrieves a list of reminders sources.
+   *
+   * @async
+   * @since 6.6.0
+   * @platform iOS
+   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
+   * reminders sources.
+   * @example
+   * const { result } = await fetchAllRemindersSources();
+   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
+   */
+  fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }>;
 }

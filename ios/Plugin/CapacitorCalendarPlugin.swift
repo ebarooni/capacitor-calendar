@@ -578,4 +578,13 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             return
         }
     }
+    
+    @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
+        do {
+            call.resolve(["result": try reminders.fetchAllRemindersSources()])
+        } catch {
+            call.reject("[CapacitorCalendar.\(#function)] Unable to fetch calendar sources")
+            return
+        }
+    }
 }
