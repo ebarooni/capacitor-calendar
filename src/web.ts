@@ -3,7 +3,6 @@ import { CapacitorCalendarPlugin } from "./definitions";
 import { PluginPermission } from "./schemas/enums/plugin-permission";
 import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import { EventSpan } from "./schemas/enums/event-span";
-import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
 import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
@@ -157,7 +156,7 @@ export class CapacitorCalendarWeb
   public createCalendar(_options: {
     title: string;
     color?: string;
-    source?: CalendarSourceType;
+    sourceId?: string;
   }): Promise<{ result: string }> {
     throw this.unimplemented(
       `${this.createCalendar.name} is not implemented on the web`,
