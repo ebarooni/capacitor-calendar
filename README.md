@@ -59,6 +59,9 @@ npx cap sync
 
 #### Capacitor 5
 
+> [!IMPORTANT]  
+> This plugin no longer receives updates for Capacitor v5 and only supports the latest version.
+
 ```bash
 npm install @ebarooni/capacitor-calendar@^5
 npx cap sync
@@ -157,7 +160,7 @@ For detailed explanations, usage examples, and additional information:
 
 ## 💙 Contributions
 
-> [!WARNING]
+> [!NOTE]
 > Thank you for your interest in contributing to the project! At the moment, the focus is on reaching the first major
 > release. Until then, the contributions will not be accepted. This approach allows to set a solid
 > foundation and maintain consistency throughout the development process.
