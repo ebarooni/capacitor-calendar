@@ -1,0 +1,28 @@
+name: Publish Package and Tag
+
+on:
+  push:
+    branches:
+      - capacitor-calendar-114_Tag_the_commit_after_making_a_release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get package version
+        id: pkg
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "::set-output name=version::$VERSION"
+
+      - name: Create tag
+        run: git tag -a v${{ steps.pkg.outputs.version }} -m "Release version ${{ steps.pkg.outputs.version }}"
+
+      - name: Push tag
+        run: git push origin v${{ steps.pkg.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
