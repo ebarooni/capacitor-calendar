@@ -17,7 +17,14 @@ jobs:
         id: pkg
         run: |
           VERSION=$(jq -r '.version' package.json)
-          echo "::set-output name=version::$VERSION"
+          echo "Package version is $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set git config
+        run: |
+          cd $(basename ${{ github.repository }}).git
+          git config user.name ${{ github.event.pusher.name }}
+          git config user.email ${{ github.event.pusher.email }}
 
       - name: Create tag
         run: git tag -a v${{ steps.pkg.outputs.version }} -m "Release version ${{ steps.pkg.outputs.version }}"
