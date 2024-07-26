@@ -1,5 +1,12 @@
 import { Component, NgZone } from '@angular/core';
-import { IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonPickerLegacy } from '@ionic/angular/standalone';
+import {
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonPickerLegacy,
+} from '@ionic/angular/standalone';
 import {
   CalendarChooserDisplayStyle,
   CalendarChooserSelectionStyle,
@@ -19,8 +26,9 @@ import {
   CheckPermissionPickerResult,
   getCheckPermissionPickerButtons,
 } from '../../ion-picker-data/check-permission/check-permission-picker-buttons';
-import { EventsListViewModalComponent } from '../events-list-view-modal/events-list-view-modal.component';
 import { RemindersListViewModalComponent } from '../reminders-list-view-modal/reminders-list-view-modal.component';
+import { EventsActionModalComponent } from '../events-action-modal/events-action-modal.component';
+import { EventUpdate } from '../events-action-modal/event-update';
 
 @Component({
   selector: 'app-methods-list',
@@ -31,7 +39,7 @@ import { RemindersListViewModalComponent } from '../reminders-list-view-modal/re
     IonLabel,
     IonList,
     IonListHeader,
-    EventsListViewModalComponent,
+    EventsActionModalComponent,
     IonPickerLegacy,
     RemindersListViewModalComponent,
   ],
@@ -39,20 +47,28 @@ import { RemindersListViewModalComponent } from '../reminders-list-view-modal/re
 })
 export class MethodsListComponent {
   public readonly calendarChooserPickerColumns = calendarChooserPickerColumns;
-  public readonly calendarChooserPickerButtons = getCalendarChooserPickerButtons((result: CalendarChooserResult) =>
-    this.zone.run(() => this.selectCalendarsWithPrompt(result.selectionStyle.value, result.displayStyle.value))
-  );
+  public readonly calendarChooserPickerButtons =
+    getCalendarChooserPickerButtons((result: CalendarChooserResult) =>
+      this.zone.run(() =>
+        this.selectCalendarsWithPrompt(
+          result.selectionStyle.value,
+          result.displayStyle.value,
+        ),
+      ),
+    );
   public readonly checkPermissionPickerColumns = checkPermissionPickerColumns;
-  public readonly checkPermissionPickerButtons = getCheckPermissionPickerButtons(
-    (result: CheckPermissionPickerResult) => this.zone.run(() => this.checkPermission(result.alias.value))
-  );
-  public readonly requestPermissionPickerButtons = getCheckPermissionPickerButtons(
-    (result: CheckPermissionPickerResult) => this.zone.run(() => this.requestPermission(result.alias.value))
-  );
+  public readonly checkPermissionPickerButtons =
+    getCheckPermissionPickerButtons((result: CheckPermissionPickerResult) =>
+      this.zone.run(() => this.checkPermission(result.alias.value)),
+    );
+  public readonly requestPermissionPickerButtons =
+    getCheckPermissionPickerButtons((result: CheckPermissionPickerResult) =>
+      this.zone.run(() => this.requestPermission(result.alias.value)),
+    );
 
   constructor(
     private readonly storeService: StoreService,
-    private readonly zone: NgZone
+    private readonly zone: NgZone,
   ) {}
 
   public createEventWithPrompt(): void {
@@ -67,16 +83,23 @@ export class MethodsListComponent {
       url: 'https://capacitor-calendar.pages.dev',
       notes: 'A CapacitorJS plugin',
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
   public selectCalendarsWithPrompt(
     selectionStyle: CalendarChooserSelectionStyle,
-    displayStyle: CalendarChooserDisplayStyle
+    displayStyle: CalendarChooserDisplayStyle,
   ): void {
-    CapacitorCalendar.selectCalendarsWithPrompt({ selectionStyle: selectionStyle, displayStyle: displayStyle })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+    CapacitorCalendar.selectCalendarsWithPrompt({
+      selectionStyle: selectionStyle,
+      displayStyle: displayStyle,
+    })
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -100,13 +123,17 @@ export class MethodsListComponent {
 
   public listCalendars(): void {
     CapacitorCalendar.listCalendars()
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
   public getDefaultCalendar(): void {
     CapacitorCalendar.getDefaultCalendar()
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -133,7 +160,9 @@ export class MethodsListComponent {
       url: 'https://capacitor-calendar.pages.dev',
       notes: 'A CapacitorJS plugin',
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -163,13 +192,17 @@ export class MethodsListComponent {
 
   public getDefaultRemindersList(): void {
     CapacitorCalendar.getDefaultRemindersList()
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
   public getRemindersLists(): void {
     CapacitorCalendar.getRemindersLists()
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -188,7 +221,9 @@ export class MethodsListComponent {
         end: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
       },
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -199,7 +234,9 @@ export class MethodsListComponent {
   }
 
   public openReminders(): void {
-    CapacitorCalendar.openReminders().catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+    CapacitorCalendar.openReminders().catch((error) =>
+      this.storeService.dispatchLog(JSON.stringify(error)),
+    );
   }
 
   public listEventsInRange(): void {
@@ -207,15 +244,19 @@ export class MethodsListComponent {
       startDate: Date.now(),
       endDate: Date.now() + 6 * 7 * 24 * 60 * 60 * 1000, // 6 weeks from now
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
-  public deleteEventsById(ids: string[]): void {
+  public deleteEventsById(id: string): void {
     CapacitorCalendar.deleteEventsById({
-      ids: ids,
+      ids: [id],
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -224,7 +265,9 @@ export class MethodsListComponent {
       title: 'Capacitor Calendar',
       color: '#fe48b3',
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -245,7 +288,9 @@ export class MethodsListComponent {
 
   public getRemindersFromLists(): void {
     CapacitorCalendar.getRemindersFromLists()
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
@@ -253,14 +298,18 @@ export class MethodsListComponent {
     CapacitorCalendar.deleteRemindersById({
       ids: ids,
     })
-      .then((response) => this.storeService.dispatchLog(JSON.stringify(response)))
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 
   public requestWriteOnlyCalendarAccess(): void {
     CapacitorCalendar.requestWriteOnlyCalendarAccess()
       .then((response) => {
-        const update: Partial<PluginPermissionsMap> = { [PluginPermission.WRITE_CALENDAR]: response.result };
+        const update: Partial<PluginPermissionsMap> = {
+          [PluginPermission.WRITE_CALENDAR]: response.result,
+        };
         this.storeService.updateState({ permissions: update });
         this.storeService.dispatchLog(JSON.stringify(response));
       })
@@ -270,7 +319,9 @@ export class MethodsListComponent {
   public requestReadOnlyCalendarAccess(): void {
     CapacitorCalendar.requestReadOnlyCalendarAccess()
       .then((response) => {
-        const update: Partial<PluginPermissionsMap> = { [PluginPermission.READ_CALENDAR]: response.result };
+        const update: Partial<PluginPermissionsMap> = {
+          [PluginPermission.READ_CALENDAR]: response.result,
+        };
         this.storeService.updateState({ permissions: update });
         this.storeService.dispatchLog(JSON.stringify(response));
       })
@@ -300,6 +351,40 @@ export class MethodsListComponent {
         this.storeService.updateState({ permissions: update });
         this.storeService.dispatchLog(JSON.stringify(response));
       })
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public modifyEventWithPrompt(id: string, update: EventUpdate): void {
+    void CapacitorCalendar.modifyEventWithPrompt({
+      id: id,
+      update: update,
+    })
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public modifyEvent(id: string, update: EventUpdate): void {
+    void CapacitorCalendar.modifyEvent({
+      id: id,
+      update: update,
+    }).catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public fetchAllCalendarSources(): void {
+    void CapacitorCalendar.fetchAllCalendarSources()
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
+      .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
+  }
+
+  public fetchAllRemindersSources(): void {
+    void CapacitorCalendar.fetchAllRemindersSources()
+      .then((response) =>
+        this.storeService.dispatchLog(JSON.stringify(response)),
+      )
       .catch((error) => this.storeService.dispatchLog(JSON.stringify(error)));
   }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 public struct EventCreationParameters {
-    public var title: String
+    public var title: String?
     public var calendarId: String?
     public var location: String?
     public var startDate: Double?

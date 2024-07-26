@@ -6,7 +6,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
     private var currentCreateEventContinuation: CheckedContinuation<[String], any Error>?
-    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: String]], any Error>?
+    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: Any]], any Error>?
 
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
         self.bridge = bridge
@@ -66,7 +66,132 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: String]] {
+    public func modifyEventWithPrompt(id: String, update: EventCreationParameters? = nil) async throws -> [String] {
+        return try await withCheckedThrowingContinuation { continuation in
+            guard let viewController = bridge?.viewController else {
+                continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
+                return
+            }
+
+            guard let event = eventStore.event(withIdentifier: id) else {
+                continuation.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
+                return
+            }
+
+            if update != nil {
+                if (update?.title) != nil {
+                    event.title = update?.title
+                }
+                if let calendarId = update?.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
+                    event.calendar = calendar
+                }
+                if update?.location != nil {
+                    event.location = update?.location
+                }
+                if let startDate = update?.startDate {
+                    event.startDate = Date(timeIntervalSince1970: startDate / 1000)
+                }
+                if let endDate = update?.endDate {
+                    event.endDate = Date(timeIntervalSince1970: endDate / 1000)
+                }
+                if let isAllDay = update?.isAllDay {
+                    event.isAllDay = isAllDay
+                }
+                if let notes = update?.notes {
+                    event.notes = notes
+                }
+                if let urlString = update?.url, let url = URL(string: urlString) {
+                    event.url = url
+                }
+                if let alertOffsetInMinutesSingle = update?.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
+                    if event.hasAlarms {
+                        for alarm in event.alarms! {
+                            event.removeAlarm(alarm)
+                        }
+                    }
+                    event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
+                } else if let alertOffsetInMinutesMultiple = update?.alertOffsetInMinutesMultiple {
+                    if event.hasAlarms {
+                        for alarm in event.alarms! {
+                            event.removeAlarm(alarm)
+                        }
+                    }
+                    for alert in alertOffsetInMinutesMultiple {
+                        if alert >= 0 {
+                            event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
+                        }
+                    }
+                }
+            }
+
+            Task { @MainActor in
+                let eventEditViewController = EKEventEditViewController()
+                eventEditViewController.event = event
+                eventEditViewController.eventStore = eventStore
+                eventEditViewController.editViewDelegate = self
+                currentCreateEventContinuation = continuation
+                viewController.present(eventEditViewController, animated: true, completion: nil)
+            }
+        }
+    }
+
+    public func modifyEvent(id: String, span: EKSpan, update: EventCreationParameters) throws {
+        guard let event = eventStore.event(withIdentifier: id) else {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+
+        if (update.title) != nil {
+            event.title = update.title
+        }
+        if let calendarId = update.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
+            event.calendar = calendar
+        }
+        if update.location != nil {
+            event.location = update.location
+        }
+        if let startDate = update.startDate {
+            event.startDate = Date(timeIntervalSince1970: startDate / 1000)
+        }
+        if let endDate = update.endDate {
+            event.endDate = Date(timeIntervalSince1970: endDate / 1000)
+        }
+        if let isAllDay = update.isAllDay {
+            event.isAllDay = isAllDay
+        }
+        if let notes = update.notes {
+            event.notes = notes
+        }
+        if let urlString = update.url, let url = URL(string: urlString) {
+            event.url = url
+        }
+        if let alertOffsetInMinutesSingle = update.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
+            if event.hasAlarms {
+                for alarm in event.alarms! {
+                    event.removeAlarm(alarm)
+                }
+            }
+            event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
+        } else if let alertOffsetInMinutesMultiple = update.alertOffsetInMinutesMultiple {
+            if event.hasAlarms {
+                for alarm in event.alarms! {
+                    event.removeAlarm(alarm)
+                }
+            }
+            for alert in alertOffsetInMinutesMultiple {
+                if alert >= 0 {
+                    event.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
+                }
+            }
+        }
+
+        do {
+            try eventStore.save(event, span: span)
+        } catch {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+    }
+
+    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: Any]] {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
                 continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
@@ -98,17 +223,30 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func listCalendars() -> [[String: String]] {
+    public func listCalendars() -> [[String: Any]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .event)))
     }
 
-    public func getDefaultCalendar() throws -> [String: String]? {
+    public func getDefaultCalendar() throws -> [String: Any]? {
         let defaultCalendar = eventStore.defaultCalendarForNewEvents
         if let defaultCalendar = defaultCalendar {
-            return [
+            var calendarDict: [String: Any] = [
                 "id": defaultCalendar.calendarIdentifier,
-                "title": defaultCalendar.title
+                "title": defaultCalendar.title,
+                "color": hexStringFromColor(color: defaultCalendar.cgColor),
+                "isImmutable": defaultCalendar.isImmutable,
+                "allowsContentModifications": defaultCalendar.allowsContentModifications,
+                "type": defaultCalendar.type.rawValue,
+                "isSubscribed": defaultCalendar.isSubscribed
             ]
+            if let calendarSource = defaultCalendar.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
+            return calendarDict
         } else {
             return nil
         }
@@ -334,7 +472,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func createCalendar(title: String, color: String?) throws -> String {
+    public func createCalendar(title: String, color: String?, sourceId: String?) throws -> String {
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = title
         if let calendarColor = color {
@@ -342,7 +480,15 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         } else {
             newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
         }
-        newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
+        if let calendarSourceId = sourceId {
+            let matchingSource = eventStore.sources.first(where: { $0.sourceIdentifier == calendarSourceId })
+            if let requestedSource = matchingSource {
+                newCalendar.source = requestedSource
+            }
+
+        } else {
+            newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
+        }
 
         do {
             try eventStore.saveCalendar(newCalendar, commit: true)
@@ -394,14 +540,41 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: String]] {
-        var result: [[String: String]] = []
+    public func fetchAllCalendarSources() throws -> [[String: Any]] {
+        var result: [[String: Any]] = []
+
+        for source in eventStore.sources {
+            let sourceDict: [String: Any] = [
+                "id": source.sourceIdentifier,
+                "title": source.title,
+                "type": source.sourceType.rawValue
+            ]
+            result.append(sourceDict)
+        }
+
+        return result
+    }
+
+    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
+        var result: [[String: Any]] = []
 
         for calendar in calendars {
-            let calendarDict: [String: String] = [
+            var calendarDict: [String: Any] = [
                 "id": calendar.calendarIdentifier,
-                "title": calendar.title
+                "title": calendar.title,
+                "color": hexStringFromColor(color: calendar.cgColor),
+                "isImmutable": calendar.isImmutable,
+                "allowsContentModifications": calendar.allowsContentModifications,
+                "type": calendar.type.rawValue,
+                "isSubscribed": calendar.isSubscribed
             ]
+            if let calendarSource = calendar.source {
+                calendarDict["source"] = [
+                    "type": calendarSource.sourceType.rawValue,
+                    "id": calendarSource.sourceIdentifier,
+                    "title": calendarSource.title
+                ]
+            }
             result.append(calendarDict)
         }
 
@@ -425,18 +598,38 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 dict["description"] = notes
             }
             if let startDate = event.startDate {
-                dict["startDate"] = startDate.timeIntervalSince1970
+                dict["startDate"] = startDate.timeIntervalSince1970 * 1000
             }
             if let endDate = event.endDate {
-                dict["endDate"] = endDate.timeIntervalSince1970
+                dict["endDate"] = endDate.timeIntervalSince1970 * 1000
             }
-            if let timezone = event.timeZone, (timezone.abbreviation()?.isEmpty) == nil {
-                dict["eventTimezone"] = timezone.abbreviation()
-                dict["eventEndTimezone"] = timezone.abbreviation()
+            if let timezone = event.timeZone, let region = event.timeZone?.identifier, let abbreviation = timezone.abbreviation() {
+                dict["eventTimezone"] = ["region": region, "abbreviation": abbreviation]
+                dict["eventEndTimezone"] = ["region": region, "abbreviation": abbreviation]
+            }
+            if let color = event.calendar.cgColor {
+                dict["eventColor"] = hexStringFromColor(color: color)
+            }
+            if let url = event.url {
+                dict["url"] = url
             }
             dict["isAllDay"] = event.isAllDay
             dict["calendarId"] = event.calendar.calendarIdentifier
             return dict
         }
+    }
+
+    private func hexStringFromColor(color: CGColor) -> String {
+        guard let components = color.components, components.count >= 3 else {
+            return "#000000"
+        }
+
+        let red = Float(components[0])
+        let green = Float(components[1])
+        let blue = Float(components[2])
+        return String(format: "#%02lX%02lX%02lX",
+                      lroundf(red * 255),
+                      lroundf(green * 255),
+                      lroundf(blue * 255))
     }
 }

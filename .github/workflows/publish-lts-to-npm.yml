@@ -4,7 +4,7 @@ on:
     branches:
       - lts/*
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -18,8 +18,8 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
       - run: npm publish --tag latest-5 --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_CICD }}

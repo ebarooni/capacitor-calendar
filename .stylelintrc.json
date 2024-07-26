@@ -1,11 +1,12 @@
 {
   "ignoreFiles": [
+    "example/dist/**",
     "example/(ios|android)/**/*.(css|scss)"
   ],
   "overrides": [
     {
       "files": ["example/**/*.(css|scss)"],
-      "extends": ["stylelint-prettier/recommended"]
+      "extends": ["@ebarooni/stylelint-config"]
     }
   ]
 }

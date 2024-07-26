@@ -12,20 +12,29 @@ import { App } from '@capacitor/app';
 })
 export class AppComponent {
   constructor(private readonly storeService: StoreService) {
-    fromEvent<MediaQueryList>(window.matchMedia('(prefers-color-scheme: dark)'), 'change')
+    fromEvent<MediaQueryList>(
+      window.matchMedia('(prefers-color-scheme: dark)'),
+      'change',
+    )
       .pipe(map((event) => event.matches))
       .subscribe((isDarkMode) =>
         storeService.updateState({
           isDarkMode: isDarkMode,
-        })
+        }),
       );
 
     this.storeService.selectIsDarkMode$
-      .pipe(tap((isDarkTheme) => document.body.classList.toggle('dark', isDarkTheme)))
+      .pipe(
+        tap((isDarkTheme) =>
+          document.body.classList.toggle('dark', isDarkTheme),
+        ),
+      )
       .subscribe();
 
     App.getInfo()
-      .then(({ version }) => this.storeService.updateState({ appVersion: version }))
+      .then(({ version }) =>
+        this.storeService.updateState({ appVersion: version }),
+      )
       .catch((reason) => this.storeService.dispatchLog(JSON.stringify(reason)));
   }
 }
