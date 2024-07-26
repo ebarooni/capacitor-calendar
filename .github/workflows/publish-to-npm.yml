@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -23,6 +24,7 @@ jobs:
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_CICD }}
+        continue-on-error: true
 
       - name: Get package version
         id: pkg
