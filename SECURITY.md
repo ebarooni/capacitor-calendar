@@ -1,6 +1,6 @@
 ## Capacitor Compatibility
 
-The plugin will always support the previous and the latest major release of Capacitor.
+The compatibility matrix of the plugin with Capacitor is as follows:
 
 | Plugin Version | Capacitor Version |
 | :------------: | :---------------: |
