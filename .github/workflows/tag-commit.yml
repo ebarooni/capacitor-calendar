@@ -22,7 +22,6 @@ jobs:
 
       - name: Set git config
         run: |
-          cd $(basename ${{ github.repository }}).git
           git config user.name ${{ github.event.pusher.name }}
           git config user.email ${{ github.event.pusher.email }}
 
