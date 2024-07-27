@@ -15,7 +15,7 @@ jobs:
         run: npm ci
 
       - name: Generate docs
-        run: npx typedoc:index
+        run: npm run typedoc:index
 
       - name: Update pages artifact
         uses: actions/upload-pages-artifact@v3
