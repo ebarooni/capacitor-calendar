@@ -18,7 +18,7 @@ jobs:
         run: npx typedoc:index
 
       - name: Update pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           name: docs
           path: typedoc-output/
