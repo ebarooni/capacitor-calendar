@@ -36,7 +36,7 @@ jobs:
       pages: write
 
     environment:
-      name: github-pages
+      name: docs
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
