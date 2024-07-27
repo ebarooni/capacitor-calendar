@@ -59,10 +59,11 @@
     "fmt:md": "npx prettier --write \"**/*.md\"",
     "fmt:kt": "npm run ktlint -- -F",
     "fmt": "npm run fmt:ts-html && npm run fmt:css && npm run fmt:swift && npm run fmt:md && npm run fmt:kt",
-    "docgen:api": "docgen --api CapacitorCalendarPlugin --output-readme documentation.md --output-json dist/docs.json",
+    "docgen:api-reference": "docgen --api CapacitorCalendarPlugin --output-readme docs/api-reference.md --output-json dist/docs.json",
     "docgen:readme": "docgen --api CapacitorCalendarPlugin --output-readme README.md",
+    "typedoc:index": "npx typedoc",
     "clean": "rm -rf ./dist",
-    "build": "npm run clean && npm run docgen:api && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
+    "build": "npm run clean && npm run docgen:api-reference && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
     "prepublishOnly": "npm run build",
     "serve": "cd example && npx ng serve"
   },

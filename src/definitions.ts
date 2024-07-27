@@ -654,6 +654,11 @@ export interface CapacitorCalendarPlugin {
    * @async
    * @since 6.6.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
+   * </ul>
    * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
    * calendar sources.
    * @example
@@ -668,6 +673,11 @@ export interface CapacitorCalendarPlugin {
    * @async
    * @since 6.6.0
    * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
+   * </ul>
    * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
    * reminders sources.
    * @example

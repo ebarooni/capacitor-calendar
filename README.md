@@ -107,11 +107,11 @@ The video is just for showing the functionality, otherwise the `createEventWithP
 
 ## Permissions
 
-To be able to use the plugin, you will need to add the required permissions to your app. The required platform-specific
-permissions can be found below:
+To be able to use the plugin, you will need to add the required usage descriptions to your app. The required platform-specific
+usage descriptions can be found below:
 
-- [iOS](./ios/PERMISSIONS.md)
-- [Android](./android/PERMISSIONS.md)
+- [iOS](./docs/usage-descriptions/ios.md)
+- [Android](./docs/usage-descriptions/android.md)
 
 ## 📋 API
 
