@@ -2,7 +2,7 @@ name: Deploy docs to GitHub Pages
 on:
   push:
     branches:
-      - capacitor-calendar-120_Deploy_documentation_to_github_pages
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
