@@ -343,7 +343,7 @@ public class CapacitorReminders: NSObject {
                 dict["title"] = title
             }
             if let url = event.url {
-                dict["url"] = url
+                dict["url"] = url.absoluteString
             }
             if let notes = event.notes {
                 dict["notes"] = notes

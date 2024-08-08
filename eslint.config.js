@@ -13,6 +13,12 @@ module.exports = tseslint.config(
     },
   },
   {
-    ignores: ["**/dist", "**/build", "**/ios", "**/android"],
+    ignores: [
+      "**/dist",
+      "**/build",
+      "**/ios",
+      "**/android",
+      "typedoc-output/**",
+    ],
   },
 );
