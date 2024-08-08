@@ -611,7 +611,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 dict["eventColor"] = hexStringFromColor(color: color)
             }
             if let url = event.url {
-                dict["url"] = url
+                dict["url"] = url.absoluteString
             }
             dict["isAllDay"] = event.isAllDay
             dict["calendarId"] = event.calendar.calendarIdentifier

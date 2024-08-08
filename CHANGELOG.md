@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.6.1] – 2024-08-08
+
+### Fixed
+
+- Serialization error for calendar events on iOS
+
 ## [6.6.0] – 2024-07-26
 
 ### Fixed

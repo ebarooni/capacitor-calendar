@@ -428,7 +428,7 @@ Opens a native prompt to modify an event given its id.
 
 **Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 
-**Since:** 5.6.0
+**Since:** 6.6.0
 
 ---
 
@@ -444,7 +444,7 @@ Modifies an event given its id and update details.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
 
-**Since:** 5.6.0
+**Since:** 6.6.0
 
 ---
 
