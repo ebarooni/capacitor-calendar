@@ -74,7 +74,7 @@
     "@capacitor/core": "^6.0.0",
     "@capacitor/docgen": "^0.0.18",
     "@capacitor/ios": "^6.0.0",
-    "@ebarooni/eslint-config": "^1.0.0",
+    "@ebarooni/eslint-config": "^1.0.1",
     "@ebarooni/prettier-config": "^1.1.0",
     "@ebarooni/stylelint-config": "^1.1.0",
     "@ebarooni/swiftlint-config": "^1.1.0",
@@ -93,7 +93,7 @@
     "swiftlint": "^1.0.2",
     "typedoc": "^0.26.5",
     "typescript": "~5.4.2",
-    "typescript-eslint": "^8.0.0-alpha.20"
+    "typescript-eslint": "^8.0.1"
   },
   "peerDependencies": {
     "@capacitor/core": "^6.0.0"
