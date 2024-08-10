@@ -257,6 +257,50 @@ public class CapacitorReminders: NSObject {
         return result
     }
 
+    public func modifyReminder(id: String, update: ReminderCreationParameters) throws {
+        guard let reminder = eventStore.calendarItem(withIdentifier: id) as? EKReminder else {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+        if (update.title) != nil {
+            reminder.title = update.title
+        }
+        if let listId = update.listId, let list = eventStore.calendar(withIdentifier: listId) {
+            reminder.calendar = list
+        }
+        if update.priority != nil {
+            func setPriority() {
+                guard let priority = update.priority else { return }
+                reminder.priority = max(0, min(9, priority))
+            }
+            setPriority()
+        }
+        if let isCompleted = update.isCompleted {
+            reminder.isCompleted = isCompleted
+        }
+        setReminderDateComponents(
+            reminder: reminder,
+            startDate: update.startDate,
+            dueDate: update.dueDate,
+            completionDate: update.completionDate
+        )
+        if let notes = update.notes {
+            reminder.notes = notes
+        }
+        if let url = update.url {
+            reminder.url = URL(string: url)
+        }
+        if let location = update.location {
+            reminder.location = location
+        }
+        setReminderFrequency(reminder: reminder, recurrence: update.recurrence)
+
+        do {
+            try eventStore.save(reminder, commit: true)
+        } catch {
+            throw CapacitorCalendarPluginError.undefinedEvent
+        }
+    }
+
     private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
         var result: [[String: Any]] = []
 
