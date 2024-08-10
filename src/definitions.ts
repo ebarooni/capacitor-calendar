@@ -685,4 +685,46 @@ export interface CapacitorCalendarPlugin {
    * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
    */
   fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }>;
+
+  /**
+   * Modifies a reminder given its id and update details.
+   *
+   * @async
+   * @since 6.7.0
+   * @platform iOS
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeReminders, readReminders</li>
+   * </ul>
+   * @param {Object} options The options for updating a reminder.
+   * @param {string} options.id The id of the reminder to be modified.
+   * @param {Object} options.update The set of reminder properties to be modified.
+   * @returns {Promise<void>} A promise that resolves when the update operation is complete.
+   * @throws {Error} throws an error if an event for the given id is not found.
+   * @example
+   * const { result } = await CapacitorCalendar.reminder({
+   *   id: 'REMINDER_ID_ONE',
+   *   update: {
+   *     title: 'newTitle',
+   *     isCompleted: true
+   *   },
+   * });
+   */
+  modifyReminder(options: {
+    id: string;
+    update: {
+      title?: string;
+      listId?: string;
+      priority?: number;
+      isCompleted?: boolean;
+      startDate?: number;
+      dueDate?: number;
+      completionDate?: number;
+      notes?: string;
+      url?: string;
+      location?: string;
+      recurrence?: ReminderRecurrenceRule;
+    };
+  }): Promise<void>;
 }
