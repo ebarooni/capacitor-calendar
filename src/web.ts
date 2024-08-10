@@ -261,4 +261,25 @@ export class CapacitorCalendarWeb
       `${this.fetchAllRemindersSources.name} is not implemented on the web`,
     );
   }
+
+  modifyReminder(_options: {
+    id: string;
+    update: {
+      title?: string;
+      listId?: string;
+      priority?: number;
+      isCompleted?: boolean;
+      startDate?: number;
+      dueDate?: number;
+      completionDate?: number;
+      notes?: string;
+      url?: string;
+      location?: string;
+      recurrence?: ReminderRecurrenceRule;
+    };
+  }): Promise<void> {
+    throw this.unimplemented(
+      `${this.modifyReminder.name} is not implemented on the web`,
+    );
+  }
 }

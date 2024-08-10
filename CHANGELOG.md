@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
+## [6.7.0] - 2024-08-10
+
+### Fixed
+
+- Return type of `modifyEvent` on iOS
+
+### Added
+
+- Implemented modifying reminders on iOS
+
 ## [6.6.1] – 2024-08-08
 
 ### Fixed
