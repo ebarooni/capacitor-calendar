@@ -8,11 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.WRITE_REPO }}
 
       - name: Install dependencies
         run: npm ci
@@ -43,5 +44,3 @@ jobs:
 
       - name: Push tag
         run: git push origin v${{ steps.pkg.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
