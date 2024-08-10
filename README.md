@@ -145,6 +145,7 @@ usage descriptions can be found below:
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
+- [`modifyReminder(...)`](#modifyreminder)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)

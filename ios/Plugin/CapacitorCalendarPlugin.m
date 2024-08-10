@@ -32,4 +32,5 @@ CAP_PLUGIN(CapacitorCalendarPlugin, "CapacitorCalendar",
            CAP_PLUGIN_METHOD(modifyEvent, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(fetchAllCalendarSources, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(fetchAllRemindersSources, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(modifyReminder, CAPPluginReturnNone);
 )

@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ReminderCreationParameters {
-    let title: String
+    let title: String?
     let listId: String?
     let priority: Int?
     let isCompleted: Bool?

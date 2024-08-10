@@ -30,6 +30,7 @@
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
+- [`modifyReminder(...)`](#modifyreminder)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -473,6 +474,22 @@ Retrieves a list of reminders sources.
 **Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
 
 **Since:** 6.6.0
+
+---
+
+### modifyReminder(...)
+
+```typescript
+modifyReminder(options: { id: string; update: { title?: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }; }) => Promise<void>
+```
+
+Modifies a reminder given its id and update details.
+
+| Param         | Type                                                                                                                                                                                                                                                                                                            | Description                          |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **`options`** | <code>{ id: string; update: { title?: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }; }</code> | The options for updating a reminder. |
+
+**Since:** 6.7.0
 
 ---
 
