@@ -108,15 +108,15 @@ Requests authorization to all the required permissions for the plugin, if they h
 ### createEventWithPrompt(...)
 
 ```typescript
-createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }) => Promise<{ result: string[]; }>
+createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; eventIdOptional?: boolean; }) => Promise<{ result: string[]; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
 On iOS opens a native sheet and on Android opens an intent.
 
-| Param         | Type                                                                                                                                                                                                       | Description                     |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }</code> | Options for creating the event. |
+| Param         | Type                                                                                                                                                                                                                                  | Description                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; eventIdOptional?: boolean; }</code> | Options for creating the event. |
 
 **Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 

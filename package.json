@@ -1,6 +1,6 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "6.7.0",
+  "version": "6.7.1",
   "description": "The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -65,7 +65,10 @@
     "clean": "rm -rf ./dist",
     "build": "npm run clean && npm run docgen:api-reference && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
     "prepublishOnly": "npm run build",
-    "serve": "cd example && npx ng serve"
+    "serve": "cd example && npx ng serve",
+    "version:patch": "npm version patch --git-tag-version false",
+    "version:minor": "npm version minor --git-tag-version false",
+    "version:major": "npm version major --git-tag-version false"
   },
   "devDependencies": {
     "@angular/cli": "^17.1.2",
