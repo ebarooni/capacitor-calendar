@@ -92,7 +92,7 @@ export interface CapacitorCalendarPlugin {
    * The parameter is not supported on Android. Negative values are ignored. (Optional)
    * @param {string} [options.url] The URL of the event. (Optional)
    * @param {string} [options.notes] The notes of the event. (Optional)
-   * @param {boolean} [options.skipReadPermission] Only for Android. If set to true,
+   * @param {boolean} [options.eventIdOptional] Only for Android. If set to true,
    * READ_CALENDAR permission is not needed to call the method. However, the method will not
    * return the id of the generated event and instead, the returned array will be empty (even if an event is successfully created).
    * The default value is false. This property is ignored on iOS as it is not relevant. (Optional)
@@ -125,7 +125,7 @@ export interface CapacitorCalendarPlugin {
     alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
-    skipReadPermission?: boolean;
+    eventIdOptional?: boolean;
   }): Promise<{ result: string[] }>;
 
   /**

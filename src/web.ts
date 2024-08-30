@@ -52,7 +52,7 @@ export class CapacitorCalendarWeb
     alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
-    skipReadPermission?: boolean;
+    eventIdOptional?: boolean;
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(
       `${this.createEventWithPrompt.name} is not implemented on the web`,
