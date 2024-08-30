@@ -42,12 +42,11 @@ import com.getcapacitor.annotation.PermissionCallback
 )
 class CapacitorCalendarPlugin : Plugin() {
     private var implementation = CapacitorCalendar()
+    private var eventIdOptional = false
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
-
             val title = call.getString("title", "")
             val calendarId = call.getString("calendarId")
             val location = call.getString("location")
@@ -56,6 +55,9 @@ class CapacitorCalendarPlugin : Plugin() {
             val isAllDay = call.getBoolean("isAllDay", false)
             val url = call.getString("url")
             val notes = call.getString("notes")
+            eventIdOptional = call.getBoolean("eventIdOptional", false) ?: false
+
+            if (!eventIdOptional) implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
 
             val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
 
@@ -87,10 +89,11 @@ class CapacitorCalendarPlugin : Plugin() {
             throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
         }
 
-        val newEventIds = implementation.getNewEventIds(implementation.fetchCalendarEventIDs(context))
         val newIdsArray = JSArray()
-        newEventIds.forEach { id -> newIdsArray.put(id.toString()) }
-
+        if (!eventIdOptional) {
+            val newEventIds = implementation.getNewEventIds(implementation.fetchCalendarEventIDs(context))
+            newEventIds.forEach { id -> newIdsArray.put(id.toString()) }
+        }
         val ret = JSObject()
         ret.put("result", newIdsArray)
         call.resolve(ret)
