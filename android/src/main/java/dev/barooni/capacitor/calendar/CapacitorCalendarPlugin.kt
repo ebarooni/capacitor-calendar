@@ -15,6 +15,8 @@ import com.getcapacitor.annotation.ActivityCallback
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
+import dev.barooni.capacitor.calendar.model.CalendarEvent
+import dev.barooni.capacitor.calendar.model.EventReminder
 
 @CapacitorPlugin(
     name = "CapacitorCalendar",
@@ -47,27 +49,13 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            val title = call.getString("title", "")
-            val calendarId = call.getString("calendarId")
-            val location = call.getString("location")
-            val startDate = call.getLong("startDate")
-            val endDate = call.getLong("endDate")
-            val isAllDay = call.getBoolean("isAllDay", false)
-            val url = call.getString("url")
-            val notes = call.getString("notes")
+            val calendarEvent = CalendarEvent.fromPluginCall(call)
             eventIdOptional = call.getBoolean("eventIdOptional", false) ?: false
 
-            if (!eventIdOptional) implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
+            if (!eventIdOptional) implementation.eventIdsArray =
+                implementation.fetchCalendarEventIDs(context)
 
-            val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
-
-            intent.putExtra(CalendarContract.Events.TITLE, title)
-            calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
-            location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-            startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
-            endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
-            isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
+            val intent = createEventIntent(calendarEvent)
 
             return startActivityForResult(
                 call,
@@ -75,9 +63,58 @@ class CapacitorCalendarPlugin : Plugin() {
                 "openCalendarIntentActivityCallback",
             )
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
+            call.reject(
+                "",
+                "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event",
+                error
+            )
             return
         }
+    }
+
+    private fun createEventIntent(calendarEvent: CalendarEvent): Intent {
+        val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
+
+        intent.putExtra(CalendarContract.Events.TITLE, calendarEvent.title)
+
+        calendarEvent.calendarId?.let {
+            intent.putExtra(
+                CalendarContract.Events.CALENDAR_ID, it
+            )
+        }
+        calendarEvent.location?.let {
+            intent.putExtra(
+                CalendarContract.Events.EVENT_LOCATION, it
+            )
+        }
+        calendarEvent.startMillis.let {
+            intent.putExtra(
+                CalendarContract.EXTRA_EVENT_BEGIN_TIME, it
+            )
+        }
+        calendarEvent.endMillis.let {
+            intent.putExtra(
+                CalendarContract.EXTRA_EVENT_END_TIME, it
+            )
+        }
+        calendarEvent.isAllDay?.let {
+            intent.putExtra(
+                CalendarContract.EXTRA_EVENT_ALL_DAY, it
+            )
+        }
+        calendarEvent.recurrenceRule?.let {
+            intent.putExtra(
+                CalendarContract.Events.RRULE, it.toString()
+            )
+        }
+
+        intent.putExtra(
+            CalendarContract.Events.DESCRIPTION,
+            listOfNotNull(
+                calendarEvent.notes,
+                calendarEvent.url?.let { "URL: $it" }).joinToString("\n")
+        )
+        return intent
     }
 
     @ActivityCallback
@@ -102,13 +139,13 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun modifyEventWithPrompt(call: PluginCall) {
         try {
-            val stringId =
-                call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEventWithPrompt.name}] Event ID not defined")
+            val stringId = call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEventWithPrompt.name}] Event ID not defined")
             val update = call.getObject("update")
+
+            val calendarEvent = CalendarEvent.fromJSObject(update)
+
             val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, stringId.toLong())
-            val intent =
-                Intent(Intent.ACTION_EDIT)
-                    .setData(uri)
+            val intent = Intent(Intent.ACTION_EDIT).setData(uri)
 
             if (update != null) {
                 val title = update.getString("title")
@@ -158,7 +195,10 @@ class CapacitorCalendarPlugin : Plugin() {
         try {
             val stringId = call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event ID not defined")
             val update = call.getObject("update") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Update not provided")
-            val updated = implementation.modifyEvent(context, stringId.toLong(), update)
+
+            val newEvent = CalendarEvent.fromJSObject(update)
+
+            val updated = implementation.modifyEvent(context, stringId.toLong(), newEvent)
             if (updated) {
                 call.resolve()
             } else {
@@ -350,40 +390,25 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun createEvent(call: PluginCall) {
         try {
-            val title =
-                call.getString("title")
-                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
-            val calendarId = call.getString("calendarId")
-            val location = call.getString("location")
-            val startDate = call.getLong("startDate")
-            val endDate = call.getLong("endDate")
-            val isAllDay = call.getBoolean("isAllDay", false)
-            val alertOffsetInMinutesSingle = call.getFloat("alertOffsetInMinutes")
-            val alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes")
-            val url = call.getString("url")
-            val notes = call.getString("notes")
+            val alertOffsetInMinutes: Any? =
+                call.getFloat("alertOffsetInMinutes") ?: call.getArray("alertOffsetInMinutes")
 
-            val eventUri =
-                implementation.createEvent(
-                    context,
-                    title,
-                    calendarId,
-                    location,
-                    startDate,
-                    endDate,
-                    isAllDay,
-                    alertOffsetInMinutesSingle,
-                    alertOffsetInMinutesMultiple,
-                    url,
-                    notes,
-                )
+            val eventUri = implementation.createEvent(
+                context,
+                CalendarEvent.fromPluginCall(call),
+                EventReminder.from(alertOffsetInMinutes)
+            )
 
-            val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
+            val id = eventUri.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
             val ret = JSObject()
             ret.put("result", id)
             call.resolve(ret)
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::createEvent.name}] Unable to create event")
+            call.reject(
+                "",
+                "[CapacitorCalendar.${::createEvent.name}] Unable to create event",
+                error
+            )
             return
         }
     }
@@ -447,6 +472,24 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
+        }
+    }
+    
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    fun deleteEventById(call: PluginCall) {
+        try {
+            val id = call.getString("id")
+                ?: throw Exception("[CapacitorCalendar.${::deleteEventById.name}] Event ids were not provided")
+
+            if (implementation.deleteEventById(context, id)) {
+                call.resolve(JSObject().apply { 
+                    put("result", id)
+                })
+            }
+            
+            throw Exception("Event was not deleted")
+        } catch (error: Exception) {
+            call.reject("", "[CapacitorCalendar.${::deleteEventById.name}] Could not delete event", error)
         }
     }
 

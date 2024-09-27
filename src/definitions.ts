@@ -6,7 +6,7 @@ import type { PermissionState } from "@capacitor/core";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
 import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
-import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import type { RecurrenceRule } from "./schemas/interfaces/recurrence-rule";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
@@ -126,6 +126,7 @@ export interface CapacitorCalendarPlugin {
     url?: string;
     notes?: string;
     eventIdOptional?: boolean;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string[] }>;
 
   /**
@@ -238,6 +239,7 @@ export interface CapacitorCalendarPlugin {
     alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string }>;
 
   /**
@@ -324,7 +326,7 @@ export interface CapacitorCalendarPlugin {
     notes?: string;
     url?: string;
     location?: string;
-    recurrence?: ReminderRecurrenceRule;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string }>;
 
   /**
@@ -381,6 +383,8 @@ export interface CapacitorCalendarPlugin {
 
   /**
    * Deletes events from the calendar given their IDs.
+   * If the event is recurring it will automatically delete this and future events.
+   * To modify this behaviour consider using the method "deleteEventById".
    *
    * @async
    * @since 0.11.0
@@ -404,8 +408,31 @@ export interface CapacitorCalendarPlugin {
    * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
    */
   deleteEventsById(options: {
-    ids: string[];
+    ids: string[]
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
+
+  /**
+   * Deletes an even from the calendar by their ID.
+   *
+   * @async
+   * @since TODO: Add version number
+   * @platform iOS, Android
+   * @permissions
+   * <h3>Runtime Permissions:</h3>
+   * <ul>
+   *   <li><strong>iOS:</strong> writeCalendar</li>
+   *   <li><strong>Android:</strong> writeCalendar</li>
+   * </ul>
+   * @param {object} options Options for defining event ID and span.
+   * @param {number} options.ids The ID of the event that should be deleted.
+   * @returns {Promise<{ result: string }>}
+   * A promise that resolves to an object with one property:
+   *  - result: string - The ID of the deleted event.
+   * @example
+   * const { result } = await CapacitorCalendar.deleteEventsById("ID_1")
+   * console.log(result.deleted)  // ['ID_1']
+   */
+  deleteEventById(options: {id: string, span?: EventSpan}): Promise<{ result: string }>;
 
   /**
    * Creates a calendar
@@ -603,6 +630,7 @@ export interface CapacitorCalendarPlugin {
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<{ result: string[] }>;
 
@@ -621,7 +649,7 @@ export interface CapacitorCalendarPlugin {
    * @param {Object} options The options for updating an event.
    * @param {string} options.id The id of the event to be modified.
    * @param {EventSpan} options.span The scope of the modifications.
-   * Only supported on iOS. (Optional)
+   * Only supported on iOS. If not supplied it will only affect this event. (Optional)
    * @param {Object} options.update The set of event properties to be modified.
    * If a property is not supported, it will be ignored. Modifying the reminder of an
    * event is currently not supported on Android.
@@ -650,6 +678,7 @@ export interface CapacitorCalendarPlugin {
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<void>;
 
@@ -729,7 +758,7 @@ export interface CapacitorCalendarPlugin {
       notes?: string;
       url?: string;
       location?: string;
-      recurrence?: ReminderRecurrenceRule;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<void>;
 }

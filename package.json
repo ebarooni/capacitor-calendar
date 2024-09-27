@@ -62,7 +62,7 @@
     "docgen:api-reference": "docgen --api CapacitorCalendarPlugin --output-readme docs/api-reference.md --output-json dist/docs.json",
     "docgen:readme": "docgen --api CapacitorCalendarPlugin --output-readme README.md",
     "typedoc:index": "npx typedoc",
-    "clean": "rm -rf ./dist",
+    "clean": "npx rimraf ./dist",
     "build": "npm run clean && npm run docgen:api-reference && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
     "prepublishOnly": "npm run build",
     "serve": "cd example && npx ng serve",
@@ -112,5 +112,8 @@
   "prettier": "@ebarooni/prettier-config",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "rimraf": "^6.0.1"
   }
 }

@@ -1,10 +1,10 @@
 /**
  * Enum representing the repeating frequency of the reminder.
  *
- * @enum ReminderRecurrenceFrequency
+ * @enum RecurrenceFrequency
  * @platform iOS
  */
-export enum ReminderRecurrenceFrequency {
+export enum RecurrenceFrequency {
   /**
    * The reminder repeats on a daily basis
    */

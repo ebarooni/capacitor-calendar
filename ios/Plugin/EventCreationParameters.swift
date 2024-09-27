@@ -19,4 +19,5 @@ public struct EventCreationParameters {
     public var alertOffsetInMinutesMultiple: [Double]?
     public var notes: String?
     public var url: String?
+    public var recurrence: RecurrenceParameters?
 }

@@ -8,6 +8,13 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
     private var currentCreateEventContinuation: CheckedContinuation<[String], any Error>?
     private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: Any]], any Error>?
 
+    private let recurrenceFrequencyMapping: [Int: EKRecurrenceFrequency] = [
+        0: .daily,
+        1: .weekly,
+        2: .monthly,
+        3: .yearly
+    ]
+
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
         self.bridge = bridge
         self.eventStore = eventStore
@@ -184,6 +191,8 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
         }
 
+        setEventFrequency(event: event, recurrence: update.recurrence)
+
         do {
             try eventStore.save(event, span: span)
         } catch {
@@ -293,11 +302,28 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             newEvent.url = url
         }
 
+        setEventFrequency(event: newEvent, recurrence: parameters.recurrence)
+
         do {
             try eventStore.save(newEvent, span: .thisEvent)
             return newEvent.eventIdentifier
         } catch {
             throw CapacitorCalendarPluginError.undefinedEvent
+        }
+    }
+
+    private func setEventFrequency(event: EKEvent, recurrence: RecurrenceParameters?) {
+        guard let frequency = recurrence?.frequency, let interval = recurrence?.interval else { return }
+        var endDate: EKRecurrenceEnd?
+        if let end = recurrence?.end {
+            endDate = EKRecurrenceEnd(end: Date(timeIntervalSince1970: end / 1000))
+        }
+        if let recurrenceFrequency = recurrenceFrequencyMapping[frequency] {
+                event.recurrenceRules = [EKRecurrenceRule(
+                recurrenceWith: recurrenceFrequency,
+                interval: interval,
+                end: endDate
+            )]
         }
     }
 
@@ -454,7 +480,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 }
 
                 do {
-                    try eventStore.remove(event, span: .thisEvent, commit: false)
+                    try eventStore.remove(event, span: .futureEvents, commit: false)
                     deletedEvents.append("\(id)")
                 } catch {
                     failedToDeleteEvents.append("\(id)")
@@ -469,6 +495,38 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
 
             continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
+        }
+    }
+
+    public func deleteEventById(id: String, span: EKSpan) async throws -> String?
+    {
+        await withCheckedContinuation { continuation in
+
+            var deletedEvent: String?
+
+            guard let event = eventStore.event(withIdentifier: "\(id)") else {
+                return
+            }
+
+            do
+            {
+                try eventStore.remove(event, span: .futureEvents, commit: false)
+                deletedEvent = id
+            }
+            catch
+            {
+            }
+
+            do
+            {
+                try eventStore.commit()
+            }
+            catch
+            {
+                deletedEvent = nil
+            }
+
+            continuation.resume(returning: deletedEvent)
         }
     }
 
@@ -615,7 +673,31 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             }
             dict["isAllDay"] = event.isAllDay
             dict["calendarId"] = event.calendar.calendarIdentifier
+
+            if let recurrenceRules = event.recurrenceRules {
+                let recurrence = extractEventRecurrenceRules(rules: recurrenceRules)
+
+                if !recurrence.isEmpty {
+                    dict["recurrence"] = recurrence
+                }
+            }
             return dict
+        }
+    }
+
+
+    private func extractEventRecurrenceRules(rules: [EKRecurrenceRule]) -> [[String: Any]] {
+        return rules.map { rule in
+            var obj = [String: Any]()
+
+            obj["frequency"] = rule.frequency.rawValue
+            obj["interval"] = rule.interval
+
+            if let endDate = rule.recurrenceEnd?.endDate {
+                obj["end"] = endDate.timeIntervalSince1970 * 1000
+            }
+
+            return obj
         }
     }
 

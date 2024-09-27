@@ -133,6 +133,23 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let notes = call.getString("notes")
         let url = call.getString("url")
 
+        var recurrence: RecurrenceParameters?
+        if let recurrenceData = call.getObject("recurrence") {
+            guard let frequency = recurrenceData["frequency"] as? Int else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
+                return
+            }
+
+            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
+                return
+            }
+
+            let end = recurrenceData["end"] as? Double
+
+            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
+        }
+
         Task {
             var eventParameters = EventCreationParameters(
                 title: title,
@@ -142,7 +159,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 endDate: endDate,
                 isAllDay: isAllDay,
                 notes: notes,
-                url: url
+                url: url,
+                recurrence: recurrence
             )
 
             if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
@@ -184,6 +202,23 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                     let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
                     let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
 
+                    var recurrence: RecurrenceParameters?
+                    if let recurrenceData = update["recurrence"] as? JSObject {
+                        guard let frequency = recurrenceData["frequency"] as? Int else {
+                            call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
+                            return
+                        }
+
+                        guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                            call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
+                            return
+                        }
+
+                        let end = recurrenceData["end"] as? Double
+
+                        recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
+                    }
+
                     var eventParameters = EventCreationParameters(
                         title: title,
                         calendarId: calendarId,
@@ -194,7 +229,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                         alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
                         alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
                         notes: notes,
-                        url: url
+                        url: url,
+                        recurrence: recurrence
                     )
 
                     result = try await calendar.modifyEventWithPrompt(id: id, update: eventParameters)
@@ -257,6 +293,23 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let notes = call.getString("notes")
         let url = call.getString("url")
 
+        var recurrence: RecurrenceParameters?
+        if let recurrenceData = call.getObject("recurrence") {
+            guard let frequency = recurrenceData["frequency"] as? Int else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
+                return
+            }
+
+            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
+                return
+            }
+
+            let end = recurrenceData["end"] as? Double
+
+            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
+        }
+
         var eventParameters = EventCreationParameters(
             title: title,
             calendarId: calendarId,
@@ -265,7 +318,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
             endDate: endDate,
             isAllDay: isAllDay,
             notes: notes,
-            url: url
+            url: url,
+            recurrence: recurrence
         )
 
         if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
@@ -304,6 +358,23 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
         let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
 
+        var recurrence: RecurrenceParameters?
+        if let recurrenceData = update["recurrence"] as? JSObject {
+            guard let frequency = recurrenceData["frequency"] as? Int else {
+                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
+                return
+            }
+
+            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
+                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
+                return
+            }
+
+            let end = recurrenceData["end"] as? Double
+
+            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
+        }
+
         do {
             var eventParameters = EventCreationParameters(
                 title: title,
@@ -315,7 +386,8 @@ public class CapacitorCalendarPlugin: CAPPlugin {
                 alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
                 alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
                 notes: notes,
-                url: url
+                url: url,
+                recurrence: recurrence
             )
             try calendar.modifyEvent(id: eventId, span: EKSpan(rawValue: span) ?? .thisEvent, update: eventParameters)
             call.resolve()
@@ -437,6 +509,38 @@ public class CapacitorCalendarPlugin: CAPPlugin {
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Could not get the list of events in requested range")
             return
+        }
+    }
+
+    @objc public func deleteEventById(_ call: CAPPluginCall)
+    {
+        guard let eventId = call.getString("id") else {
+            call.reject("[CapacitorCalendar.\(#function)] Event id were not provided")
+            return
+        }
+
+        let span = call.getInt("span", 0)
+
+        Task {
+            do {
+                let deleteResult = try await calendar.deleteEventById(id: eventId,
+                                                                      span: span == 0 ? .thisEvent : .futureEvents)
+
+                if deleteResult != nil
+                {
+                    call.resolve([
+                        "result": deleteResult!
+                    ])
+                }
+                else
+                {
+                    call.reject("[CapacitorCalendar.\(#function)] Could not delete events")
+                }
+            } catch
+            {
+                call.reject("[CapacitorCalendar.\(#function)] Could not delete events")
+                return
+            }
         }
     }
 

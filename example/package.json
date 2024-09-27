@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "preinstall:capacitor-calendar": "cd .. && npm ci && npm run build",
-    "build": "rm -rf .angular && npm run preinstall:capacitor-calendar && npm ci && ng build && npx cap sync",
+    "clean": "npx rimraf .angular",
+    "build": "npm run clean && npm run preinstall:capacitor-calendar && npm ci && ng build && npx cap sync",
     "open:ios": "npx cap open ios",
     "open:android": "npx cap open android",
     "watch": "ng build --watch --configuration development",
@@ -33,6 +34,7 @@
     "@ionic/core": "^8.2.5",
     "@ngrx/component": "^17.1.0",
     "@types/jest": "^29.5.12",
+    "rimraf": "^6.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
