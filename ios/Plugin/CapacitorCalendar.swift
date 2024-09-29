@@ -510,7 +510,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
 
             do
             {
-                try eventStore.remove(event, span: .futureEvents, commit: false)
+                try eventStore.remove(event, span, commit: false)
                 deletedEvent = id
             }
             catch
