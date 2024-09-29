@@ -481,13 +481,11 @@ class CapacitorCalendarPlugin : Plugin() {
             val id = call.getString("id")
                 ?: throw Exception("[CapacitorCalendar.${::deleteEventById.name}] Event ids were not provided")
 
-            if (implementation.deleteEventById(context, id)) {
-                call.resolve(JSObject().apply { 
-                    put("result", id)
-                })
+            if (!implementation.deleteEventById(context, id)) {
+                throw Exception("Event was not deleted")
             }
             
-            throw Exception("Event was not deleted")
+            call.resolve()
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::deleteEventById.name}] Could not delete event", error)
         }

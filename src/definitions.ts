@@ -432,7 +432,7 @@ export interface CapacitorCalendarPlugin {
    * const { result } = await CapacitorCalendar.deleteEventsById("ID_1")
    * console.log(result.deleted)  // ['ID_1']
    */
-  deleteEventById(options: {id: string, span?: EventSpan}): Promise<{ result: string }>;
+  deleteEventById(options: {id: string, span?: EventSpan}): Promise<void>;
 
   /**
    * Creates a calendar
