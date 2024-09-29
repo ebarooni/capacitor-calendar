@@ -53,6 +53,7 @@ export class CapacitorCalendarWeb
     url?: string;
     notes?: string;
     eventIdOptional?: boolean;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(
       `${this.createEventWithPrompt.name} is not implemented on the web`,
@@ -87,6 +88,7 @@ export class CapacitorCalendarWeb
     alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
+    recurrence?: RecurrenceRule;
   }): Promise<{
     result: string;
   }> {
@@ -230,6 +232,7 @@ export class CapacitorCalendarWeb
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(
@@ -250,6 +253,7 @@ export class CapacitorCalendarWeb
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<void> {
     throw this.unimplemented(
