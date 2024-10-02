@@ -528,9 +528,7 @@ public class CapacitorCalendarPlugin: CAPPlugin {
 
                 if deleteResult != nil
                 {
-                    call.resolve([
-                        "result": deleteResult!
-                    ])
+                    call.resolve()
                 }
                 else
                 {
