@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "preinstall:capacitor-calendar": "cd .. && npm ci && npm run build",
-    "build": "rm -rf .angular && npm run preinstall:capacitor-calendar && npm ci && ng build && npx cap sync",
+    "clean": "npx rimraf .angular",
+    "build": "npm run clean && npm run preinstall:capacitor-calendar && npm ci && ng build && npx cap sync",
     "open:ios": "npx cap open ios",
     "open:android": "npx cap open android",
     "watch": "ng build --watch --configuration development",
@@ -45,6 +46,7 @@
     "@ionic/angular-toolkit": "^11.0.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "rimraf": "^6.0.1"
   }
 }

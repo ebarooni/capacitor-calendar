@@ -1,4 +1,4 @@
-import { ReminderRecurrenceRule } from './reminder-recurrence-rule';
+import { RecurrenceRule } from './recurrence-rule';
 
 /**
  * Represents a reminder in a reminders list.
@@ -14,7 +14,7 @@ import { ReminderRecurrenceRule } from './reminder-recurrence-rule';
  * @property {number} startDate The start date of the reminder. (Optional)
  * @property {number} dueDate The due date of the reminder. (Optional)
  * @property {number} completionDate The completion date of the reminder. (Optional)
- * @property {ReminderRecurrenceRule[]} recurrence The recurrence rules of the reminder. (Optional)
+ * @property {RecurrenceRule[]} recurrence The recurrence rules of the reminder. (Optional)
  */
 export interface Reminder {
   /**
@@ -75,5 +75,5 @@ export interface Reminder {
   /**
    * @platform iOS
    */
-  recurrence?: ReminderRecurrenceRule[];
+  recurrence?: RecurrenceRule[];
 }

@@ -18,6 +18,7 @@
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`deleteEventById(...)`](#deleteeventbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
@@ -108,15 +109,15 @@ Requests authorization to all the required permissions for the plugin, if they h
 ### createEventWithPrompt(...)
 
 ```typescript
-createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; eventIdOptional?: boolean; }) => Promise<{ result: string[]; }>
+createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; eventIdOptional?: boolean; recurrence?: ReminderRecurrenceRule; }) => Promise<{ result: string[]; }>
 ```
 
 Creates an event in the calendar by using the native calendar.
 On iOS opens a native sheet and on Android opens an intent.
 
-| Param         | Type                                                                                                                                                                                                                                  | Description                     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; eventIdOptional?: boolean; }</code> | Options for creating the event. |
+| Param         | Type                                                                                                                                                                                                                                                                                                             | Description                     |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; eventIdOptional?: boolean; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | Options for creating the event. |
 
 **Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 
@@ -171,14 +172,14 @@ Retrieves the default calendar set on the device.
 ### createEvent(...)
 
 ```typescript
-createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }) => Promise<{ result: string; }>
+createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ result: string; }>
 ```
 
 Creates an event with the provided options.
 
-| Param         | Type                                                                                                                                                                                                       | Description                     |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }</code> | Options for creating the event. |
+| Param         | Type                                                                                                                                                                                                                                                                                  | Description                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | Options for creating the event. |
 
 **Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
 
@@ -278,6 +279,8 @@ deleteEventsById(options: { ids: string[]; }) => Promise<{ result: { deleted: st
 ```
 
 Deletes events from the calendar given their IDs.
+If the event is recurring it will automatically delete this and future events.
+To modify this behaviour consider using the method "deleteEventById".
 
 | Param         | Type                            | Description                     |
 | ------------- | ------------------------------- | ------------------------------- |
@@ -286,6 +289,24 @@ Deletes events from the calendar given their IDs.
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 0.11.0
+
+---
+
+### deleteEventById(...)
+
+```typescript
+deleteEventById(options: { id: string; span?: EventSpan; }) => Promise<{ result: string; }>
+```
+
+Deletes an even from the calendar by their ID.
+
+| Param         | Type                                                                    | Description                             |
+| ------------- | ----------------------------------------------------------------------- | --------------------------------------- |
+| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; }</code> | Options for defining event ID and span. |
+
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** TODO: Add version number
 
 ---
 
@@ -418,14 +439,14 @@ Requests read and write access for the reminders. If its already granted, it wil
 ### modifyEventWithPrompt(...)
 
 ```typescript
-modifyEventWithPrompt(options: { id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<{ result: string[]; }>
+modifyEventWithPrompt(options: { id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; recurrence?: ReminderRecurrenceRule; }; }) => Promise<{ result: string[]; }>
 ```
 
 Opens a native prompt to modify an event given its id.
 
-| Param         | Type                                                                                                                                                                                                                                  | Description                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| **`options`** | <code>{ id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for modifying an event. |
+| Param         | Type                                                                                                                                                                                                                                                                                                             | Description                         |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| **`options`** | <code>{ id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }; }</code> | The options for modifying an event. |
 
 **Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
 
@@ -436,14 +457,14 @@ Opens a native prompt to modify an event given its id.
 ### modifyEvent(...)
 
 ```typescript
-modifyEvent(options: { id: string; span?: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
+modifyEvent(options: { id: string; span?: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; recurrence?: ReminderRecurrenceRule; }; }) => Promise<void>
 ```
 
 Modifies an event given its id and update details.
 
-| Param         | Type                                                                                                                                                                                                                                                                            | Description                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
+| Param         | Type                                                                                                                                                                                                                                                                                                                                                       | Description                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }; }</code> | The options for updating an event. |
 
 **Since:** 6.6.0
 
@@ -497,6 +518,14 @@ Modifies a reminder given its id and update details.
 
 #### PluginPermissionsMap
 
+#### ReminderRecurrenceRule
+
+| Prop            | Type                                                                                | Description                                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
+| **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
+| **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
+
 #### Calendar
 
 Represents a calendar object.
@@ -523,14 +552,6 @@ Represents the account a calendar belongs to
 | **`title`** | <code>string</code>                                               |
 
 #### RemindersList
-
-#### ReminderRecurrenceRule
-
-| Prop            | Type                                                                                | Description                                                                                             |
-| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
-| **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
-| **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
 
 #### CalendarEvent
 
@@ -589,6 +610,15 @@ Represents a reminder in a reminders list.
 | **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
 | **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
 
+#### ReminderRecurrenceFrequency
+
+| Members       | Description                             |
+| ------------- | --------------------------------------- |
+| **`DAILY`**   | The reminder repeats on a daily basis   |
+| **`WEEKLY`**  | The reminder repeats on a weekly basis  |
+| **`MONTHLY`** | The reminder repeats on a monthly basis |
+| **`YEARLY`**  | The reminder repeats on a yearly basis  |
+
 #### CalendarType
 
 | Members            | Description                                                |
@@ -623,15 +653,6 @@ Represents a reminder in a reminders list.
 | -------------- | ------------------------------------------------------- |
 | **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
 | **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
-
-#### ReminderRecurrenceFrequency
-
-| Members       | Description                             |
-| ------------- | --------------------------------------- |
-| **`DAILY`**   | The reminder repeats on a daily basis   |
-| **`WEEKLY`**  | The reminder repeats on a weekly basis  |
-| **`MONTHLY`** | The reminder repeats on a monthly basis |
-| **`YEARLY`**  | The reminder repeats on a yearly basis  |
 
 #### EventSpan
 

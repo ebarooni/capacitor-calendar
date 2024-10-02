@@ -62,7 +62,7 @@
     "docgen:api-reference": "docgen --api CapacitorCalendarPlugin --output-readme docs/api-reference.md --output-json dist/docs.json",
     "docgen:readme": "docgen --api CapacitorCalendarPlugin --output-readme README.md",
     "typedoc:index": "npx typedoc",
-    "clean": "rm -rf ./dist",
+    "clean": "npx rimraf ./dist",
     "build": "npm run clean && npm run docgen:api-reference && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
     "prepublishOnly": "npm run build",
     "serve": "cd example && npx ng serve",
@@ -96,7 +96,8 @@
     "swiftlint": "^1.0.2",
     "typedoc": "^0.26.5",
     "typescript": "~5.4.2",
-    "typescript-eslint": "^8.0.1"
+    "typescript-eslint": "^8.0.1",
+    "rimraf": "^6.0.1"
   },
   "peerDependencies": {
     "@capacitor/core": "^6.0.0"

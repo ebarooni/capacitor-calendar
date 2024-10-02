@@ -1,6 +1,6 @@
-import { ReminderRecurrenceFrequency } from '../enums/reminder-recurrence-frequency';
+import { RecurrenceFrequency } from '../enums/recurrence-frequency';
 
-export interface ReminderRecurrenceRule {
+export interface RecurrenceRule {
   /**
    * How frequent should the reminder repeat.
    *
@@ -11,7 +11,7 @@ export interface ReminderRecurrenceRule {
    *     interval: 1,
    * }
    */
-  frequency: ReminderRecurrenceFrequency;
+  frequency: RecurrenceFrequency;
 
   /**
    * The interval should be a number greater than 0. For values lower than 1 the method will throw an error.

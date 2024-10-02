@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct RecurrenceParameters {
+public struct RecurrenceParameters {
     let frequency: Int
     let interval: Int
     let end: Double?

@@ -133,6 +133,7 @@ usage descriptions can be found below:
 - [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`deleteEventById(...)`](#deleteeventbyid)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)

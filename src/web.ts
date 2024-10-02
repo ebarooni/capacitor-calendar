@@ -1,7 +1,7 @@
 import { PermissionState, WebPlugin } from "@capacitor/core";
 import { CapacitorCalendarPlugin } from "./definitions";
 import { PluginPermission } from "./schemas/enums/plugin-permission";
-import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import { RecurrenceRule } from "./schemas/interfaces/recurrence-rule";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -53,6 +53,7 @@ export class CapacitorCalendarWeb
     url?: string;
     notes?: string;
     eventIdOptional?: boolean;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(
       `${this.createEventWithPrompt.name} is not implemented on the web`,
@@ -87,6 +88,7 @@ export class CapacitorCalendarWeb
     alertOffsetInMinutes?: number | number[];
     url?: string;
     notes?: string;
+    recurrence?: RecurrenceRule;
   }): Promise<{
     result: string;
   }> {
@@ -106,7 +108,7 @@ export class CapacitorCalendarWeb
     notes?: string;
     url?: string;
     location?: string;
-    recurrence?: ReminderRecurrenceRule;
+    recurrence?: RecurrenceRule;
   }): Promise<{ result: string }> {
     throw this.unimplemented(
       `${this.createReminder.name} is not implemented on the web`,
@@ -151,6 +153,12 @@ export class CapacitorCalendarWeb
   }> {
     throw this.unimplemented(
       `${this.deleteEventsById.name} is not implemented on the web`,
+    );
+  }
+
+  public deleteEventById(_options: { id: string, span?: EventSpan }): Promise<{ result: string }> {
+    throw this.unimplemented(
+      `${this.deleteEventById.name} is not implemented on the web`,
     );
   }
 
@@ -224,6 +232,7 @@ export class CapacitorCalendarWeb
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<{ result: string[] }> {
     throw this.unimplemented(
@@ -244,6 +253,7 @@ export class CapacitorCalendarWeb
       alertOffsetInMinutes?: number | number[];
       url?: string;
       notes?: string;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<void> {
     throw this.unimplemented(
@@ -276,7 +286,7 @@ export class CapacitorCalendarWeb
       notes?: string;
       url?: string;
       location?: string;
-      recurrence?: ReminderRecurrenceRule;
+      recurrence?: RecurrenceRule;
     };
   }): Promise<void> {
     throw this.unimplemented(
