@@ -22,14 +22,14 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Get current timestamp
+      - name: Get commit hash
         run: |
-          TIMESTAMP=$(date +"%S%M%H%d%m%y")
-          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
 
       - name: Construct new dev version
         run: |
-          NEW_VERSION="${{ env.VERSION }}-dev.${{ env.TIMESTAMP }}"
+          NEW_VERSION="${{ env.VERSION }}-dev.${{ env.COMMIT_HASH }}"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Print new version
