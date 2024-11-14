@@ -14,7 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 6.
 
-## [6.7.0] - 2024-08-10
+## [6.7.2] – 2024-11-14
+
+### Fixed
+
+- Android build error related to Kotlin version
+
+## [6.7.1] – 2024-08-30
+
+### Added
+
+- Added `eventIdOptional` property to `createEventWithPrompt` on Android
+
+## [6.7.0] – 2024-08-10
 
 ### Fixed
 
