@@ -57,6 +57,14 @@ npm install @ebarooni/capacitor-calendar@latest
 npx cap sync
 ```
 
+##### Using this library >= 6.7.2
+Inside your `variables.gradle` file, you may have to change the SdkVersion to >= 35
+```
+compileSdkVersion = 35
+targetSdkVersion = 35
+```
+
+
 #### Capacitor 5
 
 > [!IMPORTANT]  
