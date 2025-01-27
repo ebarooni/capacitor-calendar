@@ -1,8 +1,0 @@
-<app-header [title]="'API'"></app-header>
-<ion-content [fullscreen]="true" [color]="'light'">
-  <ion-refresher [slot]="'fixed'" (ionRefresh)="handlePageRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <app-permissions-status></app-permissions-status>
-  <app-methods-list></app-methods-list>
-</ion-content>
