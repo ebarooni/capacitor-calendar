@@ -7,26 +7,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Contents
 
-- [v6 Releases (latest)](#v6-releases-latest)
-- [v5 Releases (LTS)](#v5-releases-lts)
+- [Version 7.x.x](#version-7xx)
+  - [7.0.0](#700)
+- [Version 6.x.x](#version-6xx)
+  - [6.7.2](#672)
+  - [6.7.1](#671)
+  - [6.7.0](#670)
+  - [6.6.1](#661)
+  - [6.6.0](#660)
+  - [6.5.0](#650)
+  - [6.4.1](#641)
+  - [6.4.0](#640)
+  - [6.3.0](#630)
+  - [6.2.0](#620)
+  - [6.1.0](#610)
+  - [6.0.0](#600)
+- [Version 5.x.x](#version-5xx)
+  - [5.5.0](#550)
+  - [5.4.1](#541)
+  - [5.4.0](#540)
+  - [5.3.0](#530)
+  - [5.2.0](#520)
+  - [5.1.0](#510)
+  - [5.0.0](#500)
 
-# v6 Releases (latest)
+# Version 7.x.x
+
+Changelogs for the versions supporting Capacitor 7.
+
+## 7.0.0
+
+### Added
+
+- Support for capacitor 7
+- SPM support on iOS
+
+### Removed
+
+- Angular example app
+
+# Version 6.x.x
 
 Changelogs for the versions supporting Capacitor 6.
 
-## [6.7.2] – 2024-11-14
+## 6.7.2
 
 ### Fixed
 
 - Android build error related to Kotlin version
 
-## [6.7.1] – 2024-08-30
+## 6.7.1
 
 ### Added
 
 - Added `eventIdOptional` property to `createEventWithPrompt` on Android
 
-## [6.7.0] – 2024-08-10
+## 6.7.0
 
 ### Fixed
 
@@ -36,13 +72,13 @@ Changelogs for the versions supporting Capacitor 6.
 
 - Implemented modifying reminders on iOS
 
-## [6.6.1] – 2024-08-08
+## 6.6.1
 
 ### Fixed
 
 - Serialization error for calendar events on iOS
 
-## [6.6.0] – 2024-07-26
+## 6.6.0
 
 ### Fixed
 
@@ -61,7 +97,7 @@ Changelogs for the versions supporting Capacitor 6.
 
 - The plugin will not receive updates for capacitor 5
 
-## [6.5.0] – 2024-05-30
+## 6.5.0
 
 ### Changed
 
@@ -72,14 +108,14 @@ Changelogs for the versions supporting Capacitor 6.
 
 - `requestFullCalendarAccess` on Android was not functional
 
-## [6.4.1] – 2024-05-19
+## 6.4.1
 
 ### Changed
 
 - Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
 - Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
 
-## [6.4.0] – 2024-05-17
+## 6.4.0
 
 ### Added
 
@@ -89,7 +125,7 @@ Changelogs for the versions supporting Capacitor 6.
 
 - `createEventWithPrompt` throwing error because of undefined event id
 
-## [6.3.0] – 2024-05-10
+## 6.3.0
 
 ### Added
 
@@ -100,7 +136,7 @@ Changelogs for the versions supporting Capacitor 6.
 
 - Using `isAllDay` with `createEventWithPrompt` on Android was not functional
 
-## [6.2.0] – 2024-05-04
+## 6.2.0
 
 ### Added
 
@@ -113,7 +149,7 @@ Changelogs for the versions supporting Capacitor 6.
 - `createEventWithPrompt` on Android was not using all options
 - `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
 
-## [6.1.0] – 2024-05-01
+## 6.1.0
 
 ### Changed
 
@@ -126,7 +162,7 @@ Changelogs for the versions supporting Capacitor 6.
 - Example app missing permissions for contact on iOS 16 and lower
 - Permissions documentation on iOS incomplete for iOS 16 and lower
 
-## [6.0.0] – 2024-04-28
+## 6.0.0
 
 ### Added
 
@@ -147,11 +183,11 @@ Changelogs for the versions supporting Capacitor 6.
 - List events in a specified date range
 - Delete events by ID
 
-# v5 Releases (LTS)
+# Version 5.x.x
 
 Changelogs for the versions supporting Capacitor 5.
 
-## [5.5.0] – 2024-05-30
+## 5.5.0
 
 ### Changed
 
@@ -162,14 +198,14 @@ Changelogs for the versions supporting Capacitor 5.
 
 - `requestFullCalendarAccess` on Android was not functional
 
-## [5.4.1] – 2024-05-19
+## 5.4.1
 
 ### Changed
 
 - Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
 - Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
 
-## [5.4.0] – 2024-05-17
+## 5.4.0
 
 ### Added
 
@@ -179,7 +215,7 @@ Changelogs for the versions supporting Capacitor 5.
 
 - `createEventWithPrompt` throwing error because of undefined event id
 
-## [5.3.0] – 2024-05-10
+## 5.3.0
 
 ### Added
 
@@ -190,7 +226,7 @@ Changelogs for the versions supporting Capacitor 5.
 
 - Using `isAllDay` with `createEventWithPrompt` on Android was not functional
 
-## [5.2.0] – 2024-05-04
+## 5.2.0
 
 ### Added
 
@@ -203,7 +239,7 @@ Changelogs for the versions supporting Capacitor 5.
 - `createEventWithPrompt` on Android was not using all options
 - `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
 
-## [5.1.0] – 2024-05-01
+## 5.1.0
 
 ### Changed
 
@@ -216,7 +252,7 @@ Changelogs for the versions supporting Capacitor 5.
 - Example app missing permissions for contact on iOS 16 and lower
 - Permissions documentation on iOS incomplete for iOS 16 and lower
 
-## [5.0.0] – 2024-04-28
+## 5.0.0
 
 ### Added
 

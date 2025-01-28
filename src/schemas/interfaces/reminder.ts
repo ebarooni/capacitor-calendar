@@ -1,4 +1,4 @@
-import { ReminderRecurrenceRule } from './reminder-recurrence-rule';
+import { ReminderRecurrenceRule } from "./reminder-recurrence-rule";
 
 /**
  * Represents a reminder in a reminders list.

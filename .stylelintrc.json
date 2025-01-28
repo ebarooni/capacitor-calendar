@@ -1,9 +1,5 @@
 {
-  "ignoreFiles": [
-    "example/dist/**",
-    "example/(ios|android)/**/*.(css|scss)",
-    "typedoc-output/**/*.(css|scss)"
-  ],
+  "ignoreFiles": ["typedoc-output/**/*.(css|scss)"],
   "rules": {},
   "overrides": [
     {

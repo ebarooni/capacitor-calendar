@@ -17,7 +17,7 @@ export enum PluginPermission {
    *   <li><strong>Android:</strong> android.permission.READ_CALENDAR</li>
    * </ul>
    */
-  READ_CALENDAR = 'readCalendar',
+  READ_CALENDAR = "readCalendar",
 
   /**
    * Represents the permission state for writing calendar.
@@ -31,7 +31,7 @@ export enum PluginPermission {
    *   <li><strong>Android:</strong> android.permission.WRITE_CALENDAR</li>
    * </ul>
    */
-  WRITE_CALENDAR = 'writeCalendar',
+  WRITE_CALENDAR = "writeCalendar",
 
   /**
    * Represents the permission state for reading reminders.
@@ -44,7 +44,7 @@ export enum PluginPermission {
    *   <li><strong>10 &le; iOS &le; 16:</strong> NSRemindersUsageDescription</li>
    * </ul>
    */
-  READ_REMINDERS = 'readReminders',
+  READ_REMINDERS = "readReminders",
 
   /**
    * Represents the permission state for writing reminders.
@@ -57,5 +57,5 @@ export enum PluginPermission {
    *   <li><strong>13 &le; iOS &le; 16:</strong> NSRemindersUsageDescription</li>
    * </ul>
    */
-  WRITE_REMINDERS = 'writeReminders',
+  WRITE_REMINDERS = "writeReminders",
 }

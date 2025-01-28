@@ -1,0 +1,58 @@
+name: Deploy docs
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate docs
+        run: npm run typedoc
+
+      - name: Update pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: docs
+          path: typedoc-output/
+          retention-days: 1
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+      pages: write
+
+    environment:
+      name: docs
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy docs to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: docs

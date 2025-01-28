@@ -1,0 +1,55 @@
+name: Publish WIP to GitHub
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: "https://npm.pkg.github.com"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get package version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Get commit hash
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
+
+      - name: Construct new WIP version
+        run: |
+          NEW_VERSION="${{ env.VERSION }}.${{ env.COMMIT_HASH }}"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Log version
+        run: echo "Version is ${{ env.NEW_VERSION }}"
+
+      - name: Run npm version
+        run: npm version ${{ env.NEW_VERSION }} --no-git-tag-version
+
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

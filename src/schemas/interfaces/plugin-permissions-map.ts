@@ -1,5 +1,3 @@
-import type { PermissionState } from '@capacitor/core';
+import type { PermissionState } from "@capacitor/core";
 
-export interface PluginPermissionsMap {
-  [permission: string]: PermissionState;
-}
+export type PluginPermissionsMap = Record<string, PermissionState>;
