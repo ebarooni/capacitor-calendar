@@ -1,11 +1,3 @@
-//
-//  PermissionError.swift
-//  Plugin
-//
-//  Created by Ehsan Barooni on 27.02.24.
-//  Copyright © 2024 Max Lynch. All rights reserved.
-//
-
 import Foundation
 
 public enum CapacitorCalendarPluginError: Error {

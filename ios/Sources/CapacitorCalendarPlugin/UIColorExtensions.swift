@@ -1,11 +1,3 @@
-//
-//  UIColorExtensions.swift
-//  Plugin
-//
-//  Created by Ehsan Barooni on 03.05.24.
-//  Copyright © 2024 Max Lynch. All rights reserved.
-//
-
 import Foundation
 
 import UIKit
