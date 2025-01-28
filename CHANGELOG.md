@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Contents
 
+- [Version 7.x.x](#version-7xx)
+  - [7.0.0](#700)
 - [Version 6.x.x](#version-6xx)
   - [6.7.2](#672)
   - [6.7.1](#671)
@@ -28,6 +30,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [5.2.0](#520)
   - [5.1.0](#510)
   - [5.0.0](#500)
+
+# Version 7.x.x
+
+Changelogs for the versions supporting Capacitor 7.
+
+## 7.0.0
+
+### Added
+
+- Support for capacitor 7
+- SPM support on iOS
+
+### Removed
+
+- Angular example app
 
 # Version 6.x.x
 
