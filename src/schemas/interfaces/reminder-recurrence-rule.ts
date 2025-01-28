@@ -1,4 +1,4 @@
-import { ReminderRecurrenceFrequency } from '../enums/reminder-recurrence-frequency';
+import { ReminderRecurrenceFrequency } from "../enums/reminder-recurrence-frequency";
 
 export interface ReminderRecurrenceRule {
   /**

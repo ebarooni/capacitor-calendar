@@ -3,7 +3,7 @@
 
   <br>
     <em>
-        The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.
+        A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.
     </em>
 </p>
 
@@ -22,6 +22,9 @@
 - [Setup](#setup)
 - [Documentation](#-documentation)
 - [API](#-api)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Installation
 
@@ -244,7 +247,7 @@ getDefaultRemindersList() => Promise<{ result: RemindersList; }>
 
 Retrieves the default reminders list set on the device.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#reminderslist">RemindersList</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
 ---
 
@@ -256,7 +259,7 @@ getRemindersLists() => Promise<{ result: RemindersList[]; }>
 
 Retrieves all available reminders lists on the device.
 
-**Returns:** <code>Promise&lt;{ result: RemindersList[]; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
 ---
 
@@ -545,8 +548,6 @@ Modifies a reminder given its id and update details.
 
 ### Interfaces
 
-#### PluginPermissionsMap
-
 #### Calendar
 
 Represents a calendar object.
@@ -571,19 +572,6 @@ Represents the account a calendar belongs to
 | **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> |
 | **`id`**    | <code>string</code>                                               |
 | **`title`** | <code>string</code>                                               |
-
-#### RemindersList
-
-| Prop                             | Type                                                      |
-| -------------------------------- | --------------------------------------------------------- |
-| **`id`**                         | <code>string</code>                                       |
-| **`title`**                      | <code>string</code>                                       |
-| **`color`**                      | <code>string</code>                                       |
-| **`isImmutable`**                | <code>boolean</code>                                      |
-| **`allowsContentModifications`** | <code>boolean</code>                                      |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a></code>     |
-| **`isSubscribed`**               | <code>boolean</code>                                      |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> |
 
 #### ReminderRecurrenceRule
 
@@ -639,16 +627,32 @@ Represents a reminder in a reminders list.
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
+#### PluginPermissionsMap
+
+<code><a href="#record">Record</a>&lt;string, <a href="#permissionstate">PermissionState</a>&gt;</code>
+
+#### Record
+
+Construct a type with a set of properties K of type T
+
+<code>{
+[P in K]: T;
+}</code>
+
+#### RemindersList
+
+<code><a href="#calendar">Calendar</a></code>
+
 ### Enums
 
 #### PluginPermission
 
 | Members               | Value                         | Description                                            |
 | --------------------- | ----------------------------- | ------------------------------------------------------ |
-| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Represents the permission state for reading calendar.  |
-| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Represents the permission state for writing calendar.  |
-| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Represents the permission state for reading reminders. |
-| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Represents the permission state for writing reminders. |
+| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Represents the permission state for reading calendar.  |
+| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Represents the permission state for writing calendar.  |
+| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Represents the permission state for reading reminders. |
+| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Represents the permission state for writing reminders. |
 
 #### CalendarType
 
@@ -702,3 +706,15 @@ Represents a reminder in a reminders list.
 | **`THIS_AND_FUTURE_EVENTS`** | The modifications to this event should also be applied to the future instances of this event. |
 
 </docgen-api>
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## License
+
+See [LICENSE.txt](LICENSE.txt)
