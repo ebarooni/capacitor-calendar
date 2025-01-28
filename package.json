@@ -1,7 +1,7 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "6.7.2",
-  "description": "The Capacitor Calendar Plugin enables full calendar functionality on iOS and Android, with added reminder support for iOS devices.",
+  "version": "7.0.0",
+  "description": "A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -10,13 +10,15 @@
     "android/src/main/",
     "android/build.gradle",
     "dist/",
-    "ios/Plugin/",
+    "ios/Sources",
+    "ios/Tests",
+    "Package.swift",
     "EbarooniCapacitorCalendar.podspec",
-    "LICENSE.txt",
-    "assets/images/text-logo.png"
+    "LICENSE.txt"
   ],
   "author": "Ehsan Barooni",
   "license": "MIT",
+  "homepage": "https://ebarooni.github.io/capacitor-calendar",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ebarooni/capacitor-calendar.git"
@@ -31,19 +33,17 @@
     "calendar",
     "reminders",
     "eventkit",
-    "eventkitui",
-    "angular",
     "ionic"
   ],
-  "homepage": "https://capacitor-calendar.pages.dev",
   "engines": {
-    "node": ">=18.19.0"
+    "node": ">=20.12.2"
   },
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
-    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS && cd ..",
+    "verify:ios": "xcodebuild build -scheme EbarooniCapacitorCalendar -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
+    "spm:install": "swift package resolve",
     "prettier:check": "npx prettier . --check",
     "prettier:fix": "npx prettier . --write",
     "swiftlint": "node-swiftlint",
@@ -59,24 +59,20 @@
     "fmt:md": "npx prettier --write \"**/*.md\"",
     "fmt:kt": "npm run ktlint -- -F",
     "fmt": "npm run fmt:ts-html && npm run fmt:css && npm run fmt:swift && npm run fmt:md && npm run fmt:kt",
-    "docgen:api-reference": "docgen --api CapacitorCalendarPlugin --output-readme docs/api-reference.md --output-json dist/docs.json",
-    "docgen:readme": "docgen --api CapacitorCalendarPlugin --output-readme README.md",
-    "typedoc:index": "npx typedoc",
-    "clean": "rm -rf ./dist",
-    "build": "npm run clean && npm run docgen:api-reference && npm run docgen:readme && tsc && rollup -c rollup.config.mjs",
+    "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json",
+    "typedoc": "npx typedoc",
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "prepublishOnly": "npm run build",
-    "serve": "cd example && npx ng serve",
     "version:patch": "npm version patch --git-tag-version false",
     "version:minor": "npm version minor --git-tag-version false",
     "version:major": "npm version major --git-tag-version false"
   },
   "devDependencies": {
-    "@angular/cli": "^17.1.2",
-    "@capacitor/android": "^6.0.0",
-    "@capacitor/cli": "^6.0.0",
-    "@capacitor/core": "^6.0.0",
-    "@capacitor/docgen": "^0.0.18",
-    "@capacitor/ios": "^6.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/docgen": "^0.3.0",
+    "@capacitor/ios": "^7.0.0",
     "@ebarooni/eslint-config": "^1.0.1",
     "@ebarooni/prettier-config": "^1.1.0",
     "@ebarooni/stylelint-config": "^1.1.0",
@@ -89,18 +85,20 @@
     "eslint-plugin-prettier": "^5.1.3",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
-    "rollup": "^4.17.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.30.1",
     "stylelint": "^16.6.1",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-prettier": "^5.0.0",
     "swiftlint": "^1.0.2",
     "typedoc": "^0.26.5",
-    "typescript": "~5.4.2",
+    "typescript": "~4.7.4",
     "typescript-eslint": "^8.0.1"
   },
   "peerDependencies": {
-    "@capacitor/core": "^6.0.0"
+    "@capacitor/core": ">=7.0.0"
   },
+  "prettier": "@ebarooni/prettier-config",
   "capacitor": {
     "ios": {
       "src": "ios"
@@ -109,7 +107,6 @@
       "src": "android"
     }
   },
-  "prettier": "@ebarooni/prettier-config",
   "publishConfig": {
     "access": "public"
   }
