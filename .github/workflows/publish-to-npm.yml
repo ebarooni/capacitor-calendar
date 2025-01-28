@@ -1,11 +1,12 @@
-name: Publish Package to npm
+name: Publish package to NPM
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
 

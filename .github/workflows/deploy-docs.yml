@@ -1,8 +1,9 @@
-name: Deploy docs to GitHub Pages
+name: Deploy docs
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - v*
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +16,7 @@ jobs:
         run: npm ci
 
       - name: Generate docs
-        run: npm run typedoc:index
+        run: npm run typedoc
 
       - name: Update pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -23,7 +24,6 @@ jobs:
           name: docs
           path: typedoc-output/
           retention-days: 1
-          if-no-files-found: error
 
   deploy:
     needs: build
