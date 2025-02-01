@@ -18,8 +18,6 @@
   </a>
 </p>
 
----
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -31,8 +29,6 @@
 - [Contributing](#contributing)
 - [License](#license)
 
----
-
 ## Installation
 
 ```bash
@@ -40,15 +36,11 @@ npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
 
----
-
 ## Demo
 
 |             iOS 17              |             Android 14              |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
-
----
 
 ## Setup
 
@@ -57,16 +49,12 @@ This plugin requires additional platform-specific configuration. Follow the offi
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
 
----
-
 ## Documentation
 
 For comprehensive usage examples, detailed explanations, and API references, check out:
 
 - **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
 - **[Type definitions & examples](src/definitions.ts)**
-
----
 
 ## API
 
@@ -724,19 +712,13 @@ Construct a type with a set of properties K of type T
 
 </docgen-api>
 
----
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 
----
-
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
----
 
 ## License
 
