@@ -1,14 +1,14 @@
 import { PermissionState, WebPlugin } from "@capacitor/core";
-import { CapacitorCalendarPlugin } from "./definitions";
-import { PluginPermission } from "./schemas/enums/plugin-permission";
-import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
-import { EventSpan } from "./schemas/enums/event-span";
 import type { Calendar } from "./schemas/interfaces/calendar";
-import type { RemindersList } from "./schemas/interfaces/reminders-list";
-import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
-import type { Reminder } from "./schemas/interfaces/reminder";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
+import { CapacitorCalendarPlugin } from "./definitions";
+import { EventSpan } from "./schemas/enums/event-span";
+import { PluginPermission } from "./schemas/enums/plugin-permission";
+import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
+import type { Reminder } from "./schemas/interfaces/reminder";
+import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import type { RemindersList } from "./schemas/interfaces/reminders-list";
 
 export class CapacitorCalendarWeb
   extends WebPlugin
