@@ -43,8 +43,8 @@ jobs:
 
       - name: Set git config
         run: |
-          git config user.name ${{ github.event.pusher.name }}
-          git config user.email ${{ github.event.pusher.email }}
+          git config user.name ${{ secrets.MANUAL_CI_TRIGGER_NAME }}
+          git config user.email ${{ secrets.MANUAL_CI_TRIGGER_EMAIL }}
 
       - name: Create tag
         run: git tag -a v${{ steps.pkg.outputs.version }} -m "Release version ${{ steps.pkg.outputs.version }}"
