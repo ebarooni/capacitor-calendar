@@ -2,29 +2,15 @@
   "name": "@ebarooni/capacitor-calendar",
   "version": "7.0.0",
   "description": "A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.",
-  "main": "dist/plugin.cjs.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
-  "unpkg": "dist/plugin.js",
-  "files": [
-    "android/src/main/",
-    "android/build.gradle",
-    "dist/",
-    "ios/Sources",
-    "ios/Tests",
-    "Package.swift",
-    "EbarooniCapacitorCalendar.podspec",
-    "LICENSE.txt"
-  ],
   "author": "Ehsan Barooni",
   "license": "MIT",
   "homepage": "https://ebarooni.github.io/capacitor-calendar",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ebarooni/capacitor-calendar.git"
+    "url": "https://github.com/ebarooni/capacitor-calendar.git"
   },
   "bugs": {
-    "url": "https://github.com/ebarooni/capacitor-calendar.git/issues"
+    "url": "https://github.com/ebarooni/capacitor-calendar/issues"
   },
   "keywords": [
     "capacitor",
@@ -38,31 +24,47 @@
   "engines": {
     "node": ">=20.12.2"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "dist/",
+    "android/src/main/",
+    "android/build.gradle",
+    "ios/Sources",
+    "ios/Tests",
+    "Package.swift",
+    "EbarooniCapacitorCalendar.podspec",
+    "LICENSE.txt"
+  ],
   "scripts": {
-    "spm:install": "swift package resolve",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "clean": "rimraf ./dist",
     "prettier": "npx prettier",
     "prettier:check": "npm run prettier -- . --check",
     "prettier:fix": "npm run prettier -- . --write",
-    "swiftlint": "node-swiftlint",
-    "typedoc": "npx typedoc",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
-    "clean": "rimraf ./dist",
-    "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json",
     "eslint": "npx eslint",
+    "eslint:fix": "npm run eslint -- --fix",
     "fmt": "npm run fmt:web && npm run fmt:android && npm run fmt:ios",
-    "fmt:android": "npm run ktlint -- -F",
-    "fmt:ios": "npm run swiftlint -- --fix --format",
-    "fmt:web": "npm run eslint -- --fix && npm run prettier:fix",
-    "ktlint": "ktlint 'android/src/main/java/**'",
+    "fmt:android": "npx ktlint -F",
+    "fmt:ios": "npx swiftlint --fix --format",
+    "fmt:web": "npm run eslint:fix && npm run prettier:fix",
     "lint": "npm run lint:web && npm run lint:android && npm run lint:ios",
-    "lint:android": "npm run ktlint",
-    "lint:ios": "npm run swiftlint -- lint",
+    "lint:android": "npx ktlint",
+    "lint:ios": "npx swiftlint lint",
     "lint:web": "npm run eslint && npm run prettier:check",
-    "prepublishOnly": "npm run build",
+    "spm:install": "swift package resolve",
+    "typedoc": "npx typedoc",
+    "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json",
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "xcodebuild build -scheme EbarooniCapacitorCalendar -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
+    "prepublishOnly": "npm run build",
     "version:patch": "npm version patch --git-tag-version false",
     "version:minor": "npm version minor --git-tag-version false",
     "version:major": "npm version major --git-tag-version false"
@@ -102,8 +104,5 @@
     "android": {
       "src": "android"
     }
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
