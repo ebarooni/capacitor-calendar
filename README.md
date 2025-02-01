@@ -1,18 +1,21 @@
 <p align="center">
   <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
-
   <br>
-    <em>
-        A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.
-    </em>
+  <em>A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.</em>
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" />
-    <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar"><img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" /></a>
-    <br>
-    <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar"><img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" /></a>
-    <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar"><img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" /></a>
+  <img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" />
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
+  <br>
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
 </p>
 
 ## Table of Contents
@@ -20,8 +23,8 @@
 - [Installation](#installation)
 - [Demo](#demo)
 - [Setup](#setup)
-- [Documentation](#-documentation)
-- [API](#-api)
+- [Documentation](#documentation)
+- [API](#api)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [License](#license)
@@ -41,17 +44,19 @@ npx cap sync
 
 ## Setup
 
-- [iOS](./docs/ios.md)
-- [Android](./docs/android.md)
+This plugin requires additional platform-specific configuration. Follow the official guides:
 
-## 📚 Documentation
+- **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
+- **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
 
-For comprehensive explanations, usage examples, and additional information, please refer to the following resources:
+## Documentation
 
-- **[Online Documentation](https://ebarooni.github.io/capacitor-calendar/)**
-- **[Type Definitions and Examples](src/definitions.ts)**
+For comprehensive usage examples, detailed explanations, and API references, check out:
 
-## 📋 API
+- **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
+- **[Type definitions & examples](src/definitions.ts)**
+
+## API
 
 <docgen-index>
 
@@ -709,12 +714,12 @@ Construct a type with a set of properties K of type T
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md)
+See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-See [LICENSE.txt](LICENSE.txt)
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
