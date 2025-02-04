@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 7.x.x](#version-7xx)
+  - [7.1.0](#710)
   - [7.0.0](#700)
 - [Version 6.x.x](#version-6xx)
   - [6.7.2](#672)
@@ -34,6 +35,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Version 7.x.x
 
 Changelogs for the versions supporting Capacitor 7.
+
+## 7.1.0
+
+### Changed
+
+- `checkPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
+- `checkAllPermissions` returns `{ result: CheckAllPermissionsResult; }` instead of `PluginPermissionsMap`
+- `requestPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
+- `requestAllPermissions` returns `{ result: RequestAllPermissionsResult; }` instead of `PluginPermissionsMap`
+
+### Removed
+
+- `PluginPermissionsMap`
+- `PluginPermission`
 
 ## 7.0.0
 
