@@ -1,11 +1,14 @@
+import {
+  CheckAllPermissionsResult,
+  RequestAllPermissionsResult,
+} from "./sub-definitions/calendar-access";
 import { PermissionState, WebPlugin } from "@capacitor/core";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
+import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CapacitorCalendarPlugin } from "./definitions";
 import { EventSpan } from "./schemas/enums/event-span";
-import { PluginPermission } from "./schemas/enums/plugin-permission";
-import type { PluginPermissionsMap } from "./schemas/interfaces/plugin-permissions-map";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -15,31 +18,43 @@ export class CapacitorCalendarWeb
   implements CapacitorCalendarPlugin
 {
   public checkPermission(_options: {
-    alias: PluginPermission;
+    scope: CalendarPermissionScope;
   }): Promise<{ result: PermissionState }> {
-    throw this.unimplemented(
-      `${this.checkPermission.name} is not implemented on the web`,
-    );
+    return this.throwUnimplemented(this.checkPermission.name);
   }
 
-  public checkAllPermissions(): Promise<PluginPermissionsMap> {
-    throw this.unimplemented(
-      `${this.checkAllPermissions.name} is not implemented on the web`,
-    );
+  public checkAllPermissions(): Promise<{ result: CheckAllPermissionsResult }> {
+    return this.throwUnimplemented(this.checkAllPermissions.name);
   }
 
   public requestPermission(_options: {
-    alias: PluginPermission;
+    scope: CalendarPermissionScope;
   }): Promise<{ result: PermissionState }> {
-    throw this.unimplemented(
-      `${this.requestPermission.name} is not implemented on the web`,
-    );
+    return this.throwUnimplemented(this.requestPermission.name);
   }
 
-  public requestAllPermissions(): Promise<PluginPermissionsMap> {
-    throw this.unimplemented(
-      `${this.requestAllPermissions.name} is not implemented on the web`,
-    );
+  public requestAllPermissions(): Promise<{
+    result: RequestAllPermissionsResult;
+  }> {
+    return this.throwUnimplemented(this.requestAllPermissions.name);
+  }
+
+  public requestWriteOnlyCalendarAccess(): Promise<{
+    result: PermissionState;
+  }> {
+    return this.throwUnimplemented(this.requestWriteOnlyCalendarAccess.name);
+  }
+
+  public requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }> {
+    return this.throwUnimplemented(this.requestReadOnlyCalendarAccess.name);
+  }
+
+  public requestFullCalendarAccess(): Promise<{ result: PermissionState }> {
+    return this.throwUnimplemented(this.requestFullCalendarAccess.name);
+  }
+
+  public requestFullRemindersAccess(): Promise<{ result: PermissionState }> {
+    return this.throwUnimplemented(this.requestFullRemindersAccess.name);
   }
 
   public createEventWithPrompt(_options: {
@@ -186,32 +201,6 @@ export class CapacitorCalendarWeb
     );
   }
 
-  public requestWriteOnlyCalendarAccess(): Promise<{
-    result: PermissionState;
-  }> {
-    throw this.unimplemented(
-      `${this.requestWriteOnlyCalendarAccess.name} is not implemented on the web`,
-    );
-  }
-
-  public requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }> {
-    throw this.unimplemented(
-      `${this.requestReadOnlyCalendarAccess.name} is not implemented on the web`,
-    );
-  }
-
-  public requestFullCalendarAccess(): Promise<{ result: PermissionState }> {
-    throw this.unimplemented(
-      `${this.requestFullCalendarAccess.name} is not implemented on the web`,
-    );
-  }
-
-  public requestFullRemindersAccess(): Promise<{ result: PermissionState }> {
-    throw this.unimplemented(
-      `${this.requestFullRemindersAccess.name} is not implemented on the web`,
-    );
-  }
-
   public modifyEventWithPrompt(_options: {
     id: string;
     update?: {
@@ -281,6 +270,12 @@ export class CapacitorCalendarWeb
   }): Promise<void> {
     throw this.unimplemented(
       `${this.modifyReminder.name} is not implemented on the web`,
+    );
+  }
+
+  private throwUnimplemented<T>(methodName: string): Promise<T> {
+    return Promise.reject(
+      this.unimplemented(`${methodName} is not implemented on the web.`),
     );
   }
 }
