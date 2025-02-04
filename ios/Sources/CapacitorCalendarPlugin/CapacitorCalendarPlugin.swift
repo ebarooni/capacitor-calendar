@@ -1,82 +1,24 @@
-import Foundation
 import Capacitor
 import EventKit
 
 @objc(CapacitorCalendarPlugin)
 public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
-    public let identifier = "CapacitorCalendarPlugin"
-    public let jsName = "CapacitorCalendar"
-    public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "createEventWithPrompt", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "checkPermission", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "checkAllPermissions", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestPermission", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestAllPermissions", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "selectCalendarsWithPrompt", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "listCalendars", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getDefaultCalendar", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "createEvent", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getDefaultRemindersList", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getRemindersLists", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "createReminder", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "openCalendar", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "openReminders", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "listEventsInRange", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteEventsById", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "createCalendar", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteCalendar", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getRemindersFromLists", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "deleteRemindersById", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestWriteOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestFullCalendarAccess", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestFullRemindersAccess", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "requestReadOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "modifyEventWithPrompt", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "modifyEvent", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "fetchAllCalendarSources", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "fetchAllRemindersSources", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "modifyReminder", returnType: CAPPluginReturnPromise)
-    ]
+    public let identifier = PluginConfig.identifier
+    public let jsName = PluginConfig.jsName
+    public let pluginMethods = PluginConfig.methods
+    private lazy var implementation = CapacitorCalendarNew(plugin: self)
     private let eventStore = EKEventStore()
     private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.eventStore)
     private lazy var reminders = CapacitorReminders(eventStore: self.eventStore)
 
     @objc public func checkPermission(_ call: CAPPluginCall) {
-        guard let alias = call.getString("alias") else {
-            call.reject("[CapacitorCalendar.\(#function)] Permission name is not defined")
-            return
+        do {
+            let input = try CheckPermissionInput(call: call)
+            let result = try implementation.checkPermission(input: input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
-
-        Task {
-            do {
-                try await handlePermissionCheck(for: alias, with: call)
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permission")
-            }
-        }
-    }
-
-    private func handlePermissionCheck(for alias: String, with call: CAPPluginCall) async throws {
-        let permissionsState: [String: String]
-
-        switch alias {
-        case "readCalendar":
-            permissionsState = try await calendar.checkAllPermissions()
-        case "writeCalendar":
-            permissionsState = try await calendar.checkAllPermissions()
-        case "readReminders":
-            permissionsState = try await reminders.checkAllPermissions()
-        case "writeReminders":
-            permissionsState = try await reminders.checkAllPermissions()
-        default:
-            throw CapacitorCalendarPluginError.unknownPermissionStatus
-        }
-
-        guard let permissionResult = permissionsState[alias] else {
-            throw CapacitorCalendarPluginError.unknownPermissionStatus
-        }
-
-        call.resolve(["result": permissionResult])
     }
 
     @objc public func checkAllPermissions(_ call: CAPPluginCall) {
