@@ -10,34 +10,38 @@ class CapacitorCalendarNew {
 
     func checkPermission(input: CheckPermissionInput) throws -> CheckPermissionResult {
         let scope = input.getScope()
-        let status: EKAuthorizationStatus
+        let state: EKAuthorizationStatus
 
         switch scope {
         case .readCalendar, .writeCalendar:
-            status = EKEventStore.authorizationStatus(for: .event)
+            state = EKEventStore.authorizationStatus(for: .event)
         case .readReminders, .writeReminders:
-            status = EKEventStore.authorizationStatus(for: .reminder)
+            state = EKEventStore.authorizationStatus(for: .reminder)
         }
 
-        var result: CheckPermissionResult
+        let detectedState = try ImplementationHelper.permissionStateToResult(state: state, scope: scope)
+        return CheckPermissionResult(status: detectedState)
+    }
 
-        switch status {
-        case .authorized, .fullAccess:
-            result = CheckPermissionResult(status: CAPPermissionState.granted)
-        case .denied, .restricted:
-            result = CheckPermissionResult(status: CAPPermissionState.denied)
-        case .writeOnly:
-            if scope == .writeCalendar || scope == .writeReminders {
-                result = CheckPermissionResult(status: CAPPermissionState.granted)
-            } else {
-                result = CheckPermissionResult(status: CAPPermissionState.prompt)
+    func checkAllPermissions() throws -> CheckAllPermissionsResult {
+        let calendarState = EKEventStore.authorizationStatus(for: .event)
+        let remindersState = EKEventStore.authorizationStatus(for: .reminder)
+        var permissionsResult: [String: String] = [:]
+
+        for scope in CalendarPermissionScope.allCases {
+            let state: EKAuthorizationStatus
+
+            switch scope {
+            case .readCalendar, .writeCalendar:
+                state = calendarState
+            case .readReminders, .writeReminders:
+                state = remindersState
             }
-        case .notDetermined:
-            result = CheckPermissionResult(status: CAPPermissionState.prompt)
-        default:
-            throw PluginError.unhandledPermissionState
+
+            let detectedState = try ImplementationHelper.permissionStateToResult(state: state, scope: scope)
+            permissionsResult[scope.rawValue] = detectedState.rawValue
         }
 
-        return result
+        return CheckAllPermissionsResult(statesDict: permissionsResult)
     }
 }

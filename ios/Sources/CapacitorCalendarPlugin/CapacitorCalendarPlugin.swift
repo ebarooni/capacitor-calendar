@@ -22,15 +22,11 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func checkAllPermissions(_ call: CAPPluginCall) {
-        Task {
-            do {
-                let calendarPermissionsState = try await calendar.checkAllPermissions()
-                let remindersPermissionsState = try await reminders.checkAllPermissions()
-                call.resolve(calendarPermissionsState.merging(remindersPermissionsState) { (_, new) in new })
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Could not determine the status of the requested permissions")
-                return
-            }
+        do {
+            let result = try implementation.checkAllPermissions()
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
     }
 
