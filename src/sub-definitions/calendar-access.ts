@@ -1,22 +1,25 @@
+import { CalendarPermissionScope } from "../schemas/enums/calendar-permission-scope";
 import { PermissionState } from "@capacitor/core";
-import { PluginPermission } from "../schemas/enums/plugin-permission";
 
+/**
+ * @since 7.1.0
+ */
 export interface CalendarAccess {
   /**
-   * Retrieves the current permission status for a given permission alias.
+   * Retrieves the current permission state for a given permission scope.
    *
    * @since 0.1.0
    * @platform Android, iOS
    *
    * @example
-   * CapacitorCalendar.checkPermission({ alias: 'readCalendar' });
+   * CapacitorCalendar.checkPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
    */
   checkPermission(options: {
-    alias: PluginPermission;
+    scope: CalendarPermissionScope;
   }): Promise<{ result: PermissionState }>;
 
   /**
-   * Retrieves the current status of all permissions.
+   * Retrieves the current state of all permissions.
    *
    * @since 0.1.0
    * @platform Android, iOS
@@ -24,16 +27,16 @@ export interface CalendarAccess {
   checkAllPermissions(): Promise<{ result: CheckAllPermissionsResult }>;
 
   /**
-   * Requests permission for a given permission alias.
+   * Requests permission for a given permission scope.
    *
    * @since 0.1.0
    * @platform Android, iOS
    *
    * @example
-   * this.requestPermission({ alias: 'readCalendar' });
+   * this.requestPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
    */
   requestPermission(options: {
-    alias: PluginPermission;
+    scope: CalendarPermissionScope;
   }): Promise<{ result: PermissionState }>;
 
   /**
@@ -49,6 +52,12 @@ export interface CalendarAccess {
    *
    * @since 5.4.0
    * @platform Android, iOS
+   * @permissions
+   * | Platform  | Required |
+   * |-----------|---------------------|
+   * | iOS 17+   | `NSCalendarsWriteOnlyAccessUsageDescription` |
+   * | iOS 13-16 | `NSCalendarsUsageDescription` |
+   * | Android   | `android.permission.WRITE_CALENDAR` |
    */
   requestWriteOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
 
@@ -57,6 +66,10 @@ export interface CalendarAccess {
    *
    * @since 5.4.0
    * @platform Android
+   * @permissions
+   * | Platform  | Required |
+   * |-----------|---------------------|
+   * | Android   | `android.permission.READ_CALENDAR` |
    */
   requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
 
@@ -65,16 +78,14 @@ export interface CalendarAccess {
    *
    * @since 5.4.0
    * @platform Android, iOS
+   * @permissions
+   * | Platform  | Required |
+   * |-----------|---------------------|
+   * | iOS 17+   | `NSCalendarsFullAccessUsageDescription` |
+   * | iOS 13-16 | `NSCalendarsUsageDescription` |
+   * | Android   | `android.permission.READ_CALENDAR` & `android.permission.WRITE_CALENDAR` |
    */
   requestFullCalendarAccess(): Promise<{ result: PermissionState }>;
-
-  /**
-   * Requests read and write access to the reminders.
-   *
-   * @since 5.4.0
-   * @platform iOS
-   */
-  requestFullRemindersAccess(): Promise<{ result: PermissionState }>;
 }
 
 /**
@@ -82,7 +93,7 @@ export interface CalendarAccess {
  * @platform Android, iOS
  */
 export type CheckAllPermissionsResult = Record<
-  PluginPermission,
+  CalendarPermissionScope,
   PermissionState
 >;
 

@@ -7,9 +7,12 @@ import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import { RemindersAccess } from "./sub-definitions/reminders-access";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
 
-export interface CapacitorCalendarPlugin extends CalendarAccess {
+export interface CapacitorCalendarPlugin
+  extends CalendarAccess,
+    RemindersAccess {
   /**
    * Creates an event in the calendar by using the native calendar.
    * On iOS opens a native sheet and on Android opens an intent.
