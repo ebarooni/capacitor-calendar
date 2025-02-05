@@ -44,4 +44,49 @@ class CapacitorCalendarNew {
 
         return CheckAllPermissionsResult(statesDict: permissionsResult)
     }
+
+    func requestionPermission(input: RequestPermissionInput) async throws -> RequestPermissionResult {
+        let scope = input.getScope()
+        var state: CAPPermissionState
+        var result: RequestPermissionResult
+
+        switch scope {
+        case .writeCalendar:
+            state = try await ImplementationHelper.requestWriteOnlyCalendarAccess(eventStore: eventStore)
+            result = RequestPermissionResult(state: state)
+        case .readCalendar:
+            state = try await ImplementationHelper.requestFullCalendarAccess(eventStore: eventStore)
+            result = RequestPermissionResult(state: state)
+        case .writeReminders, .readReminders:
+            state = try await ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
+            result = RequestPermissionResult(state: state)
+        }
+
+        return result
+    }
+    
+    func requestAllPermissions() async throws -> RequestAllPermissionsResult {
+        let calendarState = try await ImplementationHelper.requestFullCalendarAccess(eventStore: eventStore)
+        let remindersState = try await ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
+        let result = RequestAllPermissionsResult(calendarState: calendarState, remindersState: remindersState)
+        return result
+    }
+    
+    func requestWriteOnlyCalendarAccess() async throws -> RequestPermissionResult {
+        let state = try await ImplementationHelper.requestWriteOnlyCalendarAccess(eventStore: eventStore)
+        let result = RequestPermissionResult(state: state)
+        return result
+    }
+    
+    func requestFullCalendarAccess() async throws -> RequestPermissionResult {
+        let state = try await  ImplementationHelper.requestFullCalendarAccess(eventStore: eventStore)
+        let result = RequestPermissionResult(state: state)
+        return result
+    }
+    
+    func requestFullRemindersAccess() async throws -> RequestPermissionResult {
+        let state = try await  ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
+        let result = RequestPermissionResult(state: state)
+        return result
+    }
 }

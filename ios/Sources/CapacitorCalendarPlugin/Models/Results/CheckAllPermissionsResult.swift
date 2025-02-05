@@ -1,6 +1,6 @@
 import Capacitor
 
-struct CheckAllPermissionsResult {
+struct CheckAllPermissionsResult: JSResult {
     private let statesDict: [String: String]
 
     init(statesDict: [String: String]) {

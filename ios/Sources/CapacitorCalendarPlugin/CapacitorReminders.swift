@@ -41,33 +41,6 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func checkAllPermissions() async throws -> [String: String] {
-        return try await withCheckedThrowingContinuation { continuation in
-            var permissionsState: [String: String]
-            switch EKEventStore.authorizationStatus(for: .reminder) {
-            case .authorized, .fullAccess:
-                permissionsState = [
-                    "writeReminders": PermissionState.granted.rawValue,
-                    "readReminders": PermissionState.granted.rawValue
-                ]
-            case .denied, .restricted:
-                permissionsState = [
-                    "writeReminders": PermissionState.denied.rawValue,
-                    "readReminders": PermissionState.denied.rawValue
-                ]
-            case .writeOnly, .notDetermined:
-                permissionsState = [
-                    "writeReminders": PermissionState.prompt.rawValue,
-                    "readReminders": PermissionState.prompt.rawValue
-                ]
-            @unknown default:
-                continuation.resume(throwing: CapacitorCalendarPluginError.unknownPermissionStatus)
-                return
-            }
-            continuation.resume(returning: permissionsState)
-        }
-    }
-
     public func getRemindersLists() -> [[String: Any]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
@@ -115,42 +88,6 @@ public class CapacitorReminders: NSObject {
             return newReminder.calendarItemIdentifier
         } catch {
             throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
-        }
-    }
-
-    public func requestFullAccessToReminders() async throws -> String {
-        return try await withCheckedThrowingContinuation { continuation in
-            if #available(iOS 17.0, *) {
-                eventStore.requestFullAccessToReminders { granted, error in
-                    if let error = error {
-                        continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
-                        return
-                    }
-
-                    var permissionState: String
-                    if granted {
-                        permissionState = PermissionState.granted.rawValue
-                    } else {
-                        permissionState = PermissionState.denied.rawValue
-                    }
-                    continuation.resume(returning: permissionState)
-                }
-            } else {
-                eventStore.requestAccess(to: .reminder) { granted, error in
-                    if let error = error {
-                        continuation.resume(throwing: CapacitorCalendarPluginError.eventStoreAuthorization)
-                        return
-                    }
-
-                    var permissionState: String
-                    if granted {
-                        permissionState = PermissionState.granted.rawValue
-                    } else {
-                        permissionState = PermissionState.denied.rawValue
-                    }
-                    continuation.resume(returning: permissionState)
-                }
-            }
         }
     }
 
