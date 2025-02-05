@@ -44,6 +44,7 @@ Changelogs for the versions supporting Capacitor 7.
 - `checkAllPermissions` returns `{ result: CheckAllPermissionsResult; }` instead of `PluginPermissionsMap`
 - `requestPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
 - `requestAllPermissions` returns `{ result: RequestAllPermissionsResult; }` instead of `PluginPermissionsMap`
+- `requestAllPermissions` is marked as deprecated
 
 ### Removed
 

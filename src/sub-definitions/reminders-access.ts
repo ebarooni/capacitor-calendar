@@ -7,14 +7,16 @@ export interface RemindersAccess {
   /**
    * Requests read and write access to the reminders.
    *
-   * @since 5.4.0
-   * @platform iOS
    * @see {@link CalendarPermissionScope}
+   * @since 5.4.0
+   *
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
    * | iOS 10-16 | `NSRemindersUsageDescription` |
+   *
+   * @platform iOS
    */
   requestFullRemindersAccess(): Promise<{ result: PermissionState }>;
 }

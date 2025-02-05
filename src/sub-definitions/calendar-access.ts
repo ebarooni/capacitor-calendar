@@ -6,13 +6,14 @@ import { PermissionState } from "@capacitor/core";
  */
 export interface CalendarAccess {
   /**
-   * Retrieves the current permission state for a given permission scope.
-   *
-   * @since 0.1.0
-   * @platform Android, iOS
+   * Retrieves the current permission state for a given scope.
    *
    * @example
    * CapacitorCalendar.checkPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
+   *
+   * @platform Android, iOS
+   * @since 0.1.0
+   *
    */
   checkPermission(options: {
     scope: CalendarPermissionScope;
@@ -21,76 +22,80 @@ export interface CalendarAccess {
   /**
    * Retrieves the current state of all permissions.
    *
-   * @since 0.1.0
    * @platform Android, iOS
+   * @since 0.1.0
    */
   checkAllPermissions(): Promise<{ result: CheckAllPermissionsResult }>;
 
   /**
-   * Requests permission for a given permission scope.
-   *
-   * @since 0.1.0
-   * @platform Android, iOS
+   * Requests permission for a given scope.
    *
    * @example
    * this.requestPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
+   *
+   * @platform Android, iOS
+   * @since 0.1.0
    */
   requestPermission(options: {
     scope: CalendarPermissionScope;
   }): Promise<{ result: PermissionState }>;
 
   /**
-   * Requests permission for all permissions.
+   * Requests permission for all calendar and reminder permissions.
    *
-   * @since 0.1.0
+   * @deprecated Use {@link requestFullCalendarAccess} or {@link requestFullRemindersAccess} instead.
    * @platform Android, iOS
+   * @since 0.1.0
    */
   requestAllPermissions(): Promise<{ result: RequestAllPermissionsResult }>;
 
   /**
    * Requests write access to the calendar.
    *
-   * @since 5.4.0
-   * @platform Android, iOS
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSCalendarsWriteOnlyAccessUsageDescription` |
    * | iOS 13-16 | `NSCalendarsUsageDescription` |
    * | Android   | `android.permission.WRITE_CALENDAR` |
+   *
+   * @platform Android, iOS
+   * @since 5.4.0
    */
   requestWriteOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
 
   /**
    * Requests read access to the calendar.
    *
-   * @since 5.4.0
-   * @platform Android
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | Android   | `android.permission.READ_CALENDAR` |
+   *
+   * @platform Android
+   * @since 5.4.0
    */
   requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }>;
 
   /**
    * Requests read and write access to the calendar.
    *
-   * @since 5.4.0
-   * @platform Android, iOS
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSCalendarsFullAccessUsageDescription` |
    * | iOS 13-16 | `NSCalendarsUsageDescription` |
    * | Android   | `android.permission.READ_CALENDAR` & `android.permission.WRITE_CALENDAR` |
+   *
+   * @platform Android, iOS
+   * @since 5.4.0
    */
   requestFullCalendarAccess(): Promise<{ result: PermissionState }>;
 }
 
 /**
- * @since 7.1.0
  * @platform Android, iOS
+ * @since 7.1.0
  */
 export type CheckAllPermissionsResult = Record<
   CalendarPermissionScope,
@@ -98,7 +103,7 @@ export type CheckAllPermissionsResult = Record<
 >;
 
 /**
- * @since 7.1.0
  * @platform Android, iOS
+ * @since 7.1.0
  */
 export type RequestAllPermissionsResult = CheckAllPermissionsResult;
