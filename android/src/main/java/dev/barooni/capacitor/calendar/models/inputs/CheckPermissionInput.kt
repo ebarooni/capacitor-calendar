@@ -4,7 +4,9 @@ import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 
-data class CheckPermissionInput(private val call: PluginCall) {
+data class CheckPermissionInput(
+    private val call: PluginCall,
+) {
     val scope: CalendarPermissionScope
 
     init {

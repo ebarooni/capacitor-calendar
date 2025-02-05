@@ -4,7 +4,10 @@ import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 
-data class RequestPermissionInput(val call: PluginCall, val callbackName: String = "") {
+data class RequestPermissionInput(
+    val call: PluginCall,
+    val callbackName: String = "",
+) {
     val scope: CalendarPermissionScope
 
     init {

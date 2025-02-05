@@ -11,7 +11,9 @@ import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 
-class CapacitorCalendarNew(private val plugin: CapacitorCalendarPlugin) {
+class CapacitorCalendarNew(
+    private val plugin: CapacitorCalendarPlugin,
+) {
     fun checkPermission(input: CheckPermissionInput): CheckPermissionResult {
         val state = plugin.getPermissionState(input.scope.value) ?: throw PluginError.UnhandledPermissionState
         val result = CheckPermissionResult(state)
@@ -25,11 +27,17 @@ class CapacitorCalendarNew(private val plugin: CapacitorCalendarPlugin) {
         return result
     }
 
-    fun requestPermission(input: RequestPermissionInput, callback: (String, PluginCall, String) -> Unit) {
+    fun requestPermission(
+        input: RequestPermissionInput,
+        callback: (String, PluginCall, String) -> Unit,
+    ) {
         callback(input.scope.value, input.call, input.callbackName)
     }
 
-    fun requestAllPermissions(input: RequestAllPermissionsInput, callback: (String, PluginCall, String) -> Unit) {
+    fun requestAllPermissions(
+        input: RequestAllPermissionsInput,
+        callback: (String, PluginCall, String) -> Unit,
+    ) {
         callback(input.alias, input.call, input.callbackName)
     }
 }

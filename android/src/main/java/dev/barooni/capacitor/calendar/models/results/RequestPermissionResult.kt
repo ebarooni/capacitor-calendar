@@ -7,7 +7,10 @@ import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.templates.JSResult
 
-data class RequestPermissionResult(val call: PluginCall, val getPermissionState: (String) -> PermissionState?): JSResult {
+data class RequestPermissionResult(
+    val call: PluginCall,
+    val getPermissionState: (String) -> PermissionState?,
+) : JSResult {
     private val state: PermissionState
 
     init {
