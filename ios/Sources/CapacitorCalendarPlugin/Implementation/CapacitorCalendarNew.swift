@@ -2,7 +2,7 @@ import EventKit
 
 class CapacitorCalendarNew {
     private let plugin: CapacitorCalendarPlugin
-    private let eventStore = EKEventStore()
+    public let eventStore = EKEventStore()
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin

@@ -8,8 +8,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     public let pluginMethods = PluginConfig.methods
     private lazy var implementation = CapacitorCalendarNew(plugin: self)
     private let eventStore = EKEventStore()
-    private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.eventStore)
-    private lazy var reminders = CapacitorReminders(eventStore: self.eventStore)
+    private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.implementation.eventStore)
+    private lazy var reminders = CapacitorReminders(eventStore: self.implementation.eventStore)
 
     @objc public func checkPermission(_ call: CAPPluginCall) {
         do {
