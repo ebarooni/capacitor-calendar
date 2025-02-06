@@ -16,6 +16,7 @@ import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
 import dev.barooni.capacitor.calendar.implementation.CapacitorCalendarNew
+import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
@@ -75,7 +76,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestPermission(call: PluginCall) {
         try {
-            val input = RequestPermissionInput(call, ::requestPermissionCallback.name)
+            val input = RequestPermissionInput.FromCall(call, ::requestPermissionCallback.name)
             implementationNew.requestPermission(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
@@ -85,7 +86,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PermissionCallback
     private fun requestPermissionCallback(call: PluginCall) {
         try {
-            val result = RequestPermissionResult(call, ::getPermissionState)
+            val result = RequestPermissionResult.FromCall(call, ::getPermissionState)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -95,9 +96,8 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestAllPermissions(call: PluginCall) {
         try {
-            val input = RequestAllPermissionsInput(call, "requestAllPermissionsCallback")
+            val input = RequestAllPermissionsInput(call, ::requestAllPermissionsCallback.name)
             implementationNew.requestAllPermissions(input, ::requestPermissionForAlias)
-            return requestPermissions(call)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -111,6 +111,81 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (error: Exception) {
             call.reject(error.message)
         }
+    }
+
+    @PluginMethod
+    fun requestWriteOnlyCalendarAccess(call: PluginCall) {
+        try {
+            val input =
+                RequestPermissionInput.FromScope(
+                    call,
+                    CalendarPermissionScope.WRITE_CALENDAR,
+                    ::requestWriteOnlyCalendarAccessCallback.name,
+                )
+            implementationNew.requestPermission(input, ::requestPermissionForAlias)
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PermissionCallback
+    fun requestWriteOnlyCalendarAccessCallback(call: PluginCall) {
+        try {
+            val result = RequestPermissionResult.FromScope(CalendarPermissionScope.WRITE_CALENDAR, ::getPermissionState)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun requestReadOnlyCalendarAccess(call: PluginCall) {
+        try {
+            val input =
+                RequestPermissionInput.FromScope(
+                    call,
+                    CalendarPermissionScope.READ_CALENDAR,
+                    ::requestReadOnlyCalendarAccessCallback.name,
+                )
+            implementationNew.requestPermission(input, ::requestPermissionForAlias)
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PermissionCallback
+    fun requestReadOnlyCalendarAccessCallback(call: PluginCall) {
+        try {
+            val result = RequestPermissionResult.FromScope(CalendarPermissionScope.READ_CALENDAR, ::getPermissionState)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun requestFullCalendarAccess(call: PluginCall) {
+        try {
+            val input = RequestAllPermissionsInput(call, ::requestFullCalendarAccessCallback.name)
+            implementationNew.requestAllPermissions(input, ::requestPermissionForAlias)
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PermissionCallback
+    fun requestFullCalendarAccessCallback(call: PluginCall) {
+        try {
+            val result = RequestPermissionResult.FullCalendarAccess(::getPermissionState)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun requestFullRemindersAccess(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::requestFullRemindersAccess.name).message)
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
@@ -236,84 +311,6 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (error: Exception) {
             call.reject("", error.message)
             return
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun requestWriteOnlyCalendarAccess(call: PluginCall) {
-        val permissionName = "writeCalendar"
-        try {
-            return requestPermissionForAlias(
-                permissionName,
-                call,
-                "requestWriteOnlyCalendarAccessCallback",
-            )
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun requestReadOnlyCalendarAccess(call: PluginCall) {
-        val permissionName = "readCalendar"
-        try {
-            return requestPermissionForAlias(
-                permissionName,
-                call,
-                "requestReadOnlyCalendarAccessCallback",
-            )
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun requestFullCalendarAccess(call: PluginCall) {
-        val permissionName = "readWriteCalendar"
-        try {
-            return requestPermissionForAlias(
-                permissionName,
-                call,
-                "requestFullCalendarAccessCallback",
-            )
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
-        }
-    }
-
-    @PermissionCallback
-    private fun requestWriteOnlyCalendarAccessCallback(call: PluginCall) {
-        val permissionName = "writeCalendar"
-        try {
-            val ret = JSObject()
-            ret.put("result", getPermissionState(permissionName))
-            call.resolve(ret)
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
-        }
-    }
-
-    @PermissionCallback
-    private fun requestReadOnlyCalendarAccessCallback(call: PluginCall) {
-        val permissionName = "readCalendar"
-        try {
-            val ret = JSObject()
-            ret.put("result", getPermissionState(permissionName))
-            call.resolve(ret)
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
-        }
-    }
-
-    @PermissionCallback
-    private fun requestFullCalendarAccessCallback(call: PluginCall) {
-        val permissionName = "readWriteCalendar"
-        try {
-            val ret = JSObject()
-            ret.put("result", getPermissionState(permissionName))
-            call.resolve(ret)
-        } catch (_: Exception) {
-            throw Exception("${::requestPermissionCallback.name} Could not authorize $permissionName")
         }
     }
 

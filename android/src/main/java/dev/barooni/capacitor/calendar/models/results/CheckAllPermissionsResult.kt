@@ -11,6 +11,7 @@ data class CheckAllPermissionsResult(
     override fun toJSON(): JSObject {
         val result = JSObject()
         permissionStates.forEach { (scope, state) -> result.put(scope.value, state.toString()) }
+        result.put("result", permissionStates)
         return result
     }
 }
