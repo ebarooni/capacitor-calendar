@@ -36,7 +36,6 @@ export class CapacitorCalendarWeb
   public requestAllPermissions(): Promise<{
     result: RequestAllPermissionsResult;
   }> {
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
     return this.throwUnimplemented(this.requestAllPermissions.name);
   }
 

@@ -104,7 +104,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 checkPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
 ```
 
-Retrieves the current permission state for a given permission scope.
+Retrieves the current permission state for a given scope.
 
 | Param         | Type                                                                                    |
 | ------------- | --------------------------------------------------------------------------------------- |
@@ -136,7 +136,7 @@ Retrieves the current state of all permissions.
 requestPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
 ```
 
-Requests permission for a given permission scope.
+Requests permission for a given scope.
 
 | Param         | Type                                                                                    |
 | ------------- | --------------------------------------------------------------------------------------- |

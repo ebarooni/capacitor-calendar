@@ -33,6 +33,9 @@ export interface CalendarAccess {
    * @example
    * this.requestPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
    *
+   * @deprecated Use {@link requestWriteOnlyCalendarAccess}, {@link requestReadOnlyCalendarAccess},
+   * {@link requestFullCalendarAccess} or {@link requestFullRemindersAccess} instead.
+   *
    * @platform Android, iOS
    * @since 0.1.0
    */

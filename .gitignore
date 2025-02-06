@@ -71,3 +71,7 @@ captures
 
 # typedoc
 typedoc-output
+
+# example-app
+example-app/android
+example-app/ios
