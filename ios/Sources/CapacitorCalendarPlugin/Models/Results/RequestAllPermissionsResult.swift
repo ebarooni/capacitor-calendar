@@ -2,7 +2,7 @@ import Capacitor
 
 struct RequestAllPermissionsResult: JSResult {
     private let permissionsState: JSObject
-    
+
     init(calendarState: CAPPermissionState, remindersState: CAPPermissionState) {
         var permissionsState = JSObject()
         permissionsState[CalendarPermissionScope.writeCalendar.rawValue] = calendarState.rawValue
@@ -11,7 +11,7 @@ struct RequestAllPermissionsResult: JSResult {
         permissionsState[CalendarPermissionScope.readReminders.rawValue] = remindersState.rawValue
         self.permissionsState = permissionsState
     }
-    
+
     func toJSON() -> JSObject {
         var result = JSObject()
         result["result"] = permissionsState

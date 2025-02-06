@@ -52,7 +52,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
     }
-    
+
     @objc public func requestWriteOnlyCalendarAccess(_ call: CAPPluginCall) {
         Task {
             do {
