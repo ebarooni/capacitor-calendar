@@ -1,7 +1,7 @@
 <p align="center">
   <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
   <br>
-  <em>A capacitor plugin for managing calendar events on iOS and Android, with reminder support on iOS.</em>
+  <em>A capacitor plugin for managing calendar events on iOS and Android, with reminders support on iOS.</em>
 </p>
 
 <p align="center">
@@ -64,6 +64,10 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`checkAllPermissions()`](#checkallpermissions)
 - [`requestPermission(...)`](#requestpermission)
 - [`requestAllPermissions()`](#requestallpermissions)
+- [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
+- [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
+- [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
+- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
@@ -80,10 +84,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
-- [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
-- [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
-- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
@@ -101,14 +101,14 @@ For comprehensive usage examples, detailed explanations, and API references, che
 ### checkPermission(...)
 
 ```typescript
-checkPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
+checkPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
 ```
 
-Checks the current authorization status of a specific permission.
+Retrieves the current permission state for a given scope.
 
-| Param         | Type                                                                      | Description                               |
-| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ scope: <a href="#calendarpermissionscope">CalendarPermissionScope</a>; }</code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -119,12 +119,12 @@ Checks the current authorization status of a specific permission.
 ### checkAllPermissions()
 
 ```typescript
-checkAllPermissions() => Promise<PluginPermissionsMap>
+checkAllPermissions() => Promise<{ result: CheckAllPermissionsResult; }>
 ```
 
-Checks the current authorization status of all the required permissions for the plugin.
+Retrieves the current state of all permissions.
 
-**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
 
@@ -133,15 +133,14 @@ Checks the current authorization status of all the required permissions for the 
 ### requestPermission(...)
 
 ```typescript
-requestPermission(options: { alias: PluginPermission; }) => Promise<{ result: PermissionState; }>
+requestPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
 ```
 
-Requests authorization to a specific permission, if not already granted.
-If the permission is already granted, it will directly return the status.
+Requests permission for a given scope.
 
-| Param         | Type                                                                      | Description                               |
-| ------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
-| **`options`** | <code>{ alias: <a href="#pluginpermission">PluginPermission</a>; }</code> | An object with the name of the permission |
+| Param         | Type                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ scope: <a href="#calendarpermissionscope">CalendarPermissionScope</a>; }</code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -152,14 +151,70 @@ If the permission is already granted, it will directly return the status.
 ### requestAllPermissions()
 
 ```typescript
-requestAllPermissions() => Promise<PluginPermissionsMap>
+requestAllPermissions() => Promise<{ result: RequestAllPermissionsResult; }>
 ```
 
-Requests authorization to all the required permissions for the plugin, if they have not already been granted.
+Requests permission for all calendar and reminder permissions.
 
-**Returns:** <code>Promise&lt;<a href="#pluginpermissionsmap">PluginPermissionsMap</a>&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
+
+---
+
+### requestWriteOnlyCalendarAccess()
+
+```typescript
+requestWriteOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests write access to the calendar.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestReadOnlyCalendarAccess()
+
+```typescript
+requestReadOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read access to the calendar.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestFullCalendarAccess()
+
+```typescript
+requestFullCalendarAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read and write access to the calendar.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+---
+
+### requestFullRemindersAccess()
+
+```typescript
+requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read and write access to the reminders.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
 
 ---
 
@@ -417,62 +472,6 @@ Deletes reminders given their IDs.
 
 ---
 
-### requestWriteOnlyCalendarAccess()
-
-```typescript
-requestWriteOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
-```
-
-Requests write access for the calendar. If its already granted, it will directly return the state.
-
-**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
-
-**Since:** 5.4.0
-
----
-
-### requestReadOnlyCalendarAccess()
-
-```typescript
-requestReadOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
-```
-
-Requests read access for the calendar. If its already granted, it will directly return the state.
-
-**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
-
-**Since:** 5.4.0
-
----
-
-### requestFullCalendarAccess()
-
-```typescript
-requestFullCalendarAccess() => Promise<{ result: PermissionState; }>
-```
-
-Requests read and write access for the calendar. If its already granted, it will directly return the state.
-
-**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
-
-**Since:** 5.4.0
-
----
-
-### requestFullRemindersAccess()
-
-```typescript
-requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
-```
-
-Requests read and write access for the reminders. If its already granted, it will directly return the state.
-
-**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
-
-**Since:** 5.4.0
-
----
-
 ### modifyEventWithPrompt(...)
 
 ```typescript
@@ -632,9 +631,9 @@ Represents a reminder in a reminders list.
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
-#### PluginPermissionsMap
+#### CheckAllPermissionsResult
 
-<code><a href="#record">Record</a>&lt;string, <a href="#permissionstate">PermissionState</a>&gt;</code>
+<code><a href="#record">Record</a>&lt; <a href="#calendarpermissionscope">CalendarPermissionScope</a>, <a href="#permissionstate">PermissionState</a> &gt;</code>
 
 #### Record
 
@@ -644,20 +643,24 @@ Construct a type with a set of properties K of type T
 [P in K]: T;
 }</code>
 
+#### RequestAllPermissionsResult
+
+<code><a href="#checkallpermissionsresult">CheckAllPermissionsResult</a></code>
+
 #### RemindersList
 
 <code><a href="#calendar">Calendar</a></code>
 
 ### Enums
 
-#### PluginPermission
+#### CalendarPermissionScope
 
-| Members               | Value                         | Description                                            |
-| --------------------- | ----------------------------- | ------------------------------------------------------ |
-| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Represents the permission state for reading calendar.  |
-| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Represents the permission state for writing calendar.  |
-| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Represents the permission state for reading reminders. |
-| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Represents the permission state for writing reminders. |
+| Members               | Value                         | Description                                                  | Since |
+| --------------------- | ----------------------------- | ------------------------------------------------------------ | ----- |
+| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Permission required for reading calendar events.             | 7.1.0 |
+| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 |
+| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 |
+| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 |
 
 #### CalendarType
 

@@ -13,15 +13,17 @@ export default tseslint.config(
   config.json,
   config.markdown,
   {
+    files: ["src/web.ts"],
+    rules: {
+      "@typescript-eslint/no-deprecated": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
     languageOptions: {
       parserOptions: {
         project: ["tsconfig.eslint.json"],
       },
-    },
-  },
-  {
-    rules: {
-      "@typescript-eslint/no-unused-vars": "off",
     },
   },
 );

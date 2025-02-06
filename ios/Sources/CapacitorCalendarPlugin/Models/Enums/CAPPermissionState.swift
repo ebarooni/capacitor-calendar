@@ -1,4 +1,4 @@
-enum PermissionState: String {
+enum CAPPermissionState: String {
     case granted = "granted"
     case denied = "denied"
     case prompt = "prompt"
