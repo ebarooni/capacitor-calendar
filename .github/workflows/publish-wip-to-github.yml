@@ -47,9 +47,6 @@ jobs:
       - name: Log version
         run: echo "Version is ${{ env.NEW_VERSION }}"
 
-      - name: Run npm version
-        run: npm version ${{ env.NEW_VERSION }} --no-git-tag-version
-
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
