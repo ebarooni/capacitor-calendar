@@ -553,18 +553,18 @@ Modifies a reminder given its id and update details.
 
 #### CreateEventWithPromptOptions
 
-| Prop              | Type                  | Description                                                                                                                                                                  | Since |
-| ----------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`title`**       | <code>string</code>   |                                                                                                                                                                              | 0.1.0 |
-| **`calendarId`**  | <code>string</code>   |                                                                                                                                                                              | 0.1.0 |
-| **`location`**    | <code>string</code>   | TODO: Check Android                                                                                                                                                          | 0.1.0 |
-| **`startDate`**   | <code>number</code>   |                                                                                                                                                                              | 0.1.0 |
-| **`endDate`**     | <code>number</code>   |                                                                                                                                                                              | 0.1.0 |
-| **`isAllDay`**    | <code>boolean</code>  |                                                                                                                                                                              | 0.1.0 |
-| **`alerts`**      | <code>number[]</code> | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. The closer alerts to the start date take precedence. Negative numbers are ignored. | 7.1.0 |
-| **`url`**         | <code>string</code>   | TODO: Check Android                                                                                                                                                          | 0.1.0 |
-| **`description`** | <code>string</code>   |                                                                                                                                                                              | 7.1.0 |
-| **`lookupId`**    | <code>boolean</code>  | Set to `true` to get the ID of the created event. Default value is `false`. Only needed on Android. Ignored on iOS.                                                          | 7.1.0 |
+| Prop              | Type                  | Description                                                                                                         | Since |
+| ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`title`**       | <code>string</code>   |                                                                                                                     | 0.1.0 |
+| **`calendarId`**  | <code>string</code>   |                                                                                                                     | 0.1.0 |
+| **`location`**    | <code>string</code>   | TODO: Check Android                                                                                                 | 0.1.0 |
+| **`startDate`**   | <code>number</code>   |                                                                                                                     | 0.1.0 |
+| **`endDate`**     | <code>number</code>   |                                                                                                                     | 0.1.0 |
+| **`isAllDay`**    | <code>boolean</code>  |                                                                                                                     | 0.1.0 |
+| **`alerts`**      | <code>number[]</code> | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported.                           | 7.1.0 |
+| **`url`**         | <code>string</code>   | TODO: Check Android                                                                                                 | 0.1.0 |
+| **`description`** | <code>string</code>   |                                                                                                                     | 7.1.0 |
+| **`lookupId`**    | <code>boolean</code>  | Set to `true` to get the ID of the created event. Default value is `false`. Only needed on Android. Ignored on iOS. | 7.1.0 |
 
 #### Calendar
 
