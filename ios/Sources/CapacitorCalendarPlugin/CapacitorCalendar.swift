@@ -13,59 +13,6 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         self.eventStore = eventStore
     }
 
-    public func createEventWithPrompt(with parameters: EventCreationParameters) async throws -> [String] {
-        let newEvent = EKEvent(eventStore: eventStore)
-        if let calendarId = parameters.calendarId, let calendar = eventStore.calendar(withIdentifier: calendarId) {
-            newEvent.calendar = calendar
-        } else {
-            newEvent.calendar = eventStore.defaultCalendarForNewEvents
-        }
-        newEvent.title = parameters.title
-        if let location = parameters.location {
-            newEvent.location = location
-        }
-        if let startDate = parameters.startDate {
-            newEvent.startDate = Date(timeIntervalSince1970: startDate / 1000)
-        }
-        if let endDate = parameters.endDate {
-            newEvent.endDate = Date(timeIntervalSince1970: endDate / 1000)
-        }
-        if let isAllDay = parameters.isAllDay {
-            newEvent.isAllDay = isAllDay
-        }
-        if let alertOffsetInMinutesSingle = parameters.alertOffsetInMinutesSingle, alertOffsetInMinutesSingle >= 0 {
-            newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alertOffsetInMinutesSingle * 60)))
-        } else if let alertOffsetInMinutesMultiple = parameters.alertOffsetInMinutesMultiple {
-            for alert in alertOffsetInMinutesMultiple {
-                if alert >= 0 {
-                    newEvent.addAlarm(EKAlarm(relativeOffset: TimeInterval(-alert * 60)))
-                }
-            }
-        }
-        if let notes = parameters.notes {
-            newEvent.notes = notes
-        }
-        if let urlString = parameters.url, let url = URL(string: urlString) {
-            newEvent.url = url
-        }
-
-        return try await withCheckedThrowingContinuation { continuation in
-            guard let viewController = bridge?.viewController else {
-                continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
-                return
-            }
-
-            Task { @MainActor in
-                let eventEditViewController = EKEventEditViewController()
-                eventEditViewController.event = newEvent
-                eventEditViewController.eventStore = eventStore
-                eventEditViewController.editViewDelegate = self
-                currentCreateEventContinuation = continuation
-                viewController.present(eventEditViewController, animated: true, completion: nil)
-            }
-        }
-    }
-
     public func modifyEventWithPrompt(id: String, update: EventCreationParameters? = nil) async throws -> [String] {
         return try await withCheckedThrowingContinuation { continuation in
             guard let viewController = bridge?.viewController else {
