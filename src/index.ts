@@ -11,7 +11,7 @@ import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 import { CalendarType } from "./schemas/enums/calendar-type";
 import type { CapacitorCalendarPlugin } from "./definitions";
-import type { CreateEventWithPromptOptions } from "./sub-definitions/calendar-operations";
+import type { CreateEventWithPromptOptions } from "./sub-definitions/event-operations";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";

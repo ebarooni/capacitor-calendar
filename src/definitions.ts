@@ -3,8 +3,8 @@ import { CalendarAccess } from "./sub-definitions/calendar-access";
 import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
 import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
-import { CalendarOperations } from "./sub-definitions/calendar-operations";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
+import { EventOperations } from "./sub-definitions/event-operations";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
@@ -13,7 +13,7 @@ import type { RemindersList } from "./schemas/interfaces/reminders-list";
 
 export interface CapacitorCalendarPlugin
   extends CalendarAccess,
-    CalendarOperations,
+    EventOperations,
     RemindersAccess {
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.

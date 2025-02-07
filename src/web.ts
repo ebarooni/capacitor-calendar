@@ -8,7 +8,7 @@ import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CapacitorCalendarPlugin } from "./definitions";
-import { CreateEventWithPromptOptions } from "./sub-definitions/calendar-operations";
+import { CreateEventWithPromptOptions } from "./sub-definitions/event-operations";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";

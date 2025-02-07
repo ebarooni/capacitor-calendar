@@ -1,4 +1,4 @@
-export interface CalendarOperations {
+export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
    *
