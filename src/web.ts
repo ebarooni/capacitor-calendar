@@ -8,6 +8,7 @@ import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CapacitorCalendarPlugin } from "./definitions";
+import { CreateEventWithPromptOptions } from "./sub-definitions/calendar-operations";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
@@ -57,21 +58,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.requestFullRemindersAccess.name);
   }
 
-  public createEventWithPrompt(_options: {
-    title: string;
-    calendarId?: string;
-    location?: string;
-    startDate?: number;
-    endDate?: number;
-    isAllDay?: boolean;
-    alertOffsetInMinutes?: number | number[];
-    url?: string;
-    notes?: string;
-    eventIdOptional?: boolean;
-  }): Promise<{ result: string[] }> {
-    throw this.unimplemented(
-      `${this.createEventWithPrompt.name} is not implemented on the web`,
-    );
+  public createEventWithPrompt(
+    _options: CreateEventWithPromptOptions,
+  ): Promise<{ id: string | null }> {
+    return this.throwUnimplemented(this.createEventWithPrompt.name);
   }
 
   public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {

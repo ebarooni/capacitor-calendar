@@ -46,6 +46,7 @@ Changelogs for the versions supporting Capacitor 7.
 - `requestAllPermissions` returns `{ result: RequestAllPermissionsResult; }` instead of `PluginPermissionsMap`
 - `requestAllPermissions` is marked as deprecated
 - `requestPermission` is marked as deprecated
+- Replaced `alertOffsetInMinutes`, `notes` and `eventIdOptional` in `createEventWithPrompt`
 
 ### Removed
 

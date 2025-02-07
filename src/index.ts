@@ -11,6 +11,7 @@ import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 import { CalendarType } from "./schemas/enums/calendar-type";
 import type { CapacitorCalendarPlugin } from "./definitions";
+import type { CreateEventWithPromptOptions } from "./sub-definitions/calendar-operations";
 import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
@@ -26,7 +27,6 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>(
 );
 
 export * from "./definitions";
-export { CalendarPermissionScope };
 export type {
   Calendar,
   RemindersList,
@@ -34,6 +34,7 @@ export type {
   CalendarSource,
   CheckAllPermissionsResult,
   RequestAllPermissionsResult,
+  CreateEventWithPromptOptions,
 };
 export {
   CalendarChooserSelectionStyle,
@@ -44,5 +45,6 @@ export {
   EventSpan,
   CalendarSourceType,
   CalendarType,
+  CalendarPermissionScope,
   CapacitorCalendar,
 };

@@ -67,8 +67,8 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
 - [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
 - [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
-- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
+- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
@@ -204,6 +204,24 @@ Requests read and write access to the calendar.
 
 ---
 
+### createEventWithPrompt(...)
+
+```typescript
+createEventWithPrompt(options?: CreateEventWithPromptOptions | undefined) => Promise<{ id: string | null; }>
+```
+
+Opens the system calendar interface to create a new event.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createeventwithpromptoptions">CreateEventWithPromptOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ id: string | null; }&gt;</code>
+
+**Since:** 0.1.0
+
+---
+
 ### requestFullRemindersAccess()
 
 ```typescript
@@ -215,25 +233,6 @@ Requests read and write access to the reminders.
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
-
----
-
-### createEventWithPrompt(...)
-
-```typescript
-createEventWithPrompt(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; eventIdOptional?: boolean; }) => Promise<{ result: string[]; }>
-```
-
-Creates an event in the calendar by using the native calendar.
-On iOS opens a native sheet and on Android opens an intent.
-
-| Param         | Type                                                                                                                                                                                                                                  | Description                     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; eventIdOptional?: boolean; }</code> | Options for creating the event. |
-
-**Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
-
-**Since:** 0.1.0
 
 ---
 
@@ -551,6 +550,21 @@ Modifies a reminder given its id and update details.
 ---
 
 ### Interfaces
+
+#### CreateEventWithPromptOptions
+
+| Prop              | Type                  | Description                                                                                                                                                                  | Since |
+| ----------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`title`**       | <code>string</code>   |                                                                                                                                                                              | 0.1.0 |
+| **`calendarId`**  | <code>string</code>   |                                                                                                                                                                              | 0.1.0 |
+| **`location`**    | <code>string</code>   | TODO: Check Android                                                                                                                                                          | 0.1.0 |
+| **`startDate`**   | <code>number</code>   |                                                                                                                                                                              | 0.1.0 |
+| **`endDate`**     | <code>number</code>   |                                                                                                                                                                              | 0.1.0 |
+| **`isAllDay`**    | <code>boolean</code>  |                                                                                                                                                                              | 0.1.0 |
+| **`alerts`**      | <code>number[]</code> | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. The closer alerts to the start date take precedence. Negative numbers are ignored. | 7.1.0 |
+| **`url`**         | <code>string</code>   | TODO: Check Android                                                                                                                                                          | 0.1.0 |
+| **`description`** | <code>string</code>   |                                                                                                                                                                              | 7.1.0 |
+| **`lookupId`**    | <code>boolean</code>  | Set to `true` to get the ID of the created event. Default value is `false`. Only needed on Android. Ignored on iOS.                                                          | 7.1.0 |
 
 #### Calendar
 

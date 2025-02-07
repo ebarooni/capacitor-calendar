@@ -44,7 +44,7 @@
   "scripts": {
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "build:app": "cd example-app && npm run build",
-    "bootstrap:app": "npm run install:app && npm run build:app && npm run sync:app",
+    "bootstrap:app": "npm run build && npm run install:app && npm run build:app && npm run sync:app",
     "clean": "rimraf ./dist",
     "prettier": "npx prettier",
     "prettier:check": "npm run prettier -- . --check",
