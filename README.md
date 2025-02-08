@@ -566,7 +566,7 @@ Modifies a reminder given its id and update details.
 | **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 |
 | **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 |
 | **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> | TODO: Implement on iOS                                                                    |       |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       |
 | **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
 
 #### Calendar

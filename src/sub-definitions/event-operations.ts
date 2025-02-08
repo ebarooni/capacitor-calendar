@@ -1,3 +1,5 @@
+import { EventAvailability } from "../schemas/enums/event-availability";
+
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
@@ -76,7 +78,6 @@ export interface CreateEventWithPromptOptions {
    */
   description?: string;
   /**
-   * TODO: Implement on iOS
    * @platform Android, iOS
    * @see 7.1.0
    */
@@ -88,35 +89,4 @@ export interface CreateEventWithPromptOptions {
    * @since 7.1.0
    */
   invitees?: string[];
-}
-
-/**
- * @since 7.1.0
- */
-export enum EventAvailability {
-  /**
-   * @platform iOS
-   * @since 7.1.0
-   */
-  NOT_SUPPORTED = -1,
-  /**
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  BUSY,
-  /**
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  FREE,
-  /**
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  TENTATIVE,
-  /**
-   * @platform iOS
-   * @since 7.1.0
-   */
-  UNAVAILABLE,
 }
