@@ -1,12 +1,13 @@
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
+   * On Android returns always `null`.
+   * Fetch the events to find the ID of the newly created event.
    *
    * @example
    * const options = {
    *   title: 'Test event',
    *   startDate: Date.now(),
-   *   end
    * }
    * await CapacitorCalendar.createEventWithPrompt(options)
    *
@@ -28,13 +29,12 @@ export interface CreateEventWithPromptOptions {
    */
   title?: string;
   /**
-   * @platform Android, iOS
+   * @platform iOS
    * @since 0.1.0
    */
   calendarId?: string;
   /**
-   * TODO: Check Android
-   * @platform iOS
+   * @platform Android, iOS
    * @since 0.1.0
    */
   location?: string;
@@ -61,13 +61,11 @@ export interface CreateEventWithPromptOptions {
    * // 10mins before and 30mins after the event
    * const alerts: [-10, 30]
    *
-   * TODO: Check Android
    * @platform iOS
    * @since 7.1.0
    */
   alerts?: number[];
   /**
-   * TODO: Check Android
    * @platform iOS
    * @since 0.1.0
    */
@@ -78,15 +76,47 @@ export interface CreateEventWithPromptOptions {
    */
   description?: string;
   /**
-   * Set to `true` to get the ID of the created event. Default value is `false`.
-   * Only needed on Android. Ignored on iOS.
+   * TODO: Implement on iOS
+   * @platform Android, iOS
+   * @see 7.1.0
+   */
+  availability?: EventAvailability;
+  /**
+   * An array of emails to invite.
    *
-   * @permissions
-   * | Platform  | scope |
-   * |-----------|---------------------|
-   * | Android   | `readCalendar` |
    * @platform Android
    * @since 7.1.0
    */
-  lookupId?: boolean;
+  invitees?: string[];
+}
+
+/**
+ * @since 7.1.0
+ */
+export enum EventAvailability {
+  /**
+   * @platform iOS
+   * @since 7.1.0
+   */
+  NOT_SUPPORTED = -1,
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  BUSY,
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  FREE,
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  TENTATIVE,
+  /**
+   * @platform iOS
+   * @since 7.1.0
+   */
+  UNAVAILABLE,
 }

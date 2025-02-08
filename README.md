@@ -211,6 +211,8 @@ createEventWithPrompt(options?: CreateEventWithPromptOptions | undefined) => Pro
 ```
 
 Opens the system calendar interface to create a new event.
+On Android returns always `null`.
+Fetch the events to find the ID of the newly created event.
 
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
@@ -553,18 +555,19 @@ Modifies a reminder given its id and update details.
 
 #### CreateEventWithPromptOptions
 
-| Prop              | Type                  | Description                                                                                                         | Since |
-| ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`title`**       | <code>string</code>   |                                                                                                                     | 0.1.0 |
-| **`calendarId`**  | <code>string</code>   |                                                                                                                     | 0.1.0 |
-| **`location`**    | <code>string</code>   | TODO: Check Android                                                                                                 | 0.1.0 |
-| **`startDate`**   | <code>number</code>   |                                                                                                                     | 0.1.0 |
-| **`endDate`**     | <code>number</code>   |                                                                                                                     | 0.1.0 |
-| **`isAllDay`**    | <code>boolean</code>  |                                                                                                                     | 0.1.0 |
-| **`alerts`**      | <code>number[]</code> | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported.                           | 7.1.0 |
-| **`url`**         | <code>string</code>   | TODO: Check Android                                                                                                 | 0.1.0 |
-| **`description`** | <code>string</code>   |                                                                                                                     | 7.1.0 |
-| **`lookupId`**    | <code>boolean</code>  | Set to `true` to get the ID of the created event. Default value is `false`. Only needed on Android. Ignored on iOS. | 7.1.0 |
+| Prop               | Type                                                            | Description                                                                               | Since |
+| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- |
+| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 |
+| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 |
+| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> | TODO: Implement on iOS                                                                    |       |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
 
 #### Calendar
 
@@ -675,6 +678,16 @@ Construct a type with a set of properties K of type T
 | **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 |
 | **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 |
 | **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 |
+
+#### EventAvailability
+
+| Members             | Value           | Since |
+| ------------------- | --------------- | ----- |
+| **`NOT_SUPPORTED`** | <code>-1</code> | 7.1.0 |
+| **`BUSY`**          |                 | 7.1.0 |
+| **`FREE`**          |                 | 7.1.0 |
+| **`TENTATIVE`**     |                 | 7.1.0 |
+| **`UNAVAILABLE`**   |                 | 7.1.0 |
 
 #### CalendarType
 
