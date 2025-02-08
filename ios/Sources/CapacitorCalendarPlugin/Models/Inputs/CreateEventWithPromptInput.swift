@@ -11,6 +11,7 @@ struct CreateEventWithPromptInput {
     private var endDate: Double?
     private var url: String?
     private var description: String?
+    private var availability: EKEventAvailability?
 
     init(call: CAPPluginCall) {
         self.title = call.getString("title", "")
@@ -37,6 +38,9 @@ struct CreateEventWithPromptInput {
         }
         if let description = call.getString("description") {
             self.description = description
+        }
+        if let availability = call.getInt("availability") {
+            self.availability = EKEventAvailability(rawValue: availability)
         }
     }
 
@@ -80,5 +84,9 @@ struct CreateEventWithPromptInput {
 
     func getDescription() -> String? {
         return description
+    }
+
+    func getAvailability() -> EKEventAvailability? {
+        return availability
     }
 }

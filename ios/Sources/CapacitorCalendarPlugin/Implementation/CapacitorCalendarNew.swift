@@ -106,7 +106,9 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
         event.endDate = input.getEndDate()
         event.url = input.getUrl()
         event.notes = input.getDescription()
-
+        if let availability = input.getAvailability() {
+            event.availability = availability
+        }
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.missingViewController
         }
