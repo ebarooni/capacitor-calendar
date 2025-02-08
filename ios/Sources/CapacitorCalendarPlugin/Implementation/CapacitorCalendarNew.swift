@@ -1,8 +1,12 @@
 import EventKit
+import Combine
+import EventKitUI
+import Capacitor
 
-class CapacitorCalendarNew {
+class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
     private let plugin: CapacitorCalendarPlugin
-    public let eventStore = EKEventStore()
+    let eventStore = EKEventStore()
+    private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
@@ -88,5 +92,58 @@ class CapacitorCalendarNew {
         let state = try await  ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
         let result = RequestPermissionResult(state: state)
         return result
+    }
+
+    func createEventWithPrompt(with input: CreateEventWithPromptInput) async throws -> CreateEventWithPromptResult {
+
+        let event = EKEvent(eventStore: eventStore)
+        event.title = input.getTitle()
+        event.alarms = input.getAlerts()
+        event.isAllDay = input.getIsAllDay()
+        event.calendar = input.getCalendar(from: eventStore)
+        event.location = input.getLocation()
+        event.startDate = input.getStartDate()
+        event.endDate = input.getEndDate()
+        event.url = input.getUrl()
+        event.notes = input.getDescription()
+        if let availability = input.getAvailability() {
+            event.availability = availability
+        }
+        guard let viewController = plugin.bridge?.viewController else {
+            throw PluginError.missingViewController
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                let eventEditViewController = EKEventEditViewController()
+                eventEditViewController.event = event
+                eventEditViewController.eventStore = eventStore
+                eventEditViewController.editViewDelegate = self
+                viewController.present(eventEditViewController, animated: true) {
+                    self.createEventWithPromptResultEmitter.send(continuation)
+                }
+            }
+        }
+    }
+
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        var createEventWithPromptCancellable: AnyCancellable?
+        createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
+            guard let promise = promise else {
+                return
+            }
+            switch action {
+            case .saved:
+                promise.resume(returning: CreateEventWithPromptResult(id: controller.event?.eventIdentifier))
+            case .canceled, .cancelled, .deleted:
+                promise.resume(returning: CreateEventWithPromptResult(id: nil))
+            @unknown default:
+                promise.resume(throwing: PluginError.processFailed)
+            }
+
+            controller.dismiss(animated: true) {
+                createEventWithPromptCancellable?.cancel()
+            }
+        }
     }
 }

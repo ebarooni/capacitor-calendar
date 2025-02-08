@@ -91,39 +91,13 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
-        let title = call.getString("title", "")
-        let location = call.getString("location")
-        let startDate = call.getDouble("startDate")
-        let endDate = call.getDouble("endDate")
-        let isAllDay = call.getBool("isAllDay")
-        let calendarId = call.getString("calendarId")
-        let notes = call.getString("notes")
-        let url = call.getString("url")
-
         Task {
-            var eventParameters = EventCreationParameters(
-                title: title,
-                calendarId: calendarId,
-                location: location,
-                startDate: startDate,
-                endDate: endDate,
-                isAllDay: isAllDay,
-                notes: notes,
-                url: url
-            )
-
-            if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
-                eventParameters.alertOffsetInMinutesSingle = alertOffsetInMinutesSingle
-            } else if let alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes") as? [Double]? {
-                eventParameters.alertOffsetInMinutesMultiple = alertOffsetInMinutesMultiple
-            }
-
             do {
-                let result = try await calendar.createEventWithPrompt(with: eventParameters)
-                call.resolve(["result": result])
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Unable to retrieve view controller")
-                return
+                let input = CreateEventWithPromptInput(call: call)
+                let result = try await implementation.createEventWithPrompt(with: input)
+                call.resolve(result.toJSON())
+            } catch let error {
+                call.reject(error.localizedDescription)
             }
         }
     }

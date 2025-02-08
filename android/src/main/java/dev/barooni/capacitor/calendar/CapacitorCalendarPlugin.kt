@@ -18,8 +18,10 @@ import com.getcapacitor.annotation.PermissionCallback
 import dev.barooni.capacitor.calendar.implementation.CapacitorCalendarNew
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
+import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
+import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
 
@@ -188,59 +190,25 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented(PluginError.Unimplemented(::requestFullRemindersAccess.name).message)
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     fun createEventWithPrompt(call: PluginCall) {
         try {
-            val title = call.getString("title", "")
-            val calendarId = call.getString("calendarId")
-            val location = call.getString("location")
-            val startDate = call.getLong("startDate")
-            val endDate = call.getLong("endDate")
-            val isAllDay = call.getBoolean("isAllDay", false)
-            val url = call.getString("url")
-            val notes = call.getString("notes")
-            eventIdOptional = call.getBoolean("eventIdOptional", false) ?: false
-
-            if (!eventIdOptional) implementation.eventIdsArray = implementation.fetchCalendarEventIDs(context)
-
-            val intent = Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI)
-
-            intent.putExtra(CalendarContract.Events.TITLE, title)
-            calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
-            location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-            startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
-            endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
-            isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
-
-            return startActivityForResult(
-                call,
-                intent,
-                "openCalendarIntentActivityCallback",
-            )
+            val input = CreateEventWithPromptInput(call, "createEventWithPromptCallback")
+            implementationNew.createEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::openCalendarIntentActivityCallback.name}] Could not create the event")
-            return
+            call.reject(error.message)
         }
     }
 
     @ActivityCallback
-    private fun openCalendarIntentActivityCallback(
+    private fun createEventWithPromptCallback(
         call: PluginCall?,
         result: ActivityResult,
     ) {
         if (call == null) {
-            throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
+            return
         }
-
-        val newIdsArray = JSArray()
-        if (!eventIdOptional) {
-            val newEventIds = implementation.getNewEventIds(implementation.fetchCalendarEventIDs(context))
-            newEventIds.forEach { id -> newIdsArray.put(id.toString()) }
-        }
-        val ret = JSObject()
-        ret.put("result", newIdsArray)
-        call.resolve(ret)
+        call.resolve(CreateEventWithPromptResult().toJSON())
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
