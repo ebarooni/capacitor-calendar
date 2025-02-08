@@ -9,6 +9,8 @@ sealed class PluginError(
 
     data object UnhandledPermissionState : PluginError("Unhandled permission state.")
 
+    data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")
