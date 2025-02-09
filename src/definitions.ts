@@ -399,53 +399,6 @@ export interface CapacitorCalendarPlugin
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 
   /**
-   * Opens a native prompt to modify an event given its id.
-   *
-   * @async
-   * @since 6.6.0
-   * @platform iOS, Android
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
-   *   <li><strong>Android:</strong> writeCalendar, readCalendar</li>
-   * </ul>
-   * @param {Object} options The options for modifying an event.
-   * @param {string} options.id The id of the event to be modified.
-   * @param {object} options.update The set of event properties to be modified. (Optional)
-   * If a property is not supported, it will be ignored. Setting alerts with prompt
-   * is only supported on iOS.
-   * @returns {Promise<{ result: string[] }>} On iOS, the promise resolves with an array containing
-   * the initial event id if the modifications were saved and empty if it was cancelled. However, on
-   * Android the array will be empty either way.
-   * @throws {Error} throws an error if an event for the given id is not found.
-   * @example
-   * const { result } = await CapacitorCalendar.modifyEventWithPrompt({
-   *   id: 'EVENT_ID_ONE',
-   *   update: {
-   *     title: 'newTitle',
-   *     startDate: Date.now(),
-   *   },
-   * });
-   *
-   * console.log(result);  // ['EVENT_ID_ONE'] or [] if on Android
-   */
-  modifyEventWithPrompt(options: {
-    id: string;
-    update?: {
-      title?: string;
-      calendarId?: string;
-      location?: string;
-      startDate?: number;
-      endDate?: number;
-      isAllDay?: boolean;
-      alertOffsetInMinutes?: number | number[];
-      url?: string;
-      notes?: string;
-    };
-  }): Promise<{ result: string[] }>;
-
-  /**
    * Modifies an event given its id and update details.
    *
    * @async

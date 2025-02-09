@@ -1,9 +1,11 @@
-import { EventAvailability } from "../schemas/enums/event-availability";
+import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
+import type { EventEditAction } from "../schemas/types/event-edit-action";
+import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
 
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
-   * On Android returns always `null`.
+   * On Android always return `null`.
    * Fetch the events to find the ID of the newly created event.
    *
    * @example
@@ -19,74 +21,21 @@ export interface EventOperations {
   createEventWithPrompt(
     options?: CreateEventWithPromptOptions,
   ): Promise<{ id: string | null }>;
-}
-
-/**
- * @since 7.1.0
- */
-export interface CreateEventWithPromptOptions {
   /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  title?: string;
-  /**
-   * @platform iOS
-   * @since 0.1.0
-   */
-  calendarId?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  location?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  startDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  endDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  isAllDay?: boolean;
-  /**
-   * Sets alerts before the start of the event in minutes.
-   * On iOS only 2 alerts are supported.
+   * Opens a system calendar interface to modify an event.
+   * On Android always returns `null`.
    *
    * @example
-   * // 10mins before and 30mins after the event
-   * const alerts: [-10, 30]
+   * const options = {
+   *   id: 'EVENT_ID',
+   *   title: 'New title',
+   * }
+   * await CapacitorCalendar.modifyEventWithPrompt(options);
    *
-   * @platform iOS
-   * @since 7.1.0
-   */
-  alerts?: number[];
-  /**
-   * @platform iOS
-   * @since 0.1.0
-   */
-  url?: string;
-  /**
    * @platform Android, iOS
-   * @since 7.1.0
+   * @since 6.6.0
    */
-  description?: string;
-  /**
-   * @platform Android, iOS
-   * @see 7.1.0
-   */
-  availability?: EventAvailability;
-  /**
-   * An array of emails to invite.
-   *
-   * @platform Android
-   * @since 7.1.0
-   */
-  invitees?: string[];
+  modifyEventWithPrompt(
+    options: ModifyEventWithPromptOptions,
+  ): Promise<{ result: EventEditAction | null }>;
 }
