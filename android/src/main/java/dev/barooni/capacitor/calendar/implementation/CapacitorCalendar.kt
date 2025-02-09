@@ -1,7 +1,6 @@
 package dev.barooni.capacitor.calendar.implementation
 
 import android.content.Intent
-import android.provider.CalendarContract
 import com.getcapacitor.PermissionState
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.CapacitorCalendarPlugin
@@ -49,21 +48,13 @@ class CapacitorCalendarNew(
         input: CreateEventWithPromptInput,
         callback: (PluginCall, Intent, String) -> Unit,
     ) {
-        val intent =
-            input.intent
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.Events.TITLE, input.title)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, input.startDate)
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, input.endDate)
-                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, input.isAllDay)
-        input.location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-        input.description?.let { intent.putExtra(CalendarContract.Events.DESCRIPTION, it) }
-        input.availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
-        input.invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
-        callback(input.call, intent, input.callbackName)
+        callback(input.call, input.intent, input.callbackName)
     }
 
-    fun modifyEventWithPrompt(input: ModifyEventWithPromptInput, callback: (PluginCall, Intent, String) -> Unit,) {
+    fun modifyEventWithPrompt(
+        input: ModifyEventWithPromptInput,
+        callback: (PluginCall, Intent, String) -> Unit,
+    ) {
         callback(input.call, input.intent, input.callbackName)
     }
 }

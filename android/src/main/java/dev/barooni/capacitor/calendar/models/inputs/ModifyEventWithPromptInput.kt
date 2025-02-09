@@ -7,16 +7,19 @@ import android.provider.CalendarContract
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 
-data class ModifyEventWithPromptInput(val call: PluginCall, val callbackName: String) {
-    val id: Long
-    val title: String? = call.getString("title")
-    val location: String?
-    val startDate: Long?
-    val endDate: Long?
-    val isAllDay: Boolean? = call.getBoolean("isAllDay")
-    val description: String?
-    val availability: Int?
-    val invitees: String?
+data class ModifyEventWithPromptInput(
+    val call: PluginCall,
+    val callbackName: String,
+) {
+    private val id: Long
+    private val title: String? = call.getString("title")
+    private val location: String?
+    private val startDate: Long?
+    private val endDate: Long?
+    private val isAllDay: Boolean? = call.getBoolean("isAllDay")
+    private val description: String?
+    private val availability: Int?
+    private val invitees: String?
     val intent: Intent = Intent(Intent.ACTION_EDIT).setData(CalendarContract.Events.CONTENT_URI)
 
     init {
