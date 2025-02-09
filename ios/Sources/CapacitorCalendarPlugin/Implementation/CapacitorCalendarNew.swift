@@ -7,6 +7,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
     private let plugin: CapacitorCalendarPlugin
     let eventStore = EKEventStore()
     private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
+    private let modifyEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<ModifyEventWithPromptResult, Error>?, Never>(nil)
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
@@ -95,7 +96,6 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
     }
 
     func createEventWithPrompt(with input: CreateEventWithPromptInput) async throws -> CreateEventWithPromptResult {
-
         let event = EKEvent(eventStore: eventStore)
         event.title = input.getTitle()
         event.alarms = input.getAlerts()
@@ -110,7 +110,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
             event.availability = availability
         }
         guard let viewController = plugin.bridge?.viewController else {
-            throw PluginError.missingViewController
+            throw PluginError.viewControllerMissing
         }
 
         return try await withCheckedThrowingContinuation { continuation in
@@ -121,6 +121,51 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
                 eventEditViewController.editViewDelegate = self
                 viewController.present(eventEditViewController, animated: true) {
                     self.createEventWithPromptResultEmitter.send(continuation)
+                }
+            }
+        }
+    }
+    
+    func modifyEventWithPrompt(input: ModifyEventWithPromptInput) async throws -> ModifyEventWithPromptResult {
+        let event = try input.getEvent(from: eventStore)
+        if let title = input.getTitle() {
+            event.title = title
+        }
+        if let calendar = input.getCalendar(from: eventStore) {
+            event.calendar = calendar
+        }
+        if let location = input.getLocation() {
+            event.location = location
+        }
+        if let startDate = input.getStartDate() {
+            event.startDate = startDate
+        }
+        if let endDate = input.getEndDate() {
+            event.endDate = endDate
+        }
+        if let isAllDay = input.getIsAllDay() {
+            event.isAllDay = isAllDay
+        }
+        if let url = input.getUrl() {
+            event.url = url
+        }
+        if let description = input.getDescription() {
+            event.notes = description
+        }
+        if let availability = input.getAvailability() {
+            event.availability = availability
+        }
+        guard let viewController = plugin.bridge?.viewController else {
+            throw PluginError.viewControllerMissing
+        }
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                let eventEditViewController = EKEventEditViewController()
+                eventEditViewController.event = event
+                eventEditViewController.eventStore = eventStore
+                eventEditViewController.editViewDelegate = self
+                viewController.present(eventEditViewController, animated: true) {
+                    self.modifyEventWithPromptResultEmitter.send(continuation)
                 }
             }
         }
@@ -143,6 +188,23 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
 
             controller.dismiss(animated: true) {
                 createEventWithPromptCancellable?.cancel()
+            }
+        }
+        
+        var modifyEventWithPromptCancellable: AnyCancellable?
+        modifyEventWithPromptCancellable = self.modifyEventWithPromptResultEmitter.sink { promise in
+            guard let promise = promise else {
+                return
+            }
+            
+            do {
+                promise.resume(returning: try ModifyEventWithPromptResult(action: action))
+            } catch let error {
+                promise.resume(throwing: error)
+            }
+
+            controller.dismiss(animated: true) {
+                modifyEventWithPromptCancellable?.cancel()
             }
         }
     }
