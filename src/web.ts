@@ -8,8 +8,10 @@ import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CapacitorCalendarPlugin } from "./definitions";
-import { CreateEventWithPromptOptions } from "./sub-definitions/event-operations";
+import { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { EventEditAction } from "./schemas/types/event-edit-action";
 import { EventSpan } from "./schemas/enums/event-span";
+import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -62,6 +64,12 @@ export class CapacitorCalendarWeb
     _options: CreateEventWithPromptOptions,
   ): Promise<{ id: string | null }> {
     return this.throwUnimplemented(this.createEventWithPrompt.name);
+  }
+
+  public modifyEventWithPrompt(
+    _options: ModifyEventWithPromptOptions,
+  ): Promise<{ result: EventEditAction | null }> {
+    return this.throwUnimplemented(this.modifyEventWithPrompt.name);
   }
 
   public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
@@ -188,25 +196,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
     throw this.unimplemented(
       `${this.deleteRemindersById.name} is not implemented on the web`,
-    );
-  }
-
-  public modifyEventWithPrompt(_options: {
-    id: string;
-    update?: {
-      title?: string;
-      calendarId?: string;
-      location?: string;
-      startDate?: number;
-      endDate?: number;
-      isAllDay?: boolean;
-      alertOffsetInMinutes?: number | number[];
-      url?: string;
-      notes?: string;
-    };
-  }): Promise<{ result: string[] }> {
-    throw this.unimplemented(
-      `${this.modifyEventWithPrompt.name} is not implemented on the web`,
     );
   }
 

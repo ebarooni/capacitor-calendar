@@ -125,7 +125,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
             }
         }
     }
-    
+
     func modifyEventWithPrompt(input: ModifyEventWithPromptInput) async throws -> ModifyEventWithPromptResult {
         let event = try input.getEvent(from: eventStore)
         if let title = input.getTitle() {
@@ -190,13 +190,13 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
                 createEventWithPromptCancellable?.cancel()
             }
         }
-        
+
         var modifyEventWithPromptCancellable: AnyCancellable?
         modifyEventWithPromptCancellable = self.modifyEventWithPromptResultEmitter.sink { promise in
             guard let promise = promise else {
                 return
             }
-            
+
             do {
                 promise.resume(returning: try ModifyEventWithPromptResult(action: action))
             } catch let error {

@@ -38,7 +38,7 @@ npx cap sync
 
 ## Demo
 
-|             iOS 17              |             Android 14              |
+|             iOS 18              |             Android 15              |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
 
@@ -68,6 +68,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
 - [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
+- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
@@ -84,7 +85,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
@@ -211,7 +211,7 @@ createEventWithPrompt(options?: CreateEventWithPromptOptions | undefined) => Pro
 ```
 
 Opens the system calendar interface to create a new event.
-On Android returns always `null`.
+On Android always return `null`.
 Fetch the events to find the ID of the newly created event.
 
 | Param         | Type                                                                                  |
@@ -221,6 +221,25 @@ Fetch the events to find the ID of the newly created event.
 **Returns:** <code>Promise&lt;{ id: string | null; }&gt;</code>
 
 **Since:** 0.1.0
+
+---
+
+### modifyEventWithPrompt(...)
+
+```typescript
+modifyEventWithPrompt(options: ModifyEventWithPromptOptions) => Promise<{ result: EventEditAction | null; }>
+```
+
+Opens a system calendar interface to modify an event.
+On Android always returns `null`.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#modifyeventwithpromptoptions">ModifyEventWithPromptOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#eventeditaction">EventEditAction</a> | null; }&gt;</code>
+
+**Since:** 6.6.0
 
 ---
 
@@ -473,24 +492,6 @@ Deletes reminders given their IDs.
 
 ---
 
-### modifyEventWithPrompt(...)
-
-```typescript
-modifyEventWithPrompt(options: { id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<{ result: string[]; }>
-```
-
-Opens a native prompt to modify an event given its id.
-
-| Param         | Type                                                                                                                                                                                                                                  | Description                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| **`options`** | <code>{ id: string; update?: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for modifying an event. |
-
-**Returns:** <code>Promise&lt;{ result: string[]; }&gt;</code>
-
-**Since:** 6.6.0
-
----
-
 ### modifyEvent(...)
 
 ```typescript
@@ -568,6 +569,23 @@ Modifies a reminder given its id and update details.
 | **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
 | **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       |
 | **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
+
+#### ModifyEventWithPromptOptions
+
+| Prop               | Type                                                            | Description                                                                               | Since |
+| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- |
+| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 |
+| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 |
+| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 |
+| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                       | 7.1.0 |
 
 #### Calendar
 
@@ -663,6 +681,10 @@ Construct a type with a set of properties K of type T
 #### RequestAllPermissionsResult
 
 <code><a href="#checkallpermissionsresult">CheckAllPermissionsResult</a></code>
+
+#### EventEditAction
+
+<code>"canceled" | "saved" | "deleted"</code>
 
 #### RemindersList
 
