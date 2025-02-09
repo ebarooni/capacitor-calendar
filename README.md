@@ -67,13 +67,13 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
 - [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
 - [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
+- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
-- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
+- [`createEvent(...)`](#createevent)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
-- [`createEvent(...)`](#createevent)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
@@ -114,6 +114,8 @@ Retrieves the current permission state for a given scope.
 
 **Since:** 0.1.0
 
+**Platform:** Android, iOS
+
 ---
 
 ### checkAllPermissions()
@@ -127,6 +129,8 @@ Retrieves the current state of all permissions.
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
+
+**Platform:** Android, iOS
 
 ---
 
@@ -146,6 +150,8 @@ Requests permission for a given scope.
 
 **Since:** 0.1.0
 
+**Platform:** Android, iOS
+
 ---
 
 ### requestAllPermissions()
@@ -159,6 +165,8 @@ Requests permission for all calendar and reminder permissions.
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
+
+**Platform:** Android, iOS
 
 ---
 
@@ -174,6 +182,8 @@ Requests write access to the calendar.
 
 **Since:** 5.4.0
 
+**Platform:** Android, iOS
+
 ---
 
 ### requestReadOnlyCalendarAccess()
@@ -188,6 +198,8 @@ Requests read access to the calendar.
 
 **Since:** 5.4.0
 
+**Platform:** Android
+
 ---
 
 ### requestFullCalendarAccess()
@@ -201,6 +213,24 @@ Requests read and write access to the calendar.
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
+
+**Platform:** Android, iOS
+
+---
+
+### requestFullRemindersAccess()
+
+```typescript
+requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
+```
+
+Requests read and write access to the reminders.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+
+**Since:** 5.4.0
+
+**Platform:** iOS
 
 ---
 
@@ -222,6 +252,8 @@ Fetch the events to find the ID of the newly created event.
 
 **Since:** 0.1.0
 
+**Platform:** Android, iOS
+
 ---
 
 ### modifyEventWithPrompt(...)
@@ -241,19 +273,27 @@ On Android always returns `null`.
 
 **Since:** 6.6.0
 
+**Platform:** Android, iOS
+
 ---
 
-### requestFullRemindersAccess()
+### createEvent(...)
 
 ```typescript
-requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
+createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }) => Promise<{ result: string; }>
 ```
 
-Requests read and write access to the reminders.
+Creates an event.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
+| Param         | Type                                                                                                                                                                                                       | Description                     |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }</code> | Options for creating the event. |
 
-**Since:** 5.4.0
+**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+
+**Since:** 0.4.0
+
+**Platform:** iOS, Android
 
 ---
 
@@ -273,6 +313,8 @@ Presents a prompt to the user to select calendars. This method is available only
 
 **Since:** 0.2.0
 
+**Platform:** iOS
+
 ---
 
 ### listCalendars()
@@ -284,6 +326,8 @@ listCalendars() => Promise<{ result: Calendar[]; }>
 Retrieves a list of calendars available on the device.
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+**Platform:** iOS, Android
 
 ---
 
@@ -299,23 +343,7 @@ Retrieves the default calendar set on the device.
 
 **Since:** 0.3.0
 
----
-
-### createEvent(...)
-
-```typescript
-createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }) => Promise<{ result: string; }>
-```
-
-Creates an event with the provided options.
-
-| Param         | Type                                                                                                                                                                                                       | Description                     |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }</code> | Options for creating the event. |
-
-**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
-
-**Since:** 0.4.0
+**Platform:** iOS, Android
 
 ---
 
@@ -329,6 +357,8 @@ Retrieves the default reminders list set on the device.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
 
+**Platform:** iOS
+
 ---
 
 ### getRemindersLists()
@@ -340,6 +370,8 @@ getRemindersLists() => Promise<{ result: RemindersList[]; }>
 Retrieves all available reminders lists on the device.
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+**Platform:** iOS
 
 ---
 
@@ -359,6 +391,8 @@ Creates a reminder with the provided options.
 
 **Since:** 0.5.0
 
+**Platform:** iOS
+
 ---
 
 ### openCalendar(...)
@@ -374,6 +408,8 @@ It will open the calendar on today's date if no date is provided.
 | ------------- | ------------------------------- | ----------------------------------- |
 | **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
 
+**Platform:** iOS, Android
+
 ---
 
 ### openReminders()
@@ -383,6 +419,8 @@ openReminders() => Promise<void>
 ```
 
 Opens the reminders app. Since the user leaves your app, use this method with caution.
+
+**Platform:** iOS
 
 ---
 
@@ -402,6 +440,8 @@ Retrieves the list of calendar events present in the given date range.
 
 **Since:** 0.10.0
 
+**Platform:** iOS, Android
+
 ---
 
 ### deleteEventsById(...)
@@ -419,6 +459,8 @@ Deletes events from the calendar given their IDs.
 **Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 0.11.0
+
+**Platform:** iOS, Android
 
 ---
 
@@ -438,6 +480,8 @@ Creates a calendar
 
 **Since:** 5.2.0
 
+**Platform:** iOS
+
 ---
 
 ### deleteCalendar(...)
@@ -453,6 +497,8 @@ Deletes a calendar by id
 | **`options`** | <code>{ id: string; }</code> | Options for deleting a calendar. |
 
 **Since:** 5.2.0
+
+**Platform:** iOS
 
 ---
 
@@ -472,6 +518,8 @@ Retrieves the list of reminders present in the given date range.
 
 **Since:** 5.3.0
 
+**Platform:** iOS
+
 ---
 
 ### deleteRemindersById(...)
@@ -490,6 +538,8 @@ Deletes reminders given their IDs.
 
 **Since:** 5.3.0
 
+**Platform:** iOS
+
 ---
 
 ### modifyEvent(...)
@@ -506,6 +556,8 @@ Modifies an event given its id and update details.
 
 **Since:** 6.6.0
 
+**Platform:** iOS, Android
+
 ---
 
 ### fetchAllCalendarSources()
@@ -520,6 +572,8 @@ Retrieves a list of calendar sources.
 
 **Since:** 6.6.0
 
+**Platform:** iOS
+
 ---
 
 ### fetchAllRemindersSources()
@@ -533,6 +587,8 @@ Retrieves a list of reminders sources.
 **Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
 
 **Since:** 6.6.0
+
+**Platform:** iOS
 
 ---
 
@@ -550,57 +606,59 @@ Modifies a reminder given its id and update details.
 
 **Since:** 6.7.0
 
+**Platform:** iOS
+
 ---
 
 ### Interfaces
 
 #### CreateEventWithPromptOptions
 
-| Prop               | Type                                                            | Description                                                                               | Since |
-| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- |
-| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 |
-| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 |
-| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 |
-| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       |
-| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
+| Prop               | Type                                                            | Description                                                                               | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
+| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
+| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       | Android, iOS |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 | Android      |
 
 #### ModifyEventWithPromptOptions
 
-| Prop               | Type                                                            | Description                                                                               | Since |
-| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- |
-| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 |
-| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 |
-| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 |
-| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 |
-| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       |
-| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 |
-| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                       | 7.1.0 |
+| Prop               | Type                                                            | Description                                                                               | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
+| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
+| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       | Android, iOS |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 | Android      |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                       | 7.1.0 | Android, iOS |
 
 #### Calendar
 
 Represents a calendar object.
 
-| Prop                             | Type                                                      |
-| -------------------------------- | --------------------------------------------------------- |
-| **`id`**                         | <code>string</code>                                       |
-| **`title`**                      | <code>string</code>                                       |
-| **`color`**                      | <code>string</code>                                       |
-| **`isImmutable`**                | <code>boolean</code>                                      |
-| **`allowsContentModifications`** | <code>boolean</code>                                      |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a></code>     |
-| **`isSubscribed`**               | <code>boolean</code>                                      |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> |
+| Prop                             | Type                                                      | Platform     |
+| -------------------------------- | --------------------------------------------------------- | ------------ |
+| **`id`**                         | <code>string</code>                                       | iOS, Android |
+| **`title`**                      | <code>string</code>                                       | iOS, Android |
+| **`color`**                      | <code>string</code>                                       | iOS, Android |
+| **`isImmutable`**                | <code>boolean</code>                                      | iOS          |
+| **`allowsContentModifications`** | <code>boolean</code>                                      | iOS          |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a></code>     | iOS, Android |
+| **`isSubscribed`**               | <code>boolean</code>                                      | iOS          |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> | iOS          |
 
 #### CalendarSource
 
@@ -624,41 +682,41 @@ Represents the account a calendar belongs to
 
 Represents an event in the calendar.
 
-| Prop                   | Type                                                   |
-| ---------------------- | ------------------------------------------------------ |
-| **`id`**               | <code>string</code>                                    |
-| **`title`**            | <code>string</code>                                    |
-| **`location`**         | <code>string</code>                                    |
-| **`eventColor`**       | <code>string</code>                                    |
-| **`organizer`**        | <code>string</code>                                    |
-| **`description`**      | <code>string</code>                                    |
-| **`startDate`**        | <code>number</code>                                    |
-| **`endDate`**          | <code>number</code>                                    |
-| **`eventTimezone`**    | <code>{ region: string; abbreviation: string; }</code> |
-| **`eventEndTimezone`** | <code>{ region: string; abbreviation: string; }</code> |
-| **`duration`**         | <code>string</code>                                    |
-| **`isAllDay`**         | <code>boolean</code>                                   |
-| **`calendarId`**       | <code>string</code>                                    |
-| **`url`**              | <code>string</code>                                    |
+| Prop                   | Type                                                   | Platform     |
+| ---------------------- | ------------------------------------------------------ | ------------ |
+| **`id`**               | <code>string</code>                                    | iOS, Android |
+| **`title`**            | <code>string</code>                                    | iOS, Android |
+| **`location`**         | <code>string</code>                                    | iOS, Android |
+| **`eventColor`**       | <code>string</code>                                    | iOS, Android |
+| **`organizer`**        | <code>string</code>                                    | iOS, Android |
+| **`description`**      | <code>string</code>                                    | iOS, Android |
+| **`startDate`**        | <code>number</code>                                    | iOS, Android |
+| **`endDate`**          | <code>number</code>                                    | iOS, Android |
+| **`eventTimezone`**    | <code>{ region: string; abbreviation: string; }</code> | iOS, Android |
+| **`eventEndTimezone`** | <code>{ region: string; abbreviation: string; }</code> | iOS, Android |
+| **`duration`**         | <code>string</code>                                    | Android      |
+| **`isAllDay`**         | <code>boolean</code>                                   | iOS, Android |
+| **`calendarId`**       | <code>string</code>                                    | iOS, Android |
+| **`url`**              | <code>string</code>                                    | iOS          |
 
 #### Reminder
 
 Represents a reminder in a reminders list.
 
-| Prop                 | Type                                  |
-| -------------------- | ------------------------------------- |
-| **`id`**             | <code>string</code>                   |
-| **`title`**          | <code>string</code>                   |
-| **`listId`**         | <code>string</code>                   |
-| **`isCompleted`**    | <code>boolean</code>                  |
-| **`priority`**       | <code>number</code>                   |
-| **`notes`**          | <code>string</code>                   |
-| **`location`**       | <code>string</code>                   |
-| **`url`**            | <code>string</code>                   |
-| **`startDate`**      | <code>number</code>                   |
-| **`dueDate`**        | <code>number</code>                   |
-| **`completionDate`** | <code>number</code>                   |
-| **`recurrence`**     | <code>ReminderRecurrenceRule[]</code> |
+| Prop                 | Type                                  | Platform |
+| -------------------- | ------------------------------------- | -------- |
+| **`id`**             | <code>string</code>                   | iOS      |
+| **`title`**          | <code>string</code>                   | iOS      |
+| **`listId`**         | <code>string</code>                   | iOS      |
+| **`isCompleted`**    | <code>boolean</code>                  | iOS      |
+| **`priority`**       | <code>number</code>                   | iOS      |
+| **`notes`**          | <code>string</code>                   | iOS      |
+| **`location`**       | <code>string</code>                   | iOS      |
+| **`url`**            | <code>string</code>                   | iOS      |
+| **`startDate`**      | <code>number</code>                   | iOS      |
+| **`dueDate`**        | <code>number</code>                   | iOS      |
+| **`completionDate`** | <code>number</code>                   | iOS      |
+| **`recurrence`**     | <code>ReminderRecurrenceRule[]</code> | iOS      |
 
 ### Type Aliases
 
@@ -694,22 +752,22 @@ Construct a type with a set of properties K of type T
 
 #### CalendarPermissionScope
 
-| Members               | Value                         | Description                                                  | Since |
-| --------------------- | ----------------------------- | ------------------------------------------------------------ | ----- |
-| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Permission required for reading calendar events.             | 7.1.0 |
-| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 |
-| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 |
-| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 |
+| Members               | Value                         | Description                                                  | Since | Platform     |
+| --------------------- | ----------------------------- | ------------------------------------------------------------ | ----- | ------------ |
+| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Permission required for reading calendar events.             | 7.1.0 | Android, iOS |
+| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 | iOS          |
+| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 | Android, iOS |
+| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 | iOS          |
 
 #### EventAvailability
 
-| Members             | Value           | Since |
-| ------------------- | --------------- | ----- |
-| **`NOT_SUPPORTED`** | <code>-1</code> | 7.1.0 |
-| **`BUSY`**          |                 | 7.1.0 |
-| **`FREE`**          |                 | 7.1.0 |
-| **`TENTATIVE`**     |                 | 7.1.0 |
-| **`UNAVAILABLE`**   |                 | 7.1.0 |
+| Members             | Value           | Since | Platform     |
+| ------------------- | --------------- | ----- | ------------ |
+| **`NOT_SUPPORTED`** | <code>-1</code> | 7.1.0 | iOS          |
+| **`BUSY`**          |                 | 7.1.0 | Android, iOS |
+| **`FREE`**          |                 | 7.1.0 | Android, iOS |
+| **`TENTATIVE`**     |                 | 7.1.0 | Android, iOS |
+| **`UNAVAILABLE`**   |                 | 7.1.0 | iOS          |
 
 #### CalendarType
 
