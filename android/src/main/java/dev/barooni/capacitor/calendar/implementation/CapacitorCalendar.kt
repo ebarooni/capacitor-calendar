@@ -9,6 +9,7 @@ import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
@@ -60,5 +61,9 @@ class CapacitorCalendarNew(
         input.availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
         input.invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
         callback(input.call, intent, input.callbackName)
+    }
+
+    fun modifyEventWithPrompt(input: ModifyEventWithPromptInput, callback: (PluginCall, Intent, String) -> Unit,) {
+        callback(input.call, input.intent, input.callbackName)
     }
 }

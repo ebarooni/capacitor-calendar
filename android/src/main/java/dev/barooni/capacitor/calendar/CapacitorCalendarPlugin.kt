@@ -1,12 +1,7 @@
 package dev.barooni.capacitor.calendar
 
 import android.Manifest
-import android.content.ContentUris
-import android.content.Intent
-import android.net.Uri
-import android.provider.CalendarContract
 import androidx.activity.result.ActivityResult
-import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -19,9 +14,11 @@ import dev.barooni.capacitor.calendar.implementation.CapacitorCalendarNew
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
+import dev.barooni.capacitor.calendar.models.results.ModifyEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
 
@@ -211,58 +208,25 @@ class CapacitorCalendarPlugin : Plugin() {
         call.resolve(CreateEventWithPromptResult().toJSON())
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     fun modifyEventWithPrompt(call: PluginCall) {
         try {
-            val stringId =
-                call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEventWithPrompt.name}] Event ID not defined")
-            val update = call.getObject("update")
-            val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, stringId.toLong())
-            val intent =
-                Intent(Intent.ACTION_EDIT)
-                    .setData(uri)
-
-            if (update != null) {
-                val title = update.getString("title")
-                val calendarId = update.getString("calendarId")
-                val location = update.getString("location")
-                val startDate = update.getLong("startDate")
-                val endDate = update.getLong("endDate")
-                val isAllDay = update.getBoolean("isAllDay")
-                val url = update.getString("url")
-                val notes = update.getString("notes")
-
-                intent.putExtra(CalendarContract.Events.TITLE, title)
-                calendarId?.let { intent.putExtra(CalendarContract.Events.CALENDAR_ID, it) }
-                location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-                startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
-                endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
-                isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
-                intent.putExtra(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
-            }
-
-            return startActivityForResult(
-                call,
-                intent,
-                "openEventEditIntentActivityCallback",
-            )
+            val input = ModifyEventWithPromptInput(call, "modifyEventWithPromptCallback")
+            implementationNew.modifyEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
-            call.reject("", error.message)
-            return
+            call.reject(error.message)
         }
     }
 
     @ActivityCallback
-    private fun openEventEditIntentActivityCallback(
+    private fun modifyEventWithPromptCallback(
         call: PluginCall?,
         result: ActivityResult,
     ) {
         if (call == null) {
-            throw Exception("[CapacitorCalendar.${::createEventWithPrompt.name}] Call is not defined")
+            return
         }
-        val ret = JSObject()
-        ret.put("result", JSArray())
-        call.resolve(ret)
+        call.resolve(ModifyEventWithPromptResult().toJSON())
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
