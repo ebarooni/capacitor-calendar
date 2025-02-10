@@ -26,12 +26,11 @@ class ImplementationHelper {
             return list
         }
 
-        fun hexToColorInt(hex: String?): Int? {
-            return if (hex == null) {
+        fun hexToColorInt(hex: String?): Int? =
+            if (hex == null) {
                 null
             } else {
                 android.graphics.Color.parseColor(hex)
             }
-        }
     }
 }

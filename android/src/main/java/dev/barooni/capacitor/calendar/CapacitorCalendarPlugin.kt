@@ -13,6 +13,7 @@ import com.getcapacitor.annotation.PermissionCallback
 import dev.barooni.capacitor.calendar.implementation.CapacitorCalendarNew
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
+import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
@@ -229,6 +230,17 @@ class CapacitorCalendarPlugin : Plugin() {
         call.resolve(ModifyEventWithPromptResult().toJSON())
     }
 
+    @PluginMethod
+    fun createEvent(call: PluginCall) {
+        try {
+            val input = CreateEventInput(call)
+            val result = implementationNew.createEvent(input)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     fun modifyEvent(call: PluginCall) {
         try {
@@ -273,47 +285,6 @@ class CapacitorCalendarPlugin : Plugin() {
             call.resolve(ret)
         } catch (_: Exception) {
             call.reject("", "[CapacitorCalendar.${::getDefaultCalendar.name}] No default calendar found")
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun createEvent(call: PluginCall) {
-        try {
-            val title =
-                call.getString("title")
-                    ?: throw Exception("[CapacitorCalendar.${::createEvent.name}] A title for the event was not provided")
-            val calendarId = call.getString("calendarId")
-            val location = call.getString("location")
-            val startDate = call.getLong("startDate")
-            val endDate = call.getLong("endDate")
-            val isAllDay = call.getBoolean("isAllDay", false)
-            val alertOffsetInMinutesSingle = call.getFloat("alertOffsetInMinutes")
-            val alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes")
-            val url = call.getString("url")
-            val notes = call.getString("notes")
-
-            val eventUri =
-                implementation.createEvent(
-                    context,
-                    title,
-                    calendarId,
-                    location,
-                    startDate,
-                    endDate,
-                    isAllDay,
-                    alertOffsetInMinutesSingle,
-                    alertOffsetInMinutesMultiple,
-                    url,
-                    notes,
-                )
-
-            val id = eventUri?.lastPathSegment ?: throw IllegalArgumentException("Failed to insert event into calendar")
-            val ret = JSObject()
-            ret.put("result", id)
-            call.resolve(ret)
-        } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::createEvent.name}] Unable to create event")
-            return
         }
     }
 
