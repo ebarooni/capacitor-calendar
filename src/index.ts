@@ -11,6 +11,7 @@ import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 import { CalendarType } from "./schemas/enums/calendar-type";
 import type { CapacitorCalendarPlugin } from "./definitions";
+import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
@@ -40,6 +41,7 @@ export type {
   CreateEventWithPromptOptions,
   ModifyEventWithPromptOptions,
   EventEditAction,
+  CreateEventOptions,
 };
 export {
   CalendarChooserSelectionStyle,

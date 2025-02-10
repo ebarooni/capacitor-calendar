@@ -1,3 +1,4 @@
+import type { CreateEventOptions } from "../schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
 import type { EventEditAction } from "../schemas/types/event-edit-action";
 import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
@@ -38,4 +39,11 @@ export interface EventOperations {
   modifyEventWithPrompt(
     options: ModifyEventWithPromptOptions,
   ): Promise<{ result: EventEditAction | null }>;
+  /**
+   * Creates an event in the calendar.
+   *
+   * @platform iOS, Android
+   * @since 0.4.0
+   */
+  createEvent(options: CreateEventOptions): Promise<{ id: string }>;
 }

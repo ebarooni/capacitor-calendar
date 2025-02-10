@@ -35,7 +35,7 @@ export interface CreateEventWithPromptOptions {
    */
   isAllDay?: boolean;
   /**
-   * Sets alerts before the start of the event in minutes.
+   * Sets alerts before or after the start of the event in minutes.
    * On iOS only 2 alerts are supported.
    *
    * @example
@@ -58,7 +58,7 @@ export interface CreateEventWithPromptOptions {
   description?: string;
   /**
    * @platform Android, iOS
-   * @see 7.1.0
+   * @since 7.1.0
    */
   availability?: EventAvailability;
   /**

@@ -71,6 +71,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`createEvent(...)`](#createevent)
+- [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
@@ -280,20 +281,35 @@ On Android always returns `null`.
 ### createEvent(...)
 
 ```typescript
-createEvent(options: { title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }) => Promise<{ result: string; }>
+createEvent(options: CreateEventOptions) => Promise<{ id: string; }>
 ```
 
-Creates an event.
+Creates an event in the calendar.
 
-| Param         | Type                                                                                                                                                                                                       | Description                     |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **`options`** | <code>{ title: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }</code> | Options for creating the event. |
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#createeventoptions">CreateEventOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
 
 **Since:** 0.4.0
 
 **Platform:** iOS, Android
+
+---
+
+### commit()
+
+```typescript
+commit() => Promise<void>
+```
+
+TODO: Throw unimplemented error on Android
+Save the changes to the calendar.
+
+**Since:** 7.1.0
+
+**Platform:** iOS
 
 ---
 
@@ -614,36 +630,58 @@ Modifies a reminder given its id and update details.
 
 #### CreateEventWithPromptOptions
 
-| Prop               | Type                                                            | Description                                                                               | Since | Platform     |
-| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
-| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 | Android, iOS |
-| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
-| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
-| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 | Android, iOS |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       | Android, iOS |
-| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 | Android      |
+| Prop               | Type                                                            | Description                                                                                        | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                                    | 0.1.0 | iOS          |
+| **`location`**     | <code>string</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                                    | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before or after the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
+| **`url`**          | <code>string</code>                                             |                                                                                                    | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                                                    | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                                    | 7.1.0 | Android, iOS |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                                      | 7.1.0 | Android      |
 
 #### ModifyEventWithPromptOptions
 
-| Prop               | Type                                                            | Description                                                                               | Since | Platform     |
-| ------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`title`**        | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`calendarId`**   | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
-| **`location`**     | <code>string</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`startDate`**    | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`endDate`**      | <code>number</code>                                             |                                                                                           | 0.1.0 | Android, iOS |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                           | 0.1.0 | Android, iOS |
-| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
-| **`url`**          | <code>string</code>                                             |                                                                                           | 0.1.0 | iOS          |
-| **`description`**  | <code>string</code>                                             |                                                                                           | 7.1.0 | Android, iOS |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                           |       | Android, iOS |
-| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                             | 7.1.0 | Android      |
-| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                       | 7.1.0 | Android, iOS |
+| Prop               | Type                                                            | Description                                                                                        | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                                    | 0.1.0 | iOS          |
+| **`location`**     | <code>string</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                                                    | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                                    | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before or after the start of the event in minutes. On iOS only 2 alerts are supported. | 7.1.0 | iOS          |
+| **`url`**          | <code>string</code>                                             |                                                                                                    | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                                                    | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                                    | 7.1.0 | Android, iOS |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                                      | 7.1.0 | Android      |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                                | 7.1.0 | Android, iOS |
+
+#### CreateEventOptions
+
+| Prop               | Type                                                            | Description                                                                                        | Default           | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------- | ----- | ------------ |
+| **`title`**        | <code>string</code>                                             |                                                                                                    |                   | 0.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                                                    |                   | 0.1.0 | iOS          |
+| **`location`**     | <code>string</code>                                             |                                                                                                    |                   | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                                                    |                   | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                                                    |                   | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                                                    |                   | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before or after the start of the event in minutes. On iOS only 2 alerts are supported. |                   | 7.1.0 | iOS          |
+| **`url`**          | <code>string</code>                                             |                                                                                                    |                   | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                                                    |                   | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                                    |                   | 7.1.0 | Android, iOS |
+| **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                                      |                   | 7.1.0 | Android      |
+| **`title`**        | <code>string</code>                                             |                                                                                                    |                   | 0.4.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           | Sets alerts before or after the start of the event in minutes. On iOS only 2 alerts are supported. |                   | 7.1.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.                                                                      |                   | 7.1.0 | Android      |
+| **`color`**        | <code>string</code>                                             |                                                                                                    |                   | 7.1.0 | Android      |
+| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format.                                                           |                   | 7.1.0 | Android      |
+| **`commit`**       | <code>boolean</code>                                            | Whether to save immediately (`true`) or batch changes for later (`false`).                         | <code>true</code> | 7.1.0 | iOS          |
 
 #### Calendar
 

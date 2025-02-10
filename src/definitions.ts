@@ -3,6 +3,7 @@ import { CalendarAccess } from "./sub-definitions/calendar-access";
 import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
 import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
+import type { CalendarOperations } from "./sub-definitions/calendar-operations";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { EventOperations } from "./sub-definitions/event-operations";
 import { EventSpan } from "./schemas/enums/event-span";
@@ -13,8 +14,9 @@ import type { RemindersList } from "./schemas/interfaces/reminders-list";
 
 export interface CapacitorCalendarPlugin
   extends CalendarAccess,
+    RemindersAccess,
     EventOperations,
-    RemindersAccess {
+    CalendarOperations {
   /**
    * Presents a prompt to the user to select calendars. This method is available only on iOS.
    *
@@ -74,58 +76,6 @@ export interface CapacitorCalendarPlugin
    * console.log(result); // { id: '1', title: 'Default Calendar' }
    */
   getDefaultCalendar(): Promise<{ result: Calendar | null }>;
-
-  /**
-   * Creates an event with the provided options.
-   *
-   * @async
-   * @since 0.4.0
-   * @platform iOS, Android
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
-   *   <li><strong>Android:</strong> readCalendar, writeCalendar</li>
-   * </ul>
-   * @param {object} options Options for creating the event.
-   * @param {string} options.title The title of the event.
-   * @param {string} options.calendarId The id of the destination calendar. (Optional)
-   * @param {string} [options.location] The location of the event. (Optional)
-   * @param {number} [options.startDate] The start date and time of the event. (Optional)
-   * @param {number} [options.endDate] The end date and time of the event. (Optional)
-   * @param {boolean} [options.isAllDay] Weather the event is for the entire day or not. (Optional)
-   * @param {number} [options.alertOffsetInMinutes] If a number >= 0 is provided, an alert will be set for the event this many
-   * minutes *before* the event. If an array of number >= 0 are provided, it will add multiple alerts.
-   * On iOS only the first two valid elements of the array are taken into account.
-   * Negative values are ignored. (Optional)
-   * @param {string} [options.url] The URL of the event. (Optional)
-   * @param {string} [options.notes] The notes of the event. (Optional)
-   * @returns {Promise<{ result: string }>} A promise that resolves with the id of the created event.
-   * @example
-   * const now = Date.now();
-   * const eventOptions = {
-   *   title: 'Team Meeting',
-   *   location: 'Conference Room A',
-   *   startDate: now,
-   *   endDate: now + 2 * 60 * 60 * 1000,
-   *   isAllDay: false,
-   *   alertOffsetInMinutes: 5,
-   *   url: 'https://capacitor-calendar.pages.dev',
-   *   notes: 'A CapacitorJS plugin'
-   * };
-   * const { result } = await createEvent(eventOptions);
-   */
-  createEvent(options: {
-    title: string;
-    calendarId?: string;
-    location?: string;
-    startDate?: number;
-    endDate?: number;
-    isAllDay?: boolean;
-    alertOffsetInMinutes?: number | number[];
-    url?: string;
-    notes?: string;
-  }): Promise<{ result: string }>;
 
   /**
    * Retrieves the default reminders list set on the device.
