@@ -13,6 +13,8 @@ sealed class PluginError(
 
     data object IdMissing : PluginError("Event ID must be provided.")
 
+    data object TitleMissing : PluginError("Title must be provided.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

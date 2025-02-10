@@ -13,7 +13,7 @@ data class CreateEventWithPromptInput(
     val location: String? = call.getString("location")
     val startDate: Long = ImplementationHelper.getCalendarFromTimestamp(call.getLong("startDate")).timeInMillis
     val endDate: Long = ImplementationHelper.getCalendarFromTimestamp(call.getLong("endDate")).timeInMillis
-    private val isAllDay: Boolean = call.getBoolean("isAllDay") ?: false
+    val isAllDay: Boolean = call.getBoolean("isAllDay") ?: false
     val description: String? = call.getString("description")
     val availability: Int? = call.getInt("availability")
     val invitees: String? = ImplementationHelper.jsArrayToComaSeparatedString(call.getArray("invitees"))

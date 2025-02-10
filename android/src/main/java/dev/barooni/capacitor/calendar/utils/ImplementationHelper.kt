@@ -20,5 +20,18 @@ class ImplementationHelper {
 
             return list.joinToString(", ")
         }
+
+        fun jsArrayToIntArray(array: JSArray?): List<Int>? {
+            val list = array?.toList<Int>() ?: return null
+            return list
+        }
+
+        fun hexToColorInt(hex: String?): Int? {
+            return if (hex == null) {
+                null
+            } else {
+                android.graphics.Color.parseColor(hex)
+            }
+        }
     }
 }
