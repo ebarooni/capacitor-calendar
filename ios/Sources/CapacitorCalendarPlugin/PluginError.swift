@@ -7,6 +7,8 @@ enum PluginError: LocalizedError {
     case viewControllerMissing
     case processFailed
     case idMissing
+    case titleMissing
+    case failedToRetrieveEventId
     case eventNotFound
     case unimplemented(String)
     case customError(String)
@@ -23,6 +25,10 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Missing view controller.", comment: "View controller missing error")
         case .idMissing:
             return NSLocalizedString("Event ID must be provided.", comment: "Event ID missing error")
+        case .titleMissing:
+            return NSLocalizedString("Title must be provided.", comment: "Title missing error")
+        case .failedToRetrieveEventId:
+            return NSLocalizedString("Failed to retrieve event ID.", comment: "Failed to retrieve event ID error")
         case.eventNotFound:
             return NSLocalizedString("Event not found.", comment: "Event not found error")
         case .processFailed:

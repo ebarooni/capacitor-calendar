@@ -171,6 +171,28 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
         }
     }
 
+    func createEvent(input: CreateEventInput) throws -> CreateEventResult {
+        let event = EKEvent(eventStore: eventStore)
+        event.title = input.getTitle()
+        event.alarms = input.getAlerts()
+        event.isAllDay = input.getIsAllDay()
+        event.calendar = input.getCalendar(from: eventStore)
+        event.location = input.getLocation()
+        event.startDate = input.getStartDate()
+        event.endDate = input.getEndDate()
+        event.url = input.getUrl()
+        event.notes = input.getDescription()
+        if let availability = input.getAvailability() {
+            event.availability = availability
+        }
+        try eventStore.save(event, span: .thisEvent, commit: input.getCommit())
+        return try CreateEventResult(id: event.eventIdentifier)
+    }
+
+    func commit() throws {
+        try eventStore.commit()
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in

@@ -114,6 +114,25 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func createEvent(_ call: CAPPluginCall) {
+        do {
+            let input = try CreateEventInput(call: call)
+            let result = try implementation.createEvent(input: input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    @objc public func commit(_ call: CAPPluginCall) {
+        do {
+            try implementation.commit()
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
         guard let selectionStyle = call.getInt("selectionStyle") else {
             call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
@@ -144,45 +163,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             try call.resolve(["result": calendar.getDefaultCalendar() ?? NSNull()])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
-            return
-        }
-    }
-
-    @objc public func createEvent(_ call: CAPPluginCall) {
-        guard let title = call.getString("title") else {
-            call.reject("[CapacitorCalendar.\(#function)] A title for the event was not provided")
-            return
-        }
-        let location = call.getString("location")
-        let startDate = call.getDouble("startDate")
-        let endDate = call.getDouble("endDate")
-        let isAllDay = call.getBool("isAllDay")
-        let calendarId = call.getString("calendarId")
-        let notes = call.getString("notes")
-        let url = call.getString("url")
-
-        var eventParameters = EventCreationParameters(
-            title: title,
-            calendarId: calendarId,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            isAllDay: isAllDay,
-            notes: notes,
-            url: url
-        )
-
-        if let alertOffsetInMinutesSingle = call.getDouble("alertOffsetInMinutes") as Double? {
-            eventParameters.alertOffsetInMinutesSingle = alertOffsetInMinutesSingle
-        } else if let alertOffsetInMinutesMultiple = call.getArray("alertOffsetInMinutes") as? [Double]? {
-            eventParameters.alertOffsetInMinutesMultiple = alertOffsetInMinutesMultiple
-        }
-
-        do {
-            let id = try calendar.createEvent(with: eventParameters)
-            call.resolve(["result": id])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to create event")
             return
         }
     }
