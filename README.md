@@ -71,6 +71,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`createEvent(...)`](#createevent)
+- [`modifyEvent(...)`](#modifyevent)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
@@ -86,7 +87,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`modifyReminder(...)`](#modifyreminder)
@@ -295,6 +295,24 @@ Creates an event in the calendar.
 **Since:** 0.4.0
 
 **Platform:** iOS, Android
+
+---
+
+### modifyEvent(...)
+
+```typescript
+modifyEvent(options: ModifyEventOptions) => Promise<void>
+```
+
+Modifies an event.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#modifyeventoptions">ModifyEventOptions</a></code> |
+
+**Since:** 6.6.0
+
+**Platform:** Android, iOS
 
 ---
 
@@ -558,24 +576,6 @@ Deletes reminders given their IDs.
 
 ---
 
-### modifyEvent(...)
-
-```typescript
-modifyEvent(options: { id: string; span?: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
-```
-
-Modifies an event given its id and update details.
-
-| Param         | Type                                                                                                                                                                                                                                                                            | Description                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
-
-**Since:** 6.6.0
-
-**Platform:** iOS, Android
-
----
-
 ### fetchAllCalendarSources()
 
 ```typescript
@@ -687,6 +687,27 @@ Modifies a reminder given its id and update details.
 | ----------- | ------------------- | ----- |
 | **`name`**  | <code>string</code> | 7.1.0 |
 | **`email`** | <code>string</code> | 7.1.0 |
+
+#### ModifyEventOptions
+
+| Prop               | Type                                                            | Description                                                                | Default           | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------- | ----- | ------------ |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                        |                   | 7.1.0 | Android, iOS |
+| **`title`**        | <code>string</code>                                             |                                                                            |                   | 0.4.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`location`**     | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`url`**          | <code>string</code>                                             |                                                                            |                   | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.                                              |                   | 7.1.0 | Android      |
+| **`color`**        | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android      |
+| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format.                                   |                   | 7.1.0 | Android      |
+| **`commit`**       | <code>boolean</code>                                            | Whether to save immediately (`true`) or batch changes for later (`false`). | <code>true</code> | 7.1.0 | iOS          |
+| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                                                          |                   | 7.1.0 | Android      |
 
 #### Calendar
 
@@ -855,13 +876,6 @@ Construct a type with a set of properties K of type T
 | **`WEEKLY`**  | The reminder repeats on a weekly basis  |
 | **`MONTHLY`** | The reminder repeats on a monthly basis |
 | **`YEARLY`**  | The reminder repeats on a yearly basis  |
-
-#### EventSpan
-
-| Members                      | Since |
-| ---------------------------- | ----- |
-| **`THIS_EVENT`**             | 7.1.0 |
-| **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
 
 </docgen-api>
 

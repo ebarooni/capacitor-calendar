@@ -11,7 +11,7 @@ import type { CapacitorCalendarPlugin } from "./definitions";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
-import { EventSpan } from "./schemas/enums/event-span";
+import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
@@ -81,6 +81,10 @@ export class CapacitorCalendarWeb
 
   public commit(): Promise<void> {
     return this.throwUnimplemented(this.commit.name);
+  }
+
+  public modifyEvent(_options: ModifyEventOptions): Promise<void> {
+    return this.throwUnimplemented(this.modifyEvent.name);
   }
 
   public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
@@ -189,26 +193,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
     throw this.unimplemented(
       `${this.deleteRemindersById.name} is not implemented on the web`,
-    );
-  }
-
-  public modifyEvent(_options: {
-    id: string;
-    span?: EventSpan;
-    update: {
-      title?: string;
-      calendarId?: string;
-      location?: string;
-      startDate?: number;
-      endDate?: number;
-      isAllDay?: boolean;
-      alertOffsetInMinutes?: number | number[];
-      url?: string;
-      notes?: string;
-    };
-  }): Promise<void> {
-    throw this.unimplemented(
-      `${this.modifyEvent.name} is not implemented on the web`,
     );
   }
 
