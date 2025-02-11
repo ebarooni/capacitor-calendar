@@ -7,11 +7,14 @@ import type { Calendar } from "./schemas/interfaces/calendar";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
-import { CapacitorCalendarPlugin } from "./definitions";
-import { CreateEventWithPromptOptions } from "./sub-definitions/event-operations";
+import type { CapacitorCalendarPlugin } from "./definitions";
+import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
+import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { EventEditAction } from "./schemas/types/event-edit-action";
 import { EventSpan } from "./schemas/enums/event-span";
+import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
-import { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
+import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
 
 export class CapacitorCalendarWeb
@@ -64,6 +67,22 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.createEventWithPrompt.name);
   }
 
+  public modifyEventWithPrompt(
+    _options: ModifyEventWithPromptOptions,
+  ): Promise<{ result: EventEditAction | null }> {
+    return this.throwUnimplemented(this.modifyEventWithPrompt.name);
+  }
+
+  public createEvent(_options: CreateEventOptions): Promise<{
+    id: string;
+  }> {
+    return this.throwUnimplemented(this.createEvent.name);
+  }
+
+  public commit(): Promise<void> {
+    return this.throwUnimplemented(this.commit.name);
+  }
+
   public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
     throw this.unimplemented(
       `${this.selectCalendarsWithPrompt.name} is not implemented on the web`,
@@ -79,24 +98,6 @@ export class CapacitorCalendarWeb
   public getDefaultCalendar(): Promise<{ result: Calendar | null }> {
     throw this.unimplemented(
       `${this.getDefaultCalendar.name} is not implemented on the web`,
-    );
-  }
-
-  public createEvent(_options: {
-    title: string;
-    calendarId?: string;
-    location?: string;
-    startDate?: number;
-    endDate?: number;
-    isAllDay?: boolean;
-    alertOffsetInMinutes?: number | number[];
-    url?: string;
-    notes?: string;
-  }): Promise<{
-    result: string;
-  }> {
-    throw this.unimplemented(
-      `${this.createEvent.name} is not implemented on the web`,
     );
   }
 
@@ -188,25 +189,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
     throw this.unimplemented(
       `${this.deleteRemindersById.name} is not implemented on the web`,
-    );
-  }
-
-  public modifyEventWithPrompt(_options: {
-    id: string;
-    update?: {
-      title?: string;
-      calendarId?: string;
-      location?: string;
-      startDate?: number;
-      endDate?: number;
-      isAllDay?: boolean;
-      alertOffsetInMinutes?: number | number[];
-      url?: string;
-      notes?: string;
-    };
-  }): Promise<{ result: string[] }> {
-    throw this.unimplemented(
-      `${this.modifyEventWithPrompt.name} is not implemented on the web`,
     );
   }
 

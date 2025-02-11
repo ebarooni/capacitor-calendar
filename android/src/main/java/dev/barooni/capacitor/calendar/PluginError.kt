@@ -11,6 +11,16 @@ sealed class PluginError(
 
     data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.")
 
+    data object IdMissing : PluginError("Event ID must be provided.")
+
+    data object TitleMissing : PluginError("Title must be provided.")
+
+    data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
+
+    data object AttendeeEmailMissing : PluginError("Attendee email must be provided.")
+
+    data object NoCalendarsAvailable : PluginError("No calendars available.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

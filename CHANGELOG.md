@@ -38,6 +38,10 @@ Changelogs for the versions supporting Capacitor 7.
 
 ## 7.1.0
 
+### Added
+
+- `commit()` method to apply changes to the calendar at a later time
+
 ### Changed
 
 - `checkPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
