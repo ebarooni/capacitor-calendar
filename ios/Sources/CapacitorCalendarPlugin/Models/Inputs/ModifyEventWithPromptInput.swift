@@ -7,6 +7,7 @@ struct ModifyEventWithPromptInput {
     private var title: String?
     private var isAllDay: Bool?
     private var alerts: [Double]?
+    private var calendarId: String?
 
     init(call: CAPPluginCall) throws {
         self.input = CreateEventWithPromptInput(call: call)
@@ -24,6 +25,9 @@ struct ModifyEventWithPromptInput {
         if let alerts = call.getArray( "alerts" ) as? [Double] {
             self.alerts = alerts
         }
+        if let calendarId = call.getString( "calendarId" ) {
+            self.calendarId = calendarId
+        }
     }
 
     func getEvent(from eventStore: EKEventStore) throws -> EKEvent {
@@ -38,7 +42,7 @@ struct ModifyEventWithPromptInput {
     }
 
     func getCalendar(from eventStore: EKEventStore) -> EKCalendar? {
-        return input.getCalendar(from: eventStore)
+        return ImplementationHelper.getCalendarFromId(eventStore: eventStore, calendarId: calendarId, fallback: false)
     }
 
     func getLocation() -> String? {

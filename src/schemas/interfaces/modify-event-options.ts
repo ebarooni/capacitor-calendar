@@ -1,5 +1,6 @@
 import { EventAvailability } from "../enums/event-availability";
 import type { EventGuest } from "./event-guest";
+import { EventSpan } from "../enums/event-span";
 
 /**
  * @since 7.1.0
@@ -86,19 +87,18 @@ export interface ModifyEventOptions {
    */
   duration?: string;
   /**
-   * Whether to save immediately (`true`) or batch changes for later (`false`).
-   *
-   * @default true
-   * @platform iOS
-   * @see {@link CalendarOperations#commit}
-   * @since 7.1.0
-   */
-  commit?: boolean;
-  /**
    * The event guests.
    *
    * @platform Android
    * @since 7.1.0
    */
   attendees?: EventGuest[];
+  /**
+   * The span of modifications.
+   *
+   * @default EventSpan.THIS_EVENT
+   * @platform iOS
+   * @see 7.1.0
+   */
+  span: EventSpan;
 }

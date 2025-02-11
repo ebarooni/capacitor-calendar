@@ -86,4 +86,15 @@ struct ImplementationHelper {
             }
         }
     }
+
+    static func getCalendarFromId(eventStore: EKEventStore, calendarId: String?, fallback: Bool) -> EKCalendar? {
+        if let id = calendarId, let calendar = eventStore.calendar(withIdentifier: id) {
+            return calendar
+        }
+        if fallback {
+            return eventStore.defaultCalendarForNewEvents
+        } else {
+            return nil
+        }
+    }
 }

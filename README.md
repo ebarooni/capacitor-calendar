@@ -690,24 +690,24 @@ Modifies a reminder given its id and update details.
 
 #### ModifyEventOptions
 
-| Prop               | Type                                                            | Description                                                                | Default           | Since | Platform     |
-| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------- | ----- | ------------ |
-| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                        |                   | 7.1.0 | Android, iOS |
-| **`title`**        | <code>string</code>                                             |                                                                            |                   | 0.4.0 | Android, iOS |
-| **`calendarId`**   | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`location`**     | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`startDate`**    | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`endDate`**      | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`alerts`**       | <code>number[]</code>                                           |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`url`**          | <code>string</code>                                             |                                                                            |                   | 0.1.0 | iOS          |
-| **`description`**  | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.                                              |                   | 7.1.0 | Android      |
-| **`color`**        | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android      |
-| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format.                                   |                   | 7.1.0 | Android      |
-| **`commit`**       | <code>boolean</code>                                            | Whether to save immediately (`true`) or batch changes for later (`false`). | <code>true</code> | 7.1.0 | iOS          |
-| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                                                          |                   | 7.1.0 | Android      |
+| Prop               | Type                                                            | Description                              | Default                           | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | ---------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.      |                                   | 7.1.0 | Android, iOS |
+| **`title`**        | <code>string</code>                                             |                                          |                                   | 0.4.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`location`**     | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                          |                                   | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           |                                          |                                   | 7.1.0 | Android, iOS |
+| **`url`**          | <code>string</code>                                             |                                          |                                   | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                          |                                   | 7.1.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.            |                                   | 7.1.0 | Android      |
+| **`color`**        | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android      |
+| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format. |                                   | 7.1.0 | Android      |
+| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                        |                                   | 7.1.0 | Android      |
+| **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                 | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
 
 #### Calendar
 
@@ -832,6 +832,13 @@ Construct a type with a set of properties K of type T
 | **`FREE`**          |                 | 7.1.0 | Android, iOS |
 | **`TENTATIVE`**     |                 | 7.1.0 | Android, iOS |
 | **`UNAVAILABLE`**   |                 | 7.1.0 | iOS          |
+
+#### EventSpan
+
+| Members                      | Since |
+| ---------------------------- | ----- |
+| **`THIS_EVENT`**             | 7.1.0 |
+| **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
 
 #### CalendarType
 
