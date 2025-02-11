@@ -18,6 +18,7 @@ import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 import dev.barooni.capacitor.calendar.models.results.CreateEventResult
+import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 class CapacitorCalendarNew(
     private val plugin: CapacitorCalendarPlugin,
@@ -65,14 +66,17 @@ class CapacitorCalendarNew(
 
     fun createEvent(input: CreateEventInput): CreateEventResult {
         val cr = plugin.context.contentResolver
+        val calendarId: Long = input.calendarId ?: ImplementationHelper.getDefaultCalendarId(cr)
+
         val values =
             ContentValues().apply {
                 put(CalendarContract.Events.TITLE, input.title)
-                put(CalendarContract.Events.ALL_DAY, input.isAllDay)
-                input.calendarId?.let { put(CalendarContract.Events.CALENDAR_ID, it) }
+                put(CalendarContract.Events.CALENDAR_ID, calendarId)
+                put(CalendarContract.Events.EVENT_TIMEZONE, input.timezoneId)
+                input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
                 input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                put(CalendarContract.Events.DTSTART, input.startDate)
-                put(CalendarContract.Events.DTEND, input.endDate)
+                input.startDate?.let { put(CalendarContract.Events.DTSTART, it) }
+                input.endDate?.let { put(CalendarContract.Events.DTEND, it) }
                 input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
                 input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
@@ -80,8 +84,9 @@ class CapacitorCalendarNew(
                 input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
             }
         val uri: Uri? = cr.insert(CalendarContract.Events.CONTENT_URI, values)
-        val eventID: Long = uri?.lastPathSegment?.toLong() ?: throw PluginError.FailedToRetrieveEventId
-        // TODO: Implement reminders and attendees
-        return CreateEventResult(eventID)
+        val eventId: Long = uri?.lastPathSegment?.toLong() ?: throw PluginError.FailedToRetrieveEventId
+        input.attendees?.let { ImplementationHelper.insertAttendeesToEvent(eventId, cr, it) }
+        input.alerts?.let { ImplementationHelper.insertAlertsToEvents(eventId, cr, it) }
+        return CreateEventResult(eventId)
     }
 }

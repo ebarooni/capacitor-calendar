@@ -1,13 +1,13 @@
 /**
  * @since 7.1.0
  */
-export enum EventSpan {
+export interface EventGuest {
   /**
    * @since 7.1.0
    */
-  THIS_EVENT,
+  name?: string;
   /**
    * @since 7.1.0
    */
-  THIS_AND_FUTURE_EVENTS,
+  email: string;
 }

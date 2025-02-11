@@ -241,6 +241,11 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
+    @PluginMethod
+    fun commit(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::commit.name).message)
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     fun modifyEvent(call: PluginCall) {
         try {

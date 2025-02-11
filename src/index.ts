@@ -15,7 +15,9 @@ import type { CreateEventOptions } from "./schemas/interfaces/create-event-optio
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
+import { EventGuest } from "./schemas/interfaces/event-guest";
 import { EventSpan } from "./schemas/enums/event-span";
+import { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
@@ -42,6 +44,8 @@ export type {
   ModifyEventWithPromptOptions,
   EventEditAction,
   CreateEventOptions,
+  EventGuest,
+  ModifyEventOptions,
 };
 export {
   CalendarChooserSelectionStyle,

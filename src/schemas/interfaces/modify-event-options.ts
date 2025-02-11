@@ -4,12 +4,19 @@ import type { EventGuest } from "./event-guest";
 /**
  * @since 7.1.0
  */
-export interface CreateEventOptions {
+export interface ModifyEventOptions {
+  /**
+   * The ID of the event to be modified.
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  id: string;
   /**
    * @platform Android, iOS
    * @since 0.4.0
    */
-  title: string;
+  title?: string;
   /**
    * @platform Android, iOS
    * @since 0.1.0

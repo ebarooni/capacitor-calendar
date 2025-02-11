@@ -17,6 +17,10 @@ sealed class PluginError(
 
     data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
 
+    data object AttendeeEmailMissing : PluginError("Attendee email must be provided.")
+
+    data object NoCalendarsAvailable : PluginError("No calendars available.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

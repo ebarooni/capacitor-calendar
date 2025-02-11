@@ -11,35 +11,14 @@ data class ModifyEventWithPromptInput(
     val call: PluginCall,
     val callbackName: String,
 ) {
+    private val input = CreateEventWithPromptInput(call, callbackName)
     private val id: Long
     private val title: String? = call.getString("title")
-    private val location: String?
-    private val startDate: Long?
-    private val endDate: Long?
-    private val isAllDay: Boolean? = call.getBoolean("isAllDay")
-    private val description: String?
-    private val availability: Int?
-    private val invitees: String?
     val intent: Intent = Intent(Intent.ACTION_EDIT).setData(CalendarContract.Events.CONTENT_URI)
 
     init {
-        val input = CreateEventWithPromptInput(call, callbackName)
         val idString = call.getString("id") ?: throw PluginError.IdMissing
         id = idString.toLong()
-        location = input.location
-        startDate = call.getLong("startDate")?.let {
-            input.startDate
-        } ?: run {
-            null
-        }
-        endDate = call.getLong("endDate")?.let {
-            input.endDate
-        } ?: run {
-            null
-        }
-        description = input.description
-        availability = input.availability
-        invitees = input.invitees
         val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
         intent.setData(uri)
         setEventUpdates()
@@ -47,12 +26,12 @@ data class ModifyEventWithPromptInput(
 
     private fun setEventUpdates() {
         title?.let { intent.putExtra(CalendarContract.Events.TITLE, it) }
-        location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
-        startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
-        endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
-        isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
-        description?.let { intent.putExtra(CalendarContract.Events.DESCRIPTION, it) }
-        availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
-        invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
+        input.location?.let { intent.putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
+        input.startDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
+        input.endDate?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
+        input.isAllDay?.let { intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
+        input.description?.let { intent.putExtra(CalendarContract.Events.DESCRIPTION, it) }
+        input.availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
+        input.invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
     }
 }
