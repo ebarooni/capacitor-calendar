@@ -16,6 +16,7 @@ import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-e
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
+import type { SelectCalendarsWithPromptOptions } from "./schemas/interfaces/select-calendars-with-prompt-options";
 
 export class CapacitorCalendarWeb
   extends WebPlugin
@@ -87,10 +88,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.modifyEvent.name);
   }
 
-  public selectCalendarsWithPrompt(): Promise<{ result: Calendar[] }> {
-    throw this.unimplemented(
-      `${this.selectCalendarsWithPrompt.name} is not implemented on the web`,
-    );
+  public selectCalendarsWithPrompt(
+    _options: SelectCalendarsWithPromptOptions,
+  ): Promise<{ result: Calendar[] }> {
+    return this.throwUnimplemented(this.selectCalendarsWithPrompt.name);
   }
 
   public listCalendars(): Promise<{ result: Calendar[] }> {

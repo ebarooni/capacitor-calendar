@@ -1,7 +1,5 @@
 import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarAccess } from "./sub-definitions/calendar-access";
-import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
-import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { CalendarOperations } from "./sub-definitions/calendar-operations";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
@@ -16,33 +14,6 @@ export interface CapacitorCalendarPlugin
     RemindersAccess,
     EventOperations,
     CalendarOperations {
-  /**
-   * Presents a prompt to the user to select calendars. This method is available only on iOS.
-   *
-   * @async
-   * @since 0.2.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
-   * </ul>
-   * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
-   * @param {CalendarChooserDisplayStyle} options.displayStyle - To show all or only writeable calendars.
-   * @param {CalendarChooserSelectionStyle} [options.selectionStyle] - To be able to select multiple calendars or only one.
-   * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
-   * where each calendar object contains an ID and a title.
-   * @example
-   * if (capacitor.getPlatform() === 'ios') {
-   *     const { result } = await selectCalendarsWithPrompt();
-   *     console.log(result); // [{ id: '1', title: 'Work Calendar' }]
-   * }
-   */
-  selectCalendarsWithPrompt(options: {
-    displayStyle: CalendarChooserDisplayStyle;
-    selectionStyle: CalendarChooserSelectionStyle;
-  }): Promise<{ result: Calendar[] }>;
-
   /**
    * Retrieves a list of calendars available on the device.
    *
