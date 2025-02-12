@@ -23,6 +23,7 @@ import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
+import type { SelectCalendarsWithPromptOptions } from "./schemas/interfaces/select-calendars-with-prompt-options";
 import { registerPlugin } from "@capacitor/core";
 
 const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>(
@@ -34,10 +35,6 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>(
 
 export * from "./definitions";
 export type {
-  Calendar,
-  RemindersList,
-  ReminderRecurrenceRule,
-  CalendarSource,
   CheckAllPermissionsResult,
   RequestAllPermissionsResult,
   CreateEventWithPromptOptions,
@@ -46,17 +43,22 @@ export type {
   CreateEventOptions,
   EventGuest,
   ModifyEventOptions,
+  SelectCalendarsWithPromptOptions,
+  Calendar,
+  RemindersList,
+  ReminderRecurrenceRule,
+  CalendarSource,
 };
 export {
+  CalendarPermissionScope,
+  EventAvailability,
+  EventSpan,
   CalendarChooserSelectionStyle,
   CalendarChooserDisplayStyle,
   ReminderRecurrenceFrequency,
   CalendarEvent,
   Reminder,
-  EventSpan,
   CalendarSourceType,
   CalendarType,
-  CalendarPermissionScope,
-  EventAvailability,
   CapacitorCalendar,
 };

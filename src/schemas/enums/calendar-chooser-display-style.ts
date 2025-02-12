@@ -1,17 +1,13 @@
 /**
- * Enum representing the display styles for the calendar chooser.
- *
- * @enum CalendarChooserDisplayStyle
- * @platform iOS
+ * @since 0.2.0
  */
 export enum CalendarChooserDisplayStyle {
   /**
-   * Display all calendars available for selection.
+   * @since 0.2.0
    */
   ALL_CALENDARS,
-
   /**
-   * Display only writable calendars available for selection.
+   * 0.2.0
    */
   WRITABLE_CALENDARS_ONLY,
 }

@@ -1,12 +1,9 @@
 import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarAccess } from "./sub-definitions/calendar-access";
-import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
-import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { CalendarOperations } from "./sub-definitions/calendar-operations";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { EventOperations } from "./sub-definitions/event-operations";
-import { EventSpan } from "./schemas/enums/event-span";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import { RemindersAccess } from "./sub-definitions/reminders-access";
@@ -17,33 +14,6 @@ export interface CapacitorCalendarPlugin
     RemindersAccess,
     EventOperations,
     CalendarOperations {
-  /**
-   * Presents a prompt to the user to select calendars. This method is available only on iOS.
-   *
-   * @async
-   * @since 0.2.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
-   * </ul>
-   * @param {object} options - Options for customizing the display and selection styles of the calendar chooser.
-   * @param {CalendarChooserDisplayStyle} options.displayStyle - To show all or only writeable calendars.
-   * @param {CalendarChooserSelectionStyle} [options.selectionStyle] - To be able to select multiple calendars or only one.
-   * @returns { Promise<{ result: Calendar[] }> } A promise that resolves with an array of selected calendars,
-   * where each calendar object contains an ID and a title.
-   * @example
-   * if (capacitor.getPlatform() === 'ios') {
-   *     const { result } = await selectCalendarsWithPrompt();
-   *     console.log(result); // [{ id: '1', title: 'Work Calendar' }]
-   * }
-   */
-  selectCalendarsWithPrompt(options: {
-    displayStyle: CalendarChooserDisplayStyle;
-    selectionStyle: CalendarChooserSelectionStyle;
-  }): Promise<{ result: Calendar[] }>;
-
   /**
    * Retrieves a list of calendars available on the device.
    *
@@ -347,53 +317,6 @@ export interface CapacitorCalendarPlugin
   deleteRemindersById(options: {
     ids: string[];
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
-
-  /**
-   * Modifies an event given its id and update details.
-   *
-   * @async
-   * @since 6.6.0
-   * @platform iOS, Android
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
-   *   <li><strong>Android:</strong> writeCalendar, readCalendar</li>
-   * </ul>
-   * @param {Object} options The options for updating an event.
-   * @param {string} options.id The id of the event to be modified.
-   * @param {EventSpan} options.span The scope of the modifications.
-   * Only supported on iOS. (Optional)
-   * @param {Object} options.update The set of event properties to be modified.
-   * If a property is not supported, it will be ignored. Modifying the reminder of an
-   * event is currently not supported on Android.
-   * @returns {Promise<void>} A promise that resolves when the update operation is complete.
-   * @throws {Error} throws an error if an event for the given id is not found.
-   * @example
-   * const { result } = await CapacitorCalendar.modifyEvent({
-   *   id: 'EVENT_ID_ONE',
-   *   span: EventSpan.THIS_SPAN,
-   *   update: {
-   *     title: 'newTitle',
-   *     startDate: Date.now(),
-   *   },
-   * });
-   */
-  modifyEvent(options: {
-    id: string;
-    span?: EventSpan;
-    update: {
-      title?: string;
-      calendarId?: string;
-      location?: string;
-      startDate?: number;
-      endDate?: number;
-      isAllDay?: boolean;
-      alertOffsetInMinutes?: number | number[];
-      url?: string;
-      notes?: string;
-    };
-  }): Promise<void>;
 
   /**
    * Retrieves a list of calendar sources.

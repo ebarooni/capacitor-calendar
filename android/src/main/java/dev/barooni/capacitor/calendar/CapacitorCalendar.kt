@@ -1,39 +1,16 @@
 package dev.barooni.capacitor.calendar
 
 import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
 import java.util.Calendar
 import java.util.TimeZone
 
 class CapacitorCalendar {
-    var eventIdsArray: List<Long> = emptyList()
-
-    @Throws(Exception::class)
-    fun fetchCalendarEventIDs(context: Context): List<Long> {
-        val projection = arrayOf(CalendarContract.Events._ID)
-        val uri = CalendarContract.Events.CONTENT_URI
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        val eventIds = mutableListOf<Long>()
-
-        cursor?.use {
-            while (it.moveToNext()) {
-                val eventId = it.getLong(0)
-                eventIds.add(eventId)
-            }
-        }
-        return eventIds
-    }
-
-    @Throws(Exception::class)
-    fun getNewEventIds(newIds: List<Long>): List<Long> = newIds.filterNot { it in eventIdsArray }
-
     @Throws(Exception::class)
     fun listCalendars(context: Context): JSArray {
         val projection =
@@ -112,110 +89,6 @@ class CapacitorCalendar {
             }
         throw Exception("No primary calendar found")
     }
-
-    @Throws(Exception::class)
-    fun createEvent(
-        context: Context,
-        title: String,
-        calendarId: String?,
-        location: String?,
-        startDate: Long?,
-        endDate: Long?,
-        isAllDay: Boolean?,
-        alertOffsetInMinutesSingle: Float?,
-        alertOffsetInMinutesMultiple: JSArray?,
-        url: String?,
-        notes: String?,
-    ): Uri {
-        val startMillis = startDate ?: Calendar.getInstance().timeInMillis
-        val endMillis = endDate ?: (startMillis + 3600 * 1000)
-
-        val eventValues =
-            ContentValues().apply {
-                put(CalendarContract.Events.DTSTART, startMillis)
-                put(CalendarContract.Events.DTEND, endMillis)
-                put(CalendarContract.Events.TITLE, title)
-                location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                put(CalendarContract.Events.CALENDAR_ID, calendarId ?: getDefaultCalendar(context)?.getString("id"))
-                put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-                isAllDay?.let { put(CalendarContract.Events.ALL_DAY, if (it) 1 else 0) }
-                put(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
-            }
-
-        val eventUri = context.contentResolver.insert(CalendarContract.Events.CONTENT_URI, eventValues)
-        val eventId = eventUri?.lastPathSegment?.toLong() ?: throw IllegalArgumentException("Failed to convert event id to long")
-
-        when {
-            alertOffsetInMinutesSingle != null && alertOffsetInMinutesSingle > -1 -> {
-                val alertValues = createAlertValues(eventId, alertOffsetInMinutesSingle)
-                context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
-            }
-            alertOffsetInMinutesMultiple != null -> {
-                alertOffsetInMinutesMultiple
-                    .toList<Any>()
-                    .mapNotNull { alert ->
-                        try {
-                            val alertFloat = alert.toString().toFloat()
-                            if (alertFloat > -1) alertFloat else null
-                        } catch (e: NumberFormatException) {
-                            Log.e("Error", "Failed to convert alert to float: $alert", e)
-                            null
-                        }
-                    }.forEach { alertFloat ->
-                        val alertValues = createAlertValues(eventId, alertFloat)
-                        context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
-                    }
-            }
-        }
-
-        return eventUri
-    }
-
-    @Throws(Exception::class)
-    fun modifyEvent(
-        context: Context,
-        id: Long,
-        update: JSObject,
-    ): Boolean {
-        val title = update.getString("title")
-        val calendarId = update.getString("calendarId")
-        val location = update.getString("location")
-        val startDate = update.getLong("startDate")
-        val endDate = update.getLong("endDate")
-        val isAllDay = update.getBoolean("isAllDay")
-        val url = update.getString("url")
-        val notes = update.getString("notes")
-
-        val eventUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
-
-        val values =
-            ContentValues().apply {
-                if (title != null) put(CalendarContract.Events.TITLE, title)
-                if (calendarId != null) put(CalendarContract.Events.CALENDAR_ID, calendarId)
-                if (location != null) put(CalendarContract.Events.EVENT_LOCATION, location)
-                if (startDate != null) put(CalendarContract.Events.DTSTART, startDate)
-                if (endDate != null) put(CalendarContract.Events.DTEND, endDate)
-                if (isAllDay != null) put(CalendarContract.Events.ALL_DAY, if (isAllDay) 1 else 0)
-                if (notes !=
-                    null
-                ) {
-                    put(CalendarContract.Events.DESCRIPTION, listOfNotNull(notes, url?.let { "URL: $it" }).joinToString("\n"))
-                }
-            }
-
-        val rows: Int = context.contentResolver.update(eventUri, values, null, null)
-        return rows > 0
-    }
-
-    private fun createAlertValues(
-        eventId: Long,
-        alertOffset: Float,
-    ): ContentValues =
-        ContentValues().apply {
-            put(CalendarContract.Reminders.EVENT_ID, eventId)
-            put(CalendarContract.Reminders.MINUTES, alertOffset)
-            put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-        }
 
     @Throws(Exception::class)
     fun openCalendar(timestamp: Long): Intent =

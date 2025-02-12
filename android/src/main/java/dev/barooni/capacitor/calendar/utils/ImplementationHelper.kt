@@ -68,6 +68,17 @@ class ImplementationHelper {
             }
         }
 
+        fun deleteAttendeesFromEvent(
+            eventId: Long,
+            cr: ContentResolver,
+        ) {
+            cr.delete(
+                CalendarContract.Attendees.CONTENT_URI,
+                "${CalendarContract.Attendees.EVENT_ID} = ?",
+                arrayOf(eventId.toString()),
+            )
+        }
+
         fun insertAlertsToEvents(
             eventId: Long,
             cr: ContentResolver,
@@ -82,6 +93,17 @@ class ImplementationHelper {
                     }
                 cr.insert(CalendarContract.Reminders.CONTENT_URI, alertValues)
             }
+        }
+
+        fun deleteAlertsFromEvent(
+            eventId: Long,
+            cr: ContentResolver,
+        ) {
+            cr.delete(
+                CalendarContract.Reminders.CONTENT_URI,
+                "${CalendarContract.Reminders.EVENT_ID} = ?",
+                arrayOf(eventId.toString()),
+            )
         }
 
         fun getDefaultCalendarId(cr: ContentResolver): Long {

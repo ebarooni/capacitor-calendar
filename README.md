@@ -71,6 +71,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createEventWithPrompt(...)`](#createeventwithprompt)
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`createEvent(...)`](#createevent)
+- [`modifyEvent(...)`](#modifyevent)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`listCalendars()`](#listcalendars)
@@ -86,7 +87,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`modifyEvent(...)`](#modifyevent)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`modifyReminder(...)`](#modifyreminder)
@@ -298,13 +298,30 @@ Creates an event in the calendar.
 
 ---
 
+### modifyEvent(...)
+
+```typescript
+modifyEvent(options: ModifyEventOptions) => Promise<void>
+```
+
+Modifies an event.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#modifyeventoptions">ModifyEventOptions</a></code> |
+
+**Since:** 6.6.0
+
+**Platform:** Android, iOS
+
+---
+
 ### commit()
 
 ```typescript
 commit() => Promise<void>
 ```
 
-TODO: Throw unimplemented error on Android
 Save the changes to the calendar.
 
 **Since:** 7.1.0
@@ -316,14 +333,14 @@ Save the changes to the calendar.
 ### selectCalendarsWithPrompt(...)
 
 ```typescript
-selectCalendarsWithPrompt(options: { displayStyle: CalendarChooserDisplayStyle; selectionStyle: CalendarChooserSelectionStyle; }) => Promise<{ result: Calendar[]; }>
+selectCalendarsWithPrompt(options: SelectCalendarsWithPromptOptions) => Promise<{ result: Calendar[]; }>
 ```
 
-Presents a prompt to the user to select calendars. This method is available only on iOS.
+Opens a system interface to choose one or multiple calendars.
 
-| Param         | Type                                                                                                                                                                                               | Description                                                                         |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
+| Param         | Type                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#selectcalendarswithpromptoptions">SelectCalendarsWithPromptOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
@@ -558,24 +575,6 @@ Deletes reminders given their IDs.
 
 ---
 
-### modifyEvent(...)
-
-```typescript
-modifyEvent(options: { id: string; span?: EventSpan; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number | number[]; url?: string; notes?: string; }; }) => Promise<void>
-```
-
-Modifies an event given its id and update details.
-
-| Param         | Type                                                                                                                                                                                                                                                                            | Description                        |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| **`options`** | <code>{ id: string; span?: <a href="#eventspan">EventSpan</a>; update: { title?: string; calendarId?: string; location?: string; startDate?: number; endDate?: number; isAllDay?: boolean; alertOffsetInMinutes?: number \| number[]; url?: string; notes?: string; }; }</code> | The options for updating an event. |
-
-**Since:** 6.6.0
-
-**Platform:** iOS, Android
-
----
-
 ### fetchAllCalendarSources()
 
 ```typescript
@@ -688,6 +687,27 @@ Modifies a reminder given its id and update details.
 | **`name`**  | <code>string</code> | 7.1.0 |
 | **`email`** | <code>string</code> | 7.1.0 |
 
+#### ModifyEventOptions
+
+| Prop               | Type                                                            | Description                              | Default                           | Since | Platform     |
+| ------------------ | --------------------------------------------------------------- | ---------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.      |                                   | 7.1.0 | Android, iOS |
+| **`title`**        | <code>string</code>                                             |                                          |                                   | 0.4.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`location`**     | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`endDate`**      | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                            |                                          |                                   | 0.1.0 | Android, iOS |
+| **`alerts`**       | <code>number[]</code>                                           |                                          |                                   | 7.1.0 | Android, iOS |
+| **`url`**          | <code>string</code>                                             |                                          |                                   | 0.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android, iOS |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                          |                                   | 7.1.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.            |                                   | 7.1.0 | Android      |
+| **`color`**        | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android      |
+| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format. |                                   | 7.1.0 | Android      |
+| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                        |                                   | 7.1.0 | Android      |
+| **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                 | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+
 #### Calendar
 
 Represents a calendar object.
@@ -712,6 +732,13 @@ Represents the account a calendar belongs to
 | **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> |
 | **`id`**    | <code>string</code>                                               |
 | **`title`** | <code>string</code>                                               |
+
+#### SelectCalendarsWithPromptOptions
+
+| Prop                 | Type                                                                                    | Since |
+| -------------------- | --------------------------------------------------------------------------------------- | ----- |
+| **`displayStyle`**   | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code>     | 7.1.0 |
+| **`selectionStyle`** | <code><a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a></code> | 7.1.0 |
 
 #### ReminderRecurrenceRule
 
@@ -812,6 +839,13 @@ Construct a type with a set of properties K of type T
 | **`TENTATIVE`**     |                 | 7.1.0 | Android, iOS |
 | **`UNAVAILABLE`**   |                 | 7.1.0 | iOS          |
 
+#### EventSpan
+
+| Members                      | Since |
+| ---------------------------- | ----- |
+| **`THIS_EVENT`**             | 7.1.0 |
+| **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
+
 #### CalendarType
 
 | Members            | Description                                                |
@@ -835,17 +869,17 @@ Construct a type with a set of properties K of type T
 
 #### CalendarChooserDisplayStyle
 
-| Members                       | Description                                              |
-| ----------------------------- | -------------------------------------------------------- |
-| **`ALL_CALENDARS`**           | Display all calendars available for selection.           |
-| **`WRITABLE_CALENDARS_ONLY`** | Display only writable calendars available for selection. |
+| Members                       | Description | Since |
+| ----------------------------- | ----------- | ----- |
+| **`ALL_CALENDARS`**           |             | 0.2.0 |
+| **`WRITABLE_CALENDARS_ONLY`** | 0.2.0       |       |
 
 #### CalendarChooserSelectionStyle
 
-| Members        | Description                                             |
-| -------------- | ------------------------------------------------------- |
-| **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
-| **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
+| Members        | Since |
+| -------------- | ----- |
+| **`SINGLE`**   | 0.2.0 |
+| **`MULTIPLE`** | 0.2.0 |
 
 #### ReminderRecurrenceFrequency
 
@@ -855,13 +889,6 @@ Construct a type with a set of properties K of type T
 | **`WEEKLY`**  | The reminder repeats on a weekly basis  |
 | **`MONTHLY`** | The reminder repeats on a monthly basis |
 | **`YEARLY`**  | The reminder repeats on a yearly basis  |
-
-#### EventSpan
-
-| Members                      | Since |
-| ---------------------------- | ----- |
-| **`THIS_EVENT`**             | 7.1.0 |
-| **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
 
 </docgen-api>
 

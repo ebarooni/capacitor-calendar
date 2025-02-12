@@ -1,17 +1,13 @@
 /**
- * Enum representing the selection style for the calendar chooser.
- *
- * @enum CalendarChooserSelectionStyle
- * @platform iOS
+ * @since 0.2.0
  */
 export enum CalendarChooserSelectionStyle {
   /**
-   * Allows only a single selection in the calendar chooser.
+   * @since 0.2.0
    */
   SINGLE,
-
   /**
-   * Allows multiple selections in the calendar chooser.
+   * @since 0.2.0
    */
   MULTIPLE,
 }

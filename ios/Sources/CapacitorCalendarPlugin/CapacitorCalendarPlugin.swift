@@ -133,6 +133,16 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func modifyEvent(_ call: CAPPluginCall) {
+        do {
+            let input: ModifyEventInput = try ModifyEventInput(call: call)
+            try implementation.modifyEvent(input: input)
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
         guard let selectionStyle = call.getInt("selectionStyle") else {
             call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
@@ -163,48 +173,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             try call.resolve(["result": calendar.getDefaultCalendar() ?? NSNull()])
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
-            return
-        }
-    }
-
-    @objc public func modifyEvent(_ call: CAPPluginCall) {
-        guard let eventId = call.getString("id") else {
-            call.reject("[CapacitorCalendar.\(#function)] An id for the event was not provided")
-            return
-        }
-        guard let update = call.getObject("update") else {
-            call.reject("[CapacitorCalendar.\(#function)] An update for the event was not provided")
-            return
-        }
-        let span = call.getInt("span", 0)
-        let title = update["title"] as? String
-        let calendarId = update["calendarId"] as? String
-        let location = update["location"] as? String
-        let startDate = update["startDate"] as? Double
-        let endDate = update["endDate"] as? Double
-        let isAllDay = update["isAllDay"] as? Bool
-        let notes = update["notes"] as? String
-        let url = update["url"] as? String
-        let alertOffsetInMinutesSingle = update["alertOffsetInMinutes"] as? Double
-        let alertOffsetInMinutesMultiple = update["alertOffsetInMinutes"] as? [Double]
-
-        do {
-            var eventParameters = EventCreationParameters(
-                title: title,
-                calendarId: calendarId,
-                location: location,
-                startDate: startDate,
-                endDate: endDate,
-                isAllDay: isAllDay,
-                alertOffsetInMinutesSingle: alertOffsetInMinutesSingle,
-                alertOffsetInMinutesMultiple: alertOffsetInMinutesMultiple,
-                notes: notes,
-                url: url
-            )
-            try calendar.modifyEvent(id: eventId, span: EKSpan(rawValue: span) ?? .thisEvent, update: eventParameters)
-            call.resolve()
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to modify event")
             return
         }
     }

@@ -155,6 +155,9 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
         if let availability = input.getAvailability() {
             event.availability = availability
         }
+        if let alerts = input.getAlerts() {
+            event.alarms = alerts
+        }
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
         }
@@ -191,6 +194,41 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
 
     func commit() throws {
         try eventStore.commit()
+    }
+
+    func modifyEvent(input: ModifyEventInput) throws {
+        let event = try input.getEvent(from: eventStore)
+        if let title = input.getTitle() {
+            event.title = title
+        }
+        if let calendar = input.getCalendar(from: eventStore) {
+            event.calendar = calendar
+        }
+        if let location = input.getLocation() {
+            event.location = location
+        }
+        if let startDate = input.getStartDate() {
+            event.startDate = startDate
+        }
+        if let endDate = input.getEndDate() {
+            event.endDate = endDate
+        }
+        if let isAllDay = input.getIsAllDay() {
+            event.isAllDay = isAllDay
+        }
+        if let url = input.getUrl() {
+            event.url = url
+        }
+        if let description = input.getDescription() {
+            event.notes = description
+        }
+        if let availability = input.getAvailability() {
+            event.availability = availability
+        }
+        if let alerts = input.getAlerts() {
+            event.alarms = alerts
+        }
+        try eventStore.save(event, span: input.getSpan())
     }
 
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {

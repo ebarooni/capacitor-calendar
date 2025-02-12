@@ -1,6 +1,7 @@
 import type { CreateEventOptions } from "../schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
 import type { EventEditAction } from "../schemas/types/event-edit-action";
+import type { ModifyEventOptions } from "../schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
 
 export interface EventOperations {
@@ -46,4 +47,11 @@ export interface EventOperations {
    * @since 0.4.0
    */
   createEvent(options: CreateEventOptions): Promise<{ id: string }>;
+  /**
+   * Modifies an event.
+   *
+   * @platform Android, iOS
+   * @since 6.6.0
+   */
+  modifyEvent(options: ModifyEventOptions): Promise<void>;
 }
