@@ -322,7 +322,6 @@ Modifies an event.
 commit() => Promise<void>
 ```
 
-TODO: Throw unimplemented error on Android
 Save the changes to the calendar.
 
 **Since:** 7.1.0
@@ -334,14 +333,14 @@ Save the changes to the calendar.
 ### selectCalendarsWithPrompt(...)
 
 ```typescript
-selectCalendarsWithPrompt(options: { displayStyle: CalendarChooserDisplayStyle; selectionStyle: CalendarChooserSelectionStyle; }) => Promise<{ result: Calendar[]; }>
+selectCalendarsWithPrompt(options: SelectCalendarsWithPromptOptions) => Promise<{ result: Calendar[]; }>
 ```
 
-Presents a prompt to the user to select calendars. This method is available only on iOS.
+Opens a system interface to choose one or multiple calendars.
 
-| Param         | Type                                                                                                                                                                                               | Description                                                                         |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **`options`** | <code>{ displayStyle: <a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a>; selectionStyle: <a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a>; }</code> | - Options for customizing the display and selection styles of the calendar chooser. |
+| Param         | Type                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#selectcalendarswithpromptoptions">SelectCalendarsWithPromptOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
@@ -734,6 +733,13 @@ Represents the account a calendar belongs to
 | **`id`**    | <code>string</code>                                               |
 | **`title`** | <code>string</code>                                               |
 
+#### SelectCalendarsWithPromptOptions
+
+| Prop                 | Type                                                                                    | Since |
+| -------------------- | --------------------------------------------------------------------------------------- | ----- |
+| **`displayStyle`**   | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code>     | 7.1.0 |
+| **`selectionStyle`** | <code><a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a></code> | 7.1.0 |
+
 #### ReminderRecurrenceRule
 
 | Prop            | Type                                                                                | Description                                                                                             |
@@ -863,17 +869,17 @@ Construct a type with a set of properties K of type T
 
 #### CalendarChooserDisplayStyle
 
-| Members                       | Description                                              |
-| ----------------------------- | -------------------------------------------------------- |
-| **`ALL_CALENDARS`**           | Display all calendars available for selection.           |
-| **`WRITABLE_CALENDARS_ONLY`** | Display only writable calendars available for selection. |
+| Members                       | Description | Since |
+| ----------------------------- | ----------- | ----- |
+| **`ALL_CALENDARS`**           |             | 0.2.0 |
+| **`WRITABLE_CALENDARS_ONLY`** | 0.2.0       |       |
 
 #### CalendarChooserSelectionStyle
 
-| Members        | Description                                             |
-| -------------- | ------------------------------------------------------- |
-| **`SINGLE`**   | Allows only a single selection in the calendar chooser. |
-| **`MULTIPLE`** | Allows multiple selections in the calendar chooser.     |
+| Members        | Since |
+| -------------- | ----- |
+| **`SINGLE`**   | 0.2.0 |
+| **`MULTIPLE`** | 0.2.0 |
 
 #### ReminderRecurrenceFrequency
 

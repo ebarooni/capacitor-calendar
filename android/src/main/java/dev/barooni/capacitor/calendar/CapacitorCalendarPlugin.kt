@@ -15,6 +15,7 @@ import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
@@ -249,24 +250,17 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     fun modifyEvent(call: PluginCall) {
         try {
-            val stringId = call.getString("id") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event ID not defined")
-            val update = call.getObject("update") ?: throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Update not provided")
-            val updated = implementation.modifyEvent(context, stringId.toLong(), update)
-            if (updated) {
-                call.resolve()
-            } else {
-                throw Exception("[CapacitorCalendar.${::modifyEvent.name}] Event not updated")
-            }
+            val input = ModifyEvent(call)
+            implementationNew.modifyEvent(input)
+            call.resolve()
         } catch (error: Exception) {
-            call.reject("", error.message)
-            return
+            call.reject(error.message)
         }
     }
 
     @PluginMethod
     fun selectCalendarsWithPrompt(call: PluginCall) {
-        call.unimplemented("[CapacitorCalendar.${::selectCalendarsWithPrompt.name}] Not implemented on Android")
-        return
+        call.unimplemented(PluginError.Unimplemented(::selectCalendarsWithPrompt.name).message)
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
