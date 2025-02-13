@@ -1,4 +1,5 @@
 import type { Calendar } from "../schemas/interfaces/calendar";
+import type { CalendarSource } from "../schemas/interfaces/calendar-source";
 import type { SelectCalendarsWithPromptOptions } from "../schemas/interfaces/select-calendars-with-prompt-options";
 
 export interface CalendarOperations {
@@ -16,6 +17,20 @@ export interface CalendarOperations {
    * @since 0.2.0
    */
   selectCalendarsWithPrompt(
-    options: SelectCalendarsWithPromptOptions,
+    options?: SelectCalendarsWithPromptOptions,
   ): Promise<{ result: Calendar[] }>;
+  /**
+   * Retrieves a list of calendar sources.
+   *
+   * @platform iOS
+   * @since 6.6.0
+   */
+  fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
+  /**
+   * Retrieves a list of all available calendars.
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  listCalendars(): Promise<{ result: Calendar[] }>;
 }

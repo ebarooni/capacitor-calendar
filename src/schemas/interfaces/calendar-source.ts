@@ -1,16 +1,19 @@
 import { CalendarSourceType } from "../enums/calendar-source-type";
 
 /**
- * Represents the account a calendar belongs to
- *
- * @enum CalendarSource
- * @platform iOS
- * @property {CalendarSourceType} type The type of the source object.
- * @property {string} id A unique identifier for the source object.
- * @property {string} title The name of the source object.
+ * @since 7.1.0
  */
 export interface CalendarSource {
+  /**
+   * @since 7.1.0
+   */
   type: CalendarSourceType;
+  /**
+   * @since 7.1.0
+   */
   id: string;
+  /**
+   * @since 7.1.0
+   */
   title: string;
 }

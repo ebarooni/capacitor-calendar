@@ -7,7 +7,7 @@ export enum CalendarChooserDisplayStyle {
    */
   ALL_CALENDARS,
   /**
-   * 0.2.0
+   * @since 0.2.0
    */
   WRITABLE_CALENDARS_ONLY,
 }
