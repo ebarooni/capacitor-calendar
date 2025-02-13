@@ -263,7 +263,12 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented(PluginError.Unimplemented(::selectCalendarsWithPrompt.name).message)
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
+    fun fetchAllCalendarSources(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::fetchAllCalendarSources.name).message)
+    }
+
+    @PluginMethod
     fun listCalendars(call: PluginCall) {
         try {
             val calendars = implementation.listCalendars(context)
@@ -273,6 +278,11 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (_: Exception) {
             call.reject("", "[CapacitorCalendar.${::listCalendars.name}] Failed to get the list of calendars")
         }
+    }
+
+    @PluginMethod
+    fun fetchAllRemindersSources(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::fetchAllRemindersSources.name).message)
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)

@@ -3,11 +3,12 @@ import Combine
 import EventKitUI
 import Capacitor
 
-class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
+class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
     private let plugin: CapacitorCalendarPlugin
     let eventStore = EKEventStore()
     private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
     private let modifyEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<ModifyEventWithPromptResult, Error>?, Never>(nil)
+    private let selectCalendarsWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<SelectCalendarsWithPromptResult, Error>?, Never>(nil)
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
@@ -231,6 +232,36 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
         try eventStore.save(event, span: input.getSpan())
     }
 
+    func selectCalendarsWithPrompt(input: SelectCalendarsWithPromptInput) async throws -> SelectCalendarsWithPromptResult {
+        guard let viewController = plugin.bridge?.viewController else {
+            throw PluginError.viewControllerMissing
+        }
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                let calendarChooser = EKCalendarChooser(
+                    selectionStyle: input.getSelectionStyle(),
+                    displayStyle: input.getDisplayStyle(),
+                    eventStore: eventStore
+                )
+                calendarChooser.showsDoneButton = true
+                calendarChooser.showsCancelButton = true
+                calendarChooser.delegate = self
+
+                viewController.present(UINavigationController(rootViewController: calendarChooser), animated: true) {
+                    self.selectCalendarsWithPromptResultEmitter.send(continuation)
+                }
+            }
+        }
+    }
+
+    func fetchAllCalendarSources() throws -> FetchAllCalendarSourcesResult {
+        return FetchAllCalendarSourcesResult(eventStore.sources)
+    }
+
+    func listCalendars() throws -> ListCalendarsResult {
+        return ListCalendarsResult(eventStore.calendars(for: .event))
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
@@ -265,6 +296,34 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate {
 
             controller.dismiss(animated: true) {
                 modifyEventWithPromptCancellable?.cancel()
+            }
+        }
+    }
+
+    func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
+        var selectCalendarsWithPromptCancellable: AnyCancellable?
+        selectCalendarsWithPromptCancellable = self.selectCalendarsWithPromptResultEmitter.sink { promise in
+            guard let promise = promise else {
+                return
+            }
+
+            promise.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
+            self.plugin.bridge?.viewController?.dismiss(animated: true) {
+                selectCalendarsWithPromptCancellable?.cancel()
+            }
+        }
+    }
+
+    func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
+        var selectCalendarsWithPromptCancellable: AnyCancellable?
+        selectCalendarsWithPromptCancellable = self.selectCalendarsWithPromptResultEmitter.sink { promise in
+            guard let promise = promise else {
+                return
+            }
+
+            promise.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
+            self.plugin.bridge?.viewController?.dismiss(animated: true) {
+                selectCalendarsWithPromptCancellable?.cancel()
             }
         }
     }

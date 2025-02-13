@@ -144,28 +144,35 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
-        guard let selectionStyle = call.getInt("selectionStyle") else {
-            call.reject("[CapacitorCalendar.\(#function)] Selection style was not provided")
-            return
-        }
-        guard let displayStyle = call.getInt("displayStyle") else {
-            call.reject("[CapacitorCalendar.\(#function)] Display style was not provided")
-            return
-        }
-
         Task {
             do {
-                let result = try await calendar.selectCalendarsWithPrompt(selectionStyle: selectionStyle, displayStyle: displayStyle)
-                call.resolve(["result": result])
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Calendars selection prompt got canceled")
-                return
+                let input = SelectCalendarsWithPromptInput(call: call)
+                let result = try await implementation.selectCalendarsWithPrompt(input: input)
+                call.resolve(result.toJSON())
+            } catch let error {
+                call.reject(error.localizedDescription)
             }
         }
     }
 
+    @objc public func fetchAllCalendarSources(_ call: CAPPluginCall) {
+        do {
+            call.resolve(try implementation.fetchAllCalendarSources().toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
     @objc public func listCalendars(_ call: CAPPluginCall) {
-        call.resolve(["result": calendar.listCalendars()])
+        do {
+            call.resolve(try implementation.listCalendars().toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
+        fetchAllCalendarSources(call)
     }
 
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
@@ -378,24 +385,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.reject("[CapacitorCalendar.\(#function)] Could not delete the reminders")
                 return
             }
-        }
-    }
-
-    @objc public func fetchAllCalendarSources(_ call: CAPPluginCall) {
-        do {
-            call.resolve(["result": try calendar.fetchAllCalendarSources()])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to fetch calendar sources")
-            return
-        }
-    }
-
-    @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
-        do {
-            call.resolve(["result": try reminders.fetchAllRemindersSources()])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to fetch calendar sources")
-            return
         }
     }
 

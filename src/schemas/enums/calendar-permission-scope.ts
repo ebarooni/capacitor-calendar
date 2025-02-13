@@ -18,7 +18,6 @@ export enum CalendarPermissionScope {
    * @since 7.1.0
    */
   READ_CALENDAR = "readCalendar",
-
   /**
    * Permission required for reading reminders.
    *
@@ -31,7 +30,6 @@ export enum CalendarPermissionScope {
    * @since 7.1.0
    */
   READ_REMINDERS = "readReminders",
-
   /**
    * Permission required for adding or modifying calendar events.
    *
@@ -46,7 +44,6 @@ export enum CalendarPermissionScope {
    * @since 7.1.0
    */
   WRITE_CALENDAR = "writeCalendar",
-
   /**
    * Permission required for adding or modifying reminders.
    *

@@ -1,4 +1,5 @@
 import EventKit
+import Capacitor
 
 struct ImplementationHelper {
     static func permissionStateToResult(state: EKAuthorizationStatus, scope: CalendarPermissionScope ) throws -> CAPPermissionState {
@@ -87,6 +88,10 @@ struct ImplementationHelper {
         }
     }
 
+    static func dateFromTimestamp(_ timestamp: Double) -> Date {
+        return Date(timeIntervalSince1970: timestamp / 1000)
+    }
+
     static func getCalendarFromId(eventStore: EKEventStore, calendarId: String?, fallback: Bool) -> EKCalendar? {
         if let id = calendarId, let calendar = eventStore.calendar(withIdentifier: id) {
             return calendar
@@ -96,5 +101,66 @@ struct ImplementationHelper {
         } else {
             return nil
         }
+    }
+
+    static func cgColorToHex(_ color: CGColor) -> String? {
+        guard let components = color.components else { return nil }
+
+        if components.count == 2 {
+            let gray = Float(components[0])
+            let alpha = Float(components[1])
+            return alpha < 1.0
+                ? String(format: "#%02lX%02lX%02lX%02lX", lroundf(gray * 255), lroundf(gray * 255), lroundf(gray * 255), lroundf(alpha * 255))
+                : String(format: "#%02lX%02lX%02lX", lroundf(gray * 255), lroundf(gray * 255), lroundf(gray * 255))
+        }
+
+        guard components.count >= 3 else { return nil }
+
+        let red = Float(components[0])
+        let green = Float(components[1])
+        let blue = Float(components[2])
+        let alpha = components.count == 4 ? Float(components[3]) : 1.0
+
+        return alpha < 1.0
+            ? String(format: "#%02lX%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255), lroundf(alpha * 255))
+            : String(format: "#%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255))
+    }
+
+    static func calendarsSetToJSArray(_ calendars: Set<EKCalendar>) -> [JSObject] {
+        return calendars.map { ImplementationHelper.calendarToJSObject($0) }
+    }
+
+    static func calendarsListToJSArray(_ calendars: [EKCalendar]) -> [JSObject] {
+        return calendars.map { ImplementationHelper.calendarToJSObject($0) }
+    }
+
+    static func calendarToJSObject(_ calendar: EKCalendar) -> JSObject {
+        var calendarObject: JSObject = [
+            "id": calendar.calendarIdentifier,
+            "title": calendar.title,
+            "color": ImplementationHelper.cgColorToHex(calendar.cgColor) ?? NSNull(),
+            "isImmutable": calendar.isImmutable,
+            "allowsContentModifications": calendar.allowsContentModifications,
+            "type": calendar.type.rawValue,
+            "isSubscribed": calendar.isSubscribed
+        ]
+
+        if let source = calendar.source {
+            calendarObject["source"] = ImplementationHelper.calendarSourceToJSObject(source)
+        }
+
+        return calendarObject
+    }
+
+    static func calendarSourcesToJSArray(_ sources: [EKSource]) -> [JSObject] {
+        return sources.map { ImplementationHelper.calendarSourceToJSObject($0) }
+    }
+
+    static func calendarSourceToJSObject(_ source: EKSource) -> JSObject {
+        return [
+            "title": source.title,
+            "id": source.sourceIdentifier,
+            "type": source.sourceType.rawValue
+        ]
     }
 }

@@ -1,32 +1,25 @@
 /**
- * An enum representing the type of calendar.
- *
- * @enum CalendarType
- * @platform iOS
+ * @since 7.1.0
  */
 export enum CalendarType {
   /**
-   *  This calendar is sync'd from either Mobile Me or tethered.
+   * @since 7.1.0
    */
   LOCAL,
-
   /**
-   * This calendar is from a CalDAV server.
+   * @since 7.1.0
    */
   CAL_DAV,
-
   /**
-   * This calendar comes from an Exchange server.
+   * @since 7.1.0
    */
   EXCHANGE,
-
   /**
-   * This is a locally subscribed calendar.
+   * @since 7.1.0
    */
   SUBSCRIPTION,
-
   /**
-   * This is the built-in birthday calendar.
+   * @since 7.1.0
    */
   BIRTHDAY,
 }

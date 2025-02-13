@@ -4,7 +4,6 @@ import type {
 } from "./sub-definitions/calendar-access";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
-import { CalendarChooserSelectionStyle } from "./schemas/enums/calendar-chooser-selection-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
@@ -53,12 +52,11 @@ export {
   CalendarPermissionScope,
   EventAvailability,
   EventSpan,
-  CalendarChooserSelectionStyle,
   CalendarChooserDisplayStyle,
+  CalendarType,
+  CalendarSourceType,
   ReminderRecurrenceFrequency,
   CalendarEvent,
   Reminder,
-  CalendarSourceType,
-  CalendarType,
   CapacitorCalendar,
 };
