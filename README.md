@@ -74,7 +74,9 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`modifyEvent(...)`](#modifyevent)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
+- [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
@@ -87,8 +89,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
-- [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`modifyReminder(...)`](#modifyreminder)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
@@ -333,7 +333,7 @@ Save the changes to the calendar.
 ### selectCalendarsWithPrompt(...)
 
 ```typescript
-selectCalendarsWithPrompt(options: SelectCalendarsWithPromptOptions) => Promise<{ result: Calendar[]; }>
+selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions | undefined) => Promise<{ result: Calendar[]; }>
 ```
 
 Opens a system interface to choose one or multiple calendars.
@@ -350,17 +350,51 @@ Opens a system interface to choose one or multiple calendars.
 
 ---
 
+### fetchAllCalendarSources()
+
+```typescript
+fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
+```
+
+Retrieves a list of calendar sources.
+
+**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+
+**Since:** 6.6.0
+
+**Platform:** iOS
+
+---
+
 ### listCalendars()
 
 ```typescript
 listCalendars() => Promise<{ result: Calendar[]; }>
 ```
 
-Retrieves a list of calendars available on the device.
+Retrieves a list of all available calendars.
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
 
-**Platform:** iOS, Android
+**Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
+### fetchAllRemindersSources()
+
+```typescript
+fetchAllRemindersSources() => Promise<{ result: CalendarSource[]; }>
+```
+
+Retrieves a list of calendar sources.
+
+**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+
+**Since:** 6.6.0
+
+**Platform:** iOS
 
 ---
 
@@ -575,38 +609,6 @@ Deletes reminders given their IDs.
 
 ---
 
-### fetchAllCalendarSources()
-
-```typescript
-fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
-```
-
-Retrieves a list of calendar sources.
-
-**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
-
-**Since:** 6.6.0
-
-**Platform:** iOS
-
----
-
-### fetchAllRemindersSources()
-
-```typescript
-fetchAllRemindersSources() => Promise<{ result: CalendarSource[]; }>
-```
-
-Retrieves a list of reminders sources.
-
-**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
-
-**Since:** 6.6.0
-
-**Platform:** iOS
-
----
-
 ### modifyReminder(...)
 
 ```typescript
@@ -710,35 +712,31 @@ Modifies a reminder given its id and update details.
 
 #### Calendar
 
-Represents a calendar object.
-
-| Prop                             | Type                                                      | Platform     |
-| -------------------------------- | --------------------------------------------------------- | ------------ |
-| **`id`**                         | <code>string</code>                                       | iOS, Android |
-| **`title`**                      | <code>string</code>                                       | iOS, Android |
-| **`color`**                      | <code>string</code>                                       | iOS, Android |
-| **`isImmutable`**                | <code>boolean</code>                                      | iOS          |
-| **`allowsContentModifications`** | <code>boolean</code>                                      | iOS          |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a></code>     | iOS, Android |
-| **`isSubscribed`**               | <code>boolean</code>                                      | iOS          |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a></code> | iOS          |
+| Prop                             | Type                                                              | Since | Platform     |
+| -------------------------------- | ----------------------------------------------------------------- | ----- | ------------ |
+| **`id`**                         | <code>string</code>                                               | 7.1.0 | Android, iOS |
+| **`title`**                      | <code>string</code>                                               | 7.1.0 | Android, iOS |
+| **`color`**                      | <code>string</code>                                               | 7.1.0 | Android, iOS |
+| **`isImmutable`**                | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
+| **`allowsContentModifications`** | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     | 7.1.0 | iOS          |
+| **`isSubscribed`**               | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> | 7.1.0 | iOS          |
 
 #### CalendarSource
 
-Represents the account a calendar belongs to
-
-| Prop        | Type                                                              |
-| ----------- | ----------------------------------------------------------------- |
-| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> |
-| **`id`**    | <code>string</code>                                               |
-| **`title`** | <code>string</code>                                               |
+| Prop        | Type                                                              | Since |
+| ----------- | ----------------------------------------------------------------- | ----- |
+| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> | 7.1.0 |
+| **`id`**    | <code>string</code>                                               | 7.1.0 |
+| **`title`** | <code>string</code>                                               | 7.1.0 |
 
 #### SelectCalendarsWithPromptOptions
 
-| Prop                 | Type                                                                                    | Since |
-| -------------------- | --------------------------------------------------------------------------------------- | ----- |
-| **`displayStyle`**   | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code>     | 7.1.0 |
-| **`selectionStyle`** | <code><a href="#calendarchooserselectionstyle">CalendarChooserSelectionStyle</a></code> | 7.1.0 |
+| Prop               | Type                                                                                | Description                | Default                                                | Since |
+| ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
+| **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
+| **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
 
 #### ReminderRecurrenceRule
 
@@ -848,38 +846,31 @@ Construct a type with a set of properties K of type T
 
 #### CalendarType
 
-| Members            | Description                                                |
-| ------------------ | ---------------------------------------------------------- |
-| **`LOCAL`**        | This calendar is sync'd from either Mobile Me or tethered. |
-| **`CAL_DAV`**      | This calendar is from a CalDAV server.                     |
-| **`EXCHANGE`**     | This calendar comes from an Exchange server.               |
-| **`SUBSCRIPTION`** | This is a locally subscribed calendar.                     |
-| **`BIRTHDAY`**     | This is the built-in birthday calendar.                    |
+| Members            | Since |
+| ------------------ | ----- |
+| **`LOCAL`**        | 7.1.0 |
+| **`CAL_DAV`**      | 7.1.0 |
+| **`EXCHANGE`**     | 7.1.0 |
+| **`SUBSCRIPTION`** | 7.1.0 |
+| **`BIRTHDAY`**     | 7.1.0 |
 
 #### CalendarSourceType
 
-| Members          | Description                                                                                                                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`LOCAL`**      | Calendars that are stored locally on the device. These calendars are not synced with any external service.                                                                                 |
-| **`EXCHANGE`**   | Calendars that are associated with an Exchange server. Exchange is a popular calendar and email service used by many enterprises.                                                          |
-| **`CAL_DAV`**    | Calendars that use the CalDAV protocol for synchronization. This includes calendars from services like Google <a href="#calendar">Calendar</a> and Yahoo <a href="#calendar">Calendar</a>. |
-| **`MOBILE_ME`**  | Calendars that were previously associated with MobileMe, Apple's cloud service before iCloud. This source type is largely obsolete now.                                                    |
-| **`SUBSCRIBED`** | Calendars that the user has subscribed to. These are read-only calendars that can be added by subscribing to a calendar URL.                                                               |
-| **`BIRTHDAYS`**  | The built-in Birthdays calendar, which shows birthdays of contacts from the user's address book. This calendar is typically read-only and is managed by the system.                        |
+| Members          | Since |
+| ---------------- | ----- |
+| **`LOCAL`**      | 7.1.0 |
+| **`EXCHANGE`**   | 7.1.0 |
+| **`CAL_DAV`**    | 7.1.0 |
+| **`MOBILE_ME`**  | 7.1.0 |
+| **`SUBSCRIBED`** | 7.1.0 |
+| **`BIRTHDAYS`**  | 7.1.0 |
 
 #### CalendarChooserDisplayStyle
 
-| Members                       | Description | Since |
-| ----------------------------- | ----------- | ----- |
-| **`ALL_CALENDARS`**           |             | 0.2.0 |
-| **`WRITABLE_CALENDARS_ONLY`** | 0.2.0       |       |
-
-#### CalendarChooserSelectionStyle
-
-| Members        | Since |
-| -------------- | ----- |
-| **`SINGLE`**   | 0.2.0 |
-| **`MULTIPLE`** | 0.2.0 |
+| Members                       | Since |
+| ----------------------------- | ----- |
+| **`ALL_CALENDARS`**           | 0.2.0 |
+| **`WRITABLE_CALENDARS_ONLY`** | 0.2.0 |
 
 #### ReminderRecurrenceFrequency
 

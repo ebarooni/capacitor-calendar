@@ -2,31 +2,19 @@ import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarAccess } from "./sub-definitions/calendar-access";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { CalendarOperations } from "./sub-definitions/calendar-operations";
-import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { EventOperations } from "./sub-definitions/event-operations";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import { RemindersAccess } from "./sub-definitions/reminders-access";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
+import type { RemindersOperations } from "./sub-definitions/reminders-operations";
 
 export interface CapacitorCalendarPlugin
   extends CalendarAccess,
     RemindersAccess,
     EventOperations,
-    CalendarOperations {
-  /**
-   * Retrieves a list of calendars available on the device.
-   *
-   * @async
-   * @platform iOS, Android
-   * @returns {Promise<{ result: Calendar[] }>} A promise that resolves with an array of calendars available on the device.
-   * Each calendar object in the array contains an ID and a title.
-   * @example
-   * const { result } = await listCalendars();
-   * console.log(result); // [{ id: '1', title: 'Work Calendar' }, { id: '2', title: 'Personal Calendar' }]
-   */
-  listCalendars(): Promise<{ result: Calendar[] }>;
-
+    CalendarOperations,
+    RemindersOperations {
   /**
    * Retrieves the default calendar set on the device.
    *
@@ -317,44 +305,6 @@ export interface CapacitorCalendarPlugin
   deleteRemindersById(options: {
     ids: string[];
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
-
-  /**
-   * Retrieves a list of calendar sources.
-   *
-   * @async
-   * @since 6.6.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
-   * </ul>
-   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
-   * calendar sources.
-   * @example
-   * const { result } = await fetchAllCalendarSources();
-   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
-   */
-  fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
-
-  /**
-   * Retrieves a list of reminders sources.
-   *
-   * @async
-   * @since 6.6.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar, readCalendar</li>
-   * </ul>
-   * @returns {Promise<{ result: CalendarSource[] }>} A promise that resolves with an array of
-   * reminders sources.
-   * @example
-   * const { result } = await fetchAllRemindersSources();
-   * console.log(result); // [{ id: '1', type: '0', title: 'calDav' }, { id: '2', type: '2', title: '3' }]
-   */
-  fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }>;
 
   /**
    * Modifies a reminder given its id and update details.
