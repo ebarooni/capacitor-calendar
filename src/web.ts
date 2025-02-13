@@ -89,15 +89,21 @@ export class CapacitorCalendarWeb
   }
 
   public selectCalendarsWithPrompt(
-    _options: SelectCalendarsWithPromptOptions,
+    _options?: SelectCalendarsWithPromptOptions,
   ): Promise<{ result: Calendar[] }> {
     return this.throwUnimplemented(this.selectCalendarsWithPrompt.name);
   }
 
+  public fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }> {
+    return this.throwUnimplemented(this.fetchAllCalendarSources.name);
+  }
+
   public listCalendars(): Promise<{ result: Calendar[] }> {
-    throw this.unimplemented(
-      `${this.listCalendars.name} is not implemented on the web`,
-    );
+    return this.throwUnimplemented(this.listCalendars.name);
+  }
+
+  public fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }> {
+    return this.throwUnimplemented(this.fetchAllRemindersSources.name);
   }
 
   public getDefaultCalendar(): Promise<{ result: Calendar | null }> {
@@ -194,18 +200,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
     throw this.unimplemented(
       `${this.deleteRemindersById.name} is not implemented on the web`,
-    );
-  }
-
-  public fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }> {
-    throw this.unimplemented(
-      `${this.fetchAllCalendarSources.name} is not implemented on the web`,
-    );
-  }
-
-  public fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }> {
-    throw this.unimplemented(
-      `${this.fetchAllRemindersSources.name} is not implemented on the web`,
     );
   }
 
