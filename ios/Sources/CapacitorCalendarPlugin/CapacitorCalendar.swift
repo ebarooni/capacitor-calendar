@@ -2,51 +2,13 @@ import Foundation
 import Capacitor
 import EventKitUI
 
-public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
+public class CapacitorCalendar: NSObject {
     private let bridge: (any CAPBridgeProtocol)?
     private let eventStore: EKEventStore
-    private var currentCreateEventContinuation: CheckedContinuation<[String], any Error>?
-    private var currentSelectCalendarsContinuation: CheckedContinuation<[[String: Any]], any Error>?
 
     init(bridge: (any CAPBridgeProtocol)?, eventStore: EKEventStore) {
         self.bridge = bridge
         self.eventStore = eventStore
-    }
-
-    public func selectCalendarsWithPrompt(selectionStyle: Int, displayStyle: Int) async throws -> [[String: Any]] {
-        return try await withCheckedThrowingContinuation { continuation in
-            guard let viewController = bridge?.viewController else {
-                continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
-                return
-            }
-
-            Task { @MainActor in
-                if let selectionStyle = EKCalendarChooserSelectionStyle(rawValue: selectionStyle),
-                   let displayStyle = EKCalendarChooserDisplayStyle(rawValue: displayStyle) {
-                    let calendarChooser = EKCalendarChooser(
-                        selectionStyle: selectionStyle,
-                        displayStyle: displayStyle,
-                        eventStore: eventStore
-                    )
-                    calendarChooser.showsDoneButton = true
-                    calendarChooser.showsCancelButton = true
-                    calendarChooser.delegate = self
-                    currentSelectCalendarsContinuation = continuation
-                    viewController.present(
-                        UINavigationController(rootViewController: calendarChooser),
-                        animated: true,
-                        completion: nil
-                    )
-                } else {
-                    continuation.resume(throwing: CapacitorCalendarPluginError.viewControllerUnavailable)
-                    return
-                }
-            }
-        }
-    }
-
-    public func listCalendars() -> [[String: Any]] {
-        return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .event)))
     }
 
     public func getDefaultCalendar() throws -> [String: Any]? {
@@ -55,7 +17,7 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             var calendarDict: [String: Any] = [
                 "id": defaultCalendar.calendarIdentifier,
                 "title": defaultCalendar.title,
-                "color": hexStringFromColor(color: defaultCalendar.cgColor),
+                // "color": hexStringFromColor(color: defaultCalendar.cgColor),
                 "isImmutable": defaultCalendar.isImmutable,
                 "allowsContentModifications": defaultCalendar.allowsContentModifications,
                 "type": defaultCalendar.type.rawValue,
@@ -225,80 +187,6 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
         }
     }
 
-    public func eventEditViewController(
-        _ controller: EKEventEditViewController,
-        didCompleteWith action: EKEventEditViewAction
-    ) {
-        controller.dismiss(animated: true) {
-            if action == .saved {
-                if let event = controller.event, let eventId = event.eventIdentifier {
-                    self.currentCreateEventContinuation?.resume(returning: [eventId])
-                } else {
-                    self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.undefinedEvent)
-                    return
-                }
-            } else if action == .canceled {
-                self.currentCreateEventContinuation?.resume(returning: [])
-            } else {
-                self.currentCreateEventContinuation?.resume(throwing: CapacitorCalendarPluginError.unknownActionEventCreationPrompt)
-            }
-        }
-    }
-
-    public func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
-        let selectedCalendars = convertEKCalendarsToDictionaries(calendars: calendarChooser.selectedCalendars)
-        bridge?.viewController?.dismiss(animated: true) {
-            self.currentSelectCalendarsContinuation?.resume(returning: selectedCalendars)
-        }
-    }
-
-    public func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
-        bridge?.viewController?.dismiss(animated: true) {
-            self.currentSelectCalendarsContinuation?.resume(returning: [])
-        }
-    }
-
-    public func fetchAllCalendarSources() throws -> [[String: Any]] {
-        var result: [[String: Any]] = []
-
-        for source in eventStore.sources {
-            let sourceDict: [String: Any] = [
-                "id": source.sourceIdentifier,
-                "title": source.title,
-                "type": source.sourceType.rawValue
-            ]
-            result.append(sourceDict)
-        }
-
-        return result
-    }
-
-    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
-        var result: [[String: Any]] = []
-
-        for calendar in calendars {
-            var calendarDict: [String: Any] = [
-                "id": calendar.calendarIdentifier,
-                "title": calendar.title,
-                "color": hexStringFromColor(color: calendar.cgColor),
-                "isImmutable": calendar.isImmutable,
-                "allowsContentModifications": calendar.allowsContentModifications,
-                "type": calendar.type.rawValue,
-                "isSubscribed": calendar.isSubscribed
-            ]
-            if let calendarSource = calendar.source {
-                calendarDict["source"] = [
-                    "type": calendarSource.sourceType.rawValue,
-                    "id": calendarSource.sourceIdentifier,
-                    "title": calendarSource.title
-                ]
-            }
-            result.append(calendarDict)
-        }
-
-        return result
-    }
-
     private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: Any]] {
         return events.map { event in
             var dict = [String: Any]()
@@ -325,9 +213,9 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
                 dict["eventTimezone"] = ["region": region, "abbreviation": abbreviation]
                 dict["eventEndTimezone"] = ["region": region, "abbreviation": abbreviation]
             }
-            if let color = event.calendar.cgColor {
-                dict["eventColor"] = hexStringFromColor(color: color)
-            }
+            // if let color = event.calendar.cgColor {
+            //  dict["eventColor"] = hexStringFromColor(color: color)
+            // }
             if let url = event.url {
                 dict["url"] = url.absoluteString
             }
@@ -335,19 +223,5 @@ public class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarCho
             dict["calendarId"] = event.calendar.calendarIdentifier
             return dict
         }
-    }
-
-    private func hexStringFromColor(color: CGColor) -> String {
-        guard let components = color.components, components.count >= 3 else {
-            return "#000000"
-        }
-
-        let red = Float(components[0])
-        let green = Float(components[1])
-        let blue = Float(components[2])
-        return String(format: "#%02lX%02lX%02lX",
-                      lroundf(red * 255),
-                      lroundf(green * 255),
-                      lroundf(blue * 255))
     }
 }

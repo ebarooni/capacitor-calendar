@@ -78,12 +78,12 @@ struct ModifyEventInput {
 
     func getStartDate() -> Date? {
         guard let startDate = startDate else { return nil }
-        return PluginHelper.dateFromTimestamp(startDate)
+        return ImplementationHelper.dateFromTimestamp(startDate)
     }
 
     func getEndDate() -> Date? {
         guard let endDate = endDate else { return nil }
-        return PluginHelper.dateFromTimestamp(endDate)
+        return ImplementationHelper.dateFromTimestamp(endDate)
     }
 
     func getIsAllDay() -> Bool? {

@@ -171,21 +171,6 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func fetchAllRemindersSources() throws -> [[String: Any]] {
-        var result: [[String: Any]] = []
-
-        for source in eventStore.sources {
-            let sourceDict: [String: Any] = [
-                "id": source.sourceIdentifier,
-                "title": source.title,
-                "type": source.sourceType.rawValue
-            ]
-            result.append(sourceDict)
-        }
-
-        return result
-    }
-
     public func modifyReminder(id: String, update: ReminderCreationParameters) throws {
         guard let reminder = eventStore.calendarItem(withIdentifier: id) as? EKReminder else {
             throw CapacitorCalendarPluginError.undefinedEvent
