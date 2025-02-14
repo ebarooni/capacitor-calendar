@@ -20,6 +20,7 @@ import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 import dev.barooni.capacitor.calendar.models.results.CreateEventResult
+import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 class CapacitorCalendarNew(
@@ -118,5 +119,11 @@ class CapacitorCalendarNew(
             ImplementationHelper.deleteAlertsFromEvent(input.id, cr)
             ImplementationHelper.insertAlertsToEvents(input.id, cr, it)
         }
+    }
+
+    fun listCalendars(): ListCalendarsResult {
+        val cr = plugin.context.contentResolver
+        val calendars = ImplementationHelper.listCalendars(cr)
+        return ListCalendarsResult(calendars)
     }
 }
