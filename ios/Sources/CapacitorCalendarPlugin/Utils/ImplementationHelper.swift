@@ -142,7 +142,13 @@ struct ImplementationHelper {
             "isImmutable": calendar.isImmutable,
             "allowsContentModifications": calendar.allowsContentModifications,
             "type": calendar.type.rawValue,
-            "isSubscribed": calendar.isSubscribed
+            "isSubscribed": calendar.isSubscribed,
+            "internalTitle": NSNull(),
+            "visible": NSNull(),
+            "accountName": NSNull(),
+            "ownerAccount": NSNull(),
+            "maxReminders": NSNull(),
+            "location": NSNull()
         ]
 
         if let source = calendar.source {

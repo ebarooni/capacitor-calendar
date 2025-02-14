@@ -175,6 +175,17 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         fetchAllCalendarSources(call)
     }
 
+    @objc public func openReminders(_ call: CAPPluginCall) {
+        Task {
+            do {
+                try await implementation.openReminders()
+                call.resolve()
+            } catch let error {
+                call.reject(error.localizedDescription)
+            }
+        }
+    }
+
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
         do {
             try call.resolve(["result": calendar.getDefaultCalendar() ?? NSNull()])
@@ -265,17 +276,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
                 try await calendar.openCalendar(date: interval)
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Unable to open the calendar")
-                return
-            }
-        }
-    }
-
-    @objc public func openReminders(_ call: CAPPluginCall) {
-        Task {
-            do {
-                try await reminders.openReminders()
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Unable to open reminders")
                 return
             }
         }
