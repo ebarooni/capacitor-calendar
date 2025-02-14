@@ -135,18 +135,6 @@ export interface CapacitorCalendarPlugin
    * void CapacitorCalendar.openCalendar({ date: Date.now() });
    */
   openCalendar(options: { date?: number }): Promise<void>;
-
-  /**
-   * Opens the reminders app. Since the user leaves your app, use this method with caution.
-   *
-   * @async
-   * @platform iOS
-   * @returns {Promise<void>}
-   * @example
-   * void CapacitorCalendar.openReminders();
-   */
-  openReminders(): Promise<void>;
-
   /**
    * Retrieves the list of calendar events present in the given date range.
    *
