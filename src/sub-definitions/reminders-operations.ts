@@ -9,4 +9,11 @@ export interface RemindersOperations {
    * @since 6.6.0
    */
   fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }>;
+  /**
+   * Opens the reminders app.
+   *
+   * @platform iOS
+   * @since 7.1.0
+   */
+  openReminders(): Promise<void>;
 }
