@@ -262,6 +262,19 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         return ListCalendarsResult(eventStore.calendars(for: .event))
     }
 
+    func openReminders() async throws {
+        guard let url = URL(string: "x-apple-reminderkit://") else {
+            throw PluginError.invalidUrl
+        }
+        guard await UIApplication.shared.canOpenURL(url) else {
+            throw PluginError.unableToOpenUrl
+        }
+        let success = await UIApplication.shared.open(url, options: [:])
+        if !success {
+            throw PluginError.failedToLaunchReminders
+        }
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in

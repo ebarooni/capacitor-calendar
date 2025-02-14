@@ -6,6 +6,7 @@ import android.provider.CalendarContract
 import com.getcapacitor.JSArray
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
+import dev.barooni.capacitor.calendar.models.data.CalendarInfo
 import dev.barooni.capacitor.calendar.models.data.EventGuest
 import org.json.JSONObject
 import java.util.Calendar
@@ -38,6 +39,8 @@ class ImplementationHelper {
             } else {
                 android.graphics.Color.parseColor(hex)
             }
+
+        fun intToHexColor(colorInt: Int): String = String.format("#%08X", colorInt)
 
         fun eventGuestsFromCall(call: PluginCall): List<EventGuest>? {
             val attendeesJson = call.getArray("attendees") ?: return null
@@ -135,6 +138,112 @@ class ImplementationHelper {
             }
 
             return fallbackCalendarId ?: throw PluginError.NoCalendarsAvailable
+        }
+
+        fun listCalendars(cr: ContentResolver): List<CalendarInfo> {
+            val uri = CalendarContract.Calendars.CONTENT_URI
+            val projection =
+                arrayOf(
+                    CalendarContract.Calendars._ID,
+                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                    CalendarContract.Calendars.NAME,
+                    CalendarContract.Calendars.CALENDAR_COLOR,
+                    CalendarContract.Calendars.VISIBLE,
+                    CalendarContract.Calendars.ACCOUNT_NAME,
+                    CalendarContract.Calendars.OWNER_ACCOUNT,
+                    CalendarContract.Calendars.MAX_REMINDERS,
+                    CalendarContract.Calendars.CALENDAR_LOCATION,
+                )
+
+            val calendars = mutableListOf<CalendarInfo>()
+
+            cr.query(uri, projection, null, null, null)?.use { cursor ->
+                if (cursor.count == 0) {
+                    return emptyList()
+                }
+
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Calendars._ID)).toString()
+                    val title =
+                        cursor
+                            .getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+                            .let { if (it < 0) null else cursor.getString(it) }
+                    val internalName =
+                        cursor.getColumnIndex(CalendarContract.Calendars.NAME).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getString(it)
+                            }
+                        }
+                    val colorInt =
+                        cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getInt(it)
+                            }
+                        }
+                    val color = colorInt?.let { intToHexColor(it) }
+                    val visibleInt =
+                        cursor.getColumnIndex(CalendarContract.Calendars.VISIBLE).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getInt(it)
+                            }
+                        }
+                    val visible = visibleInt?.let { it == 1 }
+                    val accountName =
+                        cursor.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getString(it)
+                            }
+                        }
+                    val ownerAccount =
+                        cursor.getColumnIndex(CalendarContract.Calendars.OWNER_ACCOUNT).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getString(it)
+                            }
+                        }
+                    val maxReminders =
+                        cursor.getColumnIndex(CalendarContract.Calendars.MAX_REMINDERS).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getInt(it)
+                            }
+                        }
+                    val location =
+                        cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_LOCATION).let {
+                            if (it <
+                                0
+                            ) {
+                                null
+                            } else {
+                                cursor.getString(it)
+                            }
+                        }
+                    calendars.add(CalendarInfo(id, title, internalName, color, visible, accountName, ownerAccount, maxReminders, location))
+                }
+            }
+            return calendars
         }
     }
 }

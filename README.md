@@ -77,12 +77,12 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
+- [`openReminders()`](#openreminders)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
 - [`openCalendar(...)`](#opencalendar)
-- [`openReminders()`](#openreminders)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
@@ -398,6 +398,20 @@ Retrieves a list of calendar sources.
 
 ---
 
+### openReminders()
+
+```typescript
+openReminders() => Promise<void>
+```
+
+Opens the reminders app.
+
+**Since:** 7.1.0
+
+**Platform:** iOS
+
+---
+
 ### getDefaultCalendar()
 
 ```typescript
@@ -476,18 +490,6 @@ It will open the calendar on today's date if no date is provided.
 | **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
 
 **Platform:** iOS, Android
-
----
-
-### openReminders()
-
-```typescript
-openReminders() => Promise<void>
-```
-
-Opens the reminders app. Since the user leaves your app, use this method with caution.
-
-**Platform:** iOS
 
 ---
 
@@ -712,16 +714,22 @@ Modifies a reminder given its id and update details.
 
 #### Calendar
 
-| Prop                             | Type                                                              | Since | Platform     |
-| -------------------------------- | ----------------------------------------------------------------- | ----- | ------------ |
-| **`id`**                         | <code>string</code>                                               | 7.1.0 | Android, iOS |
-| **`title`**                      | <code>string</code>                                               | 7.1.0 | Android, iOS |
-| **`color`**                      | <code>string</code>                                               | 7.1.0 | Android, iOS |
-| **`isImmutable`**                | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
-| **`allowsContentModifications`** | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     | 7.1.0 | iOS          |
-| **`isSubscribed`**               | <code>boolean \| null</code>                                      | 7.1.0 | iOS          |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> | 7.1.0 | iOS          |
+| Prop                             | Type                                                              | Description                                                        | Since | Platform     |
+| -------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------ | ----- | ------------ |
+| **`id`**                         | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
+| **`title`**                      | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
+| **`internalTitle`**              | <code>string \| null</code>                                       | Internal name of the calendar (`CalendarContract.Calendars.NAME`). | 7.1.0 | Android      |
+| **`color`**                      | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
+| **`isImmutable`**                | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
+| **`allowsContentModifications`** | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     |                                                                    | 7.1.0 | iOS          |
+| **`isSubscribed`**               | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> |                                                                    | 7.1.0 | iOS          |
+| **`visible`**                    | <code>boolean \| null</code>                                      | Indicates if the events from this calendar should be shown.        | 7.1.0 | Android      |
+| **`accountName`**                | <code>string \| null</code>                                       | The account under which the calendar is registered.                | 7.1.0 | Android      |
+| **`ownerAccount`**               | <code>string \| null</code>                                       | The owner of the calendar.                                         | 7.1.0 | Android      |
+| **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                     | 7.1.0 | Android      |
+| **`location`**                   | <code>string \| null</code>                                       |                                                                    | 7.1.0 | Android      |
 
 #### CalendarSource
 
