@@ -205,7 +205,12 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func getRemindersLists(_ call: CAPPluginCall) {
-        call.resolve(["result": reminders.getRemindersLists()])
+        do {
+            let result = try implementation.getRemindersLists()
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
     }
 
     @objc public func createReminder (_ call: CAPPluginCall) {
@@ -425,7 +430,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
 
         do {
-            var reminderUpdate = ReminderCreationParameters(
+            let reminderUpdate = ReminderCreationParameters(
                 title: title,
                 listId: listId,
                 priority: priority,
