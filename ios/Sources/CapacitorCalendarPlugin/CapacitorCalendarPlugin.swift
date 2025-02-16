@@ -197,10 +197,10 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
         do {
-            try call.resolve(["result": reminders.getDefaultRemindersList() ?? NSNull()])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] No default Reminders list was found")
-            return
+            let result = try implementation.getDefaultRemindersList()
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
     }
 

@@ -279,6 +279,10 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewEvents)
     }
 
+    func getDefaultRemindersList() throws -> GetDefaultCalendarResult {
+        return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewReminders())
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
