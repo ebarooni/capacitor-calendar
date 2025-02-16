@@ -13,6 +13,7 @@ import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-e
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
+import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
@@ -122,6 +123,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.getRemindersLists.name);
   }
 
+  public openCalendar(_options: OpenCalendarOptions): Promise<void> {
+    return this.throwUnimplemented(this.getRemindersLists.name);
+  }
+
   public createReminder(_options: {
     title: string;
     listId?: string;
@@ -137,12 +142,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: string }> {
     throw this.unimplemented(
       `${this.createReminder.name} is not implemented on the web`,
-    );
-  }
-
-  public openCalendar(_options: { date?: number }): Promise<void> {
-    throw this.unimplemented(
-      `${this.openCalendar.name} is not implemented on the web`,
     );
   }
 

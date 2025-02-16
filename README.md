@@ -77,12 +77,12 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`openCalendar(...)`](#opencalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
-- [`openCalendar(...)`](#opencalendar)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`createCalendar(...)`](#createcalendar)
@@ -398,6 +398,24 @@ Retrieves the default calendar.
 
 ---
 
+### openCalendar(...)
+
+```typescript
+openCalendar(options?: OpenCalendarOptions | undefined) => Promise<void>
+```
+
+Opens the calendar app.
+
+| Param         | Type                                                                |
+| ------------- | ------------------------------------------------------------------- |
+| **`options`** | <code><a href="#opencalendaroptions">OpenCalendarOptions</a></code> |
+
+**Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -477,23 +495,6 @@ Creates a reminder with the provided options.
 **Since:** 0.5.0
 
 **Platform:** iOS
-
----
-
-### openCalendar(...)
-
-```typescript
-openCalendar(options: { date?: number; }) => Promise<void>
-```
-
-Opens the calendar app. Since the user leaves your app, use this method with caution.
-It will open the calendar on today's date if no date is provided.
-
-| Param         | Type                            | Description                         |
-| ------------- | ------------------------------- | ----------------------------------- |
-| **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
-
-**Platform:** iOS, Android
 
 ---
 
@@ -749,6 +750,12 @@ Modifies a reminder given its id and update details.
 | ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
+
+#### OpenCalendarOptions
+
+| Prop       | Type                | Default                 | Since |
+| ---------- | ------------------- | ----------------------- | ----- |
+| **`date`** | <code>number</code> | <code>Date.now()</code> | 7.1.0 |
 
 #### ReminderRecurrenceRule
 

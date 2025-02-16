@@ -18,6 +18,7 @@ import { EventGuest } from "./schemas/interfaces/event-guest";
 import { EventSpan } from "./schemas/enums/event-span";
 import { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
+import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
@@ -47,6 +48,7 @@ export type {
   RemindersList,
   ReminderRecurrenceRule,
   CalendarSource,
+  OpenCalendarOptions,
 };
 export {
   CalendarPermissionScope,

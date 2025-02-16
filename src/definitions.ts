@@ -73,20 +73,6 @@ export interface CapacitorCalendarPlugin
     location?: string;
     recurrence?: ReminderRecurrenceRule;
   }): Promise<{ result: string }>;
-
-  /**
-   * Opens the calendar app. Since the user leaves your app, use this method with caution.
-   * It will open the calendar on today's date if no date is provided.
-   *
-   * @async
-   * @platform iOS, Android
-   * @param {object} options - Options for opening the calendar.
-   * @param {number} options.date - The date at which the calendar should be opened. (Optional)
-   * @returns {Promise<void>}
-   * @example
-   * void CapacitorCalendar.openCalendar({ date: Date.now() });
-   */
-  openCalendar(options: { date?: number }): Promise<void>;
   /**
    * Retrieves the list of calendar events present in the given date range.
    *
