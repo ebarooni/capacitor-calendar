@@ -300,8 +300,7 @@ class CapacitorCalendarPlugin : Plugin() {
 
     @PluginMethod
     fun getDefaultRemindersList(call: PluginCall) {
-        call.unimplemented("[CapacitorCalendar.${::getDefaultRemindersList.name}] Not implemented on Android")
-        return
+        call.unimplemented(PluginError.Unimplemented(::getDefaultRemindersList.name).message)
     }
 
     @PluginMethod
