@@ -22,6 +22,11 @@ data class ListCalendarsResult(
             calendar.title?.let { obj.put("title", it) }
             calendar.internalName?.let { obj.put("internalTitle", it) }
             calendar.color?.let { obj.put("color", it) }
+            obj.put("isImmutable", null)
+            obj.put("allowsContentModifications", null)
+            obj.put("type", null)
+            obj.put("isSubscribed", null)
+            obj.put("source", null)
             calendar.visible?.let { obj.put("visible", it) }
             calendar.accountName?.let { obj.put("accountName", it) }
             calendar.ownerAccount?.let { obj.put("ownerAccount", it) }

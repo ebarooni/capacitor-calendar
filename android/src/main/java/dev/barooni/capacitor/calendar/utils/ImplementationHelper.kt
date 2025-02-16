@@ -153,6 +153,7 @@ class ImplementationHelper {
                     CalendarContract.Calendars.OWNER_ACCOUNT,
                     CalendarContract.Calendars.MAX_REMINDERS,
                     CalendarContract.Calendars.CALENDAR_LOCATION,
+                    CalendarContract.Calendars.IS_PRIMARY,
                 )
 
             val calendars = mutableListOf<CalendarInfo>()
@@ -240,7 +241,13 @@ class ImplementationHelper {
                                 cursor.getString(it)
                             }
                         }
-                    calendars.add(CalendarInfo(id, title, internalName, color, visible, accountName, ownerAccount, maxReminders, location))
+                    val isPrimary =
+                        cursor.getColumnIndexOrThrow(CalendarContract.Calendars.IS_PRIMARY).let {
+                            if (it < 0) null else cursor.getInt(it) == 1
+                        }
+                    calendars.add(
+                        CalendarInfo(id, title, internalName, color, visible, accountName, ownerAccount, maxReminders, location, isPrimary),
+                    )
                 }
             }
             return calendars

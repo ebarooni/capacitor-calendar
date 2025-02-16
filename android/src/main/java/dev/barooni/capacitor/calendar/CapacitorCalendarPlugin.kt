@@ -291,12 +291,10 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getDefaultCalendar(call: PluginCall) {
         try {
-            val primaryCalendar = implementation.getDefaultCalendar(context)
-            val ret = JSObject()
-            ret.put("result", primaryCalendar)
-            call.resolve(ret)
-        } catch (_: Exception) {
-            call.reject("", "[CapacitorCalendar.${::getDefaultCalendar.name}] No default calendar found")
+            val result = implementationNew.getDefaultCalendar()
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
         }
     }
 
