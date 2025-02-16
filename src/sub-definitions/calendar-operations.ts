@@ -33,4 +33,11 @@ export interface CalendarOperations {
    * @since 7.1.0
    */
   listCalendars(): Promise<{ result: Calendar[] }>;
+  /**
+   * Retrieves the default calendar.
+   *
+   * @platform Android, iOS
+   * @since 0.3.0
+   */
+  getDefaultCalendar(): Promise<{ result: Calendar | null }>;
 }

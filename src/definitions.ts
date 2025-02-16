@@ -1,4 +1,3 @@
-import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarAccess } from "./sub-definitions/calendar-access";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { CalendarOperations } from "./sub-definitions/calendar-operations";
@@ -15,26 +14,6 @@ export interface CapacitorCalendarPlugin
     EventOperations,
     CalendarOperations,
     RemindersOperations {
-  /**
-   * Retrieves the default calendar set on the device.
-   *
-   * @async
-   * @since 0.3.0
-   * @platform iOS, Android
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> readCalendar</li>
-   *   <li><strong>Android:</strong> readCalendar</li>
-   * </ul>
-   * @returns {Promise<{ result: Calendar | null }>} A promise that resolves with the default calendar set on the device.
-   * The returned calendar object contains an ID and a title. Returns null if there is no default calendar found.
-   * @example
-   * const { result } = await getDefaultCalendar();
-   * console.log(result); // { id: '1', title: 'Default Calendar' }
-   */
-  getDefaultCalendar(): Promise<{ result: Calendar | null }>;
-
   /**
    * Retrieves the default reminders list set on the device.
    *
