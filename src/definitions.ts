@@ -15,19 +15,6 @@ export interface CapacitorCalendarPlugin
     CalendarOperations,
     RemindersOperations {
   /**
-   * Retrieves the default reminders list set on the device.
-   *
-   * @async
-   * @platform iOS
-   * @returns {Promise<{ result: RemindersList }>} A promise that resolves with the default reminder list set on the device.
-   * The returned reminders list object contains an ID and a title.
-   * @example
-   * const { result } = await getDefaultRemindersList();
-   * console.log(result); // { id: '1', title: 'Default Reminders List' }
-   */
-  getDefaultRemindersList(): Promise<{ result: RemindersList }>;
-
-  /**
    * Retrieves all available reminders lists on the device.
    *
    * @async

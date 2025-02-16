@@ -431,12 +431,14 @@ Opens the reminders app.
 ### getDefaultRemindersList()
 
 ```typescript
-getDefaultRemindersList() => Promise<{ result: RemindersList; }>
+getDefaultRemindersList() => Promise<{ result: RemindersList | null; }>
 ```
 
-Retrieves the default reminders list set on the device.
+Retrieves the default reminders list.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
+
+**Since:** 7.1.0
 
 **Platform:** iOS
 
