@@ -450,9 +450,11 @@ Retrieves the default reminders list.
 getRemindersLists() => Promise<{ result: RemindersList[]; }>
 ```
 
-Retrieves all available reminders lists on the device.
+Retrieves all available reminders lists.
 
 **Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+
+**Since:** 7.1.0
 
 **Platform:** iOS
 

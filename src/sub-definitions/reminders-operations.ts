@@ -24,4 +24,11 @@ export interface RemindersOperations {
    * @since 7.1.0
    */
   getDefaultRemindersList(): Promise<{ result: RemindersList | null }>;
+  /**
+   * Retrieves all available reminders lists.
+   *
+   * @platform iOS
+   * @since 7.1.0
+   */
+  getRemindersLists(): Promise<{ result: RemindersList[] }>;
 }
