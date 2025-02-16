@@ -188,10 +188,10 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
         do {
-            try call.resolve(["result": calendar.getDefaultCalendar() ?? NSNull()])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] No default calendar was found")
-            return
+            let result = try implementation.getDefaultCalendar()
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
     }
 
