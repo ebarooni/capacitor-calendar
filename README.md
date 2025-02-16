@@ -76,9 +76,9 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
+- [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
-- [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
@@ -382,6 +382,22 @@ Retrieves a list of all available calendars.
 
 ---
 
+### getDefaultCalendar()
+
+```typescript
+getDefaultCalendar() => Promise<{ result: Calendar | null; }>
+```
+
+Retrieves the default calendar.
+
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
+
+**Since:** 0.3.0
+
+**Platform:** Android, iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -412,31 +428,17 @@ Opens the reminders app.
 
 ---
 
-### getDefaultCalendar()
-
-```typescript
-getDefaultCalendar() => Promise<{ result: Calendar | null; }>
-```
-
-Retrieves the default calendar set on the device.
-
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
-
-**Since:** 0.3.0
-
-**Platform:** iOS, Android
-
----
-
 ### getDefaultRemindersList()
 
 ```typescript
-getDefaultRemindersList() => Promise<{ result: RemindersList; }>
+getDefaultRemindersList() => Promise<{ result: RemindersList | null; }>
 ```
 
-Retrieves the default reminders list set on the device.
+Retrieves the default reminders list.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a>; }&gt;</code>
+**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
+
+**Since:** 7.1.0
 
 **Platform:** iOS
 

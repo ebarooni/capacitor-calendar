@@ -10,4 +10,5 @@ data class CalendarInfo(
     val ownerAccount: String?,
     val maxReminders: Int?,
     val location: String?,
+    val isPrimary: Boolean?,
 )

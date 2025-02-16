@@ -1,4 +1,5 @@
-import { CalendarSource } from "../schemas/interfaces/calendar-source";
+import type { CalendarSource } from "../schemas/interfaces/calendar-source";
+import type { RemindersList } from "../schemas/interfaces/reminders-list";
 
 export interface RemindersOperations {
   /**
@@ -16,4 +17,11 @@ export interface RemindersOperations {
    * @since 7.1.0
    */
   openReminders(): Promise<void>;
+  /**
+   * Retrieves the default reminders list.
+   *
+   * @platform iOS
+   * @since 7.1.0
+   */
+  getDefaultRemindersList(): Promise<{ result: RemindersList | null }>;
 }

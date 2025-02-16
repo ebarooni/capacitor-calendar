@@ -107,9 +107,15 @@ export class CapacitorCalendarWeb
   }
 
   public getDefaultCalendar(): Promise<{ result: Calendar | null }> {
-    throw this.unimplemented(
-      `${this.getDefaultCalendar.name} is not implemented on the web`,
-    );
+    return this.throwUnimplemented(this.getDefaultCalendar.name);
+  }
+
+  public getDefaultRemindersList(): Promise<{ result: RemindersList | null }> {
+    return this.throwUnimplemented(this.getDefaultRemindersList.name);
+  }
+
+  public openReminders(): Promise<void> {
+    return this.throwUnimplemented(this.openReminders.name);
   }
 
   public createReminder(_options: {
@@ -130,12 +136,6 @@ export class CapacitorCalendarWeb
     );
   }
 
-  public getDefaultRemindersList(): Promise<{ result: RemindersList }> {
-    throw this.unimplemented(
-      `${this.getDefaultRemindersList.name} is not implemented on the web`,
-    );
-  }
-
   public getRemindersLists(): Promise<{ result: RemindersList[] }> {
     throw this.unimplemented(
       `${this.getRemindersLists.name} is not implemented on the web`,
@@ -145,12 +145,6 @@ export class CapacitorCalendarWeb
   public openCalendar(_options: { date?: number }): Promise<void> {
     throw this.unimplemented(
       `${this.openCalendar.name} is not implemented on the web`,
-    );
-  }
-
-  public openReminders(): Promise<void> {
-    throw this.unimplemented(
-      `${this.openReminders.name} is not implemented on the web`,
     );
   }
 

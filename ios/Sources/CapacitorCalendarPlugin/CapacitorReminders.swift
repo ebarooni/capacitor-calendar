@@ -16,31 +16,6 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
 
-    public func getDefaultRemindersList() throws -> [String: Any]? {
-        let defaultRemindersList = eventStore.defaultCalendarForNewReminders()
-        if let defaultRemindersList = defaultRemindersList {
-            var calendarDict: [String: Any] = [
-                "id": defaultRemindersList.calendarIdentifier,
-                "title": defaultRemindersList.title,
-                "color": hexStringFromColor(color: defaultRemindersList.cgColor),
-                "isImmutable": defaultRemindersList.isImmutable,
-                "allowsContentModifications": defaultRemindersList.allowsContentModifications,
-                "type": defaultRemindersList.type.rawValue,
-                "isSubscribed": defaultRemindersList.isSubscribed
-            ]
-            if let calendarSource = defaultRemindersList.source {
-                calendarDict["source"] = [
-                    "type": calendarSource.sourceType.rawValue,
-                    "id": calendarSource.sourceIdentifier,
-                    "title": calendarSource.title
-                ]
-            }
-            return calendarDict
-        } else {
-            return nil
-        }
-    }
-
     public func getRemindersLists() -> [[String: Any]] {
         return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
     }
