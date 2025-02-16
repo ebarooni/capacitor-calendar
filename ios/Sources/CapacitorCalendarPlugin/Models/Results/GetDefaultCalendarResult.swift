@@ -3,11 +3,7 @@ import Capacitor
 
 struct GetDefaultCalendarResult: JSResult {
     let calendar: EKCalendar?
-    
-    init(calendar: EKCalendar?) {
-        self.calendar = calendar
-    }
-    
+
     func toJSON() -> JSObject {
         var result = JSObject()
         if let calendar = calendar {

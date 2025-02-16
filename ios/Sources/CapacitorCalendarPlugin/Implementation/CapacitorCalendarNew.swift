@@ -274,7 +274,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             throw PluginError.failedToLaunchReminders
         }
     }
-    
+
     func getDefaultCalendar() throws -> GetDefaultCalendarResult {
         return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewEvents)
     }
