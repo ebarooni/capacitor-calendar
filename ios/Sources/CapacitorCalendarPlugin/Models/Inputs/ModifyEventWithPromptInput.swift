@@ -62,7 +62,7 @@ struct ModifyEventWithPromptInput {
     }
 
     func getAlerts() -> [EKAlarm]? {
-        if let alerts = self.alerts {
+        if self.alerts != nil {
             return input.getAlerts()
         } else {
             return nil

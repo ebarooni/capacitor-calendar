@@ -118,6 +118,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.openReminders.name);
   }
 
+  public getRemindersLists(): Promise<{ result: RemindersList[] }> {
+    return this.throwUnimplemented(this.getRemindersLists.name);
+  }
+
   public createReminder(_options: {
     title: string;
     listId?: string;
@@ -133,12 +137,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: string }> {
     throw this.unimplemented(
       `${this.createReminder.name} is not implemented on the web`,
-    );
-  }
-
-  public getRemindersLists(): Promise<{ result: RemindersList[] }> {
-    throw this.unimplemented(
-      `${this.getRemindersLists.name} is not implemented on the web`,
     );
   }
 

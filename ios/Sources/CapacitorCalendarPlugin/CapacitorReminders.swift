@@ -16,10 +16,6 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
 
-    public func getRemindersLists() -> [[String: Any]] {
-        return convertEKCalendarsToDictionaries(calendars: Set(eventStore.calendars(for: .reminder)))
-    }
-
     public func createReminder(with parameters: ReminderCreationParameters) throws -> String {
         func setCalendar() {
             if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
@@ -164,32 +160,6 @@ public class CapacitorReminders: NSObject {
         } catch {
             throw CapacitorCalendarPluginError.undefinedEvent
         }
-    }
-
-    private func convertEKCalendarsToDictionaries(calendars: Set<EKCalendar>) -> [[String: Any]] {
-        var result: [[String: Any]] = []
-
-        for calendar in calendars {
-            var calendarDict: [String: Any] = [
-                "id": calendar.calendarIdentifier,
-                "title": calendar.title,
-                "color": hexStringFromColor(color: calendar.cgColor),
-                "isImmutable": calendar.isImmutable,
-                "allowsContentModifications": calendar.allowsContentModifications,
-                "type": calendar.type.rawValue,
-                "isSubscribed": calendar.isSubscribed
-            ]
-            if let calendarSource = calendar.source {
-                calendarDict["source"] = [
-                    "type": calendarSource.sourceType.rawValue,
-                    "id": calendarSource.sourceIdentifier,
-                    "title": calendarSource.title
-                ]
-            }
-            result.append(calendarDict)
-        }
-
-        return result
     }
 
     private func setReminderFrequency(reminder: EKReminder, recurrence: RecurrenceParameters?) {

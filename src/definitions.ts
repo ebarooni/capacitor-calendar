@@ -5,7 +5,6 @@ import { EventOperations } from "./sub-definitions/event-operations";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import { RemindersAccess } from "./sub-definitions/reminders-access";
-import type { RemindersList } from "./schemas/interfaces/reminders-list";
 import type { RemindersOperations } from "./sub-definitions/reminders-operations";
 
 export interface CapacitorCalendarPlugin
@@ -14,19 +13,6 @@ export interface CapacitorCalendarPlugin
     EventOperations,
     CalendarOperations,
     RemindersOperations {
-  /**
-   * Retrieves all available reminders lists on the device.
-   *
-   * @async
-   * @platform iOS
-   * @returns {Promise<{ result: RemindersList[] }>} A promise that resolves with an array of reminders lists available on the device.
-   * Each reminders list object in the array contains an ID and a title.
-   * @example
-   * const { result } = await getRemindersLists();
-   * console.log(result); // [{ id: '1', title: 'Groceries' }, { id: '2', title: 'Subscriptions' }]
-   */
-  getRemindersLists(): Promise<{ result: RemindersList[] }>;
-
   /**
    * Creates a reminder with the provided options.
    *
