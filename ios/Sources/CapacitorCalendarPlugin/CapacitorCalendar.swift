@@ -11,30 +11,6 @@ public class CapacitorCalendar: NSObject {
         self.eventStore = eventStore
     }
 
-    public func openCalendar(date: Double) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            guard let url = URL(string: "calshow:\(date)") else {
-                continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
-                return
-            }
-
-            Task { @MainActor in
-                guard UIApplication.shared.canOpenURL(url) else {
-                    continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
-                    return
-                }
-
-                UIApplication.shared.open(url, options: [:]) { success in
-                    if success {
-                        continuation.resume()
-                    } else {
-                        continuation.resume(throwing: CapacitorCalendarPluginError.unableToOpenCalendar)
-                    }
-                }
-            }
-        }
-    }
-
     public func listEventsInRange(
         startDate: Double,
         endDate: Double
@@ -76,33 +52,6 @@ public class CapacitorCalendar: NSObject {
 
             continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
         }
-    }
-
-    public func createCalendar(title: String, color: String?, sourceId: String?) throws -> String {
-        let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
-        newCalendar.title = title
-        if let calendarColor = color {
-            newCalendar.cgColor = UIColor(hex: calendarColor)?.cgColor
-        } else {
-            newCalendar.cgColor = eventStore.defaultCalendarForNewEvents?.cgColor
-        }
-        if let calendarSourceId = sourceId {
-            let matchingSource = eventStore.sources.first(where: { $0.sourceIdentifier == calendarSourceId })
-            if let requestedSource = matchingSource {
-                newCalendar.source = requestedSource
-            }
-
-        } else {
-            newCalendar.source = eventStore.defaultCalendarForNewEvents?.source
-        }
-
-        do {
-            try eventStore.saveCalendar(newCalendar, commit: true)
-        } catch {
-            throw CapacitorCalendarPluginError.unableToCreateCalendar
-        }
-
-        return newCalendar.calendarIdentifier
     }
 
     public func deleteCalendar(id: String) throws {

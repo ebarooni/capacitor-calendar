@@ -213,6 +213,28 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func openCalendar(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let input = OpenCalendarInput(call: call)
+                try await implementation.openCalendar(input: input)
+                call.resolve()
+            } catch let error {
+                call.reject(error.localizedDescription)
+            }
+        }
+    }
+
+    @objc public func createCalendar(_ call: CAPPluginCall) {
+        do {
+            let input = try CreateCalendarInput(call: call)
+            let result = try implementation.createCalendar(input: input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
     @objc public func createReminder (_ call: CAPPluginCall) {
         guard let title = call.getString("title") else {
             call.reject("[CapacitorCalendar.\(#function)] A title for the reminder was not provided")
@@ -268,24 +290,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    @objc public func openCalendar(_ call: CAPPluginCall) {
-        let interval: Double
-        if let date = call.getDouble("date") {
-            interval = Date(timeIntervalSince1970: date / 1000).timeIntervalSinceReferenceDate
-        } else {
-            interval = Date.timeIntervalSinceReferenceDate
-        }
-
-        Task {
-            do {
-                try await calendar.openCalendar(date: interval)
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Unable to open the calendar")
-                return
-            }
-        }
-    }
-
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         guard let startDate = call.getDouble("startDate") else {
             call.reject("[CapacitorCalendar.\(#function)] A start date was not provided")
@@ -323,23 +327,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.reject("[CapacitorCalendar.\(#function)] Could not delete events")
                 return
             }
-        }
-    }
-
-    @objc public func createCalendar(_ call: CAPPluginCall) {
-        guard let title = call.getString("title") else {
-            call.reject("[CapacitorCalendar.\(#function)] A title for the calendar was not provided")
-            return
-        }
-        let color = call.getString("color")
-        let sourceId = call.getString("sourceId")
-
-        do {
-            let id = try calendar.createCalendar(title: title, color: color, sourceId: sourceId)
-            call.resolve(["result": id])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Could not create calendar")
-            return
         }
     }
 

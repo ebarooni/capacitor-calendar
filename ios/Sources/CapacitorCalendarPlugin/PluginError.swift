@@ -9,10 +9,13 @@ enum PluginError: LocalizedError {
     case idMissing
     case titleMissing
     case failedToRetrieveEventId
+    case failedToRetrieveCalendarId
     case eventNotFound
     case invalidUrl
     case unableToOpenUrl
     case failedToLaunchReminders
+    case failedToLaunchCalendar
+    case invalidColor
     case unimplemented(String)
     case customError(String)
 
@@ -32,6 +35,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Title must be provided.", comment: "Title missing error")
         case .failedToRetrieveEventId:
             return NSLocalizedString("Failed to retrieve event ID.", comment: "Failed to retrieve event ID error")
+        case .failedToRetrieveCalendarId:
+            return NSLocalizedString("Failed to retrieve calendar ID.", comment: "Failed to retrieve calendar ID error")
         case.eventNotFound:
             return NSLocalizedString("Event not found.", comment: "Event not found error")
         case .invalidUrl:
@@ -40,6 +45,10 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Unable to open URL.", comment: "Unable to open URL error")
         case .failedToLaunchReminders:
             return NSLocalizedString("Failed to launch reminders app.", comment: "Failed to launch reminders app error")
+        case .failedToLaunchCalendar:
+            return NSLocalizedString("Failed to launch calendar app.", comment: "Failed to launch calendar app error")
+        case .invalidColor:
+            return NSLocalizedString("Invalid color format.", comment: "Invalid color format error")
         case .processFailed:
             return NSLocalizedString("Process failed.", comment: "Process failed error")
         case .unimplemented(let methodName):
