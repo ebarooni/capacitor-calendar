@@ -7,7 +7,7 @@ import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
-   * On Android always return `null`.
+   * On Android always returns `null`.
    * Fetch the events to find the ID of the newly created event.
    *
    * @example
