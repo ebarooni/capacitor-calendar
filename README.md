@@ -78,6 +78,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`openCalendar(...)`](#opencalendar)
+- [`createCalendar(...)`](#createcalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
@@ -85,7 +86,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createReminder(...)`](#createreminder)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
-- [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
@@ -242,7 +242,7 @@ createEventWithPrompt(options?: CreateEventWithPromptOptions | undefined) => Pro
 ```
 
 Opens the system calendar interface to create a new event.
-On Android always return `null`.
+On Android always returns `null`.
 Fetch the events to find the ID of the newly created event.
 
 | Param         | Type                                                                                  |
@@ -416,6 +416,26 @@ Opens the calendar app.
 
 ---
 
+### createCalendar(...)
+
+```typescript
+createCalendar(options: CreateCalendarOptions) => Promise<{ id: string; }>
+```
+
+Creates a calendar.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createcalendaroptions">CreateCalendarOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
+
+**Since:** 5.2.0
+
+**Platform:** iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -535,26 +555,6 @@ Deletes events from the calendar given their IDs.
 **Since:** 0.11.0
 
 **Platform:** iOS, Android
-
----
-
-### createCalendar(...)
-
-```typescript
-createCalendar(options: { title: string; color?: string; sourceId?: string; }) => Promise<{ result: string; }>
-```
-
-Creates a calendar
-
-| Param         | Type                                                               | Description                      |
-| ------------- | ------------------------------------------------------------------ | -------------------------------- |
-| **`options`** | <code>{ title: string; color?: string; sourceId?: string; }</code> | Options for creating a calendar. |
-
-**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
-
-**Since:** 5.2.0
-
-**Platform:** iOS
 
 ---
 
@@ -756,6 +756,14 @@ Modifies a reminder given its id and update details.
 | Prop       | Type                | Default                 | Since |
 | ---------- | ------------------- | ----------------------- | ----- |
 | **`date`** | <code>number</code> | <code>Date.now()</code> | 7.1.0 |
+
+#### CreateCalendarOptions
+
+| Prop           | Type                | Since | Platform |
+| -------------- | ------------------- | ----- | -------- |
+| **`title`**    | <code>string</code> | 5.2.0 | iOS      |
+| **`color`**    | <code>string</code> | 5.2.0 | iOS      |
+| **`sourceId`** | <code>string</code> | 5.2.0 | iOS      |
 
 #### ReminderRecurrenceRule
 

@@ -1,5 +1,6 @@
 import type { Calendar } from "../schemas/interfaces/calendar";
 import type { CalendarSource } from "../schemas/interfaces/calendar-source";
+import type { CreateCalendarOptions } from "../schemas/interfaces/create-calendar-options";
 import type { OpenCalendarOptions } from "../schemas/interfaces/open-calendar-options";
 import type { SelectCalendarsWithPromptOptions } from "../schemas/interfaces/select-calendars-with-prompt-options";
 
@@ -51,4 +52,11 @@ export interface CalendarOperations {
    * @since 7.1.0
    */
   openCalendar(options?: OpenCalendarOptions): Promise<void>;
+  /**
+   * Creates a calendar.
+   *
+   * @platform iOS
+   * @since 5.2.0
+   */
+  createCalendar(options: CreateCalendarOptions): Promise<{ id: string }>;
 }

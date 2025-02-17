@@ -8,6 +8,7 @@ import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import { CalendarPermissionScope } from "./schemas/enums/calendar-permission-scope";
 import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import type { CapacitorCalendarPlugin } from "./definitions";
+import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
@@ -124,7 +125,13 @@ export class CapacitorCalendarWeb
   }
 
   public openCalendar(_options: OpenCalendarOptions): Promise<void> {
-    return this.throwUnimplemented(this.getRemindersLists.name);
+    return this.throwUnimplemented(this.openCalendar.name);
+  }
+
+  public createCalendar(
+    _options: CreateCalendarOptions,
+  ): Promise<{ id: string }> {
+    return this.throwUnimplemented(this.createCalendar.name);
   }
 
   public createReminder(_options: {
@@ -159,16 +166,6 @@ export class CapacitorCalendarWeb
   }> {
     throw this.unimplemented(
       `${this.deleteEventsById.name} is not implemented on the web`,
-    );
-  }
-
-  public createCalendar(_options: {
-    title: string;
-    color?: string;
-    sourceId?: string;
-  }): Promise<{ result: string }> {
-    throw this.unimplemented(
-      `${this.createCalendar.name} is not implemented on the web`,
     );
   }
 

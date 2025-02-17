@@ -10,6 +10,7 @@ import type { CalendarSource } from "./schemas/interfaces/calendar-source";
 import { CalendarSourceType } from "./schemas/enums/calendar-source-type";
 import { CalendarType } from "./schemas/enums/calendar-type";
 import type { CapacitorCalendarPlugin } from "./definitions";
+import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import { EventAvailability } from "./schemas/enums/event-availability";
@@ -49,6 +50,7 @@ export type {
   ReminderRecurrenceRule,
   CalendarSource,
   OpenCalendarOptions,
+  CreateCalendarOptions,
 };
 export {
   CalendarPermissionScope,
