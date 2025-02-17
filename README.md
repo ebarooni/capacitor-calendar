@@ -759,11 +759,13 @@ Modifies a reminder given its id and update details.
 
 #### CreateCalendarOptions
 
-| Prop           | Type                | Since | Platform |
-| -------------- | ------------------- | ----- | -------- |
-| **`title`**    | <code>string</code> | 5.2.0 | iOS      |
-| **`color`**    | <code>string</code> | 5.2.0 | iOS      |
-| **`sourceId`** | <code>string</code> | 5.2.0 | iOS      |
+| Prop               | Type                | Description                                                | Since | Platform     |
+| ------------------ | ------------------- | ---------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code> |                                                            | 5.2.0 | Android, iOS |
+| **`color`**        | <code>string</code> | The color of the calendar. Should be provided on Android.  | 5.2.0 | Android, iOS |
+| **`sourceId`**     | <code>string</code> |                                                            | 5.2.0 | iOS          |
+| **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
+| **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 
 #### ReminderRecurrenceRule
 

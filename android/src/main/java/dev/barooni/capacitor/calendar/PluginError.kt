@@ -17,9 +17,17 @@ sealed class PluginError(
 
     data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
 
+    data object FailedToRetrieveCalendarId : PluginError("Failed to retrieve calendar ID.")
+
     data object AttendeeEmailMissing : PluginError("Attendee email must be provided.")
 
     data object NoCalendarsAvailable : PluginError("No calendars available.")
+
+    data object ColorMissing : PluginError("Color must be provided.")
+
+    data object AccountNameMissing : PluginError("Account name must be provided.")
+
+    data object OwnerAccountMissing : PluginError("Owner account must be provided.")
 
     data class Unimplemented(
         val methodName: String,
