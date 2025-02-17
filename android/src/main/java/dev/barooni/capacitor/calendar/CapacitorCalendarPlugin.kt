@@ -17,6 +17,7 @@ import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
@@ -314,14 +315,14 @@ class CapacitorCalendarPlugin : Plugin() {
         return
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_NONE)
+    @PluginMethod
     fun openCalendar(call: PluginCall) {
-        val timestamp = call.getLong("date") ?: System.currentTimeMillis()
         try {
-            return activity.startActivity(implementation.openCalendar(timestamp))
+            val input = OpenCalendarInput(call)
+            implementationNew.openCalendar(input)
+            call.resolve()
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::openCalendar.name}] Unable to open calendar")
-            return
+            call.reject(error.message)
         }
     }
 

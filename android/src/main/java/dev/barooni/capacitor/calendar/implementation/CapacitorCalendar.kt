@@ -15,6 +15,7 @@ import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
@@ -133,5 +134,13 @@ class CapacitorCalendarNew(
         val calendars = ImplementationHelper.listCalendars(cr)
         val primaryCalendar = calendars.find { it.isPrimary == true }
         return GetDefaultCalendarResult(primaryCalendar)
+    }
+
+    fun openCalendar(input: OpenCalendarInput) {
+        val intent =
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("content://com.android.calendar/time/${input.date}")
+            }
+        plugin.activity.startActivity(intent)
     }
 }
