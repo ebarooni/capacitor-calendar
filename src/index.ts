@@ -13,6 +13,7 @@ import type { CapacitorCalendarPlugin } from "./definitions";
 import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
 import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import { EventGuest } from "./schemas/interfaces/event-guest";
@@ -51,6 +52,7 @@ export type {
   CalendarSource,
   OpenCalendarOptions,
   CreateCalendarOptions,
+  DeleteCalendarOptions,
 };
 export {
   CalendarPermissionScope,

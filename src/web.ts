@@ -11,6 +11,7 @@ import type { CapacitorCalendarPlugin } from "./definitions";
 import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
@@ -134,6 +135,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.createCalendar.name);
   }
 
+  public deleteCalendar(_options: DeleteCalendarOptions): Promise<void> {
+    return this.throwUnimplemented(this.deleteCalendar.name);
+  }
+
   public createReminder(_options: {
     title: string;
     listId?: string;
@@ -166,12 +171,6 @@ export class CapacitorCalendarWeb
   }> {
     throw this.unimplemented(
       `${this.deleteEventsById.name} is not implemented on the web`,
-    );
-  }
-
-  public deleteCalendar(_options: { id: string }): Promise<void> {
-    throw this.unimplemented(
-      `${this.deleteCalendar.name} is not implemented on the web`,
     );
   }
 

@@ -79,6 +79,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`getDefaultCalendar()`](#getdefaultcalendar)
 - [`openCalendar(...)`](#opencalendar)
 - [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
@@ -86,7 +87,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createReminder(...)`](#createreminder)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
-- [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [`modifyReminder(...)`](#modifyreminder)
@@ -432,7 +432,25 @@ Creates a calendar.
 
 **Since:** 5.2.0
 
-**Platform:** iOS
+**Platform:** Android, iOS
+
+---
+
+### deleteCalendar(...)
+
+```typescript
+deleteCalendar(options: DeleteCalendarOptions) => Promise<void>
+```
+
+Deletes a calendar by id.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletecalendaroptions">DeleteCalendarOptions</a></code> |
+
+**Since:** 5.2.0
+
+**Platform:** Android, iOS
 
 ---
 
@@ -555,24 +573,6 @@ Deletes events from the calendar given their IDs.
 **Since:** 0.11.0
 
 **Platform:** iOS, Android
-
----
-
-### deleteCalendar(...)
-
-```typescript
-deleteCalendar(options: { id: string; }) => Promise<void>
-```
-
-Deletes a calendar by id
-
-| Param         | Type                         | Description                      |
-| ------------- | ---------------------------- | -------------------------------- |
-| **`options`** | <code>{ id: string; }</code> | Options for deleting a calendar. |
-
-**Since:** 5.2.0
-
-**Platform:** iOS
 
 ---
 
@@ -766,6 +766,12 @@ Modifies a reminder given its id and update details.
 | **`sourceId`**     | <code>string</code> |                                                            | 5.2.0 | iOS          |
 | **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 | **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
+
+#### DeleteCalendarOptions
+
+| Prop     | Type                | Since |
+| -------- | ------------------- | ----- |
+| **`id`** | <code>string</code> | 7.1.0 |
 
 #### ReminderRecurrenceRule
 

@@ -127,24 +127,6 @@ export interface CapacitorCalendarPlugin
     ids: string[];
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
   /**
-   * Deletes a calendar by id
-   *
-   * @async
-   * @since 5.2.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
-   * </ul>
-   * @param {object} options Options for deleting a calendar.
-   * @param {string} options.id The id of the calendar to delete.
-   * @example
-   * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
-   */
-  deleteCalendar(options: { id: string }): Promise<void>;
-
-  /**
    * Retrieves the list of reminders present in the given date range.
    *
    * @async
