@@ -17,7 +17,7 @@ data class ModifyEventWithPromptInput(
     val intent: Intent = Intent(Intent.ACTION_EDIT).setData(CalendarContract.Events.CONTENT_URI)
 
     init {
-        val idString = call.getString("id") ?: throw PluginError.IdMissing
+        val idString = call.getString("id") ?: throw PluginError.MissingId
         id = idString.toLong()
         val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id)
         intent.setData(uri)

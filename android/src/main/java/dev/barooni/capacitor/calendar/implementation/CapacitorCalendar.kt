@@ -14,6 +14,7 @@ import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -172,5 +173,15 @@ class CapacitorCalendarNew(
         val cr = plugin.context.contentResolver
         val calendarUri = cr.insert(uri, values)
         return CreateCalendarResult(calendarUri?.lastPathSegment)
+    }
+
+    fun deleteCalendar(input: DeleteCalendarInput) {
+        val uri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
+        val cr = plugin.context.contentResolver
+        val rowsDeleted = cr.delete(uri, null, null)
+
+        if (rowsDeleted < 1) {
+            throw PluginError.FailedToDelete
+        }
     }
 }

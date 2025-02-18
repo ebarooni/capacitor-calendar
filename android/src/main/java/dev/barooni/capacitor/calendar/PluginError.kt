@@ -11,7 +11,7 @@ sealed class PluginError(
 
     data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.")
 
-    data object IdMissing : PluginError("Event ID must be provided.")
+    data object MissingId : PluginError("Event ID must be provided.")
 
     data object TitleMissing : PluginError("Title must be provided.")
 
@@ -28,6 +28,8 @@ sealed class PluginError(
     data object AccountNameMissing : PluginError("Account name must be provided.")
 
     data object OwnerAccountMissing : PluginError("Owner account must be provided.")
+
+    data object FailedToDelete : PluginError("Failed to delete.")
 
     data class Unimplemented(
         val methodName: String,

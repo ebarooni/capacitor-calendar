@@ -16,6 +16,7 @@ import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -338,6 +339,17 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
+    @PluginMethod
+    fun deleteCalendar(call: PluginCall) {
+        try {
+            val input = DeleteCalendarInput(call)
+            implementationNew.deleteCalendar(input)
+            call.resolve()
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listEventsInRange(call: PluginCall) {
         try {
@@ -369,12 +381,6 @@ class CapacitorCalendarPlugin : Plugin() {
             call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
         }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun deleteCalendar(call: PluginCall) {
-        call.unimplemented("[CapacitorCalendar.${::deleteCalendar.name}] Not implemented on Android")
-        return
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
