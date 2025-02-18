@@ -317,6 +317,34 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         }
     }
 
+    func createReminder(input: CreateReminderInput) throws -> CreateReminderResult {
+        let reminder = EKReminder(eventStore: eventStore)
+        reminder.title = input.getTitle()
+        if let listId = input.getListId(from: eventStore), let list = eventStore.calendar(withIdentifier: listId) {
+            reminder.calendar = list
+        }
+        if let prio = input.getPriority() {
+            reminder.priority = prio
+        }
+        reminder.isCompleted = input.getIsCompleted()
+        if let startDate = input.getStartDate() {
+            reminder.startDateComponents = startDate
+        }
+        if let deuDate = input.getDueDate() {
+            reminder.dueDateComponents = deuDate
+        }
+        if let completionDate = input.getCompletionDate() {
+            reminder.completionDate = completionDate
+        }
+        reminder.notes = input.getNotes()
+        reminder.url = input.getUrl()
+        reminder.location = input.getLocation()
+        reminder.alarms = input.getAlerts()
+        reminder.recurrenceRules = input.getRecurrenceRule()
+        try eventStore.save(reminder, commit: true)
+        return CreateReminderResult(reminder: reminder)
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in

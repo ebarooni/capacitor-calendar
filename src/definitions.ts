@@ -14,66 +14,6 @@ export interface CapacitorCalendarPlugin
     CalendarOperations,
     RemindersOperations {
   /**
-   * Creates a reminder with the provided options.
-   *
-   * @async
-   * @since 0.5.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeReminders</li>
-   * </ul>
-   * @param {object} options - Options for creating the reminder.
-   * @param {string} options.title - The title of the reminder.
-   * @param {string} options.listId - The id of the destination reminders list. (Optional)
-   * @param {number} [options.priority] - The priority of the reminder. A number between one and nine where nine
-   * has the least priority and 0 means no priority at all. Values outside of this range will be rounded to the
-   * nearest border. (Optional)
-   * @param {boolean} [options.isCompleted] - Whether the reminder is completed already or not. (Optional)
-   * @param {number} [options.startDate] - The start date of the reminder. (Optional)
-   * @param {number} [options.dueDate] - The due date of the reminder. (Optional)
-   * @param {number} [options.completionDate] - The date at which the reminder was completed. (Optional)
-   * @param {string} [options.notes] - Additional notes about the reminder. (Optional)
-   * @param {string} [options.url] - A URL to save under the reminder. (Optional)
-   * @param {string} [options.location] - A location to save under the reminder. (Optional)
-   * @param {string} [options.recurrence] - The rules for the recurrence of the reminder. (Optional)
-   * @returns {Promise<{ result: string }>} A Promise that resolves with the id of the created reminder
-   * @example
-   * const now = Date.now();
-   * const rules: ReminderRecurrenceRule = {
-   *     frequency: ReminderRecurrenceFrequency.MONTHLY,
-   *     interval: 10,
-   *     end: Date.now()
-   * }
-   * const reminderOptions = {
-   *   title: 'Buy cucumber',
-   *   listId: 'ABC12',
-   *   priority: 5,
-   *   isCompleted: false,
-   *   startDateComponents: now,
-   *   notes: 'Also buy tomatoes',
-   *   url: 'https://capacitor-calendar.pages.dev/',
-   *   location: 'My Local Supermarket',
-   *   recurrence: rules
-   * };
-   * const { result } = await createReminder(reminderOptions);
-   * console.log(result); // 'ID_1'
-   */
-  createReminder(options: {
-    title: string;
-    listId?: string;
-    priority?: number;
-    isCompleted?: boolean;
-    startDate?: number;
-    dueDate?: number;
-    completionDate?: number;
-    notes?: string;
-    url?: string;
-    location?: string;
-    recurrence?: ReminderRecurrenceRule;
-  }): Promise<{ result: string }>;
-  /**
    * Retrieves the list of calendar events present in the given date range.
    *
    * @async
@@ -216,6 +156,7 @@ export interface CapacitorCalendarPlugin
       notes?: string;
       url?: string;
       location?: string;
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
       recurrence?: ReminderRecurrenceRule;
     };
   }): Promise<void>;

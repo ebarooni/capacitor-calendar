@@ -11,6 +11,7 @@ import type { CapacitorCalendarPlugin } from "./definitions";
 import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
@@ -139,22 +140,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.deleteCalendar.name);
   }
 
-  public createReminder(_options: {
-    title: string;
-    listId?: string;
-    priority?: number;
-    isCompleted?: boolean;
-    startDate?: number;
-    dueDate?: number;
-    completionDate?: number;
-    notes?: string;
-    url?: string;
-    location?: string;
-    recurrence?: ReminderRecurrenceRule;
-  }): Promise<{ result: string }> {
-    throw this.unimplemented(
-      `${this.createReminder.name} is not implemented on the web`,
-    );
+  public createReminder(
+    _options: CreateReminderOptions,
+  ): Promise<{ id: string }> {
+    return this.throwUnimplemented(this.createReminder.name);
   }
 
   public listEventsInRange(_options: {

@@ -1,24 +1,21 @@
 /**
- * Enum representing the repeating frequency of the reminder.
- *
- * @enum ReminderRecurrenceFrequency
- * @platform iOS
+ * @deprecated Use `RecurrenceFrequency`.
  */
 export enum ReminderRecurrenceFrequency {
   /**
-   * The reminder repeats on a daily basis
+   * @deprecated Use `RecurrenceFrequency.DAILY`.
    */
   DAILY,
   /**
-   * The reminder repeats on a weekly basis
+   * @deprecated Use `RecurrenceFrequency.WEEKLY`.
    */
   WEEKLY,
   /**
-   * The reminder repeats on a monthly basis
+   * @deprecated Use `RecurrenceFrequency.MONTHLY`.
    */
   MONTHLY,
   /**
-   * The reminder repeats on a yearly basis
+   * @deprecated Use `RecurrenceFrequency.YEARLY`.
    */
   YEARLY,
 }

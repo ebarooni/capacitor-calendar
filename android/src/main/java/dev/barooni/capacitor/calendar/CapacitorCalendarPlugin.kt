@@ -312,12 +312,6 @@ class CapacitorCalendarPlugin : Plugin() {
     }
 
     @PluginMethod
-    fun createReminder(call: PluginCall) {
-        call.unimplemented("[CapacitorCalendar.${::createReminder.name}] Not implemented on Android")
-        return
-    }
-
-    @PluginMethod
     fun openCalendar(call: PluginCall) {
         try {
             val input = OpenCalendarInput(call)
@@ -348,6 +342,11 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (error: Exception) {
             call.reject(error.message)
         }
+    }
+
+    @PluginMethod
+    fun createReminder(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::createReminder.name).message)
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)

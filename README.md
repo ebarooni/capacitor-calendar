@@ -519,16 +519,16 @@ Retrieves all available reminders lists.
 ### createReminder(...)
 
 ```typescript
-createReminder(options: { title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: ReminderRecurrenceRule; }) => Promise<{ result: string; }>
+createReminder(options: CreateReminderOptions) => Promise<{ id: string; }>
 ```
 
-Creates a reminder with the provided options.
+Creates a reminder.
 
-| Param         | Type                                                                                                                                                                                                                                                                                  | Description                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **`options`** | <code>{ title: string; listId?: string; priority?: number; isCompleted?: boolean; startDate?: number; dueDate?: number; completionDate?: number; notes?: string; url?: string; location?: string; recurrence?: <a href="#reminderrecurrencerule">ReminderRecurrenceRule</a>; }</code> | - Options for creating the reminder. |
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createreminderoptions">CreateReminderOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
+**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
 
 **Since:** 0.5.0
 
@@ -773,13 +773,30 @@ Modifies a reminder given its id and update details.
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
 
-#### ReminderRecurrenceRule
+#### CreateReminderOptions
 
-| Prop            | Type                                                                                | Description                                                                                             |
-| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> | How frequent should the reminder repeat.                                                                |
-| **`interval`**  | <code>number</code>                                                                 | The interval should be a number greater than 0. For values lower than 1 the method will throw an error. |
-| **`end`**       | <code>number</code>                                                                 | When provided, the reminder will stop repeating at the given time.                                      |
+| Prop                 | Type                                                      | Since |
+| -------------------- | --------------------------------------------------------- | ----- |
+| **`title`**          | <code>string</code>                                       | 7.1.0 |
+| **`listId`**         | <code>string</code>                                       | 7.1.0 |
+| **`priority`**       | <code>number</code>                                       | 7.1.0 |
+| **`isCompleted`**    | <code>boolean</code>                                      | 7.1.0 |
+| **`startDate`**      | <code>number</code>                                       | 7.1.0 |
+| **`dueDate`**        | <code>number</code>                                       | 7.1.0 |
+| **`completionDate`** | <code>number</code>                                       | 7.1.0 |
+| **`notes`**          | <code>string</code>                                       | 7.1.0 |
+| **`url`**            | <code>string</code>                                       | 7.1.0 |
+| **`location`**       | <code>string</code>                                       | 7.1.0 |
+| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> | 7.1.0 |
+| **`alerts`**         | <code>number[]</code>                                     | 7.1.0 |
+
+#### RecurrenceRule
+
+| Prop            | Type                                                                | Description                                                                        | Since |
+| --------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
+| **`frequency`** | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> |                                                                                    | 7.1.0 |
+| **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 |
+| **`end`**       | <code>number</code>                                                 | Timestamp of when the recurrence ends.                                             | 7.1.0 |
 
 #### CalendarEvent
 
@@ -804,22 +821,29 @@ Represents an event in the calendar.
 
 #### Reminder
 
-Represents a reminder in a reminders list.
+| Prop                 | Type                                                              | Since |
+| -------------------- | ----------------------------------------------------------------- | ----- |
+| **`id`**             | <code>string</code>                                               | 7.1.0 |
+| **`title`**          | <code>string \| null</code>                                       | 7.1.0 |
+| **`listId`**         | <code>string \| null</code>                                       | 7.1.0 |
+| **`isCompleted`**    | <code>boolean</code>                                              | 7.1.0 |
+| **`priority`**       | <code>number \| null</code>                                       | 7.1.0 |
+| **`notes`**          | <code>string \| null</code>                                       | 7.1.0 |
+| **`location`**       | <code>string \| null</code>                                       | 7.1.0 |
+| **`url`**            | <code>string \| null</code>                                       | 7.1.0 |
+| **`startDate`**      | <code>number \| null</code>                                       | 7.1.0 |
+| **`dueDate`**        | <code>number \| null</code>                                       | 7.1.0 |
+| **`completionDate`** | <code>number \| null</code>                                       | 7.1.0 |
+| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a> \| null</code> | 7.1.0 |
+| **`alerts`**         | <code>number[]</code>                                             | 7.1.0 |
 
-| Prop                 | Type                                  | Platform |
-| -------------------- | ------------------------------------- | -------- |
-| **`id`**             | <code>string</code>                   | iOS      |
-| **`title`**          | <code>string</code>                   | iOS      |
-| **`listId`**         | <code>string</code>                   | iOS      |
-| **`isCompleted`**    | <code>boolean</code>                  | iOS      |
-| **`priority`**       | <code>number</code>                   | iOS      |
-| **`notes`**          | <code>string</code>                   | iOS      |
-| **`location`**       | <code>string</code>                   | iOS      |
-| **`url`**            | <code>string</code>                   | iOS      |
-| **`startDate`**      | <code>number</code>                   | iOS      |
-| **`dueDate`**        | <code>number</code>                   | iOS      |
-| **`completionDate`** | <code>number</code>                   | iOS      |
-| **`recurrence`**     | <code>ReminderRecurrenceRule[]</code> | iOS      |
+#### ReminderRecurrenceRule
+
+| Prop            | Type                                                                                |
+| --------------- | ----------------------------------------------------------------------------------- |
+| **`frequency`** | <code><a href="#reminderrecurrencefrequency">ReminderRecurrenceFrequency</a></code> |
+| **`interval`**  | <code>number</code>                                                                 |
+| **`end`**       | <code>number</code>                                                                 |
 
 ### Type Aliases
 
@@ -907,14 +931,23 @@ Construct a type with a set of properties K of type T
 | **`ALL_CALENDARS`**           | 0.2.0 |
 | **`WRITABLE_CALENDARS_ONLY`** | 0.2.0 |
 
+#### RecurrenceFrequency
+
+| Members       | Since |
+| ------------- | ----- |
+| **`DAILY`**   | 7.1.0 |
+| **`WEEKLY`**  | 7.1.0 |
+| **`MONTHLY`** | 7.1.0 |
+| **`YEARLY`**  | 7.1.0 |
+
 #### ReminderRecurrenceFrequency
 
-| Members       | Description                             |
-| ------------- | --------------------------------------- |
-| **`DAILY`**   | The reminder repeats on a daily basis   |
-| **`WEEKLY`**  | The reminder repeats on a weekly basis  |
-| **`MONTHLY`** | The reminder repeats on a monthly basis |
-| **`YEARLY`**  | The reminder repeats on a yearly basis  |
+| Members       |
+| ------------- |
+| **`DAILY`**   |
+| **`WEEKLY`**  |
+| **`MONTHLY`** |
+| **`YEARLY`**  |
 
 </docgen-api>
 

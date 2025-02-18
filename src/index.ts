@@ -13,6 +13,7 @@ import type { CapacitorCalendarPlugin } from "./definitions";
 import type { CreateCalendarOptions } from "./schemas/interfaces/create-calendar-options";
 import type { CreateEventOptions } from "./schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
+import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
 import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
@@ -21,6 +22,8 @@ import { EventSpan } from "./schemas/enums/event-span";
 import { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
+import { RecurrenceFrequency } from "./schemas/enums/recurrence-frequency";
+import type { RecurrenceRule } from "./schemas/interfaces/recurrence-rule";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";
 import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
@@ -48,11 +51,13 @@ export type {
   SelectCalendarsWithPromptOptions,
   Calendar,
   RemindersList,
-  ReminderRecurrenceRule,
   CalendarSource,
   OpenCalendarOptions,
   CreateCalendarOptions,
   DeleteCalendarOptions,
+  ReminderRecurrenceRule,
+  RecurrenceRule,
+  CreateReminderOptions,
 };
 export {
   CalendarPermissionScope,
@@ -62,6 +67,7 @@ export {
   CalendarType,
   CalendarSourceType,
   ReminderRecurrenceFrequency,
+  RecurrenceFrequency,
   CalendarEvent,
   Reminder,
   CapacitorCalendar,

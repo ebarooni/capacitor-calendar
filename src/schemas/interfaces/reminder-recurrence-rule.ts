@@ -1,39 +1,20 @@
 import { ReminderRecurrenceFrequency } from "../enums/reminder-recurrence-frequency";
 
+/**
+ * @deprecated Use `RecurrenceRule`.
+ */
 export interface ReminderRecurrenceRule {
   /**
-   * How frequent should the reminder repeat.
-   *
-   * @example
-   * // if frequency is set to weekly, the reminder will repeat on a weekly basis.
-   * const rules: ReminderRecurrenceRule = {
-   *     frequency: ReminderRecurrenceFrequency.WEEKLY,
-   *     interval: 1,
-   * }
+   * @deprecated Use `RecurrenceRule.frequency`.
    */
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   frequency: ReminderRecurrenceFrequency;
-
   /**
-   * The interval should be a number greater than 0. For values lower than 1 the method will throw an error.
-   *
-   * @example
-   * // if interval is set to 2 and frequency is set to daily, the reminder will repeat every 2 days.
-   * const rules: ReminderRecurrenceRule = {
-   *     frequency: ReminderRecurrenceFrequency.DAILY,
-   *     interval: 2,
-   * }
+   * @deprecated Use `RecurrenceRule.interval`.
    */
   interval: number;
-
   /**
-   * When provided, the reminder will stop repeating at the given time.
-   *
-   * @example
-   * const rules: ReminderRecurrenceRule = {
-   *     frequency: ReminderRecurrenceFrequency.MONTHLY,
-   *     interval: 10,
-   *     end: Date.now()
-   * }
+   * @deprecated Use `RecurrenceRule.end`.
    */
   end?: number;
 }

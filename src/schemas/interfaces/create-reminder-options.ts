@@ -3,19 +3,19 @@ import type { RecurrenceRule } from "./recurrence-rule";
 /**
  * @since 7.1.0
  */
-export interface Reminder {
+export interface CreateReminderOptions {
   /**
    * @since 7.1.0
    */
-  id: string;
+  title: string;
   /**
    * @since 7.1.0
    */
-  title: string | null;
+  listId?: string;
   /**
    * @since 7.1.0
    */
-  listId: string | null;
+  priority?: number;
   /**
    * @since 7.1.0
    */
@@ -23,37 +23,33 @@ export interface Reminder {
   /**
    * @since 7.1.0
    */
-  priority: number | null;
+  startDate?: number;
   /**
    * @since 7.1.0
    */
-  notes: string | null;
+  dueDate?: number;
   /**
    * @since 7.1.0
    */
-  location: string | null;
+  completionDate?: number;
   /**
    * @since 7.1.0
    */
-  url: string | null;
+  notes?: string;
   /**
    * @since 7.1.0
    */
-  startDate: number | null;
+  url?: string;
   /**
    * @since 7.1.0
    */
-  dueDate: number | null;
+  location?: string;
   /**
    * @since 7.1.0
    */
-  completionDate: number | null;
+  recurrence?: RecurrenceRule;
   /**
    * @since 7.1.0
    */
-  recurrence: RecurrenceRule | null;
-  /**
-   * @since 7.1.0
-   */
-  alerts: number[];
+  alerts?: number[];
 }

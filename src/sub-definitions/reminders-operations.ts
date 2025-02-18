@@ -1,4 +1,5 @@
 import type { CalendarSource } from "../schemas/interfaces/calendar-source";
+import type { CreateReminderOptions } from "../schemas/interfaces/create-reminder-options";
 import type { RemindersList } from "../schemas/interfaces/reminders-list";
 
 export interface RemindersOperations {
@@ -31,4 +32,11 @@ export interface RemindersOperations {
    * @since 7.1.0
    */
   getRemindersLists(): Promise<{ result: RemindersList[] }>;
+  /**
+   * Creates a reminder.
+   *
+   * @platform iOS
+   * @since 0.5.0
+   */
+  createReminder(options: CreateReminderOptions): Promise<{ id: string }>;
 }

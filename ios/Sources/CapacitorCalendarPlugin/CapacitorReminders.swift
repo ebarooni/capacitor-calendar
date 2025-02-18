@@ -16,52 +16,6 @@ public class CapacitorReminders: NSObject {
         self.eventStore = eventStore
     }
 
-    public func createReminder(with parameters: ReminderCreationParameters) throws -> String {
-        func setCalendar() {
-            if let listId = parameters.listId, let list = eventStore.calendar(withIdentifier: listId) {
-                newReminder.calendar = list
-            } else {
-                newReminder.calendar = eventStore.defaultCalendarForNewReminders()
-            }
-        }
-
-        func setPriority() {
-            guard let priority = parameters.priority else { return }
-            newReminder.priority = max(0, min(9, priority))
-        }
-
-        let newReminder = EKReminder(eventStore: eventStore)
-        setCalendar()
-        setPriority()
-        setReminderDateComponents(
-            reminder: newReminder,
-            startDate: parameters.startDate,
-            dueDate: parameters.dueDate,
-            completionDate: parameters.completionDate
-        )
-        setReminderFrequency(reminder: newReminder, recurrence: parameters.recurrence)
-        newReminder.title = parameters.title
-        if let isCompleted = parameters.isCompleted {
-            newReminder.isCompleted = isCompleted
-        }
-        if let notes = parameters.notes {
-            newReminder.notes = notes
-        }
-        if let url = parameters.url {
-            newReminder.url = URL(string: url)
-        }
-        if let location = parameters.location {
-            newReminder.location = location
-        }
-
-        do {
-            try eventStore.save(newReminder, commit: true)
-            return newReminder.calendarItemIdentifier
-        } catch {
-            throw CapacitorCalendarPluginError.unknownActionEventCreationPrompt
-        }
-    }
-
     public func getRemindersFromLists(listIds: JSArray?) async throws -> [[String: Any]] {
         return try await withCheckedThrowingContinuation { continuation in
             var lists: [EKCalendar]?
