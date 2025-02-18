@@ -73,20 +73,6 @@ export interface CapacitorCalendarPlugin
     location?: string;
     recurrence?: ReminderRecurrenceRule;
   }): Promise<{ result: string }>;
-
-  /**
-   * Opens the calendar app. Since the user leaves your app, use this method with caution.
-   * It will open the calendar on today's date if no date is provided.
-   *
-   * @async
-   * @platform iOS, Android
-   * @param {object} options - Options for opening the calendar.
-   * @param {number} options.date - The date at which the calendar should be opened. (Optional)
-   * @returns {Promise<void>}
-   * @example
-   * void CapacitorCalendar.openCalendar({ date: Date.now() });
-   */
-  openCalendar(options: { date?: number }): Promise<void>;
   /**
    * Retrieves the list of calendar events present in the given date range.
    *
@@ -113,7 +99,6 @@ export interface CapacitorCalendarPlugin
     startDate: number;
     endDate: number;
   }): Promise<{ result: CalendarEvent[] }>;
-
   /**
    * Deletes events from the calendar given their IDs.
    *
@@ -141,59 +126,6 @@ export interface CapacitorCalendarPlugin
   deleteEventsById(options: {
     ids: string[];
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
-
-  /**
-   * Creates a calendar
-   *
-   * @async
-   * @since 5.2.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
-   * </ul>
-   * @param {object} options Options for creating a calendar.
-   * @param {string} options.title The title of the calendar to create.
-   * @param {string} options.color The color of the calendar to create.
-   * The color should be a HEX string. (Optional)
-   * @param {string} options.sourceId The id of the source of the calendar.
-   * If not provided, the source of the default calendar will be used. It is
-   * recommended to use fetchAllCalendarSources method to fetch the id of the
-   * desired source type.
-   * @returns {Promise<{ result: string }>} The id of the created calendar.
-   * @example
-   * { result } = await CapacitorCalendar.createCalendar({
-   *      title: 'New Calendar',
-   *      color: '#1d00fc',
-   *      sourceId: 'local-source-id',
-   *  });
-   *  console.log(result);   // 'CALENDAR_ID'
-   */
-  createCalendar(options: {
-    title: string;
-    color?: string;
-    sourceId?: string;
-  }): Promise<{ result: string }>;
-
-  /**
-   * Deletes a calendar by id
-   *
-   * @async
-   * @since 5.2.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> readCalendar, writeCalendar</li>
-   * </ul>
-   * @param {object} options Options for deleting a calendar.
-   * @param {string} options.id The id of the calendar to delete.
-   * @example
-   * await CapacitorCalendar.deleteCalendar({ id: 'ID_1' });
-   */
-  deleteCalendar(options: { id: string }): Promise<void>;
-
   /**
    * Retrieves the list of reminders present in the given date range.
    *

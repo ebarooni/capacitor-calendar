@@ -275,6 +275,28 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         }
     }
 
+    func openCalendar(input: OpenCalendarInput) async throws {
+        guard let url = URL(string: "calshow:\(input.getDate())") else {
+            throw PluginError.invalidUrl
+        }
+        guard await UIApplication.shared.canOpenURL(url) else {
+            throw PluginError.unableToOpenUrl
+        }
+        let success = await UIApplication.shared.open(url, options: [:])
+        if !success {
+            throw PluginError.failedToLaunchCalendar
+        }
+    }
+
+    func createCalendar(input: CreateCalendarInput) throws -> CreateCalendarResult {
+        let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
+        newCalendar.title = input.getTitle()
+        newCalendar.cgColor = input.getColor() ?? eventStore.defaultCalendarForNewEvents?.cgColor
+        newCalendar.source = eventStore.sources.first(where: { $0.sourceIdentifier == input.getSourceId() }) ?? eventStore.defaultCalendarForNewEvents?.source
+        try eventStore.saveCalendar(newCalendar, commit: true)
+        return try CreateCalendarResult(id: newCalendar.calendarIdentifier)
+    }
+
     func getDefaultCalendar() throws -> GetDefaultCalendarResult {
         return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewEvents)
     }
@@ -285,6 +307,14 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
 
     func getRemindersLists() throws -> ListCalendarsResult {
         return ListCalendarsResult(eventStore.calendars(for: .reminder))
+    }
+
+    func deleteCalendar(input: DeleteCalendarInput) throws {
+        if let calendar = eventStore.calendar(withIdentifier: input.getId()) {
+            try eventStore.removeCalendar(calendar, commit: true)
+        } else {
+            throw PluginError.calendarNotFound
+        }
     }
 
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {

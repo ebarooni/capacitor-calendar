@@ -77,16 +77,16 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
 - [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`openCalendar(...)`](#opencalendar)
+- [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
-- [`openCalendar(...)`](#opencalendar)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
-- [`createCalendar(...)`](#createcalendar)
-- [`deleteCalendar(...)`](#deletecalendar)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [`modifyReminder(...)`](#modifyreminder)
@@ -242,7 +242,7 @@ createEventWithPrompt(options?: CreateEventWithPromptOptions | undefined) => Pro
 ```
 
 Opens the system calendar interface to create a new event.
-On Android always return `null`.
+On Android always returns `null`.
 Fetch the events to find the ID of the newly created event.
 
 | Param         | Type                                                                                  |
@@ -398,6 +398,62 @@ Retrieves the default calendar.
 
 ---
 
+### openCalendar(...)
+
+```typescript
+openCalendar(options?: OpenCalendarOptions | undefined) => Promise<void>
+```
+
+Opens the calendar app.
+
+| Param         | Type                                                                |
+| ------------- | ------------------------------------------------------------------- |
+| **`options`** | <code><a href="#opencalendaroptions">OpenCalendarOptions</a></code> |
+
+**Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
+### createCalendar(...)
+
+```typescript
+createCalendar(options: CreateCalendarOptions) => Promise<{ id: string; }>
+```
+
+Creates a calendar.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createcalendaroptions">CreateCalendarOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
+
+**Since:** 5.2.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteCalendar(...)
+
+```typescript
+deleteCalendar(options: DeleteCalendarOptions) => Promise<void>
+```
+
+Deletes a calendar by id.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletecalendaroptions">DeleteCalendarOptions</a></code> |
+
+**Since:** 5.2.0
+
+**Platform:** Android, iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -480,23 +536,6 @@ Creates a reminder with the provided options.
 
 ---
 
-### openCalendar(...)
-
-```typescript
-openCalendar(options: { date?: number; }) => Promise<void>
-```
-
-Opens the calendar app. Since the user leaves your app, use this method with caution.
-It will open the calendar on today's date if no date is provided.
-
-| Param         | Type                            | Description                         |
-| ------------- | ------------------------------- | ----------------------------------- |
-| **`options`** | <code>{ date?: number; }</code> | - Options for opening the calendar. |
-
-**Platform:** iOS, Android
-
----
-
 ### listEventsInRange(...)
 
 ```typescript
@@ -534,44 +573,6 @@ Deletes events from the calendar given their IDs.
 **Since:** 0.11.0
 
 **Platform:** iOS, Android
-
----
-
-### createCalendar(...)
-
-```typescript
-createCalendar(options: { title: string; color?: string; sourceId?: string; }) => Promise<{ result: string; }>
-```
-
-Creates a calendar
-
-| Param         | Type                                                               | Description                      |
-| ------------- | ------------------------------------------------------------------ | -------------------------------- |
-| **`options`** | <code>{ title: string; color?: string; sourceId?: string; }</code> | Options for creating a calendar. |
-
-**Returns:** <code>Promise&lt;{ result: string; }&gt;</code>
-
-**Since:** 5.2.0
-
-**Platform:** iOS
-
----
-
-### deleteCalendar(...)
-
-```typescript
-deleteCalendar(options: { id: string; }) => Promise<void>
-```
-
-Deletes a calendar by id
-
-| Param         | Type                         | Description                      |
-| ------------- | ---------------------------- | -------------------------------- |
-| **`options`** | <code>{ id: string; }</code> | Options for deleting a calendar. |
-
-**Since:** 5.2.0
-
-**Platform:** iOS
 
 ---
 
@@ -749,6 +750,28 @@ Modifies a reminder given its id and update details.
 | ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
+
+#### OpenCalendarOptions
+
+| Prop       | Type                | Default                 | Since |
+| ---------- | ------------------- | ----------------------- | ----- |
+| **`date`** | <code>number</code> | <code>Date.now()</code> | 7.1.0 |
+
+#### CreateCalendarOptions
+
+| Prop               | Type                | Description                                                | Since | Platform     |
+| ------------------ | ------------------- | ---------------------------------------------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code> |                                                            | 5.2.0 | Android, iOS |
+| **`color`**        | <code>string</code> | The color of the calendar. Should be provided on Android.  | 5.2.0 | Android, iOS |
+| **`sourceId`**     | <code>string</code> |                                                            | 5.2.0 | iOS          |
+| **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
+| **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
+
+#### DeleteCalendarOptions
+
+| Prop     | Type                | Since |
+| -------- | ------------------- | ----- |
+| **`id`** | <code>string</code> | 7.1.0 |
 
 #### ReminderRecurrenceRule
 

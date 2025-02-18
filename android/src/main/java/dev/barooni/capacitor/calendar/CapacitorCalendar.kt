@@ -2,8 +2,6 @@ package dev.barooni.capacitor.calendar
 
 import android.content.ContentUris
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
@@ -11,50 +9,6 @@ import java.util.Calendar
 import java.util.TimeZone
 
 class CapacitorCalendar {
-    @Throws(Exception::class)
-    fun getDefaultCalendar(context: Context): JSObject? {
-        val projection =
-            arrayOf(
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-            )
-
-        val selection = "${CalendarContract.Calendars.IS_PRIMARY} = ?"
-        val selectionArgs = arrayOf("1")
-
-        context.contentResolver
-            .query(
-                CalendarContract.Calendars.CONTENT_URI,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-            )?.use { cursor ->
-                if (cursor.moveToFirst()) {
-                    val idColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars._ID)
-                    val nameColumnIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
-                    val id = cursor.getLong(idColumnIndex)
-                    val title = cursor.getString(nameColumnIndex)
-
-                    val calendarObject =
-                        JSObject().apply {
-                            put("id", id.toString())
-                            put("title", title)
-                        }
-                    return calendarObject
-                } else {
-                    return null
-                }
-            }
-        throw Exception("No primary calendar found")
-    }
-
-    @Throws(Exception::class)
-    fun openCalendar(timestamp: Long): Intent =
-        Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse("content://com.android.calendar/time/$timestamp")
-        }
-
     @Throws(Exception::class)
     fun listEventsInRange(
         context: Context,

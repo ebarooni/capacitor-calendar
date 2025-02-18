@@ -11,14 +11,18 @@ import dev.barooni.capacitor.calendar.CapacitorCalendarPlugin
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
+import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
+import dev.barooni.capacitor.calendar.models.results.CreateCalendarResult
 import dev.barooni.capacitor.calendar.models.results.CreateEventResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
 import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
@@ -133,5 +137,51 @@ class CapacitorCalendarNew(
         val calendars = ImplementationHelper.listCalendars(cr)
         val primaryCalendar = calendars.find { it.isPrimary == true }
         return GetDefaultCalendarResult(primaryCalendar)
+    }
+
+    fun openCalendar(input: OpenCalendarInput) {
+        val intent =
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("content://com.android.calendar/time/${input.date}")
+            }
+        plugin.activity.startActivity(intent)
+    }
+
+    fun createCalendar(input: CreateCalendarInput): CreateCalendarResult {
+        val values =
+            ContentValues().apply {
+                put(CalendarContract.Calendars.ACCOUNT_NAME, input.accountName)
+                put(CalendarContract.Calendars.ACCOUNT_TYPE, input.accountType)
+                put(CalendarContract.Calendars.NAME, input.title)
+                put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, input.title)
+                put(CalendarContract.Calendars.CALENDAR_COLOR, input.color)
+                put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, input.accessLevel)
+                put(CalendarContract.Calendars.OWNER_ACCOUNT, input.ownerAccount)
+                put(CalendarContract.Calendars.ALLOWED_REMINDERS, input.allowedReminders)
+                put(CalendarContract.Calendars.VISIBLE, 1)
+                put(CalendarContract.Calendars.SYNC_EVENTS, 1)
+            }
+
+        val uri: Uri =
+            CalendarContract.Calendars.CONTENT_URI
+                .buildUpon()
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, input.accountName)
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, input.accountType)
+                .build()
+
+        val cr = plugin.context.contentResolver
+        val calendarUri = cr.insert(uri, values)
+        return CreateCalendarResult(calendarUri?.lastPathSegment)
+    }
+
+    fun deleteCalendar(input: DeleteCalendarInput) {
+        val uri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
+        val cr = plugin.context.contentResolver
+        val rowsDeleted = cr.delete(uri, null, null)
+
+        if (rowsDeleted < 1) {
+            throw PluginError.FailedToDelete
+        }
     }
 }
