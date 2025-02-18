@@ -16,6 +16,9 @@ enum PluginError: LocalizedError {
     case failedToLaunchReminders
     case failedToLaunchCalendar
     case invalidColor
+    case calendarNotFound
+    case missingFrequency
+    case missingInterval
     case unimplemented(String)
     case customError(String)
 
@@ -39,6 +42,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Failed to retrieve calendar ID.", comment: "Failed to retrieve calendar ID error")
         case.eventNotFound:
             return NSLocalizedString("Event not found.", comment: "Event not found error")
+        case .calendarNotFound:
+            return NSLocalizedString("Calendar not found.", comment: "Calendar not found error")
         case .invalidUrl:
             return NSLocalizedString("Invalid URL.", comment: "Invalid URL error")
         case .unableToOpenUrl:
@@ -51,6 +56,10 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Invalid color format.", comment: "Invalid color format error")
         case .processFailed:
             return NSLocalizedString("Process failed.", comment: "Process failed error")
+        case .missingFrequency:
+            return NSLocalizedString("Frequency must be provided.", comment: "Frequency missing error")
+        case .missingInterval:
+            return NSLocalizedString("Interval must be provided.", comment: "Interval missing error")
         case .unimplemented(let methodName):
             return NSLocalizedString("\(methodName) is not implemented on iOS.", comment: "\(methodName) is not implemented on iOS")
         case .customError(let message):

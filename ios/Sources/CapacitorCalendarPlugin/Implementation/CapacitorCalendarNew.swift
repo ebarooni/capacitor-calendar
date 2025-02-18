@@ -309,6 +309,14 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         return ListCalendarsResult(eventStore.calendars(for: .reminder))
     }
 
+    func deleteCalendar(input: DeleteCalendarInput) throws {
+        if let calendar = eventStore.calendar(withIdentifier: input.getId()) {
+            try eventStore.removeCalendar(calendar, commit: true)
+        } else {
+            throw PluginError.calendarNotFound
+        }
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
