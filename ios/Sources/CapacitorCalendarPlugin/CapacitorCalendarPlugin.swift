@@ -245,58 +245,13 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
-    @objc public func createReminder (_ call: CAPPluginCall) {
-        guard let title = call.getString("title") else {
-            call.reject("[CapacitorCalendar.\(#function)] A title for the reminder was not provided")
-            return
-        }
-        let listId = call.getString("listId")
-        let priority = call.getInt("priority")
-        let isCompleted = call.getBool("isCompleted")
-        let startDate = call.getDouble("startDate")
-        let dueDate = call.getDouble("dueDate")
-        let completionDate = call.getDouble("completionDate")
-        let notes = call.getString("notes")
-        let url = call.getString("url")
-        let location = call.getString("location")
-
-        var recurrence: RecurrenceParameters?
-        if let recurrenceData = call.getObject("recurrence") {
-            guard let frequency = recurrenceData["frequency"] as? Int else {
-                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
-                return
-            }
-
-            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
-                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
-                return
-            }
-
-            let end = recurrenceData["end"] as? Double
-
-            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
-        }
-
-        let reminderParams = ReminderCreationParameters(
-            title: title,
-            listId: listId,
-            priority: priority,
-            isCompleted: isCompleted,
-            startDate: startDate,
-            dueDate: dueDate,
-            completionDate: completionDate,
-            notes: notes,
-            url: url,
-            location: location,
-            recurrence: recurrence
-        )
-
+    @objc public func createReminder(_ call: CAPPluginCall) {
         do {
-            let id = try reminders.createReminder(with: reminderParams)
-            call.resolve(["result": id])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to create reminder")
-            return
+            let input = try CreateReminderInput(call: call)
+            let result = try implementation.createReminder(input: input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
     }
 
