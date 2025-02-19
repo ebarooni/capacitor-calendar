@@ -41,37 +41,6 @@ public class CapacitorReminders: NSObject {
         }
     }
 
-    public func deleteRemindersById(ids: JSArray) async throws -> EventDeleteResults {
-        await withCheckedContinuation { continuation in
-
-            var deletedEvents: [String] = []
-            var failedToDeleteEvents: [String] = []
-
-            for id in ids {
-                guard let reminder = eventStore.calendarItem(withIdentifier: "\(id)") else {
-                    failedToDeleteEvents.append("\(id)")
-                    continue
-                }
-
-                do {
-                    try eventStore.remove(reminder as! EKReminder, commit: false)
-                    deletedEvents.append("\(id)")
-                } catch {
-                    failedToDeleteEvents.append("\(id)")
-                }
-            }
-
-            do {
-                try eventStore.commit()
-            } catch {
-                failedToDeleteEvents.append(contentsOf: deletedEvents)
-                deletedEvents.removeAll()
-            }
-
-            continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
-        }
-    }
-
     public func modifyReminder(id: String, update: ReminderCreationParameters) throws {
         guard let reminder = eventStore.calendarItem(withIdentifier: id) as? EKReminder else {
             throw CapacitorCalendarPluginError.undefinedEvent

@@ -1,5 +1,7 @@
 import type { CalendarSource } from "../schemas/interfaces/calendar-source";
 import type { CreateReminderOptions } from "../schemas/interfaces/create-reminder-options";
+import type { DeleteReminderOptions } from "../schemas/interfaces/delete-reminder-options";
+import type { DeleteRemindersByIdOptions } from "../schemas/interfaces/delete-reminders-by-id-options";
 import type { RemindersList } from "../schemas/interfaces/reminders-list";
 
 export interface RemindersOperations {
@@ -39,4 +41,29 @@ export interface RemindersOperations {
    * @since 0.5.0
    */
   createReminder(options: CreateReminderOptions): Promise<{ id: string }>;
+  /**
+   * Deletes multiple reminders.
+   *
+   * @deprecated Use `deleteReminder(...)`.
+   * @platform iOS
+   * @since 5.3.0
+   */
+  deleteRemindersById(
+    options: DeleteRemindersByIdOptions,
+  ): Promise<{ result: DeleteRemindersByIdResult }>;
+  /**
+   * Deletes a reminder.
+   *
+   * @platform iOS
+   * @since 7.1.0
+   */
+  deleteReminder(options: DeleteReminderOptions): Promise<void>;
+}
+
+/**
+ * @since 7.1.0
+ */
+export interface DeleteRemindersByIdResult {
+  deleted: string[];
+  failed: string[];
 }

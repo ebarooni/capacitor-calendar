@@ -13,9 +13,14 @@ export default tseslint.config(
   config.json,
   config.markdown,
   {
-    files: ["src/web.ts"],
+    files: ["**/*.ts"],
     rules: {
       "@typescript-eslint/no-deprecated": "off",
+    },
+  },
+  {
+    files: ["src/web.ts"],
+    rules: {
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
