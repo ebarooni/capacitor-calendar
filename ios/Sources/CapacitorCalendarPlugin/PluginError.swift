@@ -11,6 +11,7 @@ enum PluginError: LocalizedError {
     case failedToRetrieveEventId
     case failedToRetrieveCalendarId
     case eventNotFound
+    case reminderNotFound
     case invalidUrl
     case unableToOpenUrl
     case failedToLaunchReminders
@@ -40,8 +41,10 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Failed to retrieve event ID.", comment: "Failed to retrieve event ID error")
         case .failedToRetrieveCalendarId:
             return NSLocalizedString("Failed to retrieve calendar ID.", comment: "Failed to retrieve calendar ID error")
-        case.eventNotFound:
+        case .eventNotFound:
             return NSLocalizedString("Event not found.", comment: "Event not found error")
+        case .reminderNotFound:
+            return NSLocalizedString("Reminder not found", comment: "Reminder not found error")
         case .calendarNotFound:
             return NSLocalizedString("Calendar not found.", comment: "Calendar not found error")
         case .invalidUrl:

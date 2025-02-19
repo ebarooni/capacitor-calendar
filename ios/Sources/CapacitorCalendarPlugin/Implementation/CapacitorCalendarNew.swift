@@ -382,6 +382,19 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
+    
+    func deleteRemindersById(_ input: DeleteRemindersByIdInput) throws -> DeleteRemindersByIdResult {
+        var result = DeleteRemindersByIdResult()
+        input.getIds().forEach { id in
+            do {
+                try ImplementationHelper.deleteReminder(reminderId: id, eventStore: eventStore)
+                result.deleted(id)
+            } catch {
+                result.failed(id)
+            }
+        }
+        return result
+    }
 
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
         var selectCalendarsWithPromptCancellable: AnyCancellable?

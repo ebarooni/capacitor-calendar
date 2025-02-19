@@ -254,6 +254,16 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
+    
+    @objc public func deleteRemindersById(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteRemindersByIdInput(call: call)
+            let result = try implementation.deleteRemindersById(input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
 
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         guard let startDate = call.getDouble("startDate") else {
@@ -303,28 +313,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
                 try call.resolve(["result": await reminders.getRemindersFromLists(listIds: ids)])
             } catch {
                 call.reject("[CapacitorCalendar.\(#function)] Could not get the reminders from lists")
-                return
-            }
-        }
-    }
-
-    @objc public func deleteRemindersById(_ call: CAPPluginCall) {
-        guard let ids = call.getArray("ids") else {
-            call.reject("[CapacitorCalendar.\(#function)] Reminder ids were not provided")
-            return
-        }
-
-        Task {
-            do {
-                let deleteResult = try await reminders.deleteRemindersById(ids: ids)
-                call.resolve([
-                    "result": [
-                        "deleted": deleteResult.deleted,
-                        "failed": deleteResult.failed
-                    ]
-                ])
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Could not delete the reminders")
                 return
             }
         }

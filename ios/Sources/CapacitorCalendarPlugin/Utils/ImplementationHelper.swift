@@ -125,6 +125,13 @@ struct ImplementationHelper {
             ? String(format: "#%02lX%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255), lroundf(alpha * 255))
             : String(format: "#%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255))
     }
+    
+    static func deleteReminder(reminderId: String, eventStore: EKEventStore) throws {
+        guard let reminder = eventStore.calendarItem(withIdentifier: reminderId) as? EKReminder else {
+            throw PluginError.reminderNotFound
+        }
+        try eventStore.remove(reminder, commit: true)
+    }
 
     static func calendarsSetToJSArray(_ calendars: Set<EKCalendar>) -> [JSObject] {
         return calendars.map { ImplementationHelper.calendarToJSObject($0) }
