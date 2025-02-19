@@ -15,6 +15,8 @@ import type { CreateEventOptions } from "./schemas/interfaces/create-event-optio
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
+import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
+import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
 import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import { EventGuest } from "./schemas/interfaces/event-guest";
@@ -58,6 +60,8 @@ export type {
   ReminderRecurrenceRule,
   RecurrenceRule,
   CreateReminderOptions,
+  DeleteRemindersByIdOptions,
+  DeleteRemindersByIdResult,
 };
 export {
   CalendarPermissionScope,

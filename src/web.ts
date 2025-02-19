@@ -13,6 +13,8 @@ import type { CreateEventOptions } from "./schemas/interfaces/create-event-optio
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
+import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
+import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
@@ -146,6 +148,12 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.createReminder.name);
   }
 
+  public deleteRemindersById(
+    _options: DeleteRemindersByIdOptions,
+  ): Promise<{ result: DeleteRemindersByIdResult }> {
+    return this.throwUnimplemented(this.deleteRemindersById.name);
+  }
+
   public listEventsInRange(_options: {
     startDate: number;
     endDate: number;
@@ -168,14 +176,6 @@ export class CapacitorCalendarWeb
   }): Promise<{ result: Reminder[] }> {
     throw this.unimplemented(
       `${this.getRemindersFromLists.name} is not implemented on the web`,
-    );
-  }
-
-  public deleteRemindersById(_options: {
-    ids: string[];
-  }): Promise<{ result: { deleted: string[]; failed: string[] } }> {
-    throw this.unimplemented(
-      `${this.deleteRemindersById.name} is not implemented on the web`,
     );
   }
 
