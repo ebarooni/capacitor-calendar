@@ -9,53 +9,53 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
     private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
     private let modifyEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<ModifyEventWithPromptResult, Error>?, Never>(nil)
     private let selectCalendarsWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<SelectCalendarsWithPromptResult, Error>?, Never>(nil)
-
+    
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
     }
-
+    
     func checkPermission(input: CheckPermissionInput) throws -> CheckPermissionResult {
         let scope = input.getScope()
         let state: EKAuthorizationStatus
-
+        
         switch scope {
         case .readCalendar, .writeCalendar:
             state = EKEventStore.authorizationStatus(for: .event)
         case .readReminders, .writeReminders:
             state = EKEventStore.authorizationStatus(for: .reminder)
         }
-
+        
         let detectedState = try ImplementationHelper.permissionStateToResult(state: state, scope: scope)
         return CheckPermissionResult(status: detectedState)
     }
-
+    
     func checkAllPermissions() throws -> CheckAllPermissionsResult {
         let calendarState = EKEventStore.authorizationStatus(for: .event)
         let remindersState = EKEventStore.authorizationStatus(for: .reminder)
         var permissionsResult: [String: String] = [:]
-
+        
         for scope in CalendarPermissionScope.allCases {
             let state: EKAuthorizationStatus
-
+            
             switch scope {
             case .readCalendar, .writeCalendar:
                 state = calendarState
             case .readReminders, .writeReminders:
                 state = remindersState
             }
-
+            
             let detectedState = try ImplementationHelper.permissionStateToResult(state: state, scope: scope)
             permissionsResult[scope.rawValue] = detectedState.rawValue
         }
-
+        
         return CheckAllPermissionsResult(statesDict: permissionsResult)
     }
-
+    
     func requestionPermission(input: RequestPermissionInput) async throws -> RequestPermissionResult {
         let scope = input.getScope()
         var state: CAPPermissionState
         var result: RequestPermissionResult
-
+        
         switch scope {
         case .writeCalendar:
             state = try await ImplementationHelper.requestWriteOnlyCalendarAccess(eventStore: eventStore)
@@ -67,35 +67,35 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             state = try await ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
             result = RequestPermissionResult(state: state)
         }
-
+        
         return result
     }
-
+    
     func requestAllPermissions() async throws -> RequestAllPermissionsResult {
         let calendarState = try await ImplementationHelper.requestFullCalendarAccess(eventStore: eventStore)
         let remindersState = try await ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
         let result = RequestAllPermissionsResult(calendarState: calendarState, remindersState: remindersState)
         return result
     }
-
+    
     func requestWriteOnlyCalendarAccess() async throws -> RequestPermissionResult {
         let state = try await ImplementationHelper.requestWriteOnlyCalendarAccess(eventStore: eventStore)
         let result = RequestPermissionResult(state: state)
         return result
     }
-
+    
     func requestFullCalendarAccess() async throws -> RequestPermissionResult {
         let state = try await  ImplementationHelper.requestFullCalendarAccess(eventStore: eventStore)
         let result = RequestPermissionResult(state: state)
         return result
     }
-
+    
     func requestFullRemindersAccess() async throws -> RequestPermissionResult {
         let state = try await  ImplementationHelper.requestFullRemindersAccess(eventStore: eventStore)
         let result = RequestPermissionResult(state: state)
         return result
     }
-
+    
     func createEventWithPrompt(with input: CreateEventWithPromptInput) async throws -> CreateEventWithPromptResult {
         let event = EKEvent(eventStore: eventStore)
         event.title = input.getTitle()
@@ -113,7 +113,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
         }
-
+        
         return try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
                 let eventEditViewController = EKEventEditViewController()
@@ -126,7 +126,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
-
+    
     func modifyEventWithPrompt(input: ModifyEventWithPromptInput) async throws -> ModifyEventWithPromptResult {
         let event = try input.getEvent(from: eventStore)
         if let title = input.getTitle() {
@@ -174,7 +174,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
-
+    
     func createEvent(input: CreateEventInput) throws -> CreateEventResult {
         let event = EKEvent(eventStore: eventStore)
         event.title = input.getTitle()
@@ -192,11 +192,11 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         try eventStore.save(event, span: .thisEvent, commit: input.getCommit())
         return try CreateEventResult(id: event.eventIdentifier)
     }
-
+    
     func commit() throws {
         try eventStore.commit()
     }
-
+    
     func modifyEvent(input: ModifyEventInput) throws {
         let event = try input.getEvent(from: eventStore)
         if let title = input.getTitle() {
@@ -231,7 +231,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         }
         try eventStore.save(event, span: input.getSpan())
     }
-
+    
     func selectCalendarsWithPrompt(input: SelectCalendarsWithPromptInput) async throws -> SelectCalendarsWithPromptResult {
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
@@ -246,22 +246,22 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
                 calendarChooser.showsDoneButton = true
                 calendarChooser.showsCancelButton = true
                 calendarChooser.delegate = self
-
+                
                 viewController.present(UINavigationController(rootViewController: calendarChooser), animated: true) {
                     self.selectCalendarsWithPromptResultEmitter.send(continuation)
                 }
             }
         }
     }
-
+    
     func fetchAllCalendarSources() throws -> FetchAllCalendarSourcesResult {
         return FetchAllCalendarSourcesResult(eventStore.sources)
     }
-
+    
     func listCalendars() throws -> ListCalendarsResult {
         return ListCalendarsResult(eventStore.calendars(for: .event))
     }
-
+    
     func openReminders() async throws {
         guard let url = URL(string: "x-apple-reminderkit://") else {
             throw PluginError.invalidUrl
@@ -274,7 +274,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             throw PluginError.failedToLaunchReminders
         }
     }
-
+    
     func openCalendar(input: OpenCalendarInput) async throws {
         guard let url = URL(string: "calshow:\(input.getDate())") else {
             throw PluginError.invalidUrl
@@ -287,7 +287,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             throw PluginError.failedToLaunchCalendar
         }
     }
-
+    
     func createCalendar(input: CreateCalendarInput) throws -> CreateCalendarResult {
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = input.getTitle()
@@ -296,19 +296,19 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         try eventStore.saveCalendar(newCalendar, commit: true)
         return try CreateCalendarResult(id: newCalendar.calendarIdentifier)
     }
-
+    
     func getDefaultCalendar() throws -> GetDefaultCalendarResult {
         return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewEvents)
     }
-
+    
     func getDefaultRemindersList() throws -> GetDefaultCalendarResult {
         return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewReminders())
     }
-
+    
     func getRemindersLists() throws -> ListCalendarsResult {
         return ListCalendarsResult(eventStore.calendars(for: .reminder))
     }
-
+    
     func deleteCalendar(input: DeleteCalendarInput) throws {
         if let calendar = eventStore.calendar(withIdentifier: input.getId()) {
             try eventStore.removeCalendar(calendar, commit: true)
@@ -316,7 +316,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             throw PluginError.calendarNotFound
         }
     }
-
+    
     func createReminder(input: CreateReminderInput) throws -> CreateReminderResult {
         let reminder = EKReminder(eventStore: eventStore)
         reminder.title = input.getTitle()
@@ -344,7 +344,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         try eventStore.save(reminder, commit: true)
         return CreateReminderResult(reminder: reminder)
     }
-
+    
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
@@ -359,30 +359,30 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             @unknown default:
                 promise.resume(throwing: PluginError.processFailed)
             }
-
+            
             controller.dismiss(animated: true) {
                 createEventWithPromptCancellable?.cancel()
             }
         }
-
+        
         var modifyEventWithPromptCancellable: AnyCancellable?
         modifyEventWithPromptCancellable = self.modifyEventWithPromptResultEmitter.sink { promise in
             guard let promise = promise else {
                 return
             }
-
+            
             do {
                 promise.resume(returning: try ModifyEventWithPromptResult(action: action))
             } catch let error {
                 promise.resume(throwing: error)
             }
-
+            
             controller.dismiss(animated: true) {
                 modifyEventWithPromptCancellable?.cancel()
             }
         }
     }
-
+    
     func deleteRemindersById(_ input: DeleteRemindersByIdInput) throws -> DeleteRemindersByIdResult {
         var result = DeleteRemindersByIdResult()
         input.getIds().forEach { id in
@@ -394,6 +394,10 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
         return result
+    }
+    
+    func deleteReminder(_ input: DeleteReminderInput) throws -> Void {
+        try ImplementationHelper.deleteReminder(reminderId: input.getId(), eventStore: eventStore)
     }
 
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {

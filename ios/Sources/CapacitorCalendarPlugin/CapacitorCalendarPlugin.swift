@@ -264,6 +264,16 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
+    
+    @objc public func deleteReminder(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteReminderInput(call: call)
+            try implementation.deleteReminder(input)
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
 
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         guard let startDate = call.getDouble("startDate") else {
