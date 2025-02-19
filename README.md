@@ -86,6 +86,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
 - [`deleteRemindersById(...)`](#deleteremindersbyid)
+- [`deleteReminder(...)`](#deletereminder)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
@@ -556,6 +557,24 @@ Deletes multiple reminders.
 
 ---
 
+### deleteReminder(...)
+
+```typescript
+deleteReminder(options: DeleteReminderOptions) => Promise<void>
+```
+
+Deletes a reminder.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletereminderoptions">DeleteReminderOptions</a></code> |
+
+**Since:** 7.1.0
+
+**Platform:** iOS
+
+---
+
 ### listEventsInRange(...)
 
 ```typescript
@@ -810,6 +829,12 @@ Modifies a reminder given its id and update details.
 | Prop      | Type                  | Since |
 | --------- | --------------------- | ----- |
 | **`ids`** | <code>string[]</code> | 7.1.0 |
+
+#### DeleteReminderOptions
+
+| Prop     | Type                | Since |
+| -------- | ------------------- | ----- |
+| **`id`** | <code>string</code> | 7.1.0 |
 
 #### CalendarEvent
 
