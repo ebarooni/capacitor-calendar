@@ -128,7 +128,6 @@ export interface CapacitorCalendarPlugin
       notes?: string;
       url?: string;
       location?: string;
-      // eslint-disable-next-line @typescript-eslint/no-deprecated
       recurrence?: ReminderRecurrenceRule;
     };
   }): Promise<void>;

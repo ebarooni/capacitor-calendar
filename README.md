@@ -85,10 +85,10 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
 - [`getRemindersLists()`](#getreminderslists)
 - [`createReminder(...)`](#createreminder)
+- [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [`listEventsInRange(...)`](#listeventsinrange)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
-- [`deleteRemindersById(...)`](#deleteremindersbyid)
 - [`modifyReminder(...)`](#modifyreminder)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
@@ -536,6 +536,26 @@ Creates a reminder.
 
 ---
 
+### deleteRemindersById(...)
+
+```typescript
+deleteRemindersById(options: DeleteRemindersByIdOptions) => Promise<{ result: DeleteRemindersByIdResult; }>
+```
+
+Deletes multiple reminders.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteremindersbyidoptions">DeleteRemindersByIdOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#deleteremindersbyidresult">DeleteRemindersByIdResult</a>; }&gt;</code>
+
+**Since:** 5.3.0
+
+**Platform:** iOS
+
+---
+
 ### listEventsInRange(...)
 
 ```typescript
@@ -589,26 +609,6 @@ Retrieves the list of reminders present in the given date range.
 | **`options`** | <code>{ listIds: string[]; }</code> | Options for defining the date range. It Will fetch all reminders from all available lists if not provided. (Optional) |
 
 **Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
-
-**Since:** 5.3.0
-
-**Platform:** iOS
-
----
-
-### deleteRemindersById(...)
-
-```typescript
-deleteRemindersById(options: { ids: string[]; }) => Promise<{ result: { deleted: string[]; failed: string[]; }; }>
-```
-
-Deletes reminders given their IDs.
-
-| Param         | Type                            | Description                        |
-| ------------- | ------------------------------- | ---------------------------------- |
-| **`options`** | <code>{ ids: string[]; }</code> | Options for defining reminder IDs. |
-
-**Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
 
 **Since:** 5.3.0
 
@@ -797,6 +797,19 @@ Modifies a reminder given its id and update details.
 | **`frequency`** | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> |                                                                                    | 7.1.0 |
 | **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 |
 | **`end`**       | <code>number</code>                                                 | Timestamp of when the recurrence ends.                                             | 7.1.0 |
+
+#### DeleteRemindersByIdResult
+
+| Prop          | Type                  |
+| ------------- | --------------------- |
+| **`deleted`** | <code>string[]</code> |
+| **`failed`**  | <code>string[]</code> |
+
+#### DeleteRemindersByIdOptions
+
+| Prop      | Type                  | Since |
+| --------- | --------------------- | ----- |
+| **`ids`** | <code>string[]</code> | 7.1.0 |
 
 #### CalendarEvent
 

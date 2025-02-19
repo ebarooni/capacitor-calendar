@@ -382,7 +382,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
-    
+
     func deleteRemindersById(_ input: DeleteRemindersByIdInput) throws -> DeleteRemindersByIdResult {
         var result = DeleteRemindersByIdResult()
         input.getIds().forEach { id in
