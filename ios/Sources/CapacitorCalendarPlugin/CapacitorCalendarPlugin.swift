@@ -9,7 +9,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     private lazy var implementation = CapacitorCalendarNew(plugin: self)
     private let eventStore = EKEventStore()
     private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.implementation.eventStore)
-    private lazy var reminders = CapacitorReminders(eventStore: self.implementation.eventStore)
 
     @objc public func checkPermission(_ call: CAPPluginCall) {
         do {
@@ -275,6 +274,38 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func modifyReminder(_ call: CAPPluginCall) {
+        do {
+            let input = try ModifyReminderInput(call: call)
+            try implementation.modifyReminder(input)
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    @objc public func getReminderById(_ call: CAPPluginCall) {
+        do {
+            let input = try GetReminderByIdInput(call: call)
+            let result = try implementation.getReminderById(input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+
+    @objc public func getRemindersFromLists(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let input = try GetRemindersFromListsInput(call: call)
+                let result = try await implementation.getRemindersFromLists(input)
+                call.resolve(result.toJSON())
+            } catch let error {
+                call.reject(error.localizedDescription)
+            }
+        }
+    }
+
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         guard let startDate = call.getDouble("startDate") else {
             call.reject("[CapacitorCalendar.\(#function)] A start date was not provided")
@@ -312,77 +343,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.reject("[CapacitorCalendar.\(#function)] Could not delete events")
                 return
             }
-        }
-    }
-
-    @objc public func getRemindersFromLists(_ call: CAPPluginCall) {
-        let ids = call.getArray("listIds")
-
-        Task {
-            do {
-                try call.resolve(["result": await reminders.getRemindersFromLists(listIds: ids)])
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Could not get the reminders from lists")
-                return
-            }
-        }
-    }
-
-    @objc public func modifyReminder(_ call: CAPPluginCall) {
-        guard let reminderId = call.getString("id") else {
-            call.reject("[CapacitorCalendar.\(#function)] An id for the reminder was not provided")
-            return
-        }
-        guard let update = call.getObject("update") else {
-            call.reject("[CapacitorCalendar.\(#function)] An update for the reminder was not provided")
-            return
-        }
-        let title = update["title"] as? String
-        let listId = update["listId"] as? String
-        let priority = update["priority"] as? Int
-        let isCompleted = update["isCompleted"] as? Bool
-        let startDate = update["startDate"] as? Double
-        let dueDate = update["dueDate"] as? Double
-        let completionDate = update["completionDate"] as? Double
-        let notes = update["notes"] as? String
-        let url = update["url"] as? String
-        let location = update["location"] as? String
-        var recurrence: RecurrenceParameters?
-        if let recurrenceData = update["recurrence"] as? JSObject {
-            guard let frequency = recurrenceData["frequency"] as? Int else {
-                call.reject("[CapacitorCalendar.\(#function)] Frequency must be provided when using recurrence")
-                return
-            }
-
-            guard let interval = recurrenceData["interval"] as? Int, interval > 0 else {
-                call.reject("[CapacitorCalendar.\(#function)] Interval must be greater than 0 when using recurrence")
-                return
-            }
-
-            let end = recurrenceData["end"] as? Double
-
-            recurrence = RecurrenceParameters(frequency: frequency, interval: interval, end: end)
-        }
-
-        do {
-            let reminderUpdate = ReminderCreationParameters(
-                title: title,
-                listId: listId,
-                priority: priority,
-                isCompleted: isCompleted,
-                startDate: startDate,
-                dueDate: dueDate,
-                completionDate: completionDate,
-                notes: notes,
-                url: url,
-                location: location,
-                recurrence: recurrence
-            )
-            try reminders.modifyReminder(id: reminderId, update: reminderUpdate)
-            call.resolve()
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Unable to modify reminder")
-            return
         }
     }
 }

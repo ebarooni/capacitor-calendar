@@ -320,7 +320,10 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
     func createReminder(input: CreateReminderInput) throws -> CreateReminderResult {
         let reminder = EKReminder(eventStore: eventStore)
         reminder.title = input.getTitle()
-        if let listId = input.getListId(from: eventStore), let list = eventStore.calendar(withIdentifier: listId) {
+        if let listId = input.getListId(from: eventStore) {
+            guard let list = eventStore.calendar(withIdentifier: listId) else {
+                throw PluginError.listNotFound
+            }
             reminder.calendar = list
         }
         if let prio = input.getPriority() {
@@ -343,6 +346,84 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         reminder.recurrenceRules = input.getRecurrenceRule()
         try eventStore.save(reminder, commit: true)
         return CreateReminderResult(reminder: reminder)
+    }
+
+    func deleteRemindersById(_ input: DeleteRemindersByIdInput) throws -> DeleteRemindersByIdResult {
+        var result = DeleteRemindersByIdResult()
+        input.getIds().forEach { id in
+            do {
+                try ImplementationHelper.deleteReminder(reminderId: id, eventStore: eventStore)
+                result.deleted(id)
+            } catch {
+                result.failed(id)
+            }
+        }
+        return result
+    }
+
+    func deleteReminder(_ input: DeleteReminderInput) throws {
+        try ImplementationHelper.deleteReminder(reminderId: input.getId(), eventStore: eventStore)
+    }
+
+    func modifyReminder(_ input: ModifyReminderInput) throws {
+        guard let reminder = eventStore.calendarItem(withIdentifier: input.getId()) as? EKReminder else {
+            throw PluginError.reminderNotFound
+        }
+        if let title = input.getTitle() {
+            reminder.title = title
+        }
+        if let listId = input.getListId() {
+            guard let list = eventStore.calendar(withIdentifier: listId) else {
+                throw PluginError.listNotFound
+            }
+            reminder.calendar = list
+        }
+        if let prio = input.getPriority() {
+            reminder.priority = prio
+        }
+        if let isCompleted = input.getIsCompleted() {
+            reminder.isCompleted = isCompleted
+        }
+        if let startDate = input.getStartDate() {
+            reminder.startDateComponents = startDate
+        }
+        if let deuDate = input.getDueDate() {
+            reminder.dueDateComponents = deuDate
+        }
+        if let completionDate = input.getCompletionDate() {
+            reminder.completionDate = completionDate
+        }
+        if let notes = input.getNotes() {
+            reminder.notes = notes
+        }
+        if let url = input.getUrl() {
+            reminder.url = url
+        }
+        if let location = input.getLocation() {
+            reminder.location = location
+        }
+        if let alarms = input.getAlerts() {
+            reminder.alarms = alarms
+        }
+        if let recurrenceRule = input.getRecurrenceRule() {
+            reminder.recurrenceRules = recurrenceRule
+        }
+        try eventStore.save(reminder, commit: true)
+    }
+
+    func getReminderById(_ input: GetReminderByIdInput) throws -> GetReminderByIdResult {
+        let reminder = eventStore.calendarItem(withIdentifier: input.getId()) as? EKReminder
+        return try GetReminderByIdResult(reminder: reminder)
+    }
+
+    func getRemindersFromLists(_ input: GetRemindersFromListsInput) async throws -> GetRemindersFromListsResult {
+        let lists = try input.getLists(from: eventStore)
+        let predicate = eventStore.predicateForReminders(in: lists)
+        return try await withCheckedThrowingContinuation { continuation in
+            eventStore.fetchReminders(matching: predicate) { reminders in
+                continuation.resume(returning: GetRemindersFromListsResult(reminders: reminders))
+            }
+        }
     }
 
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
@@ -381,23 +462,6 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
                 modifyEventWithPromptCancellable?.cancel()
             }
         }
-    }
-
-    func deleteRemindersById(_ input: DeleteRemindersByIdInput) throws -> DeleteRemindersByIdResult {
-        var result = DeleteRemindersByIdResult()
-        input.getIds().forEach { id in
-            do {
-                try ImplementationHelper.deleteReminder(reminderId: id, eventStore: eventStore)
-                result.deleted(id)
-            } catch {
-                result.failed(id)
-            }
-        }
-        return result
-    }
-
-    func deleteReminder(_ input: DeleteReminderInput) throws {
-        try ImplementationHelper.deleteReminder(reminderId: input.getId(), eventStore: eventStore)
     }
 
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {

@@ -1,10 +1,8 @@
-import { CalendarAccess } from "./sub-definitions/calendar-access";
+import type { CalendarAccess } from "./sub-definitions/calendar-access";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
 import type { CalendarOperations } from "./sub-definitions/calendar-operations";
-import { EventOperations } from "./sub-definitions/event-operations";
-import type { Reminder } from "./schemas/interfaces/reminder";
-import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
-import { RemindersAccess } from "./sub-definitions/reminders-access";
+import type { EventOperations } from "./sub-definitions/event-operations";
+import type { RemindersAccess } from "./sub-definitions/reminders-access";
 import type { RemindersOperations } from "./sub-definitions/reminders-operations";
 
 export interface CapacitorCalendarPlugin
@@ -66,69 +64,4 @@ export interface CapacitorCalendarPlugin
   deleteEventsById(options: {
     ids: string[];
   }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
-  /**
-   * Retrieves the list of reminders present in the given date range.
-   *
-   * @async
-   * @since 5.3.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> readReminders</li>
-   * </ul>
-   * @param {object} options Options for defining the date range.
-   * It Will fetch all reminders from all available lists if not provided. (Optional)
-   * @param {string[]} options.listIds An array of reminder list ids.
-   * @returns {Promise<{ result: Reminder[] }>} A Promise that resolves with the list of reminders.
-   * @example
-   * const now = Date.now();
-   * const { result } = await CapacitorCalendar.getRemindersFromLists({
-   *   listIds: ['LIST_ID_1', 'LIST_ID_2'],
-   * });
-   */
-  getRemindersFromLists(options?: {
-    listIds: string[];
-  }): Promise<{ result: Reminder[] }>;
-  /**
-   * Modifies a reminder given its id and update details.
-   *
-   * @async
-   * @since 6.7.0
-   * @platform iOS
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeReminders, readReminders</li>
-   * </ul>
-   * @param {Object} options The options for updating a reminder.
-   * @param {string} options.id The id of the reminder to be modified.
-   * @param {Object} options.update The set of reminder properties to be modified.
-   * @returns {Promise<void>} A promise that resolves when the update operation is complete.
-   * @throws {Error} throws an error if an event for the given id is not found.
-   * @example
-   * const { result } = await CapacitorCalendar.reminder({
-   *   id: 'REMINDER_ID_ONE',
-   *   update: {
-   *     title: 'newTitle',
-   *     isCompleted: true
-   *   },
-   * });
-   */
-  modifyReminder(options: {
-    id: string;
-    update: {
-      title?: string;
-      listId?: string;
-      priority?: number;
-      isCompleted?: boolean;
-      startDate?: number;
-      dueDate?: number;
-      completionDate?: number;
-      notes?: string;
-      url?: string;
-      location?: string;
-      recurrence?: ReminderRecurrenceRule;
-    };
-  }): Promise<void>;
 }
