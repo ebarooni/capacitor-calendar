@@ -359,6 +359,21 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented(PluginError.Unimplemented(::deleteReminder.name).message)
     }
 
+    @PluginMethod
+    fun modifyReminder(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::modifyReminder.name).message)
+    }
+
+    @PluginMethod
+    fun getReminderById(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::getReminderById.name).message)
+    }
+
+    @PluginMethod
+    fun getRemindersFromLists(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::getRemindersFromLists.name).message)
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listEventsInRange(call: PluginCall) {
         try {
@@ -390,11 +405,5 @@ class CapacitorCalendarPlugin : Plugin() {
             call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
         }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun getRemindersFromLists(call: PluginCall) {
-        call.unimplemented("[CapacitorCalendar.${::getRemindersFromLists.name}] Not implemented on Android")
-        return
     }
 }

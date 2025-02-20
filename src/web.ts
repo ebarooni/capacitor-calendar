@@ -17,11 +17,13 @@ import type { DeleteReminderOptions } from "./schemas/interfaces/delete-reminder
 import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
 import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
+import type { GetReminderByIdOptions } from "./schemas/interfaces/get-reminder-by-id-options";
+import type { GetRemindersFromListsOptions } from "./schemas/interfaces/get-reminders-from-lists-options";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
+import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
 import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
 import type { Reminder } from "./schemas/interfaces/reminder";
-import type { ReminderRecurrenceRule } from "./schemas/interfaces/reminder-recurrence-rule";
 import type { RemindersList } from "./schemas/interfaces/reminders-list";
 import type { SelectCalendarsWithPromptOptions } from "./schemas/interfaces/select-calendars-with-prompt-options";
 
@@ -159,6 +161,22 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.deleteReminder.name);
   }
 
+  public modifyReminder(_options: ModifyReminderOptions): Promise<void> {
+    return this.throwUnimplemented(this.modifyReminder.name);
+  }
+
+  public getReminderById(
+    _options: GetReminderByIdOptions,
+  ): Promise<{ result: Reminder | null }> {
+    return this.throwUnimplemented(this.getReminderById.name);
+  }
+
+  public getRemindersFromLists(
+    _options: GetRemindersFromListsOptions,
+  ): Promise<{ result: Reminder[] }> {
+    return this.throwUnimplemented(this.getRemindersFromLists.name);
+  }
+
   public listEventsInRange(_options: {
     startDate: number;
     endDate: number;
@@ -173,35 +191,6 @@ export class CapacitorCalendarWeb
   }> {
     throw this.unimplemented(
       `${this.deleteEventsById.name} is not implemented on the web`,
-    );
-  }
-
-  public getRemindersFromLists(_options?: {
-    listIds: string[];
-  }): Promise<{ result: Reminder[] }> {
-    throw this.unimplemented(
-      `${this.getRemindersFromLists.name} is not implemented on the web`,
-    );
-  }
-
-  modifyReminder(_options: {
-    id: string;
-    update: {
-      title?: string;
-      listId?: string;
-      priority?: number;
-      isCompleted?: boolean;
-      startDate?: number;
-      dueDate?: number;
-      completionDate?: number;
-      notes?: string;
-      url?: string;
-      location?: string;
-      recurrence?: ReminderRecurrenceRule;
-    };
-  }): Promise<void> {
-    throw this.unimplemented(
-      `${this.modifyReminder.name} is not implemented on the web`,
     );
   }
 
