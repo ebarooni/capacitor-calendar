@@ -41,9 +41,10 @@ Changelogs for the versions supporting Capacitor 7.
 ### Added
 
 - `commit()` method to apply changes to the calendar at a later time
-- `createCalendar` on Android.
-- `deleteCalendar` on Android.
-- `deleteReminder` on iOS to delete a single reminder.
+- `createCalendar` on Android
+- `deleteCalendar` on Android
+- `deleteReminder` on iOS to delete a single reminder
+- `getReminderById` on iOS
 
 ### Changed
 
