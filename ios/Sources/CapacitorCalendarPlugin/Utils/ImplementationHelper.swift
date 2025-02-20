@@ -176,4 +176,73 @@ struct ImplementationHelper {
             "type": source.sourceType.rawValue
         ]
     }
+
+    static func reminderToJSObject(_ reminder: EKReminder) -> JSObject {
+        var reminderObject: JSObject = [
+            "id": reminder.calendarItemIdentifier,
+            "title": reminder.title ?? NSNull(),
+            "listId": reminder.calendar?.calendarIdentifier ?? NSNull(),
+            "isCompleted": reminder.isCompleted,
+            "priority": reminder.priority ?? NSNull(),
+            "notes": reminder.notes ?? NSNull(),
+            "location": reminder.location ?? NSNull(),
+            "url": reminder.url?.absoluteString ?? NSNull(),
+            "startDate": ImplementationHelper.dateComponentToMillis(reminder.startDateComponents) ?? NSNull(),
+            "dueDate": ImplementationHelper.dateComponentToMillis(reminder.dueDateComponents) ?? NSNull(),
+            "completionDate": ImplementationHelper.dateToMillis(reminder.completionDate) ?? NSNull(),
+            "recurrence": ImplementationHelper.recurrenceRulesToJSObject(reminder.recurrenceRules),
+            "alerts": ImplementationHelper.alarmsToJSObject(reminder.alarms)
+        ]
+
+        return reminderObject
+    }
+
+    static func dateComponentToMillis(_ dateComponent: DateComponents?) -> Double? {
+        guard let dateComponent = dateComponent else {
+            return nil
+        }
+        let calendar = Calendar.current
+        if let date = calendar.date(from: dateComponent) {
+            return date.timeIntervalSince1970 * 1000
+        } else {
+            return nil
+        }
+    }
+
+    static func dateToMillis(_ date: Date?) -> Double? {
+        guard let date = date else {
+            return nil
+        }
+        return date.timeIntervalSince1970 * 1000
+    }
+
+    static func recurrenceRulesToJSObject(_ rules: [EKRecurrenceRule]?) -> JSArray {
+        var result = JSArray()
+        guard let rules = rules else {
+            return result
+        }
+        rules.forEach { rule in
+            var obj = JSObject()
+            obj["frequency"] = rule.frequency.rawValue
+            obj["interval"] = rule.interval
+            if let recurrenceEnd = rule.recurrenceEnd {
+                obj["end"] = ImplementationHelper.dateToMillis(recurrenceEnd.endDate) ?? NSNull()
+            } else {
+                obj["end"] = NSNull()
+            }
+            result.append(obj)
+        }
+        return result
+    }
+
+    static func alarmsToJSObject(_ alarms: [EKAlarm]?) -> JSArray {
+        var result = JSArray()
+        guard let alarms = alarms else {
+            return result
+        }
+        alarms.forEach { alarm in
+            result.append(alarm.relativeOffset / 60)
+        }
+        return result
+    }
 }

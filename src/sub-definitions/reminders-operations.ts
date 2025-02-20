@@ -2,6 +2,10 @@ import type { CalendarSource } from "../schemas/interfaces/calendar-source";
 import type { CreateReminderOptions } from "../schemas/interfaces/create-reminder-options";
 import type { DeleteReminderOptions } from "../schemas/interfaces/delete-reminder-options";
 import type { DeleteRemindersByIdOptions } from "../schemas/interfaces/delete-reminders-by-id-options";
+import type { GetReminderByIdOptions } from "../schemas/interfaces/get-reminder-by-id-options";
+import type { GetRemindersFromListsOptions } from "../schemas/interfaces/get-reminders-from-lists-options";
+import type { ModifyReminderOptions } from "../schemas/interfaces/modify-reminder-options";
+import type { Reminder } from "../schemas/interfaces/reminder";
 import type { RemindersList } from "../schemas/interfaces/reminders-list";
 
 export interface RemindersOperations {
@@ -58,6 +62,31 @@ export interface RemindersOperations {
    * @since 7.1.0
    */
   deleteReminder(options: DeleteReminderOptions): Promise<void>;
+  /**
+   * Modifies a reminder.
+   *
+   * @platform iOS
+   * @since 6.7.0
+   */
+  modifyReminder(options: ModifyReminderOptions): Promise<void>;
+  /**
+   * Retrieve a reminder by ID.
+   *
+   * @platform iOS
+   * @since 7.1.0
+   */
+  getReminderById(
+    options: GetReminderByIdOptions,
+  ): Promise<{ result: Reminder | null }>;
+  /**
+   * Retrieves reminders from multiple lists.
+   *
+   * @platform iOS
+   * @since 5.3.0
+   */
+  getRemindersFromLists(
+    options: GetRemindersFromListsOptions,
+  ): Promise<{ result: Reminder[] }>;
 }
 
 /**

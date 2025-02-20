@@ -7,6 +7,7 @@ enum PluginError: LocalizedError {
     case viewControllerMissing
     case processFailed
     case idMissing
+    case listIdsMissing
     case titleMissing
     case failedToRetrieveEventId
     case failedToRetrieveCalendarId
@@ -18,6 +19,7 @@ enum PluginError: LocalizedError {
     case failedToLaunchCalendar
     case invalidColor
     case calendarNotFound
+    case listNotFound
     case missingFrequency
     case missingInterval
     case unimplemented(String)
@@ -35,6 +37,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Missing view controller.", comment: "View controller missing error")
         case .idMissing:
             return NSLocalizedString("Event ID must be provided.", comment: "Event ID missing error")
+        case .listIdsMissing:
+            return NSLocalizedString("List IDs must be provided.", comment: "List IDs missing error")
         case .titleMissing:
             return NSLocalizedString("Title must be provided.", comment: "Title missing error")
         case .failedToRetrieveEventId:
@@ -47,6 +51,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Reminder not found", comment: "Reminder not found error")
         case .calendarNotFound:
             return NSLocalizedString("Calendar not found.", comment: "Calendar not found error")
+        case .listNotFound:
+            return NSLocalizedString("List not found.", comment: "List not found error")
         case .invalidUrl:
             return NSLocalizedString("Invalid URL.", comment: "Invalid URL error")
         case .unableToOpenUrl:

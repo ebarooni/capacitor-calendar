@@ -1,11 +1,12 @@
 import Capacitor
 import EventKit
 
-struct CreateReminderInput {
-    private let title: String
+struct ModifyReminderInput {
+    private let id: String
+    private let title: String?
     private let listId: String?
     private let priority: Int?
-    private let isCompleted: Bool
+    private let isCompleted: Bool?
     private let startDate: Double?
     private let dueDate: Double?
     private let completionDate: Double?
@@ -18,13 +19,14 @@ struct CreateReminderInput {
     private let alerts: [Double]?
 
     init(call: CAPPluginCall) throws {
-        guard let title = call.getString("title") else {
-            throw PluginError.titleMissing
+        guard let id = call.getString("id") else {
+            throw PluginError.idMissing
         }
-        self.title = title
+        self.id = id
+        self.title = call.getString("title")
         self.listId = call.getString("listId")
         self.priority = call.getInt("priority")
-        self.isCompleted = call.getBool("isCompleted") ?? false
+        self.isCompleted = call.getBool("isCompleted")
         self.startDate = call.getDouble("startDate")
         self.dueDate = call.getDouble("dueDate")
         self.completionDate = call.getDouble("completionDate")
@@ -45,23 +47,23 @@ struct CreateReminderInput {
         self.alerts = call.getArray("alerts") as? [Double]
     }
 
-    func getTitle() -> String {
+    func getId() -> String {
+        return id
+    }
+
+    func getTitle() -> String? {
         return title
     }
 
-    func getListId(from eventStore: EKEventStore) -> String? {
-        if let id = listId {
-            return id
-        } else {
-            return eventStore.defaultCalendarForNewReminders()?.calendarIdentifier
-        }
+    func getListId() -> String? {
+        return listId
     }
 
     func getPriority() -> Int? {
         return priority
     }
 
-    func getIsCompleted() -> Bool {
+    func getIsCompleted() -> Bool? {
         return isCompleted
     }
 

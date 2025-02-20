@@ -22,8 +22,11 @@ import { EventAvailability } from "./schemas/enums/event-availability";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import { EventGuest } from "./schemas/interfaces/event-guest";
 import { EventSpan } from "./schemas/enums/event-span";
+import type { GetReminderByIdOptions } from "./schemas/interfaces/get-reminder-by-id-options";
+import type { GetRemindersFromListsOptions } from "./schemas/interfaces/get-reminders-from-lists-options";
 import { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
+import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
 import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
 import { RecurrenceFrequency } from "./schemas/enums/recurrence-frequency";
 import type { RecurrenceRule } from "./schemas/interfaces/recurrence-rule";
@@ -64,6 +67,10 @@ export type {
   DeleteRemindersByIdOptions,
   DeleteRemindersByIdResult,
   DeleteReminderOptions,
+  ModifyReminderOptions,
+  GetReminderByIdOptions,
+  Reminder,
+  GetRemindersFromListsOptions,
 };
 export {
   CalendarPermissionScope,
@@ -75,6 +82,5 @@ export {
   ReminderRecurrenceFrequency,
   RecurrenceFrequency,
   CalendarEvent,
-  Reminder,
   CapacitorCalendar,
 };
