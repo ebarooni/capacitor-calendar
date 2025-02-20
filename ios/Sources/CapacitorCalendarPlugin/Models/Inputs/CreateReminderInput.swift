@@ -113,5 +113,4 @@ struct CreateReminderInput {
         let recurrenceEnd = end.flatMap { EKRecurrenceEnd(end: ImplementationHelper.dateFromTimestamp($0)) }
         return [EKRecurrenceRule(recurrenceWith: frequency, interval: interval, end: recurrenceEnd)]
     }
-
 }
