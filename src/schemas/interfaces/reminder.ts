@@ -19,7 +19,7 @@ export interface Reminder {
   /**
    * @since 7.1.0
    */
-  isCompleted?: boolean;
+  isCompleted: boolean;
   /**
    * @since 7.1.0
    */
@@ -51,7 +51,7 @@ export interface Reminder {
   /**
    * @since 7.1.0
    */
-  recurrence: RecurrenceRule | null;
+  recurrence: RecurrenceRule[];
   /**
    * @since 7.1.0
    */
