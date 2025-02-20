@@ -15,6 +15,8 @@ import type { CreateEventOptions } from "./schemas/interfaces/create-event-optio
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
+import type { DeleteEventsByIdOptions } from "./schemas/interfaces/delete-events-by-id-options";
+import type { DeleteEventsByIdResult } from "./sub-definitions/event-operations";
 import type { DeleteReminderOptions } from "./schemas/interfaces/delete-reminder-options";
 import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
 import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
@@ -71,6 +73,8 @@ export type {
   GetReminderByIdOptions,
   Reminder,
   GetRemindersFromListsOptions,
+  DeleteEventsByIdOptions,
+  DeleteEventsByIdResult,
 };
 export {
   CalendarPermissionScope,

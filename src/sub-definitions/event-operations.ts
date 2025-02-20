@@ -1,5 +1,6 @@
 import type { CreateEventOptions } from "../schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
+import type { DeleteEventsByIdOptions } from "../schemas/interfaces/delete-events-by-id-options";
 import type { EventEditAction } from "../schemas/types/event-edit-action";
 import type { ModifyEventOptions } from "../schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
@@ -54,4 +55,28 @@ export interface EventOperations {
    * @since 6.6.0
    */
   modifyEvent(options: ModifyEventOptions): Promise<void>;
+  /**
+   * Deletes multiple events.
+   *
+   * @deprecated Use `deleteEvent(...)`.
+   * @platform Android, iOS
+   * @since 0.11.0
+   */
+  deleteEventsById(
+    options: DeleteEventsByIdOptions,
+  ): Promise<{ result: DeleteEventsByIdResult }>;
+}
+
+/**
+ * @since 7.1.0
+ */
+export interface DeleteEventsByIdResult {
+  /**
+   * @since 7.1.0
+   */
+  deleted: string[];
+  /**
+   * @since 7.1.0
+   */
+  failed: string[];
 }
