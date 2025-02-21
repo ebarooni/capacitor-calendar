@@ -17,6 +17,9 @@ import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -374,6 +377,43 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented(PluginError.Unimplemented(::getRemindersFromLists.name).message)
     }
 
+    @PluginMethod
+    fun deleteEventsById(call: PluginCall) {
+        try {
+            val input = DeleteEventsByIdInput(call)
+            val result = implementationNew.deleteEventsById(input)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun deleteEvent(call: PluginCall) {
+        try {
+            val input = DeleteEventInput(call)
+            implementationNew.deleteEvent(input)
+            call.resolve()
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun deleteEventWithPrompt(call: PluginCall) {
+        try {
+            val input = DeleteEventWithPromptInput(call)
+            implementationNew.deleteEventWithPrompt(
+                input,
+                onComplete = { result ->
+                    call.resolve(result.toJSON())
+                },
+            )
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listEventsInRange(call: PluginCall) {
         try {
@@ -388,21 +428,6 @@ class CapacitorCalendarPlugin : Plugin() {
             call.resolve(ret)
         } catch (error: Exception) {
             call.reject("", "[CapacitorCalendar.${::listEventsInRange.name}] Could not get the list of events in requested range")
-            return
-        }
-    }
-
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
-    fun deleteEventsById(call: PluginCall) {
-        try {
-            val ids =
-                call.getArray("ids")
-                    ?: throw Exception("[CapacitorCalendar.${::deleteEventsById.name}] Event ids were not provided")
-            val ret = JSObject()
-            ret.put("result", implementation.deleteEventsById(context, ids))
-            call.resolve(ret)
-        } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::deleteEventsById.name}] Could not delete events")
             return
         }
     }

@@ -133,6 +133,13 @@ struct ImplementationHelper {
         try eventStore.remove(reminder, commit: true)
     }
 
+    static func deleteEvent(_ id: String, _ span: EKSpan, _ eventStore: EKEventStore) throws {
+        guard let event = eventStore.event(withIdentifier: id) else {
+            throw PluginError.eventNotFound
+        }
+        try eventStore.remove(event, span: span, commit: true)
+    }
+
     static func calendarsSetToJSArray(_ calendars: Set<EKCalendar>) -> [JSObject] {
         return calendars.map { ImplementationHelper.calendarToJSObject($0) }
     }

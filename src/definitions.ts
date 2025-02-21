@@ -37,31 +37,4 @@ export interface CapacitorCalendarPlugin
     startDate: number;
     endDate: number;
   }): Promise<{ result: CalendarEvent[] }>;
-  /**
-   * Deletes events from the calendar given their IDs.
-   *
-   * @async
-   * @since 0.11.0
-   * @platform iOS, Android
-   * @permissions
-   * <h3>Runtime Permissions:</h3>
-   * <ul>
-   *   <li><strong>iOS:</strong> writeCalendar</li>
-   *   <li><strong>Android:</strong> writeCalendar</li>
-   * </ul>
-   * @param {object} options Options for defining event IDs.
-   * @param {number} options.ids An array of event IDs to be deleted.
-   * @returns {Promise<{ deleted: string[], failed: string[] }>}
-   * A promise that resolves to an object with two properties:
-   *  - deleted: string[] - An array of IDs that were successfully deleted.
-   *  - failed: string[] - An array of IDs that could not be deleted.
-   * @example
-   * const idsToDelete = ['ID_1', 'ID_2', 'ID_DOES_NOT_EXIST'];
-   * const { result } = await CapacitorCalendar.deleteEventsById(idsToDelete)
-   * console.log(result.deleted)  // ['ID_1', 'ID_2']
-   * console.log(result.failed) // ['ID_DOES_NOT_EXIST']
-   */
-  deleteEventsById(options: {
-    ids: string[];
-  }): Promise<{ result: { deleted: string[]; failed: string[] } }>;
 }

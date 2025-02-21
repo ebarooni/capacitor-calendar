@@ -100,5 +100,5 @@ export interface ModifyEventOptions {
    * @platform iOS
    * @see 7.1.0
    */
-  span: EventSpan;
+  span?: EventSpan;
 }

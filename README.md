@@ -72,6 +72,9 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
 - [`createEvent(...)`](#createevent)
 - [`modifyEvent(...)`](#modifyevent)
+- [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`deleteEvent(...)`](#deleteevent)
+- [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
@@ -91,7 +94,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`getReminderById(...)`](#getreminderbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`listEventsInRange(...)`](#listeventsinrange)
-- [`deleteEventsById(...)`](#deleteeventsbyid)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -313,6 +315,64 @@ Modifies an event.
 | **`options`** | <code><a href="#modifyeventoptions">ModifyEventOptions</a></code> |
 
 **Since:** 6.6.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteEventsById(...)
+
+```typescript
+deleteEventsById(options: DeleteEventsByIdOptions) => Promise<{ result: DeleteEventsByIdResult; }>
+```
+
+Deletes multiple events.
+
+| Param         | Type                                                                        |
+| ------------- | --------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteeventsbyidoptions">DeleteEventsByIdOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ result: <a href="#deleteeventsbyidresult">DeleteEventsByIdResult</a>; }&gt;</code>
+
+**Since:** 0.11.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteEvent(...)
+
+```typescript
+deleteEvent(options: DeleteEventOptions) => Promise<void>
+```
+
+Deletes an event.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteeventoptions">DeleteEventOptions</a></code> |
+
+**Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteEventWithPrompt(...)
+
+```typescript
+deleteEventWithPrompt(options: DeleteEventWithPromptOptions) => Promise<{ deleted: boolean; }>
+```
+
+Opens a dialog to delete an event.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteeventwithpromptoptions">DeleteEventWithPromptOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ deleted: boolean; }&gt;</code>
+
+**Since:** 7.1.0
 
 **Platform:** Android, iOS
 
@@ -654,26 +714,6 @@ Retrieves the list of calendar events present in the given date range.
 
 ---
 
-### deleteEventsById(...)
-
-```typescript
-deleteEventsById(options: { ids: string[]; }) => Promise<{ result: { deleted: string[]; failed: string[]; }; }>
-```
-
-Deletes events from the calendar given their IDs.
-
-| Param         | Type                            | Description                     |
-| ------------- | ------------------------------- | ------------------------------- |
-| **`options`** | <code>{ ids: string[]; }</code> | Options for defining event IDs. |
-
-**Returns:** <code>Promise&lt;{ result: { deleted: string[]; failed: string[]; }; }&gt;</code>
-
-**Since:** 0.11.0
-
-**Platform:** iOS, Android
-
----
-
 ### Interfaces
 
 #### CreateEventWithPromptOptions
@@ -756,6 +796,38 @@ Deletes events from the calendar given their IDs.
 | **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format. |                                   | 7.1.0 | Android      |
 | **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                        |                                   | 7.1.0 | Android      |
 | **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                 | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+
+#### DeleteEventsByIdResult
+
+| Prop          | Type                  | Since |
+| ------------- | --------------------- | ----- |
+| **`deleted`** | <code>string[]</code> | 7.1.0 |
+| **`failed`**  | <code>string[]</code> | 7.1.0 |
+
+#### DeleteEventsByIdOptions
+
+| Prop       | Type                                            | Description           | Default                           | Since | Platform |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
+| **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |          |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+
+#### DeleteEventOptions
+
+| Prop       | Type                                            | Description           | Default                           | Since | Platform |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
+| **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |          |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+
+#### DeleteEventWithPromptOptions
+
+| Prop                    | Type                                            | Description                         | Default                           | Since | Platform     |
+| ----------------------- | ----------------------------------------------- | ----------------------------------- | --------------------------------- | ----- | ------------ |
+| **`id`**                | <code>string</code>                             |                                     |                                   | 7.1.0 |              |
+| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+| **`title`**             | <code>string</code>                             | Title of the dialog.                |                                   | 7.1.0 | Android, iOS |
+| **`message`**           | <code>string</code>                             | Message of the dialog.              |                                   | 7.1.0 | Android, iOS |
+| **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
+| **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.  | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
 
 #### Calendar
 
@@ -840,10 +912,10 @@ Deletes events from the calendar given their IDs.
 
 #### DeleteRemindersByIdResult
 
-| Prop          | Type                  |
-| ------------- | --------------------- |
-| **`deleted`** | <code>string[]</code> |
-| **`failed`**  | <code>string[]</code> |
+| Prop          | Type                  | Since |
+| ------------- | --------------------- | ----- |
+| **`deleted`** | <code>string[]</code> | 7.1.0 |
+| **`failed`**  | <code>string[]</code> | 7.1.0 |
 
 #### DeleteRemindersByIdOptions
 

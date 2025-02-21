@@ -35,6 +35,8 @@ struct PluginConfig {
         CAPPluginMethod(name: "modifyReminder", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "commit", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteReminder", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getReminderById", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getReminderById", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "deleteEventWithPrompt", returnType: CAPPluginReturnPromise)
     ]
 }

@@ -23,37 +23,6 @@ public class CapacitorCalendar: NSObject {
         return dictionaryRepresentationOfEvents(events: events)
     }
 
-    public func deleteEventsById(ids: JSArray) async throws -> EventDeleteResults {
-        await withCheckedContinuation { continuation in
-
-            var deletedEvents: [String] = []
-            var failedToDeleteEvents: [String] = []
-
-            for id in ids {
-                guard let event = eventStore.event(withIdentifier: "\(id)") else {
-                    failedToDeleteEvents.append("\(id)")
-                    continue
-                }
-
-                do {
-                    try eventStore.remove(event, span: .thisEvent, commit: false)
-                    deletedEvents.append("\(id)")
-                } catch {
-                    failedToDeleteEvents.append("\(id)")
-                }
-            }
-
-            do {
-                try eventStore.commit()
-            } catch {
-                failedToDeleteEvents.append(contentsOf: deletedEvents)
-                deletedEvents.removeAll()
-            }
-
-            continuation.resume(returning: EventDeleteResults(deleted: deletedEvents, failed: failedToDeleteEvents))
-        }
-    }
-
     private func dictionaryRepresentationOfEvents(events: [EKEvent]) -> [[String: Any]] {
         return events.map { event in
             var dict = [String: Any]()

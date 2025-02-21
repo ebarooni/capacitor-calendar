@@ -13,6 +13,10 @@ import type { CreateEventOptions } from "./schemas/interfaces/create-event-optio
 import type { CreateEventWithPromptOptions } from "./schemas/interfaces/create-event-with-prompt-options";
 import type { CreateReminderOptions } from "./schemas/interfaces/create-reminder-options";
 import type { DeleteCalendarOptions } from "./schemas/interfaces/delete-calendar-options";
+import type { DeleteEventOptions } from "./schemas/interfaces/delete-event-options";
+import type { DeleteEventWithPromptOptions } from "./schemas/interfaces/delete-event-with-prompt-options";
+import type { DeleteEventsByIdOptions } from "./schemas/interfaces/delete-events-by-id-options";
+import type { DeleteEventsByIdResult } from "./sub-definitions/event-operations";
 import type { DeleteReminderOptions } from "./schemas/interfaces/delete-reminder-options";
 import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
 import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
@@ -177,20 +181,28 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.getRemindersFromLists.name);
   }
 
+  public deleteEventsById(_options: DeleteEventsByIdOptions): Promise<{
+    result: DeleteEventsByIdResult;
+  }> {
+    return this.throwUnimplemented(this.deleteEventsById.name);
+  }
+
+  public deleteEvent(_options: DeleteEventOptions): Promise<void> {
+    return this.throwUnimplemented(this.deleteEvent.name);
+  }
+
+  public deleteEventWithPrompt(
+    _options: DeleteEventWithPromptOptions,
+  ): Promise<{ deleted: boolean }> {
+    return this.throwUnimplemented(this.deleteEventWithPrompt.name);
+  }
+
   public listEventsInRange(_options: {
     startDate: number;
     endDate: number;
   }): Promise<{ result: CalendarEvent[] }> {
     throw this.unimplemented(
       `${this.listEventsInRange.name} is not implemented on the web`,
-    );
-  }
-
-  public deleteEventsById(_options: { ids: string[] }): Promise<{
-    result: { deleted: string[]; failed: string[] };
-  }> {
-    throw this.unimplemented(
-      `${this.deleteEventsById.name} is not implemented on the web`,
     );
   }
 
