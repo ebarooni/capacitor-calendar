@@ -45,6 +45,8 @@ Changelogs for the versions supporting Capacitor 7.
 - `deleteCalendar` on Android
 - `deleteReminder` on iOS to delete a single reminder
 - `getReminderById` on iOS
+- `deleteEvent` on Android and iOS
+- `deleteEventWithPrompt` on Android and iOS
 
 ### Changed
 
