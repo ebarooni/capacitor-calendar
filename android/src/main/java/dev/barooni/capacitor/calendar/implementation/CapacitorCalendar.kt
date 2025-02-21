@@ -15,6 +15,8 @@ import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -24,6 +26,7 @@ import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 import dev.barooni.capacitor.calendar.models.results.CreateCalendarResult
 import dev.barooni.capacitor.calendar.models.results.CreateEventResult
+import dev.barooni.capacitor.calendar.models.results.DeleteEventsByIdResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
 import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
@@ -181,6 +184,28 @@ class CapacitorCalendarNew(
         val rowsDeleted = cr.delete(uri, null, null)
 
         if (rowsDeleted < 1) {
+            throw PluginError.FailedToDelete
+        }
+    }
+
+    fun deleteEventsById(input: DeleteEventsByIdInput): DeleteEventsByIdResult {
+        val cr = plugin.context.contentResolver
+        val result = DeleteEventsByIdResult()
+        input.ids.forEach { id ->
+            val deleted = ImplementationHelper.deleteEvent(cr, id)
+            if (deleted) {
+                result.deleted(id)
+            } else {
+                result.failed(id)
+            }
+        }
+        return result
+    }
+
+    fun deleteEvent(input: DeleteEventInput) {
+        val cr = plugin.context.contentResolver
+        val deleted = ImplementationHelper.deleteEvent(cr, input.id)
+        if (!deleted) {
             throw PluginError.FailedToDelete
         }
     }

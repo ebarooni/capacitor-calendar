@@ -1,6 +1,7 @@
 package dev.barooni.capacitor.calendar.utils
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
@@ -31,6 +32,11 @@ class ImplementationHelper {
         fun jsArrayToIntArray(array: JSArray?): List<Int>? {
             val list = array?.toList<Int>() ?: return null
             return list
+        }
+
+        fun jsArrayToLongArray(array: JSArray): List<Long> {
+            val list = array.toList<String>()
+            return list.map { it.toLong() }
         }
 
         fun hexToColorInt(hex: String?): Int? =
@@ -251,6 +257,15 @@ class ImplementationHelper {
                 }
             }
             return calendars
+        }
+
+        fun deleteEvent(
+            cr: ContentResolver,
+            eventId: Long,
+        ): Boolean {
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+            val rowsDeleted = cr.delete(uri, null, null)
+            return rowsDeleted > 0
         }
     }
 }

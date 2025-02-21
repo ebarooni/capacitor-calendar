@@ -1,6 +1,5 @@
 package dev.barooni.capacitor.calendar
 
-import android.content.ContentUris
 import android.content.Context
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
@@ -105,35 +104,6 @@ class CapacitorCalendar {
                 }
             } ?: throw Exception("Cursor is null")
         return events
-    }
-
-    @Throws(Exception::class)
-    fun deleteEventsById(
-        context: Context,
-        ids: JSArray,
-    ): JSObject {
-        val deletedEvents = JSArray()
-        val failedToDeleteEvents = JSArray()
-        val contentResolver = context.contentResolver
-
-        ids.toList<String>().forEach { id ->
-            try {
-                val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id.toLong())
-                val rowsDeleted = contentResolver.delete(uri, null, null)
-                if (rowsDeleted > 0) {
-                    deletedEvents.put(id)
-                } else {
-                    failedToDeleteEvents.put(id)
-                }
-            } catch (error: Exception) {
-                failedToDeleteEvents.put(id)
-            }
-        }
-
-        val ret = JSObject()
-        ret.put("deleted", deletedEvents)
-        ret.put("failed", failedToDeleteEvents)
-        return ret
     }
 
     fun getTimeZoneAbbreviation(timeZoneId: String): String {
