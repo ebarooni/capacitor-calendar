@@ -34,23 +34,23 @@ struct DeleteEventWithPromptInput {
     func getId() -> String {
         return id
     }
-    
+
     func getSpan() -> EKSpan {
         return span
     }
-    
+
     func getTitle() -> String {
         return title
     }
-    
+
     func getMessage() -> String {
         return message
     }
-    
+
     func getConfirmButtonText() -> String {
         return confirmButtonText
     }
-    
+
     func getCancelButtonText() -> String {
         return cancelButtonText
     }

@@ -305,7 +305,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
     }
-    
+
     @objc public func deleteEventsById(_ call: CAPPluginCall) {
         do {
             let input = try DeleteEventsByIdInput(call: call)
@@ -315,7 +315,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
-    
+
     @objc public func deleteEvent(_ call: CAPPluginCall) {
         do {
             let input = try DeleteEventInput(call: call)
@@ -325,7 +325,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
-    
+
     @objc public func deleteEventWithPrompt(_ call: CAPPluginCall) {
         Task {
             do {

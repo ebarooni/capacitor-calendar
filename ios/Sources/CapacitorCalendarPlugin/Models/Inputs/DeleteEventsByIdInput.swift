@@ -20,7 +20,7 @@ struct DeleteEventsByIdInput {
     func getIds() -> [String] {
         return ids
     }
-    
+
     func getSpan() -> EKSpan {
         return span
     }

@@ -425,7 +425,7 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
-    
+
     func deleteEventsById(_ input: DeleteEventsByIdInput) throws -> DeleteEventsByIdResult {
         var result = DeleteEventsByIdResult()
         input.getIds().forEach { id in
@@ -438,11 +438,11 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
         }
         return result
     }
-    
+
     func deleteEvent(_ input: DeleteEventInput) throws {
         try ImplementationHelper.deleteEvent(input.getId(), input.getSpan(), eventStore)
     }
-    
+
     func deleteEventWithPrompt(_ input: DeleteEventWithPromptInput) async throws -> DeleteEventWithPromptResult {
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
