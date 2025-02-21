@@ -73,6 +73,8 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`createEvent(...)`](#createevent)
 - [`modifyEvent(...)`](#modifyevent)
 - [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`deleteEvent(...)`](#deleteevent)
+- [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
@@ -333,6 +335,44 @@ Deletes multiple events.
 **Returns:** <code>Promise&lt;{ result: <a href="#deleteeventsbyidresult">DeleteEventsByIdResult</a>; }&gt;</code>
 
 **Since:** 0.11.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteEvent(...)
+
+```typescript
+deleteEvent(options: DeleteEventOptions) => Promise<void>
+```
+
+Deletes an event.
+
+| Param         | Type                                                              |
+| ------------- | ----------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteeventoptions">DeleteEventOptions</a></code> |
+
+**Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
+### deleteEventWithPrompt(...)
+
+```typescript
+deleteEventWithPrompt(options: DeleteEventWithPromptOptions) => Promise<{ deleted: boolean; }>
+```
+
+Opens a dialog to delete an event.
+
+| Param         | Type                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deleteeventwithpromptoptions">DeleteEventWithPromptOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ deleted: boolean; }&gt;</code>
+
+**Since:** 7.1.0
 
 **Platform:** Android, iOS
 
@@ -766,9 +806,28 @@ Retrieves the list of calendar events present in the given date range.
 
 #### DeleteEventsByIdOptions
 
-| Prop      | Type                  | Since |
-| --------- | --------------------- | ----- |
-| **`ids`** | <code>string[]</code> | 7.1.0 |
+| Prop       | Type                                            | Description           | Default                           | Since | Platform |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
+| **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |          |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+
+#### DeleteEventOptions
+
+| Prop       | Type                                            | Description           | Default                           | Since | Platform |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
+| **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |          |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+
+#### DeleteEventWithPromptOptions
+
+| Prop                    | Type                                            | Description                         | Default                           | Since | Platform     |
+| ----------------------- | ----------------------------------------------- | ----------------------------------- | --------------------------------- | ----- | ------------ |
+| **`id`**                | <code>string</code>                             |                                     |                                   | 7.1.0 |              |
+| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+| **`title`**             | <code>string</code>                             | Title of the dialog.                |                                   | 7.1.0 | Android, iOS |
+| **`message`**           | <code>string</code>                             | Message of the dialog.              |                                   | 7.1.0 | Android, iOS |
+| **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
+| **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.  | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
 
 #### Calendar
 
