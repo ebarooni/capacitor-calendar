@@ -305,6 +305,38 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
     }
+    
+    @objc public func deleteEventsById(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteEventsByIdInput(call: call)
+            let result = try implementation.deleteEventsById(input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+    
+    @objc public func deleteEvent(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteEventInput(call: call)
+            try implementation.deleteEvent(input)
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
+    
+    @objc public func deleteEventWithPrompt(_ call: CAPPluginCall) {
+        Task {
+            do {
+                let input = try DeleteEventWithPromptInput(call: call)
+                let result = try await implementation.deleteEventWithPrompt(input)
+                call.resolve(result.toJSON())
+            } catch let error {
+                call.reject(error.localizedDescription)
+            }
+        }
+    }
 
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         guard let startDate = call.getDouble("startDate") else {
@@ -321,28 +353,6 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         } catch {
             call.reject("[CapacitorCalendar.\(#function)] Could not get the list of events in requested range")
             return
-        }
-    }
-
-    @objc public func deleteEventsById(_ call: CAPPluginCall) {
-        guard let eventIds = call.getArray("ids") else {
-            call.reject("[CapacitorCalendar.\(#function)] Event ids were not provided")
-            return
-        }
-
-        Task {
-            do {
-                let deleteResult = try await calendar.deleteEventsById(ids: eventIds)
-                call.resolve([
-                    "result": [
-                        "deleted": deleteResult.deleted,
-                        "failed": deleteResult.failed
-                    ]
-                ])
-            } catch {
-                call.reject("[CapacitorCalendar.\(#function)] Could not delete events")
-                return
-            }
         }
     }
 }

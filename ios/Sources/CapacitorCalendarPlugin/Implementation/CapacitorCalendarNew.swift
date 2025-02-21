@@ -425,6 +425,57 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
             }
         }
     }
+    
+    func deleteEventsById(_ input: DeleteEventsByIdInput) throws -> DeleteEventsByIdResult {
+        var result = DeleteEventsByIdResult()
+        input.getIds().forEach { id in
+            do {
+                try ImplementationHelper.deleteEvent(id, input.getSpan(), eventStore)
+                result.deleted(id)
+            } catch {
+                result.failed(id)
+            }
+        }
+        return result
+    }
+    
+    func deleteEvent(_ input: DeleteEventInput) throws {
+        try ImplementationHelper.deleteEvent(input.getId(), input.getSpan(), eventStore)
+    }
+    
+    func deleteEventWithPrompt(_ input: DeleteEventWithPromptInput) async throws -> DeleteEventWithPromptResult {
+        guard let viewController = plugin.bridge?.viewController else {
+            throw PluginError.viewControllerMissing
+        }
+        guard let event = eventStore.event(withIdentifier: input.getId()) else {
+            throw PluginError.eventNotFound
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                let alert = UIAlertController(
+                    title: input.getTitle(),
+                    message: input.getMessage(),
+                    preferredStyle: .alert
+                )
+
+                alert.addAction(UIAlertAction(title: input.getCancelButtonText(), style: .cancel, handler: { _ in
+                    continuation.resume(returning: DeleteEventWithPromptResult(deleted: false))
+                }))
+
+                alert.addAction(UIAlertAction(title: input.getConfirmButtonText(), style: .destructive, handler: { _ in
+                    do {
+                        try ImplementationHelper.deleteEvent(event.eventIdentifier, input.getSpan(), self.eventStore)
+                        continuation.resume(returning: DeleteEventWithPromptResult(deleted: true))
+                    } catch let error {
+                        continuation.resume(throwing: error)
+                    }
+                }))
+
+                viewController.present(alert, animated: true)
+            }
+        }
+    }
 
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
