@@ -1,5 +1,6 @@
 package dev.barooni.capacitor.calendar.implementation
 
+import android.app.AlertDialog
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
@@ -16,6 +17,7 @@ import dev.barooni.capacitor.calendar.models.inputs.CreateEventInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
+import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
@@ -26,6 +28,7 @@ import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 import dev.barooni.capacitor.calendar.models.results.CreateCalendarResult
 import dev.barooni.capacitor.calendar.models.results.CreateEventResult
+import dev.barooni.capacitor.calendar.models.results.DeleteEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.DeleteEventsByIdResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
 import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
@@ -208,5 +211,28 @@ class CapacitorCalendarNew(
         if (!deleted) {
             throw PluginError.FailedToDelete
         }
+    }
+
+    fun deleteEventWithPrompt(
+        input: DeleteEventWithPromptInput,
+        onComplete: (DeleteEventWithPromptResult) -> Unit,
+    ) {
+        val cr = plugin.context.contentResolver
+        val builder =
+            AlertDialog
+                .Builder(plugin.context)
+                .setTitle(input.title)
+                .setMessage(input.message)
+                .setNegativeButton(input.cancelButtonText) { dialog, _ ->
+                    dialog.dismiss()
+                    val result = DeleteEventWithPromptResult(false)
+                    onComplete(result)
+                }.setPositiveButton(input.confirmButtonText) { _, _ ->
+                    val result = DeleteEventWithPromptResult(ImplementationHelper.deleteEvent(cr, input.id))
+                    onComplete(result)
+                }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

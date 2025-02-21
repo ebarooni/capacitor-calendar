@@ -31,6 +31,8 @@ sealed class PluginError(
 
     data object FailedToDelete : PluginError("Failed to delete.")
 
+    data object MessageMissing : PluginError("Message must be provided.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")
