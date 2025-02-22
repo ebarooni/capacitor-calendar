@@ -20,7 +20,7 @@ export interface CalendarEvent {
    * @platform Android, iOS
    * @since 7.1.0
    */
-  calendarId: string;
+  calendarId: string | null;
   /**
    * @platform Android, iOS
    * @since 7.1.0
@@ -38,6 +38,7 @@ export interface CalendarEvent {
   endDate: number;
   /**
    * @platform Android, iOS
+   * @since 7.1.0
    */
   isAllDay: boolean;
   /**
@@ -81,8 +82,8 @@ export interface CalendarEvent {
    */
   isDetached: boolean | null;
   /**
-   * @see {@link https://developer.apple.com/documentation/eventkit/ekevent/birthdaycontactidentifier}
    * @platform iOS
+   * @see {@link https://developer.apple.com/documentation/eventkit/ekevent/birthdaycontactidentifier}
    * @since 7.1.0
    */
   birthdayContactIdentifier: string | null;

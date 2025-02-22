@@ -60,43 +60,43 @@ For comprehensive usage examples, detailed explanations, and API references, che
 
 <docgen-index>
 
-* [`checkPermission(...)`](#checkpermission)
-* [`checkAllPermissions()`](#checkallpermissions)
-* [`requestPermission(...)`](#requestpermission)
-* [`requestAllPermissions()`](#requestallpermissions)
-* [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
-* [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
-* [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
-* [`requestFullRemindersAccess()`](#requestfullremindersaccess)
-* [`createEventWithPrompt(...)`](#createeventwithprompt)
-* [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
-* [`createEvent(...)`](#createevent)
-* [`modifyEvent(...)`](#modifyevent)
-* [`deleteEventsById(...)`](#deleteeventsbyid)
-* [`deleteEvent(...)`](#deleteevent)
-* [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
-* [`listEventsInRange(...)`](#listeventsinrange)
-* [`commit()`](#commit)
-* [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
-* [`fetchAllCalendarSources()`](#fetchallcalendarsources)
-* [`listCalendars()`](#listcalendars)
-* [`getDefaultCalendar()`](#getdefaultcalendar)
-* [`openCalendar(...)`](#opencalendar)
-* [`createCalendar(...)`](#createcalendar)
-* [`deleteCalendar(...)`](#deletecalendar)
-* [`fetchAllRemindersSources()`](#fetchallreminderssources)
-* [`openReminders()`](#openreminders)
-* [`getDefaultRemindersList()`](#getdefaultreminderslist)
-* [`getRemindersLists()`](#getreminderslists)
-* [`createReminder(...)`](#createreminder)
-* [`deleteRemindersById(...)`](#deleteremindersbyid)
-* [`deleteReminder(...)`](#deletereminder)
-* [`modifyReminder(...)`](#modifyreminder)
-* [`getReminderById(...)`](#getreminderbyid)
-* [`getRemindersFromLists(...)`](#getremindersfromlists)
-* [Interfaces](#interfaces)
-* [Type Aliases](#type-aliases)
-* [Enums](#enums)
+- [`checkPermission(...)`](#checkpermission)
+- [`checkAllPermissions()`](#checkallpermissions)
+- [`requestPermission(...)`](#requestpermission)
+- [`requestAllPermissions()`](#requestallpermissions)
+- [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
+- [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
+- [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
+- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
+- [`createEventWithPrompt(...)`](#createeventwithprompt)
+- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
+- [`createEvent(...)`](#createevent)
+- [`modifyEvent(...)`](#modifyevent)
+- [`deleteEventsById(...)`](#deleteeventsbyid)
+- [`deleteEvent(...)`](#deleteevent)
+- [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
+- [`listEventsInRange(...)`](#listeventsinrange)
+- [`commit()`](#commit)
+- [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
+- [`listCalendars()`](#listcalendars)
+- [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`openCalendar(...)`](#opencalendar)
+- [`createCalendar(...)`](#createcalendar)
+- [`deleteCalendar(...)`](#deletecalendar)
+- [`fetchAllRemindersSources()`](#fetchallreminderssources)
+- [`openReminders()`](#openreminders)
+- [`getDefaultRemindersList()`](#getdefaultreminderslist)
+- [`getRemindersLists()`](#getreminderslists)
+- [`createReminder(...)`](#createreminder)
+- [`deleteRemindersById(...)`](#deleteremindersbyid)
+- [`deleteReminder(...)`](#deletereminder)
+- [`modifyReminder(...)`](#modifyreminder)
+- [`getReminderById(...)`](#getreminderbyid)
+- [`getRemindersFromLists(...)`](#getremindersfromlists)
+- [Interfaces](#interfaces)
+- [Type Aliases](#type-aliases)
+- [Enums](#enums)
 
 </docgen-index>
 
@@ -121,8 +121,7 @@ Retrieves the current permission state for a given scope.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### checkAllPermissions()
 
@@ -138,8 +137,7 @@ Retrieves the current state of all permissions.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### requestPermission(...)
 
@@ -159,8 +157,7 @@ Requests permission for a given scope.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### requestAllPermissions()
 
@@ -176,8 +173,7 @@ Requests permission for all calendar and reminder permissions.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### requestWriteOnlyCalendarAccess()
 
@@ -193,8 +189,7 @@ Requests write access to the calendar.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### requestReadOnlyCalendarAccess()
 
@@ -210,8 +205,7 @@ Requests read access to the calendar.
 
 **Platform:** Android
 
---------------------
-
+---
 
 ### requestFullCalendarAccess()
 
@@ -227,8 +221,7 @@ Requests read and write access to the calendar.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### requestFullRemindersAccess()
 
@@ -244,8 +237,7 @@ Requests read and write access to the reminders.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### createEventWithPrompt(...)
 
@@ -267,8 +259,7 @@ Fetch the events to find the ID of the newly created event.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### modifyEventWithPrompt(...)
 
@@ -289,8 +280,7 @@ On Android always returns `null`.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### createEvent(...)
 
@@ -310,8 +300,7 @@ Creates an event in the calendar.
 
 **Platform:** iOS, Android
 
---------------------
-
+---
 
 ### modifyEvent(...)
 
@@ -329,8 +318,7 @@ Modifies an event.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### deleteEventsById(...)
 
@@ -350,8 +338,7 @@ Deletes multiple events.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### deleteEvent(...)
 
@@ -369,8 +356,7 @@ Deletes an event.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### deleteEventWithPrompt(...)
 
@@ -390,8 +376,7 @@ Opens a dialog to delete an event.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### listEventsInRange(...)
 
@@ -411,8 +396,7 @@ Retrieves the events within a date range.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### commit()
 
@@ -426,8 +410,7 @@ Save the changes to the calendar.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### selectCalendarsWithPrompt(...)
 
@@ -447,8 +430,7 @@ Opens a system interface to choose one or multiple calendars.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### fetchAllCalendarSources()
 
@@ -464,8 +446,7 @@ Retrieves a list of calendar sources.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### listCalendars()
 
@@ -481,8 +462,7 @@ Retrieves a list of all available calendars.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### getDefaultCalendar()
 
@@ -498,8 +478,7 @@ Retrieves the default calendar.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### openCalendar(...)
 
@@ -517,8 +496,7 @@ Opens the calendar app.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### createCalendar(...)
 
@@ -538,8 +516,7 @@ Creates a calendar.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### deleteCalendar(...)
 
@@ -557,8 +534,7 @@ Deletes a calendar by id.
 
 **Platform:** Android, iOS
 
---------------------
-
+---
 
 ### fetchAllRemindersSources()
 
@@ -574,8 +550,7 @@ Retrieves a list of calendar sources.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### openReminders()
 
@@ -589,8 +564,7 @@ Opens the reminders app.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### getDefaultRemindersList()
 
@@ -606,8 +580,7 @@ Retrieves the default reminders list.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### getRemindersLists()
 
@@ -623,8 +596,7 @@ Retrieves all available reminders lists.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### createReminder(...)
 
@@ -644,8 +616,7 @@ Creates a reminder.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### deleteRemindersById(...)
 
@@ -665,8 +636,7 @@ Deletes multiple reminders.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### deleteReminder(...)
 
@@ -684,8 +654,7 @@ Deletes a reminder.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### modifyReminder(...)
 
@@ -703,8 +672,7 @@ Modifies a reminder.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### getReminderById(...)
 
@@ -724,8 +692,7 @@ Retrieve a reminder by ID.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### getRemindersFromLists(...)
 
@@ -745,11 +712,9 @@ Retrieves reminders from multiple lists.
 
 **Platform:** iOS
 
---------------------
-
+---
 
 ### Interfaces
-
 
 #### CreateEventWithPromptOptions
 
@@ -767,7 +732,6 @@ Retrieves reminders from multiple lists.
 | **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                                    | 7.1.0 | Android, iOS |
 | **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                                      | 7.1.0 | Android      |
 
-
 #### ModifyEventWithPromptOptions
 
 | Prop               | Type                                                            | Description                                                                                        | Since | Platform     |
@@ -784,7 +748,6 @@ Retrieves reminders from multiple lists.
 | **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                                                    | 7.1.0 | Android, iOS |
 | **`invitees`**     | <code>string[]</code>                                           | An array of emails to invite.                                                                      | 7.1.0 | Android      |
 | **`id`**           | <code>string</code>                                             | The ID of the event to be modified.                                                                | 7.1.0 | Android, iOS |
-
 
 #### CreateEventOptions
 
@@ -806,14 +769,12 @@ Retrieves reminders from multiple lists.
 | **`commit`**       | <code>boolean</code>                                            | Whether to save immediately (`true`) or batch changes for later (`false`). | <code>true</code> | 7.1.0 | iOS          |
 | **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                                                          |                   | 7.1.0 | Android      |
 
-
 #### EventGuest
 
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`name`**  | <code>string</code> | 7.1.0 |
 | **`email`** | <code>string</code> | 7.1.0 |
-
 
 #### ModifyEventOptions
 
@@ -836,14 +797,12 @@ Retrieves reminders from multiple lists.
 | **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                        |                                   | 7.1.0 | Android      |
 | **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                 | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
 
-
 #### DeleteEventsByIdResult
 
 | Prop          | Type                  | Since |
 | ------------- | --------------------- | ----- |
 | **`deleted`** | <code>string[]</code> | 7.1.0 |
 | **`failed`**  | <code>string[]</code> | 7.1.0 |
-
 
 #### DeleteEventsByIdOptions
 
@@ -852,14 +811,12 @@ Retrieves reminders from multiple lists.
 | **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |          |
 | **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
 
-
 #### DeleteEventOptions
 
 | Prop       | Type                                            | Description           | Default                           | Since | Platform |
 | ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
 | **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |          |
 | **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
-
 
 #### DeleteEventWithPromptOptions
 
@@ -872,18 +829,17 @@ Retrieves reminders from multiple lists.
 | **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
 | **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.  | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
 
-
 #### CalendarEvent
 
 | Prop                            | Type                                                                    | Since | Platform     |
 | ------------------------------- | ----------------------------------------------------------------------- | ----- | ------------ |
 | **`id`**                        | <code>string</code>                                                     | 7.1.0 | Android, iOS |
 | **`title`**                     | <code>string</code>                                                     | 7.1.0 | Android, iOS |
-| **`calendarId`**                | <code>string</code>                                                     | 7.1.0 | Android, iOS |
+| **`calendarId`**                | <code>string \| null</code>                                             | 7.1.0 | Android, iOS |
 | **`location`**                  | <code>string \| null</code>                                             | 7.1.0 | Android, iOS |
 | **`startDate`**                 | <code>number</code>                                                     | 7.1.0 | Android, iOS |
 | **`endDate`**                   | <code>number</code>                                                     | 7.1.0 | Android, iOS |
-| **`isAllDay`**                  | <code>boolean</code>                                                    |       | Android, iOS |
+| **`isAllDay`**                  | <code>boolean</code>                                                    | 7.1.0 | Android, iOS |
 | **`alerts`**                    | <code>number[]</code>                                                   | 7.1.0 | Android, iOS |
 | **`url`**                       | <code>string \| null</code>                                             | 7.1.0 | iOS          |
 | **`description`**               | <code>string \| null</code>                                             | 7.1.0 | Android, iOS |
@@ -899,14 +855,12 @@ Retrieves reminders from multiple lists.
 | **`attendees`**                 | <code>EventGuest[]</code>                                               | 7.1.0 | Android, iOS |
 | **`timezone`**                  | <code>string \| null</code>                                             | 7.1.0 | Android, iOS |
 
-
 #### ListEventsInRangeOptions
 
 | Prop       | Type                | Description                    | Since |
 | ---------- | ------------------- | ------------------------------ | ----- |
 | **`from`** | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
 | **`to`**   | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
-
 
 #### Calendar
 
@@ -927,7 +881,6 @@ Retrieves reminders from multiple lists.
 | **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                     | 7.1.0 | Android      |
 | **`location`**                   | <code>string \| null</code>                                       |                                                                    | 7.1.0 | Android      |
 
-
 #### CalendarSource
 
 | Prop        | Type                                                              | Since |
@@ -936,7 +889,6 @@ Retrieves reminders from multiple lists.
 | **`id`**    | <code>string</code>                                               | 7.1.0 |
 | **`title`** | <code>string</code>                                               | 7.1.0 |
 
-
 #### SelectCalendarsWithPromptOptions
 
 | Prop               | Type                                                                                | Description                | Default                                                | Since |
@@ -944,13 +896,11 @@ Retrieves reminders from multiple lists.
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
 
-
 #### OpenCalendarOptions
 
 | Prop       | Type                | Default                 | Since |
 | ---------- | ------------------- | ----------------------- | ----- |
 | **`date`** | <code>number</code> | <code>Date.now()</code> | 7.1.0 |
-
 
 #### CreateCalendarOptions
 
@@ -962,13 +912,11 @@ Retrieves reminders from multiple lists.
 | **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 | **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 
-
 #### DeleteCalendarOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
-
 
 #### CreateReminderOptions
 
@@ -987,7 +935,6 @@ Retrieves reminders from multiple lists.
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>                                     | 7.1.0 |
 
-
 #### RecurrenceRule
 
 | Prop            | Type                                                                | Description                                                                        | Since |
@@ -996,7 +943,6 @@ Retrieves reminders from multiple lists.
 | **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 |
 | **`end`**       | <code>number</code>                                                 | Timestamp of when the recurrence ends.                                             | 7.1.0 |
 
-
 #### DeleteRemindersByIdResult
 
 | Prop          | Type                  | Since |
@@ -1004,20 +950,17 @@ Retrieves reminders from multiple lists.
 | **`deleted`** | <code>string[]</code> | 7.1.0 |
 | **`failed`**  | <code>string[]</code> | 7.1.0 |
 
-
 #### DeleteRemindersByIdOptions
 
 | Prop      | Type                  | Since |
 | --------- | --------------------- | ----- |
 | **`ids`** | <code>string[]</code> | 7.1.0 |
 
-
 #### DeleteReminderOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
-
 
 #### ModifyReminderOptions
 
@@ -1037,7 +980,6 @@ Retrieves reminders from multiple lists.
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>                                     | 7.1.0 |
 
-
 #### Reminder
 
 | Prop                 | Type                          | Since |
@@ -1056,13 +998,11 @@ Retrieves reminders from multiple lists.
 | **`recurrence`**     | <code>RecurrenceRule[]</code> | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>         | 7.1.0 |
 
-
 #### GetReminderByIdOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
-
 
 #### GetRemindersFromListsOptions
 
@@ -1070,44 +1010,37 @@ Retrieves reminders from multiple lists.
 | ------------- | --------------------- | ----- |
 | **`listIds`** | <code>string[]</code> | 7.1.0 |
 
-
 ### Type Aliases
-
 
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
-
 #### CheckAllPermissionsResult
 
 <code><a href="#record">Record</a>&lt; <a href="#calendarpermissionscope">CalendarPermissionScope</a>, <a href="#permissionstate">PermissionState</a> &gt;</code>
-
 
 #### Record
 
 Construct a type with a set of properties K of type T
 
-<code>{ [P in K]: T; }</code>
-
+<code>{
+[P in K]: T;
+}</code>
 
 #### RequestAllPermissionsResult
 
 <code><a href="#checkallpermissionsresult">CheckAllPermissionsResult</a></code>
 
-
 #### EventEditAction
 
 <code>"canceled" | "saved" | "deleted"</code>
-
 
 #### RemindersList
 
 <code><a href="#calendar">Calendar</a></code>
 
-
 ### Enums
-
 
 #### CalendarPermissionScope
 
@@ -1117,7 +1050,6 @@ Construct a type with a set of properties K of type T
 | **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 | iOS          |
 | **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 | Android, iOS |
 | **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 | iOS          |
-
 
 #### EventAvailability
 
@@ -1129,14 +1061,12 @@ Construct a type with a set of properties K of type T
 | **`TENTATIVE`**     |                 | 7.1.0 | Android, iOS |
 | **`UNAVAILABLE`**   |                 | 7.1.0 | iOS          |
 
-
 #### EventSpan
 
 | Members                      | Since |
 | ---------------------------- | ----- |
 | **`THIS_EVENT`**             | 7.1.0 |
 | **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
-
 
 #### EventStatus
 
@@ -1147,7 +1077,6 @@ Construct a type with a set of properties K of type T
 | **`TENTATIVE`** | 7.1.0 | Android, iOS |
 | **`CANCELED`**  | 7.1.0 | Android, iOS |
 
-
 #### CalendarType
 
 | Members            | Since |
@@ -1157,7 +1086,6 @@ Construct a type with a set of properties K of type T
 | **`EXCHANGE`**     | 7.1.0 |
 | **`SUBSCRIPTION`** | 7.1.0 |
 | **`BIRTHDAY`**     | 7.1.0 |
-
 
 #### CalendarSourceType
 
@@ -1170,14 +1098,12 @@ Construct a type with a set of properties K of type T
 | **`SUBSCRIBED`** | 7.1.0 |
 | **`BIRTHDAYS`**  | 7.1.0 |
 
-
 #### CalendarChooserDisplayStyle
 
 | Members                       | Since |
 | ----------------------------- | ----- |
 | **`ALL_CALENDARS`**           | 0.2.0 |
 | **`WRITABLE_CALENDARS_ONLY`** | 0.2.0 |
-
 
 #### RecurrenceFrequency
 
