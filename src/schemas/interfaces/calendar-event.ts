@@ -1,96 +1,114 @@
+import { EventAvailability } from "../enums/event-availability";
+import type { EventGuest } from "./event-guest";
+import { EventStatus } from "../enums/event-status";
+
 /**
- * Represents an event in the calendar.
- *
- * @interface CalendarEvent
- * @property {string} id The unique identifier of the event.
- * @property {string} title The title or name of the event. (Optional)
- * @property {string} location The location of the event. (Optional)
- * @property {string} eventColor The color of the individual event. (Optional)
- * @property {string} organizer The organizer of the event. (Optional)
- * @property {string} description The description of the event. (Optional)
- * @property {number} startDate The start date of the event. (Optional)
- * @property {number} endDate The end date of the event. (Optional)
- * @property {string} eventTimezone The timezone of the start date. (optional)
- * @property {string} eventEndTimezone The timezone of the end date. (optional)
- * @property {string} duration The duration of the event. (Optional)
- * @property {boolean} isAllDay Indicates if the event is all day. (Optional)
- * @property {string} calendarId The calendar that the event belongs to. (Optional)
- * @property {string} url The URL of the event. (Optional)
+ * @since 7.1.0
  */
 export interface CalendarEvent {
   /**
-   * @platform iOS, Android
+   * @platform Android, iOS
+   * @since 7.1.0
    */
   id: string;
-
   /**
-   * @platform iOS, Android
+   * @platform Android, iOS
+   * @since 7.1.0
    */
-  title?: string;
-
+  title: string;
   /**
-   * @platform iOS, Android
-   */
-  location?: string;
-
-  /**
-   * @platform iOS, Android
-   */
-  eventColor?: string;
-
-  /**
-   * @platform iOS, Android
-   */
-  organizer?: string;
-
-  /**
-   * @platform iOS, Android
-   */
-  description?: string;
-
-  /**
-   * @platform iOS, Android
-   */
-  startDate?: number;
-
-  /**
-   * @platform iOS, Android
-   */
-  endDate?: number;
-
-  /**
-   * @platform iOS, Android
-   */
-  eventTimezone?: {
-    region: string;
-    abbreviation: string;
-  };
-
-  /**
-   * @platform iOS, Android
-   */
-  eventEndTimezone?: {
-    region: string;
-    abbreviation: string;
-  };
-
-  /**
-   * @platform Android
-   */
-  duration?: string;
-
-  /**
-   * @platform iOS, Android
-   */
-  isAllDay?: boolean;
-
-  /**
-   * @platform iOS, Android
+   * @platform Android, iOS
+   * @since 7.1.0
    */
   calendarId: string;
-
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  location: string | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  startDate: number;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  endDate: number;
+  /**
+   * @platform Android, iOS
+   */
+  isAllDay: boolean;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  alerts: number[];
   /**
    * @platform iOS
+   * @since 7.1.0
    */
-  url: string;
+  url: string | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  description: string | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  availability: EventAvailability | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  organizer: string | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  color: string | null;
+  /**
+   * @platform Android
+   * @since 7.1.0
+   */
+  duration: string | null;
+  /**
+   * @platform iOS
+   * @since 7.1.0
+   */
+  isDetached: boolean | null;
+  /**
+   * @see {@link https://developer.apple.com/documentation/eventkit/ekevent/birthdaycontactidentifier}
+   * @platform iOS
+   * @since 7.1.0
+   */
+  birthdayContactIdentifier: string | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  status: EventStatus | null;
+  /**
+   * @platform iOS
+   * @since 7.1.0
+   */
+  creationDate: number | null;
+  /**
+   * @platform iOS
+   * @since 7.1.0
+   */
+  lastModifiedDate: number | null;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  attendees: EventGuest[];
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  timezone: string | null;
 }
