@@ -299,11 +299,48 @@ struct ImplementationHelper {
 
     static func eventAttendeeToJSObject(_ attendee: EKParticipant) -> JSObject {
         var obj: JSObject = [
-            "email": ""
+            "email": NSNull(),
+            "name": attendee.name ?? NSNull(),
+            "role": ImplementationHelper.mapParticipantRole(attendee.participantRole),
+            "type": ImplementationHelper.mapParticipantType(attendee.participantType),
+            "status": ImplementationHelper.mapParticipantStatus(attendee.participantStatus)
         ]
-        if let name = attendee.name {
-            obj["name"] = name
-        }
         return obj
+    }
+
+    static func mapParticipantRole(_ role: EKParticipantRole) -> String {
+        switch role {
+        case .unknown: return "unknown"
+        case .required: return "required"
+        case .optional: return "optional"
+        case .chair: return "chair"
+        case .nonParticipant: return "nonParticipant"
+        @unknown default: return "unknown"
+        }
+    }
+
+    static func mapParticipantType(_ type: EKParticipantType) -> String {
+        switch type {
+        case .unknown: return "unknown"
+        case .person: return "person"
+        case .room: return "room"
+        case .resource: return "resource"
+        case .group: return "group"
+        @unknown default: return "unknown"
+        }
+    }
+
+    static func mapParticipantStatus(_ status: EKParticipantStatus) -> String {
+        switch status {
+        case .unknown: return "unknown"
+        case .pending: return "pending"
+        case .accepted: return "accepted"
+        case .declined: return "declined"
+        case .tentative: return "tentative"
+        case .delegated: return "delegated"
+        case .completed: return "completed"
+        case .inProcess: return "inProcess"
+        @unknown default: return "unknown"
+        }
     }
 }
