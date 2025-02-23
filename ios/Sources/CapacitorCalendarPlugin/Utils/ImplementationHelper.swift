@@ -273,7 +273,7 @@ struct ImplementationHelper {
             "duration": NSNull(),
             "isDetached": event.isDetached,
             "birthdayContactIdentifier": event.birthdayContactIdentifier ?? NSNull(),
-            "status": event.status.rawValue,
+            "status": ImplementationHelper.mapEKEventStatusToEventStatus(event.status),
             "attendees": []
         ]
         if let creationDate = event.creationDate {
@@ -341,6 +341,21 @@ struct ImplementationHelper {
         case .completed: return "completed"
         case .inProcess: return "inProcess"
         @unknown default: return "unknown"
+        }
+    }
+
+    static func mapEKEventStatusToEventStatus(_ status: EKEventStatus) -> String {
+        switch status {
+        case .none:
+            return "none"
+        case .confirmed:
+            return "confirmed"
+        case .tentative:
+            return "tentative"
+        case .canceled:
+            return "canceled"
+        @unknown default:
+            return "none"
         }
     }
 }
