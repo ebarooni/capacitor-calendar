@@ -19,19 +19,19 @@ data class ListCalendarsResult(
         calendars.forEach { calendar ->
             val obj = JSObject()
             obj.put("id", calendar.id)
-            calendar.title?.let { obj.put("title", it) }
-            calendar.internalName?.let { obj.put("internalTitle", it) }
-            calendar.color?.let { obj.put("color", it) }
+            obj.put("title", calendar.title)
+            obj.put("internalTitle", calendar.internalName)
+            obj.put("color", calendar.color)
             obj.put("isImmutable", null)
             obj.put("allowsContentModifications", null)
             obj.put("type", null)
             obj.put("isSubscribed", null)
             obj.put("source", null)
-            calendar.visible?.let { obj.put("visible", it) }
-            calendar.accountName?.let { obj.put("accountName", it) }
-            calendar.ownerAccount?.let { obj.put("ownerAccount", it) }
-            calendar.maxReminders?.let { obj.put("maxReminders", it) }
-            calendar.location?.let { obj.put("location", it) }
+            obj.put("visible", calendar.visible)
+            obj.put("accountName", calendar.accountName)
+            obj.put("ownerAccount", calendar.ownerAccount)
+            obj.put("maxReminders", calendar.maxReminders)
+            obj.put("location", calendar.location)
             array.put(obj)
         }
         return array
