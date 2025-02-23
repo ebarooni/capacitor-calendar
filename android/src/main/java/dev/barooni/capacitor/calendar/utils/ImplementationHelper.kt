@@ -315,18 +315,31 @@ class ImplementationHelper {
 
             cursor?.use { attendee ->
                 while (attendee.moveToNext()) {
-                    val emailIndex = attendee.getColumnIndex(CalendarContract.Attendees.ATTENDEE_EMAIL)
-                    val nameIndex = attendee.getColumnIndex(CalendarContract.Attendees.ATTENDEE_NAME)
-                    val relationshipIndex = attendee.getColumnIndex(CalendarContract.Attendees.ATTENDEE_RELATIONSHIP)
-                    val typeIndex = attendee.getColumnIndex(CalendarContract.Attendees.ATTENDEE_TYPE)
-                    val statusIndex = attendee.getColumnIndex(CalendarContract.Attendees.ATTENDEE_STATUS)
-
-                    val email = attendee.getString(emailIndex) ?: null
-                    val name = attendee.getString(nameIndex) ?: null
-                    val relationship = mapAttendeeRelationship(attendee.getInt(relationshipIndex))
-                    val type = mapAttendeeType(attendee.getInt(typeIndex))
-                    val status = mapAttendeeStatus(attendee.getInt(statusIndex))
-
+                    val email =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_EMAIL)
+                            .takeIf { it != -1 }
+                            ?.let { attendee.getString(it) }
+                    val name =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_NAME)
+                            .takeIf { it != -1 }
+                            ?.let { attendee.getString(it) }
+                    val relationship =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_RELATIONSHIP)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeRelationship(attendee.getInt(it)) }
+                    val type =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_TYPE)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeType(attendee.getInt(it)) }
+                    val status =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_STATUS)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeStatus(attendee.getInt(it)) }
                     attendees.add(EventGuest(email, name, relationship, type, status))
                 }
             }

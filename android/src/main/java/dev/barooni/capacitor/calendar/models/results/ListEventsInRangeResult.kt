@@ -45,10 +45,12 @@ data class ListEventsInRangeResult(
                     attendeeObj.put("role", attendee.relationship)
                     attendeeObj.put("status", attendee.status)
                     attendeeObj.put("type", attendee.type)
+                    attendeesJSArray.put(attendeeObj)
                 }
                 obj.put("attendees", attendeesJSArray)
             }
             obj.put("timezone", event.timezone)
+            array.put(obj)
         }
         result.put("result", array)
         return result

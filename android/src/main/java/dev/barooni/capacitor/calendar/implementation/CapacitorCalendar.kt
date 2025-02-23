@@ -37,7 +37,7 @@ import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.models.results.ListEventsInRangeResult
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
-class CapacitorCalendarNew(
+class CapacitorCalendar(
     private val plugin: CapacitorCalendarPlugin,
 ) {
     fun checkPermission(input: CheckPermissionInput): CheckPermissionResult {
@@ -342,7 +342,6 @@ class CapacitorCalendarNew(
                 )
             }
         }
-
         cursor?.close()
         return ListEventsInRangeResult(events)
     }
