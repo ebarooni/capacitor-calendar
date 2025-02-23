@@ -1,0 +1,25 @@
+package dev.barooni.capacitor.calendar.models.data
+
+data class CalendarEvent(
+    val id: String,
+    val title: String,
+    val calendarId: String?,
+    val location: String?,
+    val startDate: Long,
+    val endDate: Long,
+    val isAllDay: Boolean,
+    val alerts: List<Int>,
+    val url: String?,
+    val description: String?,
+    val availability: Int?,
+    val organizer: String?,
+    val color: String?,
+    val duration: String?,
+    val isDetached: Boolean?,
+    val birthdayContactIdentifier: String?,
+    val status: String?,
+    val creationDate: Long?,
+    val lastModifiedDate: Long?,
+    val attendees: List<EventGuest>,
+    val timezone: String?,
+)
