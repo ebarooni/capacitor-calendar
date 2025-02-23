@@ -54,6 +54,9 @@ class ImplementationHelper {
                 EventGuest(
                     email = if (guest.has("email")) guest.getString("email") else throw PluginError.AttendeeEmailMissing,
                     name = if (guest.has("name")) guest.getString("name") else null,
+                    null,
+                    null,
+                    null,
                 )
             }
         }
@@ -267,5 +270,118 @@ class ImplementationHelper {
             val rowsDeleted = cr.delete(uri, null, null)
             return rowsDeleted > 0
         }
+
+        fun getEventAlerts(
+            cr: ContentResolver,
+            eventId: Long,
+        ): List<Int> {
+            val alerts = mutableListOf<Int>()
+
+            val uri = CalendarContract.Reminders.CONTENT_URI
+            val projection = arrayOf(CalendarContract.Reminders.MINUTES)
+            val selection = "${CalendarContract.Reminders.EVENT_ID} = ?"
+            val selectionArgs = arrayOf(eventId.toString())
+
+            val cursor = cr.query(uri, projection, selection, selectionArgs, null)
+
+            cursor?.use {
+                while (it.moveToNext()) {
+                    val minutes = it.getInt(it.getColumnIndexOrThrow(CalendarContract.Reminders.MINUTES))
+                    alerts.add(minutes)
+                }
+            }
+
+            return alerts
+        }
+
+        fun getEventAttendees(
+            cr: ContentResolver,
+            eventId: Long,
+        ): List<EventGuest> {
+            val attendees = mutableListOf<EventGuest>()
+
+            val uri = CalendarContract.Attendees.CONTENT_URI
+            val projection =
+                arrayOf(
+                    CalendarContract.Attendees.ATTENDEE_EMAIL,
+                    CalendarContract.Attendees.ATTENDEE_NAME,
+                    CalendarContract.Attendees.ATTENDEE_RELATIONSHIP,
+                    CalendarContract.Attendees.ATTENDEE_TYPE,
+                )
+            val selection = "${CalendarContract.Attendees.EVENT_ID} = ?"
+            val selectionArgs = arrayOf(eventId.toString())
+
+            val cursor = cr.query(uri, projection, selection, selectionArgs, null)
+
+            cursor?.use { attendee ->
+                while (attendee.moveToNext()) {
+                    val email =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_EMAIL)
+                            .takeIf { it != -1 }
+                            ?.let { attendee.getString(it) }
+                    val name =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_NAME)
+                            .takeIf { it != -1 }
+                            ?.let { attendee.getString(it) }
+                    val relationship =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_RELATIONSHIP)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeRelationship(attendee.getInt(it)) }
+                    val type =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_TYPE)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeType(attendee.getInt(it)) }
+                    val status =
+                        attendee
+                            .getColumnIndex(CalendarContract.Attendees.ATTENDEE_STATUS)
+                            .takeIf { it != -1 }
+                            ?.let { mapAttendeeStatus(attendee.getInt(it)) }
+                    attendees.add(EventGuest(email, name, relationship, type, status))
+                }
+            }
+
+            return attendees
+        }
+
+        fun mapAttendeeRelationship(relationship: Int): String =
+            when (relationship) {
+                CalendarContract.Attendees.RELATIONSHIP_ATTENDEE -> "attendee"
+                CalendarContract.Attendees.RELATIONSHIP_NONE -> "nonParticipant"
+                CalendarContract.Attendees.RELATIONSHIP_ORGANIZER -> "organizer"
+                CalendarContract.Attendees.RELATIONSHIP_PERFORMER -> "performer"
+                CalendarContract.Attendees.RELATIONSHIP_SPEAKER -> "speaker"
+                else -> "unknown"
+            }
+
+        fun mapAttendeeType(attendeeType: Int): String =
+            when (attendeeType) {
+                CalendarContract.Attendees.TYPE_NONE -> "none"
+                CalendarContract.Attendees.TYPE_REQUIRED -> "required"
+                CalendarContract.Attendees.TYPE_OPTIONAL -> "optional"
+                CalendarContract.Attendees.TYPE_RESOURCE -> "resource"
+                else -> "unknown"
+            }
+
+        fun mapAttendeeStatus(attendeeStatus: Int): String =
+            when (attendeeStatus) {
+                CalendarContract.Attendees.ATTENDEE_STATUS_NONE -> "none"
+                CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED -> "accepted"
+                CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED -> "declined"
+                CalendarContract.Attendees.ATTENDEE_STATUS_INVITED -> "invited"
+                CalendarContract.Attendees.ATTENDEE_STATUS_TENTATIVE -> "tentative"
+                else -> "none"
+            }
+
+        fun mapEventStatus(status: Int): String =
+            when (status) {
+                CalendarContract.Events.STATUS_TENTATIVE -> "tentative"
+                CalendarContract.Events.STATUS_CONFIRMED -> "confirmed"
+                CalendarContract.Events.STATUS_CANCELED -> "canceled"
+                else -> "none"
+            }
     }
 }

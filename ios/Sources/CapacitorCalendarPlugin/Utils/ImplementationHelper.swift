@@ -167,6 +167,8 @@ struct ImplementationHelper {
 
         if let source = calendar.source {
             calendarObject["source"] = ImplementationHelper.calendarSourceToJSObject(source)
+        } else {
+            calendarObject["source"] = NSNull()
         }
 
         return calendarObject
@@ -190,7 +192,7 @@ struct ImplementationHelper {
             "title": reminder.title ?? NSNull(),
             "listId": reminder.calendar?.calendarIdentifier ?? NSNull(),
             "isCompleted": reminder.isCompleted,
-            "priority": reminder.priority ?? NSNull(),
+            "priority": reminder.priority,
             "notes": reminder.notes ?? NSNull(),
             "location": reminder.location ?? NSNull(),
             "url": reminder.url?.absoluteString ?? NSNull(),
@@ -251,5 +253,109 @@ struct ImplementationHelper {
             result.append(alarm.relativeOffset / 60)
         }
         return result
+    }
+
+    static func eventToJSObject(_ event: EKEvent) -> JSObject {
+        var obj: JSObject = [
+            "id": event.eventIdentifier,
+            "title": event.title,
+            "calendarId": event.calendar?.calendarIdentifier ?? NSNull(),
+            "location": event.location ?? NSNull(),
+            "startDate": ImplementationHelper.dateToMillis(event.startDate) ?? NSNull(),
+            "endDate": ImplementationHelper.dateToMillis(event.endDate) ?? NSNull(),
+            "allDay": event.isAllDay,
+            "alerts": ImplementationHelper.alarmsToJSObject(event.alarms),
+            "url": event.url?.absoluteString ?? NSNull(),
+            "description": event.notes ?? NSNull(),
+            "availability": event.availability.rawValue,
+            "organizer": event.organizer?.name ?? NSNull(),
+            "color": ImplementationHelper.cgColorToHex(event.calendar.cgColor) ?? NSNull(),
+            "duration": NSNull(),
+            "isDetached": event.isDetached,
+            "birthdayContactIdentifier": event.birthdayContactIdentifier ?? NSNull(),
+            "status": ImplementationHelper.mapEKEventStatusToEventStatus(event.status),
+            "attendees": []
+        ]
+        if let creationDate = event.creationDate {
+            obj["creationDate"] = ImplementationHelper.dateToMillis(creationDate)
+        } else {
+            obj["creationDate"] = NSNull()
+        }
+        if let lastModifiedDate = event.lastModifiedDate {
+            obj["lastModifiedDate"] = ImplementationHelper.dateToMillis(lastModifiedDate)
+        } else {
+            obj["lastModifiedDate"] = NSNull()
+        }
+        if let timezone = event.timeZone {
+            obj["timezone"] = timezone.identifier
+        } else {
+            obj["timezone"] = NSNull()
+        }
+        if let attendees = event.attendees {
+            obj["attendees"] = attendees.map { ImplementationHelper.eventAttendeeToJSObject($0) }
+        }
+        return obj
+    }
+
+    static func eventAttendeeToJSObject(_ attendee: EKParticipant) -> JSObject {
+        var obj: JSObject = [
+            "email": NSNull(),
+            "name": attendee.name ?? NSNull(),
+            "role": ImplementationHelper.mapParticipantRole(attendee.participantRole),
+            "type": ImplementationHelper.mapParticipantType(attendee.participantType),
+            "status": ImplementationHelper.mapParticipantStatus(attendee.participantStatus)
+        ]
+        return obj
+    }
+
+    static func mapParticipantRole(_ role: EKParticipantRole) -> String {
+        switch role {
+        case .unknown: return "unknown"
+        case .required: return "required"
+        case .optional: return "optional"
+        case .chair: return "chair"
+        case .nonParticipant: return "nonParticipant"
+        @unknown default: return "unknown"
+        }
+    }
+
+    static func mapParticipantType(_ type: EKParticipantType) -> String {
+        switch type {
+        case .unknown: return "unknown"
+        case .person: return "person"
+        case .room: return "room"
+        case .resource: return "resource"
+        case .group: return "group"
+        @unknown default: return "unknown"
+        }
+    }
+
+    static func mapParticipantStatus(_ status: EKParticipantStatus) -> String {
+        switch status {
+        case .unknown: return "unknown"
+        case .pending: return "pending"
+        case .accepted: return "accepted"
+        case .declined: return "declined"
+        case .tentative: return "tentative"
+        case .delegated: return "delegated"
+        case .completed: return "completed"
+        case .inProcess: return "inProcess"
+        @unknown default: return "unknown"
+        }
+    }
+
+    static func mapEKEventStatusToEventStatus(_ status: EKEventStatus) -> String {
+        switch status {
+        case .none:
+            return "none"
+        case .confirmed:
+            return "confirmed"
+        case .tentative:
+            return "tentative"
+        case .canceled:
+            return "canceled"
+        @unknown default:
+            return "none"
+        }
     }
 }

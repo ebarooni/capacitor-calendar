@@ -3,9 +3,9 @@ import Combine
 import EventKitUI
 import Capacitor
 
-class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
+class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
     private let plugin: CapacitorCalendarPlugin
-    let eventStore = EKEventStore()
+    private let eventStore = EKEventStore()
     private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
     private let modifyEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<ModifyEventWithPromptResult, Error>?, Never>(nil)
     private let selectCalendarsWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<SelectCalendarsWithPromptResult, Error>?, Never>(nil)
@@ -475,6 +475,15 @@ class CapacitorCalendarNew: NSObject, EKEventEditViewDelegate, EKCalendarChooser
                 viewController.present(alert, animated: true)
             }
         }
+    }
+
+    func listEventsInRange(_ input: ListEventsInRangeInput) throws -> ListEventsInRangeResult {
+        let predicate = eventStore.predicateForEvents(
+            withStart: input.getFrom(),
+            end: input.getTo(), calendars: nil
+        )
+        let events = eventStore.events(matching: predicate)
+        return ListEventsInRangeResult(events)
     }
 
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {

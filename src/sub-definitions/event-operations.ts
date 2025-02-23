@@ -1,9 +1,11 @@
+import type { CalendarEvent } from "../schemas/interfaces/calendar-event";
 import type { CreateEventOptions } from "../schemas/interfaces/create-event-options";
 import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
 import type { DeleteEventOptions } from "../schemas/interfaces/delete-event-options";
 import type { DeleteEventWithPromptOptions } from "../schemas/interfaces/delete-event-with-prompt-options";
 import type { DeleteEventsByIdOptions } from "../schemas/interfaces/delete-events-by-id-options";
 import type { EventEditAction } from "../schemas/types/event-edit-action";
+import type { ListEventsInRangeOptions } from "../schemas/interfaces/list-events-in-range-options";
 import type { ModifyEventOptions } from "../schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
 
@@ -83,6 +85,15 @@ export interface EventOperations {
   deleteEventWithPrompt(
     options: DeleteEventWithPromptOptions,
   ): Promise<{ deleted: boolean }>;
+  /**
+   * Retrieves the events within a date range.
+   *
+   * @platform Android, iOS
+   * @since 0.10.0
+   */
+  listEventsInRange(
+    options: ListEventsInRangeOptions,
+  ): Promise<{ result: CalendarEvent[] }>;
 }
 
 /**

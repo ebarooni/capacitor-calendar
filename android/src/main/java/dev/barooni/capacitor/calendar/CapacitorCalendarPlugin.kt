@@ -2,7 +2,6 @@ package dev.barooni.capacitor.calendar
 
 import android.Manifest
 import androidx.activity.result.ActivityResult
-import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
@@ -10,7 +9,7 @@ import com.getcapacitor.annotation.ActivityCallback
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
-import dev.barooni.capacitor.calendar.implementation.CapacitorCalendarNew
+import dev.barooni.capacitor.calendar.implementation.CapacitorCalendar
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 import dev.barooni.capacitor.calendar.models.inputs.CheckPermissionInput
 import dev.barooni.capacitor.calendar.models.inputs.CreateCalendarInput
@@ -20,6 +19,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
+import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -55,15 +55,14 @@ import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
     ],
 )
 class CapacitorCalendarPlugin : Plugin() {
-    private var implementation = CapacitorCalendar()
-    private val implementationNew: CapacitorCalendarNew by lazy { CapacitorCalendarNew(this) }
+    private val implementation: CapacitorCalendar by lazy { CapacitorCalendar(this) }
     private var eventIdOptional = false
 
     @PluginMethod
     fun checkPermission(call: PluginCall) {
         try {
             val input = CheckPermissionInput(call)
-            val result = implementationNew.checkPermission(input)
+            val result = implementation.checkPermission(input)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -73,7 +72,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun checkAllPermissions(call: PluginCall) {
         try {
-            val result = implementationNew.checkAllPermissions()
+            val result = implementation.checkAllPermissions()
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -84,7 +83,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun requestPermission(call: PluginCall) {
         try {
             val input = RequestPermissionInput.FromCall(call, ::requestPermissionCallback.name)
-            implementationNew.requestPermission(input, ::requestPermissionForAlias)
+            implementation.requestPermission(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -104,7 +103,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun requestAllPermissions(call: PluginCall) {
         try {
             val input = RequestAllPermissionsInput(call, ::requestAllPermissionsCallback.name)
-            implementationNew.requestAllPermissions(input, ::requestPermissionForAlias)
+            implementation.requestAllPermissions(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -129,7 +128,7 @@ class CapacitorCalendarPlugin : Plugin() {
                     CalendarPermissionScope.WRITE_CALENDAR,
                     ::requestWriteOnlyCalendarAccessCallback.name,
                 )
-            implementationNew.requestPermission(input, ::requestPermissionForAlias)
+            implementation.requestPermission(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -154,7 +153,7 @@ class CapacitorCalendarPlugin : Plugin() {
                     CalendarPermissionScope.READ_CALENDAR,
                     ::requestReadOnlyCalendarAccessCallback.name,
                 )
-            implementationNew.requestPermission(input, ::requestPermissionForAlias)
+            implementation.requestPermission(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -174,7 +173,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun requestFullCalendarAccess(call: PluginCall) {
         try {
             val input = RequestAllPermissionsInput(call, ::requestFullCalendarAccessCallback.name)
-            implementationNew.requestAllPermissions(input, ::requestPermissionForAlias)
+            implementation.requestAllPermissions(input, ::requestPermissionForAlias)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -199,7 +198,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createEventWithPrompt(call: PluginCall) {
         try {
             val input = CreateEventWithPromptInput(call, "createEventWithPromptCallback")
-            implementationNew.createEventWithPrompt(input, ::startActivityForResult)
+            implementation.createEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -220,7 +219,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun modifyEventWithPrompt(call: PluginCall) {
         try {
             val input = ModifyEventWithPromptInput(call, "modifyEventWithPromptCallback")
-            implementationNew.modifyEventWithPrompt(input, ::startActivityForResult)
+            implementation.modifyEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
             call.reject(error.message)
         }
@@ -241,7 +240,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createEvent(call: PluginCall) {
         try {
             val input = CreateEventInput(call)
-            val result = implementationNew.createEvent(input)
+            val result = implementation.createEvent(input)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -257,7 +256,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun modifyEvent(call: PluginCall) {
         try {
             val input = ModifyEvent(call)
-            implementationNew.modifyEvent(input)
+            implementation.modifyEvent(input)
             call.resolve()
         } catch (error: Exception) {
             call.reject(error.message)
@@ -277,7 +276,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun listCalendars(call: PluginCall) {
         try {
-            val result = implementationNew.listCalendars()
+            val result = implementation.listCalendars()
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -297,7 +296,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getDefaultCalendar(call: PluginCall) {
         try {
-            val result = implementationNew.getDefaultCalendar()
+            val result = implementation.getDefaultCalendar()
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -318,7 +317,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun openCalendar(call: PluginCall) {
         try {
             val input = OpenCalendarInput(call)
-            implementationNew.openCalendar(input)
+            implementation.openCalendar(input)
             call.resolve()
         } catch (error: Exception) {
             call.reject(error.message)
@@ -329,7 +328,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createCalendar(call: PluginCall) {
         try {
             val input = CreateCalendarInput(call)
-            val result = implementationNew.createCalendar(input)
+            val result = implementation.createCalendar(input)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -340,7 +339,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun deleteCalendar(call: PluginCall) {
         try {
             val input = DeleteCalendarInput(call)
-            implementationNew.deleteCalendar(input)
+            implementation.deleteCalendar(input)
             call.resolve()
         } catch (error: Exception) {
             call.reject(error.message)
@@ -381,7 +380,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun deleteEventsById(call: PluginCall) {
         try {
             val input = DeleteEventsByIdInput(call)
-            val result = implementationNew.deleteEventsById(input)
+            val result = implementation.deleteEventsById(input)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             call.reject(error.message)
@@ -392,7 +391,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun deleteEvent(call: PluginCall) {
         try {
             val input = DeleteEventInput(call)
-            implementationNew.deleteEvent(input)
+            implementation.deleteEvent(input)
             call.resolve()
         } catch (error: Exception) {
             call.reject(error.message)
@@ -403,7 +402,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun deleteEventWithPrompt(call: PluginCall) {
         try {
             val input = DeleteEventWithPromptInput(call)
-            implementationNew.deleteEventWithPrompt(
+            implementation.deleteEventWithPrompt(
                 input,
                 onComplete = { result ->
                     call.resolve(result.toJSON())
@@ -414,21 +413,14 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     fun listEventsInRange(call: PluginCall) {
         try {
-            val startDate =
-                call.getLong("startDate")
-                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] A start date was not provided")
-            val endDate =
-                call.getLong("endDate")
-                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] An end date was not provided")
-            val ret = JSObject()
-            ret.put("result", implementation.listEventsInRange(context, startDate, endDate))
-            call.resolve(ret)
+            val input = ListEventsInRangeInput(call)
+            val result = implementation.listEventsInRange(input)
+            call.resolve(result.toJSON())
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::listEventsInRange.name}] Could not get the list of events in requested range")
-            return
+            call.reject(error.message)
         }
     }
 }

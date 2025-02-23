@@ -6,9 +6,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = PluginConfig.identifier
     public let jsName = PluginConfig.jsName
     public let pluginMethods = PluginConfig.methods
-    private lazy var implementation = CapacitorCalendarNew(plugin: self)
-    private let eventStore = EKEventStore()
-    private lazy var calendar = CapacitorCalendar(bridge: self.bridge, eventStore: self.implementation.eventStore)
+    private lazy var implementation = CapacitorCalendar(plugin: self)
 
     @objc public func checkPermission(_ call: CAPPluginCall) {
         do {
@@ -339,20 +337,12 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
-        guard let startDate = call.getDouble("startDate") else {
-            call.reject("[CapacitorCalendar.\(#function)] A start date was not provided")
-            return
-        }
-        guard let endDate = call.getDouble("endDate") else {
-            call.reject("[CapacitorCalendar.\(#function)] An end date was not provided")
-            return
-        }
-
         do {
-            try call.resolve(["result": calendar.listEventsInRange(startDate: startDate, endDate: endDate)])
-        } catch {
-            call.reject("[CapacitorCalendar.\(#function)] Could not get the list of events in requested range")
-            return
+            let input = try ListEventsInRangeInput(call: call)
+            let result = try implementation.listEventsInRange(input)
+            call.resolve(result.toJSON())
+        } catch let error {
+            call.reject(error.localizedDescription)
         }
     }
 }

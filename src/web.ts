@@ -23,6 +23,7 @@ import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-oper
 import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { GetReminderByIdOptions } from "./schemas/interfaces/get-reminder-by-id-options";
 import type { GetRemindersFromListsOptions } from "./schemas/interfaces/get-reminders-from-lists-options";
+import type { ListEventsInRangeOptions } from "./schemas/interfaces/list-events-in-range-options";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
@@ -197,13 +198,10 @@ export class CapacitorCalendarWeb
     return this.throwUnimplemented(this.deleteEventWithPrompt.name);
   }
 
-  public listEventsInRange(_options: {
-    startDate: number;
-    endDate: number;
-  }): Promise<{ result: CalendarEvent[] }> {
-    throw this.unimplemented(
-      `${this.listEventsInRange.name} is not implemented on the web`,
-    );
+  public listEventsInRange(
+    _options: ListEventsInRangeOptions,
+  ): Promise<{ result: CalendarEvent[] }> {
+    return this.throwUnimplemented(this.listEventsInRange.name);
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {

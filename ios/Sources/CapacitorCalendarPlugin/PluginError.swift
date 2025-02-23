@@ -23,6 +23,8 @@ enum PluginError: LocalizedError {
     case listNotFound
     case missingFrequency
     case missingInterval
+    case fromDateMissing
+    case toDateMissing
     case unimplemented(String)
     case customError(String)
 
@@ -72,6 +74,10 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Frequency must be provided.", comment: "Frequency missing error")
         case .missingInterval:
             return NSLocalizedString("Interval must be provided.", comment: "Interval missing error")
+        case .fromDateMissing:
+            return NSLocalizedString("From date must be provided.", comment: "From date missing error")
+        case .toDateMissing:
+            return NSLocalizedString("To date must be provided.", comment: "To date missing error")
         case .unimplemented(let methodName):
             return NSLocalizedString("\(methodName) is not implemented on iOS.", comment: "\(methodName) is not implemented on iOS")
         case .customError(let message):

@@ -24,8 +24,8 @@
 - [Demo](#demo)
 - [Setup](#setup)
 - [Documentation](#documentation)
-- [API](#api)
 - [Changelog](#changelog)
+- [API](#api)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -56,6 +56,13 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
 - **[Type definitions & examples](src/definitions.ts)**
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
+
+> [!NOTE]  
+> Version 7.1.0 introduces breaking changes.
+
 ## API
 
 <docgen-index>
@@ -75,6 +82,7 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`deleteEventsById(...)`](#deleteeventsbyid)
 - [`deleteEvent(...)`](#deleteevent)
 - [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
+- [`listEventsInRange(...)`](#listeventsinrange)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
@@ -93,7 +101,6 @@ For comprehensive usage examples, detailed explanations, and API references, che
 - [`modifyReminder(...)`](#modifyreminder)
 - [`getReminderById(...)`](#getreminderbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
-- [`listEventsInRange(...)`](#listeventsinrange)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -373,6 +380,26 @@ Opens a dialog to delete an event.
 **Returns:** <code>Promise&lt;{ deleted: boolean; }&gt;</code>
 
 **Since:** 7.1.0
+
+**Platform:** Android, iOS
+
+---
+
+### listEventsInRange(...)
+
+```typescript
+listEventsInRange(options: ListEventsInRangeOptions) => Promise<{ result: CalendarEvent[]; }>
+```
+
+Retrieves the events within a date range.
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#listeventsinrangeoptions">ListEventsInRangeOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ result: CalendarEvent[]; }&gt;</code>
+
+**Since:** 0.10.0
 
 **Platform:** Android, iOS
 
@@ -694,26 +721,6 @@ Retrieves reminders from multiple lists.
 
 ---
 
-### listEventsInRange(...)
-
-```typescript
-listEventsInRange(options: { startDate: number; endDate: number; }) => Promise<{ result: CalendarEvent[]; }>
-```
-
-Retrieves the list of calendar events present in the given date range.
-
-| Param         | Type                                                 | Description                          |
-| ------------- | ---------------------------------------------------- | ------------------------------------ |
-| **`options`** | <code>{ startDate: number; endDate: number; }</code> | Options for defining the date range. |
-
-**Returns:** <code>Promise&lt;{ result: CalendarEvent[]; }&gt;</code>
-
-**Since:** 0.10.0
-
-**Platform:** iOS, Android
-
----
-
 ### Interfaces
 
 #### CreateEventWithPromptOptions
@@ -828,6 +835,39 @@ Retrieves the list of calendar events present in the given date range.
 | **`message`**           | <code>string</code>                             | Message of the dialog.              |                                   | 7.1.0 | Android, iOS |
 | **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
 | **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.  | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
+
+#### CalendarEvent
+
+| Prop                            | Type                                                                                                                                                                                                                                          | Since | Platform     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`id`**                        | <code>string</code>                                                                                                                                                                                                                           | 7.1.0 | Android, iOS |
+| **`title`**                     | <code>string</code>                                                                                                                                                                                                                           | 7.1.0 | Android, iOS |
+| **`calendarId`**                | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`location`**                  | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`startDate`**                 | <code>number</code>                                                                                                                                                                                                                           | 7.1.0 | Android, iOS |
+| **`endDate`**                   | <code>number</code>                                                                                                                                                                                                                           | 7.1.0 | Android, iOS |
+| **`isAllDay`**                  | <code>boolean</code>                                                                                                                                                                                                                          | 7.1.0 | Android, iOS |
+| **`alerts`**                    | <code>number[]</code>                                                                                                                                                                                                                         | 7.1.0 | Android, iOS |
+| **`url`**                       | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | iOS          |
+| **`description`**               | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`availability`**              | <code><a href="#eventavailability">EventAvailability</a> \| null</code>                                                                                                                                                                       | 7.1.0 | Android, iOS |
+| **`organizer`**                 | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`color`**                     | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`duration`**                  | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android      |
+| **`isDetached`**                | <code>boolean \| null</code>                                                                                                                                                                                                                  | 7.1.0 | iOS          |
+| **`birthdayContactIdentifier`** | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | iOS          |
+| **`status`**                    | <code><a href="#eventstatus">EventStatus</a> \| null</code>                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+| **`creationDate`**              | <code>number \| null</code>                                                                                                                                                                                                                   | 7.1.0 | iOS          |
+| **`lastModifiedDate`**          | <code>number \| null</code>                                                                                                                                                                                                                   | 7.1.0 | iOS          |
+| **`attendees`**                 | <code>{ email: string \| null; name: string \| null; role: <a href="#attendeerole">AttendeeRole</a> \| null; status: <a href="#attendeestatus">AttendeeStatus</a> \| null; type: <a href="#attendeetype">AttendeeType</a> \| null; }[]</code> | 7.1.0 | Android, iOS |
+| **`timezone`**                  | <code>string \| null</code>                                                                                                                                                                                                                   | 7.1.0 | Android, iOS |
+
+#### ListEventsInRangeOptions
+
+| Prop       | Type                | Description                    | Since |
+| ---------- | ------------------- | ------------------------------ | ----- |
+| **`from`** | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
+| **`to`**   | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
 
 #### Calendar
 
@@ -977,27 +1017,6 @@ Retrieves the list of calendar events present in the given date range.
 | ------------- | --------------------- | ----- |
 | **`listIds`** | <code>string[]</code> | 7.1.0 |
 
-#### CalendarEvent
-
-Represents an event in the calendar.
-
-| Prop                   | Type                                                   | Platform     |
-| ---------------------- | ------------------------------------------------------ | ------------ |
-| **`id`**               | <code>string</code>                                    | iOS, Android |
-| **`title`**            | <code>string</code>                                    | iOS, Android |
-| **`location`**         | <code>string</code>                                    | iOS, Android |
-| **`eventColor`**       | <code>string</code>                                    | iOS, Android |
-| **`organizer`**        | <code>string</code>                                    | iOS, Android |
-| **`description`**      | <code>string</code>                                    | iOS, Android |
-| **`startDate`**        | <code>number</code>                                    | iOS, Android |
-| **`endDate`**          | <code>number</code>                                    | iOS, Android |
-| **`eventTimezone`**    | <code>{ region: string; abbreviation: string; }</code> | iOS, Android |
-| **`eventEndTimezone`** | <code>{ region: string; abbreviation: string; }</code> | iOS, Android |
-| **`duration`**         | <code>string</code>                                    | Android      |
-| **`isAllDay`**         | <code>boolean</code>                                   | iOS, Android |
-| **`calendarId`**       | <code>string</code>                                    | iOS, Android |
-| **`url`**              | <code>string</code>                                    | iOS          |
-
 ### Type Aliases
 
 #### PermissionState
@@ -1056,6 +1075,57 @@ Construct a type with a set of properties K of type T
 | **`THIS_EVENT`**             | 7.1.0 |
 | **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
 
+#### EventStatus
+
+| Members         | Value                    | Since | Platform     |
+| --------------- | ------------------------ | ----- | ------------ |
+| **`NONE`**      | <code>"none"</code>      | 7.1.0 | iOS          |
+| **`CONFIRMED`** | <code>"confirmed"</code> | 7.1.0 | Android, iOS |
+| **`TENTATIVE`** | <code>"tentative"</code> | 7.1.0 | Android, iOS |
+| **`CANCELED`**  | <code>"canceled"</code>  | 7.1.0 | Android, iOS |
+
+#### AttendeeRole
+
+| Members               | Value                         | Since | Platform     |
+| --------------------- | ----------------------------- | ----- | ------------ |
+| **`UNKNOWN`**         | <code>"unknown"</code>        | 7.1.0 | Android, iOS |
+| **`REQUIRED`**        | <code>"required"</code>       | 7.1.0 | iOS          |
+| **`OPTIONAL`**        | <code>"optional"</code>       | 7.1.0 | iOS          |
+| **`CHAIR`**           | <code>"chair"</code>          | 7.1.0 | iOS          |
+| **`NON_PARTICIPANT`** | <code>"nonParticipant"</code> | 7.1.0 | Android, iOS |
+| **`ATTENDEE`**        | <code>"attendee"</code>       | 7.1.0 | Android      |
+| **`ORGANIZER`**       | <code>"organizer"</code>      | 7.1.0 | Android      |
+| **`PERFORMER`**       | <code>"performer"</code>      | 7.1.0 | Android      |
+| **`SPEAKER`**         | <code>"speaker"</code>        | 7.1.0 | Android      |
+
+#### AttendeeStatus
+
+| Members          | Value                    | Since | Platform     |
+| ---------------- | ------------------------ | ----- | ------------ |
+| **`NONE`**       | <code>"none"</code>      | 7.1.0 | Android      |
+| **`ACCEPTED`**   | <code>"accepted"</code>  | 7.1.0 | Android, iOS |
+| **`DECLINED`**   | <code>"declined"</code>  | 7.1.0 | Android, iOS |
+| **`INVITED`**    | <code>"invited"</code>   | 7.1.0 | Android      |
+| **`UNKNOWN`**    | <code>"unknown"</code>   | 7.1.0 | iOS          |
+| **`PENDING`**    | <code>"pending"</code>   | 7.1.0 | iOS          |
+| **`TENTATIVE`**  | <code>"tentative"</code> | 7.1.0 | Android, iOS |
+| **`DELEGATED`**  | <code>"delegated"</code> | 7.1.0 | iOS          |
+| **`COMPLETED`**  | <code>"completed"</code> | 7.1.0 | iOS          |
+| **`IN_PROCESS`** | <code>"inProcess"</code> | 7.1.0 | iOS          |
+
+#### AttendeeType
+
+| Members        | Value                   | Since | Platform     |
+| -------------- | ----------------------- | ----- | ------------ |
+| **`UNKNOWN`**  | <code>"unknown"</code>  | 7.1.0 | Android, iOS |
+| **`PERSON`**   | <code>"person"</code>   | 7.1.0 | iOS          |
+| **`ROOM`**     | <code>"room"</code>     | 7.1.0 | iOS          |
+| **`RESOURCE`** | <code>"resource"</code> | 7.1.0 | Android, iOS |
+| **`GROUP`**    | <code>"group"</code>    | 7.1.0 | iOS          |
+| **`REQUIRED`** | <code>"required"</code> | 7.1.0 | Android      |
+| **`NONE`**     | <code>"none"</code>     | 7.1.0 | Android      |
+| **`OPTIONAL`** | <code>"optional"</code> | 7.1.0 | Android      |
+
 #### CalendarType
 
 | Members            | Since |
@@ -1094,10 +1164,6 @@ Construct a type with a set of properties K of type T
 | **`YEARLY`**  | 7.1.0 |
 
 </docgen-api>
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 
 ## Contributing
 
