@@ -1,5 +1,7 @@
+import { AttendeeRole } from "../enums/attendee-role";
+import { AttendeeStatus } from "../enums/attendee-status";
+import { AttendeeType } from "../enums/attendee-type";
 import { EventAvailability } from "../enums/event-availability";
-import type { EventGuest } from "./event-guest";
 import { EventStatus } from "../enums/event-status";
 
 /**
@@ -90,6 +92,7 @@ export interface CalendarEvent {
   /**
    * @platform Android, iOS
    * @since 7.1.0
+   * @todo Mapping functions.
    */
   status: EventStatus | null;
   /**
@@ -106,7 +109,42 @@ export interface CalendarEvent {
    * @platform Android, iOS
    * @since 7.1.0
    */
-  attendees: EventGuest[];
+  attendees: {
+    /**
+     * @platform Android
+     * @since 7.1.0
+     */
+    email: string | null;
+    /**
+     * @platform Android, iOS
+     * @since 7.1.0
+     */
+    name: string | null;
+    /**
+     * Equivalent to ATTENDEE_RELATIONSHIP on Android.
+     * Equivalent to EKParticipantRole on iOS.
+     *
+     * @platform Android, iOS
+     * @since 7.1.0
+     */
+    role: AttendeeRole | null;
+    /**
+     * Equivalent to ATTENDEE_STATUS on Android.
+     * Equivalent to EKParticipantStatus on iOS.
+     *
+     * @platform Android, iOS
+     * @since 7.1.0
+     */
+    status: AttendeeStatus | null;
+    /**
+     * Equivalent to ATTENDEE_TYPE on Android.
+     * Equivalent to EKParticipantType on iOS.
+     *
+     * @platform Android, iOS
+     * @since 7.1.0
+     */
+    type: AttendeeType | null;
+  }[];
   /**
    * @platform Android, iOS
    * @since 7.1.0

@@ -2,6 +2,9 @@ import type {
   CheckAllPermissionsResult,
   RequestAllPermissionsResult,
 } from "./sub-definitions/calendar-access";
+import { AttendeeRole } from "./schemas/enums/attendee-role";
+import { AttendeeStatus } from "./schemas/enums/attendee-status";
+import { AttendeeType } from "./schemas/enums/attendee-type";
 import type { Calendar } from "./schemas/interfaces/calendar";
 import { CalendarChooserDisplayStyle } from "./schemas/enums/calendar-chooser-display-style";
 import type { CalendarEvent } from "./schemas/interfaces/calendar-event";
@@ -94,5 +97,8 @@ export {
   ReminderRecurrenceFrequency,
   RecurrenceFrequency,
   EventStatus,
+  AttendeeRole,
+  AttendeeType,
+  AttendeeStatus,
   CapacitorCalendar,
 };
