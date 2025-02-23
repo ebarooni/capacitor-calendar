@@ -92,7 +92,6 @@ export interface CalendarEvent {
   /**
    * @platform Android, iOS
    * @since 7.1.0
-   * @todo Mapping functions.
    */
   status: EventStatus | null;
   /**

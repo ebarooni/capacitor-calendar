@@ -1070,12 +1070,12 @@ Construct a type with a set of properties K of type T
 
 #### EventStatus
 
-| Members         | Since | Platform     |
-| --------------- | ----- | ------------ |
-| **`NONE`**      | 7.1.0 | iOS          |
-| **`CONFIRMED`** | 7.1.0 | Android, iOS |
-| **`TENTATIVE`** | 7.1.0 | Android, iOS |
-| **`CANCELED`**  | 7.1.0 | Android, iOS |
+| Members         | Value                    | Since | Platform     |
+| --------------- | ------------------------ | ----- | ------------ |
+| **`NONE`**      | <code>"none"</code>      | 7.1.0 | iOS          |
+| **`CONFIRMED`** | <code>"confirmed"</code> | 7.1.0 | Android, iOS |
+| **`TENTATIVE`** | <code>"tentative"</code> | 7.1.0 | Android, iOS |
+| **`CANCELED`**  | <code>"canceled"</code>  | 7.1.0 | Android, iOS |
 
 #### AttendeeRole
 
