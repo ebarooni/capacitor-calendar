@@ -33,6 +33,10 @@ sealed class PluginError(
 
     data object MessageMissing : PluginError("Message must be provided.")
 
+    data object FromDateMissing : PluginError("From date must be provided.")
+
+    data object ToDateMissing : PluginError("To date must be provided.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

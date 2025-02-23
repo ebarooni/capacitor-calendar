@@ -2,7 +2,6 @@ package dev.barooni.capacitor.calendar
 
 import android.Manifest
 import androidx.activity.result.ActivityResult
-import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
@@ -20,6 +19,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
+import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -414,21 +414,14 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
+    @PluginMethod
     fun listEventsInRange(call: PluginCall) {
         try {
-            val startDate =
-                call.getLong("startDate")
-                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] A start date was not provided")
-            val endDate =
-                call.getLong("endDate")
-                    ?: throw Exception("[CapacitorCalendar.${::listEventsInRange.name}] An end date was not provided")
-            val ret = JSObject()
-            ret.put("result", implementation.listEventsInRange(context, startDate, endDate))
-            call.resolve(ret)
+            val input = ListEventsInRangeInput(call)
+            val result = implementationNew.listEventsInRange(input)
+            call.resolve(result.toJSON())
         } catch (error: Exception) {
-            call.reject("", "[CapacitorCalendar.${::listEventsInRange.name}] Could not get the list of events in requested range")
-            return
+            call.reject(error.message)
         }
     }
 }
