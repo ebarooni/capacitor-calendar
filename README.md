@@ -24,8 +24,8 @@
 - [Demo](#demo)
 - [Setup](#setup)
 - [Documentation](#documentation)
-- [API](#api)
 - [Changelog](#changelog)
+- [API](#api)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -55,6 +55,13 @@ For comprehensive usage examples, detailed explanations, and API references, che
 
 - **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
 - **[Type definitions & examples](src/definitions.ts)**
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
+
+> [!NOTE]  
+> Version 7.1.0 introduces breaking changes.
 
 ## API
 
@@ -1157,10 +1164,6 @@ Construct a type with a set of properties K of type T
 | **`YEARLY`**  | 7.1.0 |
 
 </docgen-api>
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 
 ## Contributing
 
