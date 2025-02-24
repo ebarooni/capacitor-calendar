@@ -2,6 +2,7 @@ import type { Calendar } from "../schemas/interfaces/calendar";
 import type { CalendarSource } from "../schemas/interfaces/calendar-source";
 import type { CreateCalendarOptions } from "../schemas/interfaces/create-calendar-options";
 import type { DeleteCalendarOptions } from "../schemas/interfaces/delete-calendar-options";
+import type { ModifyCalendarOptions } from "../schemas/interfaces/modify-calendar-options";
 import type { OpenCalendarOptions } from "../schemas/interfaces/open-calendar-options";
 import type { SelectCalendarsWithPromptOptions } from "../schemas/interfaces/select-calendars-with-prompt-options";
 
@@ -67,4 +68,11 @@ export interface CalendarOperations {
    * @since 5.2.0
    */
   deleteCalendar(options: DeleteCalendarOptions): Promise<void>;
+  /**
+   * Modifies a calendar with options.
+   *
+   * @platform Android, iOS
+   * @since 7.2.0
+   */
+  modifyCalendar(options: ModifyCalendarOptions): Promise<void>;
 }

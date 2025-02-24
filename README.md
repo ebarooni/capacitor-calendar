@@ -91,6 +91,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`openCalendar(...)`](#opencalendar)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
+- [`modifyCalendar(...)`](#modifycalendar)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
@@ -543,6 +544,24 @@ Deletes a calendar by id.
 
 ---
 
+### modifyCalendar(...)
+
+```typescript
+modifyCalendar(options: ModifyCalendarOptions) => Promise<void>
+```
+
+Modifies a calendar with options.
+
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code><a href="#modifycalendaroptions">ModifyCalendarOptions</a></code> |
+
+**Since:** 7.2.0
+
+**Platform:** Android, iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -924,6 +943,13 @@ Retrieves reminders from multiple lists.
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
+
+#### ModifyCalendarOptions
+
+| Prop        | Type                | Since | Platform     |
+| ----------- | ------------------- | ----- | ------------ |
+| **`title`** | <code>string</code> | 7.2.0 | Android, iOS |
+| **`color`** | <code>string</code> | 7.2.0 | Android, iOS |
 
 #### CreateReminderOptions
 
