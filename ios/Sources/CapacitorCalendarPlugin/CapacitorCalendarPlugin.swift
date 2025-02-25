@@ -345,4 +345,14 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
+
+    @objc public func modifyCalendar(_ call: CAPPluginCall) {
+        do {
+            let input = try ModifyCalendarInput(call: call)
+            try implementation.modifyCalendar(input)
+            call.resolve()
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
 }

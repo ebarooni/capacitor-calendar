@@ -33,6 +33,7 @@ import { EventStatus } from "./schemas/enums/event-status";
 import type { GetReminderByIdOptions } from "./schemas/interfaces/get-reminder-by-id-options";
 import type { GetRemindersFromListsOptions } from "./schemas/interfaces/get-reminders-from-lists-options";
 import type { ListEventsInRangeOptions } from "./schemas/interfaces/list-events-in-range-options";
+import type { ModifyCalendarOptions } from "./schemas/interfaces/modify-calendar-options";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
@@ -86,6 +87,7 @@ export type {
   DeleteEventWithPromptOptions,
   ListEventsInRangeOptions,
   CalendarEvent,
+  ModifyCalendarOptions,
 };
 export {
   CalendarPermissionScope,

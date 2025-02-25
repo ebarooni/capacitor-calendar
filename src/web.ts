@@ -24,6 +24,7 @@ import type { EventEditAction } from "./schemas/types/event-edit-action";
 import type { GetReminderByIdOptions } from "./schemas/interfaces/get-reminder-by-id-options";
 import type { GetRemindersFromListsOptions } from "./schemas/interfaces/get-reminders-from-lists-options";
 import type { ListEventsInRangeOptions } from "./schemas/interfaces/list-events-in-range-options";
+import type { ModifyCalendarOptions } from "./schemas/interfaces/modify-calendar-options";
 import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-options";
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
@@ -202,6 +203,10 @@ export class CapacitorCalendarWeb
     _options: ListEventsInRangeOptions,
   ): Promise<{ result: CalendarEvent[] }> {
     return this.throwUnimplemented(this.listEventsInRange.name);
+  }
+
+  public modifyCalendar(_options: ModifyCalendarOptions): Promise<void> {
+    return this.throwUnimplemented(this.modifyCalendar.name);
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {
