@@ -486,6 +486,19 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
         return ListEventsInRangeResult(events)
     }
 
+    func modifyCalendar(_ input: ModifyCalendarInput) throws {
+        guard let calendar = eventStore.calendar(withIdentifier: input.getId()) else {
+            throw PluginError.calendarNotFound
+        }
+        if let title = input.getTitle() {
+            calendar.title = title
+        }
+        if let color = input.getColor() {
+            calendar.cgColor = color
+        }
+        try eventStore.saveCalendar(calendar, commit: true)
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
