@@ -1,6 +1,7 @@
 import type { CalendarSource } from "../schemas/interfaces/calendar-source";
 import type { CreateReminderOptions } from "../schemas/interfaces/create-reminder-options";
 import type { DeleteReminderOptions } from "../schemas/interfaces/delete-reminder-options";
+import type { DeleteReminderWithPromptOptions } from "../schemas/interfaces/delete-reminder-with-prompt-options";
 import type { DeleteRemindersByIdOptions } from "../schemas/interfaces/delete-reminders-by-id-options";
 import type { GetReminderByIdOptions } from "../schemas/interfaces/get-reminder-by-id-options";
 import type { GetRemindersFromListsOptions } from "../schemas/interfaces/get-reminders-from-lists-options";
@@ -87,6 +88,15 @@ export interface RemindersOperations {
   getRemindersFromLists(
     options: GetRemindersFromListsOptions,
   ): Promise<{ result: Reminder[] }>;
+  /**
+   * Opens a dialog to delete a reminder.
+   *
+   * @platform iOS
+   * @since 7.2.0
+   */
+  deleteReminderWithPrompt(
+    options: DeleteReminderWithPromptOptions,
+  ): Promise<{ deleted: boolean }>;
 }
 
 /**

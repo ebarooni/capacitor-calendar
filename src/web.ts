@@ -18,6 +18,7 @@ import type { DeleteEventWithPromptOptions } from "./schemas/interfaces/delete-e
 import type { DeleteEventsByIdOptions } from "./schemas/interfaces/delete-events-by-id-options";
 import type { DeleteEventsByIdResult } from "./sub-definitions/event-operations";
 import type { DeleteReminderOptions } from "./schemas/interfaces/delete-reminder-options";
+import type { DeleteReminderWithPromptOptions } from "./schemas/interfaces/delete-reminder-with-prompt-options";
 import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
 import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
 import type { EventEditAction } from "./schemas/types/event-edit-action";
@@ -207,6 +208,12 @@ export class CapacitorCalendarWeb
 
   public modifyCalendar(_options: ModifyCalendarOptions): Promise<void> {
     return this.throwUnimplemented(this.modifyCalendar.name);
+  }
+
+  public deleteReminderWithPrompt(
+    _options: DeleteReminderWithPromptOptions,
+  ): Promise<{ deleted: boolean }> {
+    return this.throwUnimplemented(this.deleteReminderWithPrompt.name);
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {
