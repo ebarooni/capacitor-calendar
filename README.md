@@ -948,6 +948,7 @@ Retrieves reminders from multiple lists.
 
 | Prop        | Type                | Since | Platform     |
 | ----------- | ------------------- | ----- | ------------ |
+| **`id`**    | <code>string</code> | 7.2.0 | Android, iOS |
 | **`title`** | <code>string</code> | 7.2.0 | Android, iOS |
 | **`color`** | <code>string</code> | 7.2.0 | Android, iOS |
 
