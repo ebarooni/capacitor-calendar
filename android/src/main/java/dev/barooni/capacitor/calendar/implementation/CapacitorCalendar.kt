@@ -21,6 +21,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
+import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -344,5 +345,19 @@ class CapacitorCalendar(
         }
         cursor?.close()
         return ListEventsInRangeResult(events)
+    }
+
+    fun modifyCalendar(input: ModifyCalendarInput) {
+        val cr = plugin.context.contentResolver
+        val values =
+            ContentValues().apply {
+                input.title?.let { put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, it) }
+                input.color?.let { put(CalendarContract.Calendars.CALENDAR_COLOR, it) }
+            }
+        val uri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
+        val rowsUpdated = cr.update(uri, values, null, null)
+        if (rowsUpdated < 1) {
+            throw PluginError.FailedToModify
+        }
     }
 }

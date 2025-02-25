@@ -37,6 +37,8 @@ sealed class PluginError(
 
     data object ToDateMissing : PluginError("To date must be provided.")
 
+    data object FailedToModify : PluginError("Failed to modify.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

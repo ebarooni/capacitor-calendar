@@ -20,6 +20,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
+import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
@@ -419,6 +420,17 @@ class CapacitorCalendarPlugin : Plugin() {
             val input = ListEventsInRangeInput(call)
             val result = implementation.listEventsInRange(input)
             call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            call.reject(error.message)
+        }
+    }
+
+    @PluginMethod
+    fun modifyCalendar(call: PluginCall) {
+        try {
+            val input = ModifyCalendarInput(call)
+            implementation.modifyCalendar(input)
+            call.resolve()
         } catch (error: Exception) {
             call.reject(error.message)
         }
