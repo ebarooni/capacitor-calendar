@@ -435,4 +435,9 @@ class CapacitorCalendarPlugin : Plugin() {
             call.reject(error.message)
         }
     }
+
+    @PluginMethod
+    fun deleteReminderWithPrompt(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::deleteReminderWithPrompt.name).message)
+    }
 }
