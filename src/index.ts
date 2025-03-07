@@ -23,6 +23,7 @@ import type { DeleteEventWithPromptOptions } from "./schemas/interfaces/delete-e
 import type { DeleteEventsByIdOptions } from "./schemas/interfaces/delete-events-by-id-options";
 import type { DeleteEventsByIdResult } from "./sub-definitions/event-operations";
 import type { DeleteReminderOptions } from "./schemas/interfaces/delete-reminder-options";
+import type { DeleteReminderWithPromptOptions } from "./schemas/interfaces/delete-reminder-with-prompt-options";
 import type { DeleteRemindersByIdOptions } from "./schemas/interfaces/delete-reminders-by-id-options";
 import type { DeleteRemindersByIdResult } from "./sub-definitions/reminders-operations";
 import { EventAvailability } from "./schemas/enums/event-availability";
@@ -88,6 +89,7 @@ export type {
   ListEventsInRangeOptions,
   CalendarEvent,
   ModifyCalendarOptions,
+  DeleteReminderWithPromptOptions,
 };
 export {
   CalendarPermissionScope,

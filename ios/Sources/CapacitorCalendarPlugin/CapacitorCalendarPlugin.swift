@@ -355,4 +355,20 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject(error.localizedDescription)
         }
     }
+
+    @objc public func deleteReminderWithPrompt(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteReminderWithPromptInput(call: call)
+            try implementation.deleteReminderWithPrompt(input) { result in
+                switch result {
+                case .success(let obj):
+                    call.resolve(obj.toJSON())
+                case .failure(let error):
+                    call.reject(error.localizedDescription)
+                }
+            }
+        } catch let error {
+            call.reject(error.localizedDescription)
+        }
+    }
 }
