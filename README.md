@@ -102,6 +102,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`modifyReminder(...)`](#modifyreminder)
 - [`getReminderById(...)`](#getreminderbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
+- [`deleteReminderWithPrompt(...)`](#deletereminderwithprompt)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -740,6 +741,26 @@ Retrieves reminders from multiple lists.
 
 ---
 
+### deleteReminderWithPrompt(...)
+
+```typescript
+deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions) => Promise<{ deleted: boolean; }>
+```
+
+Opens a dialog to delete a reminder.
+
+| Param         | Type                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletereminderwithpromptoptions">DeleteReminderWithPromptOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ deleted: boolean; }&gt;</code>
+
+**Since:** 7.2.0
+
+**Platform:** iOS
+
+---
+
 ### Interfaces
 
 #### CreateEventWithPromptOptions
@@ -1043,6 +1064,16 @@ Retrieves reminders from multiple lists.
 | Prop          | Type                  | Since |
 | ------------- | --------------------- | ----- |
 | **`listIds`** | <code>string[]</code> | 7.1.0 |
+
+#### DeleteReminderWithPromptOptions
+
+| Prop                    | Type                | Description                         | Default               | Since |
+| ----------------------- | ------------------- | ----------------------------------- | --------------------- | ----- |
+| **`id`**                | <code>string</code> |                                     |                       | 7.2.0 |
+| **`title`**             | <code>string</code> | Title of the dialog.                |                       | 7.2.0 |
+| **`message`**           | <code>string</code> | Message of the dialog.              |                       | 7.2.0 |
+| **`confirmButtonText`** | <code>string</code> | Text to show on the confirm button. | <code>'Delete'</code> | 7.2.0 |
+| **`cancelButtonText`**  | <code>string</code> | Text to show on the cancel button.  | <code>'Cancel'</code> | 7.2.0 |
 
 ### Type Aliases
 
