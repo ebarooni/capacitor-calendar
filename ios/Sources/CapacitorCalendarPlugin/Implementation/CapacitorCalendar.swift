@@ -499,6 +499,35 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
         try eventStore.saveCalendar(calendar, commit: true)
     }
 
+    func deleteReminderWithPrompt(_ input: DeleteReminderWithPromptInput, completion: @escaping (Result<DeleteEventWithPromptResult, Error>) -> Void) throws {
+        guard let viewController = plugin.bridge?.viewController else {
+            throw PluginError.viewControllerMissing
+        }
+        guard let reminder = eventStore.calendarItem(withIdentifier: input.getId()) as? EKReminder else {
+            throw PluginError.reminderNotFound
+        }
+
+        Task { @MainActor in
+            let alert = UIAlertController(
+                title: input.getTitle(),
+                message: input.getMessage(),
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: input.getCancelButtonText(), style: .cancel, handler: { _ in
+                completion(.success(DeleteEventWithPromptResult(deleted: false)))
+            }))
+            alert.addAction(UIAlertAction(title: input.getConfirmButtonText(), style: .destructive, handler: { _ in
+                do {
+                    try ImplementationHelper.deleteReminder(reminderId: input.getId(), eventStore: self.eventStore)
+                    completion(.success(DeleteEventWithPromptResult(deleted: true)))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            }))
+            viewController.present(alert, animated: true)
+        }
+    }
+
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         var createEventWithPromptCancellable: AnyCancellable?
         createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
