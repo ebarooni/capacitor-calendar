@@ -208,7 +208,6 @@ class CapacitorCalendarPlugin : Plugin() {
     @ActivityCallback
     private fun createEventWithPromptCallback(
         call: PluginCall?,
-        result: ActivityResult,
     ) {
         if (call == null) {
             return
@@ -229,7 +228,6 @@ class CapacitorCalendarPlugin : Plugin() {
     @ActivityCallback
     private fun modifyEventWithPromptCallback(
         call: PluginCall?,
-        result: ActivityResult,
     ) {
         if (call == null) {
             return
