@@ -45,6 +45,11 @@ export interface ModifyEventOptions {
    */
   isAllDay?: boolean;
   /**
+   * Alert times in minutes relative to the event start.
+   * Use negative numbers for reminders before the start, and positive numbers for reminders after the start.
+   *
+   * Example: [-10, 15] => 10 minutes before and 15 minutes after the start.
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */

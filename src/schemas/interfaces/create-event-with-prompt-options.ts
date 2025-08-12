@@ -35,12 +35,12 @@ export interface CreateEventWithPromptOptions {
    */
   isAllDay?: boolean;
   /**
-   * Sets alerts before or after the start of the event in minutes.
+   * Alert times in minutes relative to the event start.
+   * Use negative numbers for reminders before the start, and positive numbers for reminders after the start.
    * On iOS only 2 alerts are supported.
    *
    * @example
-   * // 10mins before and 30mins after the event
-   * const alerts: [-10, 30]
+   * const alerts = [-1440, -60, 30]; // 1 day before, 1 hour before, and 30 minutes after
    *
    * @platform iOS
    * @since 7.1.0

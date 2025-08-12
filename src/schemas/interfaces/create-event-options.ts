@@ -37,6 +37,11 @@ export interface CreateEventOptions {
    */
   isAllDay?: boolean;
   /**
+   * Alert times in minutes relative to the event start.
+   * Use negative numbers for reminders before the start, and positive numbers for reminders after the start.
+   *
+   * Example: [-1440, -60, 30] => 1 day before, 1 hour before, and 30 minutes after the start.
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */
