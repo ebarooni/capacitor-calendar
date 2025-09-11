@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "allowUnreachableCode": false,
     "declaration": true,
     "esModuleInterop": true,
