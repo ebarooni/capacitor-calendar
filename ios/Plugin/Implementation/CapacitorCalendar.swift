@@ -547,11 +547,13 @@ extension CapacitorCalendar: EKCalendarChooserDelegate {
 
 extension CapacitorCalendar: EKEventEditViewDelegate {
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        let identifier = controller.event?.eventIdentifier
+
         switch action {
         case .saved:
-            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: controller.event?.eventIdentifier))
+            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: identifier))
         case .canceled, .cancelled, .deleted:
-            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: nil))
+            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: identifier))
         @unknown default:
             createEventWithPromptContinuation?.resume(throwing: PluginError.processFailed)
         }
