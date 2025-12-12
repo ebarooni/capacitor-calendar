@@ -5,7 +5,13 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["**/android", "**/ios", "**/dist", "typedoc-output/**"],
+    ignores: [
+      "**/.build",
+      "**/android",
+      "**/dist",
+      "**/ios",
+      "typedoc-output/**",
+    ],
   },
   ...config.javascript,
   ...config.typescript,

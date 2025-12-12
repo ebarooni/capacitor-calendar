@@ -3,12 +3,12 @@ import Combine
 import EventKitUI
 import Capacitor
 
-class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDelegate {
-    private let plugin: CapacitorCalendarPlugin
+class CapacitorCalendar: NSObject {
+    private var createEventWithPromptContinuation: CheckedContinuation<CreateEventWithPromptResult, Error>?
     private let eventStore = EKEventStore()
-    private let createEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<CreateEventWithPromptResult, Error>?, Never>(nil)
-    private let modifyEventWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<ModifyEventWithPromptResult, Error>?, Never>(nil)
-    private let selectCalendarsWithPromptResultEmitter = CurrentValueSubject<CheckedContinuation<SelectCalendarsWithPromptResult, Error>?, Never>(nil)
+    private var modifyEventWithPromptContinuation: CheckedContinuation<ModifyEventWithPromptResult, Error>?
+    private let plugin: CapacitorCalendarPlugin
+    private var selectCalendarsWithPromptContinuation: CheckedContinuation<SelectCalendarsWithPromptResult, Error>?
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
@@ -121,7 +121,7 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
                 eventEditViewController.eventStore = eventStore
                 eventEditViewController.editViewDelegate = self
                 viewController.present(eventEditViewController, animated: true) {
-                    self.createEventWithPromptResultEmitter.send(continuation)
+                    self.createEventWithPromptContinuation = continuation
                 }
             }
         }
@@ -169,7 +169,7 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
                 eventEditViewController.eventStore = eventStore
                 eventEditViewController.editViewDelegate = self
                 viewController.present(eventEditViewController, animated: true) {
-                    self.modifyEventWithPromptResultEmitter.send(continuation)
+                    self.modifyEventWithPromptContinuation = continuation
                 }
             }
         }
@@ -248,7 +248,7 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
                 calendarChooser.delegate = self
 
                 viewController.present(UINavigationController(rootViewController: calendarChooser), animated: true) {
-                    self.selectCalendarsWithPromptResultEmitter.send(continuation)
+                    self.selectCalendarsWithPromptContinuation = continuation
                 }
             }
         }
@@ -503,7 +503,7 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
         }
-        guard let reminder = eventStore.calendarItem(withIdentifier: input.getId()) as? EKReminder else {
+        guard let _ = eventStore.calendarItem(withIdentifier: input.getId()) as? EKReminder else {
             throw PluginError.reminderNotFound
         }
 
@@ -527,70 +527,46 @@ class CapacitorCalendar: NSObject, EKEventEditViewDelegate, EKCalendarChooserDel
             viewController.present(alert, animated: true)
         }
     }
+}
 
-    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
-        var createEventWithPromptCancellable: AnyCancellable?
-        createEventWithPromptCancellable = self.createEventWithPromptResultEmitter.sink { promise in
-            guard let promise = promise else {
-                return
-            }
-            switch action {
-            case .saved:
-                promise.resume(returning: CreateEventWithPromptResult(id: controller.event?.eventIdentifier))
-            case .canceled, .cancelled, .deleted:
-                promise.resume(returning: CreateEventWithPromptResult(id: nil))
-            @unknown default:
-                promise.resume(throwing: PluginError.processFailed)
-            }
-
-            controller.dismiss(animated: true) {
-                createEventWithPromptCancellable?.cancel()
-            }
-        }
-
-        var modifyEventWithPromptCancellable: AnyCancellable?
-        modifyEventWithPromptCancellable = self.modifyEventWithPromptResultEmitter.sink { promise in
-            guard let promise = promise else {
-                return
-            }
-
-            do {
-                promise.resume(returning: try ModifyEventWithPromptResult(action: action))
-            } catch let error {
-                promise.resume(throwing: error)
-            }
-
-            controller.dismiss(animated: true) {
-                modifyEventWithPromptCancellable?.cancel()
-            }
-        }
-    }
-
+extension CapacitorCalendar: EKCalendarChooserDelegate {
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
-        var selectCalendarsWithPromptCancellable: AnyCancellable?
-        selectCalendarsWithPromptCancellable = self.selectCalendarsWithPromptResultEmitter.sink { promise in
-            guard let promise = promise else {
-                return
-            }
-
-            promise.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
-            self.plugin.bridge?.viewController?.dismiss(animated: true) {
-                selectCalendarsWithPromptCancellable?.cancel()
-            }
+        selectCalendarsWithPromptContinuation?.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
+        self.plugin.bridge?.viewController?.dismiss(animated: true) {
+            self.selectCalendarsWithPromptContinuation = nil
         }
     }
 
     func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
-        var selectCalendarsWithPromptCancellable: AnyCancellable?
-        selectCalendarsWithPromptCancellable = self.selectCalendarsWithPromptResultEmitter.sink { promise in
-            guard let promise = promise else {
-                return
-            }
+        selectCalendarsWithPromptContinuation?.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
+        self.plugin.bridge?.viewController?.dismiss(animated: true) {
+            self.selectCalendarsWithPromptContinuation = nil
+        }
+    }
+}
 
-            promise.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
-            self.plugin.bridge?.viewController?.dismiss(animated: true) {
-                selectCalendarsWithPromptCancellable?.cancel()
-            }
+extension CapacitorCalendar: EKEventEditViewDelegate {
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        let identifier = controller.event?.eventIdentifier
+
+        switch action {
+        case .saved:
+            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: identifier))
+        case .canceled, .cancelled, .deleted:
+            createEventWithPromptContinuation?.resume(returning: CreateEventWithPromptResult(id: identifier))
+        @unknown default:
+            createEventWithPromptContinuation?.resume(throwing: PluginError.processFailed)
+        }
+
+        do {
+            modifyEventWithPromptContinuation?.resume(returning: try ModifyEventWithPromptResult(action: action))
+        } catch let error {
+            modifyEventWithPromptContinuation?.resume(throwing: error)
+        }
+
+        controller.dismiss(animated: true) {
+            self.createEventWithPromptContinuation = nil
+            self.modifyEventWithPromptContinuation = nil
         }
     }
 }

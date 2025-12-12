@@ -1,5 +1,4 @@
 import Capacitor
-import EventKit
 
 @objc(CapacitorCalendarPlugin)
 public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
@@ -12,18 +11,18 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try CheckPermissionInput(call: call)
             let result = try implementation.checkPermission(input: input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
     @objc public func checkAllPermissions(_ call: CAPPluginCall) {
         do {
             let result = try implementation.checkAllPermissions()
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -32,9 +31,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = try RequestPermissionInput(call: call)
                 let result = try await implementation.requestionPermission(input: input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -43,9 +42,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let result = try await implementation.requestAllPermissions()
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -54,9 +53,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let result = try await implementation.requestWriteOnlyCalendarAccess()
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -69,9 +68,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let result = try await implementation.requestFullCalendarAccess()
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -80,9 +79,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let result = try await implementation.requestFullRemindersAccess()
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -92,9 +91,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = CreateEventWithPromptInput(call: call)
                 let result = try await implementation.createEventWithPrompt(with: input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -104,9 +103,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = try ModifyEventWithPromptInput(call: call)
                 let result = try await implementation.modifyEventWithPrompt(input: input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -115,18 +114,18 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try CreateEventInput(call: call)
             let result = try implementation.createEvent(input: input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
     @objc public func commit(_ call: CAPPluginCall) {
         do {
             try implementation.commit()
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -134,9 +133,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input: ModifyEventInput = try ModifyEventInput(call: call)
             try implementation.modifyEvent(input: input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -145,26 +144,26 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = SelectCalendarsWithPromptInput(call: call)
                 let result = try await implementation.selectCalendarsWithPrompt(input: input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
 
     @objc public func fetchAllCalendarSources(_ call: CAPPluginCall) {
         do {
-            call.resolve(try implementation.fetchAllCalendarSources().toJSON())
+            resolveCall(call, try implementation.fetchAllCalendarSources())
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
     @objc public func listCalendars(_ call: CAPPluginCall) {
         do {
-            call.resolve(try implementation.listCalendars().toJSON())
+            resolveCall(call, try implementation.listCalendars())
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -176,9 +175,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 try await implementation.openReminders()
-                call.resolve()
+                resolveCall(call)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -186,27 +185,27 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
         do {
             let result = try implementation.getDefaultCalendar()
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
         do {
             let result = try implementation.getDefaultRemindersList()
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
     @objc public func getRemindersLists(_ call: CAPPluginCall) {
         do {
             let result = try implementation.getRemindersLists()
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -215,9 +214,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = OpenCalendarInput(call: call)
                 try await implementation.openCalendar(input: input)
-                call.resolve()
+                resolveCall(call)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -226,9 +225,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try CreateCalendarInput(call: call)
             let result = try implementation.createCalendar(input: input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -236,9 +235,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try DeleteCalendarInput(call: call)
             try implementation.deleteCalendar(input: input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -246,9 +245,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try CreateReminderInput(call: call)
             let result = try implementation.createReminder(input: input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -256,9 +255,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try DeleteRemindersByIdInput(call: call)
             let result = try implementation.deleteRemindersById(input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -266,9 +265,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try DeleteReminderInput(call: call)
             try implementation.deleteReminder(input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -276,9 +275,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try ModifyReminderInput(call: call)
             try implementation.modifyReminder(input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -286,9 +285,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try GetReminderByIdInput(call: call)
             let result = try implementation.getReminderById(input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -297,9 +296,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = try GetRemindersFromListsInput(call: call)
                 let result = try await implementation.getRemindersFromLists(input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -308,9 +307,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try DeleteEventsByIdInput(call: call)
             let result = try implementation.deleteEventsById(input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -318,9 +317,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try DeleteEventInput(call: call)
             try implementation.deleteEvent(input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -329,9 +328,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             do {
                 let input = try DeleteEventWithPromptInput(call: call)
                 let result = try await implementation.deleteEventWithPrompt(input)
-                call.resolve(result.toJSON())
+                resolveCall(call, result)
             } catch let error {
-                call.reject(error.localizedDescription)
+                rejectCall(call, error)
             }
         }
     }
@@ -340,9 +339,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try ListEventsInRangeInput(call: call)
             let result = try implementation.listEventsInRange(input)
-            call.resolve(result.toJSON())
+            resolveCall(call, result)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -350,9 +349,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             let input = try ModifyCalendarInput(call: call)
             try implementation.modifyCalendar(input)
-            call.resolve()
+            resolveCall(call)
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
         }
     }
 
@@ -361,14 +360,34 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             let input = try DeleteReminderWithPromptInput(call: call)
             try implementation.deleteReminderWithPrompt(input) { result in
                 switch result {
-                case .success(let obj):
-                    call.resolve(obj.toJSON())
+                case .success(let result):
+                    self.resolveCall(call, result)
                 case .failure(let error):
-                    call.reject(error.localizedDescription)
+                    self.rejectCall(call, error)
                 }
             }
         } catch let error {
-            call.reject(error.localizedDescription)
+            rejectCall(call, error)
+        }
+    }
+
+    private func rejectCall(_ call: CAPPluginCall, _ error: Error?) {
+        if let msg = error?.localizedDescription {
+            call.reject(msg)
+        } else {
+            call.reject(PluginError.customError("An unknown error has occured.").localizedDescription)
+        }
+    }
+
+    private func resolveCall(_ call: CAPPluginCall) {
+        resolveCall(call, nil)
+    }
+
+    private func resolveCall(_ call: CAPPluginCall, _ result: JSResult?) {
+        if let result {
+            call.resolve(result.toJSON())
+        } else {
+            call.resolve()
         }
     }
 }
