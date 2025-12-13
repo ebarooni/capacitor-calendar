@@ -1,5 +1,6 @@
 import { EventAvailability } from "../enums/event-availability";
 import type { EventGuest } from "./event-guest";
+import type { EventRecurrenceRule } from "./event-recurrence-rule";
 import { EventSpan } from "../enums/event-span";
 
 /**
@@ -7,76 +8,38 @@ import { EventSpan } from "../enums/event-span";
  */
 export interface ModifyEventOptions {
   /**
-   * The ID of the event to be modified.
-   *
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  id: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.4.0
-   */
-  title?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  calendarId?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  location?: string;
-  /**
-   *
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  startDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  endDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  isAllDay?: boolean;
-  /**
    * @platform Android, iOS
    * @since 7.1.0
    */
   alerts?: number[];
   /**
-   * @platform iOS
-   * @since 0.1.0
-   */
-  url?: string;
-  /**
-   * @platform Android, iOS
+   * The event guests.
+   *
+   * @platform Android
    * @since 7.1.0
    */
-  description?: string;
+  attendees?: EventGuest[];
   /**
    * @platform Android, iOS
    * @since 7.1.0
    */
   availability?: EventAvailability;
   /**
-   * Email of the event organizer.
-   *
-   * @platform Android
-   * @since 7.1.0
+   * @platform Android, iOS
+   * @since 0.1.0
    */
-  organizer?: string;
+  calendarId?: string;
   /**
    * @example #6750A4
    * @platform Android
    * @since 7.1.0
    */
   color?: string;
+  /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  description?: string;
   /**
    * Duration of the event in RFC2445 format.
    *
@@ -87,12 +50,41 @@ export interface ModifyEventOptions {
    */
   duration?: string;
   /**
-   * The event guests.
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  endDate?: number;
+  /**
+   * The ID of the event to be modified.
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  id: string;
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  isAllDay?: boolean;
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  location?: string;
+  /**
+   * Rules for creating a recurring event.
+   *
+   * @platform Android, iOS
+   * @since 7.3.0
+   */
+  recurrence?: EventRecurrenceRule;
+  /**
+   * Email of the event organizer.
    *
    * @platform Android
    * @since 7.1.0
    */
-  attendees?: EventGuest[];
+  organizer?: string;
   /**
    * The span of modifications.
    *
@@ -101,4 +93,20 @@ export interface ModifyEventOptions {
    * @see 7.1.0
    */
   span?: EventSpan;
+  /**
+   *
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  startDate?: number;
+  /**
+   * @platform Android, iOS
+   * @since 0.4.0
+   */
+  title?: string;
+  /**
+   * @platform iOS
+   * @since 0.1.0
+   */
+  url?: string;
 }

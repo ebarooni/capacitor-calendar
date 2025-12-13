@@ -107,6 +107,8 @@ class CapacitorCalendar: NSObject {
         event.endDate = input.getEndDate()
         event.url = input.getUrl()
         event.notes = input.getDescription()
+        event.recurrenceRules = input.getRecurrenceRule()
+
         if let availability = input.getAvailability() {
             event.availability = availability
         }
@@ -186,6 +188,8 @@ class CapacitorCalendar: NSObject {
         event.endDate = input.getEndDate()
         event.url = input.getUrl()
         event.notes = input.getDescription()
+        event.recurrenceRules = input.getRecurrenceRule()
+
         if let availability = input.getAvailability() {
             event.availability = availability
         }
@@ -229,6 +233,8 @@ class CapacitorCalendar: NSObject {
         if let alerts = input.getAlerts() {
             event.alarms = alerts
         }
+        event.recurrenceRules = input.getRecurrenceRule()
+
         try eventStore.save(event, span: input.getSpan())
     }
 

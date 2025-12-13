@@ -35,7 +35,7 @@ export interface EventRecurrenceRule {
   /**
    * The total number of occurrences.
    * If set, the recurrence ends after this many occurrences.
-   * If `count` is provided, `until` is ignored.
+   * If `count` is provided, `end` is ignored.
    *
    * @example 10
    *
@@ -43,6 +43,27 @@ export interface EventRecurrenceRule {
    * @since 7.3.0
    */
   count?: number;
+  /**
+   * Limits a yearly recurrence to specific days of the year (1 to 366).
+   *
+   * @example [1, 100, 364]
+   *
+   * @platform iOS
+   * @since 7.3.0
+   */
+  daysOfTheYear?: number[];
+  /**
+   * End date of the recurrence series as a Unix timestamp in milliseconds.
+   *
+   * @example
+   * const date = new Date();
+   * date.setMonth(date.getMonth() + 1);
+   * const end = date.getTime();
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  end?: number;
   /**
    * How often the event repeats.
    *
@@ -65,15 +86,12 @@ export interface EventRecurrenceRule {
    */
   interval?: number;
   /**
-   * End date of the recurrence series as a Unix timestamp in milliseconds.
+   * Limits a yearly recurrence to specific ISO week numbers (1 to 53).
    *
-   * @example
-   * const date = new Date();
-   * date.setMonth(date.getMonth() + 1);
-   * const until = date.getTime();
+   * @example [1, 53]
    *
-   * @platform Android, iOS
-   * @since 7.1.0
+   * @platform iOS
+   * @since 7.3.0
    */
-  until?: number;
+  weeksOfTheYear?: number[];
 }

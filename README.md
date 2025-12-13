@@ -782,15 +782,17 @@ Opens a dialog to delete a reminder.
 
 #### EventRecurrenceRule
 
-| Prop             | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform     |
-| ---------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ------------ |
-| **`byMonth`**    | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byMonthDay`** | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byWeekDay`**  | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS |
-| **`count`**      | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `until` is ignored.                                   |                | 7.3.0 | Android, iOS |
-| **`frequency`**  | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS |
-| **`interval`**   | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS |
-| **`until`**      | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS |
+| Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform     |
+| -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ------------ |
+| **`byMonth`**        | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS |
+| **`byMonthDay`**     | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS |
+| **`byWeekDay`**      | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS |
+| **`count`**          | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `end` is ignored.                                     |                | 7.3.0 | Android, iOS |
+| **`daysOfTheYear`**  | <code>number[]</code>                                               | Limits a yearly recurrence to specific days of the year (1 to 366).                                                                                                     |                | 7.3.0 | iOS          |
+| **`end`**            | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS |
+| **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS |
+| **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS |
+| **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS          |
 
 #### ModifyEventWithPromptOptions
 
@@ -812,23 +814,24 @@ Opens a dialog to delete a reminder.
 
 #### CreateEventOptions
 
-| Prop               | Type                                                            | Description                                                                | Default           | Since | Platform     |
-| ------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------- | ----- | ------------ |
-| **`title`**        | <code>string</code>                                             |                                                                            |                   | 0.4.0 | Android, iOS |
-| **`calendarId`**   | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`location`**     | <code>string</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`startDate`**    | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`endDate`**      | <code>number</code>                                             |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                                                            |                   | 0.1.0 | Android, iOS |
-| **`alerts`**       | <code>number[]</code>                                           |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`url`**          | <code>string</code>                                             |                                                                            |                   | 0.1.0 | iOS          |
-| **`description`**  | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                                                            |                   | 7.1.0 | Android, iOS |
-| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.                                              |                   | 7.1.0 | Android      |
-| **`color`**        | <code>string</code>                                             |                                                                            |                   | 7.1.0 | Android      |
-| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format.                                   |                   | 7.1.0 | Android      |
-| **`commit`**       | <code>boolean</code>                                            | Whether to save immediately (`true`) or batch changes for later (`false`). | <code>true</code> | 7.1.0 | iOS          |
-| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                                                          |                   | 7.1.0 | Android      |
+| Prop               | Type                                                                | Description                                                                | Default           | Since | Platform     |
+| ------------------ | ------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------- | ----- | ------------ |
+| **`alerts`**       | <code>number[]</code>                                               |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`attendees`**    | <code>EventGuest[]</code>                                           | The event guests.                                                          |                   | 7.1.0 | Android      |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                                 |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`color`**        | <code>string</code>                                                 |                                                                            |                   | 7.1.0 | Android      |
+| **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`). | <code>true</code> | 7.1.0 | iOS          |
+| **`description`**  | <code>string</code>                                                 |                                                                            |                   | 7.1.0 | Android, iOS |
+| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format.                                   |                   | 7.1.0 | Android      |
+| **`endDate`**      | <code>number</code>                                                 |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                                |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`location`**     | <code>string</code>                                                 |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                                 | Email of the event organizer.                                              |                   | 7.1.0 | Android      |
+| **`recurrence`**   | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                      |                   | 7.3.0 | Android, iOS |
+| **`startDate`**    | <code>number</code>                                                 |                                                                            |                   | 0.1.0 | Android, iOS |
+| **`title`**        | <code>string</code>                                                 |                                                                            |                   | 0.4.0 | Android, iOS |
+| **`url`**          | <code>string</code>                                                 |                                                                            |                   | 0.1.0 | iOS          |
 
 #### EventGuest
 
@@ -839,24 +842,25 @@ Opens a dialog to delete a reminder.
 
 #### ModifyEventOptions
 
-| Prop               | Type                                                            | Description                              | Default                           | Since | Platform     |
-| ------------------ | --------------------------------------------------------------- | ---------------------------------------- | --------------------------------- | ----- | ------------ |
-| **`id`**           | <code>string</code>                                             | The ID of the event to be modified.      |                                   | 7.1.0 | Android, iOS |
-| **`title`**        | <code>string</code>                                             |                                          |                                   | 0.4.0 | Android, iOS |
-| **`calendarId`**   | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
-| **`location`**     | <code>string</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
-| **`startDate`**    | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
-| **`endDate`**      | <code>number</code>                                             |                                          |                                   | 0.1.0 | Android, iOS |
-| **`isAllDay`**     | <code>boolean</code>                                            |                                          |                                   | 0.1.0 | Android, iOS |
-| **`alerts`**       | <code>number[]</code>                                           |                                          |                                   | 7.1.0 | Android, iOS |
-| **`url`**          | <code>string</code>                                             |                                          |                                   | 0.1.0 | iOS          |
-| **`description`**  | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android, iOS |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code> |                                          |                                   | 7.1.0 | Android, iOS |
-| **`organizer`**    | <code>string</code>                                             | Email of the event organizer.            |                                   | 7.1.0 | Android      |
-| **`color`**        | <code>string</code>                                             |                                          |                                   | 7.1.0 | Android      |
-| **`duration`**     | <code>string</code>                                             | Duration of the event in RFC2445 format. |                                   | 7.1.0 | Android      |
-| **`attendees`**    | <code>EventGuest[]</code>                                       | The event guests.                        |                                   | 7.1.0 | Android      |
-| **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                 | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+| Prop               | Type                                                                | Description                              | Default                           | Since | Platform     |
+| ------------------ | ------------------------------------------------------------------- | ---------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`alerts`**       | <code>number[]</code>                                               |                                          |                                   | 7.1.0 | Android, iOS |
+| **`attendees`**    | <code>EventGuest[]</code>                                           | The event guests.                        |                                   | 7.1.0 | Android      |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code>     |                                          |                                   | 7.1.0 | Android, iOS |
+| **`calendarId`**   | <code>string</code>                                                 |                                          |                                   | 0.1.0 | Android, iOS |
+| **`color`**        | <code>string</code>                                                 |                                          |                                   | 7.1.0 | Android      |
+| **`description`**  | <code>string</code>                                                 |                                          |                                   | 7.1.0 | Android, iOS |
+| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format. |                                   | 7.1.0 | Android      |
+| **`endDate`**      | <code>number</code>                                                 |                                          |                                   | 0.1.0 | Android, iOS |
+| **`id`**           | <code>string</code>                                                 | The ID of the event to be modified.      |                                   | 7.1.0 | Android, iOS |
+| **`isAllDay`**     | <code>boolean</code>                                                |                                          |                                   | 0.1.0 | Android, iOS |
+| **`location`**     | <code>string</code>                                                 |                                          |                                   | 0.1.0 | Android, iOS |
+| **`recurrence`**   | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.    |                                   | 7.3.0 | Android, iOS |
+| **`organizer`**    | <code>string</code>                                                 | Email of the event organizer.            |                                   | 7.1.0 | Android      |
+| **`span`**         | <code><a href="#eventspan">EventSpan</a></code>                     | The span of modifications.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+| **`startDate`**    | <code>number</code>                                                 |                                          |                                   | 0.1.0 | Android, iOS |
+| **`title`**        | <code>string</code>                                                 |                                          |                                   | 0.4.0 | Android, iOS |
+| **`url`**          | <code>string</code>                                                 |                                          |                                   | 0.1.0 | iOS          |
 
 #### DeleteEventsByIdResult
 
@@ -1113,7 +1117,7 @@ Construct a type with a set of properties K of type T
 
 #### RecurrenceFrequency
 
-<code>'daily' | 'weekly' | 'monthly' | 'yearly'</code>
+<code>"daily" | "weekly" | "monthly" | "yearly"</code>
 
 #### EventEditAction
 
