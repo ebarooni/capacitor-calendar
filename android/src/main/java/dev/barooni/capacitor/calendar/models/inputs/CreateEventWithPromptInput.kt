@@ -3,6 +3,7 @@ package dev.barooni.capacitor.calendar.models.inputs
 import android.content.Intent
 import android.provider.CalendarContract
 import com.getcapacitor.PluginCall
+import dev.barooni.capacitor.calendar.models.data.EventRecurrenceRule
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 data class CreateEventWithPromptInput(
@@ -10,6 +11,7 @@ data class CreateEventWithPromptInput(
     val callbackName: String,
 ) {
     private val title: String = call.getString("title", "") ?: ""
+    private val recurrence: EventRecurrenceRule? = call.getObject("recurrence")?.let { EventRecurrenceRule.parseRecurrence(it) }
     val location: String? = call.getString("location")
     val startDate: Long? = call.getLong("startDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
     val endDate: Long? = call.getLong("endDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
@@ -32,5 +34,8 @@ data class CreateEventWithPromptInput(
         description?.let { intent.putExtra(CalendarContract.Events.DESCRIPTION, it) }
         availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
         invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
+        recurrence?.let {
+            intent.putExtra(CalendarContract.Events.RRULE, it.toRRule())
+        }
     }
 }
