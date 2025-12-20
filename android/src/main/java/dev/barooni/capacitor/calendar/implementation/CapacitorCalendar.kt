@@ -100,6 +100,7 @@ class CapacitorCalendar(
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
                 input.duration?.let { put(CalendarContract.Events.DURATION, it) }
                 input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
+                input.recurrence?.let { put(CalendarContract.Events.RRULE, it.toRRule()) }
             }
         val uri: Uri? = cr.insert(CalendarContract.Events.CONTENT_URI, values)
         val eventId: Long = uri?.lastPathSegment?.toLong() ?: throw PluginError.FailedToRetrieveEventId

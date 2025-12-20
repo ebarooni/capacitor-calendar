@@ -11,7 +11,7 @@ data class CreateEventWithPromptInput(
     val callbackName: String,
 ) {
     private val title: String = call.getString("title", "") ?: ""
-    private val recurrence: EventRecurrenceRule? = call.getObject("recurrence")?.let { EventRecurrenceRule.parseRecurrence(it) }
+    val recurrence: EventRecurrenceRule? = call.getObject("recurrence")?.let { EventRecurrenceRule.parseRecurrence(it) }
     val location: String? = call.getString("location")
     val startDate: Long? = call.getLong("startDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
     val endDate: Long? = call.getLong("endDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
