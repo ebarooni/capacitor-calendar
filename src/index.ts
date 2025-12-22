@@ -39,7 +39,7 @@ import type { ModifyEventOptions } from "./schemas/interfaces/modify-event-optio
 import type { ModifyEventWithPromptOptions } from "./schemas/interfaces/modify-event-with-prompt-options";
 import type { ModifyReminderOptions } from "./schemas/interfaces/modify-reminder-options";
 import type { OpenCalendarOptions } from "./schemas/interfaces/open-calendar-options";
-import { RecurrenceFrequency } from "./schemas/enums/recurrence-frequency";
+import type { RecurrenceFrequency } from "./schemas/types/recurrence-frequency";
 import type { RecurrenceRule } from "./schemas/interfaces/recurrence-rule";
 import type { Reminder } from "./schemas/interfaces/reminder";
 import { ReminderRecurrenceFrequency } from "./schemas/enums/reminder-recurrence-frequency";

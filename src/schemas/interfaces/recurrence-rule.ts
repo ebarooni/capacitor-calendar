@@ -1,4 +1,4 @@
-import { RecurrenceFrequency } from "../enums/recurrence-frequency";
+import { RecurrenceFrequency } from "../types/recurrence-frequency";
 
 /**
  * @since 7.1.0

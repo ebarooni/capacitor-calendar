@@ -1,39 +1,10 @@
 import { EventAvailability } from "../enums/event-availability";
+import { EventRecurrenceRule } from "./event-recurrence-rule";
 
 /**
  * @since 7.1.0
  */
 export interface CreateEventWithPromptOptions {
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  title?: string;
-  /**
-   * @platform iOS
-   * @since 0.1.0
-   */
-  calendarId?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  location?: string;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  startDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  endDate?: number;
-  /**
-   * @platform Android, iOS
-   * @since 0.1.0
-   */
-  isAllDay?: boolean;
   /**
    * Sets alerts before or after the start of the event in minutes.
    * On iOS only 2 alerts are supported.
@@ -47,10 +18,15 @@ export interface CreateEventWithPromptOptions {
    */
   alerts?: number[];
   /**
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  availability?: EventAvailability;
+  /**
    * @platform iOS
    * @since 0.1.0
    */
-  url?: string;
+  calendarId?: string;
   /**
    * @platform Android, iOS
    * @since 7.1.0
@@ -58,9 +34,9 @@ export interface CreateEventWithPromptOptions {
   description?: string;
   /**
    * @platform Android, iOS
-   * @since 7.1.0
+   * @since 0.1.0
    */
-  availability?: EventAvailability;
+  endDate?: number;
   /**
    * An array of emails to invite.
    *
@@ -68,4 +44,36 @@ export interface CreateEventWithPromptOptions {
    * @since 7.1.0
    */
   invitees?: string[];
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  isAllDay?: boolean;
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  location?: string;
+  /**
+   * Rules for creating a recurring event.
+   *
+   * @platform Android, iOS
+   * @since 7.3.0
+   */
+  recurrence?: EventRecurrenceRule;
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  startDate?: number;
+  /**
+   * @platform Android, iOS
+   * @since 0.1.0
+   */
+  title?: string;
+  /**
+   * @platform iOS
+   * @since 0.1.0
+   */
+  url?: string;
 }

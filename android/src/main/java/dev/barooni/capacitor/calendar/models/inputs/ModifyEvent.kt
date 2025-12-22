@@ -3,6 +3,7 @@ package dev.barooni.capacitor.calendar.models.inputs
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.data.EventGuest
+import dev.barooni.capacitor.calendar.models.data.EventRecurrenceRule
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 data class ModifyEvent(
@@ -22,4 +23,5 @@ data class ModifyEvent(
     val color: Int? = ImplementationHelper.hexToColorInt(call.getString("color"))
     val duration: String? = call.getString("duration")
     val attendees: List<EventGuest>? = ImplementationHelper.eventGuestsFromCall(call)
+    val recurrence: EventRecurrenceRule? = call.getObject("recurrence")?.let { EventRecurrenceRule.parseRecurrence(it) }
 }
