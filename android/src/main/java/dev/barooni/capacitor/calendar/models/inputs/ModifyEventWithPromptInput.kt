@@ -33,5 +33,8 @@ data class ModifyEventWithPromptInput(
         input.description?.let { intent.putExtra(CalendarContract.Events.DESCRIPTION, it) }
         input.availability?.let { intent.putExtra(CalendarContract.Events.AVAILABILITY, it) }
         input.invitees?.let { intent.putExtra(Intent.EXTRA_EMAIL, it) }
+        input.recurrence?.let {
+            intent.putExtra(CalendarContract.Events.RRULE, it.toRRule())
+        }
     }
 }

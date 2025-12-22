@@ -124,6 +124,7 @@ class CapacitorCalendar(
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
                 input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
                 input.duration?.let { put(CalendarContract.Events.DURATION, it) }
+                input.recurrence?.let { put(CalendarContract.Events.RRULE, it.toRRule()) }
             }
         val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, input.id)
         cr.update(uri, values, null, null)
@@ -244,82 +245,109 @@ class CapacitorCalendar(
     fun listEventsInRange(input: ListEventsInRangeInput): ListEventsInRangeResult {
         val cr = plugin.context.contentResolver
         val events = mutableListOf<CalendarEvent>()
-        val uri: Uri = CalendarContract.Events.CONTENT_URI
+
+        val builder: Uri.Builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
+        ContentUris.appendId(builder, input.from)
+        ContentUris.appendId(builder, input.to)
+        val uri: Uri = builder.build()
+
         val projection =
             arrayOf(
-                CalendarContract.Events._ID,
-                CalendarContract.Events.TITLE,
-                CalendarContract.Events.CALENDAR_ID,
-                CalendarContract.Events.EVENT_LOCATION,
-                CalendarContract.Events.DTSTART,
-                CalendarContract.Events.DTEND,
-                CalendarContract.Events.ALL_DAY,
-                CalendarContract.Events.DESCRIPTION,
-                CalendarContract.Events.AVAILABILITY,
-                CalendarContract.Events.ORGANIZER,
-                CalendarContract.Events.EVENT_COLOR,
-                CalendarContract.Events.DURATION,
-                CalendarContract.Events.STATUS,
-                CalendarContract.Events.EVENT_TIMEZONE,
+                CalendarContract.Instances.EVENT_ID,
+                CalendarContract.Instances.TITLE,
+                CalendarContract.Instances.CALENDAR_ID,
+                CalendarContract.Instances.EVENT_LOCATION,
+                CalendarContract.Instances.BEGIN,
+                CalendarContract.Instances.END,
+                CalendarContract.Instances.ALL_DAY,
+                CalendarContract.Instances.DESCRIPTION,
+                CalendarContract.Instances.AVAILABILITY,
+                CalendarContract.Instances.ORGANIZER,
+                CalendarContract.Instances.EVENT_COLOR,
+                CalendarContract.Instances.EVENT_TIMEZONE,
+                CalendarContract.Instances.STATUS,
+                CalendarContract.Instances.DURATION,
             )
-        val selection = "${CalendarContract.Events.DTSTART} >= ? AND ${CalendarContract.Events.DTEND} <= ?"
-        val selectionArgs = arrayOf(input.from.toString(), input.to.toString())
-        val cursor = cr.query(uri, projection, selection, selectionArgs, null)
+
+        val selection =
+            "(${CalendarContract.Instances.BEGIN} < ?) AND " +
+                "(${CalendarContract.Instances.END} > ?)"
+        val selectionArgs = arrayOf(input.to.toString(), input.from.toString())
+
+        val sortOrder = "${CalendarContract.Instances.BEGIN} ASC"
+
+        val cursor = cr.query(uri, projection, selection, selectionArgs, sortOrder)
+
         cursor?.use { cursorInstance ->
             while (cursorInstance.moveToNext()) {
-                val id = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Events._ID))
-                val title =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.TITLE).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    } ?: ""
+                val eventId = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.EVENT_ID))
+                val title = cursorInstance.getString(cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.TITLE)) ?: ""
                 val calendarId =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.CALENDAR_ID).takeIf { it != -1 }?.let {
-                        cursorInstance.getLong(it).toString()
-                    }
+                    cursorInstance
+                        .getLong(
+                            cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.CALENDAR_ID),
+                        ).toString()
                 val location =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.EVENT_LOCATION).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    }
-                val startDate = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Events.DTSTART))
-                val endDate = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Events.DTEND))
-                val isAllDay =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.ALL_DAY).takeIf { it != -1 }?.let {
-                        cursorInstance.getInt(it) == 1
-                    } ?: false
-                val alerts = ImplementationHelper.getEventAlerts(cr, id)
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.EVENT_LOCATION)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+
+                val startDate = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.BEGIN))
+                val endDate = cursorInstance.getLong(cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.END))
+
+                val isAllDay = cursorInstance.getInt(cursorInstance.getColumnIndexOrThrow(CalendarContract.Instances.ALL_DAY)) == 1
+
                 val description =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.DESCRIPTION).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    }
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.DESCRIPTION)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+
                 val availability =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.AVAILABILITY).takeIf { it != -1 }?.let {
-                        cursorInstance.getInt(it)
-                    }
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.AVAILABILITY)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getInt(it) }
+
                 val organizer =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.ORGANIZER).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    }
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.ORGANIZER)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+
                 val color =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.EVENT_COLOR).takeIf { it != -1 }?.let {
-                        ImplementationHelper.intToHexColor(cursorInstance.getInt(it))
-                    }
-                val duration =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.DURATION).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    }
-                val status =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.STATUS).takeIf { it != -1 }?.let {
-                        ImplementationHelper.mapEventStatus(cursorInstance.getInt(it))
-                    }
-                val attendees = ImplementationHelper.getEventAttendees(cr, id)
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.EVENT_COLOR)
+                        .takeIf { it != -1 }
+                        ?.let { ImplementationHelper.intToHexColor(cursorInstance.getInt(it)) }
+
                 val timezone =
-                    cursorInstance.getColumnIndex(CalendarContract.Events.EVENT_TIMEZONE).takeIf { it != -1 }?.let {
-                        cursorInstance.getString(it)
-                    }
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.EVENT_TIMEZONE)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+
+                val status =
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.STATUS)
+                        .takeIf { it != -1 }
+                        ?.let { ImplementationHelper.mapEventStatus(cursorInstance.getInt(it)) }
+
+                val alerts = ImplementationHelper.getEventAlerts(cr, eventId)
+
+                val duration =
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.DURATION)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+                        ?: ImplementationHelper.buildDurationFromBeginEnd(startDate, endDate, isAllDay)
+
+                val attendees = ImplementationHelper.getEventAttendees(cr, eventId)
 
                 events.add(
                     CalendarEvent(
-                        id.toString(),
+                        eventId.toString(),
                         title,
                         calendarId,
                         location,
