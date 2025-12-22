@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Contents
 
+- [Version 8.x.x](#version-8xx)
+  - [8.0.0](#800)
 - [Version 7.x.x](#version-7xx)
   - [7.2.0](#720)
   - [7.1.0](#710)
@@ -33,6 +35,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [5.1.0](#510)
   - [5.0.0](#500)
 
+# Version 8.x.x
+
+Changelogs for the versions supporting Capacitor 8.
+
+## 8.0.0
+
+### Added
+
+- Support for recurring events on Android and iOS
+- Recurrence rules for `createEvent` and `createEventWithPrompt`
+- Recurrence support for `modifyEvent` and `modifyEventWithPrompt`
+- Listing recurring event instances correctly using expanded event occurrences on Android
+
+### Changed
+
+- `listEventsInRange` on Android now returns all event occurrences within the given range, including recurring events
+- Recurring events on Android now correctly use `DURATION` instead of `DTEND`
+- Improved consistency between iOS and Android for recurring event behavior
+
 # Version 7.x.x
 
 Changelogs for the versions supporting Capacitor 7.
@@ -58,14 +79,14 @@ Changelogs for the versions supporting Capacitor 7.
 
 ### Changed
 
-- `checkPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
+- `checkPermission` takes `CalendarPermissionScope` as `scope` instead of `PluginPermission`
 - `checkAllPermissions` returns `{ result: CheckAllPermissionsResult; }` instead of `PluginPermissionsMap`
-- `requestPermission` takes `CalendarPermissionScope` as `scope` (formerly `alias`) instead of `PluginPermission`
+- `requestPermission` takes `CalendarPermissionScope` as `scope` instead of `PluginPermission`
 - `requestAllPermissions` returns `{ result: RequestAllPermissionsResult; }` instead of `PluginPermissionsMap`
 - `requestAllPermissions` is marked as deprecated
 - `requestPermission` is marked as deprecated
 - Replaced `alertOffsetInMinutes`, `notes` and `eventIdOptional` in `createEventWithPrompt`
-- Removed `eventIdOptional` and `createEventWithPrompt` on android does not return an id anymore
+- Removed `eventIdOptional` and `createEventWithPrompt` on Android does not return an id anymore
 
 ### Removed
 
@@ -76,7 +97,7 @@ Changelogs for the versions supporting Capacitor 7.
 
 ### Added
 
-- Support for capacitor 7
+- Support for Capacitor 7
 - SPM support on iOS
 
 ### Removed
@@ -132,7 +153,7 @@ Changelogs for the versions supporting Capacitor 6.
 
 ### Removed
 
-- The plugin will not receive updates for capacitor 5
+- The plugin will not receive updates for Capacitor 5
 
 ## 6.5.0
 
