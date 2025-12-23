@@ -15,11 +15,11 @@
   "dependencies": {
     "@capacitor/core": "latest",
     "@ebarooni/capacitor-calendar": "file:..",
-    "@capacitor/ios": "7.0.0",
-    "@capacitor/android": "7.0.0"
+    "@capacitor/ios": "7.4.4",
+    "@capacitor/android": "7.4.4"
   },
   "devDependencies": {
     "@capacitor/cli": "latest",
-    "vite": "^5.4.2"
+    "vite": "^7.2.7"
   }
 }

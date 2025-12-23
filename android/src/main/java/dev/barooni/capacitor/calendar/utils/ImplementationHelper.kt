@@ -353,6 +353,32 @@ class ImplementationHelper {
             return attendees
         }
 
+        fun buildDurationFromBeginEnd(
+            begin: Long,
+            end: Long,
+            isAllDay: Boolean,
+        ): String {
+            val diffMs = (end - begin).coerceAtLeast(0)
+
+            return if (isAllDay) {
+                val days = (diffMs / (24 * 60 * 60 * 1000)).coerceAtLeast(1)
+                "P${days}D"
+            } else {
+                val totalSeconds = (diffMs / 1000).coerceAtLeast(1)
+                val hours = totalSeconds / 3600
+                val minutes = (totalSeconds % 3600) / 60
+                val seconds = totalSeconds % 60
+
+                buildString {
+                    append("PT")
+                    if (hours > 0) append("${hours}H")
+                    if (minutes > 0) append("${minutes}M")
+                    if (seconds > 0) append("${seconds}S")
+                    if (hours == 0L && minutes == 0L && seconds == 0L) append("1S")
+                }
+            }
+        }
+
         fun mapAttendeeRelationship(relationship: Int): String =
             when (relationship) {
                 CalendarContract.Attendees.RELATIONSHIP_ATTENDEE -> "attendee"

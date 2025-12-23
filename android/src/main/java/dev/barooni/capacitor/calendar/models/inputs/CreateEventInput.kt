@@ -24,4 +24,5 @@ data class CreateEventInput(
     val color: Int? = ImplementationHelper.hexToColorInt(call.getString("color"))
     val attendees: List<EventGuest>? = ImplementationHelper.eventGuestsFromCall(call)
     val timezoneId = TimeZone.getDefault().id
+    val recurrence = input.recurrence
 }
