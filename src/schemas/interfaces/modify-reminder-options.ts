@@ -1,4 +1,4 @@
-import { RecurrenceRule } from "./recurrence-rule";
+import type { RecurrenceRule } from './recurrence-rule';
 
 /**
  * @since 7.1.0

@@ -1,4 +1,4 @@
-import { RecurrenceFrequency } from "../types/recurrence-frequency";
+import type { RecurrenceFrequency } from '../types/recurrence-frequency';
 
 export interface EventRecurrenceRule {
   /**

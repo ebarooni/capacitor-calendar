@@ -1,6 +1,7 @@
-import { EventAvailability } from "../enums/event-availability";
-import type { EventGuest } from "./event-guest";
-import { EventRecurrenceRule } from "./event-recurrence-rule";
+import type { EventAvailability } from '../enums/event-availability';
+
+import type { EventGuest } from './event-guest';
+import type { EventRecurrenceRule } from './event-recurrence-rule';
 
 /**
  * @since 7.1.0

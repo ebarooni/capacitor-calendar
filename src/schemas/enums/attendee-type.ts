@@ -6,40 +6,40 @@ export enum AttendeeType {
    * @platform Android, iOS
    * @since 7.1.0
    */
-  UNKNOWN = "unknown",
+  UNKNOWN = 'unknown',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  PERSON = "person",
+  PERSON = 'person',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  ROOM = "room",
+  ROOM = 'room',
   /**
    * @platform Android, iOS
    * @since 7.1.0
    */
-  RESOURCE = "resource",
+  RESOURCE = 'resource',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  GROUP = "group",
+  GROUP = 'group',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  REQUIRED = "required",
+  REQUIRED = 'required',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  NONE = "none",
+  NONE = 'none',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  OPTIONAL = "optional",
+  OPTIONAL = 'optional',
 }

@@ -1,8 +1,8 @@
-import { AttendeeRole } from "../enums/attendee-role";
-import { AttendeeStatus } from "../enums/attendee-status";
-import { AttendeeType } from "../enums/attendee-type";
-import { EventAvailability } from "../enums/event-availability";
-import { EventStatus } from "../enums/event-status";
+import type { AttendeeRole } from '../enums/attendee-role';
+import type { AttendeeStatus } from '../enums/attendee-status';
+import type { AttendeeType } from '../enums/attendee-type';
+import type { EventAvailability } from '../enums/event-availability';
+import type { EventStatus } from '../enums/event-status';
 
 /**
  * @since 7.1.0
