@@ -97,11 +97,16 @@ class ImplementationHelper {
             alerts: List<Int>,
         ) {
             alerts.forEach { userMinutes ->
-                val providerMinutes = when {
-                    userMinutes > 0 -> -kotlin.math.abs(userMinutes) // after start -> store negative
-                    userMinutes < 0 -> kotlin.math.abs(userMinutes) // before start -> store positive
-                    else -> 0
-                }
+                val providerMinutes =
+                    when {
+                        userMinutes > 0 -> -kotlin.math.abs(userMinutes)
+
+                        // after start -> store negative
+                        userMinutes < 0 -> kotlin.math.abs(userMinutes)
+
+                        // before start -> store positive
+                        else -> 0
+                    }
                 val alertValues =
                     ContentValues().apply {
                         put(CalendarContract.Reminders.EVENT_ID, eventId)
@@ -292,7 +297,14 @@ class ImplementationHelper {
             cursor?.use {
                 while (it.moveToNext()) {
                     val providerMinutes = it.getInt(it.getColumnIndexOrThrow(CalendarContract.Reminders.MINUTES))
-                    val userMinutes = if (providerMinutes >= 0) -kotlin.math.abs(providerMinutes) else kotlin.math.abs(providerMinutes)
+
+                    val userMinutes =
+                        if (providerMinutes >= 0) {
+                            -kotlin.math.abs(providerMinutes)
+                        } else {
+                            kotlin.math.abs(providerMinutes)
+                        }
+
                     alerts.add(userMinutes)
                 }
             }

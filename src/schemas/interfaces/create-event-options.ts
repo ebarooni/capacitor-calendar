@@ -8,6 +8,15 @@ import type { EventRecurrenceRule } from './event-recurrence-rule';
  */
 export interface CreateEventOptions {
   /**
+   * Alert times in minutes relative to the event start.
+   * Use negative numbers for alerts before the start, and positive numbers for alerts after the start.
+   *
+   * @example
+   * // -1440 -> 1 day before
+   * // -60 -> 1 hour before
+   * // 30 -> 30 minutes after
+   * [-1440, -60, 30]
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */
@@ -69,11 +78,6 @@ export interface CreateEventOptions {
    */
   isAllDay?: boolean;
   /**
-   * Alert times in minutes relative to the event start.
-   * Use negative numbers for reminders before the start, and positive numbers for reminders after the start.
-   *
-   * Example: [-1440, -60, 30] => 1 day before, 1 hour before, and 30 minutes after the start.
-   *
    * @platform Android, iOS
    * @since 0.1.0
    */
