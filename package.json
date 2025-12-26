@@ -22,7 +22,7 @@
     "ionic"
   ],
   "engines": {
-    "node": ">=20.12.2"
+    "node": ">=22.14.0"
   },
   "publishConfig": {
     "access": "public"
