@@ -1,5 +1,6 @@
-import { CalendarPermissionScope } from "../schemas/enums/calendar-permission-scope";
-import type { PermissionState } from "@capacitor/core";
+import type { PermissionState } from '@capacitor/core';
+
+import type { CalendarPermissionScope } from '../schemas/enums/calendar-permission-scope';
 
 /**
  * @since 7.1.0
@@ -15,9 +16,7 @@ export interface CalendarAccess {
    * @since 0.1.0
    *
    */
-  checkPermission(options: {
-    scope: CalendarPermissionScope;
-  }): Promise<{ result: PermissionState }>;
+  checkPermission(options: { scope: CalendarPermissionScope }): Promise<{ result: PermissionState }>;
 
   /**
    * Retrieves the current state of all permissions.
@@ -39,9 +38,7 @@ export interface CalendarAccess {
    * @platform Android, iOS
    * @since 0.1.0
    */
-  requestPermission(options: {
-    scope: CalendarPermissionScope;
-  }): Promise<{ result: PermissionState }>;
+  requestPermission(options: { scope: CalendarPermissionScope }): Promise<{ result: PermissionState }>;
 
   /**
    * Requests permission for all calendar and reminder permissions.
@@ -100,10 +97,7 @@ export interface CalendarAccess {
  * @platform Android, iOS
  * @since 7.1.0
  */
-export type CheckAllPermissionsResult = Record<
-  CalendarPermissionScope,
-  PermissionState
->;
+export type CheckAllPermissionsResult = Record<CalendarPermissionScope, PermissionState>;
 
 /**
  * @platform Android, iOS

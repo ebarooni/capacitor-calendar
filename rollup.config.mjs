@@ -1,20 +1,20 @@
 export default {
-  external: ["@capacitor/core"],
-  input: "dist/esm/index.js",
+  external: ['@capacitor/core'],
+  input: 'dist/esm/index.js',
   output: [
     {
-      file: "dist/plugin.js",
-      format: "iife",
+      file: 'dist/plugin.js',
+      format: 'iife',
       globals: {
-        "@capacitor/core": "capacitorExports",
+        '@capacitor/core': 'capacitorExports',
       },
       inlineDynamicImports: true,
-      name: "capacitorCapacitorCalendar",
+      name: 'capacitorCapacitorCalendar',
       sourcemap: true,
     },
     {
-      file: "dist/plugin.cjs.js",
-      format: "cjs",
+      file: 'dist/plugin.cjs.js',
+      format: 'cjs',
       inlineDynamicImports: true,
       sourcemap: true,
     },

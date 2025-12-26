@@ -1,5 +1,6 @@
-import type { CalendarSource } from "./calendar-source";
-import { CalendarType } from "../enums/calendar-type";
+import type { CalendarType } from '../enums/calendar-type';
+
+import type { CalendarSource } from './calendar-source';
 
 /**
  * @since 7.1.0

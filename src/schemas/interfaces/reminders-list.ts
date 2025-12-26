@@ -1,4 +1,4 @@
-import { Calendar } from "./calendar";
+import type { Calendar } from './calendar';
 
 /**
  * @since 7.1.0

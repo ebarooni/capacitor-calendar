@@ -1,6 +1,6 @@
-import { CapacitorCalendar } from "@ebarooni/capacitor-calendar";
+import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
 
 window.testEcho = () => {
-  const inputValue = document.getElementById("echoInput").value;
+  const inputValue = document.getElementById('echoInput').value;
   CapacitorCalendar.echo({ value: inputValue });
 };

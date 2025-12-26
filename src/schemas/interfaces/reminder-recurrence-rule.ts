@@ -1,4 +1,4 @@
-import { ReminderRecurrenceFrequency } from "../enums/reminder-recurrence-frequency";
+import type { ReminderRecurrenceFrequency } from '../enums/reminder-recurrence-frequency';
 
 /**
  * @deprecated Use `RecurrenceRule`.

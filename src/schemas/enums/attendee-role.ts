@@ -6,45 +6,45 @@ export enum AttendeeRole {
    * @platform Android, iOS
    * @since 7.1.0
    */
-  UNKNOWN = "unknown",
+  UNKNOWN = 'unknown',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  REQUIRED = "required",
+  REQUIRED = 'required',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  OPTIONAL = "optional",
+  OPTIONAL = 'optional',
   /**
    * @platform iOS
    * @since 7.1.0
    */
-  CHAIR = "chair",
+  CHAIR = 'chair',
   /**
    * @platform Android, iOS
    * @since 7.1.0
    */
-  NON_PARTICIPANT = "nonParticipant",
+  NON_PARTICIPANT = 'nonParticipant',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  ATTENDEE = "attendee",
+  ATTENDEE = 'attendee',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  ORGANIZER = "organizer",
+  ORGANIZER = 'organizer',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  PERFORMER = "performer",
+  PERFORMER = 'performer',
   /**
    * @platform Android
    * @since 7.1.0
    */
-  SPEAKER = "speaker",
+  SPEAKER = 'speaker',
 }

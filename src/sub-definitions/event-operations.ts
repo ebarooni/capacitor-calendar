@@ -1,13 +1,13 @@
-import type { CalendarEvent } from "../schemas/interfaces/calendar-event";
-import type { CreateEventOptions } from "../schemas/interfaces/create-event-options";
-import type { CreateEventWithPromptOptions } from "../schemas/interfaces/create-event-with-prompt-options";
-import type { DeleteEventOptions } from "../schemas/interfaces/delete-event-options";
-import type { DeleteEventWithPromptOptions } from "../schemas/interfaces/delete-event-with-prompt-options";
-import type { DeleteEventsByIdOptions } from "../schemas/interfaces/delete-events-by-id-options";
-import type { EventEditAction } from "../schemas/types/event-edit-action";
-import type { ListEventsInRangeOptions } from "../schemas/interfaces/list-events-in-range-options";
-import type { ModifyEventOptions } from "../schemas/interfaces/modify-event-options";
-import type { ModifyEventWithPromptOptions } from "../schemas/interfaces/modify-event-with-prompt-options";
+import type { CalendarEvent } from '../schemas/interfaces/calendar-event';
+import type { CreateEventOptions } from '../schemas/interfaces/create-event-options';
+import type { CreateEventWithPromptOptions } from '../schemas/interfaces/create-event-with-prompt-options';
+import type { DeleteEventOptions } from '../schemas/interfaces/delete-event-options';
+import type { DeleteEventWithPromptOptions } from '../schemas/interfaces/delete-event-with-prompt-options';
+import type { DeleteEventsByIdOptions } from '../schemas/interfaces/delete-events-by-id-options';
+import type { ListEventsInRangeOptions } from '../schemas/interfaces/list-events-in-range-options';
+import type { ModifyEventOptions } from '../schemas/interfaces/modify-event-options';
+import type { ModifyEventWithPromptOptions } from '../schemas/interfaces/modify-event-with-prompt-options';
+import type { EventEditAction } from '../schemas/types/event-edit-action';
 
 export interface EventOperations {
   /**
@@ -25,9 +25,7 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 0.1.0
    */
-  createEventWithPrompt(
-    options?: CreateEventWithPromptOptions,
-  ): Promise<{ id: string | null }>;
+  createEventWithPrompt(options?: CreateEventWithPromptOptions): Promise<{ id: string | null }>;
   /**
    * Opens a system calendar interface to modify an event.
    * On Android always returns `null`.
@@ -42,9 +40,7 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 6.6.0
    */
-  modifyEventWithPrompt(
-    options: ModifyEventWithPromptOptions,
-  ): Promise<{ result: EventEditAction | null }>;
+  modifyEventWithPrompt(options: ModifyEventWithPromptOptions): Promise<{ result: EventEditAction | null }>;
   /**
    * Creates an event in the calendar.
    *
@@ -66,9 +62,7 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 0.11.0
    */
-  deleteEventsById(
-    options: DeleteEventsByIdOptions,
-  ): Promise<{ result: DeleteEventsByIdResult }>;
+  deleteEventsById(options: DeleteEventsByIdOptions): Promise<{ result: DeleteEventsByIdResult }>;
   /**
    * Deletes an event.
    *
@@ -82,18 +76,14 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 7.1.0
    */
-  deleteEventWithPrompt(
-    options: DeleteEventWithPromptOptions,
-  ): Promise<{ deleted: boolean }>;
+  deleteEventWithPrompt(options: DeleteEventWithPromptOptions): Promise<{ deleted: boolean }>;
   /**
    * Retrieves the events within a date range.
    *
    * @platform Android, iOS
    * @since 0.10.0
    */
-  listEventsInRange(
-    options: ListEventsInRangeOptions,
-  ): Promise<{ result: CalendarEvent[] }>;
+  listEventsInRange(options: ListEventsInRangeOptions): Promise<{ result: CalendarEvent[] }>;
 }
 
 /**

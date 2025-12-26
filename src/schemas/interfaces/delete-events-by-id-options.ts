@@ -1,4 +1,4 @@
-import { EventSpan } from "../enums/event-span";
+import type { EventSpan } from '../enums/event-span';
 
 /**
  * @since 7.1.0

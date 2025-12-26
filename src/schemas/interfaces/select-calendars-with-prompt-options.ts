@@ -1,4 +1,4 @@
-import { CalendarChooserDisplayStyle } from "../enums/calendar-chooser-display-style";
+import type { CalendarChooserDisplayStyle } from '../enums/calendar-chooser-display-style';
 
 /**
  * @since 7.1.0

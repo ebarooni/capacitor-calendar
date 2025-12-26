@@ -38,7 +38,7 @@ npx cap sync
 
 ## Demo
 
-|             iOS 18              |             Android 15              |
+|             iOS 26              |             Android 16              |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
 
@@ -1101,31 +1101,38 @@ Opens a dialog to delete a reminder.
 
 #### CheckAllPermissionsResult
 
-<code><a href="#record">Record</a>&lt; <a href="#calendarpermissionscope">CalendarPermissionScope</a>, <a href="#permissionstate">PermissionState</a> &gt;</code>
+<code>
+  <a href="#record">Record</a>&lt;<a href="#calendarpermissionscope">CalendarPermissionScope</a>,{' '}
+  <a href="#permissionstate">PermissionState</a>&gt;
+</code>
 
 #### Record
 
 Construct a type with a set of properties K of type T
 
 <code>{
-[P in K]: T;
-}</code>
+ [P in K]: T;
+ }</code>
 
 #### RequestAllPermissionsResult
 
-<code><a href="#checkallpermissionsresult">CheckAllPermissionsResult</a></code>
+<code>
+  <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>
+</code>
 
 #### RecurrenceFrequency
 
-<code>"daily" | "weekly" | "monthly" | "yearly"</code>
+<code>'daily' | 'weekly' | 'monthly' | 'yearly'</code>
 
 #### EventEditAction
 
-<code>"canceled" | "saved" | "deleted"</code>
+<code>'canceled' | 'saved' | 'deleted'</code>
 
 #### RemindersList
 
-<code><a href="#calendar">Calendar</a></code>
+<code>
+  <a href="#calendar">Calendar</a>
+</code>
 
 ### Enums
 
@@ -1133,10 +1140,10 @@ Construct a type with a set of properties K of type T
 
 | Members               | Value                         | Description                                                  | Since | Platform     |
 | --------------------- | ----------------------------- | ------------------------------------------------------------ | ----- | ------------ |
-| **`READ_CALENDAR`**   | <code>"readCalendar"</code>   | Permission required for reading calendar events.             | 7.1.0 | Android, iOS |
-| **`READ_REMINDERS`**  | <code>"readReminders"</code>  | Permission required for reading reminders.                   | 7.1.0 | iOS          |
-| **`WRITE_CALENDAR`**  | <code>"writeCalendar"</code>  | Permission required for adding or modifying calendar events. | 7.1.0 | Android, iOS |
-| **`WRITE_REMINDERS`** | <code>"writeReminders"</code> | Permission required for adding or modifying reminders.       | 7.1.0 | iOS          |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.             | 7.1.0 | Android, iOS |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders.                   | 7.1.0 | iOS          |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events. | 7.1.0 | Android, iOS |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders.       | 7.1.0 | iOS          |
 
 #### EventAvailability
 
@@ -1159,52 +1166,52 @@ Construct a type with a set of properties K of type T
 
 | Members         | Value                    | Since | Platform     |
 | --------------- | ------------------------ | ----- | ------------ |
-| **`NONE`**      | <code>"none"</code>      | 7.1.0 | iOS          |
-| **`CONFIRMED`** | <code>"confirmed"</code> | 7.1.0 | Android, iOS |
-| **`TENTATIVE`** | <code>"tentative"</code> | 7.1.0 | Android, iOS |
-| **`CANCELED`**  | <code>"canceled"</code>  | 7.1.0 | Android, iOS |
+| **`NONE`**      | <code>'none'</code>      | 7.1.0 | iOS          |
+| **`CONFIRMED`** | <code>'confirmed'</code> | 7.1.0 | Android, iOS |
+| **`TENTATIVE`** | <code>'tentative'</code> | 7.1.0 | Android, iOS |
+| **`CANCELED`**  | <code>'canceled'</code>  | 7.1.0 | Android, iOS |
 
 #### AttendeeRole
 
 | Members               | Value                         | Since | Platform     |
 | --------------------- | ----------------------------- | ----- | ------------ |
-| **`UNKNOWN`**         | <code>"unknown"</code>        | 7.1.0 | Android, iOS |
-| **`REQUIRED`**        | <code>"required"</code>       | 7.1.0 | iOS          |
-| **`OPTIONAL`**        | <code>"optional"</code>       | 7.1.0 | iOS          |
-| **`CHAIR`**           | <code>"chair"</code>          | 7.1.0 | iOS          |
-| **`NON_PARTICIPANT`** | <code>"nonParticipant"</code> | 7.1.0 | Android, iOS |
-| **`ATTENDEE`**        | <code>"attendee"</code>       | 7.1.0 | Android      |
-| **`ORGANIZER`**       | <code>"organizer"</code>      | 7.1.0 | Android      |
-| **`PERFORMER`**       | <code>"performer"</code>      | 7.1.0 | Android      |
-| **`SPEAKER`**         | <code>"speaker"</code>        | 7.1.0 | Android      |
+| **`UNKNOWN`**         | <code>'unknown'</code>        | 7.1.0 | Android, iOS |
+| **`REQUIRED`**        | <code>'required'</code>       | 7.1.0 | iOS          |
+| **`OPTIONAL`**        | <code>'optional'</code>       | 7.1.0 | iOS          |
+| **`CHAIR`**           | <code>'chair'</code>          | 7.1.0 | iOS          |
+| **`NON_PARTICIPANT`** | <code>'nonParticipant'</code> | 7.1.0 | Android, iOS |
+| **`ATTENDEE`**        | <code>'attendee'</code>       | 7.1.0 | Android      |
+| **`ORGANIZER`**       | <code>'organizer'</code>      | 7.1.0 | Android      |
+| **`PERFORMER`**       | <code>'performer'</code>      | 7.1.0 | Android      |
+| **`SPEAKER`**         | <code>'speaker'</code>        | 7.1.0 | Android      |
 
 #### AttendeeStatus
 
 | Members          | Value                    | Since | Platform     |
 | ---------------- | ------------------------ | ----- | ------------ |
-| **`NONE`**       | <code>"none"</code>      | 7.1.0 | Android      |
-| **`ACCEPTED`**   | <code>"accepted"</code>  | 7.1.0 | Android, iOS |
-| **`DECLINED`**   | <code>"declined"</code>  | 7.1.0 | Android, iOS |
-| **`INVITED`**    | <code>"invited"</code>   | 7.1.0 | Android      |
-| **`UNKNOWN`**    | <code>"unknown"</code>   | 7.1.0 | iOS          |
-| **`PENDING`**    | <code>"pending"</code>   | 7.1.0 | iOS          |
-| **`TENTATIVE`**  | <code>"tentative"</code> | 7.1.0 | Android, iOS |
-| **`DELEGATED`**  | <code>"delegated"</code> | 7.1.0 | iOS          |
-| **`COMPLETED`**  | <code>"completed"</code> | 7.1.0 | iOS          |
-| **`IN_PROCESS`** | <code>"inProcess"</code> | 7.1.0 | iOS          |
+| **`NONE`**       | <code>'none'</code>      | 7.1.0 | Android      |
+| **`ACCEPTED`**   | <code>'accepted'</code>  | 7.1.0 | Android, iOS |
+| **`DECLINED`**   | <code>'declined'</code>  | 7.1.0 | Android, iOS |
+| **`INVITED`**    | <code>'invited'</code>   | 7.1.0 | Android      |
+| **`UNKNOWN`**    | <code>'unknown'</code>   | 7.1.0 | iOS          |
+| **`PENDING`**    | <code>'pending'</code>   | 7.1.0 | iOS          |
+| **`TENTATIVE`**  | <code>'tentative'</code> | 7.1.0 | Android, iOS |
+| **`DELEGATED`**  | <code>'delegated'</code> | 7.1.0 | iOS          |
+| **`COMPLETED`**  | <code>'completed'</code> | 7.1.0 | iOS          |
+| **`IN_PROCESS`** | <code>'inProcess'</code> | 7.1.0 | iOS          |
 
 #### AttendeeType
 
 | Members        | Value                   | Since | Platform     |
 | -------------- | ----------------------- | ----- | ------------ |
-| **`UNKNOWN`**  | <code>"unknown"</code>  | 7.1.0 | Android, iOS |
-| **`PERSON`**   | <code>"person"</code>   | 7.1.0 | iOS          |
-| **`ROOM`**     | <code>"room"</code>     | 7.1.0 | iOS          |
-| **`RESOURCE`** | <code>"resource"</code> | 7.1.0 | Android, iOS |
-| **`GROUP`**    | <code>"group"</code>    | 7.1.0 | iOS          |
-| **`REQUIRED`** | <code>"required"</code> | 7.1.0 | Android      |
-| **`NONE`**     | <code>"none"</code>     | 7.1.0 | Android      |
-| **`OPTIONAL`** | <code>"optional"</code> | 7.1.0 | Android      |
+| **`UNKNOWN`**  | <code>'unknown'</code>  | 7.1.0 | Android, iOS |
+| **`PERSON`**   | <code>'person'</code>   | 7.1.0 | iOS          |
+| **`ROOM`**     | <code>'room'</code>     | 7.1.0 | iOS          |
+| **`RESOURCE`** | <code>'resource'</code> | 7.1.0 | Android, iOS |
+| **`GROUP`**    | <code>'group'</code>    | 7.1.0 | iOS          |
+| **`REQUIRED`** | <code>'required'</code> | 7.1.0 | Android      |
+| **`NONE`**     | <code>'none'</code>     | 7.1.0 | Android      |
+| **`OPTIONAL`** | <code>'optional'</code> | 7.1.0 | Android      |
 
 #### CalendarType
 
