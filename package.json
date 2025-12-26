@@ -21,9 +21,6 @@
     "eventkit",
     "ionic"
   ],
-  "engines": {
-    "node": ">=22.14.0"
-  },
   "publishConfig": {
     "access": "public"
   },

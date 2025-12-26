@@ -5,8 +5,4 @@ import type { RemindersAccess } from './sub-definitions/reminders-access';
 import type { RemindersOperations } from './sub-definitions/reminders-operations';
 
 export interface CapacitorCalendarPlugin
-  extends CalendarAccess,
-    RemindersAccess,
-    EventOperations,
-    CalendarOperations,
-    RemindersOperations {}
+  extends CalendarAccess, RemindersAccess, EventOperations, CalendarOperations, RemindersOperations {}
