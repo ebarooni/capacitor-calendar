@@ -44,6 +44,8 @@ export interface CalendarEvent {
    */
   isAllDay: boolean;
   /**
+   * Alert times in minutes relative to the event start.
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */

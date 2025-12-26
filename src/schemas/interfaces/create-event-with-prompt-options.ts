@@ -7,12 +7,15 @@ import type { EventRecurrenceRule } from './event-recurrence-rule';
  */
 export interface CreateEventWithPromptOptions {
   /**
-   * Sets alerts before or after the start of the event in minutes.
+   * Alert times in minutes relative to the event start.
+   * Use negative numbers for reminders before the start, and positive numbers for reminders after the start.
    * On iOS only 2 alerts are supported.
    *
    * @example
-   * // 10mins before and 30mins after the event
-   * const alerts: [-10, 30]
+   * // -1440 -> 1 day before
+   * // -60 -> 1 hour before
+   * // 30 -> 30 minutes after
+   * [-1440, -60, 30]
    *
    * @platform iOS
    * @since 7.1.0
