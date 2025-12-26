@@ -44,6 +44,10 @@ export interface CalendarEvent {
    */
   isAllDay: boolean;
   /**
+   * Alert times in minutes relative to the event start.
+   * Negative values indicate reminders before the start, positive values indicate reminders after the start.
+   * 0 means at the start time.
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */

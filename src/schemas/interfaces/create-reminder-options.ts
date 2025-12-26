@@ -49,6 +49,11 @@ export interface CreateReminderOptions {
    */
   recurrence?: RecurrenceRule;
   /**
+   * Alert times in minutes relative to the reminder date.
+   * Use negative numbers for reminders before the date, and positive numbers for reminders after.
+   *
+   * Example: [-30, 15] => 30 minutes before and 15 minutes after.
+   *
    * @since 7.1.0
    */
   alerts?: number[];
