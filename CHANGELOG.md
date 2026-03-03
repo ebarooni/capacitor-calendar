@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.0.1](#801)
   - [8.0.0](#800)
 - [Version 7.x.x](#version-7xx)
   - [7.2.0](#720)
@@ -38,6 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.0.1
+
+## Fixed
+
+- Deprecated `proguard-android.txt`
 
 ## 8.0.0
 
