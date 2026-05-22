@@ -12,7 +12,7 @@ data class ModifyEvent(
     val id: Long = call.getString("id")?.toLong() ?: throw PluginError.MissingId
     val title: String? = call.getString("title")
     val calendarId: Long? = call.getString("calendarId")?.toLong()
-    val location: String? = call.getString("calendar")
+    val location: String? = call.getString("location")
     val startDate: Long? = call.getLong("startDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
     val endDate: Long? = call.getLong("endDate")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis }
     val isAllDay: Int? = call.getBoolean("isAllDay")?.let { if (it) 1 else 0 }
