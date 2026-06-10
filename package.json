@@ -38,7 +38,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "bootstrap:app": "npm run build && npm run install:app && npm run build:app && npm run sync:app",
+    "bootstrap:app": "npm run install:lib && npm run build && npm run install:app && npm run build:app && npm run sync:app",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "build:app": "cd example-app && npm run build",
     "clean": "rimraf ./dist",
@@ -47,6 +47,7 @@
     "fmt": "npm run eslint -- --fix && npm run prettier:fix && npm run swiftlint -- --fix --format && npm run fmt:android",
     "fmt:android": "npm run ktlint -- -F",
     "install:app": "cd example-app && npm i",
+    "install:lib": "npm i",
     "ktlint": "ktlint",
     "lint": "npm run eslint && npm run prettier:check && npm run swiftlint -- lint && npm run lint:android",
     "lint:android": "npm run ktlint",

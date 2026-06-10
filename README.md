@@ -1,28 +1,55 @@
-<p align="center">
-  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
-  <br>
-  <em>A capacitor plugin for managing calendar events on iOS and Android, with reminders support on iOS.</em>
-</p>
+# @ebarooni/capacitor-calendar
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/maintenance/yes/2026?style=flat-square" />
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
-  <br>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
+  </a>
 </p>
+
+![capacitor-calendar-logo](assets/images/text-logo.png)
+
+Full-featured Capacitor plugin for native calendar and reminders access. Manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events within a given time period, and list all available calendars.
+
+## Core Features
+
+- ✅ **Events** – Create, update, delete, and list events in a date range
+- ✅ **Native Prompts** – Built-in system dialogs for creating, editing, and deleting events
+- ✅ **Permissions** – Granular control (full access, write-only, read-only)
+- ✅ **Calendars** – List calendars, get default, create, modify, and delete custom calendars
+- ✅ **Open Calendar App** – Launch the native Calendar app directly
+- 📅 **Reminders** – Full create, read, update, delete support _(iOS only)_
+- 🔍 **Advanced iOS Features** – Calendar sources, calendar selection prompts, default reminders list
+
+## Supported Platforms
+
+- **iOS** — Full support (including Reminders and advanced features)
+- **Android** — Strong support for all core calendar features
+- **Web** — Not supported (Capacitor stub only - calls will fail)
+
+## Why this plugin?
+
+- **Original and established.** Available since Capacitor 5, this plugin has been around longer than the alternatives and has matured over time.
+- **Actively maintained by the original author.** Updates, bug fixes, and new features are driven by someone who is deeply familiar with the codebase and committed to keeping it healthy.
+- **Fast support.** Questions, bug reports, and integration help are handled promptly.
+- **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Demo](#demo)
 - [Setup](#setup)
+- [Quick Start](#quick-start)
+- [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Changelog](#changelog)
 - [API](#api)
@@ -44,24 +71,149 @@ npx cap sync
 
 ## Setup
 
-This plugin requires additional platform-specific configuration. Follow the official guides:
+This plugin works with native calendar APIs, so you'll need to configure permissions on each platform before requesting access at runtime.
+
+### Android
+
+Add these permissions to `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.READ_CALENDAR" />
+<uses-permission android:name="android.permission.WRITE_CALENDAR" />
+```
+
+Don't forget to request the matching runtime permissions before reading from or writing to the calendar.
+
+### iOS
+
+Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting with iOS 17, Apple requires separate keys for write-only and full calendar access.
+
+```xml
+<key>NSCalendarsUsageDescription</key>
+<string>This app needs access to your calendar.</string>
+
+<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+<string>This app needs permission to create calendar events.</string>
+
+<key>NSCalendarsFullAccessUsageDescription</key>
+<string>This app needs permission to read and manage your calendar events.</string>
+
+<key>NSRemindersUsageDescription</key>
+<string>This app needs access to your reminders.</string>
+
+<key>NSRemindersFullAccessUsageDescription</key>
+<string>This app needs permission to read and manage your reminders.</string>
+```
+
+> [!IMPORTANT]  
+> Only include the keys your app actually needs. If you're only creating events, you can safely omit the full access and reminders entries.
+
+### Official References
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
 
+## Quick Start
+
+Here's a simple example to get you up and running quickly:
+
+```typescript
+import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
+
+const { result } = await CapacitorCalendar.requestFullCalendarAccess();
+
+if (result !== 'granted') {
+  throw new Error('Calendar permission denied');
+}
+
+// Create an event starting in 1 hour, lasting 1 hour
+const startDate = Date.now() + 60 * 60 * 1000;
+const endDate = startDate + 60 * 60 * 1000;
+
+const { id } = await CapacitorCalendar.createEvent({
+  title: 'Product review',
+  location: 'Office',
+  startDate,
+  endDate,
+  description: 'Created with @ebarooni/capacitor-calendar',
+});
+
+console.log('Event created with ID:', id);
+```
+
+> [!NOTE]  
+> Dates are expected as Unix timestamps in milliseconds.
+
+## Usage Examples
+
+### Open the native event editor
+
+Use the system calendar UI to let users create or edit events:
+
+```typescript
+await CapacitorCalendar.createEventWithPrompt({
+  title: 'Planning session',
+  location: 'Office',
+  startDate: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
+  endDate: Date.now() + 25 * 60 * 60 * 1000,
+});
+```
+
+> [!NOTE]  
+> On Android, this method always returns null. If you need the event ID, call `listEventsInRange(...)` afterward.
+
+### List upcoming events
+
+```typescript
+const now = Date.now();
+const oneWeekLater = now + 7 * 24 * 60 * 60 * 1000;
+
+const { result: events } = await CapacitorCalendar.listEventsInRange({
+  from: now,
+  to: oneWeekLater,
+});
+
+console.log('Upcoming events:', events);
+```
+
+### Working with Calendars
+
+```typescript
+// Get all calendars and default calendar
+const { result: calendars } = await CapacitorCalendar.listCalendars();
+const { result: defaultCalendar } = await CapacitorCalendar.getDefaultCalendar();
+
+// Use default or fall back to first calendar
+const targetCalendarId = defaultCalendar?.id ?? calendars[0]?.id;
+```
+
+> [!NOTE]  
+> On iOS you can also use `selectCalendarsWithPrompt()` to let the user pick calendars via the native interface.
+
+### Create a Reminder (iOS only)
+
+```typescript
+const { result } = await CapacitorCalendar.requestFullRemindersAccess();
+
+if (result === 'granted') {
+  await CapacitorCalendar.createReminder({
+    title: 'Send launch notes',
+    dueDate: Date.now() + 2 * 24 * 60 * 60 * 1000,
+    notes: 'Created with @ebarooni/capacitor-calendar',
+  });
+}
+```
+
 ## Documentation
 
-For comprehensive usage examples, detailed explanations, and API references, check out:
+The full documentation is generated from TypeScript definitions and is available online:
 
-- **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
-- **[Type definitions & examples](src/definitions.ts)**
+- **[Complete Documentation](https://ebarooni.github.io/capacitor-calendar/)** — Guides, examples, and full API reference (recommended)
+- **[Source Definitions](src/definitions.ts)** — The TypeScript source used to generate the docs
 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
-
-> [!NOTE]  
-> Version 7.1.0 introduces breaking changes.
 
 ## API
 
