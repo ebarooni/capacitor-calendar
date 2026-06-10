@@ -34,6 +34,7 @@
 - [Installation](#installation)
 - [Demo](#demo)
 - [Setup](#setup)
+- [Quick Start](#quick-start)
 - [Documentation](#documentation)
 - [Changelog](#changelog)
 - [API](#api)
@@ -96,6 +97,37 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
+
+## Quick Start
+
+Here's a simple example to get you up and running quickly:
+
+```typescript
+import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
+
+const { result } = await CapacitorCalendar.requestFullCalendarAccess();
+
+if (result !== 'granted') {
+  throw new Error('Calendar permission denied');
+}
+
+// Create an event starting in 1 hour, lasting 1 hour
+const startDate = Date.now() + 60 * 60 * 1000;
+const endDate = startDate + 60 * 60 * 1000;
+
+const { id } = await CapacitorCalendar.createEvent({
+  title: 'Product review',
+  location: 'Office',
+  startDate,
+  endDate,
+  description: 'Created with @ebarooni/capacitor-calendar',
+});
+
+console.log('Event created with ID:', id);
+```
+
+> [!NOTE]  
+> Dates are expected as Unix timestamps in milliseconds.
 
 ## Documentation
 
