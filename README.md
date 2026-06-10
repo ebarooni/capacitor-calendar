@@ -55,9 +55,44 @@ npx cap sync
 
 ## Setup
 
-This plugin requires platform-specific configuration. In summary use below...
+This plugin works with native calendar APIs, so you'll need to configure permissions on each platform before requesting access at runtime.
 
-Official platform references:
+### Android
+
+Add these permissions to `android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.READ_CALENDAR" />
+<uses-permission android:name="android.permission.WRITE_CALENDAR" />
+```
+
+Don't forget to request the matching runtime permissions before reading from or writing to the calendar.
+
+### iOS
+
+Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting with iOS 17, Apple requires separate keys for write-only and full calendar access.
+
+```xml
+<key>NSCalendarsUsageDescription</key>
+<string>This app needs access to your calendar.</string>
+
+<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+<string>This app needs permission to create calendar events.</string>
+
+<key>NSCalendarsFullAccessUsageDescription</key>
+<string>This app needs permission to read and manage your calendar events.</string>
+
+<key>NSRemindersUsageDescription</key>
+<string>This app needs access to your reminders.</string>
+
+<key>NSRemindersFullAccessUsageDescription</key>
+<string>This app needs permission to read and manage your reminders.</string>
+```
+
+> [!IMPORTANT]  
+> Only include the keys your app actually needs. If you're only creating events, you can safely omit the full access and reminders entries.
+
+### Official References
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
