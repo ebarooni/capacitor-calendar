@@ -29,6 +29,16 @@
 - **Fast support.** Questions, bug reports, and integration help are handled promptly.
 - **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
 
+### Core Features
+
+- ✅ **Events** – Create, update, delete, and list events in a date range  
+- ✅ **Native Prompts** – Built-in system dialogs for creating, editing, and deleting events  
+- ✅ **Permissions** – Granular control (full access, write-only, read-only)  
+- ✅ **Calendars** – List calendars, get default, create, modify, and delete custom calendars  
+- ✅ **Open Calendar App** – Launch the native Calendar app directly  
+- 📅 **Reminders** – Full create, read, update, delete support *(iOS only)*  
+- 🔍 **Advanced iOS Features** – Calendar sources, calendar selection prompts, default reminders list
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -131,17 +141,14 @@ console.log('Event created with ID:', id);
 
 ## Documentation
 
-For comprehensive usage examples, detailed explanations, and API references, check out:
+The full documentation is generated from TypeScript definitions and is available online:
 
-- **[Online documentation](https://ebarooni.github.io/capacitor-calendar/)**
-- **[Type definitions & examples](src/definitions.ts)**
+- **[Complete Documentation](https://ebarooni.github.io/capacitor-calendar/)** — Guides, examples, and full API reference (recommended)
+- **[Source Definitions](src/definitions.ts)** — The TypeScript source used to generate the docs
 
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
-
-> [!NOTE]  
-> Version 7.1.0 introduces breaking changes.
 
 ## API
 
