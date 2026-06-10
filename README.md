@@ -16,11 +16,25 @@
   </a>
 </p>
 
-<p>
-  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo"/>
-  <br>
-  Full-featured Capacitor plugin for native calendar and reminders access. Manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events within a given time period, and list all available calendars.
-</p>
+![capacitor-calendar-logo](assets/images/text-logo.png)
+
+Full-featured Capacitor plugin for native calendar and reminders access. Manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events within a given time period, and list all available calendars.
+
+## Core Features
+
+- ✅ **Events** – Create, update, delete, and list events in a date range
+- ✅ **Native Prompts** – Built-in system dialogs for creating, editing, and deleting events
+- ✅ **Permissions** – Granular control (full access, write-only, read-only)
+- ✅ **Calendars** – List calendars, get default, create, modify, and delete custom calendars
+- ✅ **Open Calendar App** – Launch the native Calendar app directly
+- 📅 **Reminders** – Full create, read, update, delete support _(iOS only)_
+- 🔍 **Advanced iOS Features** – Calendar sources, calendar selection prompts, default reminders list
+
+## Supported Platforms
+
+- **iOS** — Full support (including Reminders and advanced features)
+- **Android** — Strong support for all core calendar features
+- **Web** — Not supported (Capacitor stub only - calls will fail)
 
 ## Why this plugin?
 
@@ -29,22 +43,13 @@
 - **Fast support.** Questions, bug reports, and integration help are handled promptly.
 - **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
 
-### Core Features
-
-- ✅ **Events** – Create, update, delete, and list events in a date range  
-- ✅ **Native Prompts** – Built-in system dialogs for creating, editing, and deleting events  
-- ✅ **Permissions** – Granular control (full access, write-only, read-only)  
-- ✅ **Calendars** – List calendars, get default, create, modify, and delete custom calendars  
-- ✅ **Open Calendar App** – Launch the native Calendar app directly  
-- 📅 **Reminders** – Full create, read, update, delete support *(iOS only)*  
-- 🔍 **Advanced iOS Features** – Calendar sources, calendar selection prompts, default reminders list
-
 ## Table of Contents
 
 - [Installation](#installation)
 - [Demo](#demo)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
+- [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Changelog](#changelog)
 - [API](#api)
@@ -138,6 +143,66 @@ console.log('Event created with ID:', id);
 
 > [!NOTE]  
 > Dates are expected as Unix timestamps in milliseconds.
+
+## Usage Examples
+
+### Open the native event editor
+
+Use the system calendar UI to let users create or edit events:
+
+```typescript
+await CapacitorCalendar.createEventWithPrompt({
+  title: 'Planning session',
+  location: 'Office',
+  startDate: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
+  endDate: Date.now() + 25 * 60 * 60 * 1000,
+});
+```
+
+> [!NOTE]  
+> On Android, this method always returns null. If you need the event ID, call `listEventsInRange(...)` afterward.
+
+### List upcoming events
+
+```typescript
+const now = Date.now();
+const oneWeekLater = now + 7 * 24 * 60 * 60 * 1000;
+
+const { result: events } = await CapacitorCalendar.listEventsInRange({
+  from: now,
+  to: oneWeekLater,
+});
+
+console.log('Upcoming events:', events);
+```
+
+### Working with Calendars
+
+```typescript
+// Get all calendars and default calendar
+const { result: calendars } = await CapacitorCalendar.listCalendars();
+const { result: defaultCalendar } = await CapacitorCalendar.getDefaultCalendar();
+
+// Use default or fall back to first calendar
+const targetCalendarId = defaultCalendar?.id ?? calendars[0]?.id;
+```
+
+> [!NOTE]  
+> On iOS you can also use `selectCalendarsWithPrompt()` to let the user pick calendars via the native interface.
+
+### Create a Reminder (iOS only)
+
+```typescript
+const { result } = await CapacitorCalendar.requestFullRemindersAccess();
+
+if (result === 'granted') {
+  await CapacitorCalendar.createReminder({
+    title: 'Send launch notes',
+    dueDate: Date.now() + 2 * 24 * 60 * 60 * 1000,
+    notes: 'Created with @ebarooni/capacitor-calendar',
+  });
+}
+```
 
 ## Documentation
 
