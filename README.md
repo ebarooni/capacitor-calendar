@@ -1,22 +1,33 @@
-<p align="center">
-  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo" height="136"/>
-  <br>
-  <em>A capacitor plugin for managing calendar events on iOS and Android, with reminders support on iOS.</em>
-</p>
+# @ebarooni/capacitor-calendar
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/maintenance/yes/2026?style=flat-square" />
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
-  <br>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
+  </a>
 </p>
+
+<p>
+  <img src="assets/images/text-logo.png" alt="capacitor-calendar-logo"/>
+  <br>
+  Full-featured Capacitor plugin for native calendar and reminders access. Manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events within a given time period, and list all available calendars.
+</p>
+
+## Why this plugin?
+
+- **Original and established.** Available since Capacitor 5, this plugin has been around longer than the alternatives and has matured over time.
+- **Actively maintained by the original author.** Updates, bug fixes, and new features are driven by someone who is deeply familiar with the codebase and committed to keeping it healthy.
+- **Fast support.** Questions, bug reports, and integration help are handled promptly.
+- **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
 
 ## Table of Contents
 
@@ -44,7 +55,9 @@ npx cap sync
 
 ## Setup
 
-This plugin requires additional platform-specific configuration. Follow the official guides:
+This plugin requires platform-specific configuration. In summary use below...
+
+Official platform references:
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
