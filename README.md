@@ -244,6 +244,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`modifyCalendar(...)`](#modifycalendar)
+- [`createRemindersList(...)`](#createreminderslist)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
@@ -715,6 +716,26 @@ Modifies a calendar with options.
 
 ---
 
+### createRemindersList(...)
+
+```typescript
+createRemindersList(options: CreateRemindersListOptions) => Promise<CreateRemindersListResult>
+```
+
+Creates a new reminders list.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#createreminderslistoptions">CreateRemindersListOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#createreminderslistresult">CreateRemindersListResult</a>&gt;</code>
+
+**Since:** 8.1.0
+
+**Platform:** iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -1142,6 +1163,20 @@ Opens a dialog to delete a reminder.
 | **`id`**    | <code>string</code> | 7.2.0 | Android, iOS |
 | **`title`** | <code>string</code> | 7.2.0 | Android, iOS |
 | **`color`** | <code>string</code> | 7.2.0 | Android, iOS |
+
+#### CreateRemindersListResult
+
+| Prop     | Type                | Description                                     | Since | Platform |
+| -------- | ------------------- | ----------------------------------------------- | ----- | -------- |
+| **`id`** | <code>string</code> | Identifier of the newly created reminders list. | 8.1.0 | iOS      |
+
+#### CreateRemindersListOptions
+
+| Prop           | Type                                                                                                                             | Description                                                                                                                                                                  | Default             | Since | Platform |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- | -------- |
+| **`color`**    | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | The color of the list.                                                                                                                                                       | <code>'blue'</code> | 8.1.0 | iOS      |
+| **`sourceId`** | <code>string</code>                                                                                                              | The EKSource identifier (account) where the list should be created. If left undefined, the plugin will automatically use iCloud if available, otherwise falls back to Local. |                     | 8.1.0 | iOS      |
+| **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                       |                     | 8.1.0 | iOS      |
 
 #### CreateReminderOptions
 
