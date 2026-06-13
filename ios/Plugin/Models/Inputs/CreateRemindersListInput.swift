@@ -11,7 +11,7 @@ struct CreateRemindersListInput {
             throw PluginError.titleMissing
         }
         self.title = title
-        self.color = getListColorFromCall(call)
+        self.color = CreateRemindersListInput.getListColorFromCall(call)
         self.commit = call.getBool("commit", true)
         if let sourceId = call.getString("sourceId") {
             self.sourceId = sourceId
@@ -34,7 +34,7 @@ struct CreateRemindersListInput {
         return title
     }
 
-    private func getListColorFromCall(_ call: CAPPluginCall) -> CGColor? {
+    private static func getListColorFromCall(_ call: CAPPluginCall) -> CGColor? {
         guard let colorName = call.getString("color") else {
             return nil
         }
