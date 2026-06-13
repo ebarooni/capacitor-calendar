@@ -51,6 +51,30 @@ class CapacitorCalendar: NSObject {
         return CheckAllPermissionsResult(statesDict: permissionsResult)
     }
 
+    func createRemindersList(_ input: CreateRemindersListInput, completion: @escaping (CreateRemindersListResult?, Error?) -> Void) {
+        let calendar = EKCalendar(for: .reminder, eventStore: eventStore)
+        calendar.title = input.getTitle()
+        if let color = input.getColor() {
+            calendar.cgColor = color
+        }
+
+        let sources = eventStore.sources
+        if let sourceId = input.getSourceId(), let customSource = sources.first(where: { $0.sourceIdentifier == sourceId }) {
+            calendar.source = customSource
+        } else if let iCloudSource = sources.first(where: { $0.sourceType == .calDAV && $0.title == "iCloud" }) {
+            calendar.source = iCloudSource
+        } else if let localSource = sources.first(where: { $0.sourceType == .local }) {
+            calendar.source = localSource
+        }
+
+        do {
+            try eventStore.saveCalendar(calendar, commit: input.getCommit())
+            completion(CreateRemindersListResult(id: calendar.calendarIdentifier), nil)
+        } catch {
+            completion(nil, error)
+        }
+    }
+
     func requestionPermission(input: RequestPermissionInput) async throws -> RequestPermissionResult {
         let scope = input.getScope()
         var state: CAPPermissionState
