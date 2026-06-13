@@ -19,6 +19,7 @@ import type { DeleteEventsByIdOptions } from './schemas/interfaces/delete-events
 import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder-options';
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
+import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
@@ -48,8 +49,12 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.requestPermission.name);
   }
 
-  createRemindersList(_options: CreateRemindersListOptions): Promise<CreateRemindersListResult> {
+  public createRemindersList(_options: CreateRemindersListOptions): Promise<CreateRemindersListResult> {
     return this.throwUnimplemented(this.createRemindersList.name);
+  }
+
+  public deleteRemindersList(_options: DeleteRemindersListOptions): Promise<void> {
+    return this.throwUnimplemented(this.deleteRemindersList.name);
   }
 
   public requestAllPermissions(): Promise<{

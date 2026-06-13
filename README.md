@@ -154,7 +154,7 @@ Use the system calendar UI to let users create or edit events:
 await CapacitorCalendar.createEventWithPrompt({
   title: 'Planning session',
   location: 'Office',
-  startDate: Date.now() + 24 * 60 * 60 * 1000, // tomorrow
+  startDate: Date.now() + 24 * 60 * 60 * 1000,
   endDate: Date.now() + 25 * 60 * 60 * 1000,
 });
 ```
@@ -245,6 +245,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`deleteCalendar(...)`](#deletecalendar)
 - [`modifyCalendar(...)`](#modifycalendar)
 - [`createRemindersList(...)`](#createreminderslist)
+- [`deleteRemindersList(...)`](#deletereminderslist)
 - [`fetchAllRemindersSources()`](#fetchallreminderssources)
 - [`openReminders()`](#openreminders)
 - [`getDefaultRemindersList()`](#getdefaultreminderslist)
@@ -736,6 +737,24 @@ Creates a new reminders list.
 
 ---
 
+### deleteRemindersList(...)
+
+```typescript
+deleteRemindersList(options: DeleteRemindersListOptions) => Promise<void>
+```
+
+Deletes a reminders list.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#deletereminderslistoptions">DeleteRemindersListOptions</a></code> |
+
+**Since:** 8.2.0
+
+**Platform:** iOS
+
+---
+
 ### fetchAllRemindersSources()
 
 ```typescript
@@ -1178,6 +1197,13 @@ Opens a dialog to delete a reminder.
 | **`commit`**   | <code>boolean</code>                                                                                                             | Whether to save the list to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code>   | 8.1.0 | iOS      |
 | **`sourceId`** | <code>string</code>                                                                                                              | The EKSource identifier (account) where the list should be created. If left undefined, iCloud will be used if available, otherwise falls back to local.                                                                      |                     | 8.1.0 | iOS      |
 | **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                                                                       |                     | 8.1.0 | iOS      |
+
+#### DeleteRemindersListOptions
+
+| Prop         | Type                 | Description                                                                                                                                                                                                                     | Default           | Since | Platform |
+| ------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
+| **`commit`** | <code>boolean</code> | Whether to save the changes to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
+| **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                     |                   | 8.2.0 | iOS      |
 
 #### CreateReminderOptions
 
