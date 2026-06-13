@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.2.0](#820)
   - [8.1.0](#810)
   - [8.0.2](#802)
   - [8.0.1](#801)
@@ -42,21 +43,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 8.
 
+## 8.2.0
+
+### Added
+
+- Method to delete reminders lists on iOS with `deleteRemindersList(...)`
+
 ## 8.1.0
 
-## Added
+### Added
 
 - Method to create reminders lists on iOS with `createRemindersList(...)`
 
 ## 8.0.2
 
-## Fixed
+### Fixed
 
 - `ModifyEvent` on Android was not updating `location`
 
 ## 8.0.1
 
-## Fixed
+### Fixed
 
 - Deprecated `proguard-android.txt`
 
