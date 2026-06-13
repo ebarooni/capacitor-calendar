@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#checkAllPermissions', result);
   });
 
+  document.querySelector('#create-reminders-list').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.createRemindersList({
+      title: 'Groceries list',
+      color: 'orange',
+    });
+    console.log('#createRemindersList', result);
+  });
+
   document.querySelector('#list-calendars').addEventListener('click', async () => {
     const result = await CapacitorCalendar.listCalendars();
     console.log('#listCalendars', result);
@@ -14,5 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#request-full-calendar-access').addEventListener('click', async () => {
     const result = await CapacitorCalendar.requestFullCalendarAccess();
     console.log('#requestFullCalendarAccess', result);
+  });
+
+  document.querySelector('#request-full-reminders-access').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.requestFullRemindersAccess();
+    console.log('#requestFullRemindersAccess', result);
   });
 });

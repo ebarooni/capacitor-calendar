@@ -14,7 +14,7 @@ export interface CreateRemindersListOptions {
   color?: 'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow';
   /**
    * The EKSource identifier (account) where the list should be created.
-   * If left undefined, the plugin will automatically use iCloud if available, otherwise falls back to Local.
+   * If left undefined, iCloud will be used if available, otherwise falls back to local.
    *
    * @example 'A1234567-ABCD-EFGH-IJKL-MNOPQRSTUVWX'
    * @platform iOS
