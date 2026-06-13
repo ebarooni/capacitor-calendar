@@ -26,6 +26,21 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func createRemindersList(_ call: CAPPluginCall) {
+        do {
+            let input = try CreateRemindersListInput(call: call)
+            implementation.createRemindersList(input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
+            }
+        } catch let error {
+            rejectCall(call, error)
+        }
+    }
+
     @objc public func requestPermission(_ call: CAPPluginCall) {
         Task {
             do {

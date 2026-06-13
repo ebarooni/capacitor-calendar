@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.1.0](#810)
   - [8.0.2](#802)
   - [8.0.1](#801)
   - [8.0.0](#800)
@@ -40,6 +41,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.1.0
+
+## Added
+
+- Method to create reminders lists on iOS with `createRemindersList(...)`
 
 ## 8.0.2
 

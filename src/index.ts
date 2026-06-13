@@ -19,6 +19,8 @@ import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
+import type { CreateRemindersListOptions } from './schemas/interfaces/create-reminders-list-options';
+import type { CreateRemindersListResult } from './schemas/interfaces/create-reminders-list-result';
 import type { DeleteCalendarOptions } from './schemas/interfaces/delete-calendar-options';
 import type { DeleteEventOptions } from './schemas/interfaces/delete-event-options';
 import type { DeleteEventWithPromptOptions } from './schemas/interfaces/delete-event-with-prompt-options';
@@ -53,6 +55,8 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCale
 export * from './definitions';
 export type {
   CheckAllPermissionsResult,
+  CreateRemindersListOptions,
+  CreateRemindersListResult,
   RequestAllPermissionsResult,
   CreateEventWithPromptOptions,
   ModifyEventWithPromptOptions,
