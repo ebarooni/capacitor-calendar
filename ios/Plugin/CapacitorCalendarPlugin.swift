@@ -401,6 +401,21 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func updateRemindersList(_ call: CAPPluginCall) {
+        do {
+            let input = try UpdateRemindersListInput(call: call)
+            try implementation.updateRemindersList(input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
+            }
+        } catch let error {
+            rejectCall(call, error)
+        }
+    }
+
     private func rejectCall(_ call: CAPPluginCall, _ error: Error?) {
         if let msg = error?.localizedDescription {
             call.reject(msg)

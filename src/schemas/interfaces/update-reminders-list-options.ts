@@ -3,23 +3,6 @@
  */
 export interface UpdateRemindersListOptions {
   /**
-   * The identifier of the list to update.
-   *
-   * @example 'A1234567-ABCD-EFGH-IJKL-MNOPQRSTUVWX'
-   * @platform iOS
-   * @since 8.2.0
-   */
-  id: string;
-  /**
-   * The new title of the list.
-   * If omitted, the title is left unchanged.
-   *
-   * @example 'Groceries'
-   * @platform iOS
-   * @since 8.2.0
-   */
-  title?: string;
-  /**
    * The new color of the list.
    * If omitted, the color is left unchanged.
    *
@@ -37,4 +20,21 @@ export interface UpdateRemindersListOptions {
    * @since 8.2.0
    */
   commit?: boolean;
+  /**
+   * The identifier of the list to update.
+   *
+   * @example 'A1234567-ABCD-EFGH-IJKL-MNOPQRSTUVWX'
+   * @platform iOS
+   * @since 8.2.0
+   */
+  id: string;
+  /**
+   * The new title of the list.
+   * If omitted, the title is left unchanged.
+   *
+   * @example 'Groceries'
+   * @platform iOS
+   * @since 8.2.0
+   */
+  title?: string;
 }
