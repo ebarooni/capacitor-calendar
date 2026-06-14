@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     await CapacitorCalendar.deleteRemindersList({ id });
   });
 
+  document.querySelector('#get-reminders-lists').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.getRemindersLists();
+    console.log('#getRemindersLists', result);
+  });
+
   document.querySelector('#list-calendars').addEventListener('click', async () => {
     const result = await CapacitorCalendar.listCalendars();
     console.log('#listCalendars', result);
