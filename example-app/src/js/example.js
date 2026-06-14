@@ -11,7 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Groceries list',
       color: 'orange',
     });
+
+    getRemindersListIdInput().value = result.id;
     console.log('#createRemindersList', result);
+  });
+
+  document.querySelector('#delete-reminders-list').addEventListener('click', async () => {
+    const id = getRemindersListIdInput().value;
+    await CapacitorCalendar.deleteRemindersList({ id });
+  });
+
+  document.querySelector('#get-reminders-lists').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.getRemindersLists();
+    console.log('#getRemindersLists', result);
   });
 
   document.querySelector('#list-calendars').addEventListener('click', async () => {
@@ -29,3 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#requestFullRemindersAccess', result);
   });
 });
+
+function getRemindersListIdInput() {
+  return document.querySelector('#reminders-list-id-input');
+}

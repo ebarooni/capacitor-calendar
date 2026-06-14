@@ -86,6 +86,11 @@ class CapacitorCalendarPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun deleteRemindersList(call: PluginCall) {
+        call.unimplemented(PluginError.Unimplemented(::deleteRemindersList.name).message)
+    }
+
+    @PluginMethod
     fun requestPermission(call: PluginCall) {
         try {
             val input = RequestPermissionInput.FromCall(call, ::requestPermissionCallback.name)

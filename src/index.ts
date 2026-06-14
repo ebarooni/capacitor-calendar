@@ -28,6 +28,7 @@ import type { DeleteEventsByIdOptions } from './schemas/interfaces/delete-events
 import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder-options';
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
+import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
@@ -57,6 +58,7 @@ export type {
   CheckAllPermissionsResult,
   CreateRemindersListOptions,
   CreateRemindersListResult,
+  DeleteRemindersListOptions,
   RequestAllPermissionsResult,
   CreateEventWithPromptOptions,
   ModifyEventWithPromptOptions,

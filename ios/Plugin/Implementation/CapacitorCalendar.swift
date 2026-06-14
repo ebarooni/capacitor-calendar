@@ -75,6 +75,20 @@ class CapacitorCalendar: NSObject {
         }
     }
 
+    func deleteRemindersList(_ input: DeleteRemindersListInput, completion: @escaping (Error?) -> Void) throws {
+        guard let list = eventStore.calendar(withIdentifier: input.getId()) else {
+            completion(PluginError.listNotFound)
+            return
+        }
+
+        do {
+            try eventStore.removeCalendar(list, commit: input.getCommit())
+            completion(nil)
+        } catch {
+            completion(error)
+        }
+    }
+
     func requestionPermission(input: RequestPermissionInput) async throws -> RequestPermissionResult {
         let scope = input.getScope()
         var state: CAPPermissionState
