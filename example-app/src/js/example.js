@@ -43,8 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#update-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.updateRemindersList({
-      title: 'Updated Groceries list',
       color: 'indigo',
+      id: getRemindersListIdInput().value,
+      title: 'Updated Groceries list',
     });
 
     getRemindersListIdInput().value = result.id;
