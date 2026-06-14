@@ -41,6 +41,21 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func deleteRemindersList(_ call: CAPPluginCall) {
+        do {
+            let input = try DeleteRemindersListInput(call: call)
+            try implementation.deleteRemindersList(input) { error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, nil)
+            }
+        } catch let error {
+            rejectCall(call, error)
+        }
+    }
+
     @objc public func requestPermission(_ call: CAPPluginCall) {
         Task {
             do {
