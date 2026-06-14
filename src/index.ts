@@ -43,6 +43,8 @@ import type { Reminder } from './schemas/interfaces/reminder';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
+import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
+import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
@@ -91,6 +93,8 @@ export type {
   CalendarEvent,
   ModifyCalendarOptions,
   DeleteReminderWithPromptOptions,
+  UpdateRemindersListOptions,
+  UpdateRemindersListResult,
 };
 export {
   CalendarPermissionScope,

@@ -40,6 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = await CapacitorCalendar.requestFullRemindersAccess();
     console.log('#requestFullRemindersAccess', result);
   });
+
+  document.querySelector('#update-reminders-list').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.updateRemindersList({
+      title: 'Updated Groceries list',
+      color: 'indigo',
+    });
+
+    getRemindersListIdInput().value = result.id;
+    console.log('#updateRemindersList', result);
+  });
 });
 
 function getRemindersListIdInput() {

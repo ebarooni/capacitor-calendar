@@ -11,6 +11,8 @@ import type { GetRemindersFromListsOptions } from '../schemas/interfaces/get-rem
 import type { ModifyReminderOptions } from '../schemas/interfaces/modify-reminder-options';
 import type { Reminder } from '../schemas/interfaces/reminder';
 import type { RemindersList } from '../schemas/interfaces/reminders-list';
+import type { UpdateRemindersListOptions } from '../schemas/interfaces/update-reminders-list-options';
+import type { UpdateRemindersListResult } from '../schemas/interfaces/update-reminders-list-result';
 
 export interface RemindersOperations {
   /**
@@ -106,6 +108,13 @@ export interface RemindersOperations {
    * @since 7.2.0
    */
   deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions): Promise<{ deleted: boolean }>;
+  /**
+   * Update a reminders list with options.
+   *
+   * @platform iOS
+   * @since 8.2.0
+   */
+  updateRemindersList(options: UpdateRemindersListOptions): Promise<UpdateRemindersListResult>;
 }
 
 /**

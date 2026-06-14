@@ -257,6 +257,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`getReminderById(...)`](#getreminderbyid)
 - [`getRemindersFromLists(...)`](#getremindersfromlists)
 - [`deleteReminderWithPrompt(...)`](#deletereminderwithprompt)
+- [`updateRemindersList(...)`](#updatereminderslist)
 - [Interfaces](#interfaces)
 - [Type Aliases](#type-aliases)
 - [Enums](#enums)
@@ -953,6 +954,26 @@ Opens a dialog to delete a reminder.
 
 ---
 
+### updateRemindersList(...)
+
+```typescript
+updateRemindersList(options: UpdateRemindersListOptions) => Promise<UpdateRemindersListResult>
+```
+
+Update a reminders list with options.
+
+| Param         | Type                                                                              |
+| ------------- | --------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#updatereminderslistoptions">UpdateRemindersListOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#updatereminderslistresult">UpdateRemindersListResult</a>&gt;</code>
+
+**Since:** 8.2.0
+
+**Platform:** iOS
+
+---
+
 ### Interfaces
 
 #### CreateEventWithPromptOptions
@@ -1306,6 +1327,21 @@ Opens a dialog to delete a reminder.
 | **`message`**           | <code>string</code> | Message of the dialog.              |                       | 7.2.0 |
 | **`confirmButtonText`** | <code>string</code> | Text to show on the confirm button. | <code>'Delete'</code> | 7.2.0 |
 | **`cancelButtonText`**  | <code>string</code> | Text to show on the cancel button.  | <code>'Cancel'</code> | 7.2.0 |
+
+#### UpdateRemindersListResult
+
+| Prop     | Type                | Description                               | Since | Platform |
+| -------- | ------------------- | ----------------------------------------- | ----- | -------- |
+| **`id`** | <code>string</code> | Identifier of the updated reminders list. | 8.2.0 | iOS      |
+
+#### UpdateRemindersListOptions
+
+| Prop         | Type                                                                                                                             | Description                                                                                                                                                                                                             | Default           | Since | Platform |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
+| **`id`**     | <code>string</code>                                                                                                              | The identifier of the list to update.                                                                                                                                                                                   |                   | 8.2.0 | iOS      |
+| **`title`**  | <code>string</code>                                                                                                              | The new title of the list. If omitted, the title is left unchanged.                                                                                                                                                     |                   | 8.2.0 | iOS      |
+| **`color`**  | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | The new color of the list. If omitted, the color is left unchanged.                                                                                                                                                     |                   | 8.1.0 | iOS      |
+| **`commit`** | <code>boolean</code>                                                                                                             | Whether to save the update to the event store immediately. Pass `false` to batch multiple changes and commit them together using `eventStore.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
 
 ### Type Aliases
 
