@@ -35,11 +35,32 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-button id="check-all-permissions" expand="block">Check all permissions</ion-button>
-        <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
-        <ion-button id="list-calendars" expand="block">List calendars</ion-button>
-        <ion-button id="request-full-calendar-access" expand="block">Request full calendar access</ion-button>
-        <ion-button id="request-full-reminders-access" expand="block">Request full reminders access</ion-button>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-input
+            id="reminders-list-id-input"
+            label="Reminders list ID"
+            label-placement="stacked"
+            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
+            helper-text="The identifier of the reminders list to use"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-list class="ion-margin-top">
+          <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
+          <ion-button id="request-full-calendar-access" expand="block" fill="outline"
+            >Request full calendar access</ion-button
+          >
+          <ion-button id="request-full-reminders-access" expand="block" fill="outline"
+            >Request full reminders access</ion-button
+          >
+        </ion-list>
+
+        <ion-list class="ion-margin-top">
+          <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
+          <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
+          <ion-button id="list-calendars" expand="block">List calendars</ion-button>
+        </ion-list>
       </ion-content>
     </ion-app>
   </body>
