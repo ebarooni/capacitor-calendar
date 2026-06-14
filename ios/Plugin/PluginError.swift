@@ -21,6 +21,7 @@ enum PluginError: LocalizedError {
     case invalidColor
     case calendarNotFound
     case listNotFound
+    case listNotModifiable
     case missingFrequency
     case missingInterval
     case fromDateMissing
@@ -58,6 +59,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Calendar not found.", comment: "Calendar not found error")
         case .listNotFound:
             return NSLocalizedString("List not found.", comment: "List not found error")
+        case .listNotModifiable:
+            return NSLocalizedString("List is not modifiable.", comment: "List not modifiable error")
         case .invalidUrl:
             return NSLocalizedString("Invalid URL.", comment: "Invalid URL error")
         case .unableToOpenUrl:

@@ -41,6 +41,7 @@ struct PluginConfig {
         CAPPluginMethod(name: "requestPermission", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestReadOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestWriteOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "selectCalendarsWithPrompt", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "selectCalendarsWithPrompt", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "updateRemindersList", returnType: CAPPluginReturnPromise)
     ]
 }

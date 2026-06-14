@@ -571,6 +571,31 @@ class CapacitorCalendar: NSObject {
             viewController.present(alert, animated: true)
         }
     }
+
+    func updateRemindersList(_ input: UpdateRemindersListInput, completion: @escaping (UpdateRemindersListResult?, Error?) -> Void) throws {
+        guard let calendar = eventStore.calendar(withIdentifier: input.getId()) else {
+            completion(nil, PluginError.listNotFound)
+            return
+        }
+        guard calendar.allowsContentModifications else {
+            completion(nil, PluginError.listNotModifiable)
+            return
+        }
+
+        if let title = input.getTitle() {
+            calendar.title = title
+        }
+        if let color = input.getColor() {
+            calendar.cgColor = color
+        }
+
+        do {
+            try eventStore.saveCalendar(calendar, commit: input.getCommit())
+            completion(UpdateRemindersListResult(id: calendar.calendarIdentifier), nil)
+        } catch {
+            completion(nil, error)
+        }
+    }
 }
 
 extension CapacitorCalendar: EKCalendarChooserDelegate {

@@ -48,6 +48,7 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - Method to delete reminders lists on iOS with `deleteRemindersList(...)`
+- Method to update reminders lists on iOS with `updateRemindersList(...)`
 
 ## 8.1.0
 

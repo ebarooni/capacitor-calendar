@@ -31,6 +31,8 @@ import type { OpenCalendarOptions } from './schemas/interfaces/open-calendar-opt
 import type { Reminder } from './schemas/interfaces/reminder';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
+import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
+import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
@@ -195,6 +197,10 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
 
   public deleteReminderWithPrompt(_options: DeleteReminderWithPromptOptions): Promise<{ deleted: boolean }> {
     return this.throwUnimplemented(this.deleteReminderWithPrompt.name);
+  }
+
+  public updateRemindersList(_options: UpdateRemindersListOptions): Promise<UpdateRemindersListResult> {
+    return this.throwUnimplemented(this.updateRemindersList.name);
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {
