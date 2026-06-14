@@ -3,7 +3,7 @@
  */
 export interface DeleteRemindersListOptions {
   /**
-   * Whether to save the changes to the event store immediately.
+   * Whether to save the deletion to the event store immediately.
    * Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually.
    *
    * @example false

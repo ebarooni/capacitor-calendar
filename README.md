@@ -1200,10 +1200,10 @@ Opens a dialog to delete a reminder.
 
 #### DeleteRemindersListOptions
 
-| Prop         | Type                 | Description                                                                                                                                                                                                                     | Default           | Since | Platform |
-| ------------ | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
-| **`commit`** | <code>boolean</code> | Whether to save the changes to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
-| **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                     |                   | 8.2.0 | iOS      |
+| Prop         | Type                 | Description                                                                                                                                                                                                                      | Default           | Since | Platform |
+| ------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
+| **`commit`** | <code>boolean</code> | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
+| **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                      |                   | 8.2.0 | iOS      |
 
 #### CreateReminderOptions
 
