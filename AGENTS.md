@@ -18,10 +18,10 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 - `src/web.ts`: Web implementation of the plugin
 - `src/index.ts`: Exports all the definitions
 - `android/src/main/java/dev/barooni/capacitor/calendar/`: Android implementation of the public TypeScript API
-    - `CapacitorCalendarPlugin.kt`: Entry point for the Android implementation; all plugin methods are registered here
+  - `CapacitorCalendarPlugin.kt`: Entry point for the Android implementation; all plugin methods are registered here
 - `ios/plugin/`: iOS implementation of the public Typescript API
-    - `CapacitorCalendarPlugin.swift`: Entry point for the iOS implementation
-    - `PluginConfig.swift`: The plugin methods are defined here
+  - `CapacitorCalendarPlugin.swift`: Entry point for the iOS implementation
+  - `PluginConfig.swift`: The plugin methods are defined here
 
 ## Commands
 
@@ -48,9 +48,9 @@ npm run fmt
 ## PR Guidelines
 
 - The title should be formatted as `<type>(<scope>): <description>`
-    - **Types**: `feat`, `fix`, `docs`, `refactor`, `chore`, `style` or `perf`
-    - **Scopes**: `android`, `ios` or `web`
-        - The scope can be omitted if multiple scopes apply
+  - **Types**: `feat`, `fix`, `docs`, `refactor`, `chore`, `style` or `perf`
+  - **Scopes**: `android`, `ios` or `web`
+    - The scope can be omitted if multiple scopes apply
 - The body should reference the issue the PR closes: `Closes: #<ISSUE_NUMBER>`
 
 ## Deployment
@@ -58,6 +58,6 @@ npm run fmt
 ### CI/CD Pipeline (GitHub Actions)
 
 - Workflow: `.github/workflows/publish-to-npm.yml`
-    - Triggered manually
-    - Triggers the `release.yml` workflow to create a release
-    - Triggers the `deploy-docs.yml` workflow to update the docs
+  - Triggered manually
+  - Triggers the `release.yml` workflow to create a release
+  - Triggers the `deploy-docs.yml` workflow to update the docs
