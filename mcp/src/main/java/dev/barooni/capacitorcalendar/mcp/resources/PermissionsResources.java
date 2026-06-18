@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class DocumentationResources {
+public class PermissionsResources {
     
     @ResourceTemplate(
         uriTemplate = "docs://permissions/{platform}",
