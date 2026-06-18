@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class PermissionsResources {
+public class PermissionResources {
     
     @ResourceTemplate(
         uriTemplate = "docs://permissions/{platform}",
-        description = "Native permission keys required for ebarooni/capacitor-calendar on a given platform (ios or android). Contains Info.plist entries for iOS and AndroidManifest.xml entries for Android."
+        description = "Native permission keys required for @ebarooni/capacitor-calendar on a given platform (ios or android). Contains Info.plist entries for iOS and AndroidManifest.xml entries for Android."
     )
     TextResourceContents permissionsGuide(final String platform, final RequestUri uri) {
         String content = loadDoc("docs/permissions-" + platform + ".md");
