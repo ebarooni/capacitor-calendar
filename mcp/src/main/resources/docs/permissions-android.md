@@ -14,7 +14,7 @@ Use when your app reads existing calendar data.
 
 ### Write access
 
-Use when your app creates or modifies events (`createEvent`).
+Use when your app creates or modifies events.
 
 ```xml
 <uses-permission android:name="android.permission.WRITE_CALENDAR" />
