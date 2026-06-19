@@ -429,21 +429,31 @@ class ImplementationHelper {
             }
 
         /**
+         * Tolerance window for timestamp matching (2 minutes).
+         * Native calendar apps may round or adjust timestamps when
+         * processing ACTION_INSERT intents, so exact-match queries
+         * can miss the newly created event.
+         */
+        private const val TIMESTAMP_TOLERANCE_MS = 120_000L
+
+        /**
          * Queries CalendarContract.Events for event IDs matching the given criteria.
          * Used by createEventWithPrompt to snapshot existing events before the intent
          * launches and to find newly created events after the intent returns.
          *
+         * Only matches on title and DTSTART. DTEND is intentionally excluded because
+         * some calendar providers (notably Google Calendar) store events with DURATION
+         * instead of DTEND, leaving the DTEND column NULL.
+         *
          * @param cr ContentResolver to query with
          * @param title Optional event title to match (exact match)
-         * @param startDate Optional start date in millis to match (exact match on DTSTART)
-         * @param endDate Optional end date in millis to match (exact match on DTEND)
+         * @param startDate Optional start date in millis to match (within tolerance window)
          * @return Set of matching event IDs
          */
         fun findMatchingEventIds(
             cr: ContentResolver,
             title: String? = null,
             startDate: Long? = null,
-            endDate: Long? = null,
         ): Set<Long> {
             val ids = mutableSetOf<Long>()
             val projection = arrayOf(CalendarContract.Events._ID)
@@ -456,12 +466,9 @@ class ImplementationHelper {
                 selectionArgs.add(title)
             }
             if (startDate != null) {
-                selectionParts.add("${CalendarContract.Events.DTSTART} = ?")
-                selectionArgs.add(startDate.toString())
-            }
-            if (endDate != null) {
-                selectionParts.add("${CalendarContract.Events.DTEND} = ?")
-                selectionArgs.add(endDate.toString())
+                selectionParts.add("${CalendarContract.Events.DTSTART} >= ? AND ${CalendarContract.Events.DTSTART} <= ?")
+                selectionArgs.add((startDate - TIMESTAMP_TOLERANCE_MS).toString())
+                selectionArgs.add((startDate + TIMESTAMP_TOLERANCE_MS).toString())
             }
 
             if (selectionParts.isEmpty()) {

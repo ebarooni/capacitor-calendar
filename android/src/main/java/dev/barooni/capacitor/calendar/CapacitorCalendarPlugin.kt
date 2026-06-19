@@ -61,7 +61,6 @@ class CapacitorCalendarPlugin : Plugin() {
     private var prePromptEventIds: Set<Long> = emptySet()
     private var promptTitle: String? = null
     private var promptStartDate: Long? = null
-    private var promptEndDate: Long? = null
 
     @PluginMethod
     fun checkPermission(call: PluginCall) {
@@ -215,7 +214,6 @@ class CapacitorCalendarPlugin : Plugin() {
             val input = CreateEventWithPromptInput(call, "createEventWithPromptCallback")
             promptTitle = input.title.ifEmpty { null }
             promptStartDate = input.startDate
-            promptEndDate = input.endDate
             prePromptEventIds = snapshotMatchingEventIds()
             implementation.createEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
@@ -473,14 +471,14 @@ class CapacitorCalendarPlugin : Plugin() {
         return try {
             val cr = context.contentResolver
             val titleIds =
-                if (promptTitle != null || promptStartDate != null || promptEndDate != null) {
-                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate, promptEndDate)
+                if (promptTitle != null || promptStartDate != null) {
+                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate)
                 } else {
                     emptySet()
                 }
             val timeOnlyIds =
-                if (promptTitle != null && (promptStartDate != null || promptEndDate != null)) {
-                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate, promptEndDate)
+                if (promptTitle != null && promptStartDate != null) {
+                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate)
                 } else {
                     emptySet()
                 }
@@ -492,28 +490,33 @@ class CapacitorCalendarPlugin : Plugin() {
 
     /**
      * Attempts to find the ID of a newly created event by diffing current events against
-     * the pre-intent snapshot. Falls back to time-range-only matching if title matching
+     * the pre-intent snapshot. Falls back to start-time-only matching if title matching
      * yields no new results (handles the case where the user changed the title in the UI).
      * Returns null if no new event is found or if READ_CALENDAR permission is not granted.
+     *
+     * Note: This works reliably for calendar providers that write directly to the local
+     * CalendarContract (e.g., Samsung Calendar, AOSP Calendar). Calendar providers that
+     * write to a cloud API first (e.g., Google Calendar app) may not have the event in the
+     * local database when this function runs. Callers should handle a null return gracefully.
      */
     private fun findNewlyCreatedEventId(): Long? {
         return try {
             val cr = context.contentResolver
 
-            // First try: match on title + time (most specific)
-            if (promptTitle != null || promptStartDate != null || promptEndDate != null) {
+            // First try: match on title + start time (most specific)
+            if (promptTitle != null || promptStartDate != null) {
                 val currentIds =
-                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate, promptEndDate)
+                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate)
                 val newIds = currentIds - prePromptEventIds
                 if (newIds.isNotEmpty()) {
                     return newIds.max()
                 }
             }
 
-            // Fallback: match on time range only (handles user changing title in native UI)
-            if (promptStartDate != null || promptEndDate != null) {
+            // Fallback: match on start time only (handles user changing title in native UI)
+            if (promptStartDate != null) {
                 val currentIds =
-                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate, promptEndDate)
+                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate)
                 val newIds = currentIds - prePromptEventIds
                 if (newIds.isNotEmpty()) {
                     return newIds.max()
