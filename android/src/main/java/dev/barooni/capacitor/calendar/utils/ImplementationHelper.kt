@@ -427,5 +427,63 @@ class ImplementationHelper {
                 CalendarContract.Events.STATUS_CANCELED -> "canceled"
                 else -> "none"
             }
+
+        /**
+         * Queries CalendarContract.Events for event IDs matching the given criteria.
+         * Used by createEventWithPrompt to snapshot existing events before the intent
+         * launches and to find newly created events after the intent returns.
+         *
+         * @param cr ContentResolver to query with
+         * @param title Optional event title to match (exact match)
+         * @param startDate Optional start date in millis to match (exact match on DTSTART)
+         * @param endDate Optional end date in millis to match (exact match on DTEND)
+         * @return Set of matching event IDs
+         */
+        fun findMatchingEventIds(
+            cr: ContentResolver,
+            title: String? = null,
+            startDate: Long? = null,
+            endDate: Long? = null,
+        ): Set<Long> {
+            val ids = mutableSetOf<Long>()
+            val projection = arrayOf(CalendarContract.Events._ID)
+
+            val selectionParts = mutableListOf<String>()
+            val selectionArgs = mutableListOf<String>()
+
+            if (!title.isNullOrEmpty()) {
+                selectionParts.add("${CalendarContract.Events.TITLE} = ?")
+                selectionArgs.add(title)
+            }
+            if (startDate != null) {
+                selectionParts.add("${CalendarContract.Events.DTSTART} = ?")
+                selectionArgs.add(startDate.toString())
+            }
+            if (endDate != null) {
+                selectionParts.add("${CalendarContract.Events.DTEND} = ?")
+                selectionArgs.add(endDate.toString())
+            }
+
+            if (selectionParts.isEmpty()) {
+                return ids
+            }
+
+            val selection = selectionParts.joinToString(" AND ")
+
+            cr.query(
+                CalendarContract.Events.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs.toTypedArray(),
+                null,
+            )?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Events._ID))
+                    ids.add(id)
+                }
+            }
+
+            return ids
+        }
     }
 }

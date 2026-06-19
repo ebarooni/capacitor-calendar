@@ -30,6 +30,7 @@ import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.ModifyEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
+import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 @CapacitorPlugin(
     name = "CapacitorCalendar",
@@ -57,7 +58,10 @@ import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
 )
 class CapacitorCalendarPlugin : Plugin() {
     private val implementation: CapacitorCalendar by lazy { CapacitorCalendar(this) }
-    private var eventIdOptional = false
+    private var prePromptEventIds: Set<Long> = emptySet()
+    private var promptTitle: String? = null
+    private var promptStartDate: Long? = null
+    private var promptEndDate: Long? = null
 
     @PluginMethod
     fun checkPermission(call: PluginCall) {
@@ -209,6 +213,10 @@ class CapacitorCalendarPlugin : Plugin() {
     fun createEventWithPrompt(call: PluginCall) {
         try {
             val input = CreateEventWithPromptInput(call, "createEventWithPromptCallback")
+            promptTitle = input.title.ifEmpty { null }
+            promptStartDate = input.startDate
+            promptEndDate = input.endDate
+            prePromptEventIds = snapshotMatchingEventIds()
             implementation.createEventWithPrompt(input, ::startActivityForResult)
         } catch (error: Exception) {
             call.reject(error.message)
@@ -223,7 +231,8 @@ class CapacitorCalendarPlugin : Plugin() {
         if (call == null) {
             return
         }
-        call.resolve(CreateEventWithPromptResult().toJSON())
+        val newEventId = findNewlyCreatedEventId()
+        call.resolve(CreateEventWithPromptResult(newEventId).toJSON())
     }
 
     @PluginMethod
@@ -454,5 +463,66 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun updateRemindersList(call: PluginCall) {
         call.unimplemented(PluginError.Unimplemented(::updateRemindersList.name).message)
+    }
+
+    /**
+     * Takes a snapshot of existing event IDs matching the current prompt criteria.
+     * Called before launching the native calendar intent so we can diff after it returns.
+     */
+    private fun snapshotMatchingEventIds(): Set<Long> {
+        return try {
+            val cr = context.contentResolver
+            val titleIds =
+                if (promptTitle != null || promptStartDate != null || promptEndDate != null) {
+                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate, promptEndDate)
+                } else {
+                    emptySet()
+                }
+            val timeOnlyIds =
+                if (promptTitle != null && (promptStartDate != null || promptEndDate != null)) {
+                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate, promptEndDate)
+                } else {
+                    emptySet()
+                }
+            titleIds + timeOnlyIds
+        } catch (_: SecurityException) {
+            emptySet()
+        }
+    }
+
+    /**
+     * Attempts to find the ID of a newly created event by diffing current events against
+     * the pre-intent snapshot. Falls back to time-range-only matching if title matching
+     * yields no new results (handles the case where the user changed the title in the UI).
+     * Returns null if no new event is found or if READ_CALENDAR permission is not granted.
+     */
+    private fun findNewlyCreatedEventId(): Long? {
+        return try {
+            val cr = context.contentResolver
+
+            // First try: match on title + time (most specific)
+            if (promptTitle != null || promptStartDate != null || promptEndDate != null) {
+                val currentIds =
+                    ImplementationHelper.findMatchingEventIds(cr, promptTitle, promptStartDate, promptEndDate)
+                val newIds = currentIds - prePromptEventIds
+                if (newIds.isNotEmpty()) {
+                    return newIds.max()
+                }
+            }
+
+            // Fallback: match on time range only (handles user changing title in native UI)
+            if (promptStartDate != null || promptEndDate != null) {
+                val currentIds =
+                    ImplementationHelper.findMatchingEventIds(cr, null, promptStartDate, promptEndDate)
+                val newIds = currentIds - prePromptEventIds
+                if (newIds.isNotEmpty()) {
+                    return newIds.max()
+                }
+            }
+
+            null
+        } catch (_: SecurityException) {
+            null
+        }
     }
 }

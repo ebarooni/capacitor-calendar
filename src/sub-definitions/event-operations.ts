@@ -12,15 +12,20 @@ import type { EventEditAction } from '../schemas/types/event-edit-action';
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
-   * On Android always returns `null`.
-   * Fetch the events to find the ID of the newly created event.
+   * Returns the ID of the newly created event on both platforms.
+   *
+   * On iOS, the ID is retrieved directly from the event edit controller.
+   * On Android, the ID is retrieved by querying the calendar provider after
+   * the native UI returns. This requires `READ_CALENDAR` permission to be
+   * granted; if not available, `null` is returned. The ID may also be `null`
+   * if the user cancels or if the newly created event cannot be matched.
    *
    * @example
    * const options = {
    *   title: 'Test event',
    *   startDate: Date.now(),
    * }
-   * await CapacitorCalendar.createEventWithPrompt(options)
+   * const { id } = await CapacitorCalendar.createEventWithPrompt(options)
    *
    * @platform Android, iOS
    * @since 0.1.0
