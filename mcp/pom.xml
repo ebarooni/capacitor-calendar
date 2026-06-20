@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dev.barooni</groupId>
     <artifactId>capacitor-calendar-mcp</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>quarkus</packaging>
 
     <properties>
@@ -14,8 +14,14 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>3.36.2</quarkus.platform.version>
-        <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.6</surefire-plugin.version>
+        <docker.image.namespace>ghcr.io/ebarooni</docker.image.namespace>
+        <docker.image.name>capacitor-calendar-mcp</docker.image.name>
+        <docker.skip>false</docker.skip>
+        <docker.skip.push>true</docker.skip.push>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
+        <version.maven-resources-plugin>3.5.0</version.maven-resources-plugin>
+        <version.docker-maven-plugin>0.48.1</version.docker-maven-plugin>
     </properties>
 
     <dependencyManagement>
@@ -41,7 +47,6 @@
         <dependency>
             <groupId>io.quarkiverse.mcp</groupId>
             <artifactId>quarkus-mcp-server-http</artifactId>
-            <version>1.13.0</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -100,22 +105,93 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${version.maven-resources-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>copy-dockerfile</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/image-context</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/docker</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-quarkus-app</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/image-context/quarkus-app</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/quarkus-app</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${version.docker-maven-plugin}</version>
+                <configuration>
+                    <skip>${docker.skip}</skip>
+                    <images>
+                        <image>
+                            <name>${docker.image.namespace}/${docker.image.name}</name>
+                            <build>
+                                <contextDir>${project.build.directory}/image-context</contextDir>
+                                <dockerFile>${project.build.directory}/image-context/Dockerfile</dockerFile>
+                                <args>
+                                    <PROJECT_VERSION>${project.version}</PROJECT_VERSION>
+                                    <BUILD_DATE>${maven.build.timestamp}</BUILD_DATE>
+                                </args>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                                <buildx>
+                                    <platforms>
+                                        <platform>linux/amd64</platform>
+                                        <platform>linux/arm64</platform>
+                                    </platforms>
+                                </buildx>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>docker-build</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>docker-push</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${docker.skip.push}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>native</id>
-            <activation>
-                <property>
-                    <name>native</name>
-                </property>
-            </activation>
-            <properties>
-                <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
-                <skipITs>false</skipITs>
-                <quarkus.native.enabled>true</quarkus.native.enabled>
-            </properties>
-        </profile>
-    </profiles>
 </project>
