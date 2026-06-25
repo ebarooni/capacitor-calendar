@@ -34,4 +34,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push
-        run: mvn verify -Ddocker.skip.push=false
+        run: mvn install -Ddocker.skip.push=false

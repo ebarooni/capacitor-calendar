@@ -151,7 +151,7 @@
                     <skip>${docker.skip}</skip>
                     <images>
                         <image>
-                            <name>${docker.image.namespace}/${docker.image.name}</name>
+                            <name>${docker.image.namespace}/${docker.image.name}:${project.version}</name>
                             <build>
                                 <contextDir>${project.build.directory}/image-context</contextDir>
                                 <dockerFile>${project.build.directory}/image-context/Dockerfile</dockerFile>
@@ -159,9 +159,6 @@
                                     <PROJECT_VERSION>${project.version}</PROJECT_VERSION>
                                     <BUILD_DATE>${maven.build.timestamp}</BUILD_DATE>
                                 </args>
-                                <tags>
-                                    <tag>${project.version}</tag>
-                                </tags>
                             </build>
                         </image>
                     </images>
