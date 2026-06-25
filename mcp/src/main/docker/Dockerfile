@@ -6,8 +6,8 @@ ARG BUILD_DATE
 ENV LANGUAGE='en_US:en'
 
 LABEL org.opencontainers.image.title="capacitor-calendar-mcp"
-LABEL org.opencontainers.image.description="MCP server for the @ebarooni/capacitor-calendar plugin"
-LABEL org.opencontainers.image.source="https://github.com/ebarooni/capacitor-calendar"
+LABEL org.opencontainers.image.description="MCP server for the @ebarooni/capacitor-calendar"
+LABEL org.opencontainers.image.source="https://github.com/ebarooni/capacitor-calendar/mcp"
 LABEL org.opencontainers.image.url="https://barooni.dev"
 LABEL org.opencontainers.image.version="${PROJECT_VERSION}"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
