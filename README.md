@@ -568,7 +568,7 @@ Retrieves the events within a date range.
 commit() => Promise<void>
 ```
 
-Save the changes to the calendar.
+Saves pending calendar changes.
 
 **Since:** 7.1.0
 
