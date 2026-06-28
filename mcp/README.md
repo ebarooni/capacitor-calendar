@@ -1,57 +1,125 @@
-# capacitor-calendar-mcp
+# ebarooni/capacitor-calendar-mcp
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+An official MCP server for [`@ebarooni/capacitor-calendar`](https://github.com/ebarooni/capacitor-calendar). Gives AI coding assistants accurate, grounded knowledge of the plugin: native permission setup, API reference, and config validation.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Registry.
 
-## Running the application in dev mode
+## Getting Started
 
-You can run your application in dev mode that enables live coding using:
-
-```shell script
-./mvnw quarkus:dev
+```bash
+docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
-> **_NOTE:_** Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+The server starts at `http://localhost:8080/mcp`.
 
-## Packaging and running the application
+If port 8080 is already in use, map it to any available port on your machine:
 
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```bash
+docker run --rm -d -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+The server would then be available at `http://localhost:9090/mcp`. Update your client configuration accordingly.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## Connecting Your AI Client
 
-If you want to build an _über-jar_, execute the following command:
+### Claude Code
+ 
+Run the following command in your terminal:
+ 
+```bash
+claude mcp add-json capacitor-calendar '{"type":"http","url":"http://localhost:8080/mcp"}'
+```
+ 
+This adds the server to your user scope, making it available across all projects. To scope it to a single project instead, add `--scope project` to the command.
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+### Cursor
+ 
+Add to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` in your project root:
+ 
+```json
+{
+  "mcpServers": {
+    "capacitor-calendar": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp"
+    }
+  }
+}
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### GitHub Copilot
 
-## Creating a native executable
+Open `mcp.json` in your editor and add the following:
 
-You can create a native executable using:
+**VS Code:** `Command Palette → MCP: Open User Configuration`
 
-```shell script
-./mvnw package -Dnative
+**JetBrains:** `GitHub Copilot icon → Edit Settings → MCP Servers → Configure`
+
+```json
+{
+  "servers": {
+    "capacitor-calendar": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp"
+    }
+  }
+}
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## What's Available
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+### Resources
+
+| URI | Description |
+|-----|-------------|
+| `docs://permissions/android` | Required `AndroidManifest.xml` entries for calendar access |
+| `docs://permissions/ios` | Required `Info.plist` keys for calendar and reminders access |
+
+### Tools
+
+| Tool | Description |
+|------|-------------|
+| `getMethod` | Returns the description, supported platforms, and since version for a specific method |
+| `listMethods` | Lists all plugin methods, optionally filtered by platform |
+| `searchMethods` | Searches methods by keyword, optionally filtered by platform |
+| `validateAndroidManifest` | Validates an `AndroidManifest.xml` for correct permission configuration |
+| `validateInfoPlist` | Validates an iOS `Info.plist` for correct permission configuration |
+
+### Prompts
+
+| Prompt | Description |
+|--------|-------------|
+| `choose-access-level` | Recommends the right access level based on which methods your app uses |
+| `debug-permission-denied` | Diagnostic flow for when calendar permission is always denied |
+| `setup-for-platform` | Walks through native permission setup for a given platform |
+
+## Versioning
+
+All available versions are listed on the [GitHub Packages page](https://github.com/ebarooni/capacitor-calendar/pkgs/container/capacitor-calendar-mcp). Always use a specific version tag:
+
+```bash
+docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
-You can then execute your native executable with: `./target/capacitor-calendar-mcp-1.0.0-SNAPSHOT-runner`
+## Local Development
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+**Prerequisites:** JDK 25+, Maven 3.9+
+
+```bash
+# Run with live reload
+mvn quarkus:dev
+```
+
+The server starts at `http://localhost:8080/mcp`. The Dev UI at `http://localhost:8080/q/dev-ui` lets you test tools, resources, and prompts interactively without an MCP client.
+
+```bash
+# Build and push the Docker image
+mvn install -Ddocker.skip.push=true
+```
+
+## License
+
+This project is licensed under the **MIT License**. See [LICENSE](../LICENSE) for details.
 
 ## Related Guides
 
