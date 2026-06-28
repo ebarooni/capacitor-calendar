@@ -8,7 +8,7 @@ import type { SelectCalendarsWithPromptOptions } from '../schemas/interfaces/sel
 
 export interface CalendarOperations {
   /**
-   * Save the changes to the calendar.
+   * Saves pending calendar changes.
    *
    * @platform iOS
    * @since 7.1.0

@@ -43,6 +43,16 @@ Full-featured Capacitor plugin for native calendar and reminders access. Manage 
 - **Fast support.** Questions, bug reports, and integration help are handled promptly.
 - **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
 
+## MCP Server
+
+`@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server so AI coding assistants can work with the plugin accurately.
+
+```bash
+docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+```
+
+See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -568,7 +578,7 @@ Retrieves the events within a date range.
 commit() => Promise<void>
 ```
 
-Save the changes to the calendar.
+Saves pending calendar changes.
 
 **Since:** 7.1.0
 

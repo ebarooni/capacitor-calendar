@@ -7,6 +7,7 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 - `src/`: Main TypeScript source definitions for the plugin
 - `android/`: Android implementation of the plugin
 - `ios/`: iOS implementation of the plugin
+- `mcp/`: Implementation of the MCP server of the plugin
 - `example-app/`: Vite + Ionic (CDN) demo app that installs the plugin from the parent project locally and provides buttons to test each method
 - `assets/`: Static assets used mainly in `README.md`
 - `dist/`: Compiled version of `src/` generated when building the project
