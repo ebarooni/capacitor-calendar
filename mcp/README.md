@@ -1,5 +1,23 @@
 # ebarooni/capacitor-calendar-mcp
 
+<p>
+  <img src="https://img.shields.io/maintenance/yes/2026?style=flat-square" />
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
+    <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
+  </a>
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
+  </a>
+</p>
+
+![capacitor-calendar-logo](../assets/images/text-logo.png)
+
 An official MCP server for [`@ebarooni/capacitor-calendar`](https://github.com/ebarooni/capacitor-calendar). Gives AI coding assistants accurate, grounded knowledge of the plugin: native permission setup, API reference, and config validation.
 
 Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Registry.
@@ -23,19 +41,19 @@ The server would then be available at `http://localhost:9090/mcp`. Update your c
 ## Connecting Your AI Client
 
 ### Claude Code
- 
+
 Run the following command in your terminal:
- 
+
 ```bash
 claude mcp add-json capacitor-calendar '{"type":"http","url":"http://localhost:8080/mcp"}'
 ```
- 
+
 This adds the server to your user scope, making it available across all projects. To scope it to a single project instead, add `--scope project` to the command.
 
 ### Cursor
- 
+
 Add to `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` in your project root:
- 
+
 ```json
 {
   "mcpServers": {
@@ -70,28 +88,28 @@ Open `mcp.json` in your editor and add the following:
 
 ### Resources
 
-| URI | Description |
-|-----|-------------|
-| `docs://permissions/android` | Required `AndroidManifest.xml` entries for calendar access |
-| `docs://permissions/ios` | Required `Info.plist` keys for calendar and reminders access |
+| URI                          | Description                                                  |
+| ---------------------------- | ------------------------------------------------------------ |
+| `docs://permissions/android` | Required `AndroidManifest.xml` entries for calendar access   |
+| `docs://permissions/ios`     | Required `Info.plist` keys for calendar and reminders access |
 
 ### Tools
 
-| Tool | Description |
-|------|-------------|
-| `getMethod` | Returns the description, supported platforms, and since version for a specific method |
-| `listMethods` | Lists all plugin methods, optionally filtered by platform |
-| `searchMethods` | Searches methods by keyword, optionally filtered by platform |
-| `validateAndroidManifest` | Validates an `AndroidManifest.xml` for correct permission configuration |
-| `validateInfoPlist` | Validates an iOS `Info.plist` for correct permission configuration |
+| Tool                      | Description                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| `getMethod`               | Returns the description, supported platforms, and since version for a specific method |
+| `listMethods`             | Lists all plugin methods, optionally filtered by platform                             |
+| `searchMethods`           | Searches methods by keyword, optionally filtered by platform                          |
+| `validateAndroidManifest` | Validates an `AndroidManifest.xml` for correct permission configuration               |
+| `validateInfoPlist`       | Validates an iOS `Info.plist` for correct permission configuration                    |
 
 ### Prompts
 
-| Prompt | Description |
-|--------|-------------|
-| `choose-access-level` | Recommends the right access level based on which methods your app uses |
-| `debug-permission-denied` | Diagnostic flow for when calendar permission is always denied |
-| `setup-for-platform` | Walks through native permission setup for a given platform |
+| Prompt                    | Description                                                            |
+| ------------------------- | ---------------------------------------------------------------------- |
+| `choose-access-level`     | Recommends the right access level based on which methods your app uses |
+| `debug-permission-denied` | Diagnostic flow for when calendar permission is always denied          |
+| `setup-for-platform`      | Walks through native permission setup for a given platform             |
 
 ## Versioning
 
