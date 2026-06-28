@@ -257,6 +257,11 @@ public class MethodTools {
         return arrayBuilder.build().toString();
     }
 
+    @Tool(
+        description = "Searches @ebarooni/capacitor-calendar methods by keyword. Matches against method " +
+                      "names and descriptions. Optionally filter by platform (ios or android). " +
+                      "Returns all matching methods with their description, platforms, and since version."
+    )
     public String searchMethods(
         @ToolArg(description = "Keyword to search for in method names and descriptions")
         String keyword,

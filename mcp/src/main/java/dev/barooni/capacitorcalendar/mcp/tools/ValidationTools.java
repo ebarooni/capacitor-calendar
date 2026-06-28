@@ -64,7 +64,7 @@ public class ValidationTools {
 
     @Tool(
         description = "Validates the AndroidManifest.xml of an Android project for correct " +
-                      "capacitor-calendar permission configuration. Reports which permissions " +
+                      "@ebarooni/capacitor-calendar permission configuration. Reports which permissions " +
                       "are present, missing, or unnecessary."
     )
     public String validateAndroidManifest(
