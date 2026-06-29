@@ -12,8 +12,8 @@ export interface DeleteEventOptions {
    * The span of deletion.
    *
    * @default EventSpan.THIS_EVENT
-   * @platform iOS
-   * @see 7.1.0
+   * @platform Android, iOS
+   * @since 7.1.0
    */
   span?: EventSpan;
 }

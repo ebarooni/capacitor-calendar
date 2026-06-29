@@ -1094,24 +1094,24 @@ Update a reminders list with options.
 
 #### DeleteEventsByIdOptions
 
-| Prop       | Type                                            | Description           | Default                           | Since | Platform |
-| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
-| **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |          |
-| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+| Prop       | Type                                            | Description           | Default                           | Since | Platform     |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | ------------ |
+| **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |              |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 
 #### DeleteEventOptions
 
-| Prop       | Type                                            | Description           | Default                           | Since | Platform |
-| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
-| **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |          |
-| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+| Prop       | Type                                            | Description           | Default                           | Since | Platform     |
+| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | ------------ |
+| **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |              |
+| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 
 #### DeleteEventWithPromptOptions
 
 | Prop                    | Type                                            | Description                         | Default                           | Since | Platform     |
 | ----------------------- | ----------------------------------------------- | ----------------------------------- | --------------------------------- | ----- | ------------ |
 | **`id`**                | <code>string</code>                             |                                     |                                   | 7.1.0 |              |
-| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
+| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion.               | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 | **`title`**             | <code>string</code>                             | Title of the dialog.                |                                   | 7.1.0 | Android, iOS |
 | **`message`**           | <code>string</code>                             | Message of the dialog.              |                                   | 7.1.0 | Android, iOS |
 | **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
