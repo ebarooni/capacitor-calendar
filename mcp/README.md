@@ -25,7 +25,7 @@ Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Regi
 ## Getting Started
 
 ```bash
-docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
 The server starts at `http://localhost:8080/mcp`.
@@ -33,10 +33,16 @@ The server starts at `http://localhost:8080/mcp`.
 If port 8080 is already in use, map it to any available port on your machine:
 
 ```bash
-docker run --rm -d -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
 The server would then be available at `http://localhost:9090/mcp`. Update your client configuration accordingly.
+
+To stop the server:
+
+```bash
+docker stop capacitor-calendar-mcp
+```
 
 ## Connecting Your AI Client
 
@@ -116,7 +122,7 @@ Open `mcp.json` in your editor and add the following:
 All available versions are listed on the [GitHub Packages page](https://github.com/ebarooni/capacitor-calendar/pkgs/container/capacitor-calendar-mcp). Always use a specific version tag:
 
 ```bash
-docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
 ## Local Development
@@ -131,7 +137,7 @@ mvn quarkus:dev
 The server starts at `http://localhost:8080/mcp`. The Dev UI at `http://localhost:8080/q/dev-ui` lets you test tools, resources, and prompts interactively without an MCP client.
 
 ```bash
-# Build and push the Docker image
+# Build the Docker image
 mvn install -Ddocker.skip.push=true
 ```
 

@@ -32,5 +32,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Override root README.md
+        run: cp README.md ..
+
       - name: Build and Push
         run: mvn install -Ddocker.skip.push=false

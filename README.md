@@ -48,7 +48,7 @@ Full-featured Capacitor plugin for native calendar and reminders access. Manage 
 `@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server so AI coding assistants can work with the plugin accurately.
 
 ```bash
-docker run --rm -d -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
 ```
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
