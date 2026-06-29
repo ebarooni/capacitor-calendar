@@ -62,3 +62,10 @@ npm run fmt
   - Triggered manually
   - Triggers the `release.yml` workflow to create a release
   - Triggers the `deploy-docs.yml` workflow to update the docs
+
+### MCP Server (`mcp/` folder)
+
+- Workflow: `.github/workflows/publish-docker.yml`
+  - Triggered manually
+  - Publishes the Docker image to `ghcr.io/ebarooni/capacitor-calendar-mcp`
+  - When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
