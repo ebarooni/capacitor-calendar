@@ -20,7 +20,12 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
+// AGP 9+ registers a `kotlin` extension via its built-in Kotlin support, so
+// applying the Kotlin Gradle plugin again would fail with "extension already
+// registered". Only apply it when that extension isn't present yet (AGP < 9).
+if (project.extensions.findByName('kotlin') == null) {
+    apply plugin: 'org.jetbrains.kotlin.android'
+}
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 android {
