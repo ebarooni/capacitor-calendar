@@ -2,6 +2,7 @@ import Capacitor
 import EventKit
 
 struct DeleteEventWithPromptInput {
+    private let commit: Bool
     private let id: String
     private let span: EKSpan
     private let title: String
@@ -10,6 +11,7 @@ struct DeleteEventWithPromptInput {
     private let cancelButtonText: String
 
     init(call: CAPPluginCall) throws {
+        self.commit = call.getBool("commit", true)
         guard let id = call.getString("id") else {
             throw PluginError.idMissing
         }
@@ -29,6 +31,10 @@ struct DeleteEventWithPromptInput {
         self.message = message
         self.confirmButtonText = call.getString("confirmButtonText", "Delete")
         self.cancelButtonText = call.getString("cancelButtonText", "Cancel")
+    }
+
+    func getCommit() -> Bool {
+        return commit
     }
 
     func getId() -> String {

@@ -49,6 +49,7 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - Support for `span` on Android in `deleteEvent(...)`, `deleteEventsById(...)` and `deleteEventWithPrompt(...)`
+- Support for `commit` on iOS in `deleteEvent(...)`, `deleteEventsById(...)` and `deleteEventWithPrompt(...)`
 
 ## 8.2.0
 

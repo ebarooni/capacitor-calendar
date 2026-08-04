@@ -474,7 +474,7 @@ class CapacitorCalendar: NSObject {
         var result = DeleteEventsByIdResult()
         input.getIds().forEach { id in
             do {
-                try ImplementationHelper.deleteEvent(id, input.getSpan(), eventStore)
+                try ImplementationHelper.deleteEvent(commit: input.getCommit(), id, input.getSpan(), eventStore)
                 result.deleted(id)
             } catch {
                 result.failed(id)
@@ -484,7 +484,7 @@ class CapacitorCalendar: NSObject {
     }
 
     func deleteEvent(_ input: DeleteEventInput) throws {
-        try ImplementationHelper.deleteEvent(input.getId(), input.getSpan(), eventStore)
+        try ImplementationHelper.deleteEvent(commit: input.getCommit(), input.getId(), input.getSpan(), eventStore)
     }
 
     func deleteEventWithPrompt(_ input: DeleteEventWithPromptInput) async throws -> DeleteEventWithPromptResult {
@@ -509,7 +509,7 @@ class CapacitorCalendar: NSObject {
 
                 alert.addAction(UIAlertAction(title: input.getConfirmButtonText(), style: .destructive, handler: { _ in
                     do {
-                        try ImplementationHelper.deleteEvent(event.eventIdentifier, input.getSpan(), self.eventStore)
+                        try ImplementationHelper.deleteEvent(commit: input.getCommit(), event.eventIdentifier, input.getSpan(), self.eventStore)
                         continuation.resume(returning: DeleteEventWithPromptResult(deleted: true))
                     } catch let error {
                         continuation.resume(throwing: error)
