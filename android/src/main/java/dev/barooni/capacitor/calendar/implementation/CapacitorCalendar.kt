@@ -201,7 +201,7 @@ class CapacitorCalendar(
         val cr = plugin.context.contentResolver
         val result = DeleteEventsByIdResult()
         input.ids.forEach { id ->
-            val deleted = ImplementationHelper.deleteEvent(cr, id)
+            val deleted = ImplementationHelper.deleteEvent(cr, id, input.span)
             if (deleted) {
                 result.deleted(id)
             } else {
@@ -213,7 +213,7 @@ class CapacitorCalendar(
 
     fun deleteEvent(input: DeleteEventInput) {
         val cr = plugin.context.contentResolver
-        val deleted = ImplementationHelper.deleteEvent(cr, input.id)
+        val deleted = ImplementationHelper.deleteEvent(cr, input.id, input.span)
         if (!deleted) {
             throw PluginError.FailedToDelete
         }
@@ -234,7 +234,7 @@ class CapacitorCalendar(
                     val result = DeleteEventWithPromptResult(false)
                     onComplete(result)
                 }.setPositiveButton(input.confirmButtonText) { _, _ ->
-                    val result = DeleteEventWithPromptResult(ImplementationHelper.deleteEvent(cr, input.id))
+                    val result = DeleteEventWithPromptResult(ImplementationHelper.deleteEvent(cr, input.id, input.span))
                     onComplete(result)
                 }
 

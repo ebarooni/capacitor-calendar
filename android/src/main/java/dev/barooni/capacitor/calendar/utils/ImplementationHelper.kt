@@ -9,6 +9,7 @@ import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.data.CalendarInfo
 import dev.barooni.capacitor.calendar.models.data.EventGuest
+import dev.barooni.capacitor.calendar.models.enums.EventSpan
 import org.json.JSONObject
 import java.util.Calendar
 
@@ -275,10 +276,95 @@ class ImplementationHelper {
         fun deleteEvent(
             cr: ContentResolver,
             eventId: Long,
-        ): Boolean {
-            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
-            val rowsDeleted = cr.delete(uri, null, null)
-            return rowsDeleted > 0
+            span: EventSpan,
+        ): Boolean =
+            when (span) {
+                EventSpan.THIS_EVENT -> {
+                    val uri =
+                        ContentUris.withAppendedId(
+                            CalendarContract.Events.CONTENT_URI,
+                            eventId,
+                        )
+
+                    cr.delete(uri, null, null) > 0
+                }
+
+                EventSpan.THIS_AND_FUTURE_EVENTS -> {
+                    val (originalId, _) = queryOriginalInfo(cr, eventId)
+                    val masterId = originalId ?: eventId
+
+                    val uri =
+                        ContentUris.withAppendedId(
+                            CalendarContract.Events.CONTENT_URI,
+                            masterId,
+                        )
+
+                    cr.delete(uri, null, null) > 0
+                }
+            }
+
+        private fun queryOriginalInfo(
+            cr: ContentResolver,
+            eventId: Long,
+        ): Pair<Long?, Long?> {
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    eventId,
+                )
+
+            val projection =
+                arrayOf(
+                    CalendarContract.Events.ORIGINAL_ID,
+                    CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
+                )
+
+            cr
+                .query(
+                    uri,
+                    projection,
+                    null,
+                    null,
+                    null,
+                )?.use { cursor ->
+                    if (!cursor.moveToFirst()) {
+                        return null to null
+                    }
+
+                    val originalIdIndex =
+                        cursor.getColumnIndex(
+                            CalendarContract.Events.ORIGINAL_ID,
+                        )
+
+                    val originalInstanceTimeIndex =
+                        cursor.getColumnIndex(
+                            CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
+                        )
+
+                    val originalId =
+                        if (
+                            originalIdIndex >= 0 &&
+                            !cursor.isNull(originalIdIndex)
+                        ) {
+                            cursor.getLong(originalIdIndex)
+                        } else {
+                            null
+                        }
+
+                    val originalInstanceTime =
+                        if (
+                            originalInstanceTimeIndex >= 0 &&
+                            !cursor.isNull(originalInstanceTimeIndex)
+                        ) {
+                            cursor.getLong(originalInstanceTimeIndex)
+                        } else {
+                            null
+                        }
+
+                    return originalId to originalInstanceTime
+                }
+
+            return null to null
         }
 
         fun getEventAlerts(

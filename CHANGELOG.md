@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.3.0](#830)
   - [8.2.0](#820)
   - [8.1.0](#810)
   - [8.0.2](#802)
@@ -42,6 +43,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.3.0
+
+### Added
+
+- Support for `span` on Android in `deleteEvent(...)`, `deleteEventsById(...)` and `deleteEventWithPrompt(...)`
 
 ## 8.2.0
 
