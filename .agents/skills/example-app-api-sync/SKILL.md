@@ -28,6 +28,7 @@ metadata:
 5. Set the button's id to the method name in kebab case (e.g. `modifyEvent` becomes `modify-event`) and its label to a human-readable form (e.g. `Modify event`)
 6. In `example.js`, add a matching event listener in the same alphabetical position, following the style of the existing listeners
 7. In the callback, call the method with its input options (if any), await, and log the result
+8. Run `npm run fmt` from the repo root and fix any errors related to the example-app changes
 
 ## Rules
 - Only sync the method(s) affected by the current change — don't proactively add, remove, or rename other methods that weren't part of it, unless explicitly asked
