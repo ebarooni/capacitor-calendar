@@ -6,10 +6,10 @@ description: >
   Also when explicitly asked to add the call for a method that is already available in the API but not in the example-app.
   Do not trigger for return types, internal implementation changes, refactors, or changes that cannot affect how the example-app calls the API.
 paths:
-  - "src/schemas/**"
-  - "src/sub-definitions/**"
+  - 'src/schemas/**'
+  - 'src/sub-definitions/**'
 metadata:
-  version: "1.0"
+  version: '1.0'
 ---
 
 # Example App API Sync
@@ -31,6 +31,7 @@ metadata:
 8. Run `npm run fmt` from the repo root and fix any errors related to the example-app changes
 
 ## Rules
+
 - Only sync the method(s) affected by the current change — don't proactively add, remove, or rename other methods that weren't part of it, unless explicitly asked
 - Use async/await for callback functions
 - Preserve existing behavior for unaffected methods
