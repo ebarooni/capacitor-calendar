@@ -4,6 +4,8 @@ description: >
   Use when generating commit messages or reviewing staged changes.
   Handles conventional commits format, scope detection, and breaking change notation.
 disable-model-invocation: true
+metadata:
+  version: '1.0'
 ---
 
 # Commit Message Generator
