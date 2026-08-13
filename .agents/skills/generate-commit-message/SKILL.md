@@ -1,5 +1,5 @@
 ---
-name: commit-message-generator
+name: generate-commit-message
 description: >
   Use when generating commit messages or reviewing staged changes.
   Handles conventional commits format, scope detection, and breaking change notation.
@@ -8,7 +8,7 @@ metadata:
   version: '1.0'
 ---
 
-# Commit Message Generator
+# Generate Commit Message
 
 ## Workflow
 
