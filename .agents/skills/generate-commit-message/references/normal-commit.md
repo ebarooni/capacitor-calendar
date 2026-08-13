@@ -29,5 +29,6 @@
 
 ## Rules
 
+- Propose a split if the staged changes are not cohesive (list of commits with their messages and which files/hunks belong to each)
 - Never guess a scope when multiple are touched — omit it instead
 - Never fabricate an issue number — only include one if it's actually known
