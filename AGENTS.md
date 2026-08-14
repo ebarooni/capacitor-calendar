@@ -26,14 +26,6 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 
 ## Commands
 
-To raise the version (without creating a git tag), run one of:
-
-```bash
-npm run version:major
-npm run version:minor
-npm run version:patch
-```
-
 Install plugin dependencies, build the plugin, then install the latest local version into the example app and sync:
 
 ```bash
