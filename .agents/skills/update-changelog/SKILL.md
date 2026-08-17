@@ -16,7 +16,7 @@ metadata:
 # Update Changelog
 
 ## 1. Prepare the release version
- 
+
 1. Read `package.json` and determine the current package version
 2. If the version has already been raised for the planned release, do not change it
 3. If the version has not been raised, ask what the release is (patch/minor/major), then run:
@@ -44,7 +44,7 @@ metadata:
    - Security: in case of vulnerabilities
 
 ## Rules
- 
+
 - Group related implementation changes into a single changelog entry when they represent one user-facing change
 - Keep entries concise and specific
 - Prefer one entry for one meaningful API change rather than one entry per commit or file
