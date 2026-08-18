@@ -37,7 +37,7 @@ class ImplementationHelper {
 
         fun jsArrayToLongArray(array: JSArray): List<Long> {
             val list = array.toList<String>()
-            return list.map { it.toLong() }
+            return list.map { it.toLongOrNull() ?: throw PluginError.MissingId }
         }
 
         fun hexToColorInt(hex: String?): Int? =

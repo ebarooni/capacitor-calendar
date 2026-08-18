@@ -7,7 +7,7 @@ import dev.barooni.capacitor.calendar.models.enums.EventSpan
 data class DeleteEventWithPromptInput(
     private val call: PluginCall,
 ) {
-    val id: Long = call.getString("id")?.toLong() ?: throw PluginError.MissingId
+    val id: Long = call.getString("id")?.toLongOrNull() ?: throw PluginError.MissingId
     val title: String = call.getString("title") ?: throw PluginError.TitleMissing
     val message: String = call.getString("message") ?: throw PluginError.MessageMissing
     val confirmButtonText: String = call.getString("confirmButtonText") ?: "Delete"
