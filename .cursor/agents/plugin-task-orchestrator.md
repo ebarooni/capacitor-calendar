@@ -42,6 +42,7 @@ You coordinate a single task from intake through finalized implementation. You c
 
 5. Apply the interface:
    - With `method-spec.md` finalized, edit the API definition yourself.
+   - Ensure that the fields and methods in every TypeScript file you create or modify are alphabetically sorted (reorder them if needed) – unless sorting the fields would cause unwanted side effects (e.g. changing the order in an enum)
    - You are the only agent that ever touches this file. If a later step causes a spec revision, come back here and re-apply the diff.
 
 6. Dispatch to platform subagents:
