@@ -2,6 +2,9 @@
 dist
 node_modules
 
+# Agent task workspace
+.agent-workspace
+
 # iOS files
 Pods
 Podfile.lock
