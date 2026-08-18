@@ -5,6 +5,14 @@ import type { EventSpan } from '../enums/event-span';
  */
 export interface DeleteEventWithPromptOptions {
   /**
+   * Text to show on the cancel button.
+   *
+   * @default 'Cancel'
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  cancelButtonText?: string;
+  /**
    * Whether to save the deletion to the event store immediately.
    * Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually.
    *
@@ -15,12 +23,35 @@ export interface DeleteEventWithPromptOptions {
    */
   commit?: boolean;
   /**
+   * Text to show on the confirm button.
+   *
+   * @default 'Delete'
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  confirmButtonText?: string;
+  /**
+   * The ID of the event to delete.
+   *
+   * @example '1234'
+   * @platform Android, iOS
    * @since 7.1.0
    */
   id: string;
   /**
-   * The span of deletion.
+   * Message of the dialog.
    *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  message: string;
+  /**
+   * How much of a recurring series to delete.
+   * `EventSpan.THIS_EVENT` deletes only the identified event/occurrence.
+   * `EventSpan.THIS_AND_FUTURE_EVENTS` deletes this occurrence and subsequent ones.
+   * On Android, `THIS_AND_FUTURE_EVENTS` deletes the recurring master (the whole series), not only future instances.
+   *
+   * @example EventSpan.THIS_EVENT
    * @default EventSpan.THIS_EVENT
    * @platform Android, iOS
    * @since 7.1.0
@@ -33,27 +64,4 @@ export interface DeleteEventWithPromptOptions {
    * @since 7.1.0
    */
   title: string;
-  /**
-   * Message of the dialog.
-   *
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  message: string;
-  /**
-   * Text to show on the confirm button.
-   *
-   * @default 'Delete'
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  confirmButtonText?: string;
-  /**
-   * Text to show on the cancel button.
-   *
-   * @default 'Cancel'
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  cancelButtonText?: string;
 }

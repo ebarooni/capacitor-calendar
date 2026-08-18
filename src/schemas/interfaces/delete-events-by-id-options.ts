@@ -19,8 +19,12 @@ export interface DeleteEventsByIdOptions {
    */
   ids: string[];
   /**
-   * The span of deletion.
+   * How much of a recurring series to delete.
+   * `EventSpan.THIS_EVENT` deletes only the identified event/occurrence.
+   * `EventSpan.THIS_AND_FUTURE_EVENTS` deletes this occurrence and subsequent ones.
+   * On Android, `THIS_AND_FUTURE_EVENTS` deletes the recurring master (the whole series), not only future instances.
    *
+   * @example EventSpan.THIS_EVENT
    * @default EventSpan.THIS_EVENT
    * @platform Android, iOS
    * @since 7.1.0
