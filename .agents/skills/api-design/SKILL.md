@@ -27,12 +27,16 @@ Designs the public contract for one Capacitor plugin method. This is a design-on
    - Universal but different underlying behavior: same field, platforms implement it differently (note the difference subagents don't need to guess intent)
    - Partial support: works on some platforms only. Pick and record one handling strategy (see checklist in references) rather than leaving it to each subagent to invent their own.
    - Not feasible anywhere reasonable: drop the field; don't design around a hypothetical
+
 4. Define error behavior:
    Specify the error/rejection contract explicitly: what error codes/messages exist, which are platform-agnostic, and which are platform-specific extensions of a common base.
+
 5. Write the method spec:
    Fill out [Method Spec Template](references/method-spec-template.md) completely. This becomes the shared artifact every subagent implements against. It must be precise enough that a subagent never needs to ask "wait, what should this actually do?"
+
 6. Flag open questions:
    If any decision is genuinely blocked on information only a platform subagent has (e.g. "does Android's API 26+ still support this?"), list it explicitly under "Open questions for platform agents" in the spec rather than guessing. The orchestrator resolves these before dispatch.
+
 7. Hand off:
    Return the completed spec to the orchestrator. Do not proceed to implementation guidance, that's the platform subagents' job.
 

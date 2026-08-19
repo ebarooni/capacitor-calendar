@@ -20,7 +20,7 @@ Called by the `plugin-task-orchestrator` after all three platform subagents (`ca
 ## Workflow
 
 1. Interface parity (TypeScript API vs. spec):
-   Confirm the shared TypeScript interface actually matches what `method-spec.md` specifies — method name, options object shape return type, JSDoc.
+   Confirm the shared TypeScript interface actually matches what `method-spec.md` specifies — method name, options object shape, return type, JSDoc.
 
 2. Confirm Signature parity (platform vs. TypeScript API) for each platform:
    - The exposed method name matches

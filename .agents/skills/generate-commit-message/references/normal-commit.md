@@ -19,10 +19,12 @@
 4. Add a body if the subject alone doesn't explain why — the body should include the motivation for the change and the contrast with the previous behavior
    - Imperative, present tense
 5. Add a footer if either applies:
-   | Case | Format |
-   |-|-|
+
+   | Case            | Format                                                 |
+   | --------------- | ------------------------------------------------------ |
    | Breaking change | `BREAKING CHANGE: <what changed, what caller must do>` |
-   | Closes an issue | `Closes #<issue_number>` |
+   | Closes an issue | `Closes #<issue_number>`                               |
+
 6. Validate formatting before returning:
    - Section order: `subject`, optional `body`, optional `footer`
    - Spacing: exactly one empty line between sections that exist

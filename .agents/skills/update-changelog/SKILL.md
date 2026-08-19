@@ -2,7 +2,7 @@
 name: update-changelog
 description: >
   Use when a finalized, noteworthy plugin change under src/, ios/, or android/ is not yet reflected in CHANGELOG.md, or when explicitly asked to update it.
-  Compares the current branch with its base branch and adds missing changelog entries for user-facing features, fixes, and breaking changes. 
+  Compares the current branch with its base branch and adds missing changelog entries for user-facing features, fixes, and breaking changes.
   Do not use for work-in-progress or internal-only changes, or package.json-only version bumps.
 paths:
   - 'package.json'
