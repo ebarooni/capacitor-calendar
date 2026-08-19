@@ -1,9 +1,72 @@
-import { CapacitorCalendar, EventSpan } from '@ebarooni/capacitor-calendar';
+import { CapacitorCalendar, EventAvailability, EventSpan } from '@ebarooni/capacitor-calendar';
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#check-all-permissions').addEventListener('click', async () => {
     const result = await CapacitorCalendar.checkAllPermissions();
     console.log('#checkAllPermissions', result);
+  });
+
+  document.querySelector('#create-event').addEventListener('click', async () => {
+    const { result: calendars } = await CapacitorCalendar.listCalendars();
+    const startDate = Date.now();
+    const endDate = startDate + 60 * 60 * 1000;
+    const recurrenceEnd = startDate + 14 * 24 * 60 * 60 * 1000;
+
+    const result = await CapacitorCalendar.createEvent({
+      alerts: [-1440, -60, 30],
+      attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
+      availability: EventAvailability.BUSY,
+      calendarId: calendars[0]?.id,
+      color: '#6750A4',
+      commit: true,
+      description: 'Created with @ebarooni/capacitor-calendar',
+      duration: 'PT1H',
+      endDate,
+      isAllDay: false,
+      location: 'Conference Room A',
+      organizer: 'organizer@example.com',
+      recurrence: {
+        end: recurrenceEnd,
+        frequency: 'daily',
+        interval: 2,
+      },
+      startDate,
+      title: 'Recurring standup',
+      url: 'https://example.com/standup',
+    });
+
+    getEventIdInput().value = result.id;
+    console.log('#createEvent', result);
+  });
+
+  document.querySelector('#create-event-with-prompt').addEventListener('click', async () => {
+    const { result: calendars } = await CapacitorCalendar.listCalendars();
+    const startDate = Date.now() + 24 * 60 * 60 * 1000;
+    const endDate = startDate + 60 * 60 * 1000;
+
+    const result = await CapacitorCalendar.createEventWithPrompt({
+      alerts: [-1440, -60, 30],
+      availability: EventAvailability.BUSY,
+      calendarId: calendars[0]?.id,
+      description: 'Created with @ebarooni/capacitor-calendar',
+      endDate,
+      invitees: ['guest@example.com', 'teammate@example.com'],
+      isAllDay: false,
+      location: 'Office',
+      recurrence: {
+        count: 4,
+        frequency: 'weekly',
+        interval: 1,
+      },
+      startDate,
+      title: 'Planning session',
+      url: 'https://example.com/planning',
+    });
+
+    if (result.id) {
+      getEventIdInput().value = result.id;
+    }
+    console.log('#createEventWithPrompt', result);
   });
 
   document.querySelector('#create-reminders-list').addEventListener('click', async () => {
