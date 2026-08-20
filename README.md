@@ -14,6 +14,9 @@
   <a href="https://capacitorjs.com/">
     <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
   </a>
+  <a href="mcp/README.md">
+    <img src="https://img.shields.io/badge/MCP-161b22?style=flat&logo=modelcontextprotocol&logoColor=5FB8AF" />
+  </a>
 </p>
 
 ![capacitor-calendar-logo](assets/images/text-logo.png)
@@ -75,7 +78,7 @@ npx cap sync
 
 ## Demo
 
-|             iOS 26              |             Android 16              |
+|             iOS 26              |             Android 17              |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
 
