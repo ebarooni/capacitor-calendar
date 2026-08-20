@@ -28,6 +28,7 @@
 		7C265CD42EA98E62005E867C /* ModifyCalendarInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CA32EA98E62005E867C /* ModifyCalendarInput.swift */; };
 		7C265CD52EA98E62005E867C /* CreateEventWithPromptInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C972EA98E62005E867C /* CreateEventWithPromptInput.swift */; };
 		7C265CD62EA98E62005E867C /* EventEditAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C922EA98E62005E867C /* EventEditAction.swift */; };
+		7CAE5E01260820A100E5E501 /* EventSpan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAE5E00260820A100E5E501 /* EventSpan.swift */; };
 		7C265CD72EA98E62005E867C /* PluginConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CC22EA98E62005E867C /* PluginConfig.swift */; };
 		7C265CD82EA98E62005E867C /* FetchAllCalendarSourcesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CB42EA98E62005E867C /* FetchAllCalendarSourcesResult.swift */; };
 		7C265CD92EA98E62005E867C /* CAPPermissionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C912EA98E62005E867C /* CAPPermissionState.swift */; };
@@ -92,6 +93,7 @@
 		7C265C902EA98E62005E867C /* CalendarPermissionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPermissionScope.swift; sourceTree = "<group>"; };
 		7C265C912EA98E62005E867C /* CAPPermissionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAPPermissionState.swift; sourceTree = "<group>"; };
 		7C265C922EA98E62005E867C /* EventEditAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEditAction.swift; sourceTree = "<group>"; };
+		7CAE5E00260820A100E5E501 /* EventSpan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSpan.swift; sourceTree = "<group>"; };
 		7C265C942EA98E62005E867C /* CheckPermissionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPermissionInput.swift; sourceTree = "<group>"; };
 		7C265C952EA98E62005E867C /* CreateCalendarInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCalendarInput.swift; sourceTree = "<group>"; };
 		7C265C962EA98E62005E867C /* CreateEventInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventInput.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				7C265C902EA98E62005E867C /* CalendarPermissionScope.swift */,
 				7C265C912EA98E62005E867C /* CAPPermissionState.swift */,
 				7C265C922EA98E62005E867C /* EventEditAction.swift */,
+				7CAE5E00260820A100E5E501 /* EventSpan.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				7C265CD42EA98E62005E867C /* ModifyCalendarInput.swift in Sources */,
 				7C265CD52EA98E62005E867C /* CreateEventWithPromptInput.swift in Sources */,
 				7C265CD62EA98E62005E867C /* EventEditAction.swift in Sources */,
+				7CAE5E01260820A100E5E501 /* EventSpan.swift in Sources */,
 				7C265CD72EA98E62005E867C /* PluginConfig.swift in Sources */,
 				7C265CD82EA98E62005E867C /* FetchAllCalendarSourcesResult.swift in Sources */,
 				7C265CD92EA98E62005E867C /* CAPPermissionState.swift in Sources */,

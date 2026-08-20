@@ -1,10 +1,9 @@
 import Capacitor
-import EventKit
 
 struct DeleteEventWithPromptInput {
     private let commit: Bool
     private let id: String
-    private let span: EKSpan
+    private let span: EventSpan
     private let title: String
     private let message: String
     private let confirmButtonText: String
@@ -16,7 +15,7 @@ struct DeleteEventWithPromptInput {
             throw PluginError.idMissing
         }
         self.id = id
-        if let spanInt = call.getInt("span"), let span = EKSpan(rawValue: spanInt) {
+        if let spanInt = call.getInt("span"), let span = EventSpan(rawValue: spanInt) {
             self.span = span
         } else {
             self.span = .thisEvent
@@ -41,7 +40,7 @@ struct DeleteEventWithPromptInput {
         return id
     }
 
-    func getSpan() -> EKSpan {
+    func getSpan() -> EventSpan {
         return span
     }
 

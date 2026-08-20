@@ -16,11 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
       alerts: [-1440, -60, 30],
       attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
       availability: EventAvailability.BUSY,
-      calendarId: calendars[0]?.id,
+      calendarId: pickNonHolidayCalendar(calendars)?.id,
       color: '#6750A4',
       commit: true,
       description: 'Created with @ebarooni/capacitor-calendar',
-      duration: 'PT1H',
       endDate,
       isAllDay: false,
       location: 'Conference Room A',
@@ -47,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = await CapacitorCalendar.createEventWithPrompt({
       alerts: [-1440, -60, 30],
       availability: EventAvailability.BUSY,
-      calendarId: calendars[0]?.id,
+      calendarId: pickNonHolidayCalendar(calendars)?.id,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
       invitees: ['guest@example.com', 'teammate@example.com'],
@@ -71,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#create-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.createRemindersList({
-      title: 'Groceries list',
       color: 'orange',
+      title: 'Groceries list',
     });
 
     getRemindersListIdInput().value = result.id;
@@ -82,15 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#delete-event').addEventListener('click', async () => {
     await CapacitorCalendar.deleteEvent({
       id: getEventIdInput().value,
-      span: EventSpan.THIS_AND_FUTURE_EVENTS,
+      instanceDate: getEventInstanceDate(),
+      span: EventSpan.THIS_EVENT,
     });
   });
 
   document.querySelector('#delete-event-with-prompt').addEventListener('click', async () => {
     const result = await CapacitorCalendar.deleteEventWithPrompt({
       id: getEventIdInput().value,
+      instanceDate: getEventInstanceDate(),
       message: 'Are you sure you want to delete this event?',
-      span: EventSpan.THIS_EVENT,
+      span: EventSpan.THIS_AND_FUTURE_EVENTS,
       title: 'Delete event',
     });
     console.log('#deleteEventWithPrompt', result);
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#delete-events-by-id').addEventListener('click', async () => {
     const result = await CapacitorCalendar.deleteEventsById({
       ids: [getEventIdInput().value],
-      span: EventSpan.THIS_EVENT,
+      span: EventSpan.ALL_EVENTS,
     });
     console.log('#deleteEventsById', result);
   });
@@ -135,7 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const event = result.result[0];
     if (event) {
       getEventIdInput().value = event.id;
+      getEventInstanceDateInput().value = String(event.startDate);
     }
+  });
+
+  document.querySelector('#open-calendar').addEventListener('click', async () => {
+    await CapacitorCalendar.openCalendar({ date: Date.now() });
+    console.log('#openCalendar');
   });
 
   document.querySelector('#request-full-calendar-access').addEventListener('click', async () => {
@@ -164,6 +171,22 @@ function getEventIdInput() {
   return document.querySelector('#event-id-input');
 }
 
+function getEventInstanceDate() {
+  const value = Number(getEventInstanceDateInput().value);
+  return Number.isFinite(value) ? value : undefined;
+}
+
+function getEventInstanceDateInput() {
+  return document.querySelector('#event-instance-date-input');
+}
+
 function getRemindersListIdInput() {
   return document.querySelector('#reminders-list-id-input');
+}
+
+function pickNonHolidayCalendar(calendars) {
+  return calendars.find((calendar) => {
+    const labels = [calendar.internalTitle, calendar.title].filter(Boolean).join(' ').toLowerCase();
+    return !/\bholidays?\b/.test(labels);
+  });
 }

@@ -23,10 +23,19 @@ export interface DeleteEventOptions {
    */
   id: string;
   /**
+   * Start time of the specific occurrence to target, in milliseconds since the epoch.
+   * Pass `startDate` from an event returned by `listEventsInRange` when deleting a recurring occurrence with `THIS_EVENT` or `THIS_AND_FUTURE_EVENTS`.
+   *
+   * @example 1716153600000
+   * @platform Android
+   * @since 8.3.0
+   */
+  instanceDate?: number;
+  /**
    * How much of a recurring series to delete.
    * `EventSpan.THIS_EVENT` deletes only the identified event/occurrence.
    * `EventSpan.THIS_AND_FUTURE_EVENTS` deletes this occurrence and subsequent ones.
-   * On Android, `THIS_AND_FUTURE_EVENTS` deletes the recurring master (the whole series), not only future instances.
+   * `EventSpan.ALL_EVENTS` deletes the entire series.
    *
    * @example EventSpan.THIS_EVENT
    * @default EventSpan.THIS_EVENT

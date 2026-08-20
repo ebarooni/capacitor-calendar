@@ -8,10 +8,13 @@ import com.getcapacitor.JSArray
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.data.CalendarInfo
+import dev.barooni.capacitor.calendar.models.data.EventDeleteInfo
 import dev.barooni.capacitor.calendar.models.data.EventGuest
 import dev.barooni.capacitor.calendar.models.enums.EventSpan
 import org.json.JSONObject
 import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 class ImplementationHelper {
     companion object {
@@ -273,40 +276,168 @@ class ImplementationHelper {
             return calendars
         }
 
+        fun requiresInstanceDateForDelete(
+            cr: ContentResolver,
+            eventId: Long,
+            span: EventSpan,
+        ): Boolean {
+            if (span != EventSpan.THIS_EVENT && span != EventSpan.THIS_AND_FUTURE_EVENTS) {
+                return false
+            }
+            return isRecurringEvent(cr, eventId)
+        }
+
+        fun ensureInstanceDatePresentIfRequired(
+            cr: ContentResolver,
+            eventId: Long,
+            span: EventSpan,
+            instanceDate: Long?,
+        ) {
+            if (requiresInstanceDateForDelete(cr, eventId, span) && instanceDate == null) {
+                throw PluginError.InstanceDateMissing
+            }
+        }
+
         fun deleteEvent(
             cr: ContentResolver,
             eventId: Long,
             span: EventSpan,
-        ): Boolean =
-            when (span) {
-                EventSpan.THIS_EVENT -> {
-                    val uri =
-                        ContentUris.withAppendedId(
-                            CalendarContract.Events.CONTENT_URI,
-                            eventId,
-                        )
+            instanceDate: Long? = null,
+        ): Boolean {
+            val info = queryEventDeleteInfo(cr, eventId)
+            val isRecurring = isRecurringEventInfo(info)
+            val masterId = info.originalId ?: eventId
 
-                    cr.delete(uri, null, null) > 0
+            return when (span) {
+                EventSpan.THIS_EVENT -> {
+                    if (!isRecurring) {
+                        deleteEventRow(cr, eventId)
+                    } else {
+                        val date = instanceDate ?: throw PluginError.InstanceDateMissing
+                        insertCanceledException(cr, masterId, date)
+                    }
                 }
 
                 EventSpan.THIS_AND_FUTURE_EVENTS -> {
-                    val (originalId, _) = queryOriginalInfo(cr, eventId)
-                    val masterId = originalId ?: eventId
+                    if (!isRecurring) {
+                        deleteEventRow(cr, eventId)
+                    } else {
+                        val date = instanceDate ?: throw PluginError.InstanceDateMissing
+                        truncateSeries(cr, masterId, date)
+                    }
+                }
 
-                    val uri =
-                        ContentUris.withAppendedId(
-                            CalendarContract.Events.CONTENT_URI,
-                            masterId,
-                        )
-
-                    cr.delete(uri, null, null) > 0
+                EventSpan.ALL_EVENTS -> {
+                    deleteEventRow(cr, masterId)
                 }
             }
+        }
 
-        private fun queryOriginalInfo(
+        private fun isRecurringEvent(
             cr: ContentResolver,
             eventId: Long,
-        ): Pair<Long?, Long?> {
+        ): Boolean = isRecurringEventInfo(queryEventDeleteInfo(cr, eventId))
+
+        private fun isRecurringEventInfo(info: EventDeleteInfo): Boolean = !info.rrule.isNullOrBlank() || info.originalId != null
+
+        private fun deleteEventRow(
+            cr: ContentResolver,
+            eventId: Long,
+        ): Boolean {
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    eventId,
+                )
+            return cr.delete(uri, null, null) > 0
+        }
+
+        private fun insertCanceledException(
+            cr: ContentResolver,
+            masterId: Long,
+            instanceDate: Long,
+        ): Boolean {
+            val values =
+                ContentValues().apply {
+                    put(CalendarContract.Events.ORIGINAL_INSTANCE_TIME, instanceDate)
+                    put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CANCELED)
+                }
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_EXCEPTION_URI,
+                    masterId,
+                )
+            return cr.insert(uri, values) != null
+        }
+
+        private fun truncateSeries(
+            cr: ContentResolver,
+            masterId: Long,
+            instanceDate: Long,
+        ): Boolean {
+            val info = queryEventDeleteInfo(cr, masterId)
+            val rrule = info.rrule
+            if (rrule.isNullOrBlank()) {
+                return false
+            }
+
+            val values =
+                ContentValues().apply {
+                    put(CalendarContract.Events.RRULE, rruleEndingBefore(rrule, instanceDate))
+                }
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    masterId,
+                )
+            return cr.update(uri, values, null, null) > 0
+        }
+
+        private fun rruleEndingBefore(
+            rrule: String,
+            instanceDateMs: Long,
+        ): String {
+            // UNTIL is inclusive; end the series one second before this occurrence.
+            val untilMs = instanceDateMs - 1000L
+            val untilPart = "UNTIL=${formatUntilUtc(untilMs)}"
+            val parts =
+                rrule
+                    .split(";")
+                    .filter { part ->
+                        val key = part.substringBefore("=").uppercase()
+                        key.isNotEmpty() && key != "UNTIL" && key != "COUNT"
+                    }.toMutableList()
+            parts.add(untilPart)
+            return parts.joinToString(";")
+        }
+
+        private fun formatUntilUtc(untilMs: Long): String {
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.timeInMillis = untilMs
+
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH) + 1
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
+            val second = calendar.get(Calendar.SECOND)
+
+            return String.format(
+                Locale.US,
+                "%04d%02d%02dT%02d%02d%02dZ",
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                second,
+            )
+        }
+
+        private fun queryEventDeleteInfo(
+            cr: ContentResolver,
+            eventId: Long,
+        ): EventDeleteInfo {
             val uri =
                 ContentUris.withAppendedId(
                     CalendarContract.Events.CONTENT_URI,
@@ -315,8 +446,8 @@ class ImplementationHelper {
 
             val projection =
                 arrayOf(
+                    CalendarContract.Events.RRULE,
                     CalendarContract.Events.ORIGINAL_ID,
-                    CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
                 )
 
             cr
@@ -328,43 +459,30 @@ class ImplementationHelper {
                     null,
                 )?.use { cursor ->
                     if (!cursor.moveToFirst()) {
-                        return null to null
+                        return EventDeleteInfo(originalId = null, rrule = null)
                     }
 
-                    val originalIdIndex =
-                        cursor.getColumnIndex(
-                            CalendarContract.Events.ORIGINAL_ID,
-                        )
+                    val rruleIndex = cursor.getColumnIndex(CalendarContract.Events.RRULE)
+                    val originalIdIndex = cursor.getColumnIndex(CalendarContract.Events.ORIGINAL_ID)
 
-                    val originalInstanceTimeIndex =
-                        cursor.getColumnIndex(
-                            CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
-                        )
+                    val rrule =
+                        if (rruleIndex >= 0 && !cursor.isNull(rruleIndex)) {
+                            cursor.getString(rruleIndex)
+                        } else {
+                            null
+                        }
 
                     val originalId =
-                        if (
-                            originalIdIndex >= 0 &&
-                            !cursor.isNull(originalIdIndex)
-                        ) {
+                        if (originalIdIndex >= 0 && !cursor.isNull(originalIdIndex)) {
                             cursor.getLong(originalIdIndex)
                         } else {
                             null
                         }
 
-                    val originalInstanceTime =
-                        if (
-                            originalInstanceTimeIndex >= 0 &&
-                            !cursor.isNull(originalInstanceTimeIndex)
-                        ) {
-                            cursor.getLong(originalInstanceTimeIndex)
-                        } else {
-                            null
-                        }
-
-                    return originalId to originalInstanceTime
+                    return EventDeleteInfo(originalId = originalId, rrule = rrule)
                 }
 
-            return null to null
+            return EventDeleteInfo(originalId = null, rrule = null)
         }
 
         fun getEventAlerts(

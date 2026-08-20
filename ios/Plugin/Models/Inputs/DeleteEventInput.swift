@@ -1,10 +1,9 @@
 import Capacitor
-import EventKit
 
 struct DeleteEventInput {
     private let commit: Bool
     private let id: String
-    private let span: EKSpan
+    private let span: EventSpan
 
     init(call: CAPPluginCall) throws {
         self.commit = call.getBool("commit", true)
@@ -12,7 +11,7 @@ struct DeleteEventInput {
             throw PluginError.idMissing
         }
         self.id = id
-        if let spanInt = call.getInt("span"), let span = EKSpan(rawValue: spanInt) {
+        if let spanInt = call.getInt("span"), let span = EventSpan(rawValue: spanInt) {
             self.span = span
         } else {
             self.span = .thisEvent
@@ -27,7 +26,7 @@ struct DeleteEventInput {
         return id
     }
 
-    func getSpan() -> EKSpan {
+    func getSpan() -> EventSpan {
         return span
     }
 }

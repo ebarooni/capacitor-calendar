@@ -47,6 +47,17 @@
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
           <ion-input
+            id="event-instance-date-input"
+            label="Event instance date (ms)"
+            label-placement="stacked"
+            type="number"
+            placeholder="1716153600000"
+            helper-text="Occurrence startDate from listEventsInRange (Android recurring delete)"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-input
             id="reminders-list-id-input"
             label="Reminders list ID"
             label-placement="stacked"
@@ -68,6 +79,7 @@
           <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
           <ion-button id="list-calendars" expand="block">List calendars</ion-button>
           <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
+          <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
           <ion-button id="request-full-calendar-access" expand="block" fill="outline"
             >Request full calendar access</ion-button
           >

@@ -12,5 +12,6 @@ data class DeleteEventWithPromptInput(
     val message: String = call.getString("message") ?: throw PluginError.MessageMissing
     val confirmButtonText: String = call.getString("confirmButtonText") ?: "Delete"
     val cancelButtonText: String = call.getString("cancelButtonText") ?: "Cancel"
+    val instanceDate: Long? = call.getLong("instanceDate")
     val span: EventSpan = call.getInt("span")?.let { EventSpan.fromInt(it) } ?: EventSpan.THIS_EVENT
 }

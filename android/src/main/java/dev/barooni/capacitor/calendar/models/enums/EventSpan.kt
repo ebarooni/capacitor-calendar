@@ -5,6 +5,7 @@ enum class EventSpan(
 ) {
     THIS_EVENT(0),
     THIS_AND_FUTURE_EVENTS(1),
+    ALL_EVENTS(2),
     ;
 
     companion object {
