@@ -201,10 +201,18 @@ class CapacitorCalendar(
         val cr = plugin.context.contentResolver
         val result = DeleteEventsByIdResult()
         input.ids.forEach { id ->
-            val deleted = ImplementationHelper.deleteEvent(cr, id)
-            if (deleted) {
-                result.deleted(id)
-            } else {
+            try {
+                if (ImplementationHelper.requiresInstanceDateForDelete(cr, id, input.span)) {
+                    result.failed(id)
+                    return@forEach
+                }
+                val deleted = ImplementationHelper.deleteEvent(cr, id, input.span, null)
+                if (deleted) {
+                    result.deleted(id)
+                } else {
+                    result.failed(id)
+                }
+            } catch (_: Exception) {
                 result.failed(id)
             }
         }
@@ -213,7 +221,13 @@ class CapacitorCalendar(
 
     fun deleteEvent(input: DeleteEventInput) {
         val cr = plugin.context.contentResolver
-        val deleted = ImplementationHelper.deleteEvent(cr, input.id)
+        ImplementationHelper.ensureInstanceDatePresentIfRequired(
+            cr,
+            input.id,
+            input.span,
+            input.instanceDate,
+        )
+        val deleted = ImplementationHelper.deleteEvent(cr, input.id, input.span, input.instanceDate)
         if (!deleted) {
             throw PluginError.FailedToDelete
         }
@@ -224,6 +238,12 @@ class CapacitorCalendar(
         onComplete: (DeleteEventWithPromptResult) -> Unit,
     ) {
         val cr = plugin.context.contentResolver
+        ImplementationHelper.ensureInstanceDatePresentIfRequired(
+            cr,
+            input.id,
+            input.span,
+            input.instanceDate,
+        )
         val builder =
             AlertDialog
                 .Builder(plugin.context)
@@ -234,7 +254,10 @@ class CapacitorCalendar(
                     val result = DeleteEventWithPromptResult(false)
                     onComplete(result)
                 }.setPositiveButton(input.confirmButtonText) { _, _ ->
-                    val result = DeleteEventWithPromptResult(ImplementationHelper.deleteEvent(cr, input.id))
+                    val result =
+                        DeleteEventWithPromptResult(
+                            ImplementationHelper.deleteEvent(cr, input.id, input.span, input.instanceDate),
+                        )
                     onComplete(result)
                 }
 

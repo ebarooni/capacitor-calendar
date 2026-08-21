@@ -5,31 +5,23 @@ import type { EventSpan } from '../enums/event-span';
  */
 export interface DeleteEventWithPromptOptions {
   /**
+   * Text to show on the cancel button.
+   *
+   * @default 'Cancel'
+   * @platform Android, iOS
    * @since 7.1.0
    */
-  id: string;
+  cancelButtonText?: string;
   /**
-   * The span of deletion.
+   * Whether to save the deletion to the event store immediately.
+   * Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually.
    *
-   * @default EventSpan.THIS_EVENT
+   * @example false
+   * @default true
    * @platform iOS
-   * @see 7.1.0
+   * @since 8.3.0
    */
-  span?: EventSpan;
-  /**
-   * Title of the dialog.
-   *
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  title: string;
-  /**
-   * Message of the dialog.
-   *
-   * @platform Android, iOS
-   * @since 7.1.0
-   */
-  message: string;
+  commit?: boolean;
   /**
    * Text to show on the confirm button.
    *
@@ -39,11 +31,44 @@ export interface DeleteEventWithPromptOptions {
    */
   confirmButtonText?: string;
   /**
-   * Text to show on the cancel button.
+   * The ID of the event to delete.
    *
-   * @default 'Cancel'
+   * @example '1234'
    * @platform Android, iOS
    * @since 7.1.0
    */
-  cancelButtonText?: string;
+  id: string;
+  /**
+   * The start time of the occurrence to delete, in milliseconds since the epoch.
+   * Use `startDate` from `listEventsInRange`.
+   * On Android, required for `THIS_EVENT` on recurring events. If omitted with `THIS_AND_FUTURE_EVENTS`, the whole series is deleted.
+   *
+   * @example 1716153600000
+   * @platform Android
+   * @since 8.3.0
+   */
+  instanceDate?: number;
+  /**
+   * Message of the dialog.
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  message: string;
+  /**
+   * How much of a recurring series to delete.
+   *
+   * @example EventSpan.THIS_EVENT
+   * @default EventSpan.THIS_EVENT
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  span?: EventSpan;
+  /**
+   * Title of the dialog.
+   *
+   * @platform Android, iOS
+   * @since 7.1.0
+   */
+  title: string;
 }

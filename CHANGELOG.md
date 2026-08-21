@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.3.0](#830)
   - [8.2.0](#820)
   - [8.1.0](#810)
   - [8.0.2](#802)
@@ -43,6 +43,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Changelogs for the versions supporting Capacitor 8.
 
+## 8.3.0
+
+### Added
+
+- `span` option on Android for `deleteEvent(...)`, `deleteEventsById(...)`, and `deleteEventWithPrompt(...)`
+- Optional `instanceDate` on `DeleteEventOptions` and `DeleteEventWithPromptOptions` (Android; omit with `THIS_AND_FUTURE_EVENTS` to delete the whole series)
+- `commit` option on iOS for `deleteEvent(...)`, `deleteEventsById(...)`, and `deleteEventWithPrompt(...)`
+
+### Fixed
+
+- Android recurring delete: `THIS_EVENT` cancels one occurrence; `THIS_AND_FUTURE_EVENTS` truncates the series or deletes it when `instanceDate` is omitted
+
 ## 8.2.0
 
 ### Added
@@ -60,7 +72,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Fixed
 
-- `ModifyEvent` on Android was not updating `location`
+- `modifyEvent` on Android was not updating `location`
 
 ## 8.0.1
 
@@ -114,8 +126,8 @@ Changelogs for the versions supporting Capacitor 7.
 - `requestAllPermissions` returns `{ result: RequestAllPermissionsResult; }` instead of `PluginPermissionsMap`
 - `requestAllPermissions` is marked as deprecated
 - `requestPermission` is marked as deprecated
-- Replaced `alertOffsetInMinutes`, `notes` and `eventIdOptional` in `createEventWithPrompt`
-- Removed `eventIdOptional` and `createEventWithPrompt` on Android does not return an id anymore
+- Replaced `alertOffsetInMinutes`, `notes`, and `eventIdOptional` in `createEventWithPrompt`
+- `createEventWithPrompt` on Android no longer returns an id (`eventIdOptional` removed)
 
 ### Removed
 
@@ -147,17 +159,17 @@ Changelogs for the versions supporting Capacitor 6.
 
 ### Added
 
-- Added `eventIdOptional` property to `createEventWithPrompt` on Android
+- `eventIdOptional` property to `createEventWithPrompt` on Android
 
 ## 6.7.0
+
+### Added
+
+- Modifying reminders on iOS
 
 ### Fixed
 
 - Return type of `modifyEvent` on iOS
-
-### Added
-
-- Implemented modifying reminders on iOS
 
 ## 6.6.1
 
@@ -167,12 +179,6 @@ Changelogs for the versions supporting Capacitor 6.
 
 ## 6.6.0
 
-### Fixed
-
-- Not being able to read event color
-- Not being able to read events timezone
-- Error when creating event
-
 ### Added
 
 - Color to calendar object
@@ -180,16 +186,22 @@ Changelogs for the versions supporting Capacitor 6.
 - Modify events with prompt
 - Method for fetching available calendar sources on iOS
 
+### Fixed
+
+- Not being able to read event color
+- Not being able to read events timezone
+- Error when creating event
+
 ### Removed
 
-- The plugin will not receive updates for Capacitor 5
+- Support for Capacitor 5 (this plugin will no longer receive updates for it)
 
 ## 6.5.0
 
-### Changed
+### Added
 
-- Added URL and notes to create options in `createEvent` and `createEventWithPrompt`
-- Added the ability to set multiple alarms for creating events in `createEvent` and `createEventWithPrompt`
+- URL and notes to create options in `createEvent` and `createEventWithPrompt`
+- Ability to set multiple alarms when creating events in `createEvent` and `createEventWithPrompt`
 
 ### Fixed
 
@@ -199,14 +211,14 @@ Changelogs for the versions supporting Capacitor 6.
 
 ### Changed
 
-- Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
-- Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
+- `getDefaultCalendar` now returns null when there is no default calendar, instead of throwing an error
+- `getDefaultRemindersList` now returns null when there is no default list, instead of throwing an error
 
 ## 6.4.0
 
 ### Added
 
-- New methods to request runtime permissions beside using the permission constants
+- New methods to request runtime permissions, alongside the existing permission constants
 
 ### Fixed
 
@@ -234,14 +246,17 @@ Changelogs for the versions supporting Capacitor 6.
 
 - `listCalendars` on Android returning calendar id of type number instead of string
 - `createEventWithPrompt` on Android was not using all options
-- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
+- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing an error instead of returning an empty array on cancel
 
 ## 6.1.0
 
+### Added
+
+- Alarm support for created events
+
 ### Changed
 
-- `createEventWithPrompt` accepts options
-- Add an alarm for the created events
+- `createEventWithPrompt` now accepts options
 
 ### Fixed
 
@@ -276,10 +291,10 @@ Changelogs for the versions supporting Capacitor 5.
 
 ## 5.5.0
 
-### Changed
+### Added
 
-- Added URL and notes to create options in `createEvent` and `createEventWithPrompt`
-- Added the ability to set multiple alarms for creating events in `createEvent` and `createEventWithPrompt`
+- URL and notes to create options in `createEvent` and `createEventWithPrompt`
+- Ability to set multiple alarms when creating events in `createEvent` and `createEventWithPrompt`
 
 ### Fixed
 
@@ -289,14 +304,14 @@ Changelogs for the versions supporting Capacitor 5.
 
 ### Changed
 
-- Returning null in `getDefaultCalendar` when there is no default calendar instead of throwing an error
-- Returning null in `getDefaultRemindersList` when there is no default list instead of throwing an error
+- `getDefaultCalendar` now returns null when there is no default calendar, instead of throwing an error
+- `getDefaultRemindersList` now returns null when there is no default list, instead of throwing an error
 
 ## 5.4.0
 
 ### Added
 
-- New methods to request runtime permissions beside using the permission constants
+- New methods to request runtime permissions, alongside the existing permission constants
 
 ### Fixed
 
@@ -324,14 +339,17 @@ Changelogs for the versions supporting Capacitor 5.
 
 - `listCalendars` on Android returning calendar id of type number instead of string
 - `createEventWithPrompt` on Android was not using all options
-- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing error instead of returning empty array on cancel
+- `createEventWithPrompt` and `selectCalendarsWithPrompt` were throwing an error instead of returning an empty array on cancel
 
 ## 5.1.0
 
+### Added
+
+- Alarm support for created events
+
 ### Changed
 
-- `createEventWithPrompt` accepts options
-- Add an alarm for the created events
+- `createEventWithPrompt` now accepts options
 
 ### Fixed
 

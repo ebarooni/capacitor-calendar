@@ -37,6 +37,40 @@
       <ion-content class="ion-padding">
         <ion-item lines="none" class="ion-no-padding">
           <ion-input
+            id="event-id-input"
+            label="Event ID"
+            label-placement="stacked"
+            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
+            helper-text="The identifier of the event to use"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-input
+            id="event-instance-date-input"
+            label="Event instance date (ms)"
+            label-placement="stacked"
+            type="number"
+            placeholder="1716153600000"
+            helper-text="Occurrence start (ms); required on Android for THIS_EVENT on recurring masters"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-select
+            id="event-span-select"
+            label="Event span"
+            label-placement="stacked"
+            interface="popover"
+            value="0"
+            helper-text="Which occurrences of a recurring event to affect"
+          >
+            <ion-select-option value="0">THIS_EVENT</ion-select-option>
+            <ion-select-option value="1">THIS_AND_FUTURE_EVENTS</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-input
             id="reminders-list-id-input"
             label="Reminders list ID"
             label-placement="stacked"
@@ -46,21 +80,26 @@
           </ion-input>
         </ion-item>
 
-        <ion-list class="ion-margin-top">
+        <ion-list id="methods-list" class="ion-margin-top">
           <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
+          <ion-button id="create-event" expand="block">Create event</ion-button>
+          <ion-button id="create-event-with-prompt" expand="block">Create event with prompt</ion-button>
+          <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
+          <ion-button id="delete-event" expand="block">Delete event</ion-button>
+          <ion-button id="delete-event-with-prompt" expand="block">Delete event with prompt</ion-button>
+          <ion-button id="delete-events-by-id" expand="block">Delete events by id</ion-button>
+          <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
+          <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
+          <ion-button id="list-calendars" expand="block">List calendars</ion-button>
+          <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
+          <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
+          <ion-button id="open-reminders" expand="block">Open reminders</ion-button>
           <ion-button id="request-full-calendar-access" expand="block" fill="outline"
             >Request full calendar access</ion-button
           >
           <ion-button id="request-full-reminders-access" expand="block" fill="outline"
             >Request full reminders access</ion-button
           >
-        </ion-list>
-
-        <ion-list class="ion-margin-top">
-          <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
-          <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
-          <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
-          <ion-button id="list-calendars" expand="block">List calendars</ion-button>
           <ion-button id="update-reminders-list" expand="block">Update reminders list</ion-button>
         </ion-list>
       </ion-content>

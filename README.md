@@ -14,6 +14,9 @@
   <a href="https://capacitorjs.com/">
     <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
   </a>
+  <a href="mcp/README.md">
+    <img src="https://img.shields.io/badge/MCP-161b22?style=flat&logo=modelcontextprotocol&logoColor=5FB8AF" />
+  </a>
 </p>
 
 ![capacitor-calendar-logo](assets/images/text-logo.png)
@@ -75,7 +78,7 @@ npx cap sync
 
 ## Demo
 
-|             iOS 26              |             Android 16              |
+|             iOS 26              |             Android 17              |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
 
@@ -1094,28 +1097,33 @@ Update a reminders list with options.
 
 #### DeleteEventsByIdOptions
 
-| Prop       | Type                                            | Description           | Default                           | Since | Platform |
-| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
-| **`ids`**  | <code>string[]</code>                           |                       |                                   | 7.1.0 |          |
-| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+| Prop         | Type                                            | Description                                                                                                                                                                                                                      | Default                           | Since | Platform     |
+| ------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`commit`** | <code>boolean</code>                            | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code>                 | 8.3.0 | iOS          |
+| **`ids`**    | <code>string[]</code>                           |                                                                                                                                                                                                                                  |                                   | 7.1.0 |              |
+| **`span`**   | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete. On Android, `THIS_EVENT` cannot target a single recurring occurrence here — use `deleteEvent` with `instanceDate`. Those ids are reported in `failed`.                                 | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 
 #### DeleteEventOptions
 
-| Prop       | Type                                            | Description           | Default                           | Since | Platform |
-| ---------- | ----------------------------------------------- | --------------------- | --------------------------------- | ----- | -------- |
-| **`id`**   | <code>string</code>                             |                       |                                   | 7.1.0 |          |
-| **`span`** | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion. | <code>EventSpan.THIS_EVENT</code> |       | iOS      |
+| Prop               | Type                                            | Description                                                                                                                                                                                                                                              | Default                           | Since | Platform     |
+| ------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`commit`**       | <code>boolean</code>                            | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually.                         | <code>true</code>                 | 8.3.0 | iOS          |
+| **`id`**           | <code>string</code>                             | The ID of the event to delete.                                                                                                                                                                                                                           |                                   | 7.1.0 | Android, iOS |
+| **`instanceDate`** | <code>number</code>                             | The start time of the occurrence to delete, in milliseconds since the epoch. Use `startDate` from `listEventsInRange`. On Android, required for `THIS_EVENT` on recurring events. If omitted with `THIS_AND_FUTURE_EVENTS`, the whole series is deleted. |                                   | 8.3.0 | Android      |
+| **`span`**         | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete.                                                                                                                                                                                                                | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 
 #### DeleteEventWithPromptOptions
 
-| Prop                    | Type                                            | Description                         | Default                           | Since | Platform     |
-| ----------------------- | ----------------------------------------------- | ----------------------------------- | --------------------------------- | ----- | ------------ |
-| **`id`**                | <code>string</code>                             |                                     |                                   | 7.1.0 |              |
-| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | The span of deletion.               | <code>EventSpan.THIS_EVENT</code> |       | iOS          |
-| **`title`**             | <code>string</code>                             | Title of the dialog.                |                                   | 7.1.0 | Android, iOS |
-| **`message`**           | <code>string</code>                             | Message of the dialog.              |                                   | 7.1.0 | Android, iOS |
-| **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button. | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
-| **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.  | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
+| Prop                    | Type                                            | Description                                                                                                                                                                                                                                              | Default                           | Since | Platform     |
+| ----------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----- | ------------ |
+| **`cancelButtonText`**  | <code>string</code>                             | Text to show on the cancel button.                                                                                                                                                                                                                       | <code>'Cancel'</code>             | 7.1.0 | Android, iOS |
+| **`commit`**            | <code>boolean</code>                            | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually.                         | <code>true</code>                 | 8.3.0 | iOS          |
+| **`confirmButtonText`** | <code>string</code>                             | Text to show on the confirm button.                                                                                                                                                                                                                      | <code>'Delete'</code>             | 7.1.0 | Android, iOS |
+| **`id`**                | <code>string</code>                             | The ID of the event to delete.                                                                                                                                                                                                                           |                                   | 7.1.0 | Android, iOS |
+| **`instanceDate`**      | <code>number</code>                             | The start time of the occurrence to delete, in milliseconds since the epoch. Use `startDate` from `listEventsInRange`. On Android, required for `THIS_EVENT` on recurring events. If omitted with `THIS_AND_FUTURE_EVENTS`, the whole series is deleted. |                                   | 8.3.0 | Android      |
+| **`message`**           | <code>string</code>                             | Message of the dialog.                                                                                                                                                                                                                                   |                                   | 7.1.0 | Android, iOS |
+| **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete.                                                                                                                                                                                                                | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
+| **`title`**             | <code>string</code>                             | Title of the dialog.                                                                                                                                                                                                                                     |                                   | 7.1.0 | Android, iOS |
 
 #### CalendarEvent
 
@@ -1417,10 +1425,10 @@ Construct a type with a set of properties K of type T
 
 #### EventSpan
 
-| Members                      | Since |
-| ---------------------------- | ----- |
-| **`THIS_EVENT`**             | 7.1.0 |
-| **`THIS_AND_FUTURE_EVENTS`** | 7.1.0 |
+| Members                      | Description                                                     | Since |
+| ---------------------------- | --------------------------------------------------------------- | ----- |
+| **`THIS_EVENT`**             | Only the identified event or occurrence.                        | 7.1.0 |
+| **`THIS_AND_FUTURE_EVENTS`** | The identified occurrence and future occurrences in the series. | 7.1.0 |
 
 #### EventStatus
 

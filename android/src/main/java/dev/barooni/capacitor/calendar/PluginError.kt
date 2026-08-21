@@ -13,6 +13,10 @@ sealed class PluginError(
 
     data object MissingId : PluginError("Event ID must be provided.")
 
+    data object InstanceDateMissing : PluginError(
+        "Instance date must be provided for this span on recurring events.",
+    )
+
     data object TitleMissing : PluginError("Title must be provided.")
 
     data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
