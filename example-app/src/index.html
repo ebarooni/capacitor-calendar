@@ -52,12 +52,19 @@
             label-placement="stacked"
             type="number"
             placeholder="1716153600000"
-            helper-text="Occurrence startDate from listEventsInRange (Android recurring delete)"
+            helper-text="Start time of the occurrence in milliseconds"
           >
           </ion-input>
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
-          <ion-select id="event-span-select" label="Event span" label-placement="stacked" interface="popover" value="0">
+          <ion-select
+            id="event-span-select"
+            label="Event span"
+            label-placement="stacked"
+            interface="popover"
+            value="0"
+            helper-text="Which occurrences of a recurring event to affect"
+          >
             <ion-select-option value="0">THIS_EVENT</ion-select-option>
             <ion-select-option value="1">THIS_AND_FUTURE_EVENTS</ion-select-option>
           </ion-select>
@@ -86,6 +93,7 @@
           <ion-button id="list-calendars" expand="block">List calendars</ion-button>
           <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
           <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
+          <ion-button id="open-reminders" expand="block">Open reminders</ion-button>
           <ion-button id="request-full-calendar-access" expand="block" fill="outline"
             >Request full calendar access</ion-button
           >

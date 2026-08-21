@@ -145,6 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#openCalendar');
   });
 
+  document.querySelector('#open-reminders').addEventListener('click', async () => {
+    await CapacitorCalendar.openReminders();
+    console.log('#openReminders');
+  });
+
   document.querySelector('#request-full-calendar-access').addEventListener('click', async () => {
     const result = await CapacitorCalendar.requestFullCalendarAccess();
     console.log('#requestFullCalendarAccess', result);
