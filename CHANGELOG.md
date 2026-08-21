@@ -48,12 +48,12 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - `span` option on Android for `deleteEvent(...)`, `deleteEventsById(...)`, and `deleteEventWithPrompt(...)`
-- Optional `instanceDate` on `DeleteEventOptions` and `DeleteEventWithPromptOptions` (Android occurrence targeting; ignored on iOS)
+- Optional `instanceDate` on `DeleteEventOptions` and `DeleteEventWithPromptOptions` (Android; omit with `THIS_AND_FUTURE_EVENTS` to delete the whole series)
 - `commit` option on iOS for `deleteEvent(...)`, `deleteEventsById(...)`, and `deleteEventWithPrompt(...)`
 
 ### Fixed
 
-- Android recurring delete: `THIS_EVENT` creates a canceled exception for the occurrence; `THIS_AND_FUTURE_EVENTS` truncates the series (or deletes the master when targeting the first occurrence)
+- Android recurring delete: `THIS_EVENT` cancels one occurrence; `THIS_AND_FUTURE_EVENTS` truncates the series or deletes it when `instanceDate` is omitted
 
 ## 8.2.0
 
