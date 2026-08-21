@@ -5,13 +5,12 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 ## Root Folders
 
 - `android/`: Android implementation of the plugin
-- `assets/`: Static assets used mainly in `README.md`
+- `assets/`: Static assets (images, badges, etc.)
 - `example-app/`: Vite + Ionic (CDN) demo app that installs the plugin from the parent project locally and provides buttons to test each method
 - `dist/`: Compiled version of `src/` generated when building the project
 - `ios/`: iOS implementation of the plugin
 - `src/`: Main TypeScript source definitions for the plugin
 - `mcp/`: Implementation of the MCP server of the plugin
-- `README.md`: Do not modify the content between the `<docgen-index>` and `<docgen-api>` markers. This content is auto-generated; update the source JSDoc comments instead.
 
 ## Core Architecture (`src/`, `android/` and `ios/` folders)
 
@@ -43,6 +42,11 @@ Run linters and format the code:
 ```bash
 npm run fmt
 ```
+
+## Documentation
+
+- `README.md`: Do not modify the content between the `<docgen-index>` and `<docgen-api>` markers. That block is auto-generated; update the source JSDoc comments instead.
+- Assets: Images and other static files used by `README.md` (and docs) live in `assets/`
 
 ## PR Guidelines
 
