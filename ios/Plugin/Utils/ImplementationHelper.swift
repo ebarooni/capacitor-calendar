@@ -142,23 +142,7 @@ struct ImplementationHelper {
             try eventStore.remove(event, span: .thisEvent, commit: commit)
         case .thisAndFutureEvents:
             try eventStore.remove(event, span: .futureEvents, commit: commit)
-        case .allEvents:
-            let target = ImplementationHelper.eventForEntireSeriesDelete(event, eventStore: eventStore)
-            try eventStore.remove(target, span: .futureEvents, commit: commit)
         }
-    }
-
-    /// Resolves the series master / first occurrence so removing with `.futureEvents`
-    /// deletes past and future occurrences, not only from a mid-series instance.
-    private static func eventForEntireSeriesDelete(_ event: EKEvent, eventStore: EKEventStore) -> EKEvent {
-        guard event.hasRecurrenceRules else {
-            return event
-        }
-        let externalId = event.calendarItemExternalIdentifier
-        let firstOccurrence = eventStore.calendarItems(withExternalIdentifier: externalId)
-            .compactMap { $0 as? EKEvent }
-            .min(by: { $0.startDate < $1.startDate })
-        return firstOccurrence ?? event
     }
 
     static func calendarsSetToJSArray(_ calendars: Set<EKCalendar>) -> [JSObject] {

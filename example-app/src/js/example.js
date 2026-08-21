@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     await CapacitorCalendar.deleteEvent({
       id: getEventIdInput().value,
       instanceDate: getEventInstanceDate(),
-      span: EventSpan.THIS_EVENT,
+      span: getEventSpan(),
     });
   });
 
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: getEventIdInput().value,
       instanceDate: getEventInstanceDate(),
       message: 'Are you sure you want to delete this event?',
-      span: EventSpan.THIS_AND_FUTURE_EVENTS,
+      span: getEventSpan(),
       title: 'Delete event',
     });
     console.log('#deleteEventWithPrompt', result);
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#delete-events-by-id').addEventListener('click', async () => {
     const result = await CapacitorCalendar.deleteEventsById({
       ids: [getEventIdInput().value],
-      span: EventSpan.ALL_EVENTS,
+      span: getEventSpan(),
     });
     console.log('#deleteEventsById', result);
   });
@@ -172,12 +172,21 @@ function getEventIdInput() {
 }
 
 function getEventInstanceDate() {
-  const value = Number(getEventInstanceDateInput().value);
+  const raw = getEventInstanceDateInput().value.trim();
+  if (!raw) {
+    return undefined;
+  }
+  const value = Number(raw);
   return Number.isFinite(value) ? value : undefined;
 }
 
 function getEventInstanceDateInput() {
   return document.querySelector('#event-instance-date-input');
+}
+
+function getEventSpan() {
+  const value = Number(document.querySelector('#event-span-select').value);
+  return value === EventSpan.THIS_AND_FUTURE_EVENTS ? EventSpan.THIS_AND_FUTURE_EVENTS : EventSpan.THIS_EVENT;
 }
 
 function getRemindersListIdInput() {

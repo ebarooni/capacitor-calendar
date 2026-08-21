@@ -58,7 +58,6 @@ export interface DeleteEventWithPromptOptions {
    * How much of a recurring series to delete.
    * `EventSpan.THIS_EVENT` deletes only the identified event/occurrence.
    * `EventSpan.THIS_AND_FUTURE_EVENTS` deletes this occurrence and subsequent ones.
-   * `EventSpan.ALL_EVENTS` deletes the entire series.
    *
    * @example EventSpan.THIS_EVENT
    * @default EventSpan.THIS_EVENT

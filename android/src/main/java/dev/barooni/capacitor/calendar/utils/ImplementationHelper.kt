@@ -280,12 +280,7 @@ class ImplementationHelper {
             cr: ContentResolver,
             eventId: Long,
             span: EventSpan,
-        ): Boolean {
-            if (span != EventSpan.THIS_EVENT && span != EventSpan.THIS_AND_FUTURE_EVENTS) {
-                return false
-            }
-            return isRecurringEvent(cr, eventId)
-        }
+        ): Boolean = needsInstanceDate(queryEventDeleteInfo(cr, eventId), span)
 
         fun ensureInstanceDatePresentIfRequired(
             cr: ContentResolver,
@@ -305,40 +300,57 @@ class ImplementationHelper {
             instanceDate: Long? = null,
         ): Boolean {
             val info = queryEventDeleteInfo(cr, eventId)
-            val isRecurring = isRecurringEventInfo(info)
             val masterId = info.originalId ?: eventId
+            val isException = info.originalId != null
+            val isRecurringMaster = !info.rrule.isNullOrBlank() && !isException
 
             return when (span) {
                 EventSpan.THIS_EVENT -> {
-                    if (!isRecurring) {
-                        deleteEventRow(cr, eventId)
-                    } else {
-                        val date = instanceDate ?: throw PluginError.InstanceDateMissing
-                        insertCanceledException(cr, masterId, date)
+                    when {
+                        isException -> {
+                            deleteEventRow(cr, eventId)
+                        }
+
+                        isRecurringMaster -> {
+                            val date = instanceDate ?: throw PluginError.InstanceDateMissing
+                            insertCanceledException(cr, masterId, date)
+                        }
+
+                        else -> {
+                            deleteEventRow(cr, eventId)
+                        }
                     }
                 }
 
                 EventSpan.THIS_AND_FUTURE_EVENTS -> {
-                    if (!isRecurring) {
-                        deleteEventRow(cr, eventId)
-                    } else {
-                        val date = instanceDate ?: throw PluginError.InstanceDateMissing
-                        truncateSeries(cr, masterId, date)
-                    }
-                }
+                    when {
+                        isRecurringMaster || isException -> {
+                            val date = instanceDate ?: throw PluginError.InstanceDateMissing
+                            deleteThisAndFuture(cr, masterId, date)
+                        }
 
-                EventSpan.ALL_EVENTS -> {
-                    deleteEventRow(cr, masterId)
+                        else -> {
+                            deleteEventRow(cr, eventId)
+                        }
+                    }
                 }
             }
         }
 
-        private fun isRecurringEvent(
-            cr: ContentResolver,
-            eventId: Long,
-        ): Boolean = isRecurringEventInfo(queryEventDeleteInfo(cr, eventId))
+        private fun needsInstanceDate(
+            info: EventDeleteInfo,
+            span: EventSpan,
+        ): Boolean {
+            val isException = info.originalId != null
+            val isRecurringMaster = !info.rrule.isNullOrBlank() && !isException
+            return when (span) {
+                // Exception rows are addressed by id; only series masters need an occurrence time.
+                EventSpan.THIS_EVENT -> isRecurringMaster
 
-        private fun isRecurringEventInfo(info: EventDeleteInfo): Boolean = !info.rrule.isNullOrBlank() || info.originalId != null
+                // Truncating from an exception still needs the occurrence timestamp.
+                EventSpan.THIS_AND_FUTURE_EVENTS -> isRecurringMaster || isException
+            }
+        }
 
         private fun deleteEventRow(
             cr: ContentResolver,
@@ -370,7 +382,7 @@ class ImplementationHelper {
             return cr.insert(uri, values) != null
         }
 
-        private fun truncateSeries(
+        private fun deleteThisAndFuture(
             cr: ContentResolver,
             masterId: Long,
             instanceDate: Long,
@@ -379,6 +391,12 @@ class ImplementationHelper {
             val rrule = info.rrule
             if (rrule.isNullOrBlank()) {
                 return false
+            }
+
+            // Targeting the first occurrence (or earlier) removes the whole series.
+            val seriesStart = info.dtStart
+            if (seriesStart != null && instanceDate <= seriesStart) {
+                return deleteEventRow(cr, masterId)
             }
 
             val values =
@@ -446,6 +464,7 @@ class ImplementationHelper {
 
             val projection =
                 arrayOf(
+                    CalendarContract.Events.DTSTART,
                     CalendarContract.Events.RRULE,
                     CalendarContract.Events.ORIGINAL_ID,
                 )
@@ -459,11 +478,19 @@ class ImplementationHelper {
                     null,
                 )?.use { cursor ->
                     if (!cursor.moveToFirst()) {
-                        return EventDeleteInfo(originalId = null, rrule = null)
+                        return EventDeleteInfo(dtStart = null, originalId = null, rrule = null)
                     }
 
+                    val dtStartIndex = cursor.getColumnIndex(CalendarContract.Events.DTSTART)
                     val rruleIndex = cursor.getColumnIndex(CalendarContract.Events.RRULE)
                     val originalIdIndex = cursor.getColumnIndex(CalendarContract.Events.ORIGINAL_ID)
+
+                    val dtStart =
+                        if (dtStartIndex >= 0 && !cursor.isNull(dtStartIndex)) {
+                            cursor.getLong(dtStartIndex)
+                        } else {
+                            null
+                        }
 
                     val rrule =
                         if (rruleIndex >= 0 && !cursor.isNull(rruleIndex)) {
@@ -479,10 +506,10 @@ class ImplementationHelper {
                             null
                         }
 
-                    return EventDeleteInfo(originalId = originalId, rrule = rrule)
+                    return EventDeleteInfo(dtStart = dtStart, originalId = originalId, rrule = rrule)
                 }
 
-            return EventDeleteInfo(originalId = null, rrule = null)
+            return EventDeleteInfo(dtStart = null, originalId = null, rrule = null)
         }
 
         fun getEventAlerts(

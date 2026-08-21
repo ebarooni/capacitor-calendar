@@ -57,6 +57,12 @@
           </ion-input>
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
+          <ion-select id="event-span-select" label="Event span" label-placement="stacked" interface="popover" value="0">
+            <ion-select-option value="0">THIS_EVENT</ion-select-option>
+            <ion-select-option value="1">THIS_AND_FUTURE_EVENTS</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
           <ion-input
             id="reminders-list-id-input"
             label="Reminders list ID"

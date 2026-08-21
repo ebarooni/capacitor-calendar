@@ -1,10 +1,8 @@
 /**
  Mirrors the TypeScript `EventSpan` enum.
- EventKit only exposes `EKSpan.thisEvent` and `EKSpan.futureEvents`;
- `allEvents` is handled explicitly in delete paths.
+ Maps to EventKit's `EKSpan.thisEvent` and `EKSpan.futureEvents`.
  */
 enum EventSpan: Int {
     case thisEvent = 0
     case thisAndFutureEvents = 1
-    case allEvents = 2
 }
