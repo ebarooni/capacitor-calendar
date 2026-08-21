@@ -11,6 +11,7 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 - `ios/`: iOS implementation of the plugin
 - `src/`: Main TypeScript source definitions for the plugin
 - `mcp/`: Implementation of the MCP server of the plugin
+- `README.md`: Do not modify the content between the `<docgen-index>` and `<docgen-api>` markers. This content is auto-generated; update the source JSDoc comments instead.
 
 ## Core Architecture (`src/`, `android/` and `ios/` folders)
 
