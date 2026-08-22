@@ -78,7 +78,21 @@ export interface EventOperations {
    */
   deleteEventWithPrompt(options: DeleteEventWithPromptOptions): Promise<{ deleted: boolean }>;
   /**
-   * Retrieves the events within a date range.
+   * Retrieves events that overlap a date range.
+   *
+   * An event is included when its time interval intersects `[from, to]`, including
+   * multi-day events that span the range without starting or ending inside it.
+   *
+   * @example
+   * const startOfDay = new Date();
+   * startOfDay.setHours(0, 0, 0, 0);
+   * const startOfNextDay = new Date(startOfDay);
+   * startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+   *
+   * const { result } = await CapacitorCalendar.listEventsInRange({
+   *   from: startOfDay.getTime(),
+   *   to: startOfNextDay.getTime(),
+   * });
    *
    * @platform Android, iOS
    * @since 0.10.0

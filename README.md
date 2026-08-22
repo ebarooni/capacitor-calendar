@@ -175,7 +175,9 @@ await CapacitorCalendar.createEventWithPrompt({
 > [!NOTE]  
 > On Android, this method always returns null. If you need the event ID, call `listEventsInRange(...)` afterward.
 
-### List upcoming events
+### List events in a range
+
+`listEventsInRange` returns events that overlap the given range, not only events that start or end inside it. Multi-day events that span the interval are included.
 
 ```typescript
 const now = Date.now();
@@ -187,6 +189,20 @@ const { result: events } = await CapacitorCalendar.listEventsInRange({
 });
 
 console.log('Upcoming events:', events);
+```
+
+To list events on a single day, use that day's bounds:
+
+```typescript
+const startOfDay = new Date();
+startOfDay.setHours(0, 0, 0, 0);
+const startOfNextDay = new Date(startOfDay);
+startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+
+const { result: todaysEvents } = await CapacitorCalendar.listEventsInRange({
+  from: startOfDay.getTime(),
+  to: startOfNextDay.getTime(),
+});
 ```
 
 ### Working with Calendars
@@ -561,7 +577,10 @@ Opens a dialog to delete an event.
 listEventsInRange(options: ListEventsInRangeOptions) => Promise<{ result: CalendarEvent[]; }>
 ```
 
-Retrieves the events within a date range.
+Retrieves events that overlap a date range.
+
+An event is included when its time interval intersects `[from, to]`, including
+multi-day events that span the range without starting or ending inside it.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
@@ -1153,10 +1172,10 @@ Update a reminders list with options.
 
 #### ListEventsInRangeOptions
 
-| Prop       | Type                | Description                    | Since |
-| ---------- | ------------------- | ------------------------------ | ----- |
-| **`from`** | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
-| **`to`**   | <code>number</code> | The timestamp in milliseconds. | 7.1.0 |
+| Prop       | Type                | Description                                                                                                                                                                             | Since |
+| ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`from`** | <code>number</code> | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0 |
+| **`to`**   | <code>number</code> | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0 |
 
 #### Calendar
 
