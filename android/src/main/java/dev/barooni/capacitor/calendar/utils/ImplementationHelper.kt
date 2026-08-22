@@ -695,5 +695,70 @@ class ImplementationHelper {
                 CalendarContract.Events.STATUS_CANCELED -> "canceled"
                 else -> "none"
             }
+
+        /**
+         * Tolerance window for timestamp matching (2 minutes).
+         * Native calendar apps may round or adjust timestamps when
+         * processing ACTION_INSERT intents, so exact-match queries
+         * can miss the newly created event.
+         */
+        private const val TIMESTAMP_TOLERANCE_MS = 120_000L
+
+        /**
+         * Queries CalendarContract.Events for event IDs matching the given criteria.
+         * Used by createEventWithPrompt to snapshot existing events before the intent
+         * launches and to find newly created events after the intent returns.
+         *
+         * Only matches on title and DTSTART. DTEND is intentionally excluded because
+         * some calendar providers (notably Google Calendar) store events with DURATION
+         * instead of DTEND, leaving the DTEND column NULL.
+         *
+         * @param cr ContentResolver to query with
+         * @param title Optional event title to match (exact match)
+         * @param startDate Optional start date in millis to match (within tolerance window)
+         * @return Set of matching event IDs
+         */
+        fun findMatchingEventIds(
+            cr: ContentResolver,
+            title: String? = null,
+            startDate: Long? = null,
+        ): Set<Long> {
+            val ids = mutableSetOf<Long>()
+            val projection = arrayOf(CalendarContract.Events._ID)
+
+            val selectionParts = mutableListOf<String>()
+            val selectionArgs = mutableListOf<String>()
+
+            if (!title.isNullOrEmpty()) {
+                selectionParts.add("${CalendarContract.Events.TITLE} = ?")
+                selectionArgs.add(title)
+            }
+            if (startDate != null) {
+                selectionParts.add("${CalendarContract.Events.DTSTART} >= ? AND ${CalendarContract.Events.DTSTART} <= ?")
+                selectionArgs.add((startDate - TIMESTAMP_TOLERANCE_MS).toString())
+                selectionArgs.add((startDate + TIMESTAMP_TOLERANCE_MS).toString())
+            }
+
+            if (selectionParts.isEmpty()) {
+                return ids
+            }
+
+            val selection = selectionParts.joinToString(" AND ")
+
+            cr.query(
+                CalendarContract.Events.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs.toTypedArray(),
+                null,
+            )?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Events._ID))
+                    ids.add(id)
+                }
+            }
+
+            return ids
+        }
     }
 }
