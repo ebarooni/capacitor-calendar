@@ -2,6 +2,17 @@
 
 This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` codebase.
 
+## Writing Style
+
+Use plain, direct language.
+
+- Follow ASD-STE100 Simplified Technical English for vocabulary and sentence structure.
+- Apply Zinsser's four principles of quality writing:
+  1. Simplicity: Use common words. Prefer short sentences.
+  2. Brevity: Remove words that do not add meaning.
+  3. Clarity: State one idea per sentence. Avoid ambiguity.
+  4. Humanity: Write for a person, not a manual. Be direct and respectful.
+
 ## Root Folders
 
 - `android/`: Android implementation of the plugin
