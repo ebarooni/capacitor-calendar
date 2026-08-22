@@ -121,11 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#list-events-in-range').addEventListener('click', async () => {
-    const now = new Date();
     const from = new Date();
-    from.setMonth(now.getMonth() - 1);
     const to = new Date();
-    to.setMonth(now.getMonth() + 1);
+    to.setMonth(from.getMonth() + 1);
 
     const result = await CapacitorCalendar.listEventsInRange({
       from: from.getTime(),
