@@ -1,6 +1,11 @@
 # Agents Instructions
 
-This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` codebase.
+This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` repository, a Capacitor plugin for calendar functionality on Android, iOS, and the web.
+
+## Important Rules
+
+- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`. 
+- When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
 
 ## Writing Style
 
@@ -13,34 +18,46 @@ Use plain, direct language.
   3. Clarity: State one idea per sentence. Avoid ambiguity.
   4. Humanity: Write for a person, not a manual. Be direct and respectful.
 
-## Root Folders
+## Project Overview
 
-- `android/`: Android implementation of the plugin
-- `assets/`: Static assets (images, badges, etc.)
-- `example-app/`: Vite + Ionic (CDN) demo app that installs the plugin from the parent project locally and provides buttons to test each method
-- `dist/`: Compiled version of `src/` generated when building the project
-- `ios/`: iOS implementation of the plugin
-- `src/`: Main TypeScript source definitions for the plugin
-- `mcp/`: Implementation of the MCP server of the plugin
+- `src/`: Public TypeScript API and web implementation
+- `android/`: Android implementation
+- `ios/`: iOS implementation
+- `example-app/`: Local test/demo application 
+- `mcp/`: MCP server
+- `assets/`: Images and GIFs
 
-## Core Architecture (`src/`, `android/` and `ios/` folders)
+## Architecture
+
+### Public API
+
+- `src/schemas/`: Types, enums and interfaces used in the public API
+  - `interfaces/`: Options and result interfaces of the methods
+- `src/definitions.ts`: Public TypeScript API for the plugin (extends the interfaces defined in `src/sub-definitions/`)
+- `src/index.ts`: Exports all the definitions
+
+### Android
 
 - `android/src/main/java/dev/barooni/capacitor/calendar/`: Android implementation of the public TypeScript API
   - `models/inputs/`: Data classes encapsulating the method options
   - `models/results/`: Data classes encapsulating the method result
   - `CapacitorCalendarPlugin.kt`: Entry point for the Android implementation; all plugin methods are registered here
+
+### iOS
+
 - `ios/plugin/`: iOS implementation of the public Typescript API
   - `Models/Inputs/`: Structs encapsulating the method options
   - `Models/Results/`: Structs encapsulating the method result
   - `CapacitorCalendarPlugin.swift`: Entry point for the iOS implementation
   - `PluginConfig.swift`: The plugin methods are defined here
-- `src/schemas/`: Types, enums and interfaces used in the public API
-  - `interfaces/`: Options and result interfaces of the methods
-- `src/definitions.ts`: Public TypeScript API for the plugin (extends the interfaces defined in `src/sub-definitions/`)
-- `src/index.ts`: Exports all the definitions
+
+### Web
+
 - `src/web.ts`: Web implementation of the plugin
 
-## Commands
+## Development Commands
+
+### Build
 
 Install plugin dependencies, build the plugin, then install the latest local version into the example app and sync:
 
@@ -48,16 +65,18 @@ Install plugin dependencies, build the plugin, then install the latest local ver
 npm run bootstrap:app
 ```
 
-Run linters and format the code:
+### Formatting
 
 ```bash
 npm run fmt
 ```
 
-## Documentation
+## Generated Files
 
-- `README.md`: Do not modify the content between the `<docgen-index>` and `<docgen-api>` markers. That block is auto-generated; update the source JSDoc comments instead.
-- Assets: Images and other static files used by `README.md` (and docs) live in `assets/`
+Do not manually edit generated content.
+
+- `README.md`: Content between `<docgen-index>` and `<docgen-api>` is generated from the public API definition.
+- `dist/`: Generated from `src/`.
 
 ## PR Guidelines
 
@@ -69,16 +88,15 @@ npm run fmt
 
 ## Deployment
 
-### CI/CD Pipeline (GitHub Actions)
+### npm Package
 
 - Workflow: `.github/workflows/publish-to-npm.yml`
   - Triggered manually
   - Triggers the `release.yml` workflow to create a release
   - Triggers the `deploy-docs.yml` workflow to update the docs
 
-### MCP Server (`mcp/` folder)
+### MCP Server
 
 - Workflow: `.github/workflows/publish-docker.yml`
   - Triggered manually
   - Publishes the Docker image to `ghcr.io/ebarooni/capacitor-calendar-mcp`
-  - When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
