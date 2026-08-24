@@ -1,4 +1,4 @@
-# Agents Instructions
+# Agent Instructions
 
 This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` repository, a Capacitor plugin for calendar functionality on Android, iOS, and the web.
 
@@ -45,7 +45,7 @@ Use plain, direct language.
 
 ### iOS
 
-- `ios/plugin/`: iOS implementation of the public Typescript API
+- `ios/plugin/`: iOS implementation of the public TypeScript API
   - `Models/Inputs/`: Structs encapsulating the method options
   - `Models/Results/`: Structs encapsulating the method result
   - `CapacitorCalendarPlugin.swift`: Entry point for the iOS implementation
