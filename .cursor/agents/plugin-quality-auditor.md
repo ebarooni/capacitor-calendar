@@ -21,14 +21,14 @@ Do not skip this step even when implementations look correct.
 
 For each method, locate and compare:
 
-| Layer | Expected artifact | Location |
-|-------|-------------------|----------|
-| TypeScript options | `{MethodName}Options` | `src/schemas/interfaces/{kebab-case}-options.ts` |
-| TypeScript result | `{MethodName}Result` | `src/schemas/interfaces/{kebab-case}-result.ts` or co-located in sub-definitions |
-| Android input | `{MethodName}Input` | `android/.../models/inputs/` |
-| Android result | `{MethodName}Result` | `android/.../models/results/` |
-| iOS input | `{MethodName}Input` | `ios/Plugin/Models/Inputs/` |
-| iOS result | `{MethodName}Result` | `ios/Plugin/Models/Results/` |
+| Layer              | Expected artifact     | Location                                                                         |
+| ------------------ | --------------------- | -------------------------------------------------------------------------------- |
+| TypeScript options | `{MethodName}Options` | `src/schemas/interfaces/{kebab-case}-options.ts`                                 |
+| TypeScript result  | `{MethodName}Result`  | `src/schemas/interfaces/{kebab-case}-result.ts` or co-located in sub-definitions |
+| Android input      | `{MethodName}Input`   | `android/.../models/inputs/`                                                     |
+| Android result     | `{MethodName}Result`  | `android/.../models/results/`                                                    |
+| iOS input          | `{MethodName}Input`   | `ios/Plugin/Models/Inputs/`                                                      |
+| iOS result         | `{MethodName}Result`  | `ios/Plugin/Models/Results/`                                                     |
 
 Record for each cell: present, missing, inline/untyped, or partial (e.g. type alias instead of interface).
 

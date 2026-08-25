@@ -4,7 +4,7 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 
 ## Important Rules
 
-- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`. 
+- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
 - When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
 
 ## Writing Style
@@ -23,7 +23,7 @@ Use plain, direct language.
 - `src/`: Public TypeScript API and web implementation
 - `android/`: Android implementation
 - `ios/`: iOS implementation
-- `example-app/`: Local test/demo application 
+- `example-app/`: Local test/demo application
 - `mcp/`: MCP server
 - `assets/`: Images and GIFs
 
@@ -78,13 +78,29 @@ Do not manually edit generated content.
 - `README.md`: Content between `<docgen-index>` and `<docgen-api>` is generated from the public API definition.
 - `dist/`: Generated from `src/`.
 
-## PR Guidelines
+## GitHub Guidelines
 
-- The title should be formatted as `<type>(<scope>): <description>`
-  - Types: `feat`, `fix`, `docs`, `refactor`, `chore`, `style` or `perf`
-  - Scopes: `android`, `ios` or `web`
-    - The scope can be omitted if multiple scopes apply
-- The body should reference the issue the PR closes: `Closes: #<ISSUE_NUMBER>`
+### Issue Titles
+
+The titles should be formatted as `<type>(<scope>): <description>`.
+
+- Types: `feat`, `bug`, `docs`, `refactor` or `chore`
+- Scopes: `android`, `ios` or `web`
+  - The scope can be omitted if multiple scopes apply
+- Append `!` to the type or scope when the issue describes a breaking change.
+  - Examples: `feat!: <description>` or `feat(android)!: <description>`
+
+### PR Guidelines
+
+The title should be formatted as `<type>(<scope>): <description>`
+
+- Types: `feat`, `fix`, `docs`, `refactor`, `chore`, `style` or `perf`
+- Scopes: `android`, `ios` or `web`
+  - The scope can be omitted if multiple scopes apply
+- Append `!` to the type or scope when the PR introduces a breaking change.
+  - Examples: `feat!: <description>` or `feat(android)!: <description>`
+
+The body should reference the issue the PR closes: `Closes: #<ISSUE_NUMBER>`
 
 ## Deployment
 
