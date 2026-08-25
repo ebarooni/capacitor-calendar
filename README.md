@@ -299,14 +299,22 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 ### checkPermission(...)
 
 ```typescript
-checkPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
+checkPermission(options: CheckPermissionOptions) => Promise<{ result: PermissionState; }>
 ```
 
 Retrieves the current permission state for a given scope.
 
-| Param         | Type                                                                                    |
-| ------------- | --------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ scope: <a href="#calendarpermissionscope">CalendarPermissionScope</a>; }</code> |
+On Android, `readReminders` and `writeReminders` are not supported by the OS.
+Calling this method with those scopes resolves with `result: "prompt"` (they are
+never granted on Android).
+
+On iOS 17+, EventKit may report write-only authorization. For `writeCalendar` /
+`writeReminders`, write-only maps to `"granted"`. For `readCalendar` /
+`readReminders`, write-only maps to `"prompt"`.
+
+| Param         | Type                                                                      |
+| ------------- | ------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#checkpermissionoptions">CheckPermissionOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -323,6 +331,16 @@ checkAllPermissions() => Promise<{ result: CheckAllPermissionsResult; }>
 ```
 
 Retrieves the current state of all permissions.
+
+The resolved value is always nested under `result` with string keys matching
+`CalendarPermissionScope` values (`readCalendar`, `writeCalendar`, `readReminders`,
+`writeReminders`) and lowercase <a href="#permissionstate">`PermissionState`</a> string values.
+
+On Android, `readReminders` and `writeReminders` always resolve to `"prompt"`
+(reminders are not supported on Android).
+
+On iOS 17+, write-only authorization is mapped per scope the same way as
+{@link checkPermission}.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
@@ -1008,6 +1026,14 @@ Update a reminders list with options.
 
 ### Interfaces
 
+#### CheckPermissionOptions
+
+Options for {@link CalendarAccess#checkPermission}.
+
+| Prop        | Type                                                                        | Description                                                                                                                                     | Since | Platform     |
+| ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). | 8.3.1 | Android, iOS |
+
 #### CreateEventWithPromptOptions
 
 | Prop               | Type                                                                | Description                                                                                                                                                                                      | Since | Platform     |
@@ -1425,12 +1451,12 @@ Construct a type with a set of properties K of type T
 
 #### CalendarPermissionScope
 
-| Members               | Value                         | Description                                                  | Since | Platform     |
-| --------------------- | ----------------------------- | ------------------------------------------------------------ | ----- | ------------ |
-| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.             | 7.1.0 | Android, iOS |
-| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders.                   | 7.1.0 | iOS          |
-| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events. | 7.1.0 | Android, iOS |
-| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders.       | 7.1.0 | iOS          |
+| Members               | Value                         | Description                                                                                                                                                                   | Since | Platform     |
+| --------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                              | 7.1.0 | Android, iOS |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope.             | 7.1.0 | iOS          |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                  | 7.1.0 | Android, iOS |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. | 7.1.0 | iOS          |
 
 #### EventAvailability
 

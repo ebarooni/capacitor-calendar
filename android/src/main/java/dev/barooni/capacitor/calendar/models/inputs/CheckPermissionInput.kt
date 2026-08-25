@@ -12,9 +12,5 @@ data class CheckPermissionInput(
     init {
         val rawScope = call.getString("scope") ?: throw PluginError.MissingScope
         scope = CalendarPermissionScope.fromValue(rawScope) ?: throw PluginError.InvalidScope
-
-        if (scope == CalendarPermissionScope.WRITE_REMINDERS || scope == CalendarPermissionScope.READ_REMINDERS) {
-            throw PluginError.InvalidScope
-        }
     }
 }

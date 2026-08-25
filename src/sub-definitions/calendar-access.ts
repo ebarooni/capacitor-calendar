@@ -1,6 +1,7 @@
 import type { PermissionState } from '@capacitor/core';
 
 import type { CalendarPermissionScope } from '../schemas/enums/calendar-permission-scope';
+import type { CheckPermissionOptions } from '../schemas/interfaces/check-permission-options';
 
 /**
  * @since 7.1.0
@@ -9,17 +10,40 @@ export interface CalendarAccess {
   /**
    * Retrieves the current permission state for a given scope.
    *
+   * On Android, `readReminders` and `writeReminders` are not supported by the OS.
+   * Calling this method with those scopes resolves with `result: "prompt"` (they are
+   * never granted on Android).
+   *
+   * On iOS 17+, EventKit may report write-only authorization. For `writeCalendar` /
+   * `writeReminders`, write-only maps to `"granted"`. For `readCalendar` /
+   * `readReminders`, write-only maps to `"prompt"`.
+   *
    * @example
    * CapacitorCalendar.checkPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
    *
+   * @throws {Error} `Scope must be provided.` — when `scope` is missing.
+   * @throws {Error} `Invalid scope.` — when `scope` is not a valid `CalendarPermissionScope` value.
+   * @throws {Error} `Unhandled permission state.` — when the native authorization status cannot be mapped.
+   *
    * @platform Android, iOS
    * @since 0.1.0
-   *
    */
-  checkPermission(options: { scope: CalendarPermissionScope }): Promise<{ result: PermissionState }>;
+  checkPermission(options: CheckPermissionOptions): Promise<{ result: PermissionState }>;
 
   /**
    * Retrieves the current state of all permissions.
+   *
+   * The resolved value is always nested under `result` with string keys matching
+   * `CalendarPermissionScope` values (`readCalendar`, `writeCalendar`, `readReminders`,
+   * `writeReminders`) and lowercase `PermissionState` string values.
+   *
+   * On Android, `readReminders` and `writeReminders` always resolve to `"prompt"`
+   * (reminders are not supported on Android).
+   *
+   * On iOS 17+, write-only authorization is mapped per scope the same way as
+   * {@link checkPermission}.
+   *
+   * @throws {Error} `Unhandled permission state.` — when a native authorization status cannot be mapped.
    *
    * @platform Android, iOS
    * @since 0.1.0

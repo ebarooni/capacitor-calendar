@@ -3,7 +3,7 @@ package dev.barooni.capacitor.calendar
 sealed class PluginError(
     localizedDescription: String,
 ) : Exception(localizedDescription) {
-    data object MissingScope : PluginError("Scope Must be provided.")
+    data object MissingScope : PluginError("Scope must be provided.")
 
     data object InvalidScope : PluginError("Invalid scope.")
 

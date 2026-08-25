@@ -42,7 +42,7 @@ class CapacitorCalendar(
     private val plugin: CapacitorCalendarPlugin,
 ) {
     fun checkPermission(input: CheckPermissionInput): CheckPermissionResult {
-        val state = plugin.getPermissionState(input.scope.value) ?: throw PluginError.UnhandledPermissionState
+        val state = plugin.getPermissionState(input.scope.value) ?: PermissionState.PROMPT
         val result = CheckPermissionResult(state)
         return result
     }

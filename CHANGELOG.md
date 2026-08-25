@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.3.1](#831)
   - [8.3.0](#830)
   - [8.2.0](#820)
   - [8.1.0](#810)
@@ -42,6 +43,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.3.1
+
+### Added
+
+- `CheckPermissionOptions` for `checkPermission(...)`
+
+### Fixed
+
+- Android `checkAllPermissions()` response shape now nests permission states under `result` (matching iOS and the TypeScript contract)
+- Android `checkPermission(...)` returns `"prompt"` for `readReminders` / `writeReminders` (aligned with `checkAllPermissions()`)
 
 ## 8.3.0
 

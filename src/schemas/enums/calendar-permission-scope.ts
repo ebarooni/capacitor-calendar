@@ -21,6 +21,9 @@ export enum CalendarPermissionScope {
   /**
    * Permission required for reading reminders.
    *
+   * On Android, reminders are not supported. `checkPermission` and
+   * `checkAllPermissions` return `"prompt"` for this scope.
+   *
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
@@ -46,6 +49,9 @@ export enum CalendarPermissionScope {
   WRITE_CALENDAR = 'writeCalendar',
   /**
    * Permission required for adding or modifying reminders.
+   *
+   * On Android, reminders are not supported. `checkPermission` and
+   * `checkAllPermissions` return `"prompt"` for this scope.
    *
    * @permissions
    * | Platform  | Required |
