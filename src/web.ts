@@ -6,6 +6,7 @@ import type { CalendarPermissionScope } from './schemas/enums/calendar-permissio
 import type { Calendar } from './schemas/interfaces/calendar';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
+import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
@@ -39,7 +40,7 @@ import type { DeleteEventsByIdResult } from './sub-definitions/event-operations'
 import type { DeleteRemindersByIdResult } from './sub-definitions/reminders-operations';
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
-  public checkPermission(_options: { scope: CalendarPermissionScope }): Promise<{ result: PermissionState }> {
+  public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
     return this.throwUnimplemented(this.checkPermission.name);
   }
 

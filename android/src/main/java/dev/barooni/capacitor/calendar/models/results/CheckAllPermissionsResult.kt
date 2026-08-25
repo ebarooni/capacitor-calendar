@@ -9,9 +9,10 @@ data class CheckAllPermissionsResult(
     val permissionStates: Map<CalendarPermissionScope, PermissionState>,
 ) : JSResult {
     override fun toJSON(): JSObject {
+        val permissions = JSObject()
+        permissionStates.forEach { (scope, state) -> permissions.put(scope.value, state.toString()) }
         val result = JSObject()
-        permissionStates.forEach { (scope, state) -> result.put(scope.value, state.toString()) }
-        result.put("result", permissionStates)
+        result.put("result", permissions)
         return result
     }
 }
