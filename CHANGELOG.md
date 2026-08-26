@@ -49,11 +49,18 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - `CheckPermissionOptions` for `checkPermission(...)`
+- `RequestPermissionOptions` for `requestPermission(...)`
 
 ### Fixed
 
 - Android `checkAllPermissions()` response shape now nests permission states under `result` (matching iOS and the TypeScript contract)
 - Android `checkPermission(...)` returns `"prompt"` for `readReminders` / `writeReminders` (aligned with `checkAllPermissions()`)
+- Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
+- Android `requestPermission(...)` distinguishes a missing scope (`Scope must be provided.`) from an invalid scope (`Invalid scope.`)
+
+### Changed
+
+- Documented platform limits for calendar permission request methods
 
 ## 8.3.0
 

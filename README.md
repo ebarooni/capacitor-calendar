@@ -303,14 +303,7 @@ checkPermission(options: CheckPermissionOptions) => Promise<{ result: Permission
 ```
 
 Retrieves the current permission state for a given scope.
-
-On Android, `readReminders` and `writeReminders` are not supported by the OS.
-Calling this method with those scopes resolves with `result: "prompt"` (they are
-never granted on Android).
-
-On iOS 17+, EventKit may report write-only authorization. For `writeCalendar` /
-`writeReminders`, write-only maps to `"granted"`. For `readCalendar` /
-`readReminders`, write-only maps to `"prompt"`.
+On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -331,16 +324,7 @@ checkAllPermissions() => Promise<{ result: CheckAllPermissionsResult; }>
 ```
 
 Retrieves the current state of all permissions.
-
-The resolved value is always nested under `result` with string keys matching
-`CalendarPermissionScope` values (`readCalendar`, `writeCalendar`, `readReminders`,
-`writeReminders`) and lowercase <a href="#permissionstate">`PermissionState`</a> string values.
-
-On Android, `readReminders` and `writeReminders` always resolve to `"prompt"`
-(reminders are not supported on Android).
-
-On iOS 17+, write-only authorization is mapped per scope the same way as
-{@link checkPermission}.
+On Android, reminder keys always resolve to `"prompt"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
@@ -353,14 +337,15 @@ On iOS 17+, write-only authorization is mapped per scope the same way as
 ### requestPermission(...)
 
 ```typescript
-requestPermission(options: { scope: CalendarPermissionScope; }) => Promise<{ result: PermissionState; }>
+requestPermission(options: RequestPermissionOptions) => Promise<{ result: PermissionState; }>
 ```
 
 Requests permission for a given scope.
+On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
 
-| Param         | Type                                                                                    |
-| ------------- | --------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ scope: <a href="#calendarpermissionscope">CalendarPermissionScope</a>; }</code> |
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#requestpermissionoptions">RequestPermissionOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -377,6 +362,7 @@ requestAllPermissions() => Promise<{ result: RequestAllPermissionsResult; }>
 ```
 
 Requests permission for all calendar and reminder permissions.
+On Android, only calendar permissions are requested; reminder keys stay `"prompt"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
@@ -1034,6 +1020,14 @@ Options for {@link CalendarAccess#checkPermission}.
 | ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
 | **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). | 8.3.1 | Android, iOS |
 
+#### RequestPermissionOptions
+
+Options for {@link CalendarAccess#requestPermission}.
+
+| Prop        | Type                                                                        | Description                      | Since | Platform     |
+| ----------- | --------------------------------------------------------------------------- | -------------------------------- | ----- | ------------ |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. | 8.3.1 | Android, iOS |
+
 #### CreateEventWithPromptOptions
 
 | Prop               | Type                                                                | Description                                                                                                                                                                                      | Since | Platform     |
@@ -1451,12 +1445,12 @@ Construct a type with a set of properties K of type T
 
 #### CalendarPermissionScope
 
-| Members               | Value                         | Description                                                                                                                                                                   | Since | Platform     |
-| --------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                              | 7.1.0 | Android, iOS |
-| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope.             | 7.1.0 | iOS          |
-| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                  | 7.1.0 | Android, iOS |
-| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. | 7.1.0 | iOS          |
+| Members               | Value                         | Description                                                                                                                                                                                                                      | Since | Platform     |
+| --------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                                                                                 | 7.1.0 | Android, iOS |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`.             | 7.1.0 | iOS          |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                     | 7.1.0 | Android, iOS |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. | 7.1.0 | iOS          |
 
 #### EventAvailability
 

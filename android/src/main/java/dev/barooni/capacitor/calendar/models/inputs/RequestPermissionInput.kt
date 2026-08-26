@@ -13,13 +13,11 @@ sealed class RequestPermissionInput {
         override val call: PluginCall,
         override val callbackName: String,
     ) : RequestPermissionInput() {
-        override val scope: CalendarPermissionScope =
-            call
-                .getString("scope")
-                ?.let { CalendarPermissionScope.fromValue(it) }
-                ?: throw PluginError.MissingScope
+        override val scope: CalendarPermissionScope
 
         init {
+            val rawScope = call.getString("scope") ?: throw PluginError.MissingScope
+            scope = CalendarPermissionScope.fromValue(rawScope) ?: throw PluginError.InvalidScope
             if (scope == CalendarPermissionScope.WRITE_REMINDERS || scope == CalendarPermissionScope.READ_REMINDERS) {
                 throw PluginError.InvalidScope
             }

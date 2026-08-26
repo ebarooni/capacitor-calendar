@@ -23,6 +23,7 @@ export enum CalendarPermissionScope {
    *
    * On Android, reminders are not supported. `checkPermission` and
    * `checkAllPermissions` return `"prompt"` for this scope.
+   * `requestPermission` rejects with `Invalid scope.`.
    *
    * @permissions
    * | Platform  | Required |
@@ -52,6 +53,7 @@ export enum CalendarPermissionScope {
    *
    * On Android, reminders are not supported. `checkPermission` and
    * `checkAllPermissions` return `"prompt"` for this scope.
+   * `requestPermission` rejects with `Invalid scope.`.
    *
    * @permissions
    * | Platform  | Required |

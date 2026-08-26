@@ -2,7 +2,6 @@ import type { PermissionState } from '@capacitor/core';
 import { WebPlugin } from '@capacitor/core';
 
 import type { CapacitorCalendarPlugin } from './definitions';
-import type { CalendarPermissionScope } from './schemas/enums/calendar-permission-scope';
 import type { Calendar } from './schemas/interfaces/calendar';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
@@ -31,6 +30,7 @@ import type { ModifyReminderOptions } from './schemas/interfaces/modify-reminder
 import type { OpenCalendarOptions } from './schemas/interfaces/open-calendar-options';
 import type { Reminder } from './schemas/interfaces/reminder';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
+import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
@@ -48,7 +48,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.checkAllPermissions.name);
   }
 
-  public requestPermission(_options: { scope: CalendarPermissionScope }): Promise<{ result: PermissionState }> {
+  public requestPermission(_options: RequestPermissionOptions): Promise<{ result: PermissionState }> {
     return this.throwUnimplemented(this.requestPermission.name);
   }
 

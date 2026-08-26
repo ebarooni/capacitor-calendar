@@ -43,6 +43,7 @@ import type { RecurrenceRule } from './schemas/interfaces/recurrence-rule';
 import type { Reminder } from './schemas/interfaces/reminder';
 import type { ReminderRecurrenceRule } from './schemas/interfaces/reminder-recurrence-rule';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
+import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
@@ -94,6 +95,7 @@ export type {
   ReminderRecurrenceRule,
   RemindersList,
   RequestAllPermissionsResult,
+  RequestPermissionOptions,
   SelectCalendarsWithPromptOptions,
   UpdateRemindersListOptions,
   UpdateRemindersListResult,
