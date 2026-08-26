@@ -427,6 +427,8 @@ requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
 ```
 
 Requests read and write access to the reminders.
+Resolves with `"granted"` or `"denied"` (never `"prompt"`).
+A grant covers both `readReminders` and `writeReminders`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
