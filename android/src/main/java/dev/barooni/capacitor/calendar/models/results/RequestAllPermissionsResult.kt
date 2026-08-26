@@ -16,7 +16,7 @@ data class RequestAllPermissionsResult(
             getPermissionState(CalendarPermissionScope.WRITE_CALENDAR.value) ?: throw PluginError.UnhandledPermissionState
         permissions.put(CalendarPermissionScope.WRITE_CALENDAR.value, writeCalendarState.toString())
         val readCalendarState =
-            getPermissionState(CalendarPermissionScope.WRITE_CALENDAR.value) ?: throw PluginError.UnhandledPermissionState
+            getPermissionState(CalendarPermissionScope.READ_CALENDAR.value) ?: throw PluginError.UnhandledPermissionState
         permissions.put(CalendarPermissionScope.READ_CALENDAR.value, readCalendarState.toString())
         permissions.put(CalendarPermissionScope.WRITE_REMINDERS.value, PermissionState.PROMPT.toString())
         permissions.put(CalendarPermissionScope.READ_REMINDERS.value, PermissionState.PROMPT.toString())
