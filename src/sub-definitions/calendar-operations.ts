@@ -5,6 +5,7 @@ import type { DeleteCalendarOptions } from '../schemas/interfaces/delete-calenda
 import type { ModifyCalendarOptions } from '../schemas/interfaces/modify-calendar-options';
 import type { OpenCalendarOptions } from '../schemas/interfaces/open-calendar-options';
 import type { SelectCalendarsWithPromptOptions } from '../schemas/interfaces/select-calendars-with-prompt-options';
+import type { SelectCalendarsWithPromptResult } from '../schemas/interfaces/select-calendars-with-prompt-result';
 
 export interface CalendarOperations {
   /**
@@ -17,10 +18,16 @@ export interface CalendarOperations {
   /**
    * Opens a system interface to choose one or multiple calendars.
    *
+   * On confirm, `result` contains the calendars the user selected.
+   * On cancel, `result` is an empty array.
+   *
+   * If a chooser is already presented, a new call is rejected; the in-flight
+   * call continues until the user confirms or cancels.
+   *
    * @platform iOS
    * @since 0.2.0
    */
-  selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions): Promise<{ result: Calendar[] }>;
+  selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions): Promise<SelectCalendarsWithPromptResult>;
   /**
    * Retrieves a list of calendar sources.
    *

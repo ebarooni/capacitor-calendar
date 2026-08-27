@@ -170,14 +170,13 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
-        Task {
-            do {
-                let input = SelectCalendarsWithPromptInput(call: call)
-                let result = try await implementation.selectCalendarsWithPrompt(input: input)
-                resolveCall(call, result)
-            } catch let error {
-                rejectCall(call, error)
+        let input = SelectCalendarsWithPromptInput(call: call)
+        implementation.selectCalendarsWithPrompt(input: input) { result, error in
+            if let error {
+                self.rejectCall(call, error)
+                return
             }
+            self.resolveCall(call, result)
         }
     }
 
