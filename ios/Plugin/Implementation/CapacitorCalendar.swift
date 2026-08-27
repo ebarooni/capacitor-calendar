@@ -323,9 +323,6 @@ class CapacitorCalendar: NSObject {
         guard let url = URL(string: "calshow:\(input.getDate())") else {
             throw PluginError.invalidUrl
         }
-        guard await UIApplication.shared.canOpenURL(url) else {
-            throw PluginError.unableToOpenUrl
-        }
         let success = await UIApplication.shared.open(url, options: [:])
         if !success {
             throw PluginError.failedToLaunchCalendar

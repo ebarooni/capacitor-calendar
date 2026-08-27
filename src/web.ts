@@ -138,7 +138,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.getRemindersLists.name);
   }
 
-  public openCalendar(_options: OpenCalendarOptions): Promise<void> {
+  public openCalendar(_options?: OpenCalendarOptions): Promise<void> {
     return this.throwUnimplemented(this.openCalendar.name);
   }
 
