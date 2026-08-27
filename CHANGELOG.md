@@ -53,6 +53,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Fixed
 
+- iOS `openCalendar(...)` no longer rejects when `canOpenURL` fails without a `calshow` query scheme (opens Calendar directly and reports launch failure)
 - Android `checkAllPermissions()` response shape now nests permission states under `result` (matching iOS and the TypeScript contract)
 - Android `checkPermission(...)` returns `"prompt"` for `readReminders` / `writeReminders` (aligned with `checkAllPermissions()`)
 - Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
@@ -61,6 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Changed
 
+- `OpenCalendarOptions.date` is optional and documented as milliseconds since the epoch (defaults to now)
 - Documented platform limits for calendar permission request methods
 
 ## 8.3.0

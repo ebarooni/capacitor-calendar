@@ -1235,9 +1235,9 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### OpenCalendarOptions
 
-| Prop       | Type                | Default                 | Since |
-| ---------- | ------------------- | ----------------------- | ----- |
-| **`date`** | <code>number</code> | <code>Date.now()</code> | 7.1.0 |
+| Prop       | Type                | Description                                                        | Default                 | Since | Platform     |
+| ---------- | ------------------- | ------------------------------------------------------------------ | ----------------------- | ----- | ------------ |
+| **`date`** | <code>number</code> | The date to open the calendar at, in milliseconds since the epoch. | <code>Date.now()</code> | 7.1.0 | Android, iOS |
 
 #### CreateCalendarOptions
 
