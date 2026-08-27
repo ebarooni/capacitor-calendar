@@ -6,6 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#checkAllPermissions', result);
   });
 
+  document.querySelector('#create-calendar').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.createCalendar({
+      accountName: 'plugin@example.com',
+      color: '#6750A4',
+      ownerAccount: 'plugin@example.com',
+      title: 'Plugin Test Calendar',
+    });
+
+    getCalendarIdInput().value = result.id;
+    console.log('#createCalendar', result);
+  });
+
   document.querySelector('#create-event').addEventListener('click', async () => {
     const { result: calendars } = await CapacitorCalendar.listCalendars();
     const startDate = Date.now();
@@ -78,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#createRemindersList', result);
   });
 
+  document.querySelector('#delete-calendar').addEventListener('click', async () => {
+    await CapacitorCalendar.deleteCalendar({ id: getCalendarIdInput().value });
+    console.log('#deleteCalendar');
+  });
+
   document.querySelector('#delete-event').addEventListener('click', async () => {
     await CapacitorCalendar.deleteEvent({
       id: getEventIdInput().value,
@@ -138,6 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.querySelector('#modify-calendar').addEventListener('click', async () => {
+    await CapacitorCalendar.modifyCalendar({
+      color: '#B3261E',
+      id: getCalendarIdInput().value,
+      title: 'Updated Plugin Test Calendar',
+    });
+    console.log('#modifyCalendar');
+  });
+
   document.querySelector('#open-calendar').addEventListener('click', async () => {
     await CapacitorCalendar.openCalendar({ date: Date.now() });
     console.log('#openCalendar');
@@ -169,6 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#updateRemindersList', result);
   });
 });
+
+function getCalendarIdInput() {
+  return document.querySelector('#calendar-id-input');
+}
 
 function getEventIdInput() {
   return document.querySelector('#event-id-input');

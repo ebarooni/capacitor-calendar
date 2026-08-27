@@ -188,10 +188,37 @@ class CapacitorCalendar(
     }
 
     fun deleteCalendar(input: DeleteCalendarInput) {
-        val uri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
         val cr = plugin.context.contentResolver
-        val rowsDeleted = cr.delete(uri, null, null)
+        val calendarUri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
+        val projection =
+            arrayOf(
+                CalendarContract.Calendars.ACCOUNT_NAME,
+                CalendarContract.Calendars.ACCOUNT_TYPE,
+            )
 
+        val (accountName, accountType) =
+            cr.query(calendarUri, projection, null, null, null)?.use { cursor ->
+                if (!cursor.moveToFirst()) {
+                    throw PluginError.FailedToDelete
+                }
+                val name =
+                    cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_NAME))
+                        ?: throw PluginError.FailedToDelete
+                val type =
+                    cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_TYPE))
+                        ?: throw PluginError.FailedToDelete
+                name to type
+            } ?: throw PluginError.FailedToDelete
+
+        val deleteUri =
+            calendarUri
+                .buildUpon()
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, accountName)
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, accountType)
+                .build()
+
+        val rowsDeleted = cr.delete(deleteUri, null, null)
         if (rowsDeleted < 1) {
             throw PluginError.FailedToDelete
         }
