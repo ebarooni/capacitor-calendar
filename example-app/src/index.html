@@ -71,6 +71,16 @@
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
           <ion-input
+            id="calendar-id-input"
+            label="Calendar ID"
+            label-placement="stacked"
+            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
+            helper-text="The identifier of the calendar to use"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-input
             id="reminders-list-id-input"
             label="Reminders list ID"
             label-placement="stacked"
@@ -82,9 +92,11 @@
 
         <ion-list id="methods-list" class="ion-margin-top">
           <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
+          <ion-button id="create-calendar" expand="block">Create calendar</ion-button>
           <ion-button id="create-event" expand="block">Create event</ion-button>
           <ion-button id="create-event-with-prompt" expand="block">Create event with prompt</ion-button>
           <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
+          <ion-button id="delete-calendar" expand="block">Delete calendar</ion-button>
           <ion-button id="delete-event" expand="block">Delete event</ion-button>
           <ion-button id="delete-event-with-prompt" expand="block">Delete event with prompt</ion-button>
           <ion-button id="delete-events-by-id" expand="block">Delete events by id</ion-button>
@@ -92,6 +104,7 @@
           <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
           <ion-button id="list-calendars" expand="block">List calendars</ion-button>
           <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
+          <ion-button id="modify-calendar" expand="block">Modify calendar</ion-button>
           <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
           <ion-button id="open-reminders" expand="block">Open reminders</ion-button>
           <ion-button id="request-full-calendar-access" expand="block" fill="outline"
