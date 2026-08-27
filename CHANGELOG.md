@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
-  - [8.3.1](#831)
+  - [8.4.0](#840)
   - [8.3.0](#830)
   - [8.2.0](#820)
   - [8.1.0](#810)
@@ -44,7 +44,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 Changelogs for the versions supporting Capacitor 8.
 
-## 8.3.1
+## 8.4.0
 
 ### Added
 
@@ -57,6 +57,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Android `checkPermission(...)` returns `"prompt"` for `readReminders` / `writeReminders` (aligned with `checkAllPermissions()`)
 - Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
 - Android `requestPermission(...)` distinguishes a missing scope (`Scope must be provided.`) from an invalid scope (`Invalid scope.`)
+- Android `deleteCalendar(...)` for calendars created via `createCalendar(...)` (sync-adapter URI)
 
 ### Changed
 
