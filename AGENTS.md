@@ -2,11 +2,6 @@
 
 This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` repository, a Capacitor plugin for calendar functionality on Android, iOS, and the web.
 
-## Important Rules
-
-- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
-- When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
-
 ## Writing Style
 
 Use plain, direct language.
@@ -17,6 +12,20 @@ Use plain, direct language.
   2. Brevity: Remove words that do not add meaning.
   3. Clarity: State one idea per sentence. Avoid ambiguity.
   4. Humanity: Write for a person, not a manual. Be direct and respectful.
+
+## Important Rules
+
+- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
+- When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
+
+## Tool Preference
+
+When multiple tools can perform the same task, use them in this order:
+
+1. MCP server
+2. Project-provided tooling
+3. Command-line tools
+4. Direct API requests
 
 ## Project Overview
 
