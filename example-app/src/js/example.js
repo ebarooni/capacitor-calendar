@@ -184,6 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#requestFullRemindersAccess', result);
   });
 
+  document.querySelector('#select-calendars-with-prompt').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.selectCalendarsWithPrompt({
+      multiple: getSelectCalendarsMultiple(),
+    });
+    console.log('#selectCalendarsWithPrompt', result);
+  });
+
   document.querySelector('#update-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.updateRemindersList({
       color: 'indigo',
@@ -224,6 +231,10 @@ function getEventSpan() {
 
 function getRemindersListIdInput() {
   return document.querySelector('#reminders-list-id-input');
+}
+
+function getSelectCalendarsMultiple() {
+  return document.querySelector('#select-calendars-multiple-select').value === 'true';
 }
 
 function pickNonHolidayCalendar(calendars) {

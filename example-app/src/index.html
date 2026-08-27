@@ -89,6 +89,19 @@
           >
           </ion-input>
         </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-select
+            id="select-calendars-multiple-select"
+            label="Select calendars multiple"
+            label-placement="stacked"
+            interface="popover"
+            value="false"
+            helper-text="Allow selecting more than one calendar in the chooser"
+          >
+            <ion-select-option value="false">Single</ion-select-option>
+            <ion-select-option value="true">Multiple</ion-select-option>
+          </ion-select>
+        </ion-item>
 
         <ion-list id="methods-list" class="ion-margin-top">
           <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
@@ -113,6 +126,7 @@
           <ion-button id="request-full-reminders-access" expand="block" fill="outline"
             >Request full reminders access</ion-button
           >
+          <ion-button id="select-calendars-with-prompt" expand="block">Select calendars with prompt</ion-button>
           <ion-button id="update-reminders-list" expand="block">Update reminders list</ion-button>
         </ion-list>
       </ion-content>

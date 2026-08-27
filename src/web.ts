@@ -32,6 +32,7 @@ import type { Reminder } from './schemas/interfaces/reminder';
 import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
+import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/select-calendars-with-prompt-result';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { EventEditAction } from './schemas/types/event-edit-action';
@@ -106,7 +107,9 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.modifyEvent.name);
   }
 
-  public selectCalendarsWithPrompt(_options?: SelectCalendarsWithPromptOptions): Promise<{ result: Calendar[] }> {
+  public selectCalendarsWithPrompt(
+    _options?: SelectCalendarsWithPromptOptions,
+  ): Promise<SelectCalendarsWithPromptResult> {
     return this.throwUnimplemented(this.selectCalendarsWithPrompt.name);
   }
 

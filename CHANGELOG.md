@@ -50,12 +50,15 @@ Changelogs for the versions supporting Capacitor 8.
 
 - `CheckPermissionOptions` for `checkPermission(...)`
 - `RequestPermissionOptions` for `requestPermission(...)`
+- `SelectCalendarsWithPromptResult` for `selectCalendarsWithPrompt(...)`
 
 ### Fixed
 
 - iOS `openCalendar(...)` no longer rejects when `canOpenURL` fails without a `calshow` query scheme (opens Calendar directly and reports launch failure)
 - Android `checkAllPermissions()` response shape now nests permission states under `result` (matching iOS and the TypeScript contract)
 - Android `checkPermission(...)` returns `"prompt"` for `readReminders` / `writeReminders` (aligned with `checkAllPermissions()`)
+- iOS `selectCalendarsWithPrompt(...)` cancel now returns an empty `result` (Done still returns the selected calendars)
+- iOS `selectCalendarsWithPrompt(...)` no longer leaves a Promise hanging when called again while the chooser is open (new call is rejected)
 - Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
 - Android `requestPermission(...)` distinguishes a missing scope (`Scope must be provided.`) from an invalid scope (`Invalid scope.`)
 - Android `deleteCalendar(...)` for calendars created via `createCalendar(...)` (sync-adapter URI)

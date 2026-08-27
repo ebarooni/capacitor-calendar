@@ -617,16 +617,22 @@ Saves pending calendar changes.
 ### selectCalendarsWithPrompt(...)
 
 ```typescript
-selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions | undefined) => Promise<{ result: Calendar[]; }>
+selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions | undefined) => Promise<SelectCalendarsWithPromptResult>
 ```
 
 Opens a system interface to choose one or multiple calendars.
+
+On confirm, `result` contains the calendars the user selected.
+On cancel, `result` is an empty array.
+
+If a chooser is already presented, a new call is rejected; the in-flight
+call continues until the user confirms or cancels.
 
 | Param         | Type                                                                                          |
 | ------------- | --------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#selectcalendarswithpromptoptions">SelectCalendarsWithPromptOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#selectcalendarswithpromptresult">SelectCalendarsWithPromptResult</a>&gt;</code>
 
 **Since:** 0.2.0
 
@@ -1198,6 +1204,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | **`from`** | <code>number</code> | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0 |
 | **`to`**   | <code>number</code> | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0 |
+
+#### SelectCalendarsWithPromptResult
+
+| Prop         | Type                    | Description                                                               | Since | Platform |
+| ------------ | ----------------------- | ------------------------------------------------------------------------- | ----- | -------- |
+| **`result`** | <code>Calendar[]</code> | Calendars the user confirmed in the chooser. Empty when the user cancels. | 8.4.0 | iOS      |
 
 #### Calendar
 

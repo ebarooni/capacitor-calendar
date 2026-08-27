@@ -8,7 +8,7 @@ class CapacitorCalendar: NSObject {
     private let eventStore = EKEventStore()
     private var modifyEventWithPromptContinuation: CheckedContinuation<ModifyEventWithPromptResult, Error>?
     private let plugin: CapacitorCalendarPlugin
-    private var selectCalendarsWithPromptContinuation: CheckedContinuation<SelectCalendarsWithPromptResult, Error>?
+    private var selectCalendarsWithPromptCompletion: ((SelectCalendarsWithPromptResult?, Error?) -> Void)?
 
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
@@ -276,25 +276,32 @@ class CapacitorCalendar: NSObject {
         try eventStore.save(event, span: input.getSpan())
     }
 
-    func selectCalendarsWithPrompt(input: SelectCalendarsWithPromptInput) async throws -> SelectCalendarsWithPromptResult {
+    func selectCalendarsWithPrompt(
+        input: SelectCalendarsWithPromptInput,
+        completion: @escaping (SelectCalendarsWithPromptResult?, Error?) -> Void
+    ) {
         guard let viewController = plugin.bridge?.viewController else {
-            throw PluginError.viewControllerMissing
+            completion(nil, PluginError.viewControllerMissing)
+            return
         }
-        return try await withCheckedThrowingContinuation { continuation in
-            Task { @MainActor in
-                let calendarChooser = EKCalendarChooser(
-                    selectionStyle: input.getSelectionStyle(),
-                    displayStyle: input.getDisplayStyle(),
-                    eventStore: eventStore
-                )
-                calendarChooser.showsDoneButton = true
-                calendarChooser.showsCancelButton = true
-                calendarChooser.delegate = self
+        guard selectCalendarsWithPromptCompletion == nil else {
+            completion(nil, PluginError.customError("Calendar chooser is already presented."))
+            return
+        }
 
-                viewController.present(UINavigationController(rootViewController: calendarChooser), animated: true) {
-                    self.selectCalendarsWithPromptContinuation = continuation
-                }
-            }
+        selectCalendarsWithPromptCompletion = completion
+
+        Task { @MainActor in
+            let calendarChooser = EKCalendarChooser(
+                selectionStyle: input.getSelectionStyle(),
+                displayStyle: input.getDisplayStyle(),
+                eventStore: eventStore
+            )
+            calendarChooser.showsDoneButton = true
+            calendarChooser.showsCancelButton = true
+            calendarChooser.delegate = self
+
+            viewController.present(UINavigationController(rootViewController: calendarChooser), animated: true)
         }
     }
 
@@ -597,17 +604,17 @@ class CapacitorCalendar: NSObject {
 
 extension CapacitorCalendar: EKCalendarChooserDelegate {
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {
-        selectCalendarsWithPromptContinuation?.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
-        self.plugin.bridge?.viewController?.dismiss(animated: true) {
-            self.selectCalendarsWithPromptContinuation = nil
-        }
+        let completion = selectCalendarsWithPromptCompletion
+        selectCalendarsWithPromptCompletion = nil
+        completion?(SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars), nil)
+        plugin.bridge?.viewController?.dismiss(animated: true)
     }
 
     func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
-        selectCalendarsWithPromptContinuation?.resume(returning: SelectCalendarsWithPromptResult(calendarChooser.selectedCalendars))
-        self.plugin.bridge?.viewController?.dismiss(animated: true) {
-            self.selectCalendarsWithPromptContinuation = nil
-        }
+        let completion = selectCalendarsWithPromptCompletion
+        selectCalendarsWithPromptCompletion = nil
+        completion?(SelectCalendarsWithPromptResult([]), nil)
+        plugin.bridge?.viewController?.dismiss(animated: true)
     }
 }
 
