@@ -212,11 +212,13 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
-        do {
-            let result = try implementation.getDefaultCalendar()
-            resolveCall(call, result)
-        } catch let error {
-            rejectCall(call, error)
+        let input = GetDefaultCalendarInput(call: call)
+        implementation.getDefaultCalendar(input: input) { result, error in
+            if let error {
+                self.rejectCall(call, error)
+                return
+            }
+            self.resolveCall(call, result)
         }
     }
 

@@ -20,6 +20,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
+import dev.barooni.capacitor.calendar.models.inputs.GetDefaultCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
@@ -36,6 +37,7 @@ import dev.barooni.capacitor.calendar.models.results.DeleteEventsByIdResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
 import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.models.results.ListEventsInRangeResult
+import dev.barooni.capacitor.calendar.models.templates.PluginCompletion
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 class CapacitorCalendar(
@@ -144,11 +146,19 @@ class CapacitorCalendar(
         return ListCalendarsResult(calendars)
     }
 
-    fun getDefaultCalendar(): GetDefaultCalendarResult {
-        val cr = plugin.context.contentResolver
-        val calendars = ImplementationHelper.listCalendars(cr)
-        val primaryCalendar = calendars.find { it.isPrimary == true }
-        return GetDefaultCalendarResult(primaryCalendar)
+    fun getDefaultCalendar(
+        input: GetDefaultCalendarInput,
+        completion: PluginCompletion<GetDefaultCalendarResult>,
+    ) {
+        try {
+            val cr = plugin.context.contentResolver
+            val calendars = ImplementationHelper.listCalendars(cr)
+            val defaultCalendar =
+                ImplementationHelper.resolveDefaultCalendar(calendars, input.useFallbackCalendar)
+            completion(GetDefaultCalendarResult(defaultCalendar), null)
+        } catch (error: Exception) {
+            completion(null, error)
+        }
     }
 
     fun openCalendar(input: OpenCalendarInput) {

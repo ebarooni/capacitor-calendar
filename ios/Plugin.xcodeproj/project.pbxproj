@@ -69,6 +69,7 @@
 		7CABD3832FDF14E200A864E4 /* UpdateRemindersListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CABD3822FDF14D700A864E4 /* UpdateRemindersListResult.swift */; };
 		7CC0E7E52EED9551004B5497 /* RecurrenceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC0E7E42EED9551004B5497 /* RecurrenceInput.swift */; };
 		7CE36AF02FDEB2940081E142 /* DeleteRemindersListInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE36AEF2FDEB28C0081E142 /* DeleteRemindersListInput.swift */; };
+		7C0DEF022FDF210100A864E4 /* GetDefaultCalendarInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0DEF012FDF210100A864E4 /* GetDefaultCalendarInput.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +149,7 @@
 		7CABD3822FDF14D700A864E4 /* UpdateRemindersListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRemindersListResult.swift; sourceTree = "<group>"; };
 		7CC0E7E42EED9551004B5497 /* RecurrenceInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceInput.swift; sourceTree = "<group>"; };
 		7CE36AEF2FDEB28C0081E142 /* DeleteRemindersListInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteRemindersListInput.swift; sourceTree = "<group>"; };
+		7C0DEF012FDF210100A864E4 /* GetDefaultCalendarInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDefaultCalendarInput.swift; sourceTree = "<group>"; };
 		91781294A431A2A7CC6EB714 /* Pods-Plugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plugin.release.xcconfig"; path = "Pods/Target Support Files/Pods-Plugin/Pods-Plugin.release.xcconfig"; sourceTree = "<group>"; };
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		7C265CAA2EA98E62005E867C /* Inputs */ = {
 			isa = PBXGroup;
 			children = (
+				7C0DEF012FDF210100A864E4 /* GetDefaultCalendarInput.swift */,
 				7CABD3802FDF140A00A864E4 /* UpdateRemindersListInput.swift */,
 				7CE36AEF2FDEB28C0081E142 /* DeleteRemindersListInput.swift */,
 				7C8CC2FC2FDD4FFE008D1AB7 /* CreateRemindersListInput.swift */,
@@ -556,6 +559,7 @@
 				7C8CC2FD2FDD5007008D1AB7 /* CreateRemindersListInput.swift in Sources */,
 				7C265CDC2EA98E62005E867C /* CalendarPermissionScope.swift in Sources */,
 				7C265CDD2EA98E62005E867C /* GetReminderByIdInput.swift in Sources */,
+				7C0DEF022FDF210100A864E4 /* GetDefaultCalendarInput.swift in Sources */,
 				7CABD3812FDF141300A864E4 /* UpdateRemindersListInput.swift in Sources */,
 				7C265CDE2EA98E62005E867C /* RequestPermissionResult.swift in Sources */,
 				7C265CDF2EA98E62005E867C /* JSResult.swift in Sources */,

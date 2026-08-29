@@ -345,8 +345,19 @@ class CapacitorCalendar: NSObject {
         return try CreateCalendarResult(id: newCalendar.calendarIdentifier)
     }
 
-    func getDefaultCalendar() throws -> GetDefaultCalendarResult {
-        return GetDefaultCalendarResult(calendar: eventStore.defaultCalendarForNewEvents)
+    func getDefaultCalendar(
+        input: GetDefaultCalendarInput,
+        completion: @escaping (GetDefaultCalendarResult?, Error?) -> Void
+    ) {
+        if let calendar = eventStore.defaultCalendarForNewEvents {
+            completion(GetDefaultCalendarResult(calendar: calendar), nil)
+            return
+        }
+        if input.getUseFallbackCalendar() {
+            completion(GetDefaultCalendarResult(calendar: eventStore.calendars(for: .event).first), nil)
+            return
+        }
+        completion(GetDefaultCalendarResult(calendar: nil), nil)
     }
 
     func getDefaultRemindersList() throws -> GetDefaultCalendarResult {

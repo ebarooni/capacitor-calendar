@@ -51,6 +51,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `CheckPermissionOptions` for `checkPermission(...)`
 - `RequestPermissionOptions` for `requestPermission(...)`
 - `SelectCalendarsWithPromptResult` for `selectCalendarsWithPrompt(...)`
+- `GetDefaultCalendarOptions.useFallbackCalendar` for `getDefaultCalendar(...)` (when true, falls back to the first available calendar if there is no system default on Android and iOS)
 
 ### Fixed
 
