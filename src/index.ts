@@ -31,6 +31,7 @@ import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delet
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
+import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
@@ -83,6 +84,7 @@ export type {
   DeleteRemindersListOptions,
   EventEditAction,
   EventGuest,
+  GetDefaultCalendarOptions,
   GetReminderByIdOptions,
   GetRemindersFromListsOptions,
   ListEventsInRangeOptions,

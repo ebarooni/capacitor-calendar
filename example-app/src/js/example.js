@@ -128,10 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#get-default-calendar').addEventListener('click', async () => {
-    const result = await CapacitorCalendar.getDefaultCalendar();
-    console.log('#getDefaultCalendar', result);
-    if (result.result?.id) {
-      getCalendarIdInput().value = result.result.id;
+    const withoutFallback = await CapacitorCalendar.getDefaultCalendar();
+    console.log('#getDefaultCalendar (useFallbackCalendar: false)', withoutFallback);
+
+    const withFallback = await CapacitorCalendar.getDefaultCalendar({ useFallbackCalendar: true });
+    console.log('#getDefaultCalendar (useFallbackCalendar: true)', withFallback);
+
+    const result = withFallback.result ?? withoutFallback.result;
+    if (result?.id) {
+      getCalendarIdInput().value = result.id;
     }
   });
 

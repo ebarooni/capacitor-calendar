@@ -2,6 +2,7 @@ import type { Calendar } from '../schemas/interfaces/calendar';
 import type { CalendarSource } from '../schemas/interfaces/calendar-source';
 import type { CreateCalendarOptions } from '../schemas/interfaces/create-calendar-options';
 import type { DeleteCalendarOptions } from '../schemas/interfaces/delete-calendar-options';
+import type { GetDefaultCalendarOptions } from '../schemas/interfaces/get-default-calendar-options';
 import type { ModifyCalendarOptions } from '../schemas/interfaces/modify-calendar-options';
 import type { OpenCalendarOptions } from '../schemas/interfaces/open-calendar-options';
 import type { SelectCalendarsWithPromptOptions } from '../schemas/interfaces/select-calendars-with-prompt-options';
@@ -45,13 +46,15 @@ export interface CalendarOperations {
   /**
    * Retrieves the default calendar.
    *
-   * On Android, the default calendar is the primary calendar when one is set;
-   * otherwise the first available calendar.
+   * The system default is the primary calendar on Android and
+   * `defaultCalendarForNewEvents` on iOS. When neither exists and
+   * `useFallbackCalendar` is true, the first available calendar is returned.
+   * Otherwise the method returns `null` when there is no system default.
    *
    * @platform Android, iOS
    * @since 0.3.0
    */
-  getDefaultCalendar(): Promise<{ result: Calendar | null }>;
+  getDefaultCalendar(options?: GetDefaultCalendarOptions): Promise<{ result: Calendar | null }>;
   /**
    * Opens the calendar app.
    *

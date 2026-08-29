@@ -268,7 +268,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
 - [`listCalendars()`](#listcalendars)
-- [`getDefaultCalendar()`](#getdefaultcalendar)
+- [`getDefaultCalendar(...)`](#getdefaultcalendar)
 - [`openCalendar(...)`](#opencalendar)
 - [`createCalendar(...)`](#createcalendar)
 - [`deleteCalendar(...)`](#deletecalendar)
@@ -672,16 +672,22 @@ Retrieves a list of all available calendars.
 
 ---
 
-### getDefaultCalendar()
+### getDefaultCalendar(...)
 
 ```typescript
-getDefaultCalendar() => Promise<{ result: Calendar | null; }>
+getDefaultCalendar(options?: GetDefaultCalendarOptions | undefined) => Promise<{ result: Calendar | null; }>
 ```
 
 Retrieves the default calendar.
 
-On Android, the default calendar is the primary calendar when one is set;
-otherwise the first available calendar.
+The system default is the primary calendar on Android and
+`defaultCalendarForNewEvents` on iOS. When neither exists and
+`useFallbackCalendar` is true, the first available calendar is returned.
+Otherwise the method returns `null` when there is no system default.
+
+| Param         | Type                                                                            |
+| ------------- | ------------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#getdefaultcalendaroptions">GetDefaultCalendarOptions</a></code> |
 
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
 
@@ -1247,6 +1253,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
+
+#### GetDefaultCalendarOptions
+
+| Prop                      | Type                 | Description                                                                 | Default            | Since | Platform     |
+| ------------------------- | -------------------- | --------------------------------------------------------------------------- | ------------------ | ----- | ------------ |
+| **`useFallbackCalendar`** | <code>boolean</code> | When there is no system default calendar, use the first available calendar. | <code>false</code> | 8.4.0 | Android, iOS |
 
 #### OpenCalendarOptions
 

@@ -20,6 +20,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
+import dev.barooni.capacitor.calendar.models.inputs.GetDefaultCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
@@ -145,11 +146,15 @@ class CapacitorCalendar(
         return ListCalendarsResult(calendars)
     }
 
-    fun getDefaultCalendar(completion: PluginCompletion<GetDefaultCalendarResult>) {
+    fun getDefaultCalendar(
+        input: GetDefaultCalendarInput,
+        completion: PluginCompletion<GetDefaultCalendarResult>,
+    ) {
         try {
             val cr = plugin.context.contentResolver
             val calendars = ImplementationHelper.listCalendars(cr)
-            val defaultCalendar = ImplementationHelper.resolveDefaultCalendar(calendars)
+            val defaultCalendar =
+                ImplementationHelper.resolveDefaultCalendar(calendars, input.useFallbackCalendar)
             completion(GetDefaultCalendarResult(defaultCalendar), null)
         } catch (error: Exception) {
             completion(null, error)

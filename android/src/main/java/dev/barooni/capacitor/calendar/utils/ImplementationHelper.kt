@@ -132,17 +132,25 @@ class ImplementationHelper {
             )
         }
 
-        fun resolveDefaultCalendar(calendars: List<CalendarInfo>): CalendarInfo? {
+        fun resolveDefaultCalendar(
+            calendars: List<CalendarInfo>,
+            useFallbackCalendar: Boolean,
+        ): CalendarInfo? {
             if (calendars.isEmpty()) {
                 return null
             }
 
-            return calendars.find { it.isPrimary == true } ?: calendars.first()
+            val primary = calendars.find { it.isPrimary == true }
+            if (primary != null) {
+                return primary
+            }
+
+            return if (useFallbackCalendar) calendars.first() else null
         }
 
         fun getDefaultCalendarId(cr: ContentResolver): Long {
             val calendar =
-                resolveDefaultCalendar(listCalendars(cr))
+                resolveDefaultCalendar(listCalendars(cr), useFallbackCalendar = true)
                     ?: throw PluginError.NoCalendarsAvailable
             return calendar.id.toLong()
         }
