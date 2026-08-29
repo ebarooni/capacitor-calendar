@@ -127,6 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
     await CapacitorCalendar.deleteRemindersList({ id });
   });
 
+  document.querySelector('#get-default-calendar').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.getDefaultCalendar();
+    console.log('#getDefaultCalendar', result);
+    if (result.result?.id) {
+      getCalendarIdInput().value = result.result.id;
+    }
+  });
+
   document.querySelector('#get-reminders-lists').addEventListener('click', async () => {
     const result = await CapacitorCalendar.getRemindersLists();
     console.log('#getRemindersLists', result);

@@ -62,6 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
 - Android `requestPermission(...)` distinguishes a missing scope (`Scope must be provided.`) from an invalid scope (`Invalid scope.`)
 - Android `deleteCalendar(...)` for calendars created via `createCalendar(...)` (sync-adapter URI)
+- Android `getDefaultCalendar()` now uses the same default-calendar selection as `createEvent` when `calendarId` is omitted (primary calendar, else first available)
 
 ### Changed
 

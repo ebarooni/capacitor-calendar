@@ -45,6 +45,9 @@ export interface CalendarOperations {
   /**
    * Retrieves the default calendar.
    *
+   * On Android, the default calendar is the primary calendar when one is set;
+   * otherwise the first available calendar.
+   *
    * @platform Android, iOS
    * @since 0.3.0
    */

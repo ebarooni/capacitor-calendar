@@ -132,35 +132,19 @@ class ImplementationHelper {
             )
         }
 
-        fun getDefaultCalendarId(cr: ContentResolver): Long {
-            val uri = CalendarContract.Calendars.CONTENT_URI
-            val projection =
-                arrayOf(
-                    CalendarContract.Calendars._ID,
-                    CalendarContract.Calendars.IS_PRIMARY,
-                )
-
-            var fallbackCalendarId: Long? = null
-            cr.query(uri, projection, null, null, null)?.use { cursor ->
-                if (cursor.count == 0) {
-                    throw PluginError.NoCalendarsAvailable
-                }
-
-                while (cursor.moveToNext()) {
-                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContract.Calendars._ID))
-                    val isPrimary = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.IS_PRIMARY)) == 1
-
-                    if (isPrimary) {
-                        return id
-                    }
-
-                    if (fallbackCalendarId == null) {
-                        fallbackCalendarId = id
-                    }
-                }
+        fun resolveDefaultCalendar(calendars: List<CalendarInfo>): CalendarInfo? {
+            if (calendars.isEmpty()) {
+                return null
             }
 
-            return fallbackCalendarId ?: throw PluginError.NoCalendarsAvailable
+            return calendars.find { it.isPrimary == true } ?: calendars.first()
+        }
+
+        fun getDefaultCalendarId(cr: ContentResolver): Long {
+            val calendar =
+                resolveDefaultCalendar(listCalendars(cr))
+                    ?: throw PluginError.NoCalendarsAvailable
+            return calendar.id.toLong()
         }
 
         fun listCalendars(cr: ContentResolver): List<CalendarInfo> {

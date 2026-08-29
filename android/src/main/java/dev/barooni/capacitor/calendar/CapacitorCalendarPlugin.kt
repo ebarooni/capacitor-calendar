@@ -30,6 +30,7 @@ import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.ModifyEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
+import dev.barooni.capacitor.calendar.models.templates.JSResult
 
 @CapacitorPlugin(
     name = "CapacitorCalendar",
@@ -306,11 +307,12 @@ class CapacitorCalendarPlugin : Plugin() {
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getDefaultCalendar(call: PluginCall) {
-        try {
-            val result = implementation.getDefaultCalendar()
-            call.resolve(result.toJSON())
-        } catch (error: Exception) {
-            call.reject(error.message)
+        implementation.getDefaultCalendar { result, error ->
+            if (error != null) {
+                rejectCall(call, error)
+                return@getDefaultCalendar
+            }
+            resolveCall(call, result)
         }
     }
 
@@ -454,5 +456,27 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun updateRemindersList(call: PluginCall) {
         call.unimplemented(PluginError.Unimplemented(::updateRemindersList.name).message)
+    }
+
+    private fun rejectCall(
+        call: PluginCall,
+        error: Exception?,
+    ) {
+        call.reject(error?.message ?: PluginError.CustomError("An unknown error has occurred.").message)
+    }
+
+    private fun resolveCall(call: PluginCall) {
+        resolveCall(call, null)
+    }
+
+    private fun resolveCall(
+        call: PluginCall,
+        result: JSResult?,
+    ) {
+        if (result != null) {
+            call.resolve(result.toJSON())
+        } else {
+            call.resolve()
+        }
     }
 }

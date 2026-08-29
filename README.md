@@ -680,6 +680,9 @@ getDefaultCalendar() => Promise<{ result: Calendar | null; }>
 
 Retrieves the default calendar.
 
+On Android, the default calendar is the primary calendar when one is set;
+otherwise the first available calendar.
+
 **Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
 
 **Since:** 0.3.0
