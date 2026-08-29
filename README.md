@@ -659,12 +659,12 @@ Retrieves a list of calendar sources.
 ### listCalendars()
 
 ```typescript
-listCalendars() => Promise<{ result: Calendar[]; }>
+listCalendars() => Promise<ListCalendarsResult>
 ```
 
 Retrieves a list of all available calendars.
 
-**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#listcalendarsresult">ListCalendarsResult</a>&gt;</code>
 
 **Since:** 7.1.0
 
@@ -1222,22 +1222,22 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### Calendar
 
-| Prop                             | Type                                                              | Description                                                        | Since | Platform     |
-| -------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------ | ----- | ------------ |
-| **`id`**                         | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
-| **`title`**                      | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
-| **`internalTitle`**              | <code>string \| null</code>                                       | Internal name of the calendar (`CalendarContract.Calendars.NAME`). | 7.1.0 | Android      |
-| **`color`**                      | <code>string</code>                                               |                                                                    | 7.1.0 | Android, iOS |
-| **`isImmutable`**                | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
-| **`allowsContentModifications`** | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     |                                                                    | 7.1.0 | iOS          |
-| **`isSubscribed`**               | <code>boolean \| null</code>                                      |                                                                    | 7.1.0 | iOS          |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> |                                                                    | 7.1.0 | iOS          |
-| **`visible`**                    | <code>boolean \| null</code>                                      | Indicates if the events from this calendar should be shown.        | 7.1.0 | Android      |
-| **`accountName`**                | <code>string \| null</code>                                       | The account under which the calendar is registered.                | 7.1.0 | Android      |
-| **`ownerAccount`**               | <code>string \| null</code>                                       | The owner of the calendar.                                         | 7.1.0 | Android      |
-| **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                     | 7.1.0 | Android      |
-| **`location`**                   | <code>string \| null</code>                                       |                                                                    | 7.1.0 | Android      |
+| Prop                             | Type                                                              | Description                                                                                                                                                                                    | Since | Platform     |
+| -------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`id`**                         | <code>string</code>                                               |                                                                                                                                                                                                | 7.1.0 | Android, iOS |
+| **`title`**                      | <code>string \| null</code>                                       | Display title of the calendar. May be `null` when the platform does not provide a title.                                                                                                       | 7.1.0 | Android, iOS |
+| **`internalTitle`**              | <code>string \| null</code>                                       | Internal name of the calendar (`CalendarContract.Calendars.NAME`).                                                                                                                             | 7.1.0 | Android      |
+| **`color`**                      | <code>string \| null</code>                                       | <a href="#calendar">Calendar</a> color as a hex string. Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque. May be `null` when the platform does not provide a color. | 7.1.0 | Android, iOS |
+| **`isImmutable`**                | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`allowsContentModifications`** | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`isSubscribed`**               | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`visible`**                    | <code>boolean \| null</code>                                      | Indicates if the events from this calendar should be shown.                                                                                                                                    | 7.1.0 | Android      |
+| **`accountName`**                | <code>string \| null</code>                                       | The account under which the calendar is registered.                                                                                                                                            | 7.1.0 | Android      |
+| **`ownerAccount`**               | <code>string \| null</code>                                       | The owner of the calendar.                                                                                                                                                                     | 7.1.0 | Android      |
+| **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                                                                                                                                                 | 7.1.0 | Android      |
+| **`location`**                   | <code>string \| null</code>                                       |                                                                                                                                                                                                | 7.1.0 | Android      |
 
 #### CalendarSource
 
@@ -1253,6 +1253,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
+
+#### ListCalendarsResult
+
+| Prop         | Type                    | Description              | Since | Platform     |
+| ------------ | ----------------------- | ------------------------ | ----- | ------------ |
+| **`result`** | <code>Calendar[]</code> | All available calendars. | 8.4.0 | Android, iOS |
 
 #### GetDefaultCalendarOptions
 

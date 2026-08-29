@@ -189,10 +189,12 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func listCalendars(_ call: CAPPluginCall) {
-        do {
-            resolveCall(call, try implementation.listCalendars())
-        } catch let error {
-            rejectCall(call, error)
+        implementation.listCalendars { result, error in
+            if let error {
+                self.rejectCall(call, error)
+                return
+            }
+            self.resolveCall(call, result)
         }
     }
 

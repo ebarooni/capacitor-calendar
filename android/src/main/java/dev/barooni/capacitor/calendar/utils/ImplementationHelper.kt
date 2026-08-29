@@ -43,14 +43,56 @@ class ImplementationHelper {
             return list.map { it.toLongOrNull() ?: throw PluginError.MissingId }
         }
 
-        fun hexToColorInt(hex: String?): Int? =
+        fun hexToColorInt(hex: String?): Int? {
             if (hex == null) {
-                null
-            } else {
-                android.graphics.Color.parseColor(hex)
+                return null
             }
 
-        fun intToHexColor(colorInt: Int): String = String.format("#%08X", colorInt)
+            if (!hex.startsWith("#")) {
+                throw PluginError.InvalidColor
+            }
+
+            val digits = hex.substring(1)
+            return when (digits.length) {
+                6 -> {
+                    // RRGGBB with fully opaque alpha — Color.parseColor is correct for 6-digit.
+                    try {
+                        android.graphics.Color.parseColor(hex)
+                    } catch (_: IllegalArgumentException) {
+                        throw PluginError.InvalidColor
+                    }
+                }
+
+                8 -> {
+                    // RRGGBBAA (not AARRGGBB). Do not use Color.parseColor for 8-digit.
+                    try {
+                        val r = digits.substring(0, 2).toInt(16)
+                        val g = digits.substring(2, 4).toInt(16)
+                        val b = digits.substring(4, 6).toInt(16)
+                        val a = digits.substring(6, 8).toInt(16)
+                        android.graphics.Color.argb(a, r, g, b)
+                    } catch (_: NumberFormatException) {
+                        throw PluginError.InvalidColor
+                    }
+                }
+
+                else -> {
+                    throw PluginError.InvalidColor
+                }
+            }
+        }
+
+        fun intToHexColor(colorInt: Int): String {
+            val alpha = android.graphics.Color.alpha(colorInt)
+            val red = android.graphics.Color.red(colorInt)
+            val green = android.graphics.Color.green(colorInt)
+            val blue = android.graphics.Color.blue(colorInt)
+            return if (alpha == 0xFF) {
+                String.format(Locale.US, "#%02X%02X%02X", red, green, blue)
+            } else {
+                String.format(Locale.US, "#%02X%02X%02X%02X", red, green, blue, alpha)
+            }
+        }
 
         fun eventGuestsFromCall(call: PluginCall): List<EventGuest>? {
             val attendeesJson = call.getArray("attendees") ?: return null

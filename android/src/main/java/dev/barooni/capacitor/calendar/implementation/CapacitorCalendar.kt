@@ -140,10 +140,14 @@ class CapacitorCalendar(
         }
     }
 
-    fun listCalendars(): ListCalendarsResult {
-        val cr = plugin.context.contentResolver
-        val calendars = ImplementationHelper.listCalendars(cr)
-        return ListCalendarsResult(calendars)
+    fun listCalendars(completion: PluginCompletion<ListCalendarsResult>) {
+        try {
+            val cr = plugin.context.contentResolver
+            val calendars = ImplementationHelper.listCalendars(cr)
+            completion(ListCalendarsResult(calendars), null)
+        } catch (error: Exception) {
+            completion(null, error)
+        }
     }
 
     fun getDefaultCalendar(

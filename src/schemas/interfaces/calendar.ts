@@ -12,10 +12,13 @@ export interface Calendar {
    */
   id: string;
   /**
+   * Display title of the calendar.
+   * May be `null` when the platform does not provide a title.
+   *
    * @platform Android, iOS
    * @since 7.1.0
    */
-  title: string;
+  title: string | null;
   /**
    * Internal name of the calendar (`CalendarContract.Calendars.NAME`).
    *
@@ -24,10 +27,17 @@ export interface Calendar {
    */
   internalTitle: string | null;
   /**
+   * Calendar color as a hex string.
+   *
+   * Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque.
+   * May be `null` when the platform does not provide a color.
+   *
    * @platform Android, iOS
+   * @example #0000FF
+   * @example #0000FF80
    * @since 7.1.0
    */
-  color: string;
+  color: string | null;
   /**
    * @platform iOS
    * @since 7.1.0
