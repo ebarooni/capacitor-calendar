@@ -19,11 +19,12 @@ metadata:
 
 1. Read `package.json` and determine the current package version
 2. Decide if a version bump is needed:
-  If the version has already been raised, check the releases on GitHub. If there are no releases for this branch, the current version is the planned release version and doesn't need changing.
+   If the version has already been raised, check the releases on GitHub. If there are no releases for this branch, the current version is the planned release version and doesn't need changing.
 3. If the version has not been raised, ask what the release is (patch/minor/major), then run:
-  - patch: `npm run version:patch`
-  - minor: `npm run version:minor`
-  - major: `npm run version:major`
+
+- patch: `npm run version:patch`
+- minor: `npm run version:minor`
+- major: `npm run version:major`
 
 ## 2. Identify changes
 
@@ -34,15 +35,18 @@ metadata:
 ## 3. Update the changelog
 
 1. Run `cat CHANGELOG.md | grep <new_version>` to see if the new version already has a section
-  - If not, add it to the content table and create a section for the new version
+
+- If not, add it to the content table and create a section for the new version
+
 2. If the current version section already exists, reuse the existing section and add only missing changelog-worthy changes (do not duplicate existing entries)
 3. Use these categories to describe the changes:
-  - Added: new features
-  - Changed: changes in existing functionality
-  - Deprecated: soon-to-be removed features
-  - Removed: now removed features
-  - Fixed: any bug fixes
-  - Security: in case of vulnerabilities
+
+- Added: new features
+- Changed: changes in existing functionality
+- Deprecated: soon-to-be removed features
+- Removed: now removed features
+- Fixed: any bug fixes
+- Security: in case of vulnerabilities
 
 ## Rules
 
