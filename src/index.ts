@@ -17,6 +17,7 @@ import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
+import type { CreateCalendarResult } from './schemas/interfaces/create-calendar-result';
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
@@ -31,6 +32,7 @@ import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delet
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
+import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
@@ -68,6 +70,7 @@ export type {
   CheckAllPermissionsResult,
   CheckPermissionOptions,
   CreateCalendarOptions,
+  CreateCalendarResult,
   CreateEventOptions,
   CreateEventWithPromptOptions,
   CreateReminderOptions,
@@ -85,6 +88,7 @@ export type {
   DeleteRemindersListOptions,
   EventEditAction,
   EventGuest,
+  FetchAllCalendarSourcesResult,
   GetDefaultCalendarOptions,
   GetReminderByIdOptions,
   GetRemindersFromListsOptions,

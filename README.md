@@ -622,6 +622,9 @@ selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions | undefined
 
 Opens a system interface to choose one or multiple calendars.
 
+Calendar access is expected. Call `requestFullCalendarAccess()` first.
+Without authorization the chooser can look empty.
+
 On confirm, `result` contains the calendars the user selected.
 On cancel, `result` is an empty array.
 
@@ -643,12 +646,15 @@ call continues until the user confirms or cancels.
 ### fetchAllCalendarSources()
 
 ```typescript
-fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
+fetchAllCalendarSources() => Promise<FetchAllCalendarSourcesResult>
 ```
 
 Retrieves a list of calendar sources.
 
-**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+Requires calendar access. Without authorization, `result` is typically
+an empty array. This method does not reject solely for missing permission.
+
+**Returns:** <code>Promise&lt;<a href="#fetchallcalendarsourcesresult">FetchAllCalendarSourcesResult</a>&gt;</code>
 
 **Since:** 6.6.0
 
@@ -663,6 +669,9 @@ listCalendars() => Promise<ListCalendarsResult>
 ```
 
 Retrieves a list of all available calendars.
+
+Requires calendar read access. On Android, missing permission typically
+rejects. On iOS, missing authorization typically returns an empty `result`.
 
 **Returns:** <code>Promise&lt;<a href="#listcalendarsresult">ListCalendarsResult</a>&gt;</code>
 
@@ -679,6 +688,9 @@ getDefaultCalendar(options?: GetDefaultCalendarOptions | undefined) => Promise<{
 ```
 
 Retrieves the default calendar.
+
+Requires calendar read access. On Android, missing permission typically
+rejects. On iOS, missing authorization typically yields `result: null`.
 
 The system default is the primary calendar on Android and
 `defaultCalendarForNewEvents` on iOS. When neither exists and
@@ -718,7 +730,7 @@ Opens the calendar app.
 ### createCalendar(...)
 
 ```typescript
-createCalendar(options: CreateCalendarOptions) => Promise<{ id: string; }>
+createCalendar(options: CreateCalendarOptions) => Promise<CreateCalendarResult>
 ```
 
 Creates a calendar.
@@ -727,7 +739,7 @@ Creates a calendar.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createcalendaroptions">CreateCalendarOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#createcalendarresult">CreateCalendarResult</a>&gt;</code>
 
 **Since:** 5.2.0
 
@@ -1241,11 +1253,11 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CalendarSource
 
-| Prop        | Type                                                              | Since |
-| ----------- | ----------------------------------------------------------------- | ----- |
-| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> | 7.1.0 |
-| **`id`**    | <code>string</code>                                               | 7.1.0 |
-| **`title`** | <code>string</code>                                               | 7.1.0 |
+| Prop        | Type                                                              | Since | Platform |
+| ----------- | ----------------------------------------------------------------- | ----- | -------- |
+| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> | 7.1.0 | iOS      |
+| **`id`**    | <code>string</code>                                               | 7.1.0 | iOS      |
+| **`title`** | <code>string</code>                                               | 7.1.0 | iOS      |
 
 #### SelectCalendarsWithPromptOptions
 
@@ -1253,6 +1265,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------------ | ----------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------ | ----- |
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
+
+#### FetchAllCalendarSourcesResult
+
+| Prop         | Type                          | Description                                        | Since | Platform |
+| ------------ | ----------------------------- | -------------------------------------------------- | ----- | -------- |
+| **`result`** | <code>CalendarSource[]</code> | All calendar sources (accounts) known to EventKit. | 8.4.0 | iOS      |
 
 #### ListCalendarsResult
 
@@ -1271,6 +1289,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | Prop       | Type                | Description                                                        | Default                 | Since | Platform     |
 | ---------- | ------------------- | ------------------------------------------------------------------ | ----------------------- | ----- | ------------ |
 | **`date`** | <code>number</code> | The date to open the calendar at, in milliseconds since the epoch. | <code>Date.now()</code> | 7.1.0 | Android, iOS |
+
+#### CreateCalendarResult
+
+| Prop     | Type                | Description                               | Since | Platform     |
+| -------- | ------------------- | ----------------------------------------- | ----- | ------------ |
+| **`id`** | <code>string</code> | Identifier of the newly created calendar. | 8.4.0 | Android, iOS |
 
 #### CreateCalendarOptions
 

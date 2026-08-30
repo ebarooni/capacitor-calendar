@@ -1,7 +1,8 @@
 import type { Calendar } from '../schemas/interfaces/calendar';
-import type { CalendarSource } from '../schemas/interfaces/calendar-source';
 import type { CreateCalendarOptions } from '../schemas/interfaces/create-calendar-options';
+import type { CreateCalendarResult } from '../schemas/interfaces/create-calendar-result';
 import type { DeleteCalendarOptions } from '../schemas/interfaces/delete-calendar-options';
+import type { FetchAllCalendarSourcesResult } from '../schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from '../schemas/interfaces/get-default-calendar-options';
 import type { ListCalendarsResult } from '../schemas/interfaces/list-calendars-result';
 import type { ModifyCalendarOptions } from '../schemas/interfaces/modify-calendar-options';
@@ -20,6 +21,9 @@ export interface CalendarOperations {
   /**
    * Opens a system interface to choose one or multiple calendars.
    *
+   * Calendar access is expected. Call `requestFullCalendarAccess()` first.
+   * Without authorization the chooser can look empty.
+   *
    * On confirm, `result` contains the calendars the user selected.
    * On cancel, `result` is an empty array.
    *
@@ -33,12 +37,18 @@ export interface CalendarOperations {
   /**
    * Retrieves a list of calendar sources.
    *
+   * Requires calendar access. Without authorization, `result` is typically
+   * an empty array. This method does not reject solely for missing permission.
+   *
    * @platform iOS
    * @since 6.6.0
    */
-  fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }>;
+  fetchAllCalendarSources(): Promise<FetchAllCalendarSourcesResult>;
   /**
    * Retrieves a list of all available calendars.
+   *
+   * Requires calendar read access. On Android, missing permission typically
+   * rejects. On iOS, missing authorization typically returns an empty `result`.
    *
    * @platform Android, iOS
    * @since 7.1.0
@@ -46,6 +56,9 @@ export interface CalendarOperations {
   listCalendars(): Promise<ListCalendarsResult>;
   /**
    * Retrieves the default calendar.
+   *
+   * Requires calendar read access. On Android, missing permission typically
+   * rejects. On iOS, missing authorization typically yields `result: null`.
    *
    * The system default is the primary calendar on Android and
    * `defaultCalendarForNewEvents` on iOS. When neither exists and
@@ -72,7 +85,7 @@ export interface CalendarOperations {
    * @platform Android, iOS
    * @since 5.2.0
    */
-  createCalendar(options: CreateCalendarOptions): Promise<{ id: string }>;
+  createCalendar(options: CreateCalendarOptions): Promise<CreateCalendarResult>;
   /**
    * Deletes a calendar by id.
    *

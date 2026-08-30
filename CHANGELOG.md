@@ -53,6 +53,8 @@ Changelogs for the versions supporting Capacitor 8.
 - `SelectCalendarsWithPromptResult` for `selectCalendarsWithPrompt(...)`
 - `ListCalendarsResult` for `listCalendars(...)`
 - `GetDefaultCalendarOptions.useFallbackCalendar` for `getDefaultCalendar(...)` (when true, falls back to the first available calendar if there is no system default on Android and iOS)
+- `FetchAllCalendarSourcesResult` for `fetchAllCalendarSources(...)`
+- `CreateCalendarResult` for `createCalendar(...)`
 
 ### Fixed
 
@@ -72,6 +74,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `OpenCalendarOptions.date` is optional and documented as milliseconds since the epoch (defaults to now)
 - Documented platform limits for calendar permission request methods
 - `Calendar.title` and `Calendar.color` are `string | null` (matching runtime nullability)
+- Documented permission and empty/null behavior for `listCalendars(...)`, `getDefaultCalendar(...)`, `fetchAllCalendarSources(...)`, and `selectCalendarsWithPrompt(...)`
 
 ## 8.3.0
 

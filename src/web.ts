@@ -7,6 +7,7 @@ import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
+import type { CreateCalendarResult } from './schemas/interfaces/create-calendar-result';
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
@@ -20,6 +21,7 @@ import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
+import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
@@ -115,7 +117,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.selectCalendarsWithPrompt.name);
   }
 
-  public fetchAllCalendarSources(): Promise<{ result: CalendarSource[] }> {
+  public fetchAllCalendarSources(): Promise<FetchAllCalendarSourcesResult> {
     return this.throwUnimplemented(this.fetchAllCalendarSources.name);
   }
 
@@ -147,7 +149,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.openCalendar.name);
   }
 
-  public createCalendar(_options: CreateCalendarOptions): Promise<{ id: string }> {
+  public createCalendar(_options: CreateCalendarOptions): Promise<CreateCalendarResult> {
     return this.throwUnimplemented(this.createCalendar.name);
   }
 
