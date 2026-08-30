@@ -7,7 +7,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
-  - [8.5.0](#850)
   - [8.4.0](#840)
   - [8.3.0](#830)
   - [8.2.0](#820)
@@ -45,17 +44,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 Changelogs for the versions supporting Capacitor 8.
 
-## 8.5.0
-
-### Added
-
-- `FetchAllCalendarSourcesResult` for `fetchAllCalendarSources(...)`
-- `CreateCalendarResult` for `createCalendar(...)`
-
-### Changed
-
-- Documented permission and empty/null behavior for `listCalendars(...)`, `getDefaultCalendar(...)`, `fetchAllCalendarSources(...)`, and `selectCalendarsWithPrompt(...)`
-
 ## 8.4.0
 
 ### Added
@@ -65,6 +53,8 @@ Changelogs for the versions supporting Capacitor 8.
 - `SelectCalendarsWithPromptResult` for `selectCalendarsWithPrompt(...)`
 - `ListCalendarsResult` for `listCalendars(...)`
 - `GetDefaultCalendarOptions.useFallbackCalendar` for `getDefaultCalendar(...)` (when true, falls back to the first available calendar if there is no system default on Android and iOS)
+- `FetchAllCalendarSourcesResult` for `fetchAllCalendarSources(...)`
+- `CreateCalendarResult` for `createCalendar(...)`
 
 ### Fixed
 
@@ -84,6 +74,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `OpenCalendarOptions.date` is optional and documented as milliseconds since the epoch (defaults to now)
 - Documented platform limits for calendar permission request methods
 - `Calendar.title` and `Calendar.color` are `string | null` (matching runtime nullability)
+- Documented permission and empty/null behavior for `listCalendars(...)`, `getDefaultCalendar(...)`, `fetchAllCalendarSources(...)`, and `selectCalendarsWithPrompt(...)`
 
 ## 8.3.0
 
