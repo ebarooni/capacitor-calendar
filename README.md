@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
-    <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
+    <img src="https://img.shields.io/npm/dm/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
