@@ -690,8 +690,7 @@ getDefaultCalendar(options?: GetDefaultCalendarOptions | undefined) => Promise<{
 Retrieves the default calendar.
 
 Requires calendar read access. On Android, missing permission typically
-rejects. On iOS, missing authorization typically yields `result: null`
-(or an empty list if a fallback is used).
+rejects. On iOS, missing authorization typically yields `result: null`.
 
 The system default is the primary calendar on Android and
 `defaultCalendarForNewEvents` on iOS. When neither exists and
