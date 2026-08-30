@@ -117,8 +117,6 @@ export interface CalendarOperations {
   /**
    * Modifies a calendar with options.
    *
-   * At least one of `title` or `color` must be provided.
-   *
    * @throws {Error} `Calendar ID must be provided.` — when `id` is missing.
    * @throws {Error} `Invalid calendar ID.` — when `id` is not a numeric Android calendar id.
    * @throws {Error} `At least one of title or color must be provided.` — when both are omitted.

@@ -10,7 +10,7 @@ struct CreateCalendarInput {
             throw PluginError.titleMissing
         }
         self.title = title
-        let colorHex = call.getString("color") ?? "#007AFF"
+        let colorHex = call.getString("color") ?? ImplementationHelper.defaultCalendarColorHex
         self.color = try UIColor.fromHex(colorHex).cgColor
         if let sourceId = call.getString("sourceId") {
             self.sourceId = sourceId

@@ -47,11 +47,11 @@ sealed class PluginError(
 
     data object NoCalendarsAvailable : PluginError("No calendars available.")
 
+    data object NoFieldsToModify : PluginError("At least one of title or color must be provided.")
+
     data object OwnerAccountMissing : PluginError("Owner account must be provided.")
 
     data object TitleMissing : PluginError("Title must be provided.")
-
-    data object TitleOrColorMissing : PluginError("At least one of title or color must be provided.")
 
     data object ToDateMissing : PluginError("To date must be provided.")
 

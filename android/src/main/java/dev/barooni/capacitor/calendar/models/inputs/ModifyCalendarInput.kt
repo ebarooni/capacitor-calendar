@@ -16,7 +16,7 @@ data class ModifyCalendarInput(
 
     init {
         if (title == null && color == null) {
-            throw PluginError.TitleOrColorMissing
+            throw PluginError.NoFieldsToModify
         }
     }
 }

@@ -776,8 +776,6 @@ modifyCalendar(options: ModifyCalendarOptions) => Promise<void>
 
 Modifies a calendar with options.
 
-At least one of `title` or `color` must be provided.
-
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#modifycalendaroptions">ModifyCalendarOptions</a></code> |
@@ -1319,11 +1317,11 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### ModifyCalendarOptions
 
-| Prop        | Type                | Description                                                                                                                                                                                | Since | Platform     |
-| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
-| **`id`**    | <code>string</code> |                                                                                                                                                                                            | 7.2.0 | Android, iOS |
-| **`title`** | <code>string</code> | Display title of the calendar. On Android this updates both `CALENDAR_DISPLAY_NAME` (`title`) and `Calendars.NAME` (`internalTitle`). At least one of `title` or `color` must be provided. | 7.2.0 | Android, iOS |
-| **`color`** | <code>string</code> | The color of the calendar as `#RRGGBB` or `#RRGGBBAA`. Omit to leave the color unchanged. At least one of `title` or `color` must be provided.                                             | 7.2.0 | Android, iOS
+| Prop        | Type                | Description                                                                                                                           | Since | Platform     |
+| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`id`**    | <code>string</code> |                                                                                                                                       | 7.2.0 | Android, iOS |
+| **`title`** | <code>string</code> | Display title of the calendar. On Android this updates both `CALENDAR_DISPLAY_NAME` (`title`) and `Calendars.NAME` (`internalTitle`). | 7.2.0 | Android, iOS |
+| **`color`** | <code>string</code> | The color of the calendar as `#RRGGBB` or `#RRGGBBAA`.                                                                                | 7.2.0 | Android, iOS |
 
 #### CreateRemindersListResult
 
