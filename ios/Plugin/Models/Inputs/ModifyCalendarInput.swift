@@ -7,7 +7,7 @@ struct ModifyCalendarInput {
 
     init(call: CAPPluginCall) throws {
         guard let id = call.getString("id") else {
-            throw PluginError.idMissing
+            throw PluginError.calendarIdMissing
         }
         self.id = id
         self.title = call.getString("title")
@@ -15,6 +15,9 @@ struct ModifyCalendarInput {
             self.color = try UIColor.fromHex(color).cgColor
         } else {
             self.color = nil
+        }
+        if self.title == nil && self.color == nil {
+            throw PluginError.noFieldsToModify
         }
     }
 

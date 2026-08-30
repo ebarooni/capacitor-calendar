@@ -19,7 +19,11 @@ enum PluginError: LocalizedError {
     case failedToLaunchReminders
     case failedToLaunchCalendar
     case invalidColor
+    case calendarIdMissing
     case calendarNotFound
+    case calendarNotModifiable
+    case calendarSourceNotFound
+    case noFieldsToModify
     case listNotFound
     case listNotModifiable
     case missingFrequency
@@ -55,8 +59,16 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Event not found.", comment: "Event not found error")
         case .reminderNotFound:
             return NSLocalizedString("Reminder not found.", comment: "Reminder not found error")
+        case .calendarIdMissing:
+            return NSLocalizedString("Calendar ID must be provided.", comment: "Calendar ID missing error")
         case .calendarNotFound:
             return NSLocalizedString("Calendar not found.", comment: "Calendar not found error")
+        case .calendarNotModifiable:
+            return NSLocalizedString("Calendar is not modifiable.", comment: "Calendar not modifiable error")
+        case .calendarSourceNotFound:
+            return NSLocalizedString("Calendar source not found.", comment: "Calendar source not found error")
+        case .noFieldsToModify:
+            return NSLocalizedString("At least one of title or color must be provided.", comment: "No fields to modify error")
         case .listNotFound:
             return NSLocalizedString("List not found.", comment: "List not found error")
         case .listNotModifiable:

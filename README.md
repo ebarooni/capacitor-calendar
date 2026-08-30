@@ -735,6 +735,9 @@ createCalendar(options: CreateCalendarOptions) => Promise<CreateCalendarResult>
 
 Creates a calendar.
 
+`title` is required. `color` is optional and defaults to `#007AFF`.
+On Android, `accountName` and `ownerAccount` are required at runtime.
+
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createcalendaroptions">CreateCalendarOptions</a></code> |
@@ -772,6 +775,8 @@ modifyCalendar(options: ModifyCalendarOptions) => Promise<void>
 ```
 
 Modifies a calendar with options.
+
+At least one of `title` or `color` must be provided.
 
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
@@ -1298,27 +1303,27 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateCalendarOptions
 
-| Prop               | Type                | Description                                                | Since | Platform     |
-| ------------------ | ------------------- | ---------------------------------------------------------- | ----- | ------------ |
-| **`title`**        | <code>string</code> |                                                            | 5.2.0 | Android, iOS |
-| **`color`**        | <code>string</code> | The color of the calendar. Should be provided on Android.  | 5.2.0 | Android, iOS |
-| **`sourceId`**     | <code>string</code> |                                                            | 5.2.0 | iOS          |
-| **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
-| **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
+| Prop               | Type                | Description                                                                                                                                                                                                                | Default              | Since | Platform     |
+| ------------------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ----- | ------------ |
+| **`title`**        | <code>string</code> |                                                                                                                                                                                                                            |                      | 5.2.0 | Android, iOS |
+| **`color`**        | <code>string</code> | The color of the calendar as `#RRGGBB` or `#RRGGBBAA`. When omitted, Android and iOS use `#007AFF` (light-mode iOS system blue).                                                                                           | <code>#007AFF</code> | 5.2.0 | Android, iOS |
+| **`sourceId`**     | <code>string</code> | The EventKit source (account) where the calendar should be created. If provided, it must match an existing source from `fetchAllCalendarSources()`. If omitted, iCloud is used when available, otherwise the local source. |                      | 5.2.0 | iOS          |
+| **`accountName`**  | <code>string</code> | The account under which the calendar is registered. Required on Android. Typically an email address.                                                                                                                       |                      | 7.1.0 | Android      |
+| **`ownerAccount`** | <code>string</code> | The owner of the calendar. Required on Android. Typically an email address.                                                                                                                                                |                      | 7.1.0 | Android      |
 
 #### DeleteCalendarOptions
 
-| Prop     | Type                | Since |
-| -------- | ------------------- | ----- |
-| **`id`** | <code>string</code> | 7.1.0 |
+| Prop     | Type                | Since | Platform     |
+| -------- | ------------------- | ----- | ------------ |
+| **`id`** | <code>string</code> | 7.1.0 | Android, iOS |
 
 #### ModifyCalendarOptions
 
-| Prop        | Type                | Since | Platform     |
-| ----------- | ------------------- | ----- | ------------ |
-| **`id`**    | <code>string</code> | 7.2.0 | Android, iOS |
-| **`title`** | <code>string</code> | 7.2.0 | Android, iOS |
-| **`color`** | <code>string</code> | 7.2.0 | Android, iOS |
+| Prop        | Type                | Description                                                                                                                                                                                | Since | Platform     |
+| ----------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
+| **`id`**    | <code>string</code> |                                                                                                                                                                                            | 7.2.0 | Android, iOS |
+| **`title`** | <code>string</code> | Display title of the calendar. On Android this updates both `CALENDAR_DISPLAY_NAME` (`title`) and `Calendars.NAME` (`internalTitle`). At least one of `title` or `color` must be provided. | 7.2.0 | Android, iOS |
+| **`color`** | <code>string</code> | The color of the calendar as `#RRGGBB` or `#RRGGBBAA`. Omit to leave the color unchanged. At least one of `title` or `color` must be provided.                                             | 7.2.0 | Android, iOS
 
 #### CreateRemindersListResult
 

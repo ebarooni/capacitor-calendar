@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#create-calendar').addEventListener('click', async () => {
-    const color = getCalendarColor();
     const result = await CapacitorCalendar.createCalendar({
       accountName: 'plugin@example.com',
-      color,
       ownerAccount: 'plugin@example.com',
       title: 'Plugin Test Calendar',
     });

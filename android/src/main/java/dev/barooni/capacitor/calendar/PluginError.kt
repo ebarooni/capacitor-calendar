@@ -45,6 +45,14 @@ sealed class PluginError(
 
     data object FailedToModify : PluginError("Failed to modify.")
 
+    data object CalendarIdMissing : PluginError("Calendar ID must be provided.")
+
+    data object InvalidCalendarId : PluginError("Invalid calendar ID.")
+
+    data object TitleOrColorMissing : PluginError("At least one of title or color must be provided.")
+
+    data object CalendarNotFound : PluginError("Calendar not found.")
+
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")

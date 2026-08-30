@@ -339,8 +339,20 @@ class CapacitorCalendar: NSObject {
     func createCalendar(input: CreateCalendarInput) throws -> CreateCalendarResult {
         let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
         newCalendar.title = input.getTitle()
-        newCalendar.cgColor = input.getColor() ?? eventStore.defaultCalendarForNewEvents?.cgColor
-        newCalendar.source = eventStore.sources.first(where: { $0.sourceIdentifier == input.getSourceId() }) ?? eventStore.defaultCalendarForNewEvents?.source
+        newCalendar.cgColor = input.getColor()
+
+        let sources = eventStore.sources
+        if let sourceId = input.getSourceId() {
+            guard let customSource = sources.first(where: { $0.sourceIdentifier == sourceId }) else {
+                throw PluginError.calendarSourceNotFound
+            }
+            newCalendar.source = customSource
+        } else if let iCloudSource = sources.first(where: { $0.sourceType == .calDAV && $0.title == "iCloud" }) {
+            newCalendar.source = iCloudSource
+        } else if let localSource = sources.first(where: { $0.sourceType == .local }) {
+            newCalendar.source = localSource
+        }
+
         try eventStore.saveCalendar(newCalendar, commit: true)
         return try CreateCalendarResult(id: newCalendar.calendarIdentifier)
     }
@@ -548,6 +560,9 @@ class CapacitorCalendar: NSObject {
     func modifyCalendar(_ input: ModifyCalendarInput) throws {
         guard let calendar = eventStore.calendar(withIdentifier: input.getId()) else {
             throw PluginError.calendarNotFound
+        }
+        guard calendar.allowsContentModifications else {
+            throw PluginError.calendarNotModifiable
         }
         if let title = input.getTitle() {
             calendar.title = title
