@@ -50,6 +50,9 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - Web support for `createEvent(...)` — returns an `.ics` `File` as `CreateEventResult.ics` (`id` is always `null` on web)
+- `CreateEventResult` for `createEvent(...)`
+- `CreateEventWithPromptResult` for `createEventWithPrompt(...)`
+- `CreateEventOptions.icsFileName` for web `.ics` downloads
 - `downloadIcsFile(...)` helper to trigger a browser download of an `.ics` `File`
 
 ## 8.4.0
