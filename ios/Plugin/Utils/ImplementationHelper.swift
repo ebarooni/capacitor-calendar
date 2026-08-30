@@ -107,23 +107,23 @@ struct ImplementationHelper {
         guard let components = color.components else { return nil }
 
         if components.count == 2 {
-            let gray = Float(components[0])
-            let alpha = Float(components[1])
-            return alpha < 1.0
-                ? String(format: "#%02lX%02lX%02lX%02lX", lroundf(gray * 255), lroundf(gray * 255), lroundf(gray * 255), lroundf(alpha * 255))
-                : String(format: "#%02lX%02lX%02lX", lroundf(gray * 255), lroundf(gray * 255), lroundf(gray * 255))
+            let gray = lroundf(Float(components[0]) * 255)
+            let alpha = lroundf(Float(components[1]) * 255)
+            return alpha == 255
+                ? String(format: "#%02lX%02lX%02lX", gray, gray, gray)
+                : String(format: "#%02lX%02lX%02lX%02lX", gray, gray, gray, alpha)
         }
 
         guard components.count >= 3 else { return nil }
 
-        let red = Float(components[0])
-        let green = Float(components[1])
-        let blue = Float(components[2])
-        let alpha = components.count == 4 ? Float(components[3]) : 1.0
+        let red = lroundf(Float(components[0]) * 255)
+        let green = lroundf(Float(components[1]) * 255)
+        let blue = lroundf(Float(components[2]) * 255)
+        let alpha = components.count == 4 ? lroundf(Float(components[3]) * 255) : 255
 
-        return alpha < 1.0
-            ? String(format: "#%02lX%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255), lroundf(alpha * 255))
-            : String(format: "#%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255))
+        return alpha == 255
+            ? String(format: "#%02lX%02lX%02lX", red, green, blue)
+            : String(format: "#%02lX%02lX%02lX%02lX", red, green, blue, alpha)
     }
 
     static func deleteReminder(reminderId: String, eventStore: EKEventStore) throws {

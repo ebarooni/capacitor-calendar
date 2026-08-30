@@ -23,6 +23,7 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <link rel="stylesheet" href="./css/example.css" />
 
     <script type="module" src="./js/example.js"></script>
   </head>
@@ -78,6 +79,28 @@
             helper-text="The identifier of the calendar to use"
           >
           </ion-input>
+        </ion-item>
+        <ion-item lines="none" class="ion-no-padding">
+          <div slot="start" id="calendar-color-swatch" aria-hidden="true"></div>
+          <ion-select
+            id="calendar-color-select"
+            label="Calendar color"
+            label-placement="stacked"
+            interface="popover"
+            value="#0000FF"
+            helper-text="Hex for create/modify calendar and create event. Valid: #RRGGBB or #RRGGBBAA."
+          >
+            <ion-select-option value="#0000FF">Blue — #0000FF (valid)</ion-select-option>
+            <ion-select-option value="#FF0000">Red — #FF0000 (valid)</ion-select-option>
+            <ion-select-option value="#00FF0080">Green 50% — #00FF0080 (valid)</ion-select-option>
+            <ion-select-option value="#0000ff">Blue lowercase — #0000ff (valid)</ion-select-option>
+            <ion-select-option value="#6750A4">Purple — #6750A4 (valid)</ion-select-option>
+            <ion-select-option value="0000FF">Missing # — 0000FF (invalid)</ion-select-option>
+            <ion-select-option value="#F00">Too short — #F00 (invalid)</ion-select-option>
+            <ion-select-option value="#FF0000FF00">Too long — #FF0000FF00 (invalid)</ion-select-option>
+            <ion-select-option value="#ZZ0000">Non-hex — #ZZ0000 (invalid)</ion-select-option>
+            <ion-select-option value="blue">Named color — blue (invalid)</ion-select-option>
+          </ion-select>
         </ion-item>
         <ion-item lines="none" class="ion-no-padding">
           <ion-input

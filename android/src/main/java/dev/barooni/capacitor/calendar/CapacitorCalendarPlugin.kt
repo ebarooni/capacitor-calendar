@@ -286,13 +286,18 @@ class CapacitorCalendarPlugin : Plugin() {
         call.unimplemented(PluginError.Unimplemented(::fetchAllCalendarSources.name).message)
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listCalendars(call: PluginCall) {
         try {
-            val result = implementation.listCalendars()
-            call.resolve(result.toJSON())
+            implementation.listCalendars { result, error ->
+                if (error != null) {
+                    rejectCall(call, error)
+                    return@listCalendars
+                }
+                resolveCall(call, result)
+            }
         } catch (error: Exception) {
-            call.reject(error.message)
+            rejectCall(call, error)
         }
     }
 

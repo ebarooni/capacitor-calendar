@@ -1,15 +1,22 @@
 import { CapacitorCalendar, EventAvailability, EventSpan } from '@ebarooni/capacitor-calendar';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const calendarColorSelect = document.querySelector('#calendar-color-select');
+  updateCalendarColorSwatch(calendarColorSelect.value);
+  calendarColorSelect.addEventListener('ionChange', (event) => {
+    updateCalendarColorSwatch(event.detail.value);
+  });
+
   document.querySelector('#check-all-permissions').addEventListener('click', async () => {
     const result = await CapacitorCalendar.checkAllPermissions();
     console.log('#checkAllPermissions', result);
   });
 
   document.querySelector('#create-calendar').addEventListener('click', async () => {
+    const color = getCalendarColor();
     const result = await CapacitorCalendar.createCalendar({
       accountName: 'plugin@example.com',
-      color: '#6750A4',
+      color,
       ownerAccount: 'plugin@example.com',
       title: 'Plugin Test Calendar',
     });
@@ -23,13 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const startDate = Date.now();
     const endDate = startDate + 60 * 60 * 1000;
     const recurrenceEnd = startDate + 14 * 24 * 60 * 60 * 1000;
+    const color = getCalendarColor();
 
     const result = await CapacitorCalendar.createEvent({
       alerts: [-1440, -60, 30],
       attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
       availability: EventAvailability.BUSY,
       calendarId: pickNonHolidayCalendar(calendars)?.id,
-      color: '#6750A4',
+      color,
       commit: true,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
@@ -169,8 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#modify-calendar').addEventListener('click', async () => {
+    const color = getCalendarColor();
     await CapacitorCalendar.modifyCalendar({
-      color: '#B3261E',
+      color,
       id: getCalendarIdInput().value,
       title: 'Updated Plugin Test Calendar',
     });
@@ -216,8 +225,43 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+function getCalendarColor() {
+  return document.querySelector('#calendar-color-select').value;
+}
+
 function getCalendarIdInput() {
   return document.querySelector('#calendar-id-input');
+}
+
+function updateCalendarColorSwatch(hex) {
+  const swatch = document.querySelector('#calendar-color-swatch');
+  const preview = cssColorPreview(hex);
+  if (preview) {
+    swatch.style.background = preview;
+    swatch.title = hex;
+  } else {
+    swatch.style.background = '';
+    swatch.title = `${hex} (no CSS preview)`;
+  }
+}
+
+/** Map plugin hex (#RRGGBB / #RRGGBBAA) to a CSS color for the swatch; null if not previewable. */
+function cssColorPreview(hex) {
+  if (typeof hex !== 'string' || !hex.startsWith('#')) {
+    return null;
+  }
+  const digits = hex.slice(1);
+  if (/^[0-9a-fA-F]{6}$/.test(digits)) {
+    return `#${digits}`;
+  }
+  if (/^[0-9a-fA-F]{8}$/.test(digits)) {
+    const r = digits.slice(0, 2);
+    const g = digits.slice(2, 4);
+    const b = digits.slice(4, 6);
+    const a = Number.parseInt(digits.slice(6, 8), 16) / 255;
+    return `rgba(${Number.parseInt(r, 16)}, ${Number.parseInt(g, 16)}, ${Number.parseInt(b, 16)}, ${a})`;
+  }
+  return null;
 }
 
 function getEventIdInput() {

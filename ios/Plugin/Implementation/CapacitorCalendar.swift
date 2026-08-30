@@ -309,8 +309,8 @@ class CapacitorCalendar: NSObject {
         return FetchAllCalendarSourcesResult(eventStore.sources)
     }
 
-    func listCalendars() throws -> ListCalendarsResult {
-        return ListCalendarsResult(eventStore.calendars(for: .event))
+    func listCalendars(completion: @escaping (ListCalendarsResult?, Error?) -> Void) {
+        completion(ListCalendarsResult(eventStore.calendars(for: .event)), nil)
     }
 
     func openReminders() async throws {

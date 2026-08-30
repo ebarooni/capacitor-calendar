@@ -29,6 +29,8 @@ sealed class PluginError(
 
     data object ColorMissing : PluginError("Color must be provided.")
 
+    data object InvalidColor : PluginError("Invalid color format.")
+
     data object AccountNameMissing : PluginError("Account name must be provided.")
 
     data object OwnerAccountMissing : PluginError("Owner account must be provided.")

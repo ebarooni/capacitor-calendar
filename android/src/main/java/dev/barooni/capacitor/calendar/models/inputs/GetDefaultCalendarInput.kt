@@ -5,5 +5,5 @@ import com.getcapacitor.PluginCall
 data class GetDefaultCalendarInput(
     private val call: PluginCall,
 ) {
-    val useFallbackCalendar: Boolean = call.getBoolean("useFallbackCalendar", false)
+    val useFallbackCalendar: Boolean = call.getBoolean("useFallbackCalendar", false) ?: false
 }

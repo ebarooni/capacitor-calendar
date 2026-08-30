@@ -23,6 +23,7 @@ import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-rem
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
+import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
 import type { ModifyCalendarOptions } from './schemas/interfaces/modify-calendar-options';
 import type { ModifyEventOptions } from './schemas/interfaces/modify-event-options';
@@ -118,7 +119,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.fetchAllCalendarSources.name);
   }
 
-  public listCalendars(): Promise<{ result: Calendar[] }> {
+  public listCalendars(): Promise<ListCalendarsResult> {
     return this.throwUnimplemented(this.listCalendars.name);
   }
 

@@ -51,6 +51,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `CheckPermissionOptions` for `checkPermission(...)`
 - `RequestPermissionOptions` for `requestPermission(...)`
 - `SelectCalendarsWithPromptResult` for `selectCalendarsWithPrompt(...)`
+- `ListCalendarsResult` for `listCalendars(...)`
 - `GetDefaultCalendarOptions.useFallbackCalendar` for `getDefaultCalendar(...)` (when true, falls back to the first available calendar if there is no system default on Android and iOS)
 
 ### Fixed
@@ -63,11 +64,14 @@ Changelogs for the versions supporting Capacitor 8.
 - Android `requestAllPermissions()` now reports `readCalendar` from the read permission state (aligned with `checkAllPermissions()`)
 - Android `requestPermission(...)` distinguishes a missing scope (`Scope must be provided.`) from an invalid scope (`Invalid scope.`)
 - Android `deleteCalendar(...)` for calendars created via `createCalendar(...)` (sync-adapter URI)
+- Android calendar color reads emit `#RRGGBB` / `#RRGGBBAA` (aligned with iOS; was `#AARRGGBB`)
+- Android 8-digit hex color inputs parse as RRGGBBAA (aligned with iOS)
 
 ### Changed
 
 - `OpenCalendarOptions.date` is optional and documented as milliseconds since the epoch (defaults to now)
 - Documented platform limits for calendar permission request methods
+- `Calendar.title` and `Calendar.color` are `string | null` (matching runtime nullability)
 
 ## 8.3.0
 
