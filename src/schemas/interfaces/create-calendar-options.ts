@@ -8,29 +8,40 @@ export interface CreateCalendarOptions {
    */
   title: string;
   /**
-   * The color of the calendar.
-   * Should be provided on Android.
+   * The color of the calendar as `#RRGGBB` or `#RRGGBBAA`.
+   *
+   * When omitted, Android and iOS use `#007AFF` (light-mode iOS system blue).
    *
    * @platform Android, iOS
-   * @example #0000FF
+   * @example #007AFF
+   * @default #007AFF
    * @since 5.2.0
    */
   color?: string;
   /**
+   * The EventKit source (account) where the calendar should be created.
+   *
+   * If provided, it must match an existing source from `fetchAllCalendarSources()`.
+   * If omitted, iCloud is used when available, otherwise the local source.
+   *
    * @platform iOS
    * @since 5.2.0
    */
   sourceId?: string;
   /**
-   * Only needed on Android. Typically set to an email address.
+   * The account under which the calendar is registered.
+   * Required on Android. Typically an email address.
    *
+   * @example plugin@example.com
    * @platform Android
    * @since 7.1.0
    */
   accountName?: string;
   /**
-   * Only needed on Android. Typically set to an email address.
+   * The owner of the calendar.
+   * Required on Android. Typically an email address.
    *
+   * @example plugin@example.com
    * @platform Android
    * @since 7.1.0
    */

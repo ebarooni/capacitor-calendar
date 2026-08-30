@@ -5,7 +5,7 @@ struct DeleteCalendarInput {
 
     init(call: CAPPluginCall) throws {
         guard let id = call.getString("id") else {
-            throw PluginError.idMissing
+            throw PluginError.calendarIdMissing
         }
         self.id = id
     }

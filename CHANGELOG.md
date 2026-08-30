@@ -68,6 +68,10 @@ Changelogs for the versions supporting Capacitor 8.
 - Android `deleteCalendar(...)` for calendars created via `createCalendar(...)` (sync-adapter URI)
 - Android calendar color reads emit `#RRGGBB` / `#RRGGBBAA` (aligned with iOS; was `#AARRGGBB`)
 - Android 8-digit hex color inputs parse as RRGGBBAA (aligned with iOS)
+- Android `createCalendar(...)` no longer requires `color`
+- `modifyCalendar(...)` with only `id` is rejected on Android and iOS
+- iOS `modifyCalendar(...)` rejects calendars that do not allow content modifications
+- Calendar missing-id errors no longer say `Event ID must be provided.`
 
 ### Changed
 
@@ -75,6 +79,10 @@ Changelogs for the versions supporting Capacitor 8.
 - Documented platform limits for calendar permission request methods
 - `Calendar.title` and `Calendar.color` are `string | null` (matching runtime nullability)
 - Documented permission and empty/null behavior for `listCalendars(...)`, `getDefaultCalendar(...)`, `fetchAllCalendarSources(...)`, and `selectCalendarsWithPrompt(...)`
+- `createCalendar(...)` `color` is optional on Android and iOS and defaults to `#007AFF`
+- iOS `createCalendar(...)` uses iCloud then local when `sourceId` is omitted; an unknown `sourceId` is rejected
+- Android `modifyCalendar(...)` updates both display name and internal name when `title` is set
+- Shared calendar CRUD errors: missing/invalid calendar id, calendar not found, invalid color, and modify with no fields
 
 ## 8.3.0
 

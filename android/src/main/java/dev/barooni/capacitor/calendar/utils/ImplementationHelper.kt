@@ -18,6 +18,9 @@ import java.util.TimeZone
 
 class ImplementationHelper {
     companion object {
+        /** Default `CALENDAR_COLOR` when `color` is omitted: `#007AFF`, fully opaque. */
+        val DEFAULT_CALENDAR_COLOR: Int = 0xFF007AFF.toInt()
+
         fun getCalendarFromTimestamp(timestamp: Long?): Calendar =
             Calendar.getInstance().apply {
                 timeInMillis = timestamp ?: System.currentTimeMillis()

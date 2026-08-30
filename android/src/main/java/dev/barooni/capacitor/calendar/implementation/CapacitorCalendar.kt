@@ -213,16 +213,16 @@ class CapacitorCalendar(
         val (accountName, accountType) =
             cr.query(calendarUri, projection, null, null, null)?.use { cursor ->
                 if (!cursor.moveToFirst()) {
-                    throw PluginError.FailedToDelete
+                    throw PluginError.CalendarNotFound
                 }
                 val name =
                     cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_NAME))
-                        ?: throw PluginError.FailedToDelete
+                        ?: throw PluginError.CalendarNotFound
                 val type =
                     cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.ACCOUNT_TYPE))
-                        ?: throw PluginError.FailedToDelete
+                        ?: throw PluginError.CalendarNotFound
                 name to type
-            } ?: throw PluginError.FailedToDelete
+            } ?: throw PluginError.CalendarNotFound
 
         val deleteUri =
             calendarUri
@@ -234,7 +234,7 @@ class CapacitorCalendar(
 
         val rowsDeleted = cr.delete(deleteUri, null, null)
         if (rowsDeleted < 1) {
-            throw PluginError.FailedToDelete
+            throw PluginError.CalendarNotFound
         }
     }
 
@@ -444,13 +444,16 @@ class CapacitorCalendar(
         val cr = plugin.context.contentResolver
         val values =
             ContentValues().apply {
-                input.title?.let { put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, it) }
+                input.title?.let {
+                    put(CalendarContract.Calendars.NAME, it)
+                    put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, it)
+                }
                 input.color?.let { put(CalendarContract.Calendars.CALENDAR_COLOR, it) }
             }
         val uri: Uri = ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, input.id)
         val rowsUpdated = cr.update(uri, values, null, null)
         if (rowsUpdated < 1) {
-            throw PluginError.FailedToModify
+            throw PluginError.CalendarNotFound
         }
     }
 }

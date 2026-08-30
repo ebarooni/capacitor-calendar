@@ -9,7 +9,9 @@ data class CreateCalendarInput(
     private val call: PluginCall,
 ) {
     val title = call.getString("title") ?: throw PluginError.TitleMissing
-    val color = call.getString("color").let { ImplementationHelper.hexToColorInt(it) } ?: throw PluginError.ColorMissing
+    val color =
+        ImplementationHelper.hexToColorInt(call.getString("color"))
+            ?: ImplementationHelper.DEFAULT_CALENDAR_COLOR
     val accountName = call.getString("accountName") ?: throw PluginError.AccountNameMissing
     val ownerAccount = call.getString("ownerAccount") ?: throw PluginError.OwnerAccountMissing
     val accountType = CalendarContract.ACCOUNT_TYPE_LOCAL

@@ -6,5 +6,8 @@ import dev.barooni.capacitor.calendar.PluginError
 data class DeleteCalendarInput(
     private val call: PluginCall,
 ) {
-    val id = call.getString("id")?.toLong() ?: throw PluginError.MissingId
+    val id: Long =
+        call.getString("id")?.let { idString ->
+            idString.toLongOrNull() ?: throw PluginError.InvalidCalendarId
+        } ?: throw PluginError.CalendarIdMissing
 }

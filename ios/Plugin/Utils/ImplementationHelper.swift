@@ -2,6 +2,9 @@ import EventKit
 import Capacitor
 
 struct ImplementationHelper {
+    /// Default calendar color when `color` is omitted: `#007AFF` (light-mode iOS system blue).
+    static let defaultCalendarColorHex = "#007AFF"
+
     static func permissionStateToResult(state: EKAuthorizationStatus, scope: CalendarPermissionScope ) throws -> CAPPermissionState {
         var result: CAPPermissionState
 

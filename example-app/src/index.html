@@ -87,9 +87,11 @@
             label="Calendar color"
             label-placement="stacked"
             interface="popover"
-            value="#0000FF"
-            helper-text="Hex for create/modify calendar and create event. Valid: #RRGGBB or #RRGGBBAA."
+            value=""
+            helper-text="Hex for create/modify calendar and create event. Choose Omit to leave color unset (createCalendar uses the plugin default)."
           >
+            <ion-select-option value="">Omit — do not pass color</ion-select-option>
+            <ion-select-option value="#007AFF">Blue — #007AFF (valid)</ion-select-option>
             <ion-select-option value="#0000FF">Blue — #0000FF (valid)</ion-select-option>
             <ion-select-option value="#FF0000">Red — #FF0000 (valid)</ion-select-option>
             <ion-select-option value="#00FF0080">Green 50% — #00FF0080 (valid)</ion-select-option>

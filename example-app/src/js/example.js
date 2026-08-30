@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#create-calendar').addEventListener('click', async () => {
-    const color = getCalendarColor();
     const result = await CapacitorCalendar.createCalendar({
       accountName: 'plugin@example.com',
-      color,
+      ...optionalCalendarColor(),
       ownerAccount: 'plugin@example.com',
       title: 'Plugin Test Calendar',
     });
@@ -30,14 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const startDate = Date.now();
     const endDate = startDate + 60 * 60 * 1000;
     const recurrenceEnd = startDate + 14 * 24 * 60 * 60 * 1000;
-    const color = getCalendarColor();
-
     const result = await CapacitorCalendar.createEvent({
       alerts: [-1440, -60, 30],
       attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
       availability: EventAvailability.BUSY,
       calendarId: pickNonHolidayCalendar(calendars)?.id,
-      color,
+      ...optionalCalendarColor(),
       commit: true,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
@@ -177,9 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#modify-calendar').addEventListener('click', async () => {
-    const color = getCalendarColor();
     await CapacitorCalendar.modifyCalendar({
-      color,
+      ...optionalCalendarColor(),
       id: getCalendarIdInput().value,
       title: 'Updated Plugin Test Calendar',
     });
@@ -229,12 +225,23 @@ function getCalendarColor() {
   return document.querySelector('#calendar-color-select').value;
 }
 
+/** Returns `{ color }` only when the select has a value; empty means omit the field. */
+function optionalCalendarColor() {
+  const color = getCalendarColor();
+  return color ? { color } : {};
+}
+
 function getCalendarIdInput() {
   return document.querySelector('#calendar-id-input');
 }
 
 function updateCalendarColorSwatch(hex) {
   const swatch = document.querySelector('#calendar-color-swatch');
+  if (!hex) {
+    swatch.style.background = '';
+    swatch.title = 'Color omitted (plugin default on create)';
+    return;
+  }
   const preview = cssColorPreview(hex);
   if (preview) {
     swatch.style.background = preview;
