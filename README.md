@@ -248,48 +248,48 @@ See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
 
 <docgen-index>
 
-- [`checkPermission(...)`](#checkpermission)
-- [`checkAllPermissions()`](#checkallpermissions)
-- [`requestPermission(...)`](#requestpermission)
-- [`requestAllPermissions()`](#requestallpermissions)
-- [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
-- [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
-- [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
-- [`requestFullRemindersAccess()`](#requestfullremindersaccess)
-- [`createEventWithPrompt(...)`](#createeventwithprompt)
-- [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
-- [`createEvent(...)`](#createevent)
-- [`modifyEvent(...)`](#modifyevent)
-- [`deleteEventsById(...)`](#deleteeventsbyid)
-- [`deleteEvent(...)`](#deleteevent)
-- [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
-- [`listEventsInRange(...)`](#listeventsinrange)
-- [`commit()`](#commit)
-- [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
-- [`fetchAllCalendarSources()`](#fetchallcalendarsources)
-- [`listCalendars()`](#listcalendars)
-- [`getDefaultCalendar(...)`](#getdefaultcalendar)
-- [`openCalendar(...)`](#opencalendar)
-- [`createCalendar(...)`](#createcalendar)
-- [`deleteCalendar(...)`](#deletecalendar)
-- [`modifyCalendar(...)`](#modifycalendar)
-- [`createRemindersList(...)`](#createreminderslist)
-- [`deleteRemindersList(...)`](#deletereminderslist)
-- [`fetchAllRemindersSources()`](#fetchallreminderssources)
-- [`openReminders()`](#openreminders)
-- [`getDefaultRemindersList()`](#getdefaultreminderslist)
-- [`getRemindersLists()`](#getreminderslists)
-- [`createReminder(...)`](#createreminder)
-- [`deleteRemindersById(...)`](#deleteremindersbyid)
-- [`deleteReminder(...)`](#deletereminder)
-- [`modifyReminder(...)`](#modifyreminder)
-- [`getReminderById(...)`](#getreminderbyid)
-- [`getRemindersFromLists(...)`](#getremindersfromlists)
-- [`deleteReminderWithPrompt(...)`](#deletereminderwithprompt)
-- [`updateRemindersList(...)`](#updatereminderslist)
-- [Interfaces](#interfaces)
-- [Type Aliases](#type-aliases)
-- [Enums](#enums)
+* [`checkPermission(...)`](#checkpermission)
+* [`checkAllPermissions()`](#checkallpermissions)
+* [`requestPermission(...)`](#requestpermission)
+* [`requestAllPermissions()`](#requestallpermissions)
+* [`requestWriteOnlyCalendarAccess()`](#requestwriteonlycalendaraccess)
+* [`requestReadOnlyCalendarAccess()`](#requestreadonlycalendaraccess)
+* [`requestFullCalendarAccess()`](#requestfullcalendaraccess)
+* [`requestFullRemindersAccess()`](#requestfullremindersaccess)
+* [`createEventWithPrompt(...)`](#createeventwithprompt)
+* [`modifyEventWithPrompt(...)`](#modifyeventwithprompt)
+* [`createEvent(...)`](#createevent)
+* [`modifyEvent(...)`](#modifyevent)
+* [`deleteEventsById(...)`](#deleteeventsbyid)
+* [`deleteEvent(...)`](#deleteevent)
+* [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
+* [`listEventsInRange(...)`](#listeventsinrange)
+* [`commit()`](#commit)
+* [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
+* [`fetchAllCalendarSources()`](#fetchallcalendarsources)
+* [`listCalendars()`](#listcalendars)
+* [`getDefaultCalendar(...)`](#getdefaultcalendar)
+* [`openCalendar(...)`](#opencalendar)
+* [`createCalendar(...)`](#createcalendar)
+* [`deleteCalendar(...)`](#deletecalendar)
+* [`modifyCalendar(...)`](#modifycalendar)
+* [`createRemindersList(...)`](#createreminderslist)
+* [`deleteRemindersList(...)`](#deletereminderslist)
+* [`fetchAllRemindersSources()`](#fetchallreminderssources)
+* [`openReminders()`](#openreminders)
+* [`getDefaultRemindersList()`](#getdefaultreminderslist)
+* [`getRemindersLists()`](#getreminderslists)
+* [`createReminder(...)`](#createreminder)
+* [`deleteRemindersById(...)`](#deleteremindersbyid)
+* [`deleteReminder(...)`](#deletereminder)
+* [`modifyReminder(...)`](#modifyreminder)
+* [`getReminderById(...)`](#getreminderbyid)
+* [`getRemindersFromLists(...)`](#getremindersfromlists)
+* [`deleteReminderWithPrompt(...)`](#deletereminderwithprompt)
+* [`updateRemindersList(...)`](#updatereminderslist)
+* [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -315,7 +315,8 @@ On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### checkAllPermissions()
 
@@ -332,7 +333,8 @@ On Android, reminder keys always resolve to `"prompt"`.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### requestPermission(...)
 
@@ -353,7 +355,8 @@ On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### requestAllPermissions()
 
@@ -370,7 +373,8 @@ On Android, only calendar permissions are requested; reminder keys stay `"prompt
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### requestWriteOnlyCalendarAccess()
 
@@ -386,7 +390,8 @@ Requests write access to the calendar.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### requestReadOnlyCalendarAccess()
 
@@ -402,7 +407,8 @@ Requests read access to the calendar.
 
 **Platform:** Android
 
----
+--------------------
+
 
 ### requestFullCalendarAccess()
 
@@ -418,7 +424,8 @@ Requests read and write access to the calendar.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### requestFullRemindersAccess()
 
@@ -436,7 +443,8 @@ A grant covers both `readReminders` and `writeReminders`.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### createEventWithPrompt(...)
 
@@ -458,7 +466,8 @@ Fetch the events to find the ID of the newly created event.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### modifyEventWithPrompt(...)
 
@@ -479,7 +488,8 @@ On Android always returns `null`.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### createEvent(...)
 
@@ -499,7 +509,8 @@ Creates an event in the calendar.
 
 **Platform:** iOS, Android
 
----
+--------------------
+
 
 ### modifyEvent(...)
 
@@ -517,7 +528,8 @@ Modifies an event.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### deleteEventsById(...)
 
@@ -537,7 +549,8 @@ Deletes multiple events.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### deleteEvent(...)
 
@@ -555,7 +568,8 @@ Deletes an event.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### deleteEventWithPrompt(...)
 
@@ -575,7 +589,8 @@ Opens a dialog to delete an event.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### listEventsInRange(...)
 
@@ -598,7 +613,8 @@ multi-day events that span the range without starting or ending inside it.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### commit()
 
@@ -612,7 +628,8 @@ Saves pending calendar changes.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### selectCalendarsWithPrompt(...)
 
@@ -621,6 +638,9 @@ selectCalendarsWithPrompt(options?: SelectCalendarsWithPromptOptions | undefined
 ```
 
 Opens a system interface to choose one or multiple calendars.
+
+Calendar access is expected. Call `requestFullCalendarAccess()` first.
+Without authorization the chooser can look empty.
 
 On confirm, `result` contains the calendars the user selected.
 On cancel, `result` is an empty array.
@@ -638,23 +658,28 @@ call continues until the user confirms or cancels.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### fetchAllCalendarSources()
 
 ```typescript
-fetchAllCalendarSources() => Promise<{ result: CalendarSource[]; }>
+fetchAllCalendarSources() => Promise<FetchAllCalendarSourcesResult>
 ```
 
 Retrieves a list of calendar sources.
 
-**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+Requires calendar access. Without authorization, `result` is typically
+an empty array. This method does not reject solely for missing permission.
+
+**Returns:** <code>Promise&lt;<a href="#fetchallcalendarsourcesresult">FetchAllCalendarSourcesResult</a>&gt;</code>
 
 **Since:** 6.6.0
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### listCalendars()
 
@@ -664,13 +689,17 @@ listCalendars() => Promise<ListCalendarsResult>
 
 Retrieves a list of all available calendars.
 
+Requires calendar read access. On Android, missing permission typically
+rejects. On iOS, missing authorization typically returns an empty `result`.
+
 **Returns:** <code>Promise&lt;<a href="#listcalendarsresult">ListCalendarsResult</a>&gt;</code>
 
 **Since:** 7.1.0
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### getDefaultCalendar(...)
 
@@ -679,6 +708,10 @@ getDefaultCalendar(options?: GetDefaultCalendarOptions | undefined) => Promise<{
 ```
 
 Retrieves the default calendar.
+
+Requires calendar read access. On Android, missing permission typically
+rejects. On iOS, missing authorization typically yields `result: null`
+(or an empty list if a fallback is used).
 
 The system default is the primary calendar on Android and
 `defaultCalendarForNewEvents` on iOS. When neither exists and
@@ -695,7 +728,8 @@ Otherwise the method returns `null` when there is no system default.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### openCalendar(...)
 
@@ -713,12 +747,13 @@ Opens the calendar app.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### createCalendar(...)
 
 ```typescript
-createCalendar(options: CreateCalendarOptions) => Promise<{ id: string; }>
+createCalendar(options: CreateCalendarOptions) => Promise<CreateCalendarResult>
 ```
 
 Creates a calendar.
@@ -727,13 +762,14 @@ Creates a calendar.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createcalendaroptions">CreateCalendarOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#createcalendarresult">CreateCalendarResult</a>&gt;</code>
 
 **Since:** 5.2.0
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### deleteCalendar(...)
 
@@ -751,7 +787,8 @@ Deletes a calendar by id.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### modifyCalendar(...)
 
@@ -769,7 +806,8 @@ Modifies a calendar with options.
 
 **Platform:** Android, iOS
 
----
+--------------------
+
 
 ### createRemindersList(...)
 
@@ -789,7 +827,8 @@ Creates a new reminders list.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### deleteRemindersList(...)
 
@@ -807,7 +846,8 @@ Deletes a reminders list.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### fetchAllRemindersSources()
 
@@ -823,7 +863,8 @@ Retrieves a list of calendar sources.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### openReminders()
 
@@ -837,7 +878,8 @@ Opens the reminders app.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### getDefaultRemindersList()
 
@@ -853,7 +895,8 @@ Retrieves the default reminders list.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### getRemindersLists()
 
@@ -869,7 +912,8 @@ Retrieves all available reminders lists.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### createReminder(...)
 
@@ -889,7 +933,8 @@ Creates a reminder.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### deleteRemindersById(...)
 
@@ -909,7 +954,8 @@ Deletes multiple reminders.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### deleteReminder(...)
 
@@ -927,7 +973,8 @@ Deletes a reminder.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### modifyReminder(...)
 
@@ -945,7 +992,8 @@ Modifies a reminder.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### getReminderById(...)
 
@@ -965,7 +1013,8 @@ Retrieve a reminder by ID.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### getRemindersFromLists(...)
 
@@ -985,7 +1034,8 @@ Retrieves reminders from multiple lists.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### deleteReminderWithPrompt(...)
 
@@ -1005,7 +1055,8 @@ Opens a dialog to delete a reminder.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### updateRemindersList(...)
 
@@ -1025,9 +1076,11 @@ Update a reminders list with options.
 
 **Platform:** iOS
 
----
+--------------------
+
 
 ### Interfaces
+
 
 #### CheckPermissionOptions
 
@@ -1037,6 +1090,7 @@ Options for {@link CalendarAccess#checkPermission}.
 | ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
 | **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). | 8.3.1 | Android, iOS |
 
+
 #### RequestPermissionOptions
 
 Options for {@link CalendarAccess#requestPermission}.
@@ -1044,6 +1098,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | Prop        | Type                                                                        | Description                      | Since | Platform     |
 | ----------- | --------------------------------------------------------------------------- | -------------------------------- | ----- | ------------ |
 | **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. | 8.3.1 | Android, iOS |
+
 
 #### CreateEventWithPromptOptions
 
@@ -1062,6 +1117,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`title`**        | <code>string</code>                                                 |                                                                                                                                                                                                  | 0.1.0 | Android, iOS |
 | **`url`**          | <code>string</code>                                                 |                                                                                                                                                                                                  | 0.1.0 | iOS          |
 
+
 #### EventRecurrenceRule
 
 | Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform     |
@@ -1075,6 +1131,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS |
 | **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS |
 | **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS          |
+
 
 #### ModifyEventWithPromptOptions
 
@@ -1093,6 +1150,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`title`**        | <code>string</code>                                                 |                                                                                                                                                                                                  | 0.1.0 | Android, iOS |
 | **`url`**          | <code>string</code>                                                 |                                                                                                                                                                                                  | 0.1.0 | iOS          |
 | **`id`**           | <code>string</code>                                                 | The ID of the event to be modified.                                                                                                                                                              | 7.1.0 | Android, iOS |
+
 
 #### CreateEventOptions
 
@@ -1115,12 +1173,14 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`title`**        | <code>string</code>                                                 |                                                                                                                                                        |                   | 0.4.0 | Android, iOS |
 | **`url`**          | <code>string</code>                                                 |                                                                                                                                                        |                   | 0.1.0 | iOS          |
 
+
 #### EventGuest
 
 | Prop        | Type                | Since |
 | ----------- | ------------------- | ----- |
 | **`name`**  | <code>string</code> | 7.1.0 |
 | **`email`** | <code>string</code> | 7.1.0 |
+
 
 #### ModifyEventOptions
 
@@ -1144,12 +1204,14 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`title`**        | <code>string</code>                                                 |                                                                                                                                                        |                                   | 0.4.0 | Android, iOS |
 | **`url`**          | <code>string</code>                                                 |                                                                                                                                                        |                                   | 0.1.0 | iOS          |
 
+
 #### DeleteEventsByIdResult
 
 | Prop          | Type                  | Since |
 | ------------- | --------------------- | ----- |
 | **`deleted`** | <code>string[]</code> | 7.1.0 |
 | **`failed`**  | <code>string[]</code> | 7.1.0 |
+
 
 #### DeleteEventsByIdOptions
 
@@ -1159,6 +1221,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`ids`**    | <code>string[]</code>                           |                                                                                                                                                                                                                                  |                                   | 7.1.0 |              |
 | **`span`**   | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete. On Android, `THIS_EVENT` cannot target a single recurring occurrence here — use `deleteEvent` with `instanceDate`. Those ids are reported in `failed`.                                 | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 
+
 #### DeleteEventOptions
 
 | Prop               | Type                                            | Description                                                                                                                                                                                                                                              | Default                           | Since | Platform     |
@@ -1167,6 +1230,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`id`**           | <code>string</code>                             | The ID of the event to delete.                                                                                                                                                                                                                           |                                   | 7.1.0 | Android, iOS |
 | **`instanceDate`** | <code>number</code>                             | The start time of the occurrence to delete, in milliseconds since the epoch. Use `startDate` from `listEventsInRange`. On Android, required for `THIS_EVENT` on recurring events. If omitted with `THIS_AND_FUTURE_EVENTS`, the whole series is deleted. |                                   | 8.3.0 | Android      |
 | **`span`**         | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete.                                                                                                                                                                                                                | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
+
 
 #### DeleteEventWithPromptOptions
 
@@ -1180,6 +1244,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`message`**           | <code>string</code>                             | Message of the dialog.                                                                                                                                                                                                                                   |                                   | 7.1.0 | Android, iOS |
 | **`span`**              | <code><a href="#eventspan">EventSpan</a></code> | How much of a recurring series to delete.                                                                                                                                                                                                                | <code>EventSpan.THIS_EVENT</code> | 7.1.0 | Android, iOS |
 | **`title`**             | <code>string</code>                             | Title of the dialog.                                                                                                                                                                                                                                     |                                   | 7.1.0 | Android, iOS |
+
 
 #### CalendarEvent
 
@@ -1207,6 +1272,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`attendees`**                 | <code>{ email: string \| null; name: string \| null; role: <a href="#attendeerole">AttendeeRole</a> \| null; status: <a href="#attendeestatus">AttendeeStatus</a> \| null; type: <a href="#attendeetype">AttendeeType</a> \| null; }[]</code> |                                                     | 7.1.0 | Android, iOS |
 | **`timezone`**                  | <code>string \| null</code>                                                                                                                                                                                                                   |                                                     | 7.1.0 | Android, iOS |
 
+
 #### ListEventsInRangeOptions
 
 | Prop       | Type                | Description                                                                                                                                                                             | Since |
@@ -1214,11 +1280,13 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`from`** | <code>number</code> | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0 |
 | **`to`**   | <code>number</code> | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0 |
 
+
 #### SelectCalendarsWithPromptResult
 
 | Prop         | Type                    | Description                                                               | Since | Platform |
 | ------------ | ----------------------- | ------------------------------------------------------------------------- | ----- | -------- |
 | **`result`** | <code>Calendar[]</code> | Calendars the user confirmed in the chooser. Empty when the user cancels. | 8.4.0 | iOS      |
+
 
 #### Calendar
 
@@ -1239,13 +1307,15 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                                                                                                                                                 | 7.1.0 | Android      |
 | **`location`**                   | <code>string \| null</code>                                       |                                                                                                                                                                                                | 7.1.0 | Android      |
 
+
 #### CalendarSource
 
-| Prop        | Type                                                              | Since |
-| ----------- | ----------------------------------------------------------------- | ----- |
-| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> | 7.1.0 |
-| **`id`**    | <code>string</code>                                               | 7.1.0 |
-| **`title`** | <code>string</code>                                               | 7.1.0 |
+| Prop        | Type                                                              | Since | Platform |
+| ----------- | ----------------------------------------------------------------- | ----- | -------- |
+| **`type`**  | <code><a href="#calendarsourcetype">CalendarSourceType</a></code> | 7.1.0 | iOS      |
+| **`id`**    | <code>string</code>                                               | 7.1.0 | iOS      |
+| **`title`** | <code>string</code>                                               | 7.1.0 | iOS      |
+
 
 #### SelectCalendarsWithPromptOptions
 
@@ -1254,11 +1324,20 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`displayStyle`** | <code><a href="#calendarchooserdisplaystyle">CalendarChooserDisplayStyle</a></code> |                            | <code>CalendarChooserDisplayStyle.ALL_CALENDARS</code> | 7.1.0 |
 | **`multiple`**     | <code>boolean</code>                                                                | Allow multiple selections. | <code>false</code>                                     | 7.1.0 |
 
+
+#### FetchAllCalendarSourcesResult
+
+| Prop         | Type                          | Description                                        | Since | Platform |
+| ------------ | ----------------------------- | -------------------------------------------------- | ----- | -------- |
+| **`result`** | <code>CalendarSource[]</code> | All calendar sources (accounts) known to EventKit. | 8.5.0 | iOS      |
+
+
 #### ListCalendarsResult
 
 | Prop         | Type                    | Description              | Since | Platform     |
 | ------------ | ----------------------- | ------------------------ | ----- | ------------ |
 | **`result`** | <code>Calendar[]</code> | All available calendars. | 8.4.0 | Android, iOS |
+
 
 #### GetDefaultCalendarOptions
 
@@ -1266,11 +1345,20 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------------------- | -------------------- | --------------------------------------------------------------------------- | ------------------ | ----- | ------------ |
 | **`useFallbackCalendar`** | <code>boolean</code> | When there is no system default calendar, use the first available calendar. | <code>false</code> | 8.4.0 | Android, iOS |
 
+
 #### OpenCalendarOptions
 
 | Prop       | Type                | Description                                                        | Default                 | Since | Platform     |
 | ---------- | ------------------- | ------------------------------------------------------------------ | ----------------------- | ----- | ------------ |
 | **`date`** | <code>number</code> | The date to open the calendar at, in milliseconds since the epoch. | <code>Date.now()</code> | 7.1.0 | Android, iOS |
+
+
+#### CreateCalendarResult
+
+| Prop     | Type                | Description                               | Since | Platform     |
+| -------- | ------------------- | ----------------------------------------- | ----- | ------------ |
+| **`id`** | <code>string</code> | Identifier of the newly created calendar. | 8.5.0 | Android, iOS |
+
 
 #### CreateCalendarOptions
 
@@ -1282,11 +1370,13 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`accountName`**  | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 | **`ownerAccount`** | <code>string</code> | Only needed on Android. Typically set to an email address. | 7.1.0 | Android      |
 
+
 #### DeleteCalendarOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
+
 
 #### ModifyCalendarOptions
 
@@ -1296,11 +1386,13 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`title`** | <code>string</code> | 7.2.0 | Android, iOS |
 | **`color`** | <code>string</code> | 7.2.0 | Android, iOS |
 
+
 #### CreateRemindersListResult
 
 | Prop     | Type                | Description                                     | Since | Platform |
 | -------- | ------------------- | ----------------------------------------------- | ----- | -------- |
 | **`id`** | <code>string</code> | Identifier of the newly created reminders list. | 8.1.0 | iOS      |
+
 
 #### CreateRemindersListOptions
 
@@ -1311,12 +1403,14 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`sourceId`** | <code>string</code>                                                                                                              | The EKSource identifier (account) where the list should be created. If left undefined, iCloud will be used if available, otherwise falls back to local.                                                                      |                     | 8.1.0 | iOS      |
 | **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                                                                       |                     | 8.1.0 | iOS      |
 
+
 #### DeleteRemindersListOptions
 
 | Prop         | Type                 | Description                                                                                                                                                                                                                      | Default           | Since | Platform |
 | ------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
 | **`commit`** | <code>boolean</code> | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
 | **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                      |                   | 8.2.0 | iOS      |
+
 
 #### CreateReminderOptions
 
@@ -1335,6 +1429,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                           | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. | 7.1.0 |
 
+
 #### RecurrenceRule
 
 | Prop            | Type                                                                | Description                                                                        | Since |
@@ -1343,6 +1438,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 |
 | **`end`**       | <code>number</code>                                                 | Timestamp of when the recurrence ends.                                             | 7.1.0 |
 
+
 #### DeleteRemindersByIdResult
 
 | Prop          | Type                  | Since |
@@ -1350,17 +1446,20 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`deleted`** | <code>string[]</code> | 7.1.0 |
 | **`failed`**  | <code>string[]</code> | 7.1.0 |
 
+
 #### DeleteRemindersByIdOptions
 
 | Prop      | Type                  | Since |
 | --------- | --------------------- | ----- |
 | **`ids`** | <code>string[]</code> | 7.1.0 |
 
+
 #### DeleteReminderOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
+
 
 #### ModifyReminderOptions
 
@@ -1380,6 +1479,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                                                               | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. On iOS only 2 alerts are supported. | 7.1.0 |
 
+
 #### Reminder
 
 | Prop                 | Type                          | Since |
@@ -1398,17 +1498,20 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`recurrence`**     | <code>RecurrenceRule[]</code> | 7.1.0 |
 | **`alerts`**         | <code>number[]</code>         | 7.1.0 |
 
+
 #### GetReminderByIdOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
 
+
 #### GetRemindersFromListsOptions
 
 | Prop          | Type                  | Since |
 | ------------- | --------------------- | ----- |
 | **`listIds`** | <code>string[]</code> | 7.1.0 |
+
 
 #### DeleteReminderWithPromptOptions
 
@@ -1420,11 +1523,13 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`confirmButtonText`** | <code>string</code> | Text to show on the confirm button. | <code>'Delete'</code> | 7.2.0 |
 | **`cancelButtonText`**  | <code>string</code> | Text to show on the cancel button.  | <code>'Cancel'</code> | 7.2.0 |
 
+
 #### UpdateRemindersListResult
 
 | Prop     | Type                | Description                               | Since | Platform |
 | -------- | ------------------- | ----------------------------------------- | ----- | -------- |
 | **`id`** | <code>string</code> | Identifier of the updated reminders list. | 8.2.0 | iOS      |
+
 
 #### UpdateRemindersListOptions
 
@@ -1435,48 +1540,49 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`id`**     | <code>string</code>                                                                                                              | The identifier of the list to update.                                                                                                                                                                                   |                   | 8.2.0 | iOS      |
 | **`title`**  | <code>string</code>                                                                                                              | The new title of the list. If omitted, the title is left unchanged.                                                                                                                                                     |                   | 8.2.0 | iOS      |
 
+
 ### Type Aliases
+
 
 #### PermissionState
 
 <code>'prompt' | 'prompt-with-rationale' | 'granted' | 'denied'</code>
 
+
 #### CheckAllPermissionsResult
 
-<code>
-  <a href="#record">Record</a>&lt;<a href="#calendarpermissionscope">CalendarPermissionScope</a>,{' '}
-  <a href="#permissionstate">PermissionState</a>&gt;
-</code>
+<code><a href="#record">Record</a>&lt;<a href="#calendarpermissionscope">CalendarPermissionScope</a>, <a href="#permissionstate">PermissionState</a>&gt;</code>
+
 
 #### Record
 
 Construct a type with a set of properties K of type T
 
-<code>{
- [P in K]: T;
- }</code>
+<code>{ [P in K]: T; }</code>
+
 
 #### RequestAllPermissionsResult
 
-<code>
-  <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>
-</code>
+<code><a href="#checkallpermissionsresult">CheckAllPermissionsResult</a></code>
+
 
 #### RecurrenceFrequency
 
 <code>'daily' | 'weekly' | 'monthly' | 'yearly'</code>
 
+
 #### EventEditAction
 
 <code>'canceled' | 'saved' | 'deleted'</code>
 
+
 #### RemindersList
 
-<code>
-  <a href="#calendar">Calendar</a>
-</code>
+<code><a href="#calendar">Calendar</a></code>
+
 
 ### Enums
+
 
 #### CalendarPermissionScope
 
@@ -1486,6 +1592,7 @@ Construct a type with a set of properties K of type T
 | **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`.             | 7.1.0 | iOS          |
 | **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                     | 7.1.0 | Android, iOS |
 | **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. | 7.1.0 | iOS          |
+
 
 #### EventAvailability
 
@@ -1497,12 +1604,14 @@ Construct a type with a set of properties K of type T
 | **`TENTATIVE`**     |                 | 7.1.0 | Android, iOS |
 | **`UNAVAILABLE`**   |                 | 7.1.0 | iOS          |
 
+
 #### EventSpan
 
 | Members                      | Description                                                     | Since |
 | ---------------------------- | --------------------------------------------------------------- | ----- |
 | **`THIS_EVENT`**             | Only the identified event or occurrence.                        | 7.1.0 |
 | **`THIS_AND_FUTURE_EVENTS`** | The identified occurrence and future occurrences in the series. | 7.1.0 |
+
 
 #### EventStatus
 
@@ -1512,6 +1621,7 @@ Construct a type with a set of properties K of type T
 | **`CONFIRMED`** | <code>'confirmed'</code> | 7.1.0 | Android, iOS |
 | **`TENTATIVE`** | <code>'tentative'</code> | 7.1.0 | Android, iOS |
 | **`CANCELED`**  | <code>'canceled'</code>  | 7.1.0 | Android, iOS |
+
 
 #### AttendeeRole
 
@@ -1526,6 +1636,7 @@ Construct a type with a set of properties K of type T
 | **`ORGANIZER`**       | <code>'organizer'</code>      | 7.1.0 | Android      |
 | **`PERFORMER`**       | <code>'performer'</code>      | 7.1.0 | Android      |
 | **`SPEAKER`**         | <code>'speaker'</code>        | 7.1.0 | Android      |
+
 
 #### AttendeeStatus
 
@@ -1542,6 +1653,7 @@ Construct a type with a set of properties K of type T
 | **`COMPLETED`**  | <code>'completed'</code> | 7.1.0 | iOS          |
 | **`IN_PROCESS`** | <code>'inProcess'</code> | 7.1.0 | iOS          |
 
+
 #### AttendeeType
 
 | Members        | Value                   | Since | Platform     |
@@ -1555,6 +1667,7 @@ Construct a type with a set of properties K of type T
 | **`NONE`**     | <code>'none'</code>     | 7.1.0 | Android      |
 | **`OPTIONAL`** | <code>'optional'</code> | 7.1.0 | Android      |
 
+
 #### CalendarType
 
 | Members            | Since |
@@ -1564,6 +1677,7 @@ Construct a type with a set of properties K of type T
 | **`EXCHANGE`**     | 7.1.0 |
 | **`SUBSCRIPTION`** | 7.1.0 |
 | **`BIRTHDAY`**     | 7.1.0 |
+
 
 #### CalendarSourceType
 
@@ -1575,6 +1689,7 @@ Construct a type with a set of properties K of type T
 | **`MOBILE_ME`**  | 7.1.0 |
 | **`SUBSCRIBED`** | 7.1.0 |
 | **`BIRTHDAYS`**  | 7.1.0 |
+
 
 #### CalendarChooserDisplayStyle
 
