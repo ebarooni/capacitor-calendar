@@ -1,6 +1,8 @@
 import type { CalendarEvent } from '../schemas/interfaces/calendar-event';
 import type { CreateEventOptions } from '../schemas/interfaces/create-event-options';
+import type { CreateEventResult } from '../schemas/interfaces/create-event-result';
 import type { CreateEventWithPromptOptions } from '../schemas/interfaces/create-event-with-prompt-options';
+import type { CreateEventWithPromptResult } from '../schemas/interfaces/create-event-with-prompt-result';
 import type { DeleteEventOptions } from '../schemas/interfaces/delete-event-options';
 import type { DeleteEventWithPromptOptions } from '../schemas/interfaces/delete-event-with-prompt-options';
 import type { DeleteEventsByIdOptions } from '../schemas/interfaces/delete-events-by-id-options';
@@ -12,7 +14,7 @@ import type { EventEditAction } from '../schemas/types/event-edit-action';
 export interface EventOperations {
   /**
    * Opens the system calendar interface to create a new event.
-   * On Android always returns `null`.
+   * On Android always returns `null` for `id`.
    * Fetch the events to find the ID of the newly created event.
    *
    * @example
@@ -25,7 +27,7 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 0.1.0
    */
-  createEventWithPrompt(options?: CreateEventWithPromptOptions): Promise<{ id: string | null }>;
+  createEventWithPrompt(options?: CreateEventWithPromptOptions): Promise<CreateEventWithPromptResult>;
   /**
    * Opens a system calendar interface to modify an event.
    * On Android always returns `null`.
@@ -43,11 +45,22 @@ export interface EventOperations {
   modifyEventWithPrompt(options: ModifyEventWithPromptOptions): Promise<{ result: EventEditAction | null }>;
   /**
    * Creates an event in the calendar.
+   * On Web, builds an `.ics` `File` and returns it as `ics` with `id` always `null`.
    *
-   * @platform iOS, Android
+   * @example
+   * const { id, ics } = await CapacitorCalendar.createEvent({
+   *   title: 'Team standup',
+   *   startDate: Date.now(),
+   *   icsFileName: 'team-standup.ics',
+   * });
+   * if (ics) {
+   *   downloadIcsFile(ics);
+   * }
+   *
+   * @platform Android, iOS, Web
    * @since 0.4.0
    */
-  createEvent(options: CreateEventOptions): Promise<{ id: string }>;
+  createEvent(options: CreateEventOptions): Promise<CreateEventResult>;
   /**
    * Modifies an event.
    *
