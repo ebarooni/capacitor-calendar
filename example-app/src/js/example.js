@@ -63,8 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       getEventIdInput().value = result.id;
     }
     if (result.ics) {
-      downloadIcsFile(result.ics);
-      console.log('#createEvent ics', result.ics.name, result.ics.type, result.ics.size);
+      await downloadIcsFile(result.ics);
     }
     console.log('#createEvent', result);
   });

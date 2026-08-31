@@ -57,7 +57,7 @@ export interface EventOperations {
    *   icsFileName: 'team-standup.ics',
    * });
    * if (ics) {
-   *   downloadIcsFile(ics);
+   *   await downloadIcsFile(ics);
    * }
    *
    * @platform Android, iOS, Web

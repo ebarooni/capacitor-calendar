@@ -1,6 +1,8 @@
 /**
- * Triggers a browser download for an `.ics` `File` (typically from web `createEvent`).
- * No-op outside a browser document environment.
+ * Triggers a browser download for an `.ics` `File`.
+ * Resolves after the object URL is revoked.
+ *
+ * @throws If `document` or `URL` is not available.
  *
  * @example
  * const { ics } = await CapacitorCalendar.createEvent({
@@ -8,14 +10,14 @@
  *   icsFileName: 'team-standup.ics',
  * });
  * if (ics) {
- *   downloadIcsFile(ics);
+ *   await downloadIcsFile(ics);
  * }
  *
  * @since 8.5.0
  */
-export function downloadIcsFile(file: File): void {
+export async function downloadIcsFile(file: File): Promise<void> {
   if (typeof document === 'undefined' || typeof URL === 'undefined') {
-    return;
+    throw new Error('downloadIcsFile requires a browser document environment.');
   }
 
   const url = URL.createObjectURL(file);
@@ -26,5 +28,6 @@ export function downloadIcsFile(file: File): void {
   link.click();
   link.remove();
   // Delay revoke so the browser can start the download
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  URL.revokeObjectURL(url);
 }
