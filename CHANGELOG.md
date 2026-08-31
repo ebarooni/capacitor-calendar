@@ -49,11 +49,15 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
-- Web support for `createEvent(...)` — returns an `.ics` `File` as `CreateEventResult.ics` (`id` is always `null` on web)
+- Web support for `createEvent(...)` — returns an `.ics` `File` as `CreateEventResult.ics` (`id` is always `null` on web; no system calendar write or auto-download)
 - `CreateEventResult` for `createEvent(...)`
 - `CreateEventWithPromptResult` for `createEventWithPrompt(...)`
 - `CreateEventOptions.icsFileName` for web `.ics` downloads
 - `downloadIcsFile(...)` helper to trigger a browser download of an `.ics` `File`
+
+### Changed
+
+- `CreateEventResult.id` is now `string | null` (was `string`). Native still returns a string; web always returns `null`. Narrow the type when assuming a system event id.
 
 ## 8.4.0
 

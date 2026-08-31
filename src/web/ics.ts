@@ -56,7 +56,7 @@ export function buildEventIcs(options: CreateEventOptions): string {
   }
 
   if (options.recurrence != null) {
-    lines.push(`RRULE:${toRRule(options.recurrence)}`);
+    lines.push(`RRULE:${toRRule(options.recurrence, isAllDay)}`);
   }
 
   if (options.attendees != null) {
@@ -64,7 +64,7 @@ export function buildEventIcs(options: CreateEventOptions): string {
       if (guest.email.length === 0) {
         continue;
       }
-      const cn = guest.name != null && guest.name.length > 0 ? `;CN=${escapeText(guest.name)}` : '';
+      const cn = guest.name != null && guest.name.length > 0 ? `;CN=${formatParamValue(guest.name)}` : '';
       lines.push(`ATTENDEE${cn}:mailto:${escapeText(guest.email)}`);
     }
   }
@@ -105,10 +105,17 @@ function fileNameFromTitle(title?: string): string {
 }
 
 function resolveEndDate(startDate: number, endDate: number | undefined, isAllDay: boolean): number {
-  if (endDate != null) {
-    return endDate;
+  if (!isAllDay) {
+    return endDate ?? startDate + HOUR_MS;
   }
-  return isAllDay ? startDate + DAY_MS : startDate + HOUR_MS;
+  if (endDate == null) {
+    return startDate + DAY_MS;
+  }
+  // ICS all-day DTEND is exclusive; same local date as DTSTART is zero-length.
+  if (formatDateOnlyLocal(endDate) <= formatDateOnlyLocal(startDate)) {
+    return startDate + DAY_MS;
+  }
+  return endDate;
 }
 
 function mapTransparency(availability: EventAvailability | undefined): 'OPAQUE' | 'TRANSPARENT' | null {
@@ -124,13 +131,14 @@ function mapTransparency(availability: EventAvailability | undefined): 'OPAQUE' 
   return 'OPAQUE';
 }
 
-function toRRule(rule: EventRecurrenceRule): string {
+function toRRule(rule: EventRecurrenceRule, isAllDay: boolean): string {
   const parts: string[] = [`FREQ=${rule.frequency.toUpperCase()}`, `INTERVAL=${Math.max(1, rule.interval ?? 1)}`];
 
   if (rule.count != null) {
     parts.push(`COUNT=${rule.count}`);
   } else if (rule.end != null) {
-    parts.push(`UNTIL=${formatDateTimeUtc(rule.end)}`);
+    // RFC 5545: UNTIL must match DTSTART value type (DATE vs DATE-TIME).
+    parts.push(`UNTIL=${isAllDay ? formatDateOnlyLocal(rule.end) : formatDateTimeUtc(rule.end)}`);
   }
 
   if (rule.byWeekDay != null && rule.byWeekDay.length > 0) {
@@ -218,6 +226,18 @@ export function escapeText(value: string): string {
     .replace(/;/g, '\\;')
     .replace(/,/g, '\\,')
     .replace(/\r\n|\n|\r/g, '\\n');
+}
+
+/**
+ * Formats a property parameter value per RFC 5545 §3.2.
+ * Values with COMMA, SEMICOLON, or COLON are quoted; DQUOTE and line breaks are sanitized.
+ */
+function formatParamValue(value: string): string {
+  const sanitized = value.replace(/[\r\n]+/g, ' ').replace(/"/g, "'");
+  if (/[;:,]/.test(sanitized)) {
+    return `"${sanitized}"`;
+  }
+  return sanitized;
 }
 
 /**

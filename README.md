@@ -488,7 +488,10 @@ createEvent(options: CreateEventOptions) => Promise<CreateEventResult>
 ```
 
 Creates an event in the calendar.
-On Web, builds an `.ics` `File` and returns it as `ics` with `id` always `null`.
+On Android and iOS, inserts into the system calendar and returns its `id`.
+On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
+The app must download or open that file (for example with `downloadIcsFile(...)`);
+this method does not trigger a download.
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
@@ -1118,10 +1121,10 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateEventResult
 
-| Prop      | Type                        | Description                                                                                                      | Since | Platform     |
-| --------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`ics`** | <code>File</code>           | An `.ics` file (`text/calendar`) with one `VEVENT`. Use `downloadIcsFile(...)` to download it in the browser.    | 8.5.0 | Web          |
-| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create. | 0.4.0 | Android, iOS |
+| Prop      | Type                        | Description                                                                                                                                                                                               | Since | Platform     |
+| --------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`ics`** | <code>File</code>           | An `.ics` file (`text/calendar`) with one `VEVENT`. Present only on Web. The plugin does not write to a calendar store or start a download; use `downloadIcsFile(...)` or pass the `File` to another API. | 8.5.0 | Web          |
+| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create.                                                                                          | 0.4.0 | Android, iOS |
 
 #### CreateEventOptions
 

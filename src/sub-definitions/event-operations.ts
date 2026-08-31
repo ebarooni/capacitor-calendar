@@ -45,7 +45,10 @@ export interface EventOperations {
   modifyEventWithPrompt(options: ModifyEventWithPromptOptions): Promise<{ result: EventEditAction | null }>;
   /**
    * Creates an event in the calendar.
-   * On Web, builds an `.ics` `File` and returns it as `ics` with `id` always `null`.
+   * On Android and iOS, inserts into the system calendar and returns its `id`.
+   * On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
+   * The app must download or open that file (for example with `downloadIcsFile(...)`);
+   * this method does not trigger a download.
    *
    * @example
    * const { id, ics } = await CapacitorCalendar.createEvent({
