@@ -53,7 +53,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `CreateEventResult` for `createEvent(...)`
 - `CreateEventWithPromptResult` for `createEventWithPrompt(...)`
 - `CreateEventOptions.icsFileName` for web `.ics` downloads
-- `downloadIcsFile(...)` helper to trigger a browser download of an `.ics` `File`
+- `downloadIcsFile(...)` helper to download an `.ics` `File` in the browser
 
 ### Changed
 
