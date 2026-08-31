@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/npm/l/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
-    <img src="https://img.shields.io/npm/dw/@ebarooni/capacitor-calendar?style=flat-square" />
+    <img src="https://img.shields.io/npm/dm/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
@@ -25,7 +25,7 @@ Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Regi
 ## Getting Started
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
 ```
 
 The server starts at `http://localhost:8080/mcp`.
@@ -33,7 +33,7 @@ The server starts at `http://localhost:8080/mcp`.
 If port 8080 is already in use, map it to any available port on your machine:
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
 ```
 
 The server would then be available at `http://localhost:9090/mcp`. Update your client configuration accordingly.
@@ -122,7 +122,7 @@ Open `mcp.json` in your editor and add the following:
 All available versions are listed on the [GitHub Packages page](https://github.com/ebarooni/capacitor-calendar/pkgs/container/capacitor-calendar-mcp). Always use a specific version tag:
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.0.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
 ```
 
 ## Local Development

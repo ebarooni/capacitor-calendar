@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 1.x.x](#version-1xx)
+  - [1.1.0](#110)
   - [1.0.0](#100)
 
 # Version 1.x.x
+
+## 1.1.0
+
+### Changed
+
+- `createEvent` now lists Web support (ICS file export)
+- `listMethods` and `searchMethods` platform filter docs include `web`
 
 ## 1.0.0
 

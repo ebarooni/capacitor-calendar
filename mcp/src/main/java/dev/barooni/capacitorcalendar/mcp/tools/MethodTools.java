@@ -105,8 +105,9 @@ public class MethodTools {
         // --- Event Operations ---
         new PluginMethod(
             "createEvent",
-            "Creates an event in the calendar.",
-            List.of("Android", "iOS"), "0.4.0", false
+            "Creates an event in the calendar. On Web, returns an .ics File as ics with id always null; " +
+                "optional icsFileName sets the download name. Use the exported downloadIcsFile helper to download it.",
+            List.of("Android", "iOS", "Web"), "0.4.0", false
         ),
         new PluginMethod(
             "createEventWithPrompt",
@@ -234,11 +235,11 @@ public class MethodTools {
 
     @Tool(
         description = "Lists all available @ebarooni/capacitor-calendar method names. " +
-                    "Optionally filter by platform (ios or android). " +
+                    "Optionally filter by platform (ios, android, or web). " +
                     "Use this to discover available methods before calling getMethod or searchMethods."
     )
     public String listMethods(
-        @ToolArg(description = "Optional platform filter: ios or android. Leave empty to list all platforms.")
+        @ToolArg(description = "Optional platform filter: ios, android, or web. Leave empty to list all platforms.")
         String platform
     ) {
         String pl = platform == null ? "" : platform.toLowerCase();
@@ -259,13 +260,13 @@ public class MethodTools {
 
     @Tool(
         description = "Searches @ebarooni/capacitor-calendar methods by keyword. Matches against method " +
-                      "names and descriptions. Optionally filter by platform (ios or android). " +
+                      "names and descriptions. Optionally filter by platform (ios, android, or web). " +
                       "Returns all matching methods with their description, platforms, and since version."
     )
     public String searchMethods(
         @ToolArg(description = "Keyword to search for in method names and descriptions")
         String keyword,
-        @ToolArg(description = "Optional platform filter: ios or android. Leave empty to search all platforms.")
+        @ToolArg(description = "Optional platform filter: ios, android, or web. Leave empty to search all platforms.")
         String platform
     ) {
         String kw = keyword.toLowerCase();
