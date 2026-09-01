@@ -19,7 +19,9 @@ import type { CheckPermissionOptions } from './schemas/interfaces/check-permissi
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
 import type { CreateCalendarResult } from './schemas/interfaces/create-calendar-result';
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
+import type { CreateEventResult } from './schemas/interfaces/create-event-result';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
+import type { CreateEventWithPromptResult } from './schemas/interfaces/create-event-with-prompt-result';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
 import type { CreateRemindersListOptions } from './schemas/interfaces/create-reminders-list-options';
 import type { CreateRemindersListResult } from './schemas/interfaces/create-reminders-list-result';
@@ -57,6 +59,7 @@ import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import type { DeleteRemindersByIdResult } from './sub-definitions/reminders-operations';
+import { downloadIcsFile } from './web/download-ics-file';
 
 const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCalendar', {
   web: () => import('./web').then((m) => new m.CapacitorCalendarWeb()),
@@ -72,7 +75,9 @@ export type {
   CreateCalendarOptions,
   CreateCalendarResult,
   CreateEventOptions,
+  CreateEventResult,
   CreateEventWithPromptOptions,
+  CreateEventWithPromptResult,
   CreateReminderOptions,
   CreateRemindersListOptions,
   CreateRemindersListResult,
@@ -124,4 +129,5 @@ export {
   AttendeeType,
   AttendeeStatus,
   CapacitorCalendar,
+  downloadIcsFile,
 };

@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.5.0](#850)
   - [8.4.0](#840)
   - [8.3.0](#830)
   - [8.2.0](#820)
@@ -43,6 +44,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.5.0
+
+### Added
+
+- Web support for `createEvent(...)` — returns an `.ics` `File` as `CreateEventResult.ics` (`id` is always `null` on web; no system calendar write or auto-download)
+- `CreateEventResult` for `createEvent(...)`
+- `CreateEventWithPromptResult` for `createEventWithPrompt(...)`
+- `CreateEventOptions.icsFileName` for web `.ics` downloads
+- `downloadIcsFile(...)` helper to download an `.ics` `File` in the browser
+
+### Changed
+
+- `CreateEventResult.id` is now `string | null` (was `string`). Native still returns a string; web always returns `null`. Narrow the type when assuming a system event id.
 
 ## 8.4.0
 

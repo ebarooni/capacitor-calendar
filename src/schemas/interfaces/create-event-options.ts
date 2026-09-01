@@ -17,19 +17,19 @@ export interface CreateEventOptions {
    * // 30 -> 30 minutes after
    * [-1440, -60, 30]
    *
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 7.1.0
    */
   alerts?: number[];
   /**
    * The event guests.
    *
-   * @platform Android
+   * @platform Android, Web
    * @since 7.1.0
    */
   attendees?: EventGuest[];
   /**
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 7.1.0
    */
   availability?: EventAvailability;
@@ -54,7 +54,7 @@ export interface CreateEventOptions {
    */
   commit?: boolean;
   /**
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 7.1.0
    */
   description?: string;
@@ -68,47 +68,56 @@ export interface CreateEventOptions {
    */
   duration?: string;
   /**
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 0.1.0
    */
   endDate?: number;
   /**
-   * @platform Android, iOS
+   * Download filename for the `.ics` file.
+   * When omitted, a name is derived from `title` (fallback `event.ics`).
+   * If the value has no `.ics` extension, `.ics` is appended.
+   *
+   * @example 'team-standup.ics'
+   * @platform Web
+   * @since 8.5.0
+   */
+  icsFileName?: string;
+  /**
+   * @platform Android, iOS, Web
    * @since 0.1.0
    */
   isAllDay?: boolean;
   /**
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 0.1.0
    */
   location?: string;
   /**
    * Email of the event organizer.
    *
-   * @platform Android
+   * @platform Android, Web
    * @since 7.1.0
    */
   organizer?: string;
   /**
    * Rules for creating a recurring event.
    *
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 7.3.0
    */
   recurrence?: EventRecurrenceRule;
   /**
-   *
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 0.1.0
    */
   startDate?: number;
   /**
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 0.4.0
    */
   title: string;
   /**
-   * @platform iOS
+   * @platform iOS, Web
    * @since 0.1.0
    */
   url?: string;

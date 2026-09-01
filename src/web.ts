@@ -9,7 +9,9 @@ import type { CheckPermissionOptions } from './schemas/interfaces/check-permissi
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
 import type { CreateCalendarResult } from './schemas/interfaces/create-calendar-result';
 import type { CreateEventOptions } from './schemas/interfaces/create-event-options';
+import type { CreateEventResult } from './schemas/interfaces/create-event-result';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
+import type { CreateEventWithPromptResult } from './schemas/interfaces/create-event-with-prompt-result';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
 import type { CreateRemindersListOptions } from './schemas/interfaces/create-reminders-list-options';
 import type { CreateRemindersListResult } from './schemas/interfaces/create-reminders-list-result';
@@ -43,6 +45,7 @@ import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import type { DeleteRemindersByIdResult } from './sub-definitions/reminders-operations';
+import { buildEventIcs, resolveIcsFileName } from './web/ics';
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
@@ -89,7 +92,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.requestFullRemindersAccess.name);
   }
 
-  public createEventWithPrompt(_options: CreateEventWithPromptOptions): Promise<{ id: string | null }> {
+  public createEventWithPrompt(_options: CreateEventWithPromptOptions): Promise<CreateEventWithPromptResult> {
     return this.throwUnimplemented(this.createEventWithPrompt.name);
   }
 
@@ -97,10 +100,17 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.modifyEventWithPrompt.name);
   }
 
-  public createEvent(_options: CreateEventOptions): Promise<{
-    id: string;
-  }> {
-    return this.throwUnimplemented(this.createEvent.name);
+  public createEvent(options: CreateEventOptions): Promise<CreateEventResult> {
+    try {
+      const content = buildEventIcs(options);
+      const ics = new File([content], resolveIcsFileName(options), {
+        type: 'text/calendar;charset=utf-8',
+      });
+      return Promise.resolve({ id: null, ics });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      return Promise.reject(new Error(message));
+    }
   }
 
   public commit(): Promise<void> {
