@@ -21,7 +21,7 @@
 
 ![capacitor-calendar-logo](assets/images/text-logo.png)
 
-Full-featured Capacitor plugin for native calendar and reminders access. Manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events within a given time period, and list all available calendars.
+Full-featured Capacitor plugin for calendar and reminders access on iOS, Android, and the web. On iOS and Android, manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events in a date range, and list available calendars. On the web, create events as ICS files that users can add to their calendar.
 
 ## Core Features
 

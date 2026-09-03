@@ -1,7 +1,7 @@
 {
   "name": "@ebarooni/capacitor-calendar",
   "version": "8.5.0",
-  "description": "A capacitor plugin for managing calendar events on iOS and Android, with reminders support on iOS.",
+  "description": "A Capacitor plugin for managing calendar events on iOS, Android, and the web, with reminders support on iOS.",
   "author": "Ehsan Barooni",
   "license": "MIT",
   "homepage": "https://ebarooni.github.io/capacitor-calendar",
