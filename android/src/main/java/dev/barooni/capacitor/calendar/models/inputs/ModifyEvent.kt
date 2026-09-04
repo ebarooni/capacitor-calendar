@@ -4,12 +4,15 @@ import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.data.EventGuest
 import dev.barooni.capacitor.calendar.models.data.EventRecurrenceRule
+import dev.barooni.capacitor.calendar.models.enums.EventSpan
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 
 data class ModifyEvent(
     private val call: PluginCall,
 ) {
     val id: Long = call.getString("id")?.toLong() ?: throw PluginError.MissingId
+    val instanceDate: Long? = call.getLong("instanceDate")
+    val span: EventSpan = call.getInt("span")?.let { EventSpan.fromInt(it) } ?: EventSpan.THIS_EVENT
     val title: String? = call.getString("title")
     val calendarId: Long? = call.getString("calendarId")?.toLong()
     val location: String? = call.getString("location")
