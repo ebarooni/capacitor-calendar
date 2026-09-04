@@ -113,30 +113,15 @@ class CapacitorCalendar(
 
     fun modifyEvent(input: ModifyEvent) {
         val cr = plugin.context.contentResolver
-        val values =
-            ContentValues().apply {
-                input.title?.let { put(CalendarContract.Events.TITLE, it) }
-                input.calendarId?.let { put(CalendarContract.Events.CALENDAR_ID, it) }
-                input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                input.startDate?.let { put(CalendarContract.Events.DTSTART, it) }
-                input.endDate?.let { put(CalendarContract.Events.DTEND, it) }
-                input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
-                input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
-                input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
-                input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
-                input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
-                input.duration?.let { put(CalendarContract.Events.DURATION, it) }
-                input.recurrence?.let { put(CalendarContract.Events.RRULE, it.toRRule()) }
-            }
-        val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, input.id)
-        cr.update(uri, values, null, null)
-        input.attendees?.let {
-            ImplementationHelper.deleteAttendeesFromEvent(input.id, cr)
-            ImplementationHelper.insertAttendeesToEvent(input.id, cr, it)
-        }
-        input.alerts?.let {
-            ImplementationHelper.deleteAlertsFromEvent(input.id, cr)
-            ImplementationHelper.insertAlertsToEvents(input.id, cr, it)
+        ImplementationHelper.ensureInstanceDatePresentIfRequired(
+            cr,
+            input.id,
+            input.span,
+            input.instanceDate,
+        )
+        val modified = ImplementationHelper.modifyEvent(cr, input)
+        if (!modified) {
+            throw PluginError.FailedToModify
         }
     }
 

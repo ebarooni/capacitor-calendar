@@ -195,6 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#modifyCalendar');
   });
 
+  document.querySelector('#modify-event').addEventListener('click', async () => {
+    await CapacitorCalendar.modifyEvent({
+      id: getEventIdInput().value,
+      instanceDate: getEventInstanceDate(),
+      span: getEventSpan(),
+      title: 'Updated recurring standup',
+    });
+    console.log('#modifyEvent');
+  });
+
   document.querySelector('#open-calendar').addEventListener('click', async () => {
     await CapacitorCalendar.openCalendar({ date: Date.now() });
     console.log('#openCalendar');

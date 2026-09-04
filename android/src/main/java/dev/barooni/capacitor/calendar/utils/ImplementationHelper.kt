@@ -8,9 +8,11 @@ import com.getcapacitor.JSArray
 import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.data.CalendarInfo
+import dev.barooni.capacitor.calendar.models.data.EventCopyInfo
 import dev.barooni.capacitor.calendar.models.data.EventDeleteInfo
 import dev.barooni.capacitor.calendar.models.data.EventGuest
 import dev.barooni.capacitor.calendar.models.enums.EventSpan
+import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
 import org.json.JSONObject
 import java.util.Calendar
 import java.util.Locale
@@ -317,7 +319,7 @@ class ImplementationHelper {
             cr: ContentResolver,
             eventId: Long,
             span: EventSpan,
-        ): Boolean = needsInstanceDate(queryEventDeleteInfo(cr, eventId), span)
+        ): Boolean = needsInstanceDate(queryEventSeriesInfo(cr, eventId), span)
 
         fun ensureInstanceDatePresentIfRequired(
             cr: ContentResolver,
@@ -336,7 +338,7 @@ class ImplementationHelper {
             span: EventSpan,
             instanceDate: Long? = null,
         ): Boolean {
-            val info = queryEventDeleteInfo(cr, eventId)
+            val info = queryEventSeriesInfo(cr, eventId)
             val masterId = info.originalId ?: eventId
             val isException = info.originalId != null
             val isRecurringMaster = !info.rrule.isNullOrBlank() && !isException
@@ -380,6 +382,67 @@ class ImplementationHelper {
 
                         else -> {
                             deleteEventRow(cr, eventId)
+                        }
+                    }
+                }
+            }
+        }
+
+        fun modifyEvent(
+            cr: ContentResolver,
+            input: ModifyEvent,
+        ): Boolean {
+            val info = queryEventSeriesInfo(cr, input.id)
+            val masterId = info.originalId ?: input.id
+            val isException = info.originalId != null
+            val isRecurringMaster = !info.rrule.isNullOrBlank() && !isException
+
+            return when (input.span) {
+                EventSpan.THIS_EVENT -> {
+                    when {
+                        isException -> {
+                            updateEventWithMods(cr, input.id, input, isRecurringTarget = false)
+                        }
+
+                        isRecurringMaster -> {
+                            val date = input.instanceDate ?: throw PluginError.InstanceDateMissing
+                            upsertModifiedException(cr, masterId, date, input)
+                        }
+
+                        else -> {
+                            updateEventWithMods(cr, input.id, input, isRecurringTarget = false)
+                        }
+                    }
+                }
+
+                EventSpan.THIS_AND_FUTURE_EVENTS -> {
+                    when {
+                        isRecurringMaster -> {
+                            // No instanceDate or at/before series start → whole series.
+                            if (input.instanceDate == null ||
+                                (info.dtStart != null && input.instanceDate <= info.dtStart)
+                            ) {
+                                updateEventWithMods(cr, masterId, input, isRecurringTarget = true)
+                            } else {
+                                modifyThisAndFuture(cr, masterId, input.instanceDate, input)
+                            }
+                        }
+
+                        isException -> {
+                            val date =
+                                input.instanceDate
+                                    ?: info.originalInstanceTime
+                                    ?: throw PluginError.InstanceDateMissing
+                            val masterInfo = queryEventSeriesInfo(cr, masterId)
+                            if (masterInfo.dtStart != null && date <= masterInfo.dtStart) {
+                                updateEventWithMods(cr, masterId, input, isRecurringTarget = true)
+                            } else {
+                                modifyThisAndFuture(cr, masterId, date, input)
+                            }
+                        }
+
+                        else -> {
+                            updateEventWithMods(cr, input.id, input, isRecurringTarget = false)
                         }
                     }
                 }
@@ -431,12 +494,340 @@ class ImplementationHelper {
             return cr.insert(uri, values) != null
         }
 
+        private fun upsertModifiedException(
+            cr: ContentResolver,
+            masterId: Long,
+            instanceDate: Long,
+            input: ModifyEvent,
+        ): Boolean {
+            findExceptionForInstance(cr, masterId, instanceDate)?.let { existingId ->
+                val values =
+                    buildModificationValues(cr, existingId, input, isRecurringTarget = false).apply {
+                        // Restore a previously canceled occurrence when re-modifying it.
+                        put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED)
+                        remove(CalendarContract.Events.RRULE)
+                    }
+                if (values.size() > 0) {
+                    val uri =
+                        ContentUris.withAppendedId(
+                            CalendarContract.Events.CONTENT_URI,
+                            existingId,
+                        )
+                    if (cr.update(uri, values, null, null) <= 0) {
+                        return false
+                    }
+                }
+                applyAttendeesAndAlerts(cr, existingId, input, replaceExisting = true)
+                return true
+            }
+
+            val values =
+                buildModificationValues(cr, null, input, isRecurringTarget = false).apply {
+                    put(CalendarContract.Events.ORIGINAL_INSTANCE_TIME, instanceDate)
+                    put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED)
+                    // Exceptions must not recur.
+                    remove(CalendarContract.Events.RRULE)
+                    if (!containsKey(CalendarContract.Events.DTSTART) &&
+                        (input.endDate != null || input.duration != null)
+                    ) {
+                        put(CalendarContract.Events.DTSTART, instanceDate)
+                    }
+                }
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_EXCEPTION_URI,
+                    masterId,
+                )
+            val resultUri = cr.insert(uri, values) ?: return false
+            val newId = resultUri.lastPathSegment?.toLongOrNull() ?: return false
+            applyAttendeesAndAlertsOrCopyFromMaster(cr, newId, masterId, input)
+            return true
+        }
+
+        private fun findExceptionForInstance(
+            cr: ContentResolver,
+            masterId: Long,
+            instanceDate: Long,
+        ): Long? {
+            val projection = arrayOf(CalendarContract.Events._ID)
+            val selection =
+                "${CalendarContract.Events.ORIGINAL_ID} = ? AND " +
+                    "${CalendarContract.Events.ORIGINAL_INSTANCE_TIME} = ?"
+            val selectionArgs = arrayOf(masterId.toString(), instanceDate.toString())
+
+            cr
+                .query(
+                    CalendarContract.Events.CONTENT_URI,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                )?.use { cursor ->
+                    if (!cursor.moveToFirst()) {
+                        return null
+                    }
+                    val idIndex = cursor.getColumnIndex(CalendarContract.Events._ID)
+                    return if (idIndex >= 0 && !cursor.isNull(idIndex)) {
+                        cursor.getLong(idIndex)
+                    } else {
+                        null
+                    }
+                }
+
+            return null
+        }
+
+        private fun modifyThisAndFuture(
+            cr: ContentResolver,
+            masterId: Long,
+            instanceDate: Long,
+            input: ModifyEvent,
+        ): Boolean {
+            val master = queryEventCopyInfo(cr, masterId) ?: return false
+            if (master.rrule.isNullOrBlank()) {
+                return false
+            }
+
+            // Insert the replacement series first. Truncate only after that succeeds so a failed
+            // insert cannot leave the original series shortened with no replacement.
+            val newStart = input.startDate ?: instanceDate
+            val values =
+                ContentValues().apply {
+                    put(CalendarContract.Events.CALENDAR_ID, input.calendarId ?: master.calendarId)
+                    put(CalendarContract.Events.DTSTART, newStart)
+                    put(
+                        CalendarContract.Events.EVENT_TIMEZONE,
+                        master.eventTimezone ?: TimeZone.getDefault().id,
+                    )
+                    (input.title ?: master.title)?.let {
+                        put(CalendarContract.Events.TITLE, it)
+                    }
+                    master.eventEndTimezone?.let {
+                        put(CalendarContract.Events.EVENT_END_TIMEZONE, it)
+                    }
+                    (input.description ?: master.description)?.let {
+                        put(CalendarContract.Events.DESCRIPTION, it)
+                    }
+                    (input.location ?: master.location)?.let {
+                        put(CalendarContract.Events.EVENT_LOCATION, it)
+                    }
+                    put(
+                        CalendarContract.Events.ALL_DAY,
+                        input.isAllDay ?: master.allDay ?: 0,
+                    )
+                    (input.availability ?: master.availability)?.let {
+                        put(CalendarContract.Events.AVAILABILITY, it)
+                    }
+                    (input.organizer ?: master.organizer)?.let {
+                        put(CalendarContract.Events.ORGANIZER, it)
+                    }
+                    (input.color ?: master.eventColor)?.let {
+                        put(CalendarContract.Events.EVENT_COLOR, it)
+                    }
+
+                    when {
+                        input.duration != null -> {
+                            put(CalendarContract.Events.DURATION, input.duration)
+                            putNull(CalendarContract.Events.DTEND)
+                        }
+
+                        input.endDate != null -> {
+                            put(
+                                CalendarContract.Events.DURATION,
+                                millisToRfc5545Duration(input.endDate - newStart),
+                            )
+                            putNull(CalendarContract.Events.DTEND)
+                        }
+
+                        master.duration != null -> {
+                            put(CalendarContract.Events.DURATION, master.duration)
+                            putNull(CalendarContract.Events.DTEND)
+                        }
+
+                        master.dtEnd != null && master.dtStart != null -> {
+                            put(
+                                CalendarContract.Events.DURATION,
+                                millisToRfc5545Duration(master.dtEnd - master.dtStart),
+                            )
+                            putNull(CalendarContract.Events.DTEND)
+                        }
+                    }
+
+                    val rrule =
+                        input.recurrence?.toRRule()
+                            ?: remainingRruleForNewSeries(master.rrule)
+                    put(CalendarContract.Events.RRULE, rrule)
+                }
+
+            val newUri = cr.insert(CalendarContract.Events.CONTENT_URI, values) ?: return false
+            val newId = newUri.lastPathSegment?.toLongOrNull() ?: return false
+            applyAttendeesAndAlertsOrCopyFromMaster(cr, newId, masterId, input)
+
+            if (!truncateSeriesBefore(cr, masterId, master.rrule, instanceDate)) {
+                deleteEventRow(cr, newId)
+                return false
+            }
+            return true
+        }
+
+        private fun updateEventWithMods(
+            cr: ContentResolver,
+            eventId: Long,
+            input: ModifyEvent,
+            isRecurringTarget: Boolean,
+        ): Boolean {
+            val values = buildModificationValues(cr, eventId, input, isRecurringTarget)
+            if (values.size() > 0) {
+                val uri =
+                    ContentUris.withAppendedId(
+                        CalendarContract.Events.CONTENT_URI,
+                        eventId,
+                    )
+                if (cr.update(uri, values, null, null) <= 0) {
+                    return false
+                }
+            }
+            applyAttendeesAndAlerts(cr, eventId, input, replaceExisting = true)
+            return true
+        }
+
+        private fun buildModificationValues(
+            cr: ContentResolver,
+            eventId: Long?,
+            input: ModifyEvent,
+            isRecurringTarget: Boolean,
+        ): ContentValues {
+            val existing = eventId?.let { queryEventCopyInfo(cr, it) }
+            val treatAsRecurring =
+                isRecurringTarget ||
+                    input.recurrence != null ||
+                    !existing?.rrule.isNullOrBlank()
+
+            return ContentValues().apply {
+                input.title?.let { put(CalendarContract.Events.TITLE, it) }
+                input.calendarId?.let { put(CalendarContract.Events.CALENDAR_ID, it) }
+                input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
+                input.startDate?.let { put(CalendarContract.Events.DTSTART, it) }
+                input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
+                input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
+                input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
+                input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
+                input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
+                input.recurrence?.let { put(CalendarContract.Events.RRULE, it.toRRule()) }
+
+                when {
+                    input.duration != null -> {
+                        put(CalendarContract.Events.DURATION, input.duration)
+                        if (treatAsRecurring) {
+                            putNull(CalendarContract.Events.DTEND)
+                        } else {
+                            input.endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                        }
+                    }
+
+                    input.endDate != null -> {
+                        if (treatAsRecurring) {
+                            val start =
+                                input.startDate
+                                    ?: existing?.dtStart
+                            if (start != null) {
+                                put(
+                                    CalendarContract.Events.DURATION,
+                                    millisToRfc5545Duration(input.endDate - start),
+                                )
+                                putNull(CalendarContract.Events.DTEND)
+                            }
+                            // Skip DTEND on duration+RRULE rows when start is unknown.
+                        } else {
+                            put(CalendarContract.Events.DTEND, input.endDate)
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun applyAttendeesAndAlerts(
+            cr: ContentResolver,
+            eventId: Long,
+            input: ModifyEvent,
+            replaceExisting: Boolean,
+        ) {
+            input.attendees?.let {
+                if (replaceExisting) {
+                    deleteAttendeesFromEvent(eventId, cr)
+                }
+                insertAttendeesToEvent(eventId, cr, it)
+            }
+            input.alerts?.let {
+                if (replaceExisting) {
+                    deleteAlertsFromEvent(eventId, cr)
+                }
+                insertAlertsToEvents(eventId, cr, it)
+            }
+        }
+
+        private fun applyAttendeesAndAlertsOrCopyFromMaster(
+            cr: ContentResolver,
+            eventId: Long,
+            masterId: Long,
+            input: ModifyEvent,
+        ) {
+            if (input.attendees != null) {
+                insertAttendeesToEvent(eventId, cr, input.attendees)
+            } else {
+                val existing = getEventAttendees(cr, masterId)
+                if (existing.isNotEmpty()) {
+                    insertAttendeesToEvent(eventId, cr, existing)
+                }
+            }
+            if (input.alerts != null) {
+                insertAlertsToEvents(eventId, cr, input.alerts)
+            } else {
+                val existing = getEventAlerts(cr, masterId)
+                if (existing.isNotEmpty()) {
+                    insertAlertsToEvents(eventId, cr, existing)
+                }
+            }
+        }
+
+        private fun millisToRfc5545Duration(durationMs: Long): String {
+            val seconds = (durationMs / 1000L).coerceAtLeast(0L)
+            return "P${seconds}S"
+        }
+
+        private fun remainingRruleForNewSeries(rrule: String): String =
+            rrule
+                .split(";")
+                .filter { part ->
+                    val key = part.substringBefore("=").uppercase()
+                    // Drop COUNT — past occurrences already consumed some of the original count.
+                    key.isNotEmpty() && key != "COUNT"
+                }.joinToString(";")
+
+        private fun truncateSeriesBefore(
+            cr: ContentResolver,
+            masterId: Long,
+            rrule: String,
+            instanceDate: Long,
+        ): Boolean {
+            val values =
+                ContentValues().apply {
+                    put(CalendarContract.Events.RRULE, rruleEndingBefore(rrule, instanceDate))
+                }
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    masterId,
+                )
+            return cr.update(uri, values, null, null) > 0
+        }
+
         private fun deleteThisAndFuture(
             cr: ContentResolver,
             masterId: Long,
             instanceDate: Long,
         ): Boolean {
-            val info = queryEventDeleteInfo(cr, masterId)
+            val info = queryEventSeriesInfo(cr, masterId)
             val rrule = info.rrule
             if (rrule.isNullOrBlank()) {
                 return false
@@ -448,16 +839,7 @@ class ImplementationHelper {
                 return deleteEventRow(cr, masterId)
             }
 
-            val values =
-                ContentValues().apply {
-                    put(CalendarContract.Events.RRULE, rruleEndingBefore(rrule, instanceDate))
-                }
-            val uri =
-                ContentUris.withAppendedId(
-                    CalendarContract.Events.CONTENT_URI,
-                    masterId,
-                )
-            return cr.update(uri, values, null, null) > 0
+            return truncateSeriesBefore(cr, masterId, rrule, instanceDate)
         }
 
         private fun rruleEndingBefore(
@@ -501,7 +883,7 @@ class ImplementationHelper {
             )
         }
 
-        private fun queryEventDeleteInfo(
+        private fun queryEventSeriesInfo(
             cr: ContentResolver,
             eventId: Long,
         ): EventDeleteInfo {
@@ -584,6 +966,83 @@ class ImplementationHelper {
                 originalInstanceTime = null,
                 rrule = null,
             )
+        }
+
+        private fun queryEventCopyInfo(
+            cr: ContentResolver,
+            eventId: Long,
+        ): EventCopyInfo? {
+            val uri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    eventId,
+                )
+            val projection =
+                arrayOf(
+                    CalendarContract.Events.CALENDAR_ID,
+                    CalendarContract.Events.TITLE,
+                    CalendarContract.Events.DESCRIPTION,
+                    CalendarContract.Events.EVENT_LOCATION,
+                    CalendarContract.Events.DTSTART,
+                    CalendarContract.Events.DTEND,
+                    CalendarContract.Events.DURATION,
+                    CalendarContract.Events.ALL_DAY,
+                    CalendarContract.Events.EVENT_TIMEZONE,
+                    CalendarContract.Events.EVENT_END_TIMEZONE,
+                    CalendarContract.Events.AVAILABILITY,
+                    CalendarContract.Events.ORGANIZER,
+                    CalendarContract.Events.EVENT_COLOR,
+                    CalendarContract.Events.RRULE,
+                )
+
+            cr
+                .query(
+                    uri,
+                    projection,
+                    null,
+                    null,
+                    null,
+                )?.use { cursor ->
+                    if (!cursor.moveToFirst()) {
+                        return null
+                    }
+
+                    fun longOrNull(column: String): Long? {
+                        val index = cursor.getColumnIndex(column)
+                        return if (index >= 0 && !cursor.isNull(index)) cursor.getLong(index) else null
+                    }
+
+                    fun intOrNull(column: String): Int? {
+                        val index = cursor.getColumnIndex(column)
+                        return if (index >= 0 && !cursor.isNull(index)) cursor.getInt(index) else null
+                    }
+
+                    fun stringOrNull(column: String): String? {
+                        val index = cursor.getColumnIndex(column)
+                        return if (index >= 0 && !cursor.isNull(index)) cursor.getString(index) else null
+                    }
+
+                    val calendarId = longOrNull(CalendarContract.Events.CALENDAR_ID) ?: return null
+
+                    return EventCopyInfo(
+                        calendarId = calendarId,
+                        title = stringOrNull(CalendarContract.Events.TITLE),
+                        description = stringOrNull(CalendarContract.Events.DESCRIPTION),
+                        location = stringOrNull(CalendarContract.Events.EVENT_LOCATION),
+                        dtStart = longOrNull(CalendarContract.Events.DTSTART),
+                        dtEnd = longOrNull(CalendarContract.Events.DTEND),
+                        duration = stringOrNull(CalendarContract.Events.DURATION),
+                        allDay = intOrNull(CalendarContract.Events.ALL_DAY),
+                        eventTimezone = stringOrNull(CalendarContract.Events.EVENT_TIMEZONE),
+                        eventEndTimezone = stringOrNull(CalendarContract.Events.EVENT_END_TIMEZONE),
+                        availability = intOrNull(CalendarContract.Events.AVAILABILITY),
+                        organizer = stringOrNull(CalendarContract.Events.ORGANIZER),
+                        eventColor = intOrNull(CalendarContract.Events.EVENT_COLOR),
+                        rrule = stringOrNull(CalendarContract.Events.RRULE),
+                    )
+                }
+
+            return null
         }
 
         fun getEventAlerts(
