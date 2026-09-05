@@ -53,6 +53,10 @@ Changelogs for the versions supporting Capacitor 8.
 - `CalendarEvent.isPartOfSeries` on events returned by `listEventsInRange(...)` so apps can detect recurring-series membership (Android, iOS)
 - `ListEventsInRangeResult` for `listEventsInRange(...)`
 
+### Fixed
+
+- `CreateEventResult.ics` is now always `null` on Android and iOS (was omitted / `undefined`)
+
 ## 8.5.0
 
 ### Added

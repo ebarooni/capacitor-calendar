@@ -15,6 +15,7 @@ data class CreateEventResult(
 
     override fun toJSON(): JSObject {
         val result = JSObject()
+        result.put("ics", null)
         result.put("id", id.toString())
         return result
     }

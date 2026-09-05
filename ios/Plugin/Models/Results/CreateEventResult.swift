@@ -12,6 +12,7 @@ struct CreateEventResult: JSResult {
 
     func toJSON() -> JSObject {
         var result = JSObject()
+        result["ics"] = NSNull()
         result["id"] = id
         return result
     }
