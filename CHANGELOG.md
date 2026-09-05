@@ -52,6 +52,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 - `CalendarEvent.masterId` on events returned by `listEventsInRange(...)` so apps can distinguish series masters from exception rows (Android; always `null` on iOS and web)
 - `CalendarEvent.calendarItemExternalIdentifier` on events returned by `listEventsInRange(...)` (iOS stable external / cross-device id; always `null` on Android and web)
+- `CalendarEvent.seriesStartDate` on events returned by `listEventsInRange(...)` so apps can read when a recurring series begins (equals `startDate` for one-off events; iOS detached may fall back to `startDate`)
 - `CalendarEvent.isPartOfSeries` on events returned by `listEventsInRange(...)` so apps can detect recurring-series membership (Android, iOS)
 - `ListEventsInRangeResult` for `listEventsInRange(...)`
 

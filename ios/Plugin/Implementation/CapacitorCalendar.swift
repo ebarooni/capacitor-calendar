@@ -554,7 +554,7 @@ class CapacitorCalendar: NSObject {
             end: input.getTo(), calendars: nil
         )
         let events = eventStore.events(matching: predicate)
-        return ListEventsInRangeResult(events)
+        return ListEventsInRangeResult(events, eventStore: eventStore)
     }
 
     func modifyCalendar(_ input: ModifyCalendarInput) throws {

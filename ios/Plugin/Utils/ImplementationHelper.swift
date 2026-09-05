@@ -263,7 +263,12 @@ struct ImplementationHelper {
         return result
     }
 
-    static func eventToJSObject(_ event: EKEvent) -> JSObject {
+    static func eventToJSObject(
+        _ event: EKEvent,
+        eventStore: EKEventStore,
+        seriesStartDateCache: inout [String: Double]
+    ) -> JSObject {
+        let startDateMillis = ImplementationHelper.dateToMillis(event.startDate) ?? 0
         var obj: JSObject = [
             "id": event.eventIdentifier,
             "masterId": NSNull(),
@@ -271,7 +276,13 @@ struct ImplementationHelper {
             "calendarId": event.calendar?.calendarIdentifier ?? NSNull(),
             "calendarItemExternalIdentifier": event.calendarItemExternalIdentifier ?? NSNull(),
             "location": event.location ?? NSNull(),
-            "startDate": ImplementationHelper.dateToMillis(event.startDate) ?? NSNull(),
+            "startDate": startDateMillis,
+            "seriesStartDate": ImplementationHelper.seriesStartDateMillis(
+                for: event,
+                occurrenceStartMillis: startDateMillis,
+                eventStore: eventStore,
+                cache: &seriesStartDateCache
+            ),
             "endDate": ImplementationHelper.dateToMillis(event.endDate) ?? NSNull(),
             "isAllDay": event.isAllDay,
             "alerts": ImplementationHelper.alarmsToJSObject(event.alarms),
@@ -306,6 +317,34 @@ struct ImplementationHelper {
             obj["attendees"] = attendees.map { ImplementationHelper.eventAttendeeToJSObject($0) }
         }
         return obj
+    }
+
+    /// Series start in ms. Non-recurring and detached use the occurrence start.
+    /// Recurring non-detached use the first occurrence from `event(withIdentifier:)`, cached per call.
+    static func seriesStartDateMillis(
+        for event: EKEvent,
+        occurrenceStartMillis: Double,
+        eventStore: EKEventStore,
+        cache: inout [String: Double]
+    ) -> Double {
+        if event.isDetached || !event.hasRecurrenceRules {
+            return occurrenceStartMillis
+        }
+
+        let identifier = event.eventIdentifier
+        if let cached = cache[identifier] {
+            return cached
+        }
+
+        let seriesStart: Double
+        if let firstOccurrence = eventStore.event(withIdentifier: identifier),
+           let millis = ImplementationHelper.dateToMillis(firstOccurrence.startDate) {
+            seriesStart = millis
+        } else {
+            seriesStart = occurrenceStartMillis
+        }
+        cache[identifier] = seriesStart
+        return seriesStart
     }
 
     static func eventAttendeeToJSObject(_ attendee: EKParticipant) -> JSObject {

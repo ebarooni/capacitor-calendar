@@ -83,6 +83,17 @@ export interface CalendarEvent {
    */
   startDate: number;
   /**
+   * Start time of the recurring series, in milliseconds since the epoch.
+   *
+   * Equals `startDate` for one-off events. On iOS, equals `startDate` when
+   * the series start is not available for a detached exception.
+   *
+   * @example 1719792000000
+   * @platform Android, iOS
+   * @since 8.6.0
+   */
+  seriesStartDate: number;
+  /**
    * @platform Android, iOS
    * @since 7.1.0
    */

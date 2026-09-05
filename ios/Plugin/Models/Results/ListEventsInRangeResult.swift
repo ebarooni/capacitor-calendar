@@ -3,14 +3,27 @@ import EventKit
 
 struct ListEventsInRangeResult: JSResult {
     private let events: [EKEvent]
+    private let eventStore: EKEventStore
 
-    init(_ events: [EKEvent]) {
+    init(_ events: [EKEvent], eventStore: EKEventStore) {
         self.events = events
+        self.eventStore = eventStore
     }
 
     func toJSON() -> JSObject {
         var result = JSObject()
-        result["result"] = events.map { ImplementationHelper.eventToJSObject($0) }
+        var seriesStartDateCache: [String: Double] = [:]
+        var jsEvents = JSArray()
+        for event in events {
+            jsEvents.append(
+                ImplementationHelper.eventToJSObject(
+                    event,
+                    eventStore: eventStore,
+                    seriesStartDateCache: &seriesStartDateCache
+                )
+            )
+        }
+        result["result"] = jsEvents
         return result
     }
 }

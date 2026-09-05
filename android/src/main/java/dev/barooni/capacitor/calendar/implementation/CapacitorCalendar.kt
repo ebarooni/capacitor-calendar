@@ -309,6 +309,34 @@ class CapacitorCalendar(
     fun listEventsInRange(input: ListEventsInRangeInput): ListEventsInRangeResult {
         val cr = plugin.context.contentResolver
         val events = mutableListOf<CalendarEvent>()
+        // Cache master Events.DTSTART by master id for this call only.
+        val seriesStartDateCache = mutableMapOf<Long, Long?>()
+
+        fun resolveMasterDtStart(masterEventId: Long): Long? {
+            if (seriesStartDateCache.containsKey(masterEventId)) {
+                return seriesStartDateCache[masterEventId]
+            }
+            val eventUri =
+                ContentUris.withAppendedId(
+                    CalendarContract.Events.CONTENT_URI,
+                    masterEventId,
+                )
+            val dtStartProjection = arrayOf(CalendarContract.Events.DTSTART)
+            val dtStart =
+                cr.query(eventUri, dtStartProjection, null, null, null)?.use { eventCursor ->
+                    if (!eventCursor.moveToFirst()) {
+                        return@use null
+                    }
+                    val dtStartIndex = eventCursor.getColumnIndex(CalendarContract.Events.DTSTART)
+                    if (dtStartIndex >= 0 && !eventCursor.isNull(dtStartIndex)) {
+                        eventCursor.getLong(dtStartIndex)
+                    } else {
+                        null
+                    }
+                }
+            seriesStartDateCache[masterEventId] = dtStart
+            return dtStart
+        }
 
         val builder: Uri.Builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
         ContentUris.appendId(builder, input.from)
@@ -333,6 +361,7 @@ class CapacitorCalendar(
                 CalendarContract.Instances.DURATION,
                 CalendarContract.Instances.RRULE,
                 CalendarContract.Instances.ORIGINAL_ID,
+                CalendarContract.Instances.DTSTART,
             )
 
         val selection =
@@ -434,6 +463,30 @@ class CapacitorCalendar(
                 val isPartOfSeries = !rrule.isNullOrEmpty() || hasOriginalId
                 val masterId = (originalId ?: eventId).toString()
 
+                // Series start = master Events.DTSTART.
+                // One-shot: always equals occurrence BEGIN (startDate).
+                // Master occurrence: prefer Instances-joined DTSTART; else look up Events.
+                // Exception: look up master DTSTART (cached per call).
+                val seriesStartDate =
+                    when {
+                        !isPartOfSeries -> {
+                            startDate
+                        }
+
+                        originalId != null -> {
+                            resolveMasterDtStart(originalId) ?: startDate
+                        }
+
+                        else -> {
+                            val dtStartIndex = cursorInstance.getColumnIndex(CalendarContract.Instances.DTSTART)
+                            if (dtStartIndex != -1 && !cursorInstance.isNull(dtStartIndex)) {
+                                cursorInstance.getLong(dtStartIndex)
+                            } else {
+                                resolveMasterDtStart(eventId) ?: startDate
+                            }
+                        }
+                    }
+
                 events.add(
                     CalendarEvent(
                         eventId.toString(),
@@ -443,6 +496,7 @@ class CapacitorCalendar(
                         null,
                         location,
                         startDate,
+                        seriesStartDate,
                         endDate,
                         isAllDay,
                         alerts,

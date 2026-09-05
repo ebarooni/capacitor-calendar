@@ -20,6 +20,7 @@ data class ListEventsInRangeResult(
             obj.put("calendarItemExternalIdentifier", event.calendarItemExternalIdentifier)
             obj.put("location", event.location)
             obj.put("startDate", event.startDate)
+            obj.put("seriesStartDate", event.seriesStartDate)
             obj.put("endDate", event.endDate)
             obj.put("isAllDay", event.isAllDay)
             event.alerts.let { alerts ->
