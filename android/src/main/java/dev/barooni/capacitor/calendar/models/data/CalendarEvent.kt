@@ -8,6 +8,7 @@ data class CalendarEvent(
     val calendarItemExternalIdentifier: String?,
     val location: String?,
     val startDate: Long,
+    val seriesStartDate: Long,
     val endDate: Long,
     val isAllDay: Boolean,
     val alerts: List<Int>,
