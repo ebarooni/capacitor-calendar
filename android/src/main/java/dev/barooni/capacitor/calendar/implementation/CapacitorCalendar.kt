@@ -417,17 +417,30 @@ class CapacitorCalendar(
                         .takeIf { it != -1 }
                         ?.let { cursorInstance.getString(it) }
 
+                // ORIGINAL_ID is set only on exception rows. It points to the master.
+                // Treat null or 0 as absent. Then this row is the master or a one-shot,
+                // so masterId equals EVENT_ID.
+                // If only ORIGINAL_SYNC_ID is set, masterId can equal id until sync
+                // fills ORIGINAL_ID.
                 val originalIdIndex = cursorInstance.getColumnIndex(CalendarContract.Instances.ORIGINAL_ID)
-                val hasOriginalId =
-                    originalIdIndex != -1 && !cursorInstance.isNull(originalIdIndex)
+                val originalId =
+                    if (originalIdIndex != -1 && !cursorInstance.isNull(originalIdIndex)) {
+                        cursorInstance.getLong(originalIdIndex).takeIf { it != 0L }
+                    } else {
+                        null
+                    }
+                val hasOriginalId = originalId != null
 
                 val isPartOfSeries = !rrule.isNullOrEmpty() || hasOriginalId
+                val masterId = (originalId ?: eventId).toString()
 
                 events.add(
                     CalendarEvent(
                         eventId.toString(),
+                        masterId,
                         title,
                         calendarId,
+                        null,
                         location,
                         startDate,
                         endDate,

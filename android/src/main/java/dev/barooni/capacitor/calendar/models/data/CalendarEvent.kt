@@ -2,8 +2,10 @@ package dev.barooni.capacitor.calendar.models.data
 
 data class CalendarEvent(
     val id: String,
+    val masterId: String,
     val title: String,
     val calendarId: String?,
+    val calendarItemExternalIdentifier: String?,
     val location: String?,
     val startDate: Long,
     val endDate: Long,

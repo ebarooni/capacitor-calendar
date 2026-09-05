@@ -266,12 +266,14 @@ struct ImplementationHelper {
     static func eventToJSObject(_ event: EKEvent) -> JSObject {
         var obj: JSObject = [
             "id": event.eventIdentifier,
+            "masterId": NSNull(),
             "title": event.title,
             "calendarId": event.calendar?.calendarIdentifier ?? NSNull(),
+            "calendarItemExternalIdentifier": event.calendarItemExternalIdentifier ?? NSNull(),
             "location": event.location ?? NSNull(),
             "startDate": ImplementationHelper.dateToMillis(event.startDate) ?? NSNull(),
             "endDate": ImplementationHelper.dateToMillis(event.endDate) ?? NSNull(),
-            "allDay": event.isAllDay,
+            "isAllDay": event.isAllDay,
             "alerts": ImplementationHelper.alarmsToJSObject(event.alarms),
             "url": event.url?.absoluteString ?? NSNull(),
             "description": event.notes ?? NSNull(),

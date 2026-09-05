@@ -14,8 +14,10 @@ data class ListEventsInRangeResult(
         events.forEach { event ->
             val obj = JSObject()
             obj.put("id", event.id)
+            obj.put("masterId", event.masterId)
             obj.put("title", event.title)
             obj.put("calendarId", event.calendarId)
+            obj.put("calendarItemExternalIdentifier", event.calendarItemExternalIdentifier)
             obj.put("location", event.location)
             obj.put("startDate", event.startDate)
             obj.put("endDate", event.endDate)
