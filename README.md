@@ -37,7 +37,7 @@ Full-featured Capacitor plugin for calendar and reminders access on iOS, Android
 
 - **iOS** — Full support (including Reminders and advanced features)
 - **Android** — Strong support for all core calendar features
-- **Web** — Partial support (create event)
+- **Web** — Partial support (create events as `.ics` files)
 
 ## Why this plugin?
 
