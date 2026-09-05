@@ -14,6 +14,31 @@ export interface CalendarEvent {
    */
   id: string;
   /**
+   * The id of the series master for this listed occurrence.
+   *
+   * On Android this is always a string. On iOS and web it is always `null`.
+   * iOS has no public master event id. Use `calendarItemExternalIdentifier`
+   * on iOS instead.
+   *
+   * Do not treat this field as the same as `calendarItemExternalIdentifier`.
+   * They identify different things on different platforms.
+   *
+   * If this row is the master or a one-shot event, `masterId` equals `id`.
+   * If this row is an exception, `id` is the exception and `masterId` is the
+   * series master.
+   *
+   * To modify or delete the whole series, pass `masterId` as the `id` option.
+   * You still need `span` and `instanceDate` when those APIs require them.
+   *
+   * In rare sync cases, an exception may temporarily report `masterId` equal
+   * to `id` until the platform links it to the series master.
+   *
+   * @example "42"
+   * @platform Android
+   * @since 8.6.0
+   */
+  masterId: string | null;
+  /**
    * @platform Android, iOS
    * @since 7.1.0
    */
@@ -23,6 +48,30 @@ export interface CalendarEvent {
    * @since 7.1.0
    */
   calendarId: string | null;
+  /**
+   * A stable external id for this calendar item.
+   *
+   * On iOS this is set when the system provides it. On Android and web it is
+   * always `null`. Use `masterId` on Android for the series master id.
+   *
+   * Do not treat this field as the same as `masterId`.
+   * They identify different things on different platforms.
+   *
+   * For non-detached occurrences of a series, this value is shared across
+   * those occurrences. On one device, `id` is often already shared for them.
+   * This field is mainly useful as a stable id across devices.
+   *
+   * Detached exceptions usually get a new identifier.
+   * You cannot find the original series from this value.
+   * Use `isDetached` and `isPartOfSeries` instead.
+   * Do not pass this value where the plugin expects an event `id`.
+   *
+   * @example "1A2B3C4D-...."
+   * @platform iOS
+   * @see {@link https://developer.apple.com/documentation/eventkit/ekcalendaritem/calendaritemexternalidentifier}
+   * @since 8.6.0
+   */
+  calendarItemExternalIdentifier: string | null;
   /**
    * @platform Android, iOS
    * @since 7.1.0

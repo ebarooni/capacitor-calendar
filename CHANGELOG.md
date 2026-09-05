@@ -50,12 +50,16 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
+- `CalendarEvent.masterId` on events returned by `listEventsInRange(...)` so apps can distinguish series masters from exception rows (Android; always `null` on iOS and web)
+- `CalendarEvent.calendarItemExternalIdentifier` on events returned by `listEventsInRange(...)` (iOS stable external / cross-device id; always `null` on Android and web)
 - `CalendarEvent.isPartOfSeries` on events returned by `listEventsInRange(...)` so apps can detect recurring-series membership (Android, iOS)
 - `ListEventsInRangeResult` for `listEventsInRange(...)`
 
 ### Fixed
 
 - `CreateEventResult.ics` is now always `null` on Android and iOS (was omitted / `undefined`)
+- `listEventsInRange(...)` on iOS now returns `isAllDay` (was incorrectly keyed as `allDay`)
+- Android `listEventsInRange(...)` treats `ORIGINAL_ID` of `0` as absent when deriving `masterId` and `isPartOfSeries`
 
 ## 8.5.0
 

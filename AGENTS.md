@@ -14,6 +14,10 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
   - Prefer a one-line summary.
   - Add a second sentence only when the name alone is ambiguous.
   - Do not compare related fields unless the values interact.
+  - Write for web developers who use the plugin. Prefer plugin terms and
+    platform names. Avoid native API jargon (EventKit, CalendarContract,
+    column names, and similar) in the prose. Optional `@see` links to
+    platform docs are fine.
 
 ## Important Rules
 
