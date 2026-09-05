@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.6.0](#860)
   - [8.5.0](#850)
   - [8.4.0](#840)
   - [8.3.0](#830)
@@ -44,6 +45,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.6.0
+
+### Added
+
+- `CalendarEvent.isPartOfSeries` on events returned by `listEventsInRange(...)` so apps can detect recurring-series membership (Android, iOS)
+- `ListEventsInRangeResult` for `listEventsInRange(...)`
 
 ## 8.5.0
 

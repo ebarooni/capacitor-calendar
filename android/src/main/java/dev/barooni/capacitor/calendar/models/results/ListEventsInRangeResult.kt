@@ -32,6 +32,7 @@ data class ListEventsInRangeResult(
             obj.put("color", event.color)
             obj.put("duration", event.duration)
             obj.put("isDetached", event.isDetached)
+            obj.put("isPartOfSeries", event.isPartOfSeries)
             obj.put("birthdayContactIdentifier", event.birthdayContactIdentifier)
             obj.put("status", event.status)
             obj.put("creationDate", event.creationDate)

@@ -331,6 +331,8 @@ class CapacitorCalendar(
                 CalendarContract.Instances.EVENT_TIMEZONE,
                 CalendarContract.Instances.STATUS,
                 CalendarContract.Instances.DURATION,
+                CalendarContract.Instances.RRULE,
+                CalendarContract.Instances.ORIGINAL_ID,
             )
 
         val selection =
@@ -409,6 +411,18 @@ class CapacitorCalendar(
 
                 val attendees = ImplementationHelper.getEventAttendees(cr, eventId)
 
+                val rrule =
+                    cursorInstance
+                        .getColumnIndex(CalendarContract.Instances.RRULE)
+                        .takeIf { it != -1 }
+                        ?.let { cursorInstance.getString(it) }
+
+                val originalIdIndex = cursorInstance.getColumnIndex(CalendarContract.Instances.ORIGINAL_ID)
+                val hasOriginalId =
+                    originalIdIndex != -1 && !cursorInstance.isNull(originalIdIndex)
+
+                val isPartOfSeries = !rrule.isNullOrEmpty() || hasOriginalId
+
                 events.add(
                     CalendarEvent(
                         eventId.toString(),
@@ -426,6 +440,7 @@ class CapacitorCalendar(
                         color,
                         duration,
                         null,
+                        isPartOfSeries,
                         null,
                         status,
                         null,
