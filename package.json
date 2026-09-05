@@ -42,7 +42,7 @@
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "build:app": "cd example-app && npm run build",
     "clean": "rimraf ./dist",
-    "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api CapacitorCalendarPlugin --output-readme README.md --output-json dist/docs.json && prettier --write README.md",
     "eslint": "eslint . --ext ts",
     "fmt": "npm run eslint -- --fix && npm run prettier:fix && npm run swiftlint -- --fix --format && npm run fmt:android",
     "fmt:android": "npm run ktlint -- -F",
