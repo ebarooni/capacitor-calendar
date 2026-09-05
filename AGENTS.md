@@ -4,14 +4,16 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 
 ## Writing Style
 
-Use plain, direct language.
-
 - Follow ASD-STE100 Simplified Technical English for vocabulary and sentence structure.
 - Apply Zinsser's four principles of quality writing:
-  1. Simplicity: Use common words. Prefer short sentences.
-  2. Brevity: Remove words that do not add meaning.
+  1. Simplicity: Use common, plain words. Prefer short, direct sentences.
+  2. Brevity: Remove words that do not add meaning. Do not restate the same idea in a second sentence.
   3. Clarity: State one idea per sentence. Avoid ambiguity.
   4. Humanity: Write for a person, not a manual. Be direct and respectful.
+- For public API JSDoc:
+  - Prefer a one-line summary.
+  - Add a second sentence only when the name alone is ambiguous.
+  - Do not compare related fields unless the values interact.
 
 ## Important Rules
 
