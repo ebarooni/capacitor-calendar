@@ -331,7 +331,9 @@ struct ImplementationHelper {
             return occurrenceStartMillis
         }
 
-        let identifier = event.eventIdentifier
+        guard let identifier = event.eventIdentifier else {
+            return occurrenceStartMillis
+        }
         if let cached = cache[identifier] {
             return cached
         }
