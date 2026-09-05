@@ -280,6 +280,7 @@ struct ImplementationHelper {
             "color": ImplementationHelper.cgColorToHex(event.calendar.cgColor) ?? NSNull(),
             "duration": NSNull(),
             "isDetached": event.isDetached,
+            "isPartOfSeries": event.hasRecurrenceRules || event.isDetached,
             "birthdayContactIdentifier": event.birthdayContactIdentifier ?? NSNull(),
             "status": ImplementationHelper.mapEKEventStatusToEventStatus(event.status),
             "attendees": []

@@ -40,6 +40,7 @@ import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-b
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
+import type { ListEventsInRangeResult } from './schemas/interfaces/list-events-in-range-result';
 import type { ModifyCalendarOptions } from './schemas/interfaces/modify-calendar-options';
 import type { ModifyEventOptions } from './schemas/interfaces/modify-event-options';
 import type { ModifyEventWithPromptOptions } from './schemas/interfaces/modify-event-with-prompt-options';
@@ -99,6 +100,7 @@ export type {
   GetRemindersFromListsOptions,
   ListCalendarsResult,
   ListEventsInRangeOptions,
+  ListEventsInRangeResult,
   ModifyCalendarOptions,
   ModifyEventOptions,
   ModifyEventWithPromptOptions,

@@ -86,6 +86,19 @@ export interface CalendarEvent {
    */
   isDetached: boolean | null;
   /**
+   * Whether this event belongs to a recurring series.
+   *
+   * `true` for series occurrences and detached exceptions.
+   * `false` for one-off events.
+   *
+   * Detached exceptions also set `isDetached` (iOS only).
+   *
+   * @example true
+   * @platform Android, iOS
+   * @since 8.6.0
+   */
+  isPartOfSeries: boolean;
+  /**
    * @platform iOS
    * @see {@link https://developer.apple.com/documentation/eventkit/ekevent/birthdaycontactidentifier}
    * @since 7.1.0

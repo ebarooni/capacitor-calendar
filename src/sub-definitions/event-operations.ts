@@ -1,4 +1,3 @@
-import type { CalendarEvent } from '../schemas/interfaces/calendar-event';
 import type { CreateEventOptions } from '../schemas/interfaces/create-event-options';
 import type { CreateEventResult } from '../schemas/interfaces/create-event-result';
 import type { CreateEventWithPromptOptions } from '../schemas/interfaces/create-event-with-prompt-options';
@@ -7,6 +6,7 @@ import type { DeleteEventOptions } from '../schemas/interfaces/delete-event-opti
 import type { DeleteEventWithPromptOptions } from '../schemas/interfaces/delete-event-with-prompt-options';
 import type { DeleteEventsByIdOptions } from '../schemas/interfaces/delete-events-by-id-options';
 import type { ListEventsInRangeOptions } from '../schemas/interfaces/list-events-in-range-options';
+import type { ListEventsInRangeResult } from '../schemas/interfaces/list-events-in-range-result';
 import type { ModifyEventOptions } from '../schemas/interfaces/modify-event-options';
 import type { ModifyEventWithPromptOptions } from '../schemas/interfaces/modify-event-with-prompt-options';
 import type { EventEditAction } from '../schemas/types/event-edit-action';
@@ -113,7 +113,7 @@ export interface EventOperations {
    * @platform Android, iOS
    * @since 0.10.0
    */
-  listEventsInRange(options: ListEventsInRangeOptions): Promise<{ result: CalendarEvent[] }>;
+  listEventsInRange(options: ListEventsInRangeOptions): Promise<ListEventsInRangeResult>;
 }
 
 /**

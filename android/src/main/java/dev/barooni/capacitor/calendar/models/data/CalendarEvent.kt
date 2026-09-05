@@ -16,6 +16,7 @@ data class CalendarEvent(
     val color: String?,
     val duration: String?,
     val isDetached: Boolean?,
+    val isPartOfSeries: Boolean,
     val birthdayContactIdentifier: String?,
     val status: String?,
     val creationDate: Long?,

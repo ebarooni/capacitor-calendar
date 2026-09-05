@@ -3,7 +3,6 @@ import { WebPlugin } from '@capacitor/core';
 
 import type { CapacitorCalendarPlugin } from './definitions';
 import type { Calendar } from './schemas/interfaces/calendar';
-import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
@@ -29,6 +28,7 @@ import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-b
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
+import type { ListEventsInRangeResult } from './schemas/interfaces/list-events-in-range-result';
 import type { ModifyCalendarOptions } from './schemas/interfaces/modify-calendar-options';
 import type { ModifyEventOptions } from './schemas/interfaces/modify-event-options';
 import type { ModifyEventWithPromptOptions } from './schemas/interfaces/modify-event-with-prompt-options';
@@ -205,7 +205,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.deleteEventWithPrompt.name);
   }
 
-  public listEventsInRange(_options: ListEventsInRangeOptions): Promise<{ result: CalendarEvent[] }> {
+  public listEventsInRange(_options: ListEventsInRangeOptions): Promise<ListEventsInRangeResult> {
     return this.throwUnimplemented(this.listEventsInRange.name);
   }
 
