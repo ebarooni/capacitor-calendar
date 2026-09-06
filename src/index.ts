@@ -23,6 +23,7 @@ import type { CreateEventResult } from './schemas/interfaces/create-event-result
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
 import type { CreateEventWithPromptResult } from './schemas/interfaces/create-event-with-prompt-result';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
+import type { CreateReminderResult } from './schemas/interfaces/create-reminder-result';
 import type { CreateRemindersListOptions } from './schemas/interfaces/create-reminders-list-options';
 import type { CreateRemindersListResult } from './schemas/interfaces/create-reminders-list-result';
 import type { DeleteCalendarOptions } from './schemas/interfaces/delete-calendar-options';
@@ -32,12 +33,15 @@ import type { DeleteEventsByIdOptions } from './schemas/interfaces/delete-events
 import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder-options';
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
+import type { DeleteRemindersByIdResult } from './schemas/interfaces/delete-reminders-by-id-result';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
 import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
+import type { GetReminderByIdResult } from './schemas/interfaces/get-reminder-by-id-result';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
+import type { GetRemindersFromListsResult } from './schemas/interfaces/get-reminders-from-lists-result';
 import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
 import type { ListEventsInRangeResult } from './schemas/interfaces/list-events-in-range-result';
@@ -59,7 +63,6 @@ import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
-import type { DeleteRemindersByIdResult } from './sub-definitions/reminders-operations';
 import { downloadIcsFile } from './web/download-ics-file';
 
 const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCalendar', {
@@ -80,6 +83,7 @@ export type {
   CreateEventWithPromptOptions,
   CreateEventWithPromptResult,
   CreateReminderOptions,
+  CreateReminderResult,
   CreateRemindersListOptions,
   CreateRemindersListResult,
   DeleteCalendarOptions,
@@ -97,7 +101,9 @@ export type {
   FetchAllCalendarSourcesResult,
   GetDefaultCalendarOptions,
   GetReminderByIdOptions,
+  GetReminderByIdResult,
   GetRemindersFromListsOptions,
+  GetRemindersFromListsResult,
   ListCalendarsResult,
   ListEventsInRangeOptions,
   ListEventsInRangeResult,

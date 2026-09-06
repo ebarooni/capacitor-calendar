@@ -32,15 +32,18 @@ struct CreateReminderInput {
         self.url = call.getString("url")
         self.location = call.getString("location")
         if let recurrence = call.getObject("recurrence") {
-            guard let frequency = recurrence["frequency"] as? String else {
+            guard let frequencyString = recurrence["frequency"] as? String else {
                 throw PluginError.missingFrequency
             }
-            self.frequency = RecurrenceInput.Frequency(rawValue: frequency)?.toEKFrequency()
+            guard let frequency = RecurrenceInput.Frequency(rawValue: frequencyString) else {
+                throw PluginError.invalidFrequency
+            }
+            self.frequency = frequency.toEKFrequency()
             guard let interval = recurrence["interval"] as? Int else {
                 throw PluginError.missingInterval
             }
             self.interval = interval
-            let end = recurrence["end"] as? Double
+            self.end = recurrence["end"] as? Double
         }
         self.alerts = call.getArray("alerts") as? [Double]
     }

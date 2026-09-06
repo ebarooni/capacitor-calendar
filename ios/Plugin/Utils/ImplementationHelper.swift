@@ -240,12 +240,11 @@ struct ImplementationHelper {
         }
         rules.forEach { rule in
             var obj = JSObject()
-            obj["frequency"] = rule.frequency.rawValue
+            obj["frequency"] = RecurrenceInput.Frequency.from(ekFrequency: rule.frequency).rawValue
             obj["interval"] = rule.interval
-            if let recurrenceEnd = rule.recurrenceEnd {
-                obj["end"] = ImplementationHelper.dateToMillis(recurrenceEnd.endDate) ?? NSNull()
-            } else {
-                obj["end"] = NSNull()
+            if let recurrenceEnd = rule.recurrenceEnd,
+               let endMs = ImplementationHelper.dateToMillis(recurrenceEnd.endDate) {
+                obj["end"] = endMs
             }
             result.append(obj)
         }
