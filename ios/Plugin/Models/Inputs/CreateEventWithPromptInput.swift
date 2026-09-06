@@ -112,11 +112,11 @@ struct CreateEventWithPromptInput {
     static func getRecurrence(from call: CAPPluginCall) -> RecurrenceInput? {
         if let recurrenceObject = call.getObject("recurrence") {
             if let frequencyString = recurrenceObject["frequency"] as? String, let frequency = RecurrenceInput.Frequency(rawValue: frequencyString) {
-                let interval = recurrenceObject["interval"] as? Int ?? 1
-                let count = recurrenceObject["count"] as? Int
+                let interval = ImplementationHelper.int(from: recurrenceObject["interval"]) ?? 1
+                let count = ImplementationHelper.int(from: recurrenceObject["count"])
 
                 var endDate: Date?
-                if let endMs = recurrenceObject["end"] as? Double {
+                if let endMs = ImplementationHelper.double(from: recurrenceObject["end"]) {
                     endDate = ImplementationHelper.dateFromTimestamp(endMs)
                 }
 

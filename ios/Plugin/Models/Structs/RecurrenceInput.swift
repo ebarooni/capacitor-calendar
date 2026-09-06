@@ -16,13 +16,13 @@ struct RecurrenceInput {
             }
         }
 
-        static func from(ekFrequency: EKRecurrenceFrequency) -> Frequency {
+        static func from(ekFrequency: EKRecurrenceFrequency) -> Frequency? {
             switch ekFrequency {
             case .daily: return .daily
             case .weekly: return .weekly
             case .monthly: return .monthly
             case .yearly: return .yearly
-            @unknown default: return .daily
+            @unknown default: return nil
             }
         }
     }

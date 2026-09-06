@@ -1,21 +1,21 @@
 /**
- * @deprecated Use `RecurrenceFrequency`.
+ * @deprecated Use `'daily'`, `'weekly'`, `'monthly'`, or `'yearly'` (`RecurrenceFrequency`).
  */
 export enum ReminderRecurrenceFrequency {
   /**
-   * @deprecated Use `RecurrenceFrequency.DAILY`.
+   * @deprecated Use `'daily'`.
    */
   DAILY,
   /**
-   * @deprecated Use `RecurrenceFrequency.WEEKLY`.
+   * @deprecated Use `'weekly'`.
    */
   WEEKLY,
   /**
-   * @deprecated Use `RecurrenceFrequency.MONTHLY`.
+   * @deprecated Use `'monthly'`.
    */
   MONTHLY,
   /**
-   * @deprecated Use `RecurrenceFrequency.YEARLY`.
+   * @deprecated Use `'yearly'`.
    */
   YEARLY,
 }
