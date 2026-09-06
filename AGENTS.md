@@ -23,6 +23,7 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 
 - Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
 - When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
+- When a release includes a breaking change, document it in `BREAKING.md` under that version: what changed, before/after if helpful, and migration steps. Link new versions from the Contents list. Keep `CHANGELOG.md` for the concise release summary and point to `BREAKING.md` for migration detail.
 
 ## Tool Preference
 
@@ -41,6 +42,8 @@ When multiple tools can perform the same task, use them in this order:
 - `example-app/`: Local test/demo application
 - `mcp/`: MCP server
 - `assets/`: Images and GIFs
+- `CHANGELOG.md`: Release history
+- `BREAKING.md`: Breaking changes by version, with migration steps
 
 ## Architecture
 
@@ -114,6 +117,7 @@ The title should be formatted as `<type>(<scope>): <description>`
   - The scope can be omitted if multiple scopes apply
 - Append `!` to the type or scope when the PR introduces a breaking change.
   - Examples: `feat!: <description>` or `feat(android)!: <description>`
+  - Update `BREAKING.md` for that release (see Important Rules).
 
 The body should reference the issue the PR closes: `Closes: #<ISSUE_NUMBER>`
 

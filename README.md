@@ -65,6 +65,7 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Changelog](#changelog)
+- [Breaking Changes](#breaking-changes)
 - [API](#api)
 - [Contributing](#contributing)
 - [License](#license)
@@ -243,6 +244,10 @@ The full documentation is generated from TypeScript definitions and is available
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
+
+## Breaking Changes
+
+See [BREAKING.md](BREAKING.md) for breaking changes and migration steps.
 
 ## API
 

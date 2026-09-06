@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.7.0](#870)
   - [8.6.0](#860)
   - [8.5.0](#850)
   - [8.4.0](#840)
@@ -45,6 +46,25 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.7.0
+
+### Added
+
+- `CreateReminderResult` for `createReminder(...)`
+- `GetReminderByIdResult` for `getReminderById(...)`
+- `GetRemindersFromListsResult` for `getRemindersFromLists(...)`
+
+### Changed
+
+- iOS reminder recurrence uses string `RecurrenceFrequency` on create, modify, and read (see [BREAKING.md](BREAKING.md#870))
+
+### Fixed
+
+- iOS `createReminder` / `modifyReminder` now apply `recurrence.end`
+- iOS `createReminder` / `modifyReminder` reject invalid or non-string `frequency` with `Invalid frequency.`
+- iOS reminder and event recurrence parsing accepts JS numbers whether bridged as `Int` or `Double` (`interval`, `end`, and related fields)
+- Deprecated `ReminderRecurrenceFrequency` docs now point at string values (`'daily'`, …) instead of `RecurrenceFrequency.DAILY`
 
 ## 8.6.0
 
