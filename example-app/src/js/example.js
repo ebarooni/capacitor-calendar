@@ -98,6 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('#createEventWithPrompt', result);
   });
 
+  document.querySelector('#create-reminder').addEventListener('click', async () => {
+    const startDate = Date.now();
+    const dueDate = startDate + 60 * 60 * 1000;
+    const recurrenceEnd = startDate + 14 * 24 * 60 * 60 * 1000;
+    const listId = getRemindersListIdInput().value.trim();
+
+    const result = await CapacitorCalendar.createReminder({
+      alerts: [-60],
+      dueDate,
+      ...(listId ? { listId } : {}),
+      notes: 'Created with @ebarooni/capacitor-calendar',
+      recurrence: {
+        end: recurrenceEnd,
+        frequency: 'weekly',
+        interval: 1,
+      },
+      startDate,
+      title: 'Weekly grocery check',
+    });
+
+    getReminderIdInput().value = result.id;
+    console.log('#createReminder', result);
+  });
+
   document.querySelector('#create-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.createRemindersList({
       color: 'orange',
@@ -158,6 +182,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.querySelector('#get-reminder-by-id').addEventListener('click', async () => {
+    const result = await CapacitorCalendar.getReminderById({
+      id: getReminderIdInput().value,
+    });
+    console.log('#getReminderById', result);
+  });
+
+  document.querySelector('#get-reminders-from-lists').addEventListener('click', async () => {
+    let listIds = [getRemindersListIdInput().value.trim()].filter(Boolean);
+    if (listIds.length === 0) {
+      const { result: lists } = await CapacitorCalendar.getRemindersLists();
+      listIds = lists.map((list) => list.id).filter(Boolean);
+    }
+
+    const result = await CapacitorCalendar.getRemindersFromLists({ listIds });
+    const reminder = result.result[0];
+    if (reminder?.id) {
+      getReminderIdInput().value = reminder.id;
+    }
+    console.log('#getRemindersFromLists', result);
+  });
+
   document.querySelector('#get-reminders-lists').addEventListener('click', async () => {
     const result = await CapacitorCalendar.getRemindersLists();
     console.log('#getRemindersLists', result);
@@ -193,6 +239,22 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Updated Plugin Test Calendar',
     });
     console.log('#modifyCalendar');
+  });
+
+  document.querySelector('#modify-reminder').addEventListener('click', async () => {
+    const recurrenceEnd = Date.now() + 7 * 24 * 60 * 60 * 1000;
+
+    await CapacitorCalendar.modifyReminder({
+      id: getReminderIdInput().value,
+      notes: 'Updated with @ebarooni/capacitor-calendar',
+      recurrence: {
+        end: recurrenceEnd,
+        frequency: 'daily',
+        interval: 2,
+      },
+      title: 'Updated weekly grocery check',
+    });
+    console.log('#modifyReminder');
   });
 
   document.querySelector('#open-calendar').addEventListener('click', async () => {
@@ -304,6 +366,10 @@ function getEventInstanceDateInput() {
 function getEventSpan() {
   const value = Number(document.querySelector('#event-span-select').value);
   return value === EventSpan.THIS_AND_FUTURE_EVENTS ? EventSpan.THIS_AND_FUTURE_EVENTS : EventSpan.THIS_EVENT;
+}
+
+function getReminderIdInput() {
+  return document.querySelector('#reminder-id-input');
 }
 
 function getRemindersListIdInput() {
