@@ -11,15 +11,6 @@ metadata:
 
 # Generate Commit Message
 
-## Triggers
-
-Use this skill whenever any of these apply:
-
-- The user asks to commit, commit and push, or land changes
-- Updating a PR requires new commits on the branch
-- Pushing work that is not yet committed
-- Reviewing or drafting messages for staged changes
-
 ## Workflow
 
 1. Run `git diff --cached`. If empty, ask the user to stage changes
