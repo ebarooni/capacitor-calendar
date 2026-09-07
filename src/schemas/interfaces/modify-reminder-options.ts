@@ -25,10 +25,16 @@ export interface ModifyReminderOptions {
    */
   isCompleted?: boolean;
   /**
+   * When the reminder starts, in milliseconds since the epoch.
+   * Relative `alerts` use this date.
+   *
    * @since 7.1.0
    */
   startDate?: number;
   /**
+   * When the reminder should be completed, in milliseconds since the epoch.
+   * On iOS, if `startDate` is omitted and the reminder has no start, it is set to this value.
+   *
    * @since 7.1.0
    */
   dueDate?: number;
