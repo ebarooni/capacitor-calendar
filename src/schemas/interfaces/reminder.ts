@@ -49,6 +49,7 @@ export interface Reminder {
    */
   completionDate: number | null;
   /**
+   * @platform iOS
    * @since 7.1.0
    */
   recurrence: RecurrenceRule[];

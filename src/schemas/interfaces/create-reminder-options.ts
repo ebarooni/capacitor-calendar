@@ -45,6 +45,7 @@ export interface CreateReminderOptions {
    */
   location?: string;
   /**
+   * @platform iOS
    * @since 7.1.0
    */
   recurrence?: RecurrenceRule;

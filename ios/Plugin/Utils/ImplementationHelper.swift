@@ -5,6 +5,24 @@ struct ImplementationHelper {
     /// Default calendar color when `color` is omitted: `#007AFF` (light-mode iOS system blue).
     static let defaultCalendarColorHex = "#007AFF"
 
+    /// Reads a JS number that may arrive as `Int`, `Double`, or `NSNumber`.
+    static func int(from value: Any?) -> Int? {
+        guard let value = value, !(value is NSNull) else { return nil }
+        if let number = value as? NSNumber { return number.intValue }
+        if let intValue = value as? Int { return intValue }
+        if let doubleValue = value as? Double { return Int(doubleValue) }
+        return nil
+    }
+
+    /// Reads a JS number that may arrive as `Int`, `Double`, or `NSNumber`.
+    static func double(from value: Any?) -> Double? {
+        guard let value = value, !(value is NSNull) else { return nil }
+        if let number = value as? NSNumber { return number.doubleValue }
+        if let doubleValue = value as? Double { return doubleValue }
+        if let intValue = value as? Int { return Double(intValue) }
+        return nil
+    }
+
     static func permissionStateToResult(state: EKAuthorizationStatus, scope: CalendarPermissionScope ) throws -> CAPPermissionState {
         var result: CAPPermissionState
 
@@ -239,13 +257,15 @@ struct ImplementationHelper {
             return result
         }
         rules.forEach { rule in
+            guard let frequency = RecurrenceInput.Frequency.from(ekFrequency: rule.frequency) else {
+                return
+            }
             var obj = JSObject()
-            obj["frequency"] = rule.frequency.rawValue
+            obj["frequency"] = frequency.rawValue
             obj["interval"] = rule.interval
-            if let recurrenceEnd = rule.recurrenceEnd {
-                obj["end"] = ImplementationHelper.dateToMillis(recurrenceEnd.endDate) ?? NSNull()
-            } else {
-                obj["end"] = NSNull()
+            if let recurrenceEnd = rule.recurrenceEnd,
+               let endMs = ImplementationHelper.dateToMillis(recurrenceEnd.endDate) {
+                obj["end"] = endMs
             }
             result.append(obj)
         }

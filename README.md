@@ -65,6 +65,7 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
 - [Changelog](#changelog)
+- [Breaking Changes](#breaking-changes)
 - [API](#api)
 - [Contributing](#contributing)
 - [License](#license)
@@ -243,6 +244,10 @@ The full documentation is generated from TypeScript definitions and is available
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for the latest updates and release history.
+
+## Breaking Changes
+
+See [BREAKING.md](BREAKING.md) for breaking changes and migration steps.
 
 ## API
 
@@ -893,7 +898,7 @@ Retrieves all available reminders lists.
 ### createReminder(...)
 
 ```typescript
-createReminder(options: CreateReminderOptions) => Promise<{ id: string; }>
+createReminder(options: CreateReminderOptions) => Promise<CreateReminderResult>
 ```
 
 Creates a reminder.
@@ -902,7 +907,7 @@ Creates a reminder.
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createreminderoptions">CreateReminderOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ id: string; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#createreminderresult">CreateReminderResult</a>&gt;</code>
 
 **Since:** 0.5.0
 
@@ -969,7 +974,7 @@ Modifies a reminder.
 ### getReminderById(...)
 
 ```typescript
-getReminderById(options: GetReminderByIdOptions) => Promise<{ result: Reminder | null; }>
+getReminderById(options: GetReminderByIdOptions) => Promise<GetReminderByIdResult>
 ```
 
 Retrieve a reminder by ID.
@@ -978,7 +983,7 @@ Retrieve a reminder by ID.
 | ------------- | ------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getreminderbyidoptions">GetReminderByIdOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ result: <a href="#reminder">Reminder</a> | null; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#getreminderbyidresult">GetReminderByIdResult</a>&gt;</code>
 
 **Since:** 7.1.0
 
@@ -989,7 +994,7 @@ Retrieve a reminder by ID.
 ### getRemindersFromLists(...)
 
 ```typescript
-getRemindersFromLists(options: GetRemindersFromListsOptions) => Promise<{ result: Reminder[]; }>
+getRemindersFromLists(options: GetRemindersFromListsOptions) => Promise<GetRemindersFromListsResult>
 ```
 
 Retrieves reminders from multiple lists.
@@ -998,7 +1003,7 @@ Retrieves reminders from multiple lists.
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getremindersfromlistsoptions">GetRemindersFromListsOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ result: Reminder[]; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#getremindersfromlistsresult">GetRemindersFromListsResult</a>&gt;</code>
 
 **Since:** 5.3.0
 
@@ -1373,30 +1378,36 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`commit`** | <code>boolean</code> | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
 | **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                      |                   | 8.2.0 | iOS      |
 
+#### CreateReminderResult
+
+| Prop     | Type                | Description                               | Since | Platform |
+| -------- | ------------------- | ----------------------------------------- | ----- | -------- |
+| **`id`** | <code>string</code> | Identifier of the newly created reminder. | 0.5.0 | iOS      |
+
 #### CreateReminderOptions
 
-| Prop                 | Type                                                      | Description                                                                                                                                               | Since |
-| -------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`title`**          | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`listId`**         | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`priority`**       | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`isCompleted`**    | <code>boolean</code>                                      |                                                                                                                                                           | 7.1.0 |
-| **`startDate`**      | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`dueDate`**        | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`completionDate`** | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`notes`**          | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`url`**            | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`location`**       | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |
-| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                           | 7.1.0 |
-| **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. | 7.1.0 |
+| Prop                 | Type                                                      | Description                                                                                                                                               | Since | Platform |
+| -------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | -------- |
+| **`title`**          | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`listId`**         | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`priority`**       | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`isCompleted`**    | <code>boolean</code>                                      |                                                                                                                                                           | 7.1.0 |          |
+| **`startDate`**      | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`dueDate`**        | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`completionDate`** | <code>number</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`notes`**          | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`url`**            | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`location`**       | <code>string</code>                                       |                                                                                                                                                           | 7.1.0 |          |
+| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                           | 7.1.0 | iOS      |
+| **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. | 7.1.0 |          |
 
 #### RecurrenceRule
 
-| Prop            | Type                                                                | Description                                                                        | Since |
-| --------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- |
-| **`frequency`** | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> |                                                                                    | 7.1.0 |
-| **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 |
-| **`end`**       | <code>number</code>                                                 | Timestamp of when the recurrence ends.                                             | 7.1.0 |
+| Prop            | Type                                                                | Description                                                                        | Since | Platform |
+| --------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ----- | -------- |
+| **`frequency`** | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the reminder repeats.                                                    | 7.1.0 | iOS      |
+| **`interval`**  | <code>number</code>                                                 | How often it repeats (e.g. 1 for every occurrence, 2 for every second occurrence). | 7.1.0 | iOS      |
+| **`end`**       | <code>number</code>                                                 | End of the recurrence series as a Unix timestamp in milliseconds.                  | 7.1.0 | iOS      |
 
 #### DeleteRemindersByIdResult
 
@@ -1419,45 +1430,57 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### ModifyReminderOptions
 
-| Prop                 | Type                                                      | Description                                                                                                                                                                                   | Since |
-| -------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`id`**             | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`title`**          | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`listId`**         | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`priority`**       | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`isCompleted`**    | <code>boolean</code>                                      |                                                                                                                                                                                               | 7.1.0 |
-| **`startDate`**      | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`dueDate`**        | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`completionDate`** | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`notes`**          | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`url`**            | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`location`**       | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |
-| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                                                               | 7.1.0 |
-| **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. On iOS only 2 alerts are supported. | 7.1.0 |
+| Prop                 | Type                                                      | Description                                                                                                                                                                                   | Since | Platform |
+| -------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | -------- |
+| **`id`**             | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`title`**          | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`listId`**         | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`priority`**       | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`isCompleted`**    | <code>boolean</code>                                      |                                                                                                                                                                                               | 7.1.0 |          |
+| **`startDate`**      | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`dueDate`**        | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`completionDate`** | <code>number</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`notes`**          | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`url`**            | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`location`**       | <code>string</code>                                       |                                                                                                                                                                                               | 7.1.0 |          |
+| **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                                                               | 7.1.0 | iOS      |
+| **`alerts`**         | <code>number[]</code>                                     | Alert times in minutes relative to the reminder start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start. On iOS only 2 alerts are supported. | 7.1.0 |          |
+
+#### GetReminderByIdResult
+
+| Prop         | Type                                                  | Description                                                | Since | Platform |
+| ------------ | ----------------------------------------------------- | ---------------------------------------------------------- | ----- | -------- |
+| **`result`** | <code><a href="#reminder">Reminder</a> \| null</code> | The reminder for the given id, or `null` when none exists. | 7.1.0 | iOS      |
 
 #### Reminder
 
-| Prop                 | Type                          | Since |
-| -------------------- | ----------------------------- | ----- |
-| **`id`**             | <code>string</code>           | 7.1.0 |
-| **`title`**          | <code>string \| null</code>   | 7.1.0 |
-| **`listId`**         | <code>string \| null</code>   | 7.1.0 |
-| **`isCompleted`**    | <code>boolean</code>          | 7.1.0 |
-| **`priority`**       | <code>number \| null</code>   | 7.1.0 |
-| **`notes`**          | <code>string \| null</code>   | 7.1.0 |
-| **`location`**       | <code>string \| null</code>   | 7.1.0 |
-| **`url`**            | <code>string \| null</code>   | 7.1.0 |
-| **`startDate`**      | <code>number \| null</code>   | 7.1.0 |
-| **`dueDate`**        | <code>number \| null</code>   | 7.1.0 |
-| **`completionDate`** | <code>number \| null</code>   | 7.1.0 |
-| **`recurrence`**     | <code>RecurrenceRule[]</code> | 7.1.0 |
-| **`alerts`**         | <code>number[]</code>         | 7.1.0 |
+| Prop                 | Type                          | Since | Platform |
+| -------------------- | ----------------------------- | ----- | -------- |
+| **`id`**             | <code>string</code>           | 7.1.0 |          |
+| **`title`**          | <code>string \| null</code>   | 7.1.0 |          |
+| **`listId`**         | <code>string \| null</code>   | 7.1.0 |          |
+| **`isCompleted`**    | <code>boolean</code>          | 7.1.0 |          |
+| **`priority`**       | <code>number \| null</code>   | 7.1.0 |          |
+| **`notes`**          | <code>string \| null</code>   | 7.1.0 |          |
+| **`location`**       | <code>string \| null</code>   | 7.1.0 |          |
+| **`url`**            | <code>string \| null</code>   | 7.1.0 |          |
+| **`startDate`**      | <code>number \| null</code>   | 7.1.0 |          |
+| **`dueDate`**        | <code>number \| null</code>   | 7.1.0 |          |
+| **`completionDate`** | <code>number \| null</code>   | 7.1.0 |          |
+| **`recurrence`**     | <code>RecurrenceRule[]</code> | 7.1.0 | iOS      |
+| **`alerts`**         | <code>number[]</code>         | 7.1.0 |          |
 
 #### GetReminderByIdOptions
 
 | Prop     | Type                | Since |
 | -------- | ------------------- | ----- |
 | **`id`** | <code>string</code> | 7.1.0 |
+
+#### GetRemindersFromListsResult
+
+| Prop         | Type                    | Description                         | Since | Platform |
+| ------------ | ----------------------- | ----------------------------------- | ----- | -------- |
+| **`result`** | <code>Reminder[]</code> | Reminders from the requested lists. | 5.3.0 | iOS      |
 
 #### GetRemindersFromListsOptions
 

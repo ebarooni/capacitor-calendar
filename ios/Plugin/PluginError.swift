@@ -14,6 +14,7 @@ enum PluginError: LocalizedError {
     case fromDateMissing
     case idMissing
     case invalidColor
+    case invalidFrequency
     case invalidScope
     case invalidUrl
     case listIdsMissing
@@ -61,6 +62,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Event ID must be provided.", comment: "Event ID missing error")
         case .invalidColor:
             return NSLocalizedString("Invalid color format.", comment: "Invalid color format error")
+        case .invalidFrequency:
+            return NSLocalizedString("Invalid frequency.", comment: "Invalid frequency error")
         case .invalidScope:
             return NSLocalizedString("Invalid scope.", comment: "Invalid scope error")
         case .invalidUrl:
