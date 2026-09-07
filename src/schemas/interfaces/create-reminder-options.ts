@@ -21,10 +21,16 @@ export interface CreateReminderOptions {
    */
   isCompleted?: boolean;
   /**
+   * When the reminder starts, in milliseconds since the epoch.
+   * Relative `alerts` use this date.
+   *
    * @since 7.1.0
    */
   startDate?: number;
   /**
+   * When the reminder should be completed, in milliseconds since the epoch.
+   * On iOS, if `startDate` is omitted, it is set to this value.
+   *
    * @since 7.1.0
    */
   dueDate?: number;
@@ -52,6 +58,8 @@ export interface CreateReminderOptions {
   /**
    * Alert times in minutes relative to the reminder start.
    * Use negative numbers for alerts before the start, and positive numbers for alerts after the start.
+   *
+   * On iOS only 2 alerts are supported.
    *
    * @example
    * // -1440 -> 1 day before

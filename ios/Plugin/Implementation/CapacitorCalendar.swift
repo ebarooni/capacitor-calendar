@@ -404,8 +404,13 @@ class CapacitorCalendar: NSObject {
         if let startDate = input.getStartDate() {
             reminder.startDateComponents = startDate
         }
-        if let deuDate = input.getDueDate() {
-            reminder.dueDateComponents = deuDate
+        if let dueDate = input.getDueDate() {
+            reminder.dueDateComponents = dueDate
+        }
+        // On iOS, Event Kit requires a start date when a due date is set.
+        // Relative alerts also resolve against start, so copy due when start is omitted.
+        if reminder.dueDateComponents != nil, reminder.startDateComponents == nil {
+            reminder.startDateComponents = reminder.dueDateComponents
         }
         if let completionDate = input.getCompletionDate() {
             reminder.completionDate = completionDate
@@ -458,8 +463,13 @@ class CapacitorCalendar: NSObject {
         if let startDate = input.getStartDate() {
             reminder.startDateComponents = startDate
         }
-        if let deuDate = input.getDueDate() {
-            reminder.dueDateComponents = deuDate
+        if let dueDate = input.getDueDate() {
+            reminder.dueDateComponents = dueDate
+        }
+        // On iOS, Event Kit requires a start date when a due date is set.
+        // Relative alerts also resolve against start, so copy due when start is omitted.
+        if reminder.dueDateComponents != nil, reminder.startDateComponents == nil {
+            reminder.startDateComponents = reminder.dueDateComponents
         }
         if let completionDate = input.getCompletionDate() {
             reminder.completionDate = completionDate

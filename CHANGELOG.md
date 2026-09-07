@@ -65,6 +65,8 @@ Changelogs for the versions supporting Capacitor 8.
 - iOS `createReminder` / `modifyReminder` reject invalid or non-string `frequency` with `Invalid frequency.`
 - iOS reminder and event recurrence parsing accepts JS numbers whether bridged as `Int` or `Double` (`interval`, `end`, and related fields)
 - Deprecated `ReminderRecurrenceFrequency` docs now point at string values (`'daily'`, …) instead of `RecurrenceFrequency.DAILY`
+- iOS reminder `alerts` docs now match create and modify (including the 2-alert limit), and clarify that offsets are relative to `startDate`
+- iOS `createReminder` / `modifyReminder` set `startDate` from `dueDate` when start is omitted (relative alerts use start; iOS also requires a start when a due date is set)
 
 ## 8.6.0
 
