@@ -147,11 +147,11 @@ struct ImplementationHelper {
             : String(format: "#%02lX%02lX%02lX%02lX", red, green, blue, alpha)
     }
 
-    static func deleteReminder(reminderId: String, eventStore: EKEventStore) throws {
+    static func deleteReminder(reminderId: String, eventStore: EKEventStore, commit: Bool = true) throws {
         guard let reminder = eventStore.calendarItem(withIdentifier: reminderId) as? EKReminder else {
             throw PluginError.reminderNotFound
         }
-        try eventStore.remove(reminder, commit: true)
+        try eventStore.remove(reminder, commit: commit)
     }
 
     static func deleteEvent(commit: Bool, _ id: String, _ span: EventSpan, _ eventStore: EKEventStore) throws {

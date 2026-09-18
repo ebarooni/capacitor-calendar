@@ -16,6 +16,7 @@ struct CreateReminderInput {
     private var interval: Int?
     private var end: Double?
     private let alerts: [Double]?
+    private let commit: Bool
 
     init(call: CAPPluginCall) throws {
         guard let title = call.getString("title") else {
@@ -47,6 +48,7 @@ struct CreateReminderInput {
             self.end = ImplementationHelper.double(from: recurrence["end"])
         }
         self.alerts = call.getArray("alerts") as? [Double]
+        self.commit = call.getBool("commit", true)
     }
 
     func getTitle() -> String {
@@ -116,5 +118,9 @@ struct CreateReminderInput {
         guard let frequency = frequency, let interval = interval else { return nil }
         let recurrenceEnd = end.flatMap { EKRecurrenceEnd(end: ImplementationHelper.dateFromTimestamp($0)) }
         return [EKRecurrenceRule(recurrenceWith: frequency, interval: interval, end: recurrenceEnd)]
+    }
+
+    func getCommit() -> Bool {
+        return commit
     }
 }
