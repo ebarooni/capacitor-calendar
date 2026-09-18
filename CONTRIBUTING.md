@@ -15,6 +15,12 @@ Before you start large work, open an issue or comment on an existing one. That a
 - **Node.js** — use the version in [`.nvmrc`](.nvmrc) (for example with [nvm](https://github.com/nvm-sh/nvm): `nvm use`).
 - **npm** — comes with Node.js.
 - **Xcode** — required for iOS builds and `npm run verify:ios` (macOS only).
+- **CocoaPods** — required for iOS example-app sync (`npx cap sync` / `npm run bootstrap:app`). On macOS:
+
+  ```shell
+  brew install cocoapods
+  ```
+
 - **Android Studio / JDK** — required for Android builds and `npm run verify:android`.
 - **SwiftLint** (macOS, for iOS lint/format) — required on your `PATH`. The `swiftlint` npm package only wraps the binary:
 
@@ -28,7 +34,7 @@ Before you start large work, open an issue or comment on an existing one. That a
   brew install ktlint
   ```
 
-You can still contribute TypeScript, docs, or web-only changes without Xcode, Android Studio, SwiftLint, or ktlint. Run the checks that match the platforms you change (see [Development scripts](#development-scripts)).
+You can still contribute TypeScript, docs, or web-only changes without Xcode, CocoaPods, Android Studio, SwiftLint, or ktlint. Run the checks that match the platforms you change (see [Development scripts](#development-scripts)).
 
 ## Local setup
 
@@ -59,7 +65,7 @@ After you change plugin code, rebuild and re-sync before you retest on device:
 npm run build && npm run sync:app
 ```
 
-Or run `npm run bootstrap:app` again if you need a full refresh.
+If you only edit the example app’s web UI, run `npm run build:app` (or use `cd example-app && npm start` for a Vite dev server) before retesting on device. Or run `npm run bootstrap:app` again if you need a full refresh.
 
 ## Project layout
 
@@ -100,7 +106,7 @@ This plugin ships web, Android, and iOS. Keep those surfaces aligned.
 | `npm run eslint` / `npm run prettier:check` | TypeScript and formatting only (no SwiftLint or ktlint) |
 | `npm run verify` | Build/validate iOS, Android, and web |
 | `npm run verify:web` | Same as `npm run build` |
-| `npm run verify:ios` | `xcodebuild` for the plugin scheme (macOS) |
+| `npm run verify:ios` | `xcodebuild` for the SPM scheme `EbarooniCapacitorCalendar` (macOS) |
 | `npm run verify:android` | Gradle clean/build/test in `android/` |
 | `npm run sync:app` | `npx cap sync` inside `example-app/` |
 
