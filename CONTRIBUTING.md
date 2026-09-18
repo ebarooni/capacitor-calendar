@@ -65,7 +65,7 @@ After you change plugin code, rebuild and re-sync before you retest on device:
 npm run build && npm run sync:app
 ```
 
-If you only edit the example app’s web UI, run `npm run build:app` (or use `cd example-app && npm start` for a Vite dev server) before retesting on device. Or run `npm run bootstrap:app` again if you need a full refresh.
+If you only edit the example app’s web UI and will retest on a simulator or device, run `npm run build:app` (native apps load `example-app/dist`, not the Vite dev server). Use `cd example-app && npm start` only for browser smoke tests. Or run `npm run bootstrap:app` again if you need a full refresh.
 
 ## Project layout
 
@@ -104,13 +104,13 @@ This plugin ships web, Android, and iOS. Keep those surfaces aligned.
 | `npm run lint` | All platforms: ESLint, Prettier check, SwiftLint, ktlint |
 | `npm run fmt` | All platforms: auto-fix lint and formatting where possible |
 | `npm run eslint` / `npm run prettier:check` | TypeScript and formatting only (no SwiftLint or ktlint) |
-| `npm run verify` | Build/validate iOS, Android, and web |
+| `npm run verify` | Build/validate iOS, Android, and web (requires macOS for the iOS step) |
 | `npm run verify:web` | Same as `npm run build` |
 | `npm run verify:ios` | `xcodebuild` for the SPM scheme `EbarooniCapacitorCalendar` (macOS) |
 | `npm run verify:android` | Gradle clean/build/test in `android/` |
 | `npm run sync:app` | `npx cap sync` inside `example-app/` |
 
-`npm run lint` and `npm run fmt` always run every platform linter. If you only changed TypeScript or docs, use `npm run eslint` and `npm run prettier:check` (or `npm run prettier:fix`) instead. Before you open a pull request that touches native code, run `npm run fmt` and the `verify:*` scripts for the platforms you changed.
+`npm run lint` and `npm run fmt` always run every platform linter. If you only changed TypeScript or docs, use `npm run eslint` and `npm run prettier:check` (or `npm run prettier:fix`) instead. Before you open a pull request that touches native code, run `npm run fmt` and the `verify:*` scripts for the platforms you changed. On Linux or Windows, skip `verify:ios` / full `verify` and run `verify:android` and `verify:web` instead.
 
 ## Issues
 
@@ -141,7 +141,7 @@ State the problem or goal, the expected behavior, and enough steps or code to re
 
 1. Base your branch on the latest `main`.
 2. Keep the change focused. Prefer small PRs over large mixed ones.
-3. Update docs when behavior or the public API changes. Edit the TypeScript JSDoc (and any hand-written README sections). Do not hand-edit the generated API blocks in `README.md`; run `npm run build` so they refresh. For user-facing changes, describe the changelog entry in the pull request (or draft a bullet in `CHANGELOG.md`). Do not bump the package version. Maintainers place the final `CHANGELOG.md` / `BREAKING.md` entries under the release version.
+3. Update docs when behavior or the public API changes. Edit the TypeScript JSDoc (and any hand-written README sections). Do not hand-edit the generated API blocks in `README.md`; run `npm run build` so they refresh. For user-facing changes, describe the changelog entry in the pull request (or draft a bullet in `CHANGELOG.md`). For breaking changes (`feat!` / `fix!`), also describe the migration steps in the PR body (or draft a `BREAKING.md` section). Do not bump the package version. Maintainers place the final `CHANGELOG.md` / `BREAKING.md` entries under the release version.
 4. Exercise the change in `example-app` on the affected platforms when you can.
 5. Open a pull request against `main`.
 
