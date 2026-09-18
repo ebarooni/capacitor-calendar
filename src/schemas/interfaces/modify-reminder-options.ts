@@ -9,7 +9,7 @@ export interface ModifyReminderOptions {
    * Use negative numbers for alerts before the start, and positive numbers for alerts after the start.
    * Omit or pass `undefined` to leave existing alerts unchanged.
    * Pass `null` or an empty array `[]` to clear alerts.
-   * On iOS, when both `startDate` and `dueDate` are cleared in the same call and `alerts` is omitted, existing alerts are cleared too.
+   * On iOS, when both `startDate` and `dueDate` are cleared in the same call, alerts are cleared even if `alerts` is set.
    * When clearing dates across separate batched calls, pass `alerts: null` or `[]` explicitly.
    *
    * On iOS only 2 alerts are supported.
@@ -99,7 +99,8 @@ export interface ModifyReminderOptions {
    * Relative `alerts` use this date.
    * Omit or pass `undefined` to leave the existing value unchanged.
    * Since 8.7.0, pass `null` to clear.
-   * If a due date remains, iOS re-derives start from due; pass `dueDate: null` as well to remove scheduling.
+   * If a due date remains, clearing start sets start to the due date (it does not keep the previous start).
+   * Pass `dueDate: null` as well to remove scheduling.
    *
    * @since 7.1.0
    */
