@@ -489,6 +489,9 @@ class CapacitorCalendar: NSObject {
         }
         if input.isAlertsPresent() {
             reminder.alarms = input.getAlerts()
+        } else if reminder.startDateComponents == nil, reminder.dueDateComponents == nil {
+            // Relative alerts need a start; drop them when scheduling is fully cleared.
+            reminder.alarms = nil
         }
         if input.isRecurrencePresent() {
             reminder.recurrenceRules = input.getRecurrenceRule()
