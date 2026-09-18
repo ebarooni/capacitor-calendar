@@ -16,7 +16,7 @@ The type should be one of: `feat`, `bug`, `docs`, `refactor`, `chore`
 
 The scope should be one of: `android`, `ios`, `web`
 
-Omit the scope if the issue applies to multiple scopes. 
+Omit the scope if the issue applies to multiple scopes.
 
 Append `!` to the type or scope when the issue describes a breaking change.
 
