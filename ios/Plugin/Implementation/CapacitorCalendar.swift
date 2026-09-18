@@ -420,7 +420,7 @@ class CapacitorCalendar: NSObject {
         reminder.location = input.getLocation()
         reminder.alarms = input.getAlerts()
         reminder.recurrenceRules = input.getRecurrenceRule()
-        try eventStore.save(reminder, commit: true)
+        try eventStore.save(reminder, commit: input.getCommit())
         return CreateReminderResult(reminder: reminder)
     }
 
@@ -438,7 +438,11 @@ class CapacitorCalendar: NSObject {
     }
 
     func deleteReminder(_ input: DeleteReminderInput) throws {
-        try ImplementationHelper.deleteReminder(reminderId: input.getId(), eventStore: eventStore)
+        try ImplementationHelper.deleteReminder(
+            reminderId: input.getId(),
+            eventStore: eventStore,
+            commit: input.getCommit()
+        )
     }
 
     func modifyReminder(_ input: ModifyReminderInput) throws {
@@ -460,36 +464,40 @@ class CapacitorCalendar: NSObject {
         if let isCompleted = input.getIsCompleted() {
             reminder.isCompleted = isCompleted
         }
-        if let startDate = input.getStartDate() {
-            reminder.startDateComponents = startDate
+        if input.isStartDatePresent() {
+            reminder.startDateComponents = input.getStartDate()
         }
-        if let dueDate = input.getDueDate() {
-            reminder.dueDateComponents = dueDate
+        if input.isDueDatePresent() {
+            reminder.dueDateComponents = input.getDueDate()
         }
         // On iOS, Event Kit requires a start date when a due date is set.
-        // Relative alerts also resolve against start, so copy due when start is omitted.
+        // Relative alerts also resolve against start, so copy due when start is omitted or cleared.
         if reminder.dueDateComponents != nil, reminder.startDateComponents == nil {
             reminder.startDateComponents = reminder.dueDateComponents
         }
-        if let completionDate = input.getCompletionDate() {
-            reminder.completionDate = completionDate
+        if input.isCompletionDatePresent() {
+            reminder.completionDate = input.getCompletionDate()
         }
-        if let notes = input.getNotes() {
-            reminder.notes = notes
+        if input.isNotesPresent() {
+            reminder.notes = input.getNotes()
         }
-        if let url = input.getUrl() {
-            reminder.url = url
+        if input.isUrlPresent() {
+            reminder.url = input.getUrl()
         }
-        if let location = input.getLocation() {
-            reminder.location = location
+        if input.isLocationPresent() {
+            reminder.location = input.getLocation()
         }
-        if let alarms = input.getAlerts() {
-            reminder.alarms = alarms
+        if reminder.startDateComponents == nil, reminder.dueDateComponents == nil {
+            // Relative alerts need a start; drop them when scheduling is fully cleared
+            // (including when alerts were passed in the same call).
+            reminder.alarms = nil
+        } else if input.isAlertsPresent() {
+            reminder.alarms = input.getAlerts()
         }
-        if let recurrenceRule = input.getRecurrenceRule() {
-            reminder.recurrenceRules = recurrenceRule
+        if input.isRecurrencePresent() {
+            reminder.recurrenceRules = input.getRecurrenceRule()
         }
-        try eventStore.save(reminder, commit: true)
+        try eventStore.save(reminder, commit: input.getCommit())
     }
 
     func getReminderById(_ input: GetReminderByIdInput) throws -> GetReminderByIdResult {
