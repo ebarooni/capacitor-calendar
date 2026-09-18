@@ -16,19 +16,19 @@ Before you start large work, open an issue or comment on an existing one. That a
 - **npm** — comes with Node.js.
 - **Xcode** — required for iOS builds and `npm run verify:ios` (macOS only).
 - **Android Studio / JDK** — required for Android builds and `npm run verify:android`.
-- **SwiftLint** (macOS, recommended):
+- **SwiftLint** (macOS, for iOS lint/format) — required on your `PATH`. The `swiftlint` npm package only wraps the binary:
 
   ```shell
   brew install swiftlint
   ```
 
-- **ktlint** (recommended for Android Kotlin formatting):
+- **ktlint** (for Android Kotlin lint/format) — install a global `ktlint` binary on your `PATH` ([install options](https://github.com/pinterest/ktlint#installation)). On macOS:
 
   ```shell
   brew install ktlint
   ```
 
-You can still contribute TypeScript, docs, or web-only changes without Xcode or Android Studio. Run the checks that match the platforms you change.
+You can still contribute TypeScript, docs, or web-only changes without Xcode, Android Studio, SwiftLint, or ktlint. Run the checks that match the platforms you change (see [Development scripts](#development-scripts)).
 
 ## Local setup
 
@@ -78,7 +78,7 @@ Or run `npm run bootstrap:app` again if you need a full refresh.
 Do not edit generated output by hand:
 
 - `dist/` — produced by the TypeScript and Rollup build
-- API sections in `README.md` between `<docgen-index>` / `<docgen-api>` — produced by `npm run docgen` from the public TypeScript definitions
+- API sections in `README.md` between `<docgen-index>` / `<docgen-api>` — regenerated when you run `npm run build` (which runs `docgen` from the public TypeScript definitions)
 
 ## Platform rules
 
@@ -95,15 +95,16 @@ This plugin ships web, Android, and iOS. Keep those surfaces aligned.
 | --- | --- |
 | `npm run bootstrap:app` | Full local setup: install, build plugin, install/build example app, sync |
 | `npm run build` | Clean, regenerate README API docs, compile TypeScript, bundle with Rollup |
-| `npm run lint` | ESLint, Prettier check, SwiftLint, ktlint |
-| `npm run fmt` | Auto-fix lint and formatting where possible |
+| `npm run lint` | All platforms: ESLint, Prettier check, SwiftLint, ktlint |
+| `npm run fmt` | All platforms: auto-fix lint and formatting where possible |
+| `npm run eslint` / `npm run prettier:check` | TypeScript and formatting only (no SwiftLint or ktlint) |
 | `npm run verify` | Build/validate iOS, Android, and web |
 | `npm run verify:web` | Same as `npm run build` |
 | `npm run verify:ios` | `xcodebuild` for the plugin scheme (macOS) |
 | `npm run verify:android` | Gradle clean/build/test in `android/` |
 | `npm run sync:app` | `npx cap sync` inside `example-app/` |
 
-Run `npm run fmt` before you open a pull request. Run the `verify:*` scripts that cover the platforms you touched.
+`npm run lint` and `npm run fmt` always run every platform linter. If you only changed TypeScript or docs, use `npm run eslint` and `npm run prettier:check` (or `npm run prettier:fix`) instead. Before you open a pull request that touches native code, run `npm run fmt` and the `verify:*` scripts for the platforms you changed.
 
 ## Issues
 
@@ -118,6 +119,7 @@ Use [GitHub Issues](https://github.com/ebarooni/capacitor-calendar/issues) for b
 - **type:** `feat`, `bug`, `docs`, `refactor`, or `chore`
 - **scope (optional):** `android`, `ios`, or `web` — omit when the issue spans more than one
 - Append `!` when the change is breaking: `feat!: …` or `feat(android)!: …`
+- Issues use `bug`. Pull requests and commits that fix the bug use `fix`.
 
 Examples:
 
@@ -133,7 +135,7 @@ State the problem or goal, the expected behavior, and enough steps or code to re
 
 1. Base your branch on the latest `main`.
 2. Keep the change focused. Prefer small PRs over large mixed ones.
-3. Update docs when behavior or the public API changes. Edit the TypeScript JSDoc (and any hand-written README sections). Do not hand-edit the generated API blocks in `README.md`; run `npm run build` so docgen refreshes them. For user-facing changes, add a note under the next version in `CHANGELOG.md`. For breaking changes, also document migration steps in `BREAKING.md`.
+3. Update docs when behavior or the public API changes. Edit the TypeScript JSDoc (and any hand-written README sections). Do not hand-edit the generated API blocks in `README.md`; run `npm run build` so they refresh. For user-facing changes, describe the changelog entry in the pull request (or draft a bullet in `CHANGELOG.md`). Do not bump the package version. Maintainers place the final `CHANGELOG.md` / `BREAKING.md` entries under the release version.
 4. Exercise the change in `example-app` on the affected platforms when you can.
 5. Open a pull request against `main`.
 
@@ -146,6 +148,7 @@ State the problem or goal, the expected behavior, and enough steps or code to re
 - **type:** `feat`, `fix`, `docs`, `refactor`, `chore`, `style`, or `perf`
 - **scope (optional):** `android`, `ios`, or `web`
 - Append `!` for breaking changes
+- Prefer the same conventional format for commit messages.
 
 ### Body
 
