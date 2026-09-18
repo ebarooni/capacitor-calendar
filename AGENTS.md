@@ -96,31 +96,6 @@ Do not manually edit generated content.
 - `README.md`: Content between `<docgen-index>` and `<docgen-api>` is generated from the public API definition.
 - `dist/`: Generated from `src/`.
 
-## GitHub Guidelines
-
-### Issue Titles
-
-The titles should be formatted as `<type>(<scope>): <description>`.
-
-- Types: `feat`, `bug`, `docs`, `refactor` or `chore`
-- Scopes: `android`, `ios` or `web`
-  - The scope can be omitted if multiple scopes apply
-- Append `!` to the type or scope when the issue describes a breaking change.
-  - Examples: `feat!: <description>` or `feat(android)!: <description>`
-
-### PR Guidelines
-
-The title should be formatted as `<type>(<scope>): <description>`
-
-- Types: `feat`, `fix`, `docs`, `refactor`, `chore`, `style` or `perf`
-- Scopes: `android`, `ios` or `web`
-  - The scope can be omitted if multiple scopes apply
-- Append `!` to the type or scope when the PR introduces a breaking change.
-  - Examples: `feat!: <description>` or `feat(android)!: <description>`
-  - Update `BREAKING.md` for that release (see Important Rules).
-
-The body should reference the issue the PR closes: `Closes: #<ISSUE_NUMBER>`
-
 ## Deployment
 
 ### npm Package
