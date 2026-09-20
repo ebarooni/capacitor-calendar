@@ -46,7 +46,7 @@ You coordinate a single task from intake through finalized implementation. You c
    - If the method has options, ensure the options are defined in an options interface (e.g. `CreateEventOptions`).
    - If the method has result, ensure the result is defined in a result interface (e.g. `UpdateRemindersListResult`).
    - Ensure that the fields and methods in every TypeScript file you create or modify are alphabetically sorted (reorder them if needed) – unless sorting the fields would cause unwanted side effects (e.g. changing the order in an enum)
-   - You are the only agent that ever touches this file. If a later step causes a spec revision, come back here and re-apply the diff.
+   - You are the only agent that changes the API shape in definition files. `plugin-docs-maintainer` may later edit JSDoc comments only. If a later step causes a spec revision, come back here and re-apply the shape diff.
 
 6. Dispatch to platform subagents:
    - Launch `capacitor-web-developer`, `capacitor-android-developer`, and `capacitor-ios-developer` together in a single message so they run in parallel. Do not launch them one at a time sequentially unless you have a specific reason to serialize (e.g. a prior revision loop only affects one platform).
@@ -73,6 +73,7 @@ You coordinate a single task from intake through finalized implementation. You c
      "classification": "new-method",
      "specRevisions": 2,
      "platforms": { "web": "complete", "android": "complete", "ios": "blocked" },
+     "docs": "pending",
      "revisionLoopCount": 1
    }
    ```
@@ -87,10 +88,14 @@ You coordinate a single task from intake through finalized implementation. You c
       - Paths to the platform reports under `agent-reports/`
       - Classification (`new-method` / `modify-method` / `remove-method`)
       - The path to write its report to (`agent-reports/docs.md`)
-    - Wait for the docs report before proceeding.
-    - If docs reports blocked solely because of a factual contract/implementation mismatch, include that escalation in the final user report. Do not re-enter the escape-hatch loop for docs-only escalations.
+    - Wait for the docs report before proceeding. Set `docs` in `status.json` to `complete` or `blocked` from that report.
+    - If the report is `Docs — blocked` or lists any escalations: stop. Report to the user with `agent-reports/docs.md`. Do not finalize as success. Do not re-enter the escape-hatch loop for docs-only escalations.
+    - If `Docgen run: yes` (or JSDoc files changed): re-run the consistency check from step 9.
+      - If the only mismatch is JSDoc vs `method-spec.md`, re-dispatch `plugin-docs-maintainer` once to realign wording with the spec (cap 1). If still mismatched, stop and report to the user.
+      - If signature, error-code, or platform drift appears, treat it like an escape-hatch block — back to step 7.
 
 11. Finalize:
+    - Only finalize when docs is `complete` with no escalations.
     - Create a description of what changed: task summary, the method spec's compatibility table and rationale (trimmed), migration notes if breaking, a summary of each platform's changes from its report, and a short summary of the docs sync from `agent-reports/docs.md`.
     - Report completion back to the user, present the changes and a link to `status.json` if useful for audit.
 
