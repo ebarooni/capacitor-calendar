@@ -49,7 +49,6 @@ You can still contribute TypeScript, docs, or web-only changes without Xcode, Co
    This installs plugin dependencies, builds the plugin, installs the example app, builds it, and runs `npx cap sync` so iOS and Android use your local package.
 
 4. Open the native projects when you need to run on a device or simulator:
-
    - iOS: `example-app/ios/App/App.xcworkspace` in Xcode
    - Android: `example-app/android` in Android Studio
 
@@ -69,17 +68,17 @@ If you only edit the example app’s web UI and will retest on a simulator or de
 
 ## Project layout
 
-| Path | Role |
-| --- | --- |
-| `src/` | Public TypeScript API and web implementation |
+| Path                 | Role                                                   |
+| -------------------- | ------------------------------------------------------ |
+| `src/`               | Public TypeScript API and web implementation           |
 | `src/definitions.ts` | Plugin interface assembled from `src/sub-definitions/` |
-| `src/schemas/` | Shared types, enums, and option/result interfaces |
-| `android/` | Android (Kotlin) implementation |
-| `ios/Plugin/` | iOS (Swift) implementation |
-| `example-app/` | Capacitor demo used to exercise the plugin |
-| `mcp/` | Optional MCP server for AI assistants |
-| `CHANGELOG.md` | Concise release history |
-| `BREAKING.md` | Breaking changes and migration steps |
+| `src/schemas/`       | Shared types, enums, and option/result interfaces      |
+| `android/`           | Android (Kotlin) implementation                        |
+| `ios/Plugin/`        | iOS (Swift) implementation                             |
+| `example-app/`       | Capacitor demo used to exercise the plugin             |
+| `mcp/`               | Optional MCP server for AI assistants                  |
+| `CHANGELOG.md`       | Concise release history                                |
+| `BREAKING.md`        | Breaking changes and migration steps                   |
 
 Do not edit generated output by hand:
 
@@ -97,18 +96,18 @@ This plugin ships web, Android, and iOS. Keep those surfaces aligned.
 
 ## Development scripts
 
-| Script | Purpose |
-| --- | --- |
-| `npm run bootstrap:app` | Full local setup: install, build plugin, install/build example app, sync |
-| `npm run build` | Clean, regenerate README API docs, compile TypeScript, bundle with Rollup |
-| `npm run lint` | All platforms: ESLint, Prettier check, SwiftLint, ktlint |
-| `npm run fmt` | All platforms: auto-fix lint and formatting where possible |
-| `npm run eslint` / `npm run prettier:check` | TypeScript and formatting only (no SwiftLint or ktlint) |
-| `npm run verify` | Build/validate iOS, Android, and web (requires macOS for the iOS step) |
-| `npm run verify:web` | Same as `npm run build` |
-| `npm run verify:ios` | `xcodebuild` for the SPM scheme `EbarooniCapacitorCalendar` (macOS) |
-| `npm run verify:android` | Gradle clean/build/test in `android/` |
-| `npm run sync:app` | `npx cap sync` inside `example-app/` |
+| Script                                      | Purpose                                                                   |
+| ------------------------------------------- | ------------------------------------------------------------------------- |
+| `npm run bootstrap:app`                     | Full local setup: install, build plugin, install/build example app, sync  |
+| `npm run build`                             | Clean, regenerate README API docs, compile TypeScript, bundle with Rollup |
+| `npm run lint`                              | All platforms: ESLint, Prettier check, SwiftLint, ktlint                  |
+| `npm run fmt`                               | All platforms: auto-fix lint and formatting where possible                |
+| `npm run eslint` / `npm run prettier:check` | TypeScript and formatting only (no SwiftLint or ktlint)                   |
+| `npm run verify`                            | Build/validate iOS, Android, and web (requires macOS for the iOS step)    |
+| `npm run verify:web`                        | Same as `npm run build`                                                   |
+| `npm run verify:ios`                        | `xcodebuild` for the SPM scheme `EbarooniCapacitorCalendar` (macOS)       |
+| `npm run verify:android`                    | Gradle clean/build/test in `android/`                                     |
+| `npm run sync:app`                          | `npx cap sync` inside `example-app/`                                      |
 
 `npm run lint` and `npm run fmt` always run every platform linter. If you only changed TypeScript or docs, use `npm run eslint` and `npm run prettier:check` (or `npm run prettier:fix`) instead. Before you open a pull request that touches native code, run `npm run fmt` and the `verify:*` scripts for the platforms you changed. On Linux or Windows, skip `verify:ios` / full `verify` and run `verify:android` and `verify:web` instead.
 

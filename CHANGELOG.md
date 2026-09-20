@@ -54,6 +54,8 @@ Changelogs for the versions supporting Capacitor 8.
 - `CreateReminderResult` for `createReminder(...)`
 - `GetReminderByIdResult` for `getReminderById(...)`
 - `GetRemindersFromListsResult` for `getRemindersFromLists(...)`
+- Optional `commit` on iOS for `createReminder(...)`, `modifyReminder(...)`, and `deleteReminder(...)` (default `true`; pass `false` to batch with `CapacitorCalendar.commit()`)
+- Clearable optional fields on `modifyReminder(...)`: pass `null` to clear `notes`, `url`, `location`, `alerts`, `recurrence`, `startDate`, `dueDate`, or `completionDate` (`alerts` also clears with `[]`; clearing both dates in one call also clears alerts)
 
 ### Changed
 
