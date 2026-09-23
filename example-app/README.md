@@ -16,13 +16,15 @@ This installs dependencies, builds the plugin, installs and builds this app, and
 
 ## Run
 
+Paths below are from the repository root.
+
 ### iOS
 
-Open `ios/App/App.xcworkspace` in Xcode and run on a simulator or device. Grant calendar and reminders access when prompted.
+Open `example-app/ios/App/App.xcworkspace` in Xcode and run on a simulator or device. Grant calendar and reminders access when prompted.
 
 ### Android
 
-Open the `android` folder in Android Studio and run on an emulator or device. Grant calendar access when prompted.
+Open the `example-app/android` folder in Android Studio and run on an emulator or device. Grant calendar access when prompted.
 
 ### Web (smoke test only)
 

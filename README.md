@@ -131,7 +131,7 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Quick Start
 
-Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+The sample below is for Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ```typescript
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
@@ -202,7 +202,7 @@ await CapacitorCalendar.createEventWithPrompt({
 
 ### Modify or delete an event
 
-Use an `id` from `createEvent` or `listEventsInRange`:
+The sample below is for Android and iOS. Use an `id` from `createEvent` or `listEventsInRange`:
 
 ```typescript
 await CapacitorCalendar.modifyEvent({
