@@ -5,7 +5,7 @@ description: >
   Use when improving marketing copy, readability, adoption guidance, or AI-friendly docs in README.md, mcp/README.md, example-app/README.md, CONTRIBUTING.md, or public API JSDoc under src/.
   Use when plugin-task-orchestrator reaches docs sync (after the consistency check), or for standalone doc-only requests.
   Do not use for CHANGELOG.md, BREAKING.md, API redesign, or any implementation code changes.
-model: inherit
+model: claude-sonnet-5[effort=high]
 readonly: false
 is_background: false
 ---
