@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.7.1](#871)
   - [8.7.0](#870)
   - [8.6.0](#860)
   - [8.5.0](#850)
@@ -46,6 +47,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.7.1
+
+### Fixed
+
+- Android `createEvent` / `modifyEvent`: all-day events now use UTC midnight and an exclusive end day, so the same local-day timestamps match iOS ([#282](https://github.com/ebarooni/capacitor-calendar/issues/282))
 
 ## 8.7.0
 

@@ -26,6 +26,82 @@ class ImplementationHelper {
                 timeInMillis = timestamp ?: System.currentTimeMillis()
             }
 
+        /**
+         * Maps a timestamp to UTC midnight of its local calendar day.
+         * Required for [CalendarContract.Events] all-day rows (`EVENT_TIMEZONE` = UTC).
+         */
+        fun utcMidnightForLocalDay(timestamp: Long): Long {
+            val local = Calendar.getInstance().apply { timeInMillis = timestamp }
+            return Calendar
+                .getInstance(TimeZone.getTimeZone("UTC"))
+                .apply {
+                    clear()
+                    set(
+                        local.get(Calendar.YEAR),
+                        local.get(Calendar.MONTH),
+                        local.get(Calendar.DAY_OF_MONTH),
+                    )
+                }.timeInMillis
+        }
+
+        /**
+         * Inclusive local-day end → exclusive UTC midnight `DTEND` for all-day rows.
+         */
+        fun exclusiveUtcEndForInclusiveLocalDay(timestamp: Long): Long =
+            Calendar
+                .getInstance(TimeZone.getTimeZone("UTC"))
+                .apply {
+                    timeInMillis = utcMidnightForLocalDay(timestamp)
+                    add(Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+
+        /**
+         * Plugin all-day dates use local calendar days with an inclusive end (same as iOS).
+         * [CalendarContract] needs UTC midnight boundaries and an exclusive `DTEND`.
+         * When [endDate] is omitted, uses a one-day span from [startDate].
+         */
+        fun normalizeAllDayTimes(
+            startDate: Long?,
+            endDate: Long?,
+        ): Pair<Long?, Long?> {
+            val start = startDate?.let { utcMidnightForLocalDay(it) }
+            val exclusiveEnd =
+                when {
+                    endDate != null -> {
+                        exclusiveUtcEndForInclusiveLocalDay(endDate)
+                    }
+
+                    start != null -> {
+                        Calendar
+                            .getInstance(TimeZone.getTimeZone("UTC"))
+                            .apply {
+                                timeInMillis = start
+                                add(Calendar.DAY_OF_MONTH, 1)
+                            }.timeInMillis
+                    }
+
+                    else -> {
+                        null
+                    }
+                }
+            return Pair(start, exclusiveEnd)
+        }
+
+        /** Reads [CalendarContract.Events.ALL_DAY] for an existing event. */
+        fun isEventAllDay(
+            cr: ContentResolver,
+            eventId: Long,
+        ): Boolean {
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+            val projection = arrayOf(CalendarContract.Events.ALL_DAY)
+            cr.query(uri, projection, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    return cursor.getInt(0) == 1
+                }
+            }
+            return false
+        }
+
         fun jsArrayToComaSeparatedString(array: JSArray?): String? {
             val list = array?.toList<Any>() ?: return null
 
