@@ -21,45 +21,15 @@
 
 ![capacitor-calendar-logo](assets/images/text-logo.png)
 
-Full-featured Capacitor plugin for calendar and reminders access on iOS, Android, and the web. On iOS and Android, manage permissions, create, modify, and delete events and reminders programmatically or via the native UI, query events in a date range, and list available calendars. On the web, create events as ICS files that users can add to their calendar.
-
-## Core Features
-
-- ✅ **Events** – Create, update, delete, and list events in a date range
-- ✅ **Native Prompts** – Built-in system dialogs for creating, editing, and deleting events
-- ✅ **Permissions** – Granular control (full access, write-only, read-only)
-- ✅ **Calendars** – List calendars, get default, create, modify, and delete custom calendars
-- ✅ **Open Calendar App** – Launch the native Calendar app directly
-- 📅 **Reminders** – Full create, read, update, delete support _(iOS only)_
-- 🔍 **Advanced iOS Features** – Calendar sources, calendar selection prompts, default reminders list
-
-## Supported Platforms
-
-- **iOS** — Full support (including Reminders and advanced features)
-- **Android** — Strong support for all core calendar features
-- **Web** — Partial support (create events as `.ics` files)
-
-## Why this plugin?
-
-- **Original and established.** Available since Capacitor 5, this plugin has been around longer than the alternatives and has matured over time.
-- **Actively maintained by the original author.** Updates, bug fixes, and new features are driven by someone who is deeply familiar with the codebase and committed to keeping it healthy.
-- **Fast support.** Questions, bug reports, and integration help are handled promptly.
-- **Reduced vendor risk.** Relying on a single plugin provider for all your needs is a liability. Choosing specialized, independent maintainers keeps your stack resilient.
-
-## MCP Server
-
-`@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server so AI coding assistants can work with the plugin accurately.
-
-```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
-```
-
-See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
+`@ebarooni/capacitor-calendar` connects your Capacitor app to the native calendar. On iOS and Android, create, edit, and list events, and manage calendars and permissions. iOS also supports reminders. On the web, the plugin builds a downloadable `.ics` file; it does not write to a device calendar.
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Features and Platforms](#features-and-platforms)
 - [Demo](#demo)
+- [Why this plugin?](#why-this-plugin)
+- [MCP Server](#mcp-server)
+- [Installation](#installation)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
 - [Usage Examples](#usage-examples)
@@ -70,6 +40,44 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 - [Contributing](#contributing)
 - [License](#license)
 
+## Features and Platforms
+
+| Capability                                        | iOS | Android |      Web      |
+| :------------------------------------------------ | :-: | :-----: | :-----------: |
+| Create, update, and delete events                 | ✅  |   ✅    | Create only\* |
+| Native prompts to create, edit, and delete events | ✅  |   ✅    |       –       |
+| List events in a date range                       | ✅  |   ✅    |       –       |
+| Request calendar permissions                      | ✅  |   ✅    |       –       |
+| List, create, modify, and delete calendars        | ✅  |   ✅    |       –       |
+| Open the native Calendar app                      | ✅  |   ✅    |       –       |
+| Calendar sources and a calendar picker prompt     | ✅  |    –    |       –       |
+| Reminders and reminder lists                      | ✅  |    –    |       –       |
+
+\* On the web, `createEvent` returns a downloadable `.ics` file. It does not write to a device calendar. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+
+## Demo
+
+|               iOS               |               Android               |
+| :-----------------------------: | :---------------------------------: |
+| ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
+
+## Why this plugin?
+
+- **Established.** Available since Capacitor 5, with years of real-world use behind it.
+- **Actively maintained.** The original author still owns the codebase and ships fixes and features.
+- **Fast support.** Questions and bug reports get quick answers.
+- **Lower vendor risk.** Relying on one plugin author for everything is risky. Independent, focused maintainers keep your stack resilient.
+
+## MCP Server
+
+`@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server. It gives AI coding assistants accurate, grounded knowledge of the plugin.
+
+```bash
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
+```
+
+See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
+
 ## Installation
 
 ```bash
@@ -77,15 +85,9 @@ npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
 
-## Demo
-
-|             iOS 26              |             Android 17              |
-| :-----------------------------: | :---------------------------------: |
-| ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
-
 ## Setup
 
-This plugin works with native calendar APIs, so you'll need to configure permissions on each platform before requesting access at runtime.
+This plugin works with native calendar APIs, so you need to configure permissions on each platform before you request access at runtime. After setup, see [Quick Start](#quick-start) to request permissions in code.
 
 ### Android
 
@@ -96,7 +98,7 @@ Add these permissions to `android/app/src/main/AndroidManifest.xml`:
 <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 ```
 
-Don't forget to request the matching runtime permissions before reading from or writing to the calendar.
+Request the matching runtime permissions before you read from or write to the calendar.
 
 ### iOS
 
@@ -120,7 +122,7 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 ```
 
 > [!IMPORTANT]  
-> Only include the keys your app actually needs. If you're only creating events, you can safely omit the full access and reminders entries.
+> Only include the keys your app actually needs. If you only create events, you can omit the full access and reminders entries.
 
 ### Official References
 
@@ -129,7 +131,7 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Quick Start
 
-Here's a simple example to get you up and running quickly:
+Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ```typescript
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
@@ -160,6 +162,28 @@ console.log('Event created with ID:', id);
 
 ## Usage Examples
 
+### Create and download an event on the web
+
+On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download:
+
+```typescript
+import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
+
+const startDate = Date.now() + 60 * 60 * 1000;
+const endDate = startDate + 60 * 60 * 1000;
+
+const { ics } = await CapacitorCalendar.createEvent({
+  title: 'Team standup',
+  startDate,
+  endDate,
+  icsFileName: 'team-standup.ics',
+});
+
+if (ics) {
+  await downloadIcsFile(ics);
+}
+```
+
 ### Open the native event editor
 
 Use the system calendar UI to let users create or edit events:
@@ -175,6 +199,21 @@ await CapacitorCalendar.createEventWithPrompt({
 
 > [!NOTE]  
 > On Android, this method always returns null. If you need the event ID, call `listEventsInRange(...)` afterward.
+
+### Modify or delete an event
+
+Use an `id` from `createEvent` or `listEventsInRange`:
+
+```typescript
+await CapacitorCalendar.modifyEvent({
+  id: eventId,
+  title: 'Updated title',
+});
+
+await CapacitorCalendar.deleteEvent({
+  id: eventId,
+});
+```
 
 ### List events in a range
 
