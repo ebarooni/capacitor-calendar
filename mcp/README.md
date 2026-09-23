@@ -22,7 +22,9 @@ An official MCP server for [`@ebarooni/capacitor-calendar`](https://github.com/e
 
 Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Registry.
 
-## Getting Started
+## Install
+
+Run the server with Docker:
 
 ```bash
 docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
@@ -30,13 +32,13 @@ docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/c
 
 The server starts at `http://localhost:8080/mcp`.
 
-If port 8080 is already in use, map it to any available port on your machine:
+If port 8080 is busy, map it to a free port:
 
 ```bash
 docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
 ```
 
-The server would then be available at `http://localhost:9090/mcp`. Update your client configuration accordingly.
+The server is then available at `http://localhost:9090/mcp`. Update your client configuration to match.
 
 To stop the server:
 
@@ -44,7 +46,7 @@ To stop the server:
 docker stop capacitor-calendar-mcp
 ```
 
-## Connecting Your AI Client
+## Configure Your AI Client
 
 ### Claude Code
 
@@ -90,6 +92,14 @@ Open `mcp.json` in your editor and add the following:
 }
 ```
 
+## Verify
+
+Restart your AI client, then ask it something only the server would know, for example:
+
+> Which `@ebarooni/capacitor-calendar` methods are iOS-only?
+
+A grounded, correct answer confirms your client reached the server. If the answer looks generic or wrong, check that the container is running (`docker ps`) and that the URL and port in your client config match the server.
+
 ## What's Available
 
 ### Resources
@@ -119,11 +129,7 @@ Open `mcp.json` in your editor and add the following:
 
 ## Versioning
 
-All available versions are listed on the [GitHub Packages page](https://github.com/ebarooni/capacitor-calendar/pkgs/container/capacitor-calendar-mcp). Always use a specific version tag:
-
-```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
-```
+All available versions are listed on the [GitHub Packages page](https://github.com/ebarooni/capacitor-calendar/pkgs/container/capacitor-calendar-mcp). Always pin the version tag, as shown in [Install](#install), instead of tracking a moving tag.
 
 ## Local Development
 
@@ -147,4 +153,4 @@ This project is licensed under the **MIT License**. See [LICENSE](../LICENSE) fo
 
 ## Related Guides
 
-- MCP Server - HTTP ([guide](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)): The HTTP/SSE transport the MCP server.
+- MCP Server - HTTP ([guide](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)): The HTTP/SSE transport for the MCP server.
