@@ -139,14 +139,20 @@ class CapacitorCalendar(
         // multi-day span.
         val (startDate, endDate) =
             when {
-                !treatAsAllDay -> Pair(input.startDate, input.endDate)
-                settingAllDay && input.startDate != null ->
+                !treatAsAllDay -> {
+                    Pair(input.startDate, input.endDate)
+                }
+
+                settingAllDay && input.startDate != null -> {
                     ImplementationHelper.normalizeAllDayTimes(input.startDate, input.endDate)
-                else ->
+                }
+
+                else -> {
                     Pair(
                         input.startDate?.let { ImplementationHelper.utcMidnightForLocalDay(it) },
                         input.endDate?.let { ImplementationHelper.exclusiveUtcEndForInclusiveLocalDay(it) },
                     )
+                }
             }
         val writeDefaultAllDayEnd = settingAllDay && input.startDate != null && input.endDate == null
         val values =
