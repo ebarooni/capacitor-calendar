@@ -52,7 +52,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Fixed
 
-- Android `createEvent` / `modifyEvent`: all-day events now use UTC midnight and an exclusive end day, so the same local-day timestamps match iOS ([#282](https://github.com/ebarooni/capacitor-calendar/issues/282))
+- Android `createEvent` / `modifyEvent`: all-day events now use UTC midnight and an exclusive end day, so the same local-day timestamps match iOS ([#282](https://github.com/ebarooni/capacitor-calendar/issues/282)). Callers that previously passed Android-only UTC-midnight workarounds should use inclusive local-day timestamps like iOS.
 
 ## 8.7.0
 

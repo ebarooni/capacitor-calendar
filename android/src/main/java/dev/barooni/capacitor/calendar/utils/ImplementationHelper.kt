@@ -87,7 +87,11 @@ class ImplementationHelper {
             return Pair(start, exclusiveEnd)
         }
 
-        /** Reads [CalendarContract.Events.ALL_DAY] for an existing event. */
+        /**
+         * Reads [CalendarContract.Events.ALL_DAY] for an existing event.
+         * Throws [PluginError.EventNotFound] when the row is missing or unreadable,
+         * so callers that need the flag cannot silently skip all-day normalization.
+         */
         fun isEventAllDay(
             cr: ContentResolver,
             eventId: Long,
@@ -99,7 +103,7 @@ class ImplementationHelper {
                     return cursor.getInt(0) == 1
                 }
             }
-            return false
+            throw PluginError.EventNotFound
         }
 
         fun jsArrayToComaSeparatedString(array: JSArray?): String? {

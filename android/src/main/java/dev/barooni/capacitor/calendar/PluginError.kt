@@ -17,6 +17,8 @@ sealed class PluginError(
         val details: String,
     ) : PluginError(details)
 
+    data object EventNotFound : PluginError("Event not found.")
+
     data object FailedToDelete : PluginError("Failed to delete.")
 
     data object FailedToModify : PluginError("Failed to modify.")
