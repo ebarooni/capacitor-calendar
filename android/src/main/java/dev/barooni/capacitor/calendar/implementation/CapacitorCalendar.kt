@@ -87,16 +87,24 @@ class CapacitorCalendar(
     fun createEvent(input: CreateEventInput): CreateEventResult {
         val cr = plugin.context.contentResolver
         val calendarId: Long = input.calendarId ?: ImplementationHelper.getDefaultCalendarId(cr)
+        val isAllDay = input.isAllDay == 1
+        val (startDate, endDate) =
+            if (isAllDay) {
+                ImplementationHelper.normalizeAllDayTimes(input.startDate, input.endDate)
+            } else {
+                Pair(input.startDate, input.endDate)
+            }
+        val timezoneId = if (isAllDay) "UTC" else input.timezoneId
 
         val values =
             ContentValues().apply {
                 put(CalendarContract.Events.TITLE, input.title)
                 put(CalendarContract.Events.CALENDAR_ID, calendarId)
-                put(CalendarContract.Events.EVENT_TIMEZONE, input.timezoneId)
+                put(CalendarContract.Events.EVENT_TIMEZONE, timezoneId)
                 input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
                 input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                input.startDate?.let { put(CalendarContract.Events.DTSTART, it) }
-                input.endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                startDate?.let { put(CalendarContract.Events.DTSTART, it) }
+                endDate?.let { put(CalendarContract.Events.DTEND, it) }
                 input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
                 input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
@@ -113,14 +121,55 @@ class CapacitorCalendar(
 
     fun modifyEvent(input: ModifyEvent) {
         val cr = plugin.context.contentResolver
+        val updatingDates = input.startDate != null || input.endDate != null
+        val settingAllDay = input.isAllDay == 1
+        // Normalize when setting all-day, or when editing dates on an existing all-day event
+        // without re-sending isAllDay. Reading ALL_DAY fails closed (EventNotFound) so a missed
+        // row cannot silently skip normalization and reintroduce the wrong-day bug.
+        val treatAsAllDay =
+            when {
+                input.isAllDay == 1 -> true
+                input.isAllDay == 0 -> false
+                updatingDates -> ImplementationHelper.isEventAllDay(cr, input.id)
+                else -> false
+            }
+        // Explicit isAllDay + startDate shares create's contract (inclusive local days; omitted
+        // endDate → one-day exclusive DTEND). Date-only patches on an existing all-day event
+        // normalize only the fields the caller sent, so a start-only update cannot truncate a
+        // multi-day span.
+        val (startDate, endDate) =
+            when {
+                !treatAsAllDay -> {
+                    Pair(input.startDate, input.endDate)
+                }
+
+                settingAllDay && input.startDate != null -> {
+                    ImplementationHelper.normalizeAllDayTimes(input.startDate, input.endDate)
+                }
+
+                else -> {
+                    Pair(
+                        input.startDate?.let { ImplementationHelper.utcMidnightForLocalDay(it) },
+                        input.endDate?.let { ImplementationHelper.exclusiveUtcEndForInclusiveLocalDay(it) },
+                    )
+                }
+            }
+        val writeDefaultAllDayEnd = settingAllDay && input.startDate != null && input.endDate == null
         val values =
             ContentValues().apply {
                 input.title?.let { put(CalendarContract.Events.TITLE, it) }
                 input.calendarId?.let { put(CalendarContract.Events.CALENDAR_ID, it) }
                 input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
-                input.startDate?.let { put(CalendarContract.Events.DTSTART, it) }
-                input.endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                if (input.startDate != null) {
+                    startDate?.let { put(CalendarContract.Events.DTSTART, it) }
+                }
+                if (input.endDate != null || writeDefaultAllDayEnd) {
+                    endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                }
                 input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
+                if (treatAsAllDay) {
+                    put(CalendarContract.Events.EVENT_TIMEZONE, "UTC")
+                }
                 input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
                 input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
