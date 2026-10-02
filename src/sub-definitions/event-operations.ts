@@ -49,6 +49,8 @@ export interface EventOperations {
    * On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
    * The app must download or open that file (for example with `downloadIcsFile(...)`);
    * this method does not trigger a download.
+   * On Web, `calendarId`, `color`, `commit`, and `duration` have no effect.
+   * Timed ICS times use UTC (`…Z`); all-day dates stay local `VALUE=DATE`.
    *
    * @example
    * const { id, ics } = await CapacitorCalendar.createEvent({

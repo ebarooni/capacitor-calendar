@@ -47,7 +47,7 @@
 | Create, update, and delete events                 | ✅  |   ✅    | Create only\* |
 | Native prompts to create, edit, and delete events | ✅  |   ✅    |       –       |
 | List events in a date range                       | ✅  |   ✅    |       –       |
-| Request calendar permissions                      | ✅  |   ✅    |       –       |
+| Request calendar permissions                      | ✅  |   ✅    |  Granted\*\*  |
 | List, create, modify, and delete calendars        | ✅  |   ✅    |       –       |
 | Open the native Calendar app                      | ✅  |   ✅    |       –       |
 | Calendar sources and a calendar picker prompt     | ✅  |    –    |       –       |
@@ -55,11 +55,15 @@
 
 \* On the web, `createEvent` returns a downloadable `.ics` file. It does not write to a device calendar. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
+\*\* On the web, permission check and request methods resolve to `"granted"`. There is no OS calendar permission. This unblocks shared app code before ICS export.
+
 ## Demo
 
 |               iOS               |               Android               |
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
+
+**Web:** Run the example app in a browser. Use **Create event** to download an `.ics` file. Unsupported actions are disabled.
 
 ## Why this plugin?
 
@@ -73,7 +77,7 @@
 `@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server. It gives AI coding assistants accurate, grounded knowledge of the plugin.
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.2.0
 ```
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
@@ -131,10 +135,10 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Quick Start
 
-The sample below is for Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+The sample below works on Android, iOS, and Web. On Web, permission methods resolve to `"granted"` (no OS dialog), and `createEvent` returns an `.ics` file instead of a store `id`. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ```typescript
-import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
+import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
 
 const { result } = await CapacitorCalendar.requestFullCalendarAccess();
 
@@ -146,7 +150,7 @@ if (result !== 'granted') {
 const startDate = Date.now() + 60 * 60 * 1000;
 const endDate = startDate + 60 * 60 * 1000;
 
-const { id } = await CapacitorCalendar.createEvent({
+const { id, ics } = await CapacitorCalendar.createEvent({
   title: 'Product review',
   location: 'Office',
   startDate,
@@ -154,7 +158,12 @@ const { id } = await CapacitorCalendar.createEvent({
   description: 'Created with @ebarooni/capacitor-calendar',
 });
 
-console.log('Event created with ID:', id);
+if (id) {
+  console.log('Event created with ID:', id);
+}
+if (ics) {
+  await downloadIcsFile(ics);
+}
 ```
 
 > [!NOTE]  
@@ -164,7 +173,9 @@ console.log('Event created with ID:', id);
 
 ### Create and download an event on the web
 
-On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download:
+On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download.
+
+`calendarId`, `color`, `commit`, and `duration` have no effect on Web. Timed `DTSTART` / `DTEND` values are UTC (`…Z`). All-day events use local calendar dates (`VALUE=DATE`).
 
 ```typescript
 import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
@@ -348,6 +359,7 @@ checkPermission(options: CheckPermissionOptions) => Promise<{ result: Permission
 
 Retrieves the current permission state for a given scope.
 On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -357,7 +369,7 @@ On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
 
 **Since:** 0.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -369,12 +381,13 @@ checkAllPermissions() => Promise<{ result: CheckAllPermissionsResult; }>
 
 Retrieves the current state of all permissions.
 On Android, reminder keys always resolve to `"prompt"`.
+On Web, every key resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -386,6 +399,7 @@ requestPermission(options: RequestPermissionOptions) => Promise<{ result: Permis
 
 Requests permission for a given scope.
 On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
@@ -395,7 +409,7 @@ On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
 
 **Since:** 0.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -407,12 +421,13 @@ requestAllPermissions() => Promise<{ result: RequestAllPermissionsResult; }>
 
 Requests permission for all calendar and reminder permissions.
 On Android, only calendar permissions are requested; reminder keys stay `"prompt"`.
+On Web, every key resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
 **Since:** 0.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -423,12 +438,13 @@ requestWriteOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
 ```
 
 Requests write access to the calendar.
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -439,12 +455,13 @@ requestReadOnlyCalendarAccess() => Promise<{ result: PermissionState; }>
 ```
 
 Requests read access to the calendar.
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
 
-**Platform:** Android
+**Platform:** Android, Web
 
 ---
 
@@ -455,12 +472,13 @@ requestFullCalendarAccess() => Promise<{ result: PermissionState; }>
 ```
 
 Requests read and write access to the calendar.
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -473,12 +491,13 @@ requestFullRemindersAccess() => Promise<{ result: PermissionState; }>
 Requests read and write access to the reminders.
 Resolves with `"granted"` or `"denied"` (never `"prompt"`).
 A grant covers both `readReminders` and `writeReminders`.
+On Web, there is no OS permission; always resolves to `"granted"`.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
 **Since:** 5.4.0
 
-**Platform:** iOS
+**Platform:** iOS, Web
 
 ---
 
@@ -536,6 +555,8 @@ On Android and iOS, inserts into the system calendar and returns its `id`.
 On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
 The app must download or open that file (for example with `downloadIcsFile(...)`);
 this method does not trigger a download.
+On Web, `calendarId`, `color`, `commit`, and `duration` have no effect.
+Timed ICS times use UTC (`…Z`); all-day dates stay local `VALUE=DATE`.
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
@@ -1096,17 +1117,17 @@ Update a reminders list with options.
 
 Options for {@link CalendarAccess#checkPermission}.
 
-| Prop        | Type                                                                        | Description                                                                                                                                     | Since | Platform     |
-| ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). | 8.3.1 | Android, iOS |
+| Prop        | Type                                                                        | Description                                                                                                                                                                                        | Since | Platform          |
+| ----------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----------------- |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). On Web, every valid scope resolves to `"granted"`. | 8.3.1 | Android, iOS, Web |
 
 #### RequestPermissionOptions
 
 Options for {@link CalendarAccess#requestPermission}.
 
-| Prop        | Type                                                                        | Description                      | Since | Platform     |
-| ----------- | --------------------------------------------------------------------------- | -------------------------------- | ----- | ------------ |
-| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. | 8.3.1 | Android, iOS |
+| Prop        | Type                                                                        | Description                                                                         | Since | Platform          |
+| ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- | ----------------- |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. On Web, every valid scope resolves to `"granted"`. | 8.3.1 | Android, iOS, Web |
 
 #### CreateEventWithPromptResult
 
@@ -1133,17 +1154,17 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### EventRecurrenceRule
 
-| Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform     |
-| -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ------------ |
-| **`byMonth`**        | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byMonthDay`**     | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byWeekDay`**      | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS |
-| **`count`**          | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `end` is ignored.                                     |                | 7.3.0 | Android, iOS |
-| **`daysOfTheYear`**  | <code>number[]</code>                                               | Limits a yearly recurrence to specific days of the year (1 to 366).                                                                                                     |                | 7.3.0 | iOS          |
-| **`end`**            | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS |
-| **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS |
-| **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS |
-| **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS          |
+| Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform          |
+| -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ----------------- |
+| **`byMonth`**        | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS, Web |
+| **`byMonthDay`**     | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS, Web |
+| **`byWeekDay`**      | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS, Web |
+| **`count`**          | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `end` is ignored.                                     |                | 7.3.0 | Android, iOS, Web |
+| **`daysOfTheYear`**  | <code>number[]</code>                                               | Limits a yearly recurrence to specific days of the year (1 to 366).                                                                                                     |                | 7.3.0 | iOS, Web          |
+| **`end`**            | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS, Web |
+| **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS, Web |
+| **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS, Web |
+| **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS, Web          |
 
 #### ModifyEventWithPromptOptions
 
@@ -1177,18 +1198,18 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`alerts`**       | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start.                |                   | 7.1.0 | Android, iOS, Web |
 | **`attendees`**    | <code>EventGuest[]</code>                                           | The event guests.                                                                                                                                                     |                   | 7.1.0 | Android, Web      |
 | **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                       |                   | 7.1.0 | Android, iOS, Web |
-| **`calendarId`**   | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS      |
-| **`color`**        | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android           |
-| **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`).                                                                                            | <code>true</code> | 7.1.0 | iOS               |
+| **`calendarId`**   | <code>string</code>                                                 | Target calendar id. Has no effect on Web (ICS export has no calendar store).                                                                                          |                   | 0.1.0 | Android, iOS      |
+| **`color`**        | <code>string</code>                                                 | Event color. Has no effect on Web.                                                                                                                                    |                   | 7.1.0 | Android           |
+| **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`). Has no effect on Web.                                                                      | <code>true</code> | 7.1.0 | iOS               |
 | **`description`**  | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android, iOS, Web |
-| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format.                                                                                                                              |                   | 7.1.0 | Android           |
-| **`endDate`**      | <code>number</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format. Has no effect on Web; use `endDate` instead.                                                                                 |                   | 7.1.0 | Android           |
+| **`endDate`**      | <code>number</code>                                                 | End time as Unix milliseconds. On Web, timed events write `DTEND` in UTC (`…Z`); all-day events use a local calendar date.                                            |                   | 0.1.0 | Android, iOS, Web |
 | **`icsFileName`**  | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended. |                   | 8.5.0 | Web               |
 | **`isAllDay`**     | <code>boolean</code>                                                |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
 | **`location`**     | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
 | **`organizer`**    | <code>string</code>                                                 | Email of the event organizer.                                                                                                                                         |                   | 7.1.0 | Android, Web      |
 | **`recurrence`**   | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                 |                   | 7.3.0 | Android, iOS, Web |
-| **`startDate`**    | <code>number</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`startDate`**    | <code>number</code>                                                 | Start time as Unix milliseconds. On Web, timed events write `DTSTART` in UTC (`…Z`); all-day events use a local calendar date.                                        |                   | 0.1.0 | Android, iOS, Web |
 | **`title`**        | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.4.0 | Android, iOS, Web |
 | **`url`**          | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | iOS, Web          |
 
@@ -1600,12 +1621,12 @@ Construct a type with a set of properties K of type T
 
 #### CalendarPermissionScope
 
-| Members               | Value                         | Description                                                                                                                                                                                                                      | Since | Platform     |
-| --------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                                                                                 | 7.1.0 | Android, iOS |
-| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`.             | 7.1.0 | iOS          |
-| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                     | 7.1.0 | Android, iOS |
-| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. | 7.1.0 | iOS          |
+| Members               | Value                         | Description                                                                                                                                                                                                                                                                                 | Since | Platform          |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----------------- |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                                                                                                                                            | 7.1.0 | Android, iOS, Web |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`.             | 7.1.0 | iOS, Web          |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                                                                                | 7.1.0 | Android, iOS, Web |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`. | 7.1.0 | iOS, Web          |
 
 #### EventAvailability
 

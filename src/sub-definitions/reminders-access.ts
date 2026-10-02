@@ -8,16 +8,17 @@ export interface RemindersAccess {
    * Requests read and write access to the reminders.
    * Resolves with `"granted"` or `"denied"` (never `"prompt"`).
    * A grant covers both `readReminders` and `writeReminders`.
+   * On Web, there is no OS permission; always resolves to `"granted"`.
    *
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
    * | iOS 10-16 | `NSRemindersUsageDescription` |
-   *
+   |
    * @throws {Error} when EventKit fails or required Info.plist keys are missing.
    *
-   * @platform iOS
+   * @platform iOS, Web
    * @see {@link CalendarPermissionScope}
    * @since 5.4.0
    */

@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.8.0](#880)
   - [8.7.1](#871)
   - [8.7.0](#870)
   - [8.6.0](#860)
@@ -47,6 +48,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.8.0
+
+### Added
+
+- Web permission check/request methods resolve `"granted"` (no OS calendar permission)
+- MCP `docs://web-behavior` resource
+
+### Changed
+
+- Document Web ICS limits: ignored `calendarId` / `color` / `commit` / `duration`, UTC timed times, local all-day dates
+- Align `EventRecurrenceRule` `@platform` tags with fields the Web ICS builder already emits
+- Example app: toast after ICS download; disable unsupported actions on Web
 
 ## 8.7.1
 

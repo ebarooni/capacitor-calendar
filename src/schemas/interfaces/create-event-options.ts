@@ -34,11 +34,15 @@ export interface CreateEventOptions {
    */
   availability?: EventAvailability;
   /**
+   * Target calendar id. Has no effect on Web (ICS export has no calendar store).
+   *
    * @platform Android, iOS
    * @since 0.1.0
    */
   calendarId?: string;
   /**
+   * Event color. Has no effect on Web.
+   *
    * @example #6750A4
    * @platform Android
    * @since 7.1.0
@@ -46,6 +50,7 @@ export interface CreateEventOptions {
   color?: string;
   /**
    * Whether to save immediately (`true`) or batch changes for later (`false`).
+   * Has no effect on Web.
    *
    * @default true
    * @platform iOS
@@ -60,6 +65,7 @@ export interface CreateEventOptions {
   description?: string;
   /**
    * Duration of the event in RFC2445 format.
+   * Has no effect on Web; use `endDate` instead.
    *
    * @example P1D (1 day), P3W (3 weeks), P2DT4H30M (2 days, 4 hours, and 30 minutes).
    * @platform Android
@@ -68,6 +74,9 @@ export interface CreateEventOptions {
    */
   duration?: string;
   /**
+   * End time as Unix milliseconds.
+   * On Web, timed events write `DTEND` in UTC (`…Z`); all-day events use a local calendar date.
+   *
    * @platform Android, iOS, Web
    * @since 0.1.0
    */
@@ -107,6 +116,9 @@ export interface CreateEventOptions {
    */
   recurrence?: EventRecurrenceRule;
   /**
+   * Start time as Unix milliseconds.
+   * On Web, timed events write `DTSTART` in UTC (`…Z`); all-day events use a local calendar date.
+   *
    * @platform Android, iOS, Web
    * @since 0.1.0
    */

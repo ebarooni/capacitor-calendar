@@ -2,6 +2,7 @@ import type { PermissionState } from '@capacitor/core';
 import { WebPlugin } from '@capacitor/core';
 
 import type { CapacitorCalendarPlugin } from './definitions';
+import { CalendarPermissionScope } from './schemas/enums/calendar-permission-scope';
 import type { Calendar } from './schemas/interfaces/calendar';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
@@ -49,17 +50,28 @@ import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './s
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import { buildEventIcs, resolveIcsFileName } from './web/ics';
 
+const WEB_GRANTED: PermissionState = 'granted';
+
+const ALL_SCOPES_GRANTED: CheckAllPermissionsResult = {
+  [CalendarPermissionScope.READ_CALENDAR]: WEB_GRANTED,
+  [CalendarPermissionScope.WRITE_CALENDAR]: WEB_GRANTED,
+  [CalendarPermissionScope.READ_REMINDERS]: WEB_GRANTED,
+  [CalendarPermissionScope.WRITE_REMINDERS]: WEB_GRANTED,
+};
+
+const VALID_SCOPES = new Set<string>(Object.values(CalendarPermissionScope));
+
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
-  public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
-    return this.throwUnimplemented(this.checkPermission.name);
+  public checkPermission(options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
+    return this.resolveGrantedScope(options?.scope);
   }
 
   public checkAllPermissions(): Promise<{ result: CheckAllPermissionsResult }> {
-    return this.throwUnimplemented(this.checkAllPermissions.name);
+    return Promise.resolve({ result: { ...ALL_SCOPES_GRANTED } });
   }
 
-  public requestPermission(_options: RequestPermissionOptions): Promise<{ result: PermissionState }> {
-    return this.throwUnimplemented(this.requestPermission.name);
+  public requestPermission(options: RequestPermissionOptions): Promise<{ result: PermissionState }> {
+    return this.resolveGrantedScope(options?.scope);
   }
 
   public createRemindersList(_options: CreateRemindersListOptions): Promise<CreateRemindersListResult> {
@@ -73,25 +85,25 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   public requestAllPermissions(): Promise<{
     result: RequestAllPermissionsResult;
   }> {
-    return this.throwUnimplemented(this.requestAllPermissions.name);
+    return Promise.resolve({ result: { ...ALL_SCOPES_GRANTED } });
   }
 
   public requestWriteOnlyCalendarAccess(): Promise<{
     result: PermissionState;
   }> {
-    return this.throwUnimplemented(this.requestWriteOnlyCalendarAccess.name);
+    return Promise.resolve({ result: WEB_GRANTED });
   }
 
   public requestReadOnlyCalendarAccess(): Promise<{ result: PermissionState }> {
-    return this.throwUnimplemented(this.requestReadOnlyCalendarAccess.name);
+    return Promise.resolve({ result: WEB_GRANTED });
   }
 
   public requestFullCalendarAccess(): Promise<{ result: PermissionState }> {
-    return this.throwUnimplemented(this.requestFullCalendarAccess.name);
+    return Promise.resolve({ result: WEB_GRANTED });
   }
 
   public requestFullRemindersAccess(): Promise<{ result: PermissionState }> {
-    return this.throwUnimplemented(this.requestFullRemindersAccess.name);
+    return Promise.resolve({ result: WEB_GRANTED });
   }
 
   public createEventWithPrompt(_options: CreateEventWithPromptOptions): Promise<CreateEventWithPromptResult> {
@@ -221,6 +233,16 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
 
   public updateRemindersList(_options: UpdateRemindersListOptions): Promise<UpdateRemindersListResult> {
     return this.throwUnimplemented(this.updateRemindersList.name);
+  }
+
+  private resolveGrantedScope(scope: CalendarPermissionScope | undefined): Promise<{ result: PermissionState }> {
+    if (scope == null || (typeof scope === 'string' && scope.length === 0)) {
+      return Promise.reject(new Error('Scope must be provided.'));
+    }
+    if (!VALID_SCOPES.has(scope)) {
+      return Promise.reject(new Error('Invalid scope.'));
+    }
+    return Promise.resolve({ result: WEB_GRANTED });
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {
