@@ -7,8 +7,6 @@ export interface CreateRemindersListOptions {
   /**
    * Named color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
    * When omitted, system blue is used.
-   * On read, `color` is hex (or null). `colorName` is a named color if the
-   * stored color matches one of the system colors; otherwise null.
    *
    * @example 'indigo'
    * @example #007AFF

@@ -153,7 +153,11 @@ struct ImplementationHelper {
         if let namedColor = systemColor(named: colorString) {
             return namedColor.cgColor
         }
-        return try UIColor.fromHex(colorString).cgColor
+        let trimmed = colorString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.hasPrefix("#") else {
+            throw PluginError.invalidColor
+        }
+        return try UIColor.fromHex(trimmed).cgColor
     }
 
     /// Best-effort match of a stored calendar color to a known `UIColor.system*` name.

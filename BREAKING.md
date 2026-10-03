@@ -19,10 +19,51 @@ On iOS, `createRemindersList(...)` and `updateRemindersList(...)` used to ignore
 
 Invalid values now reject with `Invalid color format.`, same as calendar color parsing. Valid input is a known system name (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
 
+#### Before
+
+```ts
+// Unknown name was ignored (create: no color set; update: color unchanged)
+await CapacitorCalendar.createRemindersList({ title: 'Groceries', color: 'navy' });
+```
+
+#### After
+
+```ts
+// Rejects with Invalid color format.
+await CapacitorCalendar.createRemindersList({ title: 'Groceries', color: 'navy' });
+
+// Valid: system name or hex
+await CapacitorCalendar.createRemindersList({ title: 'Groceries', color: 'indigo' });
+await CapacitorCalendar.createRemindersList({ title: 'Groceries', color: '#007AFF' });
+```
+
 #### Migration
 
-1. Pass only a `SystemColorName` or a valid hex string for `color`.
+1. Pass only a `SystemColorName` or a valid hex string (`#RRGGBB` / `#RRGGBBAA`) for `color`.
 2. Catch `Invalid color format.` if you previously relied on silent ignore.
+
+### `createRemindersList` applies system blue when `color` is omitted
+
+Docs already listed `@default 'blue'`, but omitting `color` left EventKit’s color unset. Create now sets `UIColor.systemBlue`.
+
+#### Before
+
+```ts
+// EventKit chose the list color (often not system blue)
+await CapacitorCalendar.createRemindersList({ title: 'Groceries' });
+```
+
+#### After
+
+```ts
+// List color is system blue (same as color: 'blue')
+await CapacitorCalendar.createRemindersList({ title: 'Groceries' });
+```
+
+#### Migration
+
+1. Omit `color` only when system blue is acceptable.
+2. Pass an explicit `color` when you need another name or hex.
 
 See [CHANGELOG.md](CHANGELOG.md#880).
 
