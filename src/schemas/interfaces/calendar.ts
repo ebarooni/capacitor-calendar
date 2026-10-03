@@ -45,7 +45,7 @@ export interface Calendar {
    * @platform Android, iOS
    * @since 8.8.0
    */
-  colorName: SystemColorName | null;
+  colorName?: SystemColorName | null;
   /**
    * @platform iOS
    * @since 7.1.0
