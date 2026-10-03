@@ -23,11 +23,6 @@ export interface RemindersOperations {
   /**
    * Creates a new reminders list.
    *
-   * Requires reminders access. `title` is required. `color` is optional
-   * (named or hex; default `'blue'`). On read, `color` is hex (or null).
-   * `colorName` is a named color if the stored color matches one of the
-   * system colors; otherwise null.
-   *
    * @throws {Error} `Title must be provided.` — when `title` is missing.
    * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
    *
@@ -37,8 +32,6 @@ export interface RemindersOperations {
   createRemindersList(options: CreateRemindersListOptions): Promise<CreateRemindersListResult>;
   /**
    * Deletes a reminders list.
-   *
-   * Requires reminders access.
    *
    * @throws {Error} `List not found.` — when no list exists for `id`.
    *
@@ -66,8 +59,6 @@ export interface RemindersOperations {
   /**
    * Retrieves the default reminders list.
    *
-   * Requires reminders access. Without authorization, `result` is typically `null`.
-   *
    * @platform iOS
    * @since 7.1.0
    */
@@ -75,16 +66,12 @@ export interface RemindersOperations {
   /**
    * Retrieves all available reminders lists.
    *
-   * Requires reminders access. Without authorization, `result` is typically an empty array.
-   *
    * @platform iOS
    * @since 7.1.0
    */
   getRemindersLists(): Promise<GetRemindersListsResult>;
   /**
    * Creates a reminder.
-   *
-   * Requires reminders access. `title` is required.
    *
    * @throws {Error} `Title must be provided.` — when `title` is missing.
    * @throws {Error} `List not found.` — when `listId` is set and no list matches.
@@ -107,8 +94,6 @@ export interface RemindersOperations {
   /**
    * Deletes a reminder.
    *
-   * Requires reminders access.
-   *
    * @throws {Error} `Reminder not found.` — when no reminder exists for `id`.
    *
    * @platform iOS
@@ -117,8 +102,6 @@ export interface RemindersOperations {
   deleteReminder(options: DeleteReminderOptions): Promise<void>;
   /**
    * Modifies a reminder.
-   *
-   * Requires reminders access.
    *
    * @throws {Error} `Reminder not found.` — when no reminder exists for `id`.
    * @throws {Error} `List not found.` — when `listId` is set and no list matches.
@@ -133,16 +116,12 @@ export interface RemindersOperations {
   /**
    * Retrieves a reminder by id.
    *
-   * Requires reminders access. Returns `result: null` when no reminder matches.
-   *
    * @platform iOS
    * @since 7.1.0
    */
   getReminderById(options: GetReminderByIdOptions): Promise<GetReminderByIdResult>;
   /**
    * Retrieves reminders from multiple lists.
-   *
-   * Requires reminders access.
    *
    * @throws {Error} `List not found.` — when a requested list id does not exist.
    *
@@ -153,9 +132,6 @@ export interface RemindersOperations {
   /**
    * Opens a dialog to delete a reminder.
    *
-   * Requires reminders access. On cancel, `deleted` is `false`. On confirm, the
-   * reminder is deleted and `deleted` is `true`.
-   *
    * @throws {Error} `Reminder not found.` — when no reminder exists for `id`.
    * @throws {Error} `Missing view controller.` — when the plugin cannot present the dialog.
    *
@@ -164,11 +140,7 @@ export interface RemindersOperations {
    */
   deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions): Promise<DeleteReminderWithPromptResult>;
   /**
-   * Updates a reminders list with options.
-   *
-   * Requires reminders access. `color` accepts a named color or hex.
-   * On read, `color` is hex (or null). `colorName` is a named color if the
-   * stored color matches one of the system colors; otherwise null.
+   * Updates a reminders list.
    *
    * @throws {Error} `Event ID must be provided.` — when `id` is missing.
    * @throws {Error} `List not found.` — when no list exists for `id`.

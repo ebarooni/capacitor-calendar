@@ -71,7 +71,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
-- Reminders JSDoc: permissions/throws notes, `sourceId` / `commit` wording, list color read-back as hex, priority `0`–`9`, and Android-null fields on `RemindersList`
+- Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
 - `createRemindersList` / `updateRemindersList` `color` accepts named colors and hex (`#RRGGBB` / `#RRGGBBAA`); invalid values reject with `Invalid color format.`
 
 ### Fixed

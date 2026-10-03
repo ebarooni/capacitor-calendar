@@ -840,11 +840,6 @@ createRemindersList(options: CreateRemindersListOptions) => Promise<CreateRemind
 
 Creates a new reminders list.
 
-Requires reminders access. `title` is required. `color` is optional
-(named or hex; default `'blue'`). On read, `color` is hex (or null).
-`colorName` is a named color if the stored color matches one of the
-system colors; otherwise null.
-
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createreminderslistoptions">CreateRemindersListOptions</a></code> |
@@ -864,8 +859,6 @@ deleteRemindersList(options: DeleteRemindersListOptions) => Promise<void>
 ```
 
 Deletes a reminders list.
-
-Requires reminders access.
 
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
@@ -915,8 +908,6 @@ getDefaultRemindersList() => Promise<GetDefaultRemindersListResult>
 
 Retrieves the default reminders list.
 
-Requires reminders access. Without authorization, `result` is typically `null`.
-
 **Returns:** <code>Promise&lt;<a href="#getdefaultreminderslistresult">GetDefaultRemindersListResult</a>&gt;</code>
 
 **Since:** 7.1.0
@@ -933,8 +924,6 @@ getRemindersLists() => Promise<GetRemindersListsResult>
 
 Retrieves all available reminders lists.
 
-Requires reminders access. Without authorization, `result` is typically an empty array.
-
 **Returns:** <code>Promise&lt;<a href="#getreminderslistsresult">GetRemindersListsResult</a>&gt;</code>
 
 **Since:** 7.1.0
@@ -950,8 +939,6 @@ createReminder(options: CreateReminderOptions) => Promise<CreateReminderResult>
 ```
 
 Creates a reminder.
-
-Requires reminders access. `title` is required.
 
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
@@ -993,8 +980,6 @@ deleteReminder(options: DeleteReminderOptions) => Promise<void>
 
 Deletes a reminder.
 
-Requires reminders access.
-
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletereminderoptions">DeleteReminderOptions</a></code> |
@@ -1013,8 +998,6 @@ modifyReminder(options: ModifyReminderOptions) => Promise<void>
 
 Modifies a reminder.
 
-Requires reminders access.
-
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#modifyreminderoptions">ModifyReminderOptions</a></code> |
@@ -1032,8 +1015,6 @@ getReminderById(options: GetReminderByIdOptions) => Promise<GetReminderByIdResul
 ```
 
 Retrieves a reminder by id.
-
-Requires reminders access. Returns `result: null` when no reminder matches.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -1055,8 +1036,6 @@ getRemindersFromLists(options: GetRemindersFromListsOptions) => Promise<GetRemin
 
 Retrieves reminders from multiple lists.
 
-Requires reminders access.
-
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getremindersfromlistsoptions">GetRemindersFromListsOptions</a></code> |
@@ -1077,9 +1056,6 @@ deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions) => Promise<De
 
 Opens a dialog to delete a reminder.
 
-Requires reminders access. On cancel, `deleted` is `false`. On confirm, the
-reminder is deleted and `deleted` is `true`.
-
 | Param         | Type                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletereminderwithpromptoptions">DeleteReminderWithPromptOptions</a></code> |
@@ -1098,11 +1074,7 @@ reminder is deleted and `deleted` is `true`.
 updateRemindersList(options: UpdateRemindersListOptions) => Promise<UpdateRemindersListResult>
 ```
 
-Updates a reminders list with options.
-
-Requires reminders access. `color` accepts a named color or hex.
-On read, `color` is hex (or null). `colorName` is a named color if the
-stored color matches one of the system colors; otherwise null.
+Updates a reminders list.
 
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
