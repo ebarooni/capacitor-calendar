@@ -54,10 +54,11 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - MCP `docs://web-behavior` resource (export-only web model)
+- Web ICS `createEvent` supports `duration` (RFC2445) when `endDate` is omitted; if both are set, `endDate` wins
 
 ### Changed
 
-- Document Web ICS limits: ignored `calendarId` / `color` / `commit` / `duration`, UTC timed times, local all-day dates
+- Document Web ICS limits: ignored `calendarId` / `color` / `commit`, UTC timed times, local all-day dates
 - Align `EventRecurrenceRule` `@platform` tags with fields the Web ICS builder already emits
 - Document that Web has no permission model (permission APIs stay unimplemented; call `createEvent` directly)
 - Example app: toast after ICS download; disable unsupported actions on Web (including permission buttons)

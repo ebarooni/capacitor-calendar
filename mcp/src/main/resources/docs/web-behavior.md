@@ -4,10 +4,10 @@
 
 ## What works
 
-| Surface | Behavior |
-| :------ | :------- |
-| `createEvent(...)` | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Does not start a download. |
-| `downloadIcsFile(...)` | Package helper. Triggers a browser download for that `File`. |
+| Surface                | Behavior                                                                                                                            |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `createEvent(...)`     | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Does not start a download. |
+| `downloadIcsFile(...)` | Package helper. Triggers a browser download for that `File`.                                                                        |
 
 ## Permissions
 
@@ -22,7 +22,13 @@ These fields have no effect on web:
 - `calendarId`
 - `color`
 - `commit`
-- `duration` — use `endDate` instead
+
+## `endDate` and `duration`
+
+- If `endDate` is set, it is used for `DTEND` (all-day exclusive-end rules unchanged).
+- Else if `duration` is set (RFC2445 / iCalendar duration string, same as Android — for example `PT1H`, `P1D`, `P2DT4H30M`), the end is `startDate` + that duration.
+- If both are set, **`endDate` wins**; `duration` is not applied.
+- If neither is set, timed events default to one hour; all-day events default to the next local day.
 
 ## Times in the ICS file
 
