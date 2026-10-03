@@ -7,7 +7,7 @@ export interface UpdateRemindersListOptions {
   /**
    * Named system color or hex `#RRGGBB` / `#RRGGBBAA`.
    * If omitted, the color is left unchanged.
-   * Read-back uses hex `color` and best-effort `colorName` (no nearest-name mapping).
+   * Read-back uses hex `color` and optional `colorName` from this plugin’s match.
    *
    * @example 'indigo'
    * @example #007AFF
