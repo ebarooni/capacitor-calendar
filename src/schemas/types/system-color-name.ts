@@ -17,7 +17,7 @@ export type SystemColorName =
   | 'yellow';
 
 /**
- * Reminder list write color: a {@link SystemColorName} or hex `#RRGGBB` / `#RRGGBBAA`.
+ * Color to set on a reminders list: a {@link SystemColorName} or hex `#RRGGBB` / `#RRGGBBAA`.
  *
  * @since 8.8.0
  */

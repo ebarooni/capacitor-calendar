@@ -28,10 +28,9 @@ export interface Calendar {
    */
   internalTitle: string | null;
   /**
-   * Calendar color as a hex string.
+   * When you read a calendar or list, `color` is a hex string (or null).
    *
    * Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque.
-   * May be `null` when the platform does not provide a color.
    *
    * @platform Android, iOS
    * @example #0000FF
@@ -40,8 +39,8 @@ export interface Calendar {
    */
   color: string | null;
   /**
-   * Named system color when this plugin matches `color` to a known system color.
-   * Otherwise `null`. Always `null` on Android.
+   * One of the named colors if this plugin recognizes the stored color;
+   * otherwise null. Always null on Android.
    *
    * @platform Android, iOS
    * @since 8.8.0

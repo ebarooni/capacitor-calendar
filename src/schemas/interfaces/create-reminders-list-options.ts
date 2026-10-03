@@ -5,8 +5,9 @@ import type { RemindersListColor } from '../types/system-color-name';
  */
 export interface CreateRemindersListOptions {
   /**
-   * Named system color or hex `#RRGGBB` / `#RRGGBBAA`.
-   * Read-back uses hex `color` and optional `colorName` from this plugin’s match.
+   * Named color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
+   * When you read the list, `color` is hex (or null). `colorName` is a named
+   * color if this plugin recognizes the stored color; otherwise null.
    *
    * @example 'indigo'
    * @example #007AFF

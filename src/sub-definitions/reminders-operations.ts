@@ -23,9 +23,10 @@ export interface RemindersOperations {
   /**
    * Creates a new reminders list.
    *
-   * Requires reminders access. `title` is required. `color` is optional and
-   * defaults to `'blue'` (named or hex). Read-back uses hex `color` and
-   * optional `colorName` from this plugin’s match.
+   * Requires reminders access. `title` is required. `color` is optional
+   * (named or hex; default `'blue'`). When you read the list, `color` is hex
+   * (or null). `colorName` is a named color if this plugin recognizes the
+   * stored color; otherwise null.
    *
    * @throws {Error} `Title must be provided.` — when `title` is missing.
    * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
@@ -165,8 +166,9 @@ export interface RemindersOperations {
   /**
    * Updates a reminders list with options.
    *
-   * Requires reminders access. `color` accepts a named system color or hex.
-   * Read-back uses hex `color` and optional `colorName` from this plugin’s match.
+   * Requires reminders access. `color` accepts a named color or hex.
+   * When you read the list, `color` is hex (or null). `colorName` is a named
+   * color if this plugin recognizes the stored color; otherwise null.
    *
    * @throws {Error} `Event ID must be provided.` — when `id` is missing.
    * @throws {Error} `List not found.` — when no list exists for `id`.
