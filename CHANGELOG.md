@@ -58,6 +58,9 @@ Changelogs for the versions supporting Capacitor 8.
 - Web `createEventWithPrompt` (confirm dialog → ICS; cancel resolves with `ics: null`)
 - `autoDownloadIcsFile` option on Web create paths (`createEvent` default `false`; `createEventWithPrompt` default `true`)
 - `icsFileName` and `promptMessage` on `CreateEventWithPromptOptions` (Web)
+- `GetRemindersListsResult` for `getRemindersLists(...)`
+- `GetDefaultRemindersListResult` for `getDefaultRemindersList(...)`
+- `DeleteReminderWithPromptResult` for `deleteReminderWithPrompt(...)`
 
 ### Changed
 
@@ -65,12 +68,15 @@ Changelogs for the versions supporting Capacitor 8.
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
 - Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
+- `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
+- Reminders JSDoc: permissions/throws notes, `sourceId` / `commit` wording, list color read-back as hex, priority `0`–`9`, and Android-null fields on `RemindersList`
 
 ### Fixed
 
 - Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription`
 - Web `createEventWithPrompt` confirm time summary uses the same end resolution as ICS export
 - Web confirm default title collapses newlines to one line
+- `UpdateRemindersListOptions.color` `@since` tag (`8.2.0`)
 
 ## 8.7.1
 

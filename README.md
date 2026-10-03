@@ -840,6 +840,10 @@ createRemindersList(options: CreateRemindersListOptions) => Promise<CreateRemind
 
 Creates a new reminders list.
 
+Requires reminders access. `title` is required. `color` is optional and
+defaults to `'blue'`. Unrecognized named colors are ignored. List getters
+return color as hex.
+
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#createreminderslistoptions">CreateRemindersListOptions</a></code> |
@@ -860,6 +864,8 @@ deleteRemindersList(options: DeleteRemindersListOptions) => Promise<void>
 
 Deletes a reminders list.
 
+Requires reminders access.
+
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletereminderslistoptions">DeleteRemindersListOptions</a></code> |
@@ -873,12 +879,12 @@ Deletes a reminders list.
 ### fetchAllRemindersSources()
 
 ```typescript
-fetchAllRemindersSources() => Promise<{ result: CalendarSource[]; }>
+fetchAllRemindersSources() => Promise<FetchAllCalendarSourcesResult>
 ```
 
 Retrieves a list of calendar sources.
 
-**Returns:** <code>Promise&lt;{ result: CalendarSource[]; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#fetchallcalendarsourcesresult">FetchAllCalendarSourcesResult</a>&gt;</code>
 
 **Since:** 6.6.0
 
@@ -903,12 +909,14 @@ Opens the reminders app.
 ### getDefaultRemindersList()
 
 ```typescript
-getDefaultRemindersList() => Promise<{ result: RemindersList | null; }>
+getDefaultRemindersList() => Promise<GetDefaultRemindersListResult>
 ```
 
 Retrieves the default reminders list.
 
-**Returns:** <code>Promise&lt;{ result: <a href="#calendar">Calendar</a> | null; }&gt;</code>
+Requires reminders access. Without authorization, `result` is typically `null`.
+
+**Returns:** <code>Promise&lt;<a href="#getdefaultreminderslistresult">GetDefaultRemindersListResult</a>&gt;</code>
 
 **Since:** 7.1.0
 
@@ -919,12 +927,14 @@ Retrieves the default reminders list.
 ### getRemindersLists()
 
 ```typescript
-getRemindersLists() => Promise<{ result: RemindersList[]; }>
+getRemindersLists() => Promise<GetRemindersListsResult>
 ```
 
 Retrieves all available reminders lists.
 
-**Returns:** <code>Promise&lt;{ result: Calendar[]; }&gt;</code>
+Requires reminders access. Without authorization, `result` is typically an empty array.
+
+**Returns:** <code>Promise&lt;<a href="#getreminderslistsresult">GetRemindersListsResult</a>&gt;</code>
 
 **Since:** 7.1.0
 
@@ -939,6 +949,8 @@ createReminder(options: CreateReminderOptions) => Promise<CreateReminderResult>
 ```
 
 Creates a reminder.
+
+Requires reminders access. `title` is required.
 
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
@@ -980,6 +992,8 @@ deleteReminder(options: DeleteReminderOptions) => Promise<void>
 
 Deletes a reminder.
 
+Requires reminders access.
+
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletereminderoptions">DeleteReminderOptions</a></code> |
@@ -998,6 +1012,8 @@ modifyReminder(options: ModifyReminderOptions) => Promise<void>
 
 Modifies a reminder.
 
+Requires reminders access.
+
 | Param         | Type                                                                    |
 | ------------- | ----------------------------------------------------------------------- |
 | **`options`** | <code><a href="#modifyreminderoptions">ModifyReminderOptions</a></code> |
@@ -1014,7 +1030,9 @@ Modifies a reminder.
 getReminderById(options: GetReminderByIdOptions) => Promise<GetReminderByIdResult>
 ```
 
-Retrieve a reminder by ID.
+Retrieves a reminder by id.
+
+Requires reminders access. Returns `result: null` when no reminder matches.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -1036,6 +1054,8 @@ getRemindersFromLists(options: GetRemindersFromListsOptions) => Promise<GetRemin
 
 Retrieves reminders from multiple lists.
 
+Requires reminders access.
+
 | Param         | Type                                                                                  |
 | ------------- | ------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#getremindersfromlistsoptions">GetRemindersFromListsOptions</a></code> |
@@ -1051,16 +1071,19 @@ Retrieves reminders from multiple lists.
 ### deleteReminderWithPrompt(...)
 
 ```typescript
-deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions) => Promise<{ deleted: boolean; }>
+deleteReminderWithPrompt(options: DeleteReminderWithPromptOptions) => Promise<DeleteReminderWithPromptResult>
 ```
 
 Opens a dialog to delete a reminder.
+
+Requires reminders access. On cancel, `deleted` is `false`. On confirm, the
+reminder is deleted and `deleted` is `true`.
 
 | Param         | Type                                                                                        |
 | ------------- | ------------------------------------------------------------------------------------------- |
 | **`options`** | <code><a href="#deletereminderwithpromptoptions">DeleteReminderWithPromptOptions</a></code> |
 
-**Returns:** <code>Promise&lt;{ deleted: boolean; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#deletereminderwithpromptresult">DeleteReminderWithPromptResult</a>&gt;</code>
 
 **Since:** 7.2.0
 
@@ -1074,7 +1097,10 @@ Opens a dialog to delete a reminder.
 updateRemindersList(options: UpdateRemindersListOptions) => Promise<UpdateRemindersListResult>
 ```
 
-Update a reminders list with options.
+Updates a reminders list with options.
+
+Requires reminders access. Named `color` values match create; unrecognized
+names leave the color unchanged. Read-back via list getters returns hex.
 
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
@@ -1406,12 +1432,12 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateRemindersListOptions
 
-| Prop           | Type                                                                                                                             | Description                                                                                                                                                                                                                  | Default             | Since | Platform |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- | -------- |
-| **`color`**    | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | The color of the list.                                                                                                                                                                                                       | <code>'blue'</code> | 8.1.0 | iOS      |
-| **`commit`**   | <code>boolean</code>                                                                                                             | Whether to save the list to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code>   | 8.1.0 | iOS      |
-| **`sourceId`** | <code>string</code>                                                                                                              | The EKSource identifier (account) where the list should be created. If left undefined, iCloud will be used if available, otherwise falls back to local.                                                                      |                     | 8.1.0 | iOS      |
-| **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                                                                       |                     | 8.1.0 | iOS      |
+| Prop           | Type                                                                                                                             | Description                                                                                                                                                                                                                 | Default             | Since | Platform |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- | -------- |
+| **`color`**    | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | Named system color for the list. List getters return the color as hex.                                                                                                                                                      | <code>'blue'</code> | 8.1.0 | iOS      |
+| **`commit`**   | <code>boolean</code>                                                                                                             | Whether to save the list immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.                                                                                                      | <code>true</code>   | 8.1.0 | iOS      |
+| **`sourceId`** | <code>string</code>                                                                                                              | The calendar source (account) where the list should be created. If provided, it should match a source from `fetchAllCalendarSources()`. If omitted or unmatched, iCloud is used when available, otherwise the local source. |                     | 8.1.0 | iOS      |
+| **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                                                                      |                     | 8.1.0 | iOS      |
 
 #### DeleteRemindersListOptions
 
@@ -1419,6 +1445,18 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
 | **`commit`** | <code>boolean</code> | Whether to save the deletion to the event store immediately. Pass `false` to batch multiple changes and commit them together using `CapacitorCalendar.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
 | **`id`**     | <code>string</code>  | Identifier of the reminders list to delete.                                                                                                                                                                                      |                   | 8.2.0 | iOS      |
+
+#### GetDefaultRemindersListResult
+
+| Prop         | Type                                                  | Description                                             | Since | Platform |
+| ------------ | ----------------------------------------------------- | ------------------------------------------------------- | ----- | -------- |
+| **`result`** | <code><a href="#calendar">Calendar</a> \| null</code> | The default reminders list, or `null` when none exists. | 7.1.0 | iOS      |
+
+#### GetRemindersListsResult
+
+| Prop         | Type                    | Description                    | Since | Platform |
+| ------------ | ----------------------- | ------------------------------ | ----- | -------- |
+| **`result`** | <code>Calendar[]</code> | All available reminders lists. | 7.1.0 | iOS      |
 
 #### CreateReminderResult
 
@@ -1438,7 +1476,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`listId`**         | <code>string</code>                                       |                                                                                                                                                                                                                                                |                   | 7.1.0 |          |
 | **`location`**       | <code>string</code>                                       |                                                                                                                                                                                                                                                |                   | 7.1.0 |          |
 | **`notes`**          | <code>string</code>                                       |                                                                                                                                                                                                                                                |                   | 7.1.0 |          |
-| **`priority`**       | <code>number</code>                                       |                                                                                                                                                                                                                                                |                   | 7.1.0 |          |
+| **`priority`**       | <code>number</code>                                       | Priority: `0` none, `1` highest through `9` lowest.                                                                                                                                                                                            |                   | 7.1.0 |          |
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a></code> |                                                                                                                                                                                                                                                |                   | 7.1.0 | iOS      |
 | **`startDate`**      | <code>number</code>                                       | When the reminder starts, in milliseconds since the epoch. Relative `alerts` use this date.                                                                                                                                                    |                   | 7.1.0 |          |
 | **`title`**          | <code>string</code>                                       |                                                                                                                                                                                                                                                |                   | 7.1.0 |          |
@@ -1485,7 +1523,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`listId`**         | <code>string</code>                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |                   | 7.1.0 |          |
 | **`location`**       | <code>string \| null</code>                                       | Location for the reminder. Omit or pass `undefined` to leave the existing value unchanged. Since 8.7.0, pass `null` to clear.                                                                                                                                                                                                                                                                                                                                                                                                   |                   | 7.1.0 |          |
 | **`notes`**          | <code>string \| null</code>                                       | Notes for the reminder. Omit or pass `undefined` to leave the existing value unchanged. Since 8.7.0, pass `null` to clear.                                                                                                                                                                                                                                                                                                                                                                                                      |                   | 7.1.0 |          |
-| **`priority`**       | <code>number</code>                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |                   | 7.1.0 |          |
+| **`priority`**       | <code>number</code>                                               | Priority: `0` none, `1` highest through `9` lowest. Omit to leave the existing value unchanged.                                                                                                                                                                                                                                                                                                                                                                                                                                 |                   | 7.1.0 |          |
 | **`recurrence`**     | <code><a href="#recurrencerule">RecurrenceRule</a> \| null</code> | Recurrence rule for the reminder. Omit or pass `undefined` to leave the existing value unchanged. Since 8.7.0, pass `null` to clear.                                                                                                                                                                                                                                                                                                                                                                                            |                   | 7.1.0 | iOS      |
 | **`startDate`**      | <code>number \| null</code>                                       | When the reminder starts, in milliseconds since the epoch. Relative `alerts` use this date. Omit or pass `undefined` to leave the existing value unchanged. Since 8.7.0, pass `null` to clear. If a due date remains, clearing start sets start to the due date (it does not keep the previous start). Pass `dueDate: null` as well to remove scheduling.                                                                                                                                                                       |                   | 7.1.0 |          |
 | **`title`**          | <code>string</code>                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |                   | 7.1.0 |          |
@@ -1499,21 +1537,21 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### Reminder
 
-| Prop                 | Type                          | Since | Platform |
-| -------------------- | ----------------------------- | ----- | -------- |
-| **`id`**             | <code>string</code>           | 7.1.0 |          |
-| **`title`**          | <code>string \| null</code>   | 7.1.0 |          |
-| **`listId`**         | <code>string \| null</code>   | 7.1.0 |          |
-| **`isCompleted`**    | <code>boolean</code>          | 7.1.0 |          |
-| **`priority`**       | <code>number \| null</code>   | 7.1.0 |          |
-| **`notes`**          | <code>string \| null</code>   | 7.1.0 |          |
-| **`location`**       | <code>string \| null</code>   | 7.1.0 |          |
-| **`url`**            | <code>string \| null</code>   | 7.1.0 |          |
-| **`startDate`**      | <code>number \| null</code>   | 7.1.0 |          |
-| **`dueDate`**        | <code>number \| null</code>   | 7.1.0 |          |
-| **`completionDate`** | <code>number \| null</code>   | 7.1.0 |          |
-| **`recurrence`**     | <code>RecurrenceRule[]</code> | 7.1.0 | iOS      |
-| **`alerts`**         | <code>number[]</code>         | 7.1.0 |          |
+| Prop                 | Type                          | Description                                         | Since | Platform |
+| -------------------- | ----------------------------- | --------------------------------------------------- | ----- | -------- |
+| **`id`**             | <code>string</code>           |                                                     | 7.1.0 |          |
+| **`title`**          | <code>string \| null</code>   |                                                     | 7.1.0 |          |
+| **`listId`**         | <code>string \| null</code>   |                                                     | 7.1.0 |          |
+| **`isCompleted`**    | <code>boolean</code>          |                                                     | 7.1.0 |          |
+| **`priority`**       | <code>number \| null</code>   | Priority: `0` none, `1` highest through `9` lowest. | 7.1.0 |          |
+| **`notes`**          | <code>string \| null</code>   |                                                     | 7.1.0 |          |
+| **`location`**       | <code>string \| null</code>   |                                                     | 7.1.0 |          |
+| **`url`**            | <code>string \| null</code>   |                                                     | 7.1.0 |          |
+| **`startDate`**      | <code>number \| null</code>   |                                                     | 7.1.0 |          |
+| **`dueDate`**        | <code>number \| null</code>   |                                                     | 7.1.0 |          |
+| **`completionDate`** | <code>number \| null</code>   |                                                     | 7.1.0 |          |
+| **`recurrence`**     | <code>RecurrenceRule[]</code> |                                                     | 7.1.0 | iOS      |
+| **`alerts`**         | <code>number[]</code>         |                                                     | 7.1.0 |          |
 
 #### GetReminderByIdOptions
 
@@ -1533,6 +1571,12 @@ Options for {@link CalendarAccess#requestPermission}.
 | ------------- | --------------------- | ----- |
 | **`listIds`** | <code>string[]</code> | 7.1.0 |
 
+#### DeleteReminderWithPromptResult
+
+| Prop          | Type                 | Description                          | Since | Platform |
+| ------------- | -------------------- | ------------------------------------ | ----- | -------- |
+| **`deleted`** | <code>boolean</code> | Whether the user confirmed deletion. | 7.2.0 | iOS      |
+
 #### DeleteReminderWithPromptOptions
 
 | Prop                    | Type                | Description                         | Default               | Since |
@@ -1551,12 +1595,12 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### UpdateRemindersListOptions
 
-| Prop         | Type                                                                                                                             | Description                                                                                                                                                                                                             | Default           | Since | Platform |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
-| **`color`**  | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | The new color of the list. If omitted, the color is left unchanged.                                                                                                                                                     |                   | 8.1.0 | iOS      |
-| **`commit`** | <code>boolean</code>                                                                                                             | Whether to save the update to the event store immediately. Pass `false` to batch multiple changes and commit them together using `eventStore.commit()`, which is more efficient than committing each save individually. | <code>true</code> | 8.2.0 | iOS      |
-| **`id`**     | <code>string</code>                                                                                                              | The identifier of the list to update.                                                                                                                                                                                   |                   | 8.2.0 | iOS      |
-| **`title`**  | <code>string</code>                                                                                                              | The new title of the list. If omitted, the title is left unchanged.                                                                                                                                                     |                   | 8.2.0 | iOS      |
+| Prop         | Type                                                                                                                             | Description                                                                                                                     | Default           | Since | Platform |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
+| **`color`**  | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | Named system color for the list. If omitted or unrecognized, the color is left unchanged. List getters return the color as hex. |                   | 8.2.0 | iOS      |
+| **`commit`** | <code>boolean</code>                                                                                                             | Whether to save the update immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.        | <code>true</code> | 8.2.0 | iOS      |
+| **`id`**     | <code>string</code>                                                                                                              | The identifier of the list to update.                                                                                           |                   | 8.2.0 | iOS      |
+| **`title`**  | <code>string</code>                                                                                                              | The new title of the list. If omitted, the title is left unchanged.                                                             |                   | 8.2.0 | iOS      |
 
 ### Type Aliases
 
@@ -1594,6 +1638,13 @@ Construct a type with a set of properties K of type T
 <code>'canceled' | 'saved' | 'deleted'</code>
 
 #### RemindersList
+
+A reminders list on iOS.
+
+Same shape as {@link <a href="#calendar">Calendar</a>} today. Android-only calendar fields
+(`visible`, `accountName`, `ownerAccount`, `maxReminders`, `internalTitle`,
+`location`) are always `null` on reminder list payloads. `color` is hex on
+read-back even when create or update used a named color.
 
 <code>
   <a href="#calendar">Calendar</a>

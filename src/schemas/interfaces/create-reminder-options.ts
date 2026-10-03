@@ -57,6 +57,8 @@ export interface CreateReminderOptions {
    */
   notes?: string;
   /**
+   * Priority: `0` none, `1` highest through `9` lowest.
+   *
    * @since 7.1.0
    */
   priority?: number;
