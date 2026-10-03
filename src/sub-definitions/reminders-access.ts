@@ -13,7 +13,7 @@ export interface RemindersAccess {
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
-   * | iOS 10-16 | `NSRemindersUsageDescription` |
+   * | iOS 13-16 | `NSRemindersUsageDescription` |
    *
    * @throws {Error} when EventKit fails or required Info.plist keys are missing.
    *

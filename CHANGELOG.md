@@ -62,6 +62,10 @@ Changelogs for the versions supporting Capacitor 8.
 - Document that Web has no permission model (permission APIs stay unimplemented; call `createEvent` directly)
 - Example app: toast after ICS download; disable unsupported actions on Web (including permission buttons)
 
+### Fixed
+
+- Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription` (`READ_REMINDERS`, `WRITE_REMINDERS`, and `requestFullRemindersAccess` now agree; read and write use the same EventKit access path)
+
 ## 8.7.1
 
 ### Fixed
