@@ -23,7 +23,6 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 
 - Do not use shortened or cryptic names (for example `d`, `m`, or terse `year`).
 - Prefer simple, direct names that state meaning (for example `dayOfMonth`, `monthIndex`, `fullYear`, `startDay`).
-- Apply this in new and touched TypeScript and native code.
 
 ## Important Rules
 
