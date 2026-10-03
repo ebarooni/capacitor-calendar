@@ -19,6 +19,11 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
     column names, and similar) in the prose. Optional `@see` links to
     platform docs are fine.
 
+## Naming Conventions
+
+- Do not use shortened or cryptic names (for example `d`, `m`, or terse `year`).
+- Prefer simple, direct names that state meaning (for example `dayOfMonth`, `monthIndex`, `fullYear`, `startDay`).
+
 ## Important Rules
 
 - Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.

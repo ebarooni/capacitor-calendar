@@ -33,7 +33,7 @@ cd example-app
 npm start
 ```
 
-Opens the app at `http://localhost:5173`. `createEvent` still works — it builds a downloadable `.ics` file — but methods that need a native calendar or reminders store (for example `listCalendars`, native prompts, and all reminders methods) are not available on web.
+Opens the app at `http://localhost:5173`. `createEvent` and `createEventWithPrompt` still work — they build a downloadable `.ics` file — but methods that need a native calendar or reminders store (for example `listCalendars`, modify/delete prompts, and all reminders methods) are not available on web.
 
 ## Using the app
 

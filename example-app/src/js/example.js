@@ -1,7 +1,7 @@
 import { Capacitor } from '@capacitor/core';
-import { CapacitorCalendar, downloadIcsFile, EventAvailability, EventSpan } from '@ebarooni/capacitor-calendar';
+import { CapacitorCalendar, EventAvailability, EventSpan } from '@ebarooni/capacitor-calendar';
 
-const WEB_SUPPORTED_METHOD_IDS = new Set(['create-event']);
+const WEB_SUPPORTED_METHOD_IDS = new Set(['create-event', 'create-event-with-prompt']);
 
 document.addEventListener('DOMContentLoaded', () => {
   const isWeb = Capacitor.getPlatform() === 'web';
@@ -64,27 +64,27 @@ document.addEventListener('DOMContentLoaded', () => {
       options.calendarId = pickNonHolidayCalendar(calendars)?.id;
     }
 
-    const result = await CapacitorCalendar.createEvent(options);
+    const result = await CapacitorCalendar.createEvent({
+      ...options,
+      autoDownloadIcsFile: true,
+      icsFileName: 'recurring-standup.ics',
+    });
 
     if (result.id) {
       getEventIdInput().value = result.id;
     }
     if (result.ics) {
-      await downloadIcsFile(result.ics);
       await presentToast(`Downloaded ${result.ics.name} — open it in your calendar app.`);
     }
     console.log('#createEvent', result);
   });
 
   document.querySelector('#create-event-with-prompt').addEventListener('click', async () => {
-    const { result: calendars } = await CapacitorCalendar.listCalendars();
     const startDate = Date.now() + 24 * 60 * 60 * 1000;
     const endDate = startDate + 60 * 60 * 1000;
-
-    const result = await CapacitorCalendar.createEventWithPrompt({
+    const promptOptions = {
       alerts: [-1440, -60, 30],
       availability: EventAvailability.BUSY,
-      calendarId: pickNonHolidayCalendar(calendars)?.id,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
       invitees: ['guest@example.com', 'teammate@example.com'],
@@ -98,10 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
       startDate,
       title: 'Planning session',
       url: 'https://example.com/planning',
-    });
+    };
+
+    // listCalendars is not implemented on web; calendarId is ignored there anyway
+    if (!isWeb) {
+      const { result: calendars } = await CapacitorCalendar.listCalendars();
+      promptOptions.calendarId = pickNonHolidayCalendar(calendars)?.id;
+    }
+
+    const result = await CapacitorCalendar.createEventWithPrompt(promptOptions);
 
     if (result.id) {
       getEventIdInput().value = result.id;
+    }
+    if (result.ics) {
+      await presentToast(`Downloaded ${result.ics.name} — open it in your calendar app.`);
+    } else if (isWeb) {
+      await presentToast('Create event cancelled.');
     }
     console.log('#createEventWithPrompt', result);
   });

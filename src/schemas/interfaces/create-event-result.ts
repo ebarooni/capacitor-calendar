@@ -4,7 +4,7 @@
 export interface CreateEventResult {
   /**
    * An `.ics` file (`text/calendar`) with one `VEVENT`.
-   * Always `null` on Android and iOS. On Web, use `downloadIcsFile(...)` or pass the `File` elsewhere.
+   * Always `null` on Android and iOS.
    *
    * @platform Web
    * @since 8.5.0

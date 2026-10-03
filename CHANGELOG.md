@@ -55,16 +55,22 @@ Changelogs for the versions supporting Capacitor 8.
 
 - MCP `docs://web-behavior` resource (export-only web model)
 - Web ICS `duration` support (`endDate` wins when both set; same-day all-day durations bump to a one-day exclusive `DTEND`)
+- Web `createEventWithPrompt` (confirm dialog → ICS; cancel resolves with `ics: null`)
+- `autoDownloadIcsFile` option on Web create paths (`createEvent` default `false`; `createEventWithPrompt` default `true`)
+- `icsFileName` and `promptMessage` on `CreateEventWithPromptOptions` (Web)
 
 ### Changed
 
 - Document Web ICS limits and that permission APIs stay unimplemented on Web
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
-- Example app: toast after ICS download; disable unsupported Web actions
+- Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
+- `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 
 ### Fixed
 
 - Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription`
+- Web `createEventWithPrompt` confirm time summary uses the same end resolution as ICS export
+- Web confirm default title collapses newlines to one line
 
 ## 8.7.1
 

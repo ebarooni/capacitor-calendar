@@ -4,18 +4,23 @@
 
 ## What works
 
-| Surface                | Behavior                                                                                                                            |
-| :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| `createEvent(...)`     | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Does not start a download. |
-| `downloadIcsFile(...)` | Package helper. Triggers a browser download for that `File`.                                                                        |
+| Surface                      | Behavior                                                                                                                                                                                    |
+| :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `createEvent(...)`           | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Set `autoDownloadIcsFile: true` to also trigger a download (default **false**).    |
+| `createEventWithPrompt(...)` | Confirm dialog (title + time, or `promptMessage`). On OK, builds ICS like `createEvent`. On cancel, resolves `{ id: null, ics: null }` (no reject). `autoDownloadIcsFile` default **true**. |
+| `downloadIcsFile(...)`       | Package helper. Triggers a browser download for that `File`.                                                                                                                                |
 
 ## Permissions
 
-There is **no permission model on web**. Permission check and request methods reject with Capacitor `unimplemented`. Call `createEvent` / `downloadIcsFile` directly (or branch by platform in shared code).
+There is **no permission model on web**. Permission check and request methods reject with Capacitor `unimplemented`. Call `createEvent` / `createEventWithPrompt` / `downloadIcsFile` directly (or branch by platform in shared code).
 
 ## Ignored `CreateEventOptions`
 
 These fields have no effect: `calendarId`, `color`, `commit`.
+
+## Ignored `CreateEventWithPromptOptions`
+
+These fields have no effect: `calendarId`, `invitees`.
 
 ## `endDate` and `duration`
 
@@ -33,4 +38,4 @@ These fields have no effect: `calendarId`, `color`, `commit`.
 
 ## What stays unimplemented
 
-Permission APIs, list/modify/delete events, calendar CRUD, sources, chooser, native prompts, `openCalendar`, and all reminder APIs reject with Capacitor `unimplemented`.
+Permission APIs, list/modify/delete events, calendar CRUD, sources, chooser, other native prompts (`modifyEventWithPrompt`, `deleteEventWithPrompt`), `openCalendar`, and all reminder APIs reject with Capacitor `unimplemented`.

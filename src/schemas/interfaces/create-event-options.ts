@@ -29,6 +29,14 @@ export interface CreateEventOptions {
    */
   attendees?: EventGuest[];
   /**
+   * Start a browser download of the ICS file.
+   *
+   * @default false
+   * @platform Web
+   * @since 8.8.0
+   */
+  autoDownloadIcsFile?: boolean;
+  /**
    * @platform Android, iOS, Web
    * @since 7.1.0
    */

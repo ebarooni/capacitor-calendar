@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `docs://web-behavior` resource (ICS export model; no permission APIs on web; ignored options)
 
+### Changed
+
+- `docs://web-behavior`: document `createEventWithPrompt` and `autoDownloadIcsFile` defaults
+
 ## 1.1.0
 
 ### Changed
