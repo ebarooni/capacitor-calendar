@@ -53,7 +53,7 @@
 | Calendar sources and a calendar picker prompt     | ✅  |    –    |       –       |
 | Reminders and reminder lists                      | ✅  |    –    |       –       |
 
-\* On the web, `createEvent` returns a downloadable `.ics` file. It does not write to a device calendar. There is no permission model on web — call `createEvent` / `downloadIcsFile` directly (skip permission APIs, or branch by platform). See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+\* On the web, `createEvent` returns a downloadable `.ics` file. It does not write to a device calendar. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ## Demo
 
@@ -133,7 +133,7 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Quick Start
 
-The sample below is for Android and iOS. Permission APIs are not implemented on Web — they reject with Capacitor `unimplemented`. For Web, skip permissions and see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+The sample below is for Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ```typescript
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
@@ -166,9 +166,7 @@ console.log('Event created with ID:', id);
 
 ### Create and download an event on the web
 
-On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. There is no permission model — do not call permission APIs on Web; they reject as unimplemented. Use `downloadIcsFile` to start a browser download.
-
-`calendarId`, `color`, and `commit` have no effect on Web. Timed `DTSTART` / `DTEND` values are UTC (`…Z`). All-day events use local calendar dates (`VALUE=DATE`). When `endDate` is omitted, `duration` (RFC2445, for example `PT1H` or `P1D`) sets the end; if both are set, `endDate` wins.
+On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download. Permission APIs are unimplemented. For ignored options, `duration` / `endDate`, and ICS time rules, see MCP `docs://web-behavior` ([`mcp/README.md`](mcp/README.md)).
 
 ```typescript
 import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
@@ -537,12 +535,7 @@ createEvent(options: CreateEventOptions) => Promise<CreateEventResult>
 
 Creates an event in the calendar.
 On Android and iOS, inserts into the system calendar and returns its `id`.
-On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
-The app must download or open that file (for example with `downloadIcsFile(...)`);
-this method does not trigger a download.
-On Web, `calendarId`, `color`, and `commit` have no effect.
-Timed ICS times use UTC (`…Z`); all-day dates stay local `VALUE=DATE`.
-On Web, when `endDate` is omitted, `duration` (RFC2445) sets the end; if both are set, `endDate` wins.
+On Web, builds an `.ics` `File` as `ics` (does not write to a calendar store or start a download).
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
@@ -1172,32 +1165,32 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateEventResult
 
-| Prop      | Type                        | Description                                                                                                                                                                                                                    | Since | Platform     |
-| --------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
-| **`ics`** | <code>File \| null</code>   | An `.ics` file (`text/calendar`) with one `VEVENT`. Always `null` on Android and iOS. On Web, the plugin does not write to a calendar store or start a download; use `downloadIcsFile(...)` or pass the `File` to another API. | 8.5.0 | Web          |
-| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create.                                                                                                               | 0.4.0 | Android, iOS |
+| Prop      | Type                        | Description                                                                                                                                            | Since | Platform     |
+| --------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
+| **`ics`** | <code>File \| null</code>   | An `.ics` file (`text/calendar`) with one `VEVENT`. Always `null` on Android and iOS. On Web, use `downloadIcsFile(...)` or pass the `File` elsewhere. | 8.5.0 | Web          |
+| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create.                                       | 0.4.0 | Android, iOS |
 
 #### CreateEventOptions
 
-| Prop               | Type                                                                | Description                                                                                                                                                                   | Default           | Since | Platform          |
-| ------------------ | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | ----------------- |
-| **`alerts`**       | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start.                        |                   | 7.1.0 | Android, iOS, Web |
-| **`attendees`**    | <code>EventGuest[]</code>                                           | The event guests.                                                                                                                                                             |                   | 7.1.0 | Android, Web      |
-| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                               |                   | 7.1.0 | Android, iOS, Web |
-| **`calendarId`**   | <code>string</code>                                                 | Target calendar id. Has no effect on Web (ICS export has no calendar store).                                                                                                  |                   | 0.1.0 | Android, iOS      |
-| **`color`**        | <code>string</code>                                                 | Event color. Has no effect on Web.                                                                                                                                            |                   | 7.1.0 | Android           |
-| **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`). Has no effect on Web.                                                                              | <code>true</code> | 7.1.0 | iOS               |
-| **`description`**  | <code>string</code>                                                 |                                                                                                                                                                               |                   | 7.1.0 | Android, iOS, Web |
-| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format (for example `PT1H`, `P1D`, `P2DT4H30M`). On Web, used to compute `DTEND` when `endDate` is omitted. If both are set, `endDate` wins. |                   | 7.1.0 | Android, Web      |
-| **`endDate`**      | <code>number</code>                                                 | End time as Unix milliseconds. On Web, timed events write `DTEND` in UTC (`…Z`); all-day events use a local calendar date.                                                    |                   | 0.1.0 | Android, iOS, Web |
-| **`icsFileName`**  | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended.         |                   | 8.5.0 | Web               |
-| **`isAllDay`**     | <code>boolean</code>                                                |                                                                                                                                                                               |                   | 0.1.0 | Android, iOS, Web |
-| **`location`**     | <code>string</code>                                                 |                                                                                                                                                                               |                   | 0.1.0 | Android, iOS, Web |
-| **`organizer`**    | <code>string</code>                                                 | Email of the event organizer.                                                                                                                                                 |                   | 7.1.0 | Android, Web      |
-| **`recurrence`**   | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                         |                   | 7.3.0 | Android, iOS, Web |
-| **`startDate`**    | <code>number</code>                                                 | Start time as Unix milliseconds. On Web, timed events write `DTSTART` in UTC (`…Z`); all-day events use a local calendar date.                                                |                   | 0.1.0 | Android, iOS, Web |
-| **`title`**        | <code>string</code>                                                 |                                                                                                                                                                               |                   | 0.4.0 | Android, iOS, Web |
-| **`url`**          | <code>string</code>                                                 |                                                                                                                                                                               |                   | 0.1.0 | iOS, Web          |
+| Prop               | Type                                                                | Description                                                                                                                                                           | Default           | Since | Platform          |
+| ------------------ | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | ----------------- |
+| **`alerts`**       | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start.                |                   | 7.1.0 | Android, iOS, Web |
+| **`attendees`**    | <code>EventGuest[]</code>                                           | The event guests.                                                                                                                                                     |                   | 7.1.0 | Android, Web      |
+| **`availability`** | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                       |                   | 7.1.0 | Android, iOS, Web |
+| **`calendarId`**   | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS      |
+| **`color`**        | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android           |
+| **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`).                                                                                            | <code>true</code> | 7.1.0 | iOS               |
+| **`description`**  | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android, iOS, Web |
+| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format. On Web, used when `endDate` is omitted; `endDate` wins if both are set.                                                      |                   | 7.1.0 | Android, Web      |
+| **`endDate`**      | <code>number</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`icsFileName`**  | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended. |                   | 8.5.0 | Web               |
+| **`isAllDay`**     | <code>boolean</code>                                                |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`location`**     | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`organizer`**    | <code>string</code>                                                 | Email of the event organizer.                                                                                                                                         |                   | 7.1.0 | Android, Web      |
+| **`recurrence`**   | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                 |                   | 7.3.0 | Android, iOS, Web |
+| **`startDate`**    | <code>number</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
+| **`title`**        | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.4.0 | Android, iOS, Web |
+| **`url`**          | <code>string</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | iOS, Web          |
 
 #### EventGuest
 

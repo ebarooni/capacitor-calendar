@@ -11,32 +11,26 @@
 
 ## Permissions
 
-There is **no permission model on web**. All permission check and request methods (`checkPermission`, `checkAllPermissions`, `requestPermission`, `requestAllPermissions`, `requestFullCalendarAccess`, `requestWriteOnlyCalendarAccess`, `requestReadOnlyCalendarAccess`, `requestFullRemindersAccess`) reject with Capacitor `unimplemented`.
+There is **no permission model on web**. Permission check and request methods reject with Capacitor `unimplemented`. Call `createEvent` / `downloadIcsFile` directly (or branch by platform in shared code).
 
-Call `createEvent` / `downloadIcsFile` directly. If your app shares one code path with native, branch on platform and skip permission APIs on web.
+## Ignored `CreateEventOptions`
 
-## Ignored `CreateEventOptions` on web
-
-These fields have no effect on web:
-
-- `calendarId`
-- `color`
-- `commit`
+These fields have no effect: `calendarId`, `color`, `commit`.
 
 ## `endDate` and `duration`
 
-- If `endDate` is set, it is used for `DTEND` (all-day exclusive-end rules unchanged).
-- Else if `duration` is set (RFC2445 / iCalendar duration string, same as Android — for example `PT1H`, `P1D`, `P2DT4H30M`), the end is `startDate` + that duration.
-- If both are set, **`endDate` wins**; `duration` is not applied.
+- If `endDate` is set, it is used for `DTEND`.
+- Else if `duration` is set (RFC2445, same as Android — for example `PT1H`, `P1D`), the end is `startDate` + that duration.
+- If both are set, **`endDate` wins**.
 - If neither is set, timed events default to one hour; all-day events default to the next local day.
-- For **all-day** events, if the resolved end is still the same local calendar day as the start (for example `duration: 'PT1H'`), the end is bumped to the next local day so `DTEND` is exclusive and one day long. Multi-day durations such as `P3D` already land on a later day and keep that exclusive end.
+- All-day: if the resolved end is still the same local day as the start (for example `PT1H`), the end bumps to the next local day so exclusive `DTEND` is one day long. Multi-day durations such as `P3D` keep that later exclusive end.
 
 ## Times in the ICS file
 
 - **Timed events:** `DTSTART` / `DTEND` are UTC (`…Z`).
 - **All-day events:** local calendar dates with `VALUE=DATE`.
-- There is no `TZID` / `VTIMEZONE` yet.
+- No `TZID` / `VTIMEZONE` yet.
 
 ## What stays unimplemented
 
-Permission APIs, list/modify/delete events, calendar CRUD, sources, chooser, native prompts, `openCalendar`, and all reminder APIs reject with Capacitor `unimplemented` on web.
+Permission APIs, list/modify/delete events, calendar CRUD, sources, chooser, native prompts, `openCalendar`, and all reminder APIs reject with Capacitor `unimplemented`.

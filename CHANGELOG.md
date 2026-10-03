@@ -54,19 +54,17 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - MCP `docs://web-behavior` resource (export-only web model)
-- Web ICS `createEvent` supports `duration` (RFC2445) when `endDate` is omitted; if both are set, `endDate` wins
-- Web all-day + short `duration` (same local day as start) soft-bumps to a one-day exclusive `DTEND` (no throw)
+- Web ICS `duration` support (`endDate` wins when both set; same-day all-day durations bump to a one-day exclusive `DTEND`)
 
 ### Changed
 
-- Document Web ICS limits: ignored `calendarId` / `color` / `commit`, UTC timed times, local all-day dates
-- Align `EventRecurrenceRule` `@platform` tags with fields the Web ICS builder already emits
-- Document that Web has no permission model (permission APIs stay unimplemented; call `createEvent` directly)
-- Example app: toast after ICS download; disable unsupported actions on Web (including permission buttons)
+- Document Web ICS limits and that permission APIs stay unimplemented on Web
+- Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
+- Example app: toast after ICS download; disable unsupported Web actions
 
 ### Fixed
 
-- Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription` (`READ_REMINDERS`, `WRITE_REMINDERS`, and `requestFullRemindersAccess` now agree; read and write use the same EventKit access path)
+- Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription`
 
 ## 8.7.1
 

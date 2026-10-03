@@ -8,12 +8,8 @@ const CRLF = '\r\n';
 
 /**
  * Builds an RFC 5545 `VCALENDAR` document with one `VEVENT` from CreateEventOptions.
- * When `startDate` is omitted, uses the current time. When `endDate` is omitted, uses
- * `duration` if set (RFC 2445), otherwise one hour after the start (or the next day for
- * all-day events). When both `endDate` and `duration` are set, `endDate` wins.
- * For all-day events, if the resolved end is still the same local day as the start
- * (including short durations such as `PT1H`), the end is bumped to the next local day
- * so `DTEND` stays exclusive and non-zero length.
+ * End comes from `endDate`, else `duration` (RFC 2445), else one hour (or next day if all-day).
+ * All-day ends that fall on the start's local day bump to the next day (exclusive `DTEND`).
  */
 export function buildEventIcs(options: CreateEventOptions): string {
   const startDate = options.startDate ?? Date.now();
