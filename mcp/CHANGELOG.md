@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `docs://web-behavior`: document `createEventWithPrompt` and `downloadIcs` defaults
+- `docs://web-behavior`: document `createEventWithPrompt` and `autoDownloadIcsFile` defaults
 
 ## 1.1.0
 

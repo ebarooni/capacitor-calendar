@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const result = await CapacitorCalendar.createEvent({
       ...options,
-      downloadIcs: true,
+      autoDownloadIcsFile: true,
       icsFileName: 'recurring-standup.ics',
     });
 

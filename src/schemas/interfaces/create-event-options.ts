@@ -29,6 +29,14 @@ export interface CreateEventOptions {
    */
   attendees?: EventGuest[];
   /**
+   * Also start a browser download of the ICS file.
+   *
+   * @default false
+   * @platform Web
+   * @since 8.8.0
+   */
+  autoDownloadIcsFile?: boolean;
+  /**
    * @platform Android, iOS, Web
    * @since 7.1.0
    */
@@ -58,15 +66,6 @@ export interface CreateEventOptions {
    * @since 7.1.0
    */
   description?: string;
-  /**
-   * When `true`, starts a browser download of the `.ics` file after it is built.
-   * Does not replace returning `ics`.
-   *
-   * @default false
-   * @platform Web
-   * @since 8.8.0
-   */
-  downloadIcs?: boolean;
   /**
    * Duration of the event in RFC2445 format.
    * On Web, used when `endDate` is omitted; `endDate` wins if both are set.

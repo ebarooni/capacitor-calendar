@@ -47,18 +47,15 @@ export interface EventOperations {
   /**
    * Creates an event in the calendar.
    * On Android and iOS, inserts into the system calendar and returns its `id`.
-   * On Web, builds an `.ics` `File` as `ics` (no calendar store). Set `downloadIcs` to download.
-   * See MCP `docs://web-behavior`.
+   * On Web, builds an `.ics` `File` as `ics` (no calendar store). See MCP `docs://web-behavior`.
    *
    * @example
    * const { id, ics } = await CapacitorCalendar.createEvent({
    *   title: 'Team standup',
    *   startDate: Date.now(),
    *   icsFileName: 'team-standup.ics',
+   *   autoDownloadIcsFile: true,
    * });
-   * if (ics) {
-   *   await downloadIcsFile(ics);
-   * }
    *
    * @platform Android, iOS, Web
    * @since 0.4.0

@@ -111,7 +111,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
         type: 'text/calendar;charset=utf-8',
       });
 
-      if (options.downloadIcs !== false) {
+      if (options.autoDownloadIcsFile !== false) {
         await downloadIcsFile(ics);
       }
 
@@ -132,7 +132,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
       const ics = new File([content], resolveIcsFileName(options), {
         type: 'text/calendar;charset=utf-8',
       });
-      if (options.downloadIcs === true) {
+      if (options.autoDownloadIcsFile === true) {
         await downloadIcsFile(ics);
       }
       return { id: null, ics };

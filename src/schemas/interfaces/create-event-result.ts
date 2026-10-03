@@ -5,7 +5,6 @@ export interface CreateEventResult {
   /**
    * An `.ics` file (`text/calendar`) with one `VEVENT`.
    * Always `null` on Android and iOS.
-   * On Web, always returned when an event ICS is built; set `downloadIcs` or call `downloadIcsFile(...)` to download.
    *
    * @platform Web
    * @since 8.5.0

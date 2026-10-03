@@ -22,6 +22,14 @@ export interface CreateEventWithPromptOptions {
    */
   alerts?: number[];
   /**
+   * Also start a browser download of the ICS file.
+   *
+   * @default true
+   * @platform Web
+   * @since 8.8.0
+   */
+  autoDownloadIcsFile?: boolean;
+  /**
    * @platform Android, iOS, Web
    * @since 7.1.0
    */
@@ -36,15 +44,6 @@ export interface CreateEventWithPromptOptions {
    * @since 7.1.0
    */
   description?: string;
-  /**
-   * When `true`, starts a browser download of the `.ics` file after confirm.
-   * Does not replace returning `ics`.
-   *
-   * @default true
-   * @platform Web
-   * @since 8.8.0
-   */
-  downloadIcs?: boolean;
   /**
    * @platform Android, iOS, Web
    * @since 0.1.0

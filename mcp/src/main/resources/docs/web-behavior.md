@@ -6,11 +6,9 @@
 
 | Surface                      | Behavior                                                                                                                                                                         |
 | :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createEvent(...)`           | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Set `downloadIcs: true` to also trigger a download (default **false**). |
-| `createEventWithPrompt(...)` | Confirm dialog (title + time). On OK, builds ICS like `createEvent`. On cancel, resolves `{ id: null, ics: null }` (no reject). `downloadIcs` default **true**.                  |
-| `downloadIcsFile(...)`       | Package helper. Triggers a browser download for that `File`.                                                                                                                     |
-
-The ICS `File` is **always returned** when an event ICS is produced. Auto-download does not replace returning the file.
+| `createEvent(...)`           | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Set `autoDownloadIcsFile: true` to also trigger a download (default **false**). |
+| `createEventWithPrompt(...)` | Confirm dialog (title + time). On OK, builds ICS like `createEvent`. On cancel, resolves `{ id: null, ics: null }` (no reject). `autoDownloadIcsFile` default **true**.                  |
+| `downloadIcsFile(...)`       | Package helper. Triggers a browser download for that `File`.                                                                                                                                     |
 
 ## Permissions
 
