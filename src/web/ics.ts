@@ -248,23 +248,23 @@ function generateUid(): string {
 }
 
 function formatDateTimeUtc(ms: number): string {
-  const d = new Date(ms);
-  const y = d.getUTCFullYear();
-  const mo = pad(d.getUTCMonth() + 1);
-  const day = pad(d.getUTCDate());
-  const h = pad(d.getUTCHours());
-  const mi = pad(d.getUTCMinutes());
-  const s = pad(d.getUTCSeconds());
-  return `${y}${mo}${day}T${h}${mi}${s}Z`;
+  const date = new Date(ms);
+  const fullYear = date.getUTCFullYear();
+  const month = padTwoDigits(date.getUTCMonth() + 1);
+  const dayOfMonth = padTwoDigits(date.getUTCDate());
+  const hours = padTwoDigits(date.getUTCHours());
+  const minutes = padTwoDigits(date.getUTCMinutes());
+  const seconds = padTwoDigits(date.getUTCSeconds());
+  return `${fullYear}${month}${dayOfMonth}T${hours}${minutes}${seconds}Z`;
 }
 
 function formatDateOnlyLocal(ms: number): string {
-  const d = new Date(ms);
-  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  const date = new Date(ms);
+  return `${date.getFullYear()}${padTwoDigits(date.getMonth() + 1)}${padTwoDigits(date.getDate())}`;
 }
 
-function pad(n: number): string {
-  return n < 10 ? `0${n}` : String(n);
+function padTwoDigits(value: number): string {
+  return value < 10 ? `0${value}` : String(value);
 }
 
 /**

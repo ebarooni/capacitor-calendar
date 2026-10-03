@@ -308,11 +308,11 @@ function formatEventTimeSummary(options: CreateEventWithPromptOptions): string {
 }
 
 function formatLocalDate(ms: number): string {
-  const d = new Date(ms);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  const date = new Date(ms);
+  const fullYear = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const dayOfMonth = String(date.getDate()).padStart(2, '0');
+  return `${fullYear}-${month}-${dayOfMonth}`;
 }
 
 function formatDisplayDate(ms: number): string {
