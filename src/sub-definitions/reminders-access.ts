@@ -8,8 +8,6 @@ export interface RemindersAccess {
    * Requests read and write access to the reminders.
    * Resolves with `"granted"` or `"denied"` (never `"prompt"`).
    * A grant covers both `readReminders` and `writeReminders`.
-   * On Web, there is no OS permission; always resolves to `"granted"`.
-   * That Web grant does not enable reminder APIs; they stay unimplemented.
    *
    * @permissions
    * | Platform  | Required |
@@ -19,7 +17,7 @@ export interface RemindersAccess {
    *
    * @throws {Error} when EventKit fails or required Info.plist keys are missing.
    *
-   * @platform iOS, Web
+   * @platform iOS
    * @see {@link CalendarPermissionScope}
    * @since 5.4.0
    */

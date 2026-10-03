@@ -14,7 +14,7 @@ export enum CalendarPermissionScope {
    * | iOS 13-16 | `NSCalendarsUsageDescription` |
    * | Android   | `android.permission.READ_CALENDAR` |
    *
-   * @platform Android, iOS, Web
+   * @platform Android, iOS
    * @since 7.1.0
    */
   READ_CALENDAR = 'readCalendar',
@@ -24,15 +24,13 @@ export enum CalendarPermissionScope {
    * On Android, reminders are not supported. `checkPermission` and
    * `checkAllPermissions` return `"prompt"` for this scope.
    * `requestPermission` rejects with `Invalid scope.`.
-   * On Web, there is no OS permission; resolve to `"granted"`.
-   * That Web grant does not enable reminder APIs; they stay unimplemented.
    *
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
    * | iOS 10-16 | `NSRemindersUsageDescription` |
-   * @platform iOS, Web
+   * @platform iOS
    * @since 7.1.0
    */
   READ_REMINDERS = 'readReminders',
@@ -46,7 +44,7 @@ export enum CalendarPermissionScope {
    * | iOS 13-16 | `NSCalendarsUsageDescription` |
    * | Android   | `android.permission.WRITE_CALENDAR` |
    *
-   * @platform Android, iOS, Web
+   * @platform Android, iOS
    * @since 7.1.0
    */
   WRITE_CALENDAR = 'writeCalendar',
@@ -56,8 +54,6 @@ export enum CalendarPermissionScope {
    * On Android, reminders are not supported. `checkPermission` and
    * `checkAllPermissions` return `"prompt"` for this scope.
    * `requestPermission` rejects with `Invalid scope.`.
-   * On Web, there is no OS permission; resolve to `"granted"`.
-   * That Web grant does not enable reminder APIs; they stay unimplemented.
    *
    * @permissions
    * | Platform  | Required |
@@ -65,7 +61,7 @@ export enum CalendarPermissionScope {
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
    * | iOS 13-16 | `NSRemindersUsageDescription` |
    *
-   * @platform iOS, Web
+   * @platform iOS
    * @since 7.1.0
    */
   WRITE_REMINDERS = 'writeReminders',

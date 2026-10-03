@@ -108,7 +108,7 @@ A grounded, correct answer confirms your client reached the server. If the answe
 | ---------------------------- | ------------------------------------------------------------ |
 | `docs://permissions/android` | Required `AndroidManifest.xml` entries for calendar access   |
 | `docs://permissions/ios`     | Required `Info.plist` keys for calendar and reminders access |
-| `docs://web-behavior`        | Web export model: ICS, calendar vs reminder grants, limits   |
+| `docs://web-behavior`        | Web export model: ICS, no permission APIs, ignored options   |
 
 ### Tools
 

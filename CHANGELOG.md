@@ -53,15 +53,14 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
-- Web calendar permission check/request methods resolve `"granted"` (no OS calendar permission); unblocks shared code before `createEvent` / ICS export
-- Web reminder permission methods also resolve `"granted"` for isomorphic paths only; reminder APIs stay unimplemented
-- MCP `docs://web-behavior` resource
+- MCP `docs://web-behavior` resource (export-only web model)
 
 ### Changed
 
 - Document Web ICS limits: ignored `calendarId` / `color` / `commit` / `duration`, UTC timed times, local all-day dates
 - Align `EventRecurrenceRule` `@platform` tags with fields the Web ICS builder already emits
-- Example app: toast after ICS download; disable unsupported actions on Web
+- Document that Web has no permission model (permission APIs stay unimplemented; call `createEvent` directly)
+- Example app: toast after ICS download; disable unsupported actions on Web (including permission buttons)
 
 ## 8.7.1
 

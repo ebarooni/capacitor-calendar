@@ -11,7 +11,7 @@ public class WebResources {
 
     @Resource(
         uri = "docs://web-behavior",
-        description = "How @ebarooni/capacitor-calendar behaves on the web: ICS export, calendar vs reminder permission grants, ignored options, and UTC timed times."
+        description = "How @ebarooni/capacitor-calendar behaves on the web: ICS export, no permission model, ignored options, and UTC timed times."
     )
     TextResourceContents webBehavior(final RequestUri uri) {
         String content = loadDoc("docs/web-behavior.md");
