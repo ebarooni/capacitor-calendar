@@ -27,7 +27,7 @@ Built with [Quarkus](https://quarkus.io). Published to the GitHub Container Regi
 Run the server with Docker:
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.2.0
 ```
 
 The server starts at `http://localhost:8080/mcp`.
@@ -35,7 +35,7 @@ The server starts at `http://localhost:8080/mcp`.
 If port 8080 is busy, map it to a free port:
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
+docker run --rm -d --name capacitor-calendar-mcp -p 9090:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.2.0
 ```
 
 The server is then available at `http://localhost:9090/mcp`. Update your client configuration to match.
@@ -108,6 +108,7 @@ A grounded, correct answer confirms your client reached the server. If the answe
 | ---------------------------- | ------------------------------------------------------------ |
 | `docs://permissions/android` | Required `AndroidManifest.xml` entries for calendar access   |
 | `docs://permissions/ios`     | Required `Info.plist` keys for calendar and reminders access |
+| `docs://web-behavior`        | Web export model: ICS, no permission APIs, ignored options   |
 
 ### Tools
 

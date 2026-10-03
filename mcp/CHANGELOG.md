@@ -8,10 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Contents
 
 - [Version 1.x.x](#version-1xx)
+  - [1.2.0](#120)
   - [1.1.0](#110)
   - [1.0.0](#100)
 
 # Version 1.x.x
+
+## 1.2.0
+
+### Added
+
+- `docs://web-behavior` resource (ICS export model; no permission APIs on web; ignored options)
 
 ## 1.1.0
 

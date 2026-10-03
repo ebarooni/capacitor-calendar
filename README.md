@@ -61,6 +61,8 @@
 | :-----------------------------: | :---------------------------------: |
 | ![](./assets/demo/ios-demo.gif) | ![](./assets/demo/android-demo.gif) |
 
+**Web:** Run the example app in a browser. Use **Create event** to download an `.ics` file. Unsupported actions are disabled.
+
 ## Why this plugin?
 
 - **Established.** Available since Capacitor 5, with years of real-world use behind it.
@@ -73,7 +75,7 @@
 `@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server. It gives AI coding assistants accurate, grounded knowledge of the plugin.
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.1.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.2.0
 ```
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
@@ -164,7 +166,7 @@ console.log('Event created with ID:', id);
 
 ### Create and download an event on the web
 
-On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download:
+On Web, `createEvent` builds an `.ics` file. It does not write to a calendar store. Use `downloadIcsFile` to start a browser download. Permission APIs are unimplemented. For ignored options, `duration` / `endDate`, and ICS time rules, see MCP `docs://web-behavior` ([`mcp/README.md`](mcp/README.md)).
 
 ```typescript
 import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
@@ -533,9 +535,7 @@ createEvent(options: CreateEventOptions) => Promise<CreateEventResult>
 
 Creates an event in the calendar.
 On Android and iOS, inserts into the system calendar and returns its `id`.
-On Web, there is no system calendar store: builds an `.ics` `File` as `ics`.
-The app must download or open that file (for example with `downloadIcsFile(...)`);
-this method does not trigger a download.
+On Web, builds an `.ics` `File` as `ics` (does not write to a calendar store or start a download).
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |
@@ -1133,17 +1133,17 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### EventRecurrenceRule
 
-| Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform     |
-| -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ------------ |
-| **`byMonth`**        | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byMonthDay`**     | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS |
-| **`byWeekDay`**      | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS |
-| **`count`**          | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `end` is ignored.                                     |                | 7.3.0 | Android, iOS |
-| **`daysOfTheYear`**  | <code>number[]</code>                                               | Limits a yearly recurrence to specific days of the year (1 to 366).                                                                                                     |                | 7.3.0 | iOS          |
-| **`end`**            | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS |
-| **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS |
-| **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS |
-| **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS          |
+| Prop                 | Type                                                                | Description                                                                                                                                                             | Default        | Since | Platform          |
+| -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ----- | ----------------- |
+| **`byMonth`**        | <code>number[]</code>                                               | Limits a yearly recurrence to specific months of the year. The values should be between 1 and 12.                                                                       |                | 7.1.0 | Android, iOS, Web |
+| **`byMonthDay`**     | <code>number[]</code>                                               | Limits a monthly recurrence to specific days of the month. The values should be between 1 and 31.                                                                       |                | 7.1.0 | Android, iOS, Web |
+| **`byWeekDay`**      | <code>number[]</code>                                               | Limits a weekly recurrence to specific weekdays. The values should be between 1 and 7. 1 means Monday and 7 means Sunday.                                               |                | 7.3.0 | Android, iOS, Web |
+| **`count`**          | <code>number</code>                                                 | The total number of occurrences. If set, the recurrence ends after this many occurrences. If `count` is provided, `end` is ignored.                                     |                | 7.3.0 | Android, iOS, Web |
+| **`daysOfTheYear`**  | <code>number[]</code>                                               | Limits a yearly recurrence to specific days of the year (1 to 366).                                                                                                     |                | 7.3.0 | iOS, Web          |
+| **`end`**            | <code>number</code>                                                 | End date of the recurrence series as a Unix timestamp in milliseconds.                                                                                                  |                | 7.1.0 | Android, iOS, Web |
+| **`frequency`**      | <code><a href="#recurrencefrequency">RecurrenceFrequency</a></code> | How often the event repeats.                                                                                                                                            |                | 7.3.0 | Android, iOS, Web |
+| **`interval`**       | <code>number</code>                                                 | The interval between recurrences. Use in combination with `frequency`. For example, a weekly event with an interval of 2, results in the event occurring every 2 weeks. | <code>1</code> | 7.3.0 | Android, iOS, Web |
+| **`weeksOfTheYear`** | <code>number[]</code>                                               | Limits a yearly recurrence to specific ISO week numbers (1 to 53).                                                                                                      |                | 7.3.0 | iOS, Web          |
 
 #### ModifyEventWithPromptOptions
 
@@ -1165,10 +1165,10 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateEventResult
 
-| Prop      | Type                        | Description                                                                                                                                                                                                                    | Since | Platform     |
-| --------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
-| **`ics`** | <code>File \| null</code>   | An `.ics` file (`text/calendar`) with one `VEVENT`. Always `null` on Android and iOS. On Web, the plugin does not write to a calendar store or start a download; use `downloadIcsFile(...)` or pass the `File` to another API. | 8.5.0 | Web          |
-| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create.                                                                                                               | 0.4.0 | Android, iOS |
+| Prop      | Type                        | Description                                                                                                                                            | Since | Platform     |
+| --------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------ |
+| **`ics`** | <code>File \| null</code>   | An `.ics` file (`text/calendar`) with one `VEVENT`. Always `null` on Android and iOS. On Web, use `downloadIcsFile(...)` or pass the `File` elsewhere. | 8.5.0 | Web          |
+| **`id`**  | <code>string \| null</code> | The identifier of the created event. Always `null` on Web. Present on Android and iOS after a successful create.                                       | 0.4.0 | Android, iOS |
 
 #### CreateEventOptions
 
@@ -1181,7 +1181,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | **`color`**        | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android           |
 | **`commit`**       | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`).                                                                                            | <code>true</code> | 7.1.0 | iOS               |
 | **`description`**  | <code>string</code>                                                 |                                                                                                                                                                       |                   | 7.1.0 | Android, iOS, Web |
-| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format.                                                                                                                              |                   | 7.1.0 | Android           |
+| **`duration`**     | <code>string</code>                                                 | Duration of the event in RFC2445 format. On Web, used when `endDate` is omitted; `endDate` wins if both are set.                                                      |                   | 7.1.0 | Android, Web      |
 | **`endDate`**      | <code>number</code>                                                 |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |
 | **`icsFileName`**  | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended. |                   | 8.5.0 | Web               |
 | **`isAllDay`**     | <code>boolean</code>                                                |                                                                                                                                                                       |                   | 0.1.0 | Android, iOS, Web |

@@ -8,13 +8,13 @@ const CRLF = '\r\n';
 
 /**
  * Builds an RFC 5545 `VCALENDAR` document with one `VEVENT` from CreateEventOptions.
- * When `startDate` is omitted, uses the current time. When `endDate` is omitted, uses
- * one hour after the start (or the next day for all-day events).
+ * End comes from `endDate`, else `duration` (RFC 2445), else one hour (or next day if all-day).
+ * All-day ends that fall on the start's local day bump to the next day (exclusive `DTEND`).
  */
 export function buildEventIcs(options: CreateEventOptions): string {
   const startDate = options.startDate ?? Date.now();
   const isAllDay = options.isAllDay === true;
-  const endDate = resolveEndDate(startDate, options.endDate, isAllDay);
+  const endDate = resolveEndDate(startDate, options.endDate, options.duration, isAllDay);
 
   const lines: string[] = [
     'BEGIN:VCALENDAR',
@@ -104,18 +104,63 @@ function fileNameFromTitle(title?: string): string {
   return `${base.length > 0 ? base : 'event'}.ics`;
 }
 
-function resolveEndDate(startDate: number, endDate: number | undefined, isAllDay: boolean): number {
+function resolveEndDate(
+  startDate: number,
+  endDate: number | undefined,
+  duration: string | undefined,
+  isAllDay: boolean,
+): number {
+  let resolved: number;
+  if (endDate != null) {
+    resolved = endDate;
+  } else if (duration != null && duration.trim().length > 0) {
+    resolved = startDate + parseRfc2445DurationMs(duration.trim());
+  } else {
+    resolved = isAllDay ? startDate + DAY_MS : startDate + HOUR_MS;
+  }
+
   if (!isAllDay) {
-    return endDate ?? startDate + HOUR_MS;
+    return resolved;
   }
-  if (endDate == null) {
-    return startDate + DAY_MS;
-  }
+
   // ICS all-day DTEND is exclusive; same local date as DTSTART is zero-length.
-  if (formatDateOnlyLocal(endDate) <= formatDateOnlyLocal(startDate)) {
+  // Also covers short durations (e.g. PT1H) on all-day events — treat as one whole day.
+  if (formatDateOnlyLocal(resolved) <= formatDateOnlyLocal(startDate)) {
     return startDate + DAY_MS;
   }
-  return endDate;
+  return resolved;
+}
+
+/**
+ * Parses an RFC 2445 / RFC 5545 duration string into milliseconds.
+ * Supports forms such as `PT1H`, `P1D`, `P3W`, `P2DT4H30M`.
+ *
+ * @throws If the string is empty, negative, zero-length, or not a valid duration.
+ */
+function parseRfc2445DurationMs(value: string): number {
+  const match = /^([+-])?P(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/i.exec(value);
+  if (match == null) {
+    throw new Error(`Invalid duration: ${value}`);
+  }
+
+  const sign = match[1] === '-' ? -1 : 1;
+  const weeks = Number(match[2] ?? 0);
+  const days = Number(match[3] ?? 0);
+  const hours = Number(match[4] ?? 0);
+  const minutes = Number(match[5] ?? 0);
+  const seconds = Number(match[6] ?? 0);
+
+  // Require at least one unit so bare "P" / "PT" are rejected.
+  if (weeks === 0 && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+    throw new Error(`Invalid duration: ${value}`);
+  }
+
+  const ms = weeks * 7 * DAY_MS + days * DAY_MS + hours * HOUR_MS + minutes * 60 * 1000 + seconds * 1000;
+  const signed = sign * ms;
+  if (signed <= 0) {
+    throw new Error(`Invalid duration: ${value}`);
+  }
+  return signed;
 }
 
 function mapTransparency(availability: EventAvailability | undefined): 'OPAQUE' | 'TRANSPARENT' | null {

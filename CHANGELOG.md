@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.8.0](#880)
   - [8.7.1](#871)
   - [8.7.0](#870)
   - [8.6.0](#860)
@@ -47,6 +48,23 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.8.0
+
+### Added
+
+- MCP `docs://web-behavior` resource (export-only web model)
+- Web ICS `duration` support (`endDate` wins when both set; same-day all-day durations bump to a one-day exclusive `DTEND`)
+
+### Changed
+
+- Document Web ICS limits and that permission APIs stay unimplemented on Web
+- Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
+- Example app: toast after ICS download; disable unsupported Web actions
+
+### Fixed
+
+- Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription`
 
 ## 8.7.1
 

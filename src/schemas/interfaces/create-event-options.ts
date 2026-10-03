@@ -60,9 +60,10 @@ export interface CreateEventOptions {
   description?: string;
   /**
    * Duration of the event in RFC2445 format.
+   * On Web, used when `endDate` is omitted; `endDate` wins if both are set.
    *
    * @example P1D (1 day), P3W (3 weeks), P2DT4H30M (2 days, 4 hours, and 30 minutes).
-   * @platform Android
+   * @platform Android, Web
    * @see {@link https://datatracker.ietf.org/doc/html/rfc2445}
    * @since 7.1.0
    */

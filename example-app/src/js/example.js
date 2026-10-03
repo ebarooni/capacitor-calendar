@@ -1,7 +1,14 @@
 import { Capacitor } from '@capacitor/core';
 import { CapacitorCalendar, downloadIcsFile, EventAvailability, EventSpan } from '@ebarooni/capacitor-calendar';
 
+const WEB_SUPPORTED_METHOD_IDS = new Set(['create-event']);
+
 document.addEventListener('DOMContentLoaded', () => {
+  const isWeb = Capacitor.getPlatform() === 'web';
+  if (isWeb) {
+    applyWebMethodVisibility();
+  }
+
   const calendarColorSelect = document.querySelector('#calendar-color-select');
   updateCalendarColorSwatch(calendarColorSelect.value);
   calendarColorSelect.addEventListener('ionChange', (event) => {
@@ -52,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // listCalendars is not implemented on web; calendarId is ignored there anyway
-    if (Capacitor.getPlatform() !== 'web') {
+    if (!isWeb) {
       const { result: calendars } = await CapacitorCalendar.listCalendars();
       options.calendarId = pickNonHolidayCalendar(calendars)?.id;
     }
@@ -64,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (result.ics) {
       await downloadIcsFile(result.ics);
+      await presentToast(`Downloaded ${result.ics.name} — open it in your calendar app.`);
     }
     console.log('#createEvent', result);
   });
@@ -385,4 +393,33 @@ function pickNonHolidayCalendar(calendars) {
     const labels = [calendar.internalTitle, calendar.title].filter(Boolean).join(' ').toLowerCase();
     return !/\bholidays?\b/.test(labels);
   });
+}
+
+function applyWebMethodVisibility() {
+  const note = document.querySelector('#web-platform-note');
+  if (note) {
+    note.hidden = false;
+  }
+
+  document.querySelectorAll('#methods-list ion-button').forEach((button) => {
+    const id = button.id;
+    if (!id) {
+      return;
+    }
+    if (WEB_SUPPORTED_METHOD_IDS.has(id)) {
+      button.disabled = false;
+      return;
+    }
+    button.disabled = true;
+    button.setAttribute('title', 'Not available on web (export-only)');
+  });
+}
+
+async function presentToast(message) {
+  const toast = document.createElement('ion-toast');
+  toast.message = message;
+  toast.duration = 3500;
+  toast.position = 'bottom';
+  document.body.appendChild(toast);
+  await toast.present();
 }
