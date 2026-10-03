@@ -9,6 +9,7 @@ struct CreateEventWithPromptResult: JSResult {
 
     func toJSON() -> JSObject {
         var result = JSObject()
+        result["ics"] = NSNull()
         result["id"] = id ?? NSNull()
         return result
     }

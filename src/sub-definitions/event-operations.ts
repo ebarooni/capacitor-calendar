@@ -13,9 +13,10 @@ import type { EventEditAction } from '../schemas/types/event-edit-action';
 
 export interface EventOperations {
   /**
-   * Opens the system calendar interface to create a new event.
-   * On Android always returns `null` for `id`.
-   * Fetch the events to find the ID of the newly created event.
+   * Opens a calendar UI to create an event.
+   * On Android and iOS, opens the system editor. On Android, `id` is always `null`.
+   * On Web, shows a confirm dialog, then builds an `.ics` `File` when the user confirms.
+   * See MCP `docs://web-behavior` for Web details.
    *
    * @example
    * const options = {
@@ -24,7 +25,7 @@ export interface EventOperations {
    * }
    * await CapacitorCalendar.createEventWithPrompt(options)
    *
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 0.1.0
    */
   createEventWithPrompt(options?: CreateEventWithPromptOptions): Promise<CreateEventWithPromptResult>;
@@ -46,7 +47,8 @@ export interface EventOperations {
   /**
    * Creates an event in the calendar.
    * On Android and iOS, inserts into the system calendar and returns its `id`.
-   * On Web, builds an `.ics` `File` as `ics` (does not write to a calendar store or start a download).
+   * On Web, builds an `.ics` `File` as `ics` (no calendar store). Set `downloadIcs` to download.
+   * See MCP `docs://web-behavior`.
    *
    * @example
    * const { id, ics } = await CapacitorCalendar.createEvent({

@@ -47,7 +47,11 @@ import type { UpdateRemindersListResult } from './schemas/interfaces/update-remi
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
+import { downloadIcsFile } from './web/download-ics-file';
 import { buildEventIcs, resolveIcsFileName } from './web/ics';
+
+const HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * HOUR_MS;
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
@@ -94,21 +98,44 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.requestFullRemindersAccess.name);
   }
 
-  public createEventWithPrompt(_options: CreateEventWithPromptOptions): Promise<CreateEventWithPromptResult> {
-    return this.throwUnimplemented(this.createEventWithPrompt.name);
+  public async createEventWithPrompt(options: CreateEventWithPromptOptions = {}): Promise<CreateEventWithPromptResult> {
+    try {
+      const confirmed = window.confirm(buildCreateEventConfirmMessage(options));
+      if (!confirmed) {
+        return { id: null, ics: null };
+      }
+
+      const createOptions = mapPromptOptionsToCreateEvent(options);
+      const content = buildEventIcs(createOptions);
+      const ics = new File([content], resolveIcsFileName(createOptions), {
+        type: 'text/calendar;charset=utf-8',
+      });
+
+      if (options.downloadIcs !== false) {
+        await downloadIcsFile(ics);
+      }
+
+      return { id: null, ics };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      return Promise.reject(new Error(message));
+    }
   }
 
   public modifyEventWithPrompt(_options: ModifyEventWithPromptOptions): Promise<{ result: EventEditAction | null }> {
     return this.throwUnimplemented(this.modifyEventWithPrompt.name);
   }
 
-  public createEvent(options: CreateEventOptions): Promise<CreateEventResult> {
+  public async createEvent(options: CreateEventOptions): Promise<CreateEventResult> {
     try {
       const content = buildEventIcs(options);
       const ics = new File([content], resolveIcsFileName(options), {
         type: 'text/calendar;charset=utf-8',
       });
-      return Promise.resolve({ id: null, ics });
+      if (options.downloadIcs === true) {
+        await downloadIcsFile(ics);
+      }
+      return { id: null, ics };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       return Promise.reject(new Error(message));
@@ -226,4 +253,75 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   private throwUnimplemented<T>(methodName: string): Promise<T> {
     return Promise.reject(this.unimplemented(`${methodName} is not implemented on the web.`));
   }
+}
+
+function mapPromptOptionsToCreateEvent(options: CreateEventWithPromptOptions): CreateEventOptions {
+  return {
+    alerts: options.alerts,
+    availability: options.availability,
+    description: options.description,
+    endDate: options.endDate,
+    icsFileName: options.icsFileName,
+    isAllDay: options.isAllDay,
+    location: options.location,
+    recurrence: options.recurrence,
+    startDate: options.startDate,
+    title: options.title ?? '',
+    url: options.url,
+  };
+}
+
+function buildCreateEventConfirmMessage(options: CreateEventWithPromptOptions): string {
+  const title = options.title?.trim() || 'Untitled event';
+  const timeSummary = formatEventTimeSummary(options);
+  return `Create event?\n\n${title}\n${timeSummary}`;
+}
+
+function formatEventTimeSummary(options: CreateEventWithPromptOptions): string {
+  const startDate = options.startDate ?? Date.now();
+  const isAllDay = options.isAllDay === true;
+  const endDate = options.endDate ?? (isAllDay ? startDate + DAY_MS : startDate + HOUR_MS);
+
+  if (isAllDay) {
+    const startDay = formatLocalDate(startDate);
+    const endExclusive = formatLocalDate(endDate);
+    // Exclusive end: show inclusive last day when multi-day
+    if (endExclusive <= startDay) {
+      return `All day · ${formatDisplayDate(startDate)}`;
+    }
+    const lastInclusiveMs = endDate - DAY_MS;
+    const lastDay = formatLocalDate(lastInclusiveMs);
+    if (lastDay <= startDay) {
+      return `All day · ${formatDisplayDate(startDate)}`;
+    }
+    return `All day · ${formatDisplayDate(startDate)} – ${formatDisplayDate(lastInclusiveMs)}`;
+  }
+
+  return `${formatDisplayDateTime(startDate)} – ${formatDisplayDateTime(endDate)}`;
+}
+
+function formatLocalDate(ms: number): string {
+  const d = new Date(ms);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function formatDisplayDate(ms: number): string {
+  return new Date(ms).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+function formatDisplayDateTime(ms: number): string {
+  return new Date(ms).toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
 }

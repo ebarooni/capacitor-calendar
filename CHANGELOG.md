@@ -55,12 +55,15 @@ Changelogs for the versions supporting Capacitor 8.
 
 - MCP `docs://web-behavior` resource (export-only web model)
 - Web ICS `duration` support (`endDate` wins when both set; same-day all-day durations bump to a one-day exclusive `DTEND`)
+- Web `createEventWithPrompt` (confirm dialog → ICS; cancel resolves with `ics: null`)
+- `downloadIcs` option on Web create paths (`createEvent` default `false`; `createEventWithPrompt` default `true`); ICS `File` still always returned when produced
+- `icsFileName` on `CreateEventWithPromptOptions` (Web)
 
 ### Changed
 
 - Document Web ICS limits and that permission APIs stay unimplemented on Web
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
-- Example app: toast after ICS download; disable unsupported Web actions
+- Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
 
 ### Fixed
 
