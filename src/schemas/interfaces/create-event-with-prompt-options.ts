@@ -35,7 +35,7 @@ export interface CreateEventWithPromptOptions {
    */
   availability?: EventAvailability;
   /**
-   * @platform Android, iOS
+   * @platform iOS
    * @since 0.1.0
    */
   calendarId?: string;
