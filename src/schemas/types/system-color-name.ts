@@ -15,3 +15,10 @@ export type SystemColorName =
   | 'red'
   | 'teal'
   | 'yellow';
+
+/**
+ * Reminder list write color: a {@link SystemColorName} or hex `#RRGGBB` / `#RRGGBBAA`.
+ *
+ * @since 8.8.0
+ */
+export type RemindersListColor = SystemColorName | `#${string}`;

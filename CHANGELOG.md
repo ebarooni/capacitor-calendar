@@ -62,7 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `GetDefaultRemindersListResult` for `getDefaultRemindersList(...)`
 - `DeleteReminderWithPromptResult` for `deleteReminderWithPrompt(...)`
 - `Calendar.colorName` best-effort iOS system color name (`null` on Android); shared by reminder lists
-- `SystemColorName` type for named list/calendar system colors
+- `SystemColorName` and `RemindersListColor` (`SystemColorName | \`#\${string}\``) for named list colors plus hex write
 
 ### Changed
 

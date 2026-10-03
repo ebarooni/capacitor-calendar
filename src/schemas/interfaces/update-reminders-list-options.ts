@@ -1,18 +1,20 @@
+import type { RemindersListColor } from '../types/system-color-name';
+
 /**
  * @since 8.2.0
  */
 export interface UpdateRemindersListOptions {
   /**
-   * Named system color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
+   * Named system color or hex `#RRGGBB` / `#RRGGBBAA`.
    * If omitted, the color is left unchanged.
-   * Read-back uses `color` (hex) and best-effort `colorName`.
+   * Read-back uses hex `color` and best-effort `colorName` (no nearest-name mapping).
    *
    * @example 'indigo'
    * @example #007AFF
    * @platform iOS
    * @since 8.2.0
    */
-  color?: string;
+  color?: RemindersListColor;
   /**
    * Whether to save the update immediately.
    * Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.

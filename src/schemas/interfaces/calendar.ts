@@ -40,8 +40,8 @@ export interface Calendar {
    */
   color: string | null;
   /**
-   * Best-effort named system color for `color`, or `null` when unknown.
-   * Always `null` on Android.
+   * Best-effort named system color when `color` matches a known system color.
+   * Otherwise `null` (including arbitrary hex). Always `null` on Android.
    *
    * @platform Android, iOS
    * @since 8.8.0
