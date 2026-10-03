@@ -29,7 +29,7 @@ export interface CreateEventOptions {
    */
   attendees?: EventGuest[];
   /**
-   * Also start a browser download of the ICS file.
+   * Start a browser download of the ICS file.
    *
    * @default false
    * @platform Web

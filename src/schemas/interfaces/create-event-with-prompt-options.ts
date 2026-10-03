@@ -22,7 +22,7 @@ export interface CreateEventWithPromptOptions {
    */
   alerts?: number[];
   /**
-   * Also start a browser download of the ICS file.
+   * Start a browser download of the ICS file.
    *
    * @default true
    * @platform Web
