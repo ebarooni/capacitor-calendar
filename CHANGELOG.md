@@ -53,7 +53,8 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
-- Web permission check/request methods resolve `"granted"` (no OS calendar permission)
+- Web calendar permission check/request methods resolve `"granted"` (no OS calendar permission); unblocks shared code before `createEvent` / ICS export
+- Web reminder permission methods also resolve `"granted"` for isomorphic paths only; reminder APIs stay unimplemented
 - MCP `docs://web-behavior` resource
 
 ### Changed

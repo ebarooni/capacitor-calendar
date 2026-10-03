@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = await CapacitorCalendar.checkAllPermissions();
     console.log('#checkAllPermissions', result);
     if (isWeb) {
-      await presentToast('Web has no OS calendar permission. Result is granted.');
+      await presentToast(
+        'Web: all scopes granted. Calendar grant unblocks createEvent; reminder grant unlocks no reminder APIs.',
+      );
     }
   });
 
@@ -286,11 +288,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#request-full-calendar-access').addEventListener('click', async () => {
     const result = await CapacitorCalendar.requestFullCalendarAccess();
     console.log('#requestFullCalendarAccess', result);
+    if (isWeb) {
+      await presentToast('Web calendar permission is granted (no OS dialog). Safe to call createEvent.');
+    }
   });
 
   document.querySelector('#request-full-reminders-access').addEventListener('click', async () => {
     const result = await CapacitorCalendar.requestFullRemindersAccess();
     console.log('#requestFullRemindersAccess', result);
+    if (isWeb) {
+      await presentToast(
+        'Web reminders permission is granted for isomorphic code only. Reminder APIs stay unimplemented.',
+      );
+    }
   });
 
   document.querySelector('#select-calendars-with-prompt').addEventListener('click', async () => {

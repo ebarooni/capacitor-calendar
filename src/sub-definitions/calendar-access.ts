@@ -12,6 +12,7 @@ export interface CalendarAccess {
    * Retrieves the current permission state for a given scope.
    * On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
    * On Web, there is no OS permission; always resolves to `"granted"`.
+   * A Web grant for reminder scopes does not enable reminder APIs.
    *
    * @example
    * CapacitorCalendar.checkPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
@@ -29,6 +30,7 @@ export interface CalendarAccess {
    * Retrieves the current state of all permissions.
    * On Android, reminder keys always resolve to `"prompt"`.
    * On Web, every key resolves to `"granted"`.
+   * Reminder keys on Web do not enable reminder APIs.
    *
    * @throws {Error} `Unhandled permission state.` — when a native status cannot be mapped.
    *
@@ -41,6 +43,7 @@ export interface CalendarAccess {
    * Requests permission for a given scope.
    * On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
    * On Web, there is no OS permission; always resolves to `"granted"`.
+   * A Web grant for reminder scopes does not enable reminder APIs.
    *
    * @example
    * CapacitorCalendar.requestPermission({ scope: CalendarPermissionScope.READ_CALENDAR });
@@ -62,6 +65,7 @@ export interface CalendarAccess {
    * Requests permission for all calendar and reminder permissions.
    * On Android, only calendar permissions are requested; reminder keys stay `"prompt"`.
    * On Web, every key resolves to `"granted"`.
+   * Reminder keys on Web do not enable reminder APIs.
    *
    * @deprecated Use {@link requestFullCalendarAccess} or {@link requestFullRemindersAccess} instead.
    * @platform Android, iOS, Web
@@ -102,6 +106,7 @@ export interface CalendarAccess {
   /**
    * Requests read and write access to the calendar.
    * On Web, there is no OS permission; always resolves to `"granted"`.
+   * Use this before `createEvent` when you share one code path across platforms.
    *
    * @permissions
    * | Platform  | Required |

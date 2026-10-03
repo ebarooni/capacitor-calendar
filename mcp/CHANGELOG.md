@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `docs://web-behavior` resource (ICS export model, permission grants, ignored options)
+- `docs://web-behavior` resource (ICS export model; calendar vs reminder permission grants; ignored options)
 
 ## 1.1.0
 

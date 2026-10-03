@@ -9,6 +9,7 @@ export interface RequestPermissionOptions {
   /**
    * The permission scope to request.
    * On Web, every valid scope resolves to `"granted"`.
+   * Reminder scopes on Web do not enable reminder APIs.
    *
    * @example CalendarPermissionScope.READ_CALENDAR
    * @platform Android, iOS, Web

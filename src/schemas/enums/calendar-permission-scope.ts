@@ -25,6 +25,7 @@ export enum CalendarPermissionScope {
    * `checkAllPermissions` return `"prompt"` for this scope.
    * `requestPermission` rejects with `Invalid scope.`.
    * On Web, there is no OS permission; resolve to `"granted"`.
+   * That Web grant does not enable reminder APIs; they stay unimplemented.
    *
    * @permissions
    * | Platform  | Required |
@@ -56,12 +57,13 @@ export enum CalendarPermissionScope {
    * `checkAllPermissions` return `"prompt"` for this scope.
    * `requestPermission` rejects with `Invalid scope.`.
    * On Web, there is no OS permission; resolve to `"granted"`.
+   * That Web grant does not enable reminder APIs; they stay unimplemented.
    *
    * @permissions
    * | Platform  | Required |
    * |-----------|---------------------|
    * | iOS 17+   | `NSRemindersFullAccessUsageDescription` |
-   * | iOS 10-16 | `NSRemindersUsageDescription` |
+   * | iOS 13-16 | `NSRemindersUsageDescription` |
    *
    * @platform iOS, Web
    * @since 7.1.0

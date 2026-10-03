@@ -55,7 +55,7 @@
 
 \* On the web, `createEvent` returns a downloadable `.ics` file. It does not write to a device calendar. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
-\*\* On the web, permission check and request methods resolve to `"granted"`. There is no OS calendar permission. This unblocks shared app code before ICS export.
+\*\* On the web, calendar permission check and request methods resolve to `"granted"`. There is no OS calendar permission. This unblocks shared app code before `createEvent` / ICS export. Reminder permission methods also resolve `"granted"` for isomorphic code, but reminder APIs stay unimplemented on web.
 
 ## Demo
 
@@ -135,7 +135,7 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Quick Start
 
-The sample below works on Android, iOS, and Web. On Web, permission methods resolve to `"granted"` (no OS dialog), and `createEvent` returns an `.ics` file instead of a store `id`. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+The sample below works on Android, iOS, and Web. On Web, calendar permission methods resolve to `"granted"` (no OS dialog), and `createEvent` returns an `.ics` file instead of a store `id`. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ```typescript
 import { CapacitorCalendar, downloadIcsFile } from '@ebarooni/capacitor-calendar';
@@ -272,6 +272,8 @@ const targetCalendarId = defaultCalendar?.id ?? calendars[0]?.id;
 
 ### Create a Reminder (iOS only)
 
+`createReminder` is iOS-only. On Web, `requestFullRemindersAccess()` still resolves `"granted"` (no OS permission), but reminder APIs stay unimplemented — do not call `createReminder` after that grant on Web.
+
 ```typescript
 const { result } = await CapacitorCalendar.requestFullRemindersAccess();
 
@@ -360,6 +362,7 @@ checkPermission(options: CheckPermissionOptions) => Promise<{ result: Permission
 Retrieves the current permission state for a given scope.
 On Android, `readReminders` and `writeReminders` resolve to `"prompt"`.
 On Web, there is no OS permission; always resolves to `"granted"`.
+A Web grant for reminder scopes does not enable reminder APIs.
 
 | Param         | Type                                                                      |
 | ------------- | ------------------------------------------------------------------------- |
@@ -382,6 +385,7 @@ checkAllPermissions() => Promise<{ result: CheckAllPermissionsResult; }>
 Retrieves the current state of all permissions.
 On Android, reminder keys always resolve to `"prompt"`.
 On Web, every key resolves to `"granted"`.
+Reminder keys on Web do not enable reminder APIs.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
@@ -400,6 +404,7 @@ requestPermission(options: RequestPermissionOptions) => Promise<{ result: Permis
 Requests permission for a given scope.
 On Android, `readReminders` and `writeReminders` reject with `Invalid scope.`
 On Web, there is no OS permission; always resolves to `"granted"`.
+A Web grant for reminder scopes does not enable reminder APIs.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
@@ -422,6 +427,7 @@ requestAllPermissions() => Promise<{ result: RequestAllPermissionsResult; }>
 Requests permission for all calendar and reminder permissions.
 On Android, only calendar permissions are requested; reminder keys stay `"prompt"`.
 On Web, every key resolves to `"granted"`.
+Reminder keys on Web do not enable reminder APIs.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#checkallpermissionsresult">CheckAllPermissionsResult</a>; }&gt;</code>
 
@@ -473,6 +479,7 @@ requestFullCalendarAccess() => Promise<{ result: PermissionState; }>
 
 Requests read and write access to the calendar.
 On Web, there is no OS permission; always resolves to `"granted"`.
+Use this before `createEvent` when you share one code path across platforms.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -492,6 +499,7 @@ Requests read and write access to the reminders.
 Resolves with `"granted"` or `"denied"` (never `"prompt"`).
 A grant covers both `readReminders` and `writeReminders`.
 On Web, there is no OS permission; always resolves to `"granted"`.
+That Web grant does not enable reminder APIs; they stay unimplemented.
 
 **Returns:** <code>Promise&lt;{ result: <a href="#permissionstate">PermissionState</a>; }&gt;</code>
 
@@ -1117,17 +1125,17 @@ Update a reminders list with options.
 
 Options for {@link CalendarAccess#checkPermission}.
 
-| Prop        | Type                                                                        | Description                                                                                                                                                                                        | Since | Platform          |
-| ----------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----------------- |
-| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). On Web, every valid scope resolves to `"granted"`. | 8.3.1 | Android, iOS, Web |
+| Prop        | Type                                                                        | Description                                                                                                                                                                                                                                            | Since | Platform          |
+| ----------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ----------------- |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to check. On Android, `readReminders` and `writeReminders` resolve to `"prompt"` (reminders are not supported on Android). On Web, every valid scope resolves to `"granted"`. Reminder scopes on Web do not enable reminder APIs. | 8.3.1 | Android, iOS, Web |
 
 #### RequestPermissionOptions
 
 Options for {@link CalendarAccess#requestPermission}.
 
-| Prop        | Type                                                                        | Description                                                                         | Since | Platform          |
-| ----------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----- | ----------------- |
-| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. On Web, every valid scope resolves to `"granted"`. | 8.3.1 | Android, iOS, Web |
+| Prop        | Type                                                                        | Description                                                                                                                             | Since | Platform          |
+| ----------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----------------- |
+| **`scope`** | <code><a href="#calendarpermissionscope">CalendarPermissionScope</a></code> | The permission scope to request. On Web, every valid scope resolves to `"granted"`. Reminder scopes on Web do not enable reminder APIs. | 8.3.1 | Android, iOS, Web |
 
 #### CreateEventWithPromptResult
 
@@ -1621,12 +1629,12 @@ Construct a type with a set of properties K of type T
 
 #### CalendarPermissionScope
 
-| Members               | Value                         | Description                                                                                                                                                                                                                                                                                 | Since | Platform          |
-| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ----------------- |
-| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                                                                                                                                            | 7.1.0 | Android, iOS, Web |
-| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`.             | 7.1.0 | iOS, Web          |
-| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                                                                                | 7.1.0 | Android, iOS, Web |
-| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`. | 7.1.0 | iOS, Web          |
+| Members               | Value                         | Description                                                                                                                                                                                                                                                                                                                                                        | Since | Platform          |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ----------------- |
+| **`READ_CALENDAR`**   | <code>'readCalendar'</code>   | Permission required for reading calendar events.                                                                                                                                                                                                                                                                                                                   | 7.1.0 | Android, iOS, Web |
+| **`READ_REMINDERS`**  | <code>'readReminders'</code>  | Permission required for reading reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`. That Web grant does not enable reminder APIs; they stay unimplemented.             | 7.1.0 | iOS, Web          |
+| **`WRITE_CALENDAR`**  | <code>'writeCalendar'</code>  | Permission required for adding or modifying calendar events.                                                                                                                                                                                                                                                                                                       | 7.1.0 | Android, iOS, Web |
+| **`WRITE_REMINDERS`** | <code>'writeReminders'</code> | Permission required for adding or modifying reminders. On Android, reminders are not supported. `checkPermission` and `checkAllPermissions` return `"prompt"` for this scope. `requestPermission` rejects with `Invalid scope.`. On Web, there is no OS permission; resolve to `"granted"`. That Web grant does not enable reminder APIs; they stay unimplemented. | 7.1.0 | iOS, Web          |
 
 #### EventAvailability
 
