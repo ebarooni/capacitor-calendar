@@ -11,6 +11,9 @@ const CRLF = '\r\n';
  * When `startDate` is omitted, uses the current time. When `endDate` is omitted, uses
  * `duration` if set (RFC 2445), otherwise one hour after the start (or the next day for
  * all-day events). When both `endDate` and `duration` are set, `endDate` wins.
+ * For all-day events, if the resolved end is still the same local day as the start
+ * (including short durations such as `PT1H`), the end is bumped to the next local day
+ * so `DTEND` stays exclusive and non-zero length.
  */
 export function buildEventIcs(options: CreateEventOptions): string {
   const startDate = options.startDate ?? Date.now();
@@ -111,22 +114,25 @@ function resolveEndDate(
   duration: string | undefined,
   isAllDay: boolean,
 ): number {
+  let resolved: number;
   if (endDate != null) {
-    if (!isAllDay) {
-      return endDate;
-    }
-    // ICS all-day DTEND is exclusive; same local date as DTSTART is zero-length.
-    if (formatDateOnlyLocal(endDate) <= formatDateOnlyLocal(startDate)) {
-      return startDate + DAY_MS;
-    }
-    return endDate;
+    resolved = endDate;
+  } else if (duration != null && duration.trim().length > 0) {
+    resolved = startDate + parseRfc2445DurationMs(duration.trim());
+  } else {
+    resolved = isAllDay ? startDate + DAY_MS : startDate + HOUR_MS;
   }
 
-  if (duration != null && duration.trim().length > 0) {
-    return startDate + parseRfc2445DurationMs(duration.trim());
+  if (!isAllDay) {
+    return resolved;
   }
 
-  return isAllDay ? startDate + DAY_MS : startDate + HOUR_MS;
+  // ICS all-day DTEND is exclusive; same local date as DTSTART is zero-length.
+  // Also covers short durations (e.g. PT1H) on all-day events — treat as one whole day.
+  if (formatDateOnlyLocal(resolved) <= formatDateOnlyLocal(startDate)) {
+    return startDate + DAY_MS;
+  }
+  return resolved;
 }
 
 /**

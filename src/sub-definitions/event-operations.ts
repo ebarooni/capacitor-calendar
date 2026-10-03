@@ -52,6 +52,7 @@ export interface EventOperations {
    * On Web, `calendarId`, `color`, and `commit` have no effect.
    * Timed ICS times use UTC (`…Z`); all-day dates stay local `VALUE=DATE`.
    * On Web, when `endDate` is omitted, `duration` (RFC2445) sets the end; if both are set, `endDate` wins.
+   * On Web all-day events, a same-day resolved end (including short durations) is bumped to the next local day.
    *
    * @example
    * const { id, ics } = await CapacitorCalendar.createEvent({

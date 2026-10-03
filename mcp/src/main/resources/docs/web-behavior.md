@@ -29,6 +29,7 @@ These fields have no effect on web:
 - Else if `duration` is set (RFC2445 / iCalendar duration string, same as Android — for example `PT1H`, `P1D`, `P2DT4H30M`), the end is `startDate` + that duration.
 - If both are set, **`endDate` wins**; `duration` is not applied.
 - If neither is set, timed events default to one hour; all-day events default to the next local day.
+- For **all-day** events, if the resolved end is still the same local calendar day as the start (for example `duration: 'PT1H'`), the end is bumped to the next local day so `DTEND` is exclusive and one day long. Multi-day durations such as `P3D` already land on a later day and keep that exclusive end.
 
 ## Times in the ICS file
 

@@ -55,6 +55,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 - MCP `docs://web-behavior` resource (export-only web model)
 - Web ICS `createEvent` supports `duration` (RFC2445) when `endDate` is omitted; if both are set, `endDate` wins
+- Web all-day + short `duration` (same local day as start) soft-bumps to a one-day exclusive `DTEND` (no throw)
 
 ### Changed
 

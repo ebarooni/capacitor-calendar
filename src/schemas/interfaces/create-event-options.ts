@@ -66,6 +66,8 @@ export interface CreateEventOptions {
   /**
    * Duration of the event in RFC2445 format (for example `PT1H`, `P1D`, `P2DT4H30M`).
    * On Web, used to compute `DTEND` when `endDate` is omitted. If both are set, `endDate` wins.
+   * On Web all-day events, a duration that still ends on the start's local day is treated as
+   * one whole day (exclusive `DTEND` on the next local date).
    *
    * @example P1D (1 day), P3W (3 weeks), P2DT4H30M (2 days, 4 hours, and 30 minutes).
    * @platform Android, Web
