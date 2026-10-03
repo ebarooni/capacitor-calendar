@@ -48,10 +48,9 @@ import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import { downloadIcsFile } from './web/download-ics-file';
-import { buildEventIcs, resolveIcsFileName } from './web/ics';
+import { buildEventIcs, resolveEndDate, resolveIcsFileName } from './web/ics';
 
-const HOUR_MS = 60 * 60 * 1000;
-const DAY_MS = 24 * HOUR_MS;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
@@ -272,23 +271,31 @@ function mapPromptOptionsToCreateEvent(options: CreateEventWithPromptOptions): C
 }
 
 function buildCreateEventConfirmMessage(options: CreateEventWithPromptOptions): string {
-  const title = options.title?.trim() || 'Untitled event';
+  const custom = options.promptMessage?.trim();
+  if (custom != null && custom.length > 0) {
+    return custom;
+  }
+
+  const title = normalizeConfirmTitle(options.title);
   const timeSummary = formatEventTimeSummary(options);
   return `Create event?\n\n${title}\n${timeSummary}`;
+}
+
+function normalizeConfirmTitle(title?: string): string {
+  const collapsed = (title ?? '')
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return collapsed.length > 0 ? collapsed : 'Untitled event';
 }
 
 function formatEventTimeSummary(options: CreateEventWithPromptOptions): string {
   const startDate = options.startDate ?? Date.now();
   const isAllDay = options.isAllDay === true;
-  const endDate = options.endDate ?? (isAllDay ? startDate + DAY_MS : startDate + HOUR_MS);
+  const endDate = resolveEndDate(startDate, options.endDate, undefined, isAllDay);
 
   if (isAllDay) {
     const startDay = formatLocalDate(startDate);
-    const endExclusive = formatLocalDate(endDate);
-    // Exclusive end: show inclusive last day when multi-day
-    if (endExclusive <= startDay) {
-      return `All day · ${formatDisplayDate(startDate)}`;
-    }
     const lastInclusiveMs = endDate - DAY_MS;
     const lastDay = formatLocalDate(lastInclusiveMs);
     if (lastDay <= startDay) {

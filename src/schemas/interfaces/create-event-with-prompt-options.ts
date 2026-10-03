@@ -77,6 +77,14 @@ export interface CreateEventWithPromptOptions {
    */
   location?: string;
   /**
+   * Confirm dialog message.
+   * When omitted, the dialog uses the event title and time summary.
+   *
+   * @platform Web
+   * @since 8.8.0
+   */
+  promptMessage?: string;
+  /**
    * Rules for creating a recurring event.
    *
    * @platform Android, iOS, Web

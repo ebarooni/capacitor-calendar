@@ -104,7 +104,12 @@ function fileNameFromTitle(title?: string): string {
   return `${base.length > 0 ? base : 'event'}.ics`;
 }
 
-function resolveEndDate(
+/**
+ * Resolves event end milliseconds the same way ICS export does.
+ * Prefers `endDate`, else `duration` (RFC 2445), else one hour (or next day if all-day).
+ * All-day ends that fall on the start's local day bump to the next day (exclusive `DTEND`).
+ */
+export function resolveEndDate(
   startDate: number,
   endDate: number | undefined,
   duration: string | undefined,
