@@ -6,9 +6,25 @@ See [CHANGELOG.md](CHANGELOG.md) for the full release history.
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.8.0](#880)
   - [8.7.0](#870)
 
 # Version 8.x.x
+
+## 8.8.0
+
+### Invalid reminders-list `color` rejects
+
+On iOS, `createRemindersList(...)` and `updateRemindersList(...)` used to ignore unrecognized `color` strings (create left EventKit’s color unset; update left the list color unchanged).
+
+Invalid values now reject with `Invalid color format.`, same as calendar color parsing. Valid input is a known system name (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
+
+#### Migration
+
+1. Pass only a `SystemColorName` or a valid hex string for `color`.
+2. Catch `Invalid color format.` if you previously relied on silent ignore.
+
+See [CHANGELOG.md](CHANGELOG.md#880).
 
 ## 8.7.0
 

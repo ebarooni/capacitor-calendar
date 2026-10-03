@@ -54,9 +54,7 @@ class CapacitorCalendar: NSObject {
     func createRemindersList(_ input: CreateRemindersListInput, completion: @escaping (CreateRemindersListResult?, Error?) -> Void) {
         let calendar = EKCalendar(for: .reminder, eventStore: eventStore)
         calendar.title = input.getTitle()
-        if let color = input.getColor() {
-            calendar.cgColor = color
-        }
+        calendar.cgColor = input.getColor()
 
         let sources = eventStore.sources
         if let sourceId = input.getSourceId(), let customSource = sources.first(where: { $0.sourceIdentifier == sourceId }) {

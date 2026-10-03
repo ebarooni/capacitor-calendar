@@ -40,12 +40,12 @@ export interface Calendar {
   color: string | null;
   /**
    * Named color if the stored color matches one of the system colors;
-   * otherwise null. Always null on Android.
+   * otherwise null. May be null in dark mode or for custom hex. Always null on Android.
    *
    * @platform Android, iOS
    * @since 8.8.0
    */
-  colorName: SystemColorName | null;
+  colorName?: SystemColorName | null;
   /**
    * @platform iOS
    * @since 7.1.0
