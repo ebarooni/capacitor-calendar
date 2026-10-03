@@ -1,4 +1,5 @@
 import type { CalendarType } from '../enums/calendar-type';
+import type { SystemColorName } from '../types/system-color-name';
 
 import type { CalendarSource } from './calendar-source';
 
@@ -38,6 +39,14 @@ export interface Calendar {
    * @since 7.1.0
    */
   color: string | null;
+  /**
+   * Best-effort named system color for `color`, or `null` when unknown.
+   * Always `null` on Android.
+   *
+   * @platform Android, iOS
+   * @since 8.8.0
+   */
+  colorName: SystemColorName | null;
   /**
    * @platform iOS
    * @since 7.1.0

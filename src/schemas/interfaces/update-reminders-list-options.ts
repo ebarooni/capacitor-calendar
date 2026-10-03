@@ -3,20 +3,23 @@
  */
 export interface UpdateRemindersListOptions {
   /**
-   * The new color of the list.
+   * Named system color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
    * If omitted, the color is left unchanged.
+   * Read-back uses `color` (hex) and best-effort `colorName`.
    *
    * @example 'indigo'
+   * @example #007AFF
    * @platform iOS
-   * @since 8.1.0
+   * @since 8.2.0
    */
-  color?: 'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow';
+  color?: string;
   /**
-   * Whether to save the update to the event store immediately.
-   * Pass `false` to batch multiple changes and commit them together using `eventStore.commit()`, which is more efficient than committing each save individually.
+   * Whether to save the update immediately.
+   * Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.
    *
    * @default true
    * @platform iOS
+   * @see {@link CalendarOperations#commit}
    * @since 8.2.0
    */
   commit?: boolean;

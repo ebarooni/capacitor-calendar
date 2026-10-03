@@ -21,6 +21,8 @@ export interface Reminder {
    */
   isCompleted: boolean;
   /**
+   * Priority: `0` none, `1` highest through `9` lowest.
+   *
    * @since 7.1.0
    */
   priority: number | null;
