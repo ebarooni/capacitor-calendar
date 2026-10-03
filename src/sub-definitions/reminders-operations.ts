@@ -24,10 +24,11 @@ export interface RemindersOperations {
    * Creates a new reminders list.
    *
    * Requires reminders access. `title` is required. `color` is optional and
-   * defaults to `'blue'`. Unrecognized named colors are ignored. List getters
-   * return color as hex.
+   * defaults to `'blue'` (named or hex). Read-back uses hex `color` and
+   * best-effort `colorName`.
    *
    * @throws {Error} `Title must be provided.` — when `title` is missing.
+   * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
    *
    * @platform iOS
    * @since 8.1.0
@@ -164,12 +165,13 @@ export interface RemindersOperations {
   /**
    * Updates a reminders list with options.
    *
-   * Requires reminders access. Named `color` values match create; unrecognized
-   * names leave the color unchanged. Read-back via list getters returns hex.
+   * Requires reminders access. `color` accepts a named system color or hex.
+   * Read-back uses hex `color` and best-effort `colorName`.
    *
    * @throws {Error} `Event ID must be provided.` — when `id` is missing.
    * @throws {Error} `List not found.` — when no list exists for `id`.
    * @throws {Error} `List is not modifiable.` — when the list does not allow edits.
+   * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
    *
    * @platform iOS
    * @since 8.2.0

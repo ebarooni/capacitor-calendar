@@ -841,8 +841,8 @@ createRemindersList(options: CreateRemindersListOptions) => Promise<CreateRemind
 Creates a new reminders list.
 
 Requires reminders access. `title` is required. `color` is optional and
-defaults to `'blue'`. Unrecognized named colors are ignored. List getters
-return color as hex.
+defaults to `'blue'` (named or hex). Read-back uses hex `color` and
+best-effort `colorName`.
 
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
@@ -1099,8 +1099,8 @@ updateRemindersList(options: UpdateRemindersListOptions) => Promise<UpdateRemind
 
 Updates a reminders list with options.
 
-Requires reminders access. Named `color` values match create; unrecognized
-names leave the color unchanged. Read-back via list getters returns hex.
+Requires reminders access. `color` accepts a named system color or hex.
+Read-back uses hex `color` and best-effort `colorName`.
 
 | Param         | Type                                                                              |
 | ------------- | --------------------------------------------------------------------------------- |
@@ -1338,22 +1338,23 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### Calendar
 
-| Prop                             | Type                                                              | Description                                                                                                                                                                                    | Since | Platform     |
-| -------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
-| **`id`**                         | <code>string</code>                                               |                                                                                                                                                                                                | 7.1.0 | Android, iOS |
-| **`title`**                      | <code>string \| null</code>                                       | Display title of the calendar. May be `null` when the platform does not provide a title.                                                                                                       | 7.1.0 | Android, iOS |
-| **`internalTitle`**              | <code>string \| null</code>                                       | Internal name of the calendar (`CalendarContract.Calendars.NAME`).                                                                                                                             | 7.1.0 | Android      |
-| **`color`**                      | <code>string \| null</code>                                       | <a href="#calendar">Calendar</a> color as a hex string. Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque. May be `null` when the platform does not provide a color. | 7.1.0 | Android, iOS |
-| **`isImmutable`**                | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
-| **`allowsContentModifications`** | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
-| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>     |                                                                                                                                                                                                | 7.1.0 | iOS          |
-| **`isSubscribed`**               | <code>boolean \| null</code>                                      |                                                                                                                                                                                                | 7.1.0 | iOS          |
-| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code> |                                                                                                                                                                                                | 7.1.0 | iOS          |
-| **`visible`**                    | <code>boolean \| null</code>                                      | Indicates if the events from this calendar should be shown.                                                                                                                                    | 7.1.0 | Android      |
-| **`accountName`**                | <code>string \| null</code>                                       | The account under which the calendar is registered.                                                                                                                                            | 7.1.0 | Android      |
-| **`ownerAccount`**               | <code>string \| null</code>                                       | The owner of the calendar.                                                                                                                                                                     | 7.1.0 | Android      |
-| **`maxReminders`**               | <code>number \| null</code>                                       | Maximum number of reminders allowed per event.                                                                                                                                                 | 7.1.0 | Android      |
-| **`location`**                   | <code>string \| null</code>                                       |                                                                                                                                                                                                | 7.1.0 | Android      |
+| Prop                             | Type                                                                | Description                                                                                                                                                                                    | Since | Platform     |
+| -------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| **`id`**                         | <code>string</code>                                                 |                                                                                                                                                                                                | 7.1.0 | Android, iOS |
+| **`title`**                      | <code>string \| null</code>                                         | Display title of the calendar. May be `null` when the platform does not provide a title.                                                                                                       | 7.1.0 | Android, iOS |
+| **`internalTitle`**              | <code>string \| null</code>                                         | Internal name of the calendar (`CalendarContract.Calendars.NAME`).                                                                                                                             | 7.1.0 | Android      |
+| **`color`**                      | <code>string \| null</code>                                         | <a href="#calendar">Calendar</a> color as a hex string. Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque. May be `null` when the platform does not provide a color. | 7.1.0 | Android, iOS |
+| **`colorName`**                  | <code><a href="#systemcolorname">SystemColorName</a> \| null</code> | Best-effort named system color for `color`, or `null` when unknown. Always `null` on Android.                                                                                                  | 8.8.0 | Android, iOS |
+| **`isImmutable`**                | <code>boolean \| null</code>                                        |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`allowsContentModifications`** | <code>boolean \| null</code>                                        |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`type`**                       | <code><a href="#calendartype">CalendarType</a> \| null</code>       |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`isSubscribed`**               | <code>boolean \| null</code>                                        |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`source`**                     | <code><a href="#calendarsource">CalendarSource</a> \| null</code>   |                                                                                                                                                                                                | 7.1.0 | iOS          |
+| **`visible`**                    | <code>boolean \| null</code>                                        | Indicates if the events from this calendar should be shown.                                                                                                                                    | 7.1.0 | Android      |
+| **`accountName`**                | <code>string \| null</code>                                         | The account under which the calendar is registered.                                                                                                                                            | 7.1.0 | Android      |
+| **`ownerAccount`**               | <code>string \| null</code>                                         | The owner of the calendar.                                                                                                                                                                     | 7.1.0 | Android      |
+| **`maxReminders`**               | <code>number \| null</code>                                         | Maximum number of reminders allowed per event.                                                                                                                                                 | 7.1.0 | Android      |
+| **`location`**                   | <code>string \| null</code>                                         |                                                                                                                                                                                                | 7.1.0 | Android      |
 
 #### CalendarSource
 
@@ -1432,12 +1433,12 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateRemindersListOptions
 
-| Prop           | Type                                                                                                                             | Description                                                                                                                                                                                                                 | Default             | Since | Platform |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- | -------- |
-| **`color`**    | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | Named system color for the list. List getters return the color as hex.                                                                                                                                                      | <code>'blue'</code> | 8.1.0 | iOS      |
-| **`commit`**   | <code>boolean</code>                                                                                                             | Whether to save the list immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.                                                                                                      | <code>true</code>   | 8.1.0 | iOS      |
-| **`sourceId`** | <code>string</code>                                                                                                              | The calendar source (account) where the list should be created. If provided, it should match a source from `fetchAllCalendarSources()`. If omitted or unmatched, iCloud is used when available, otherwise the local source. |                     | 8.1.0 | iOS      |
-| **`title`**    | <code>string</code>                                                                                                              | The title of the list.                                                                                                                                                                                                      |                     | 8.1.0 | iOS      |
+| Prop           | Type                 | Description                                                                                                                                                                                                                 | Default             | Since | Platform |
+| -------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----- | -------- |
+| **`color`**    | <code>string</code>  | Named system color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`. Read-back uses `color` (hex) and best-effort `colorName`.                                                                                                    | <code>'blue'</code> | 8.1.0 | iOS      |
+| **`commit`**   | <code>boolean</code> | Whether to save the list immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.                                                                                                      | <code>true</code>   | 8.1.0 | iOS      |
+| **`sourceId`** | <code>string</code>  | The calendar source (account) where the list should be created. If provided, it should match a source from `fetchAllCalendarSources()`. If omitted or unmatched, iCloud is used when available, otherwise the local source. |                     | 8.1.0 | iOS      |
+| **`title`**    | <code>string</code>  | The title of the list.                                                                                                                                                                                                      |                     | 8.1.0 | iOS      |
 
 #### DeleteRemindersListOptions
 
@@ -1595,12 +1596,12 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### UpdateRemindersListOptions
 
-| Prop         | Type                                                                                                                             | Description                                                                                                                     | Default           | Since | Platform |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
-| **`color`**  | <code>'blue' \| 'brown' \| 'gray' \| 'green' \| 'indigo' \| 'orange' \| 'pink' \| 'purple' \| 'red' \| 'teal' \| 'yellow'</code> | Named system color for the list. If omitted or unrecognized, the color is left unchanged. List getters return the color as hex. |                   | 8.2.0 | iOS      |
-| **`commit`** | <code>boolean</code>                                                                                                             | Whether to save the update immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.        | <code>true</code> | 8.2.0 | iOS      |
-| **`id`**     | <code>string</code>                                                                                                              | The identifier of the list to update.                                                                                           |                   | 8.2.0 | iOS      |
-| **`title`**  | <code>string</code>                                                                                                              | The new title of the list. If omitted, the title is left unchanged.                                                             |                   | 8.2.0 | iOS      |
+| Prop         | Type                 | Description                                                                                                                                                       | Default           | Since | Platform |
+| ------------ | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ----- | -------- |
+| **`color`**  | <code>string</code>  | Named system color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`. If omitted, the color is left unchanged. Read-back uses `color` (hex) and best-effort `colorName`. |                   | 8.2.0 | iOS      |
+| **`commit`** | <code>boolean</code> | Whether to save the update immediately. Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.                                          | <code>true</code> | 8.2.0 | iOS      |
+| **`id`**     | <code>string</code>  | The identifier of the list to update.                                                                                                                             |                   | 8.2.0 | iOS      |
+| **`title`**  | <code>string</code>  | The new title of the list. If omitted, the title is left unchanged.                                                                                               |                   | 8.2.0 | iOS      |
 
 ### Type Aliases
 
@@ -1637,14 +1638,19 @@ Construct a type with a set of properties K of type T
 
 <code>'canceled' | 'saved' | 'deleted'</code>
 
+#### SystemColorName
+
+Named iOS system color.
+
+<code>'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow'</code>
+
 #### RemindersList
 
 A reminders list on iOS.
 
 Same shape as {@link <a href="#calendar">Calendar</a>} today. Android-only calendar fields
 (`visible`, `accountName`, `ownerAccount`, `maxReminders`, `internalTitle`,
-`location`) are always `null` on reminder list payloads. `color` is hex on
-read-back even when create or update used a named color.
+`location`) are always `null` on reminder list payloads.
 
 <code>
   <a href="#calendar">Calendar</a>

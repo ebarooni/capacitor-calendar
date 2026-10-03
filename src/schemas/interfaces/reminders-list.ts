@@ -5,8 +5,7 @@ import type { Calendar } from './calendar';
  *
  * Same shape as {@link Calendar} today. Android-only calendar fields
  * (`visible`, `accountName`, `ownerAccount`, `maxReminders`, `internalTitle`,
- * `location`) are always `null` on reminder list payloads. `color` is hex on
- * read-back even when create or update used a named color.
+ * `location`) are always `null` on reminder list payloads.
  *
  * @since 7.1.0
  */

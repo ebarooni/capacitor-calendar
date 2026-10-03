@@ -3,15 +3,16 @@
  */
 export interface UpdateRemindersListOptions {
   /**
-   * Named system color for the list.
-   * If omitted or unrecognized, the color is left unchanged.
-   * List getters return the color as hex.
+   * Named system color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
+   * If omitted, the color is left unchanged.
+   * Read-back uses `color` (hex) and best-effort `colorName`.
    *
    * @example 'indigo'
+   * @example #007AFF
    * @platform iOS
    * @since 8.2.0
    */
-  color?: 'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow';
+  color?: string;
   /**
    * Whether to save the update immediately.
    * Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.
