@@ -5,6 +5,8 @@ on:
 
 jobs:
   publish:
+    # Cap 8 / latest releases only. Cap 7 uses publish-latest-7-to-npm.yml on 7.x.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     permissions:
@@ -16,6 +18,7 @@ jobs:
         with:
           fetch-depth: 1
           token: ${{ secrets.WRITE_REPO }}
+          ref: main
 
       - uses: actions/setup-node@v4
         with:

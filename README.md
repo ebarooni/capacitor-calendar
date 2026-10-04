@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
   <a href="https://capacitorjs.com/">
-    <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
+    <img src="https://img.shields.io/badge/Capacitor-7.x-119EFF.svg?style=flat-square" />
   </a>
   <a href="mcp/README.md">
     <img src="https://img.shields.io/badge/MCP-161b22?style=flat&logo=modelcontextprotocol&logoColor=5FB8AF" />
@@ -83,7 +83,7 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 ## Installation
 
 ```bash
-npm install @ebarooni/capacitor-calendar
+npm install @ebarooni/capacitor-calendar@latest-7
 npx cap sync
 ```
 
