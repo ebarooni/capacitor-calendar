@@ -1,4 +1,4 @@
-import type { RemindersListColor } from '../types/system-color-name';
+import type { RemindersListColor } from '../types/reminders-list-color';
 
 /**
  * @since 8.1.0
