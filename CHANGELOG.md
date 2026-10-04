@@ -62,7 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `GetDefaultRemindersListResult` for `getDefaultRemindersList(...)`
 - `DeleteReminderWithPromptResult` for `deleteReminderWithPrompt(...)`
 - Optional `Calendar.colorName` (`SystemColorName | null`) on calendar/list payloads (`null` on Android)
-- `SystemColorName` and `RemindersListColor` (`SystemColorName | \`#\${string}\``) for named list colors plus hex write
+- `SystemColorName` and `SystemOrHexColor` (`SystemColorName | \`#\${string}\``) for named|hex color write; `RemindersListColor` kept as an alias
 
 ### Changed
 
@@ -70,10 +70,12 @@ Changelogs for the versions supporting Capacitor 8.
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
 - Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
 - Example app: reminders list color select (named, hex, or omit) for create/update reminders list
+- Example app: calendar color select marks named colors valid for create/modify calendar (Android stays hex-only; create event stays hex)
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
 - Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
 - `createRemindersList` / `updateRemindersList` `color` accepts named colors and hex (`#RRGGBB` / `#RRGGBBAA`); invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
+- `createCalendar` / `modifyCalendar` `color` accepts named|hex (`SystemOrHexColor`); iOS uses the same parse path as reminders lists; Android stays hex-only (named rejects with `Invalid color format.`); omit-on-create remains `#007AFF` (see [BREAKING.md](BREAKING.md#880))
 
 ### Fixed
 

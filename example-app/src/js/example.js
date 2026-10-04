@@ -374,7 +374,7 @@ function updateColorSwatch(swatchSelector, color, omittedTitle) {
 
 /**
  * Map a select value to a CSS color for the swatch.
- * Supports hex (#RRGGBB / #RRGGBBAA) and known reminders-list named colors.
+ * Supports hex (#RRGGBB / #RRGGBBAA) and known system named colors.
  */
 function cssColorPreview(color) {
   if (typeof color !== 'string') {

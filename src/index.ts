@@ -66,6 +66,7 @@ import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
 import type { RemindersListColor } from './schemas/types/reminders-list-color';
 import type { SystemColorName } from './schemas/types/system-color-name';
+import type { SystemOrHexColor } from './schemas/types/system-or-hex-color';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import { downloadIcsFile } from './web/download-ics-file';
@@ -130,6 +131,7 @@ export type {
   SelectCalendarsWithPromptOptions,
   SelectCalendarsWithPromptResult,
   SystemColorName,
+  SystemOrHexColor,
   UpdateRemindersListOptions,
   UpdateRemindersListResult,
 };

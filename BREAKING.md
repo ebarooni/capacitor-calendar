@@ -46,6 +46,17 @@ Omitting `color` on create still leaves the list color unset so the platform cho
 
 See [CHANGELOG.md](CHANGELOG.md#880).
 
+### Calendar `color` TypeScript type
+
+`CreateCalendarOptions.color` and `ModifyCalendarOptions.color` are now `SystemOrHexColor` (`SystemColorName | \`#\${string}\``) instead of unbound `string`. Runtime hex write and omit-on-create (`#007AFF`) are unchanged. On iOS, named colors are newly accepted; on Android, named colors still reject with `Invalid color format.`
+
+#### Migration
+
+1. Pass a `SystemColorName` or hex template literal (`#RRGGBB` / `#RRGGBBAA`), or narrow/cast unbound `string` values.
+2. On Android, keep using hex only for calendar color write.
+
+See [CHANGELOG.md](CHANGELOG.md#880).
+
 ## 8.7.0
 
 ### Reminder recurrence `frequency` is a string

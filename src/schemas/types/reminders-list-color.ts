@@ -1,8 +1,8 @@
-import type { SystemColorName } from './system-color-name';
+import type { SystemOrHexColor } from './system-or-hex-color';
 
 /**
- * Color to set on a reminders list: a {@link SystemColorName} or hex `#RRGGBB` / `#RRGGBBAA`.
+ * Alias of {@link SystemOrHexColor} for reminders-list options.
  *
  * @since 8.8.0
  */
-export type RemindersListColor = SystemColorName | `#${string}`;
+export type RemindersListColor = SystemOrHexColor;

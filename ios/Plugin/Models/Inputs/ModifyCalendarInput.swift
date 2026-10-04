@@ -11,8 +11,8 @@ struct ModifyCalendarInput {
         }
         self.id = id
         self.title = call.getString("title")
-        if let color = call.getString("color") {
-            self.color = try UIColor.fromHex(color).cgColor
+        if let colorString = call.getString("color") {
+            self.color = try ImplementationHelper.listColor(from: colorString)
         } else {
             self.color = nil
         }

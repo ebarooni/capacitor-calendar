@@ -1,4 +1,4 @@
-import type { RemindersListColor } from '../types/reminders-list-color';
+import type { SystemOrHexColor } from '../types/system-or-hex-color';
 
 /**
  * @since 8.1.0
@@ -13,7 +13,7 @@ export interface CreateRemindersListOptions {
    * @platform iOS
    * @since 8.1.0
    */
-  color?: RemindersListColor;
+  color?: SystemOrHexColor;
   /**
    * Whether to save the list immediately.
    * Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.
