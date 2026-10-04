@@ -74,7 +74,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
 - Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
-- `createRemindersList` / `updateRemindersList` / `createCalendar` / `modifyCalendar` `color` is `SystemColorName | \`#\${string}\`` (named or hex); invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
+- `createRemindersList` / `updateRemindersList` / `createCalendar` / `modifyCalendar` `color` accepts a `SystemColorName` or hex `#RRGGBB` / `#RRGGBBAA`; invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
 - iOS calendar create/modify uses the same named|hex parse path as reminders lists; Android calendar color stays hex-only (named rejects); omit-on-create for calendars remains `#007AFF`
 
 ### Fixed
