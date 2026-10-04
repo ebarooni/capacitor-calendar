@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alerts: [-1440, -60, 30],
       attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
       availability: EventAvailability.BUSY,
-      ...optionalCalendarColor(),
+      ...optionalEventHexColor(),
       commit: true,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
@@ -331,6 +331,15 @@ function getCalendarColor() {
 function optionalCalendarColor() {
   const color = getCalendarColor();
   return color ? { color } : {};
+}
+
+/**
+ * Event color is hex-only (Android). Named calendar colors are omitted here
+ * so create event does not reject with `Invalid color format.`
+ */
+function optionalEventHexColor() {
+  const color = getCalendarColor();
+  return color && color.startsWith('#') ? { color } : {};
 }
 
 function getRemindersListColor() {
