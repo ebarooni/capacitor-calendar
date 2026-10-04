@@ -1,10 +1,11 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getEventIdInput, getEventInstanceDate, getEventSpan } from '../utils/dom.js';
+import { getEventInstanceDate, getEventSpan } from '../utils/dom.js';
+import { getEventId } from '../utils/ids.js';
 
 export function registerDeleteEvent() {
   document.querySelector('#delete-event').addEventListener('click', async () => {
     await CapacitorCalendar.deleteEvent({
-      id: getEventIdInput().value,
+      id: getEventId(),
       instanceDate: getEventInstanceDate(),
       span: getEventSpan(),
     });

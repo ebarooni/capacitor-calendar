@@ -42,7 +42,7 @@ The app has two tabs:
 - **Methods** — ID fields and one button per plugin method. Tap a button to call the matching method.
 - **Options** — global fields shared by recurring-event delete/modify flows, plus a collapsible section per method with that method’s own title/color/other fields.
 
-On **Methods**, paste an **Event ID**, **Calendar ID**, **Reminder ID**, or **Reminders list ID** returned by a create button, or one you already have. Create/update methods that return an id fill the matching input automatically. List methods also fill **Pick from last results** selects so you can choose which id to use next.
+On **Methods**, each **Event ID**, **Calendar ID**, **Reminder ID**, and **Reminders list ID** control is one select. Create/list/get methods fill that select with the last results (recurring event rows use id + start date so occurrences stay distinct). Choose **Custom ID…** to type or paste an id. An empty list leaves the current options unchanged.
 
 On **Options**:
 

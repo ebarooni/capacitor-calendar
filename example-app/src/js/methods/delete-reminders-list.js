@@ -1,9 +1,9 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getRemindersListIdInput } from '../utils/dom.js';
+import { getRemindersListId } from '../utils/ids.js';
 
 export function registerDeleteRemindersList() {
   document.querySelector('#delete-reminders-list').addEventListener('click', async () => {
-    const id = getRemindersListIdInput().value;
+    const id = getRemindersListId();
     await CapacitorCalendar.deleteRemindersList({ id });
   });
 }

@@ -1,6 +1,5 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { setCalendarId } from '../utils/ids.js';
-import { calendarToSelectItem, populateResultSelect } from '../utils/result-selects.js';
+import { calendarToSelectItem, setIdFieldOptions } from '../utils/ids.js';
 
 export function registerGetDefaultCalendar() {
   document.querySelector('#get-default-calendar').addEventListener('click', async () => {
@@ -12,8 +11,7 @@ export function registerGetDefaultCalendar() {
 
     const calendar = withFallback.result ?? withoutFallback.result;
     if (calendar?.id) {
-      setCalendarId(calendar.id);
-      populateResultSelect('#calendar-results-select', [calendarToSelectItem(calendar)]);
+      setIdFieldOptions('calendar', [calendarToSelectItem(calendar)]);
     }
   });
 }

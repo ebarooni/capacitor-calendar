@@ -47,86 +47,42 @@
               <ion-label>IDs</ion-label>
             </ion-list-header>
             <ion-item lines="none" class="ion-no-padding">
-              <ion-input
-                id="event-id-input"
+              <ion-select
+                id="event-id-select"
                 label="Event ID"
                 label-placement="stacked"
-                placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-                helper-text="The identifier of the event to use"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one. Event picks also set Event instance date."
               >
-              </ion-input>
+              </ion-select>
             </ion-item>
             <ion-item lines="none" class="ion-no-padding">
-              <ion-input
-                id="calendar-id-input"
+              <ion-select
+                id="calendar-id-select"
                 label="Calendar ID"
                 label-placement="stacked"
-                placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-                helper-text="The identifier of the calendar to use"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one"
               >
-              </ion-input>
+              </ion-select>
             </ion-item>
             <ion-item lines="none" class="ion-no-padding">
-              <ion-input
-                id="reminder-id-input"
+              <ion-select
+                id="reminder-id-select"
                 label="Reminder ID"
                 label-placement="stacked"
-                placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-                helper-text="The identifier of the reminder to use"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one"
               >
-              </ion-input>
+              </ion-select>
             </ion-item>
             <ion-item lines="none" class="ion-no-padding">
-              <ion-input
-                id="reminders-list-id-input"
+              <ion-select
+                id="reminders-list-id-select"
                 label="Reminders list ID"
                 label-placement="stacked"
-                placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-                helper-text="The identifier of the reminders list to use"
-              >
-              </ion-input>
-            </ion-item>
-
-            <ion-list-header>
-              <ion-label>Pick from last results</ion-label>
-            </ion-list-header>
-            <ion-item lines="none" class="ion-no-padding">
-              <ion-select
-                id="calendar-results-select"
-                label="Calendar results"
-                label-placement="stacked"
                 interface="popover"
-                helper-text="Filled by listCalendars, selectCalendarsWithPrompt, or getDefaultCalendar"
-              >
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none" class="ion-no-padding">
-              <ion-select
-                id="event-results-select"
-                label="Event results"
-                label-placement="stacked"
-                interface="popover"
-                helper-text="Filled by listEventsInRange; also sets Event instance date when present"
-              >
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none" class="ion-no-padding">
-              <ion-select
-                id="reminder-results-select"
-                label="Reminder results"
-                label-placement="stacked"
-                interface="popover"
-                helper-text="Filled by getRemindersFromLists or getReminderById"
-              >
-              </ion-select>
-            </ion-item>
-            <ion-item lines="none" class="ion-no-padding">
-              <ion-select
-                id="reminders-list-results-select"
-                label="Reminders list results"
-                label-placement="stacked"
-                interface="popover"
-                helper-text="Filled by getRemindersLists"
+                helper-text="Pick a prior result, or Custom ID… to type one"
               >
               </ion-select>
             </ion-item>

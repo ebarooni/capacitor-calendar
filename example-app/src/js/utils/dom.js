@@ -6,22 +6,6 @@ export function getInputValue(selector, fallback = '') {
   return value || fallback;
 }
 
-export function getEventIdInput() {
-  return document.querySelector('#event-id-input');
-}
-
-export function getCalendarIdInput() {
-  return document.querySelector('#calendar-id-input');
-}
-
-export function getReminderIdInput() {
-  return document.querySelector('#reminder-id-input');
-}
-
-export function getRemindersListIdInput() {
-  return document.querySelector('#reminders-list-id-input');
-}
-
 export function getEventInstanceDateInput() {
   return document.querySelector('#event-instance-date-input');
 }

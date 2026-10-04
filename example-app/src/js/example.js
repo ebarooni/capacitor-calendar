@@ -1,7 +1,7 @@
 import { registerAllMethods } from './methods/index.js';
 import { initColorSelects } from './utils/color.js';
+import { initIdFields } from './utils/ids.js';
 import { applyWebMethodVisibility, isWebPlatform, selectMethodsTab } from './utils/platform.js';
-import { initResultSelects } from './utils/result-selects.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isWebPlatform()) {
@@ -10,6 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   selectMethodsTab();
   initColorSelects();
-  initResultSelects();
+  initIdFields();
   registerAllMethods();
 });

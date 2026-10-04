@@ -1,12 +1,13 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getInputValue, getReminderIdInput } from '../utils/dom.js';
+import { getInputValue } from '../utils/dom.js';
+import { getReminderId } from '../utils/ids.js';
 
 export function registerModifyReminder() {
   document.querySelector('#modify-reminder').addEventListener('click', async () => {
     const recurrenceEnd = Date.now() + 7 * 24 * 60 * 60 * 1000;
 
     await CapacitorCalendar.modifyReminder({
-      id: getReminderIdInput().value,
+      id: getReminderId(),
       notes: 'Updated with @ebarooni/capacitor-calendar',
       recurrence: {
         end: recurrenceEnd,
