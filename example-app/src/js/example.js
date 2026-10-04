@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCalendarColorSwatch(event.detail.value);
   });
 
+  const remindersListColorSelect = document.querySelector('#reminders-list-color-select');
+  updateRemindersListColorSwatch(remindersListColorSelect.value);
+  remindersListColorSelect.addEventListener('ionChange', (event) => {
+    updateRemindersListColorSwatch(event.detail.value);
+  });
+
   document.querySelector('#check-all-permissions').addEventListener('click', async () => {
     const result = await CapacitorCalendar.checkAllPermissions();
     console.log('#checkAllPermissions', result);
@@ -145,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#create-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.createRemindersList({
-      color: 'orange',
+      ...optionalRemindersListColor(),
       title: 'Groceries list',
     });
 
@@ -307,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#update-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.updateRemindersList({
-      color: 'indigo',
+      ...optionalRemindersListColor(),
       id: getRemindersListIdInput().value,
       title: 'Updated Groceries list',
     });
@@ -327,33 +333,73 @@ function optionalCalendarColor() {
   return color ? { color } : {};
 }
 
+function getRemindersListColor() {
+  return document.querySelector('#reminders-list-color-select').value;
+}
+
+/** Returns `{ color }` only when the select has a value; empty means omit the field. */
+function optionalRemindersListColor() {
+  const color = getRemindersListColor();
+  return color ? { color } : {};
+}
+
 function getCalendarIdInput() {
   return document.querySelector('#calendar-id-input');
 }
 
 function updateCalendarColorSwatch(hex) {
-  const swatch = document.querySelector('#calendar-color-swatch');
-  if (!hex) {
+  updateColorSwatch('#calendar-color-swatch', hex, 'Color omitted (plugin default on create)');
+}
+
+function updateRemindersListColorSwatch(color) {
+  updateColorSwatch('#reminders-list-color-swatch', color, 'Color omitted (platform chooses on create)');
+}
+
+function updateColorSwatch(swatchSelector, color, omittedTitle) {
+  const swatch = document.querySelector(swatchSelector);
+  if (!color) {
     swatch.style.background = '';
-    swatch.title = 'Color omitted (plugin default on create)';
+    swatch.title = omittedTitle;
     return;
   }
-  const preview = cssColorPreview(hex);
+  const preview = cssColorPreview(color);
   if (preview) {
     swatch.style.background = preview;
-    swatch.title = hex;
+    swatch.title = color;
   } else {
     swatch.style.background = '';
-    swatch.title = `${hex} (no CSS preview)`;
+    swatch.title = `${color} (no CSS preview)`;
   }
 }
 
-/** Map plugin hex (#RRGGBB / #RRGGBBAA) to a CSS color for the swatch; null if not previewable. */
-function cssColorPreview(hex) {
-  if (typeof hex !== 'string' || !hex.startsWith('#')) {
+/**
+ * Map a select value to a CSS color for the swatch.
+ * Supports hex (#RRGGBB / #RRGGBBAA) and known reminders-list named colors.
+ */
+function cssColorPreview(color) {
+  if (typeof color !== 'string') {
     return null;
   }
-  const digits = hex.slice(1);
+  const namedPreview = {
+    blue: '#007AFF',
+    brown: '#A2845E',
+    gray: '#8E8E93',
+    green: '#34C759',
+    indigo: '#5856D6',
+    orange: '#FF9500',
+    pink: '#FF2D55',
+    purple: '#AF52DE',
+    red: '#FF3B30',
+    teal: '#5AC8FA',
+    yellow: '#FFCC00',
+  };
+  if (namedPreview[color]) {
+    return namedPreview[color];
+  }
+  if (!color.startsWith('#')) {
+    return null;
+  }
+  const digits = color.slice(1);
   if (/^[0-9a-fA-F]{6}$/.test(digits)) {
     return `#${digits}`;
   }

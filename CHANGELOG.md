@@ -69,6 +69,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Document Web ICS limits and that permission APIs stay unimplemented on Web
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
 - Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
+- Example app: reminders list color select (named, hex, or omit) for create/update reminders list
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
 - Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
