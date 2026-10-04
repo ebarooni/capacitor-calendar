@@ -11,8 +11,14 @@
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
+  <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar?activeTab=versions">
+    <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest-7?label=npm%40latest-7&style=flat-square" />
+  </a>
   <a href="https://capacitorjs.com/">
     <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
+  </a>
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-7.x-119EFF.svg?style=flat-square" />
   </a>
   <a href="mcp/README.md">
     <img src="https://img.shields.io/badge/MCP-161b22?style=flat&logo=modelcontextprotocol&logoColor=5FB8AF" />
@@ -29,6 +35,7 @@
 - [Demo](#demo)
 - [Why this plugin?](#why-this-plugin)
 - [MCP Server](#mcp-server)
+- [Capacitor Compatibility](#capacitor-compatibility)
 - [Installation](#installation)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
@@ -80,10 +87,29 @@ docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/c
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
+## Capacitor Compatibility
+
+The plugin supports Capacitor 7 and Capacitor 8 in parallel with the same feature set. The Cap 7 line tracks features from `main`.
+
+| Capacitor | npm dist-tag | Package | Branch |
+| :-------- | :----------- | :------ | :----- |
+| 8.x       | `latest`     | 8.x     | `main` |
+| 7.x       | `latest-7`   | 7.x     | `7.x`  |
+
 ## Installation
+
+**Capacitor 8** (`latest` / 8.x):
 
 ```bash
 npm install @ebarooni/capacitor-calendar
+# or: npm install @ebarooni/capacitor-calendar@latest
+npx cap sync
+```
+
+**Capacitor 7** (`latest-7` / 7.x):
+
+```bash
+npm install @ebarooni/capacitor-calendar@latest-7
 npx cap sync
 ```
 
