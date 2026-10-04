@@ -11,7 +11,7 @@
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
-  <a href="#capacitor-compatibility">
+  <a href="#installation">
     <img src="https://img.shields.io/badge/Capacitor-7%20%7C%208-119EFF.svg?style=flat-square" />
   </a>
   <a href="mcp/README.md">
