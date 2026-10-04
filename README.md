@@ -83,7 +83,7 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
 ## Capacitor Compatibility
 
-Match the npm tag to your Capacitor major.
+Match the npm tag to your Capacitor major. Currently both lines expose the same features.
 
 | Capacitor   | npm tag    |                                                                                                                                    |
 | :---------- | :--------- | :--------------------------------------------------------------------------------------------------------------------------------- |
