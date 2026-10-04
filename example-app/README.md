@@ -37,11 +37,17 @@ Opens the app at `http://localhost:5173`. `createEvent` and `createEventWithProm
 
 ## Using the app
 
-Tap a button to call the matching plugin method. Some methods need an input value first:
+The app has two tabs:
 
-- **Event ID**, **Calendar ID**, **Reminder ID**, **Reminders list ID** — paste an ID returned by a create button, or one you already have.
+- **Methods** — ID fields and one button per plugin method. Tap a button to call the matching method.
+- **Options** — global fields (event instance date, event span) plus per-method settings in collapsible sections (calendar color, reminders list color, select-calendars multiple, and notes for create event).
+
+On **Methods**, paste an **Event ID**, **Calendar ID**, **Reminder ID**, or **Reminders list ID** returned by a create button, or one you already have.
+
+On **Options**:
+
 - **Event instance date (ms)** and **Event span** — set these before you modify or delete one occurrence of a recurring event.
-- **Calendar color** — a named system color or hex for create/modify calendar (Android accepts hex only). Create event only uses a value that starts with `#` (named options are omitted). Leave it on "Omit" to leave color unset (createCalendar uses the plugin default), or pick an invalid entry to see the validation error.
+- **Calendar color** (under createCalendar / modifyCalendar) — a named system color or hex for create/modify calendar (Android accepts hex only). Create event only uses a value that starts with `#` (named options are omitted). Leave it on "Omit" to leave color unset (createCalendar uses the plugin default), or pick an invalid entry to see the validation error.
 - **Reminders list color** — a named system color or hex for create/update reminders list. Leave it on "Omit" to leave color unset (platform chooses on create), or pick an invalid entry to see the validation error.
 
 Open your browser console (web), the Xcode console (iOS), or Logcat (Android) to see each method's result.

@@ -1,3 +1,11 @@
+ion-tabs {
+  height: 100%;
+}
+
+#methods-list ion-button {
+  margin-bottom: 8px;
+}
+
 #calendar-color-swatch,
 #reminders-list-color-swatch {
   width: 28px;

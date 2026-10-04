@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     applyWebMethodVisibility();
   }
 
+  const tabs = document.querySelector('ion-tabs');
+  if (tabs && typeof tabs.select === 'function') {
+    void tabs.select('methods');
+  }
+
   const calendarColorSelect = document.querySelector('#calendar-color-select');
   updateCalendarColorSwatch(calendarColorSelect.value);
   calendarColorSelect.addEventListener('ionChange', (event) => {
