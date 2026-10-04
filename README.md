@@ -83,7 +83,7 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
 ## Capacitor Compatibility
 
-Match the npm tag to your Capacitor major. Currently Cap 7 and Cap 8 expose the same features.
+Match the npm tag to your Capacitor major. Currently, the `latest` and `latest-7` packages ship the same features.
 
 | Capacitor   | npm tag    |                                                                                                                                    |
 | :---------- | :--------- | :--------------------------------------------------------------------------------------------------------------------------------- |
