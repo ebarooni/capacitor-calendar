@@ -11,8 +11,8 @@
   <a href="https://www.npmjs.com/package/@ebarooni/capacitor-calendar">
     <img src="https://img.shields.io/npm/v/@ebarooni/capacitor-calendar?style=flat-square" />
   </a>
-  <a href="#installation">
-    <img src="https://img.shields.io/badge/Capacitor-7%20%7C%208-119EFF.svg?style=flat-square" />
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-8.x-119EFF.svg?style=flat-square" />
   </a>
   <a href="mcp/README.md">
     <img src="https://img.shields.io/badge/MCP-161b22?style=flat&logo=modelcontextprotocol&logoColor=5FB8AF" />
@@ -29,6 +29,7 @@
 - [Demo](#demo)
 - [Why this plugin?](#why-this-plugin)
 - [MCP Server](#mcp-server)
+- [Capacitor Compatibility](#capacitor-compatibility)
 - [Installation](#installation)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
@@ -80,16 +81,31 @@ docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/c
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
-## Installation
+## Capacitor Compatibility
 
 Match the npm tag to your Capacitor major.
 
-| Capacitor   | npm tag    | Install                                             |
-| :---------- | :--------- | :-------------------------------------------------- |
-| Capacitor 8 | `latest`   | `npm install @ebarooni/capacitor-calendar@latest`   |
-| Capacitor 7 | `latest-7` | `npm install @ebarooni/capacitor-calendar@latest-7` |
+| Capacitor   | npm tag    |                                                                                                                                    |
+| :---------- | :--------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| Capacitor 8 | `latest`   | ![Capacitor 8](https://img.shields.io/badge/Capacitor-8-119EFF.svg?style=flat-square) ![npm@latest](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest?label=npm%40latest&style=flat-square) |
+| Capacitor 7 | `latest-7` | ![Capacitor 7](https://img.shields.io/badge/Capacitor-7-119EFF.svg?style=flat-square) ![npm@latest-7](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest-7?label=npm%40latest-7&style=flat-square) |
 
-Then run `npx cap sync`.
+## Installation
+
+**Capacitor 8:**
+
+```bash
+npm install @ebarooni/capacitor-calendar
+# or: npm install @ebarooni/capacitor-calendar@latest
+npx cap sync
+```
+
+**Capacitor 7:**
+
+```bash
+npm install @ebarooni/capacitor-calendar@latest-7
+npx cap sync
+```
 
 ## Setup
 
