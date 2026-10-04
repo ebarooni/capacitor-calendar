@@ -54,7 +54,6 @@ See [CHANGELOG.md](CHANGELOG.md#880).
 
 1. Pass a `SystemColorName` or hex template literal (`#RRGGBB` / `#RRGGBBAA`), or narrow/cast unbound `string` values.
 2. On Android, keep using hex only for calendar color write.
-3. If you imported `RemindersListColor` from a pre-release 8.8.0 build, use the inline union (or `SystemColorName`) instead.
 
 See [CHANGELOG.md](CHANGELOG.md#880).
 
