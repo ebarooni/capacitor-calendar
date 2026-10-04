@@ -1,7 +1,7 @@
 import type { SystemColorName } from '../types/system-color-name';
 
 /**
- * @since 8.1.0
+ * @since 7.3.0
  */
 export interface CreateRemindersListOptions {
   /**
@@ -11,7 +11,7 @@ export interface CreateRemindersListOptions {
    * @example 'indigo'
    * @example #007AFF
    * @platform iOS
-   * @since 8.1.0
+   * @since 7.3.0
    */
   color?: SystemColorName | `#${string}`;
   /**
@@ -22,7 +22,7 @@ export interface CreateRemindersListOptions {
    * @default true
    * @platform iOS
    * @see {@link CalendarOperations#commit}
-   * @since 8.1.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**
@@ -33,7 +33,7 @@ export interface CreateRemindersListOptions {
    *
    * @example 'A1234567-ABCD-EFGH-IJKL-MNOPQRSTUVWX'
    * @platform iOS
-   * @since 8.1.0
+   * @since 7.3.0
    */
   sourceId?: string;
   /**
@@ -41,7 +41,7 @@ export interface CreateRemindersListOptions {
    *
    * @example 'Groceries'
    * @platform iOS
-   * @since 8.1.0
+   * @since 7.3.0
    */
   title: string;
 }

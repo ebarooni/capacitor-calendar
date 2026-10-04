@@ -1,5 +1,5 @@
 /**
- * @since 8.5.0
+ * @since 7.3.0
  */
 export interface CreateEventResult {
   /**
@@ -7,7 +7,7 @@ export interface CreateEventResult {
    * Always `null` on Android and iOS.
    *
    * @platform Web
-   * @since 8.5.0
+   * @since 7.3.0
    */
   ics: File | null;
   /**

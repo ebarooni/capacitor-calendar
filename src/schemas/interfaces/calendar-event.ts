@@ -92,7 +92,7 @@ export interface CalendarEvent {
    * @example "1A2B3C4D-...."
    * @platform iOS
    * @see {@link https://developer.apple.com/documentation/eventkit/ekcalendaritem/calendaritemexternalidentifier}
-   * @since 8.6.0
+   * @since 7.3.0
    */
   calendarItemExternalIdentifier: string | null;
   /**
@@ -145,7 +145,7 @@ export interface CalendarEvent {
    *
    * @example true
    * @platform Android, iOS
-   * @since 8.6.0
+   * @since 7.3.0
    */
   isPartOfSeries: boolean;
   /**
@@ -180,7 +180,7 @@ export interface CalendarEvent {
    *
    * @example "42"
    * @platform Android
-   * @since 8.6.0
+   * @since 7.3.0
    */
   masterId: string | null;
   /**
@@ -196,7 +196,7 @@ export interface CalendarEvent {
    *
    * @example 1719792000000
    * @platform Android, iOS
-   * @since 8.6.0
+   * @since 7.3.0
    */
   seriesStartDate: number;
   /**

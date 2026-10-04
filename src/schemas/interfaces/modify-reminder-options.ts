@@ -30,13 +30,13 @@ export interface ModifyReminderOptions {
    * @default true
    * @platform iOS
    * @see {@link CalendarOperations#commit}
-   * @since 8.7.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**
    * When the reminder was completed, in milliseconds since the epoch.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    * Clearing this date does not mark the reminder incomplete; set `isCompleted` to `false` for that.
    *
    * @since 7.1.0
@@ -46,7 +46,7 @@ export interface ModifyReminderOptions {
    * When the reminder is due, in milliseconds since the epoch.
    * On iOS, if `startDate` is omitted and the reminder has no start, it is set to this value.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    * Clearing only `dueDate` leaves an existing start unchanged (including a start previously copied from due).
    * Pass `startDate: null` together with `dueDate: null` to remove scheduling.
    *
@@ -68,7 +68,7 @@ export interface ModifyReminderOptions {
   /**
    * Location for the reminder.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    *
    * @since 7.1.0
    */
@@ -76,7 +76,7 @@ export interface ModifyReminderOptions {
   /**
    * Notes for the reminder.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    *
    * @since 7.1.0
    */
@@ -91,7 +91,7 @@ export interface ModifyReminderOptions {
   /**
    * Recurrence rule for the reminder.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    *
    * @platform iOS
    * @since 7.1.0
@@ -101,7 +101,7 @@ export interface ModifyReminderOptions {
    * When the reminder starts, in milliseconds since the epoch.
    * Relative `alerts` use this date.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    * If a due date remains, clearing start sets start to the due date (it does not keep the previous start).
    * Pass `dueDate: null` as well to remove scheduling.
    *
@@ -115,7 +115,7 @@ export interface ModifyReminderOptions {
   /**
    * URL associated with the reminder.
    * Omit or pass `undefined` to leave the existing value unchanged.
-   * Since 8.7.0, pass `null` to clear.
+   * Since 7.3.0, pass `null` to clear.
    *
    * @since 7.1.0
    */

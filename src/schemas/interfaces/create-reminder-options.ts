@@ -26,7 +26,7 @@ export interface CreateReminderOptions {
    * @default true
    * @platform iOS
    * @see {@link CalendarOperations#commit}
-   * @since 8.7.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**

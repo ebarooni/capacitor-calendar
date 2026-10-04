@@ -3,7 +3,7 @@ import type { CalendarPermissionScope } from '../enums/calendar-permission-scope
 /**
  * Options for {@link CalendarAccess#checkPermission}.
  *
- * @since 8.3.1
+ * @since 7.3.0
  */
 export interface CheckPermissionOptions {
   /**
@@ -14,7 +14,7 @@ export interface CheckPermissionOptions {
    *
    * @example CalendarPermissionScope.READ_CALENDAR
    * @platform Android, iOS
-   * @since 8.3.1
+   * @since 7.3.0
    */
   scope: CalendarPermissionScope;
 }

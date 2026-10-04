@@ -43,7 +43,7 @@ export interface Calendar {
    * otherwise null. May be null in dark mode or for custom hex. Always null on Android.
    *
    * @platform Android, iOS
-   * @since 8.8.0
+   * @since 7.3.0
    */
   colorName?: SystemColorName | null;
   /**

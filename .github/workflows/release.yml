@@ -3,7 +3,8 @@ name: Create release
 on:
   push:
     tags:
-      - v*
+      # Cap 8 / latest only. Cap 7 tags (v7.*) must not create GitHub Releases.
+      - 'v8*'
 
 jobs:
   release:

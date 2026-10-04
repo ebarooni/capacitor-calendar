@@ -33,7 +33,7 @@ export interface CreateEventOptions {
    *
    * @default false
    * @platform Web
-   * @since 8.8.0
+   * @since 7.3.0
    */
   autoDownloadIcsFile?: boolean;
   /**
@@ -88,7 +88,7 @@ export interface CreateEventOptions {
    *
    * @example 'team-standup.ics'
    * @platform Web
-   * @since 8.5.0
+   * @since 7.3.0
    */
   icsFileName?: string;
   /**

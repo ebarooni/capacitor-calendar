@@ -19,7 +19,7 @@ export interface DeleteEventWithPromptOptions {
    * @example false
    * @default true
    * @platform iOS
-   * @since 8.3.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**
@@ -45,7 +45,7 @@ export interface DeleteEventWithPromptOptions {
    *
    * @example 1716153600000
    * @platform Android
-   * @since 8.3.0
+   * @since 7.3.0
    */
   instanceDate?: number;
   /**

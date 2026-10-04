@@ -13,7 +13,7 @@
  *   await downloadIcsFile(ics);
  * }
  *
- * @since 8.5.0
+ * @since 7.3.0
  */
 export async function downloadIcsFile(file: File): Promise<void> {
   if (typeof document === 'undefined' || typeof URL === 'undefined') {

@@ -1,7 +1,7 @@
 /**
  * Named iOS system color.
  *
- * @since 8.8.0
+ * @since 7.3.0
  */
 export type SystemColorName =
   | 'blue'

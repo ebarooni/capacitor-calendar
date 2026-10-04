@@ -1,7 +1,7 @@
 import type { Calendar } from './calendar';
 
 /**
- * @since 8.4.0
+ * @since 7.3.0
  */
 export interface SelectCalendarsWithPromptResult {
   /**
@@ -9,7 +9,7 @@ export interface SelectCalendarsWithPromptResult {
    * Empty when the user cancels.
    *
    * @platform iOS
-   * @since 8.4.0
+   * @since 7.3.0
    */
   result: Calendar[];
 }

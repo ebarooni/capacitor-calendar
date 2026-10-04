@@ -1,6 +1,6 @@
 {
   "name": "@ebarooni/capacitor-calendar",
-  "version": "8.8.0",
+  "version": "7.3.0",
   "description": "A Capacitor plugin for native calendar events on iOS and Android (with reminders on iOS), and .ics event creation on the web.",
   "author": "Ehsan Barooni",
   "license": "MIT",
@@ -69,9 +69,9 @@
     "version:patch": "npm version patch --git-tag-version false"
   },
   "devDependencies": {
-    "@capacitor/android": "^8.0.0",
-    "@capacitor/core": "^8.0.0",
-    "@capacitor/ios": "^8.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
     "@ebarooni/capacitor-docgen": "^0.1.0",
     "@ionic/eslint-config": "0.4.0",
     "@ionic/prettier-config": "^4.0.0",
@@ -87,7 +87,7 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=8.0.0"
+    "@capacitor/core": ">=7.0.0 <8.0.0"
   },
   "eslintConfig": {
     "extends": "@ionic/eslint-config/recommended"

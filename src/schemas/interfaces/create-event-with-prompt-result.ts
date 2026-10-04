@@ -1,5 +1,5 @@
 /**
- * @since 8.5.0
+ * @since 7.3.0
  */
 export interface CreateEventWithPromptResult {
   /**
@@ -8,7 +8,7 @@ export interface CreateEventWithPromptResult {
    * On Web, set when the user confirms; `null` when the user cancels.
    *
    * @platform Web
-   * @since 8.8.0
+   * @since 7.3.0
    */
   ics: File | null;
   /**

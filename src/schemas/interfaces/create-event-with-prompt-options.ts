@@ -26,7 +26,7 @@ export interface CreateEventWithPromptOptions {
    *
    * @default true
    * @platform Web
-   * @since 8.8.0
+   * @since 7.3.0
    */
   autoDownloadIcsFile?: boolean;
   /**
@@ -56,7 +56,7 @@ export interface CreateEventWithPromptOptions {
    *
    * @example 'planning-session.ics'
    * @platform Web
-   * @since 8.8.0
+   * @since 7.3.0
    */
   icsFileName?: string;
   /**
@@ -81,7 +81,7 @@ export interface CreateEventWithPromptOptions {
    * When omitted, the dialog uses the event title and time summary.
    *
    * @platform Web
-   * @since 8.8.0
+   * @since 7.3.0
    */
   promptMessage?: string;
   /**
