@@ -40,15 +40,14 @@ Opens the app at `http://localhost:5173`. `createEvent` and `createEventWithProm
 The app has two tabs:
 
 - **Methods** — ID fields and one button per plugin method. Tap a button to call the matching method.
-- **Options** — global fields (event instance date, event span) plus per-method settings in collapsible sections (calendar color, reminders list color, select-calendars multiple, and notes for create event).
+- **Options** — global fields shared by recurring-event delete/modify flows, plus a collapsible section per method with that method’s own title/color/other fields.
 
 On **Methods**, paste an **Event ID**, **Calendar ID**, **Reminder ID**, or **Reminders list ID** returned by a create button, or one you already have.
 
 On **Options**:
 
-- **Event instance date (ms)** and **Event span** — set these before you modify or delete one occurrence of a recurring event.
-- **Calendar color** (under createCalendar / modifyCalendar) — a named system color or hex for create/modify calendar (Android accepts hex only). Create event only uses a value that starts with `#` (named options are omitted). Leave it on "Omit" to leave color unset (createCalendar uses the plugin default), or pick an invalid entry to see the validation error.
-- **Reminders list color** — a named system color or hex for create/update reminders list. Leave it on "Omit" to leave color unset (platform chooses on create), or pick an invalid entry to see the validation error.
+- **Global:** **Event instance date (ms)** and **Event span** — set these before you modify or delete one occurrence of a recurring event.
+- **Per method:** each accordion is independent. For example, `createCalendar` and `createRemindersList` each have their own title and color; `createEvent` has its own title and hex-only color; `modifyCalendar` / `modifyReminder` / `updateRemindersList` have their own titles (and colors where the API supports them).
 
 Open your browser console (web), the Xcode console (iOS), or Logcat (Android) to see each method's result.
 

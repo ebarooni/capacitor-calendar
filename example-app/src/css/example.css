@@ -6,8 +6,11 @@ ion-tabs {
   margin-bottom: 8px;
 }
 
-#calendar-color-swatch,
-#reminders-list-color-swatch {
+.method-options ion-item {
+  margin-bottom: 8px;
+}
+
+.color-swatch {
   width: 28px;
   height: 28px;
   border-radius: 6px;

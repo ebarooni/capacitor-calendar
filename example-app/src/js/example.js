@@ -3,6 +3,55 @@ import { CapacitorCalendar, EventAvailability, EventSpan } from '@ebarooni/capac
 
 const WEB_SUPPORTED_METHOD_IDS = new Set(['create-event', 'create-event-with-prompt']);
 
+const COLOR_PRESETS = {
+  calendar: [
+    { value: '', label: 'Omit — do not pass color' },
+    { value: 'blue', label: 'Named — blue (valid on iOS)' },
+    { value: 'orange', label: 'Named — orange (valid on iOS)' },
+    { value: 'indigo', label: 'Named — indigo (valid on iOS)' },
+    { value: '#007AFF', label: 'Hex — #007AFF (valid)' },
+    { value: '#0000FF', label: 'Hex — #0000FF (valid)' },
+    { value: '#FF0000', label: 'Hex — #FF0000 (valid)' },
+    { value: '#00FF0080', label: 'Hex — #00FF0080 (valid)' },
+    { value: '#0000ff', label: 'Hex lowercase — #0000ff (valid)' },
+    { value: '#6750A4', label: 'Hex — #6750A4 (valid)' },
+    { value: 'navy', label: 'Named — navy (invalid)' },
+    { value: '0000FF', label: 'Missing # — 0000FF (invalid)' },
+    { value: '#F00', label: 'Too short — #F00 (invalid)' },
+    { value: '#FF0000FF00', label: 'Too long — #FF0000FF00 (invalid)' },
+    { value: '#ZZ0000', label: 'Non-hex — #ZZ0000 (invalid)' },
+  ],
+  event: [
+    { value: '', label: 'Omit — do not pass color' },
+    { value: '#007AFF', label: 'Hex — #007AFF (valid)' },
+    { value: '#0000FF', label: 'Hex — #0000FF (valid)' },
+    { value: '#FF0000', label: 'Hex — #FF0000 (valid)' },
+    { value: '#00FF0080', label: 'Hex — #00FF0080 (valid)' },
+    { value: '#0000ff', label: 'Hex lowercase — #0000ff (valid)' },
+    { value: '#6750A4', label: 'Hex — #6750A4 (valid)' },
+    { value: 'blue', label: 'Named — blue (invalid for events)' },
+    { value: 'navy', label: 'Named — navy (invalid)' },
+    { value: '0000FF', label: 'Missing # — 0000FF (invalid)' },
+    { value: '#F00', label: 'Too short — #F00 (invalid)' },
+    { value: '#FF0000FF00', label: 'Too long — #FF0000FF00 (invalid)' },
+    { value: '#ZZ0000', label: 'Non-hex — #ZZ0000 (invalid)' },
+  ],
+  list: [
+    { value: '', label: 'Omit — do not pass color' },
+    { value: 'blue', label: 'Named — blue (valid)' },
+    { value: 'orange', label: 'Named — orange (valid)' },
+    { value: 'indigo', label: 'Named — indigo (valid)' },
+    { value: 'teal', label: 'Named — teal (valid)' },
+    { value: '#007AFF', label: 'Hex — #007AFF (valid)' },
+    { value: '#FF0000', label: 'Hex — #FF0000 (valid)' },
+    { value: '#00FF0080', label: 'Hex — #00FF0080 (valid)' },
+    { value: 'navy', label: 'Named — navy (invalid)' },
+    { value: '0000FF', label: 'Missing # — 0000FF (invalid)' },
+    { value: '#F00', label: 'Too short — #F00 (invalid)' },
+    { value: '#ZZ0000', label: 'Non-hex — #ZZ0000 (invalid)' },
+  ],
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const isWeb = Capacitor.getPlatform() === 'web';
   if (isWeb) {
@@ -14,17 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     void tabs.select('methods');
   }
 
-  const calendarColorSelect = document.querySelector('#calendar-color-select');
-  updateCalendarColorSwatch(calendarColorSelect.value);
-  calendarColorSelect.addEventListener('ionChange', (event) => {
-    updateCalendarColorSwatch(event.detail.value);
-  });
-
-  const remindersListColorSelect = document.querySelector('#reminders-list-color-select');
-  updateRemindersListColorSwatch(remindersListColorSelect.value);
-  remindersListColorSelect.addEventListener('ionChange', (event) => {
-    updateRemindersListColorSwatch(event.detail.value);
-  });
+  initColorSelects();
 
   document.querySelector('#check-all-permissions').addEventListener('click', async () => {
     const result = await CapacitorCalendar.checkAllPermissions();
@@ -34,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-calendar').addEventListener('click', async () => {
     const result = await CapacitorCalendar.createCalendar({
       accountName: 'plugin@example.com',
-      ...optionalCalendarColor(),
+      ...optionalColorFromSelect('#create-calendar-color-select'),
       ownerAccount: 'plugin@example.com',
-      title: 'Plugin Test Calendar',
+      title: getInputValue('#create-calendar-title-input', 'Plugin Test Calendar'),
     });
 
     getCalendarIdInput().value = result.id;
@@ -51,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alerts: [-1440, -60, 30],
       attendees: [{ email: 'guest@example.com', name: 'Alex Guest' }],
       availability: EventAvailability.BUSY,
-      ...optionalEventHexColor(),
+      ...optionalColorFromSelect('#create-event-color-select'),
       commit: true,
       description: 'Created with @ebarooni/capacitor-calendar',
       endDate,
@@ -65,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         interval: 2,
       },
       startDate,
-      title: 'Recurring standup',
+      title: getInputValue('#create-event-title-input', 'Recurring standup'),
       url: 'https://example.com/standup',
     };
 
@@ -107,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         interval: 1,
       },
       startDate,
-      title: 'Planning session',
+      title: getInputValue('#create-event-with-prompt-title-input', 'Planning session'),
       url: 'https://example.com/planning',
     };
 
@@ -147,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         interval: 1,
       },
       startDate,
-      title: 'Weekly grocery check',
+      title: getInputValue('#create-reminder-title-input', 'Weekly grocery check'),
     });
 
     getReminderIdInput().value = result.id;
@@ -156,8 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#create-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.createRemindersList({
-      ...optionalRemindersListColor(),
-      title: 'Groceries list',
+      ...optionalColorFromSelect('#create-reminders-list-color-select'),
+      title: getInputValue('#create-reminders-list-title-input', 'Groceries list'),
     });
 
     getRemindersListIdInput().value = result.id;
@@ -266,9 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#modify-calendar').addEventListener('click', async () => {
     await CapacitorCalendar.modifyCalendar({
-      ...optionalCalendarColor(),
+      ...optionalColorFromSelect('#modify-calendar-color-select'),
       id: getCalendarIdInput().value,
-      title: 'Updated Plugin Test Calendar',
+      title: getInputValue('#modify-calendar-title-input', 'Updated Plugin Test Calendar'),
     });
     console.log('#modifyCalendar');
   });
@@ -284,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
         frequency: 'daily',
         interval: 2,
       },
-      title: 'Updated weekly grocery check',
+      title: getInputValue('#modify-reminder-title-input', 'Updated weekly grocery check'),
     });
     console.log('#modifyReminder');
   });
@@ -318,9 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('#update-reminders-list').addEventListener('click', async () => {
     const result = await CapacitorCalendar.updateRemindersList({
-      ...optionalRemindersListColor(),
+      ...optionalColorFromSelect('#update-reminders-list-color-select'),
       id: getRemindersListIdInput().value,
-      title: 'Updated Groceries list',
+      title: getInputValue('#update-reminders-list-title-input', 'Updated Groceries list'),
     });
 
     getRemindersListIdInput().value = result.id;
@@ -328,32 +367,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function getCalendarColor() {
-  return document.querySelector('#calendar-color-select').value;
+function initColorSelects() {
+  document.querySelectorAll('ion-select.color-select').forEach((select) => {
+    const presetName = select.dataset.colorPreset;
+    const options = COLOR_PRESETS[presetName];
+    if (!options) {
+      return;
+    }
+
+    select.innerHTML = '';
+    for (const option of options) {
+      const element = document.createElement('ion-select-option');
+      element.value = option.value;
+      element.textContent = option.label;
+      select.appendChild(element);
+    }
+
+    const swatchId = select.dataset.swatch;
+    const omitTitle = select.dataset.omitTitle || 'Color omitted';
+    if (swatchId) {
+      updateColorSwatch(`#${swatchId}`, select.value, omitTitle);
+      select.addEventListener('ionChange', (event) => {
+        updateColorSwatch(`#${swatchId}`, event.detail.value, omitTitle);
+      });
+    }
+  });
+}
+
+function getInputValue(selector, fallback = '') {
+  const element = document.querySelector(selector);
+  const value = element?.value?.trim();
+  return value || fallback;
 }
 
 /** Returns `{ color }` only when the select has a value; empty means omit the field. */
-function optionalCalendarColor() {
-  const color = getCalendarColor();
-  return color ? { color } : {};
-}
-
-/**
- * Event color is hex-only (Android). Named calendar colors are omitted here
- * so create event does not reject with `Invalid color format.`
- */
-function optionalEventHexColor() {
-  const color = getCalendarColor();
-  return color && color.startsWith('#') ? { color } : {};
-}
-
-function getRemindersListColor() {
-  return document.querySelector('#reminders-list-color-select').value;
-}
-
-/** Returns `{ color }` only when the select has a value; empty means omit the field. */
-function optionalRemindersListColor() {
-  const color = getRemindersListColor();
+function optionalColorFromSelect(selector) {
+  const color = document.querySelector(selector)?.value;
   return color ? { color } : {};
 }
 
@@ -361,16 +410,11 @@ function getCalendarIdInput() {
   return document.querySelector('#calendar-id-input');
 }
 
-function updateCalendarColorSwatch(hex) {
-  updateColorSwatch('#calendar-color-swatch', hex, 'Color omitted (plugin default on create)');
-}
-
-function updateRemindersListColorSwatch(color) {
-  updateColorSwatch('#reminders-list-color-swatch', color, 'Color omitted (platform chooses on create)');
-}
-
 function updateColorSwatch(swatchSelector, color, omittedTitle) {
   const swatch = document.querySelector(swatchSelector);
+  if (!swatch) {
+    return;
+  }
   if (!color) {
     swatch.style.background = '';
     swatch.title = omittedTitle;
