@@ -81,6 +81,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Web `createEventWithPrompt` confirm time summary uses the same end resolution as ICS export
 - Web confirm default title collapses newlines to one line
 - `UpdateRemindersListOptions.color` `@since` tag (`8.2.0`)
+- iOS `Calendar.colorName` matches system colors in light and dark (EventKit `#007AFF` → `blue`)
 - iOS hex color parsing rejects non-hex digits (previously could resolve to black)
 
 ## 8.7.1

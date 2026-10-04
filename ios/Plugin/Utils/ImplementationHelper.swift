@@ -126,7 +126,16 @@ struct ImplementationHelper {
     }
 
     static func cgColorToHex(_ color: CGColor) -> String? {
-        guard let components = color.components else { return nil }
+        // Normalize to sRGB so EventKit and UIColor.system* serialize the same way.
+        let srgbColor: CGColor
+        if let srgbSpace = CGColorSpace(name: CGColorSpace.sRGB),
+           let converted = color.converted(to: srgbSpace, intent: .defaultIntent, options: nil) {
+            srgbColor = converted
+        } else {
+            srgbColor = color
+        }
+
+        guard let components = srgbColor.components else { return nil }
 
         if components.count == 2 {
             let gray = lroundf(Float(components[0]) * 255)
@@ -160,11 +169,17 @@ struct ImplementationHelper {
         return try UIColor.fromHex(trimmed).cgColor
     }
 
-    /// Best-effort match of a stored calendar color to a known `UIColor.system*` name.
+    /// Match a stored calendar color to a known `UIColor.system*` name.
+    /// Compares against light and dark resolved values so EventKit’s fixed
+    /// `#007AFF` still maps to `blue` when the app is in dark mode.
     static func systemColorName(from color: CGColor) -> String? {
         guard let hex = cgColorToHex(color) else { return nil }
+        let lightTraits = UITraitCollection(userInterfaceStyle: .light)
+        let darkTraits = UITraitCollection(userInterfaceStyle: .dark)
         for (name, systemColor) in systemColorPalette {
-            if cgColorToHex(systemColor.cgColor) == hex {
+            let lightHex = cgColorToHex(systemColor.resolvedColor(with: lightTraits).cgColor)
+            let darkHex = cgColorToHex(systemColor.resolvedColor(with: darkTraits).cgColor)
+            if hex == lightHex || hex == darkHex {
                 return name
             }
         }
