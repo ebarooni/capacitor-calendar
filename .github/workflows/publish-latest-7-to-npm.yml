@@ -1,0 +1,58 @@
+name: Publish Cap 7 package to npm
+
+# Capacitor 7 maintenance line. Trigger from main (workflow_dispatch).
+# Checks out branch 7.x, publishes with npm dist-tag latest-7, and tags that commit.
+# Does not create a GitHub Release, deploy docs/Pages, or publish MCP/Docker.
+# Consumers: npm install @ebarooni/capacitor-calendar@latest-7
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout 7.x
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: 7.x
+          token: ${{ secrets.WRITE_REPO }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish package with latest-7 tag
+        run: npm publish --tag latest-7 --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_CICD }}
+
+      - name: Get package version
+        id: pkg
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "Package version is $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set git config
+        run: |
+          git config user.name ${{ secrets.MANUAL_CI_TRIGGER_NAME }}
+          git config user.email ${{ secrets.MANUAL_CI_TRIGGER_EMAIL }}
+
+      - name: Create tag on 7.x
+        run: git tag -a v${{ steps.pkg.outputs.version }} -m "Release version ${{ steps.pkg.outputs.version }}"
+
+      - name: Push tag
+        run: git push origin v${{ steps.pkg.outputs.version }}

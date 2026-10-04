@@ -3,7 +3,8 @@ name: Deploy docs
 on:
   push:
     tags:
-      - v*
+      # Cap 8 / latest only. Cap 7 tags (v7.*) must not deploy docs/Pages.
+      - 'v8*'
 
 jobs:
   build:
