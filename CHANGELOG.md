@@ -20,7 +20,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - [8.0.1](#801)
   - [8.0.0](#800)
 - [Version 7.x.x](#version-7xx)
-  - [7.3.0](#730)
   - [7.2.0](#720)
   - [7.1.0](#710)
   - [7.0.0](#700)
@@ -243,13 +242,6 @@ Changelogs for the versions supporting Capacitor 8.
 # Version 7.x.x
 
 Changelogs for the versions supporting Capacitor 7.
-
-## 7.3.0
-
-### Changed
-
-- Open Capacitor 7 maintenance branch `7.x` from current `main` (feature baseline matches `8.8.0` on Capacitor 7)
-- Publish Cap 7 packages with npm dist-tag `latest-7` via manual workflow (no git tags, GitHub Releases, docs deploy, or MCP publish)
 
 ## 7.2.0
 
