@@ -29,6 +29,7 @@
 - [Demo](#demo)
 - [Why this plugin?](#why-this-plugin)
 - [MCP Server](#mcp-server)
+- [Capacitor Compatibility](#capacitor-compatibility)
 - [Installation](#installation)
 - [Setup](#setup)
 - [Quick Start](#quick-start)
@@ -80,10 +81,29 @@ docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/c
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
+## Capacitor Compatibility
+
+Match the npm tag to your Capacitor major. Currently, the `latest` and `latest-7` packages ship the same features.
+
+| Capacitor | npm tag    |                                                                                                                           |
+| :-------- | :--------- | :------------------------------------------------------------------------------------------------------------------------ |
+| `8.x`     | `latest`   | ![npm@latest](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest?label=npm%40latest&style=flat-square)       |
+| `7.x`     | `latest-7` | ![npm@latest-7](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest-7?label=npm%40latest-7&style=flat-square) |
+
 ## Installation
+
+**Capacitor 8:**
 
 ```bash
 npm install @ebarooni/capacitor-calendar
+# or: npm install @ebarooni/capacitor-calendar@latest
+npx cap sync
+```
+
+**Capacitor 7:**
+
+```bash
+npm install @ebarooni/capacitor-calendar@latest-7
 npx cap sync
 ```
 
