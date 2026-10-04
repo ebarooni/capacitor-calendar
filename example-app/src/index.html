@@ -30,177 +30,390 @@
 
   <body>
     <ion-app>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Capacitor Calendar</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-note id="web-platform-note" color="medium" hidden>
-          Web is export-only: use Create event or Create event with prompt for ICS. Permission APIs and other actions
-          are not implemented on web and stay disabled.
-        </ion-note>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-input
-            id="event-id-input"
-            label="Event ID"
-            label-placement="stacked"
-            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-            helper-text="The identifier of the event to use"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-input
-            id="event-instance-date-input"
-            label="Event instance date (ms)"
-            label-placement="stacked"
-            type="number"
-            placeholder="1716153600000"
-            helper-text="Occurrence start (ms); required on Android for THIS_EVENT on recurring masters"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-select
-            id="event-span-select"
-            label="Event span"
-            label-placement="stacked"
-            interface="popover"
-            value="0"
-            helper-text="Which occurrences of a recurring event to affect"
-          >
-            <ion-select-option value="0">THIS_EVENT</ion-select-option>
-            <ion-select-option value="1">THIS_AND_FUTURE_EVENTS</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-input
-            id="calendar-id-input"
-            label="Calendar ID"
-            label-placement="stacked"
-            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-            helper-text="The identifier of the calendar to use"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <div slot="start" id="calendar-color-swatch" aria-hidden="true"></div>
-          <ion-select
-            id="calendar-color-select"
-            label="Calendar color"
-            label-placement="stacked"
-            interface="popover"
-            value=""
-            helper-text="Named or hex for create/modify calendar (Android: hex only). Create event uses hex only (named values are omitted). Choose Omit to leave color unset (createCalendar uses the plugin default)."
-          >
-            <ion-select-option value="">Omit — do not pass color</ion-select-option>
-            <ion-select-option value="blue">Named — blue (valid on iOS calendar)</ion-select-option>
-            <ion-select-option value="orange">Named — orange (valid on iOS calendar)</ion-select-option>
-            <ion-select-option value="indigo">Named — indigo (valid on iOS calendar)</ion-select-option>
-            <ion-select-option value="#007AFF">Hex — #007AFF (valid)</ion-select-option>
-            <ion-select-option value="#0000FF">Hex — #0000FF (valid)</ion-select-option>
-            <ion-select-option value="#FF0000">Hex — #FF0000 (valid)</ion-select-option>
-            <ion-select-option value="#00FF0080">Hex — #00FF0080 (valid)</ion-select-option>
-            <ion-select-option value="#0000ff">Hex lowercase — #0000ff (valid)</ion-select-option>
-            <ion-select-option value="#6750A4">Hex — #6750A4 (valid)</ion-select-option>
-            <ion-select-option value="navy">Named — navy (invalid)</ion-select-option>
-            <ion-select-option value="0000FF">Missing # — 0000FF (invalid)</ion-select-option>
-            <ion-select-option value="#F00">Too short — #F00 (invalid)</ion-select-option>
-            <ion-select-option value="#FF0000FF00">Too long — #FF0000FF00 (invalid)</ion-select-option>
-            <ion-select-option value="#ZZ0000">Non-hex — #ZZ0000 (invalid)</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-input
-            id="reminder-id-input"
-            label="Reminder ID"
-            label-placement="stacked"
-            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-            helper-text="The identifier of the reminder to use"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-input
-            id="reminders-list-id-input"
-            label="Reminders list ID"
-            label-placement="stacked"
-            placeholder="73D6F2A1-4B8C-4E9A-9F3D-1C2B5A7E8D90"
-            helper-text="The identifier of the reminders list to use"
-          >
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <div slot="start" id="reminders-list-color-swatch" aria-hidden="true"></div>
-          <ion-select
-            id="reminders-list-color-select"
-            label="Reminders list color"
-            label-placement="stacked"
-            interface="popover"
-            value=""
-            helper-text="Named or hex for create/update reminders list. Choose Omit to leave color unset (platform chooses on create)."
-          >
-            <ion-select-option value="">Omit — do not pass color</ion-select-option>
-            <ion-select-option value="blue">Named — blue (valid)</ion-select-option>
-            <ion-select-option value="orange">Named — orange (valid)</ion-select-option>
-            <ion-select-option value="indigo">Named — indigo (valid)</ion-select-option>
-            <ion-select-option value="teal">Named — teal (valid)</ion-select-option>
-            <ion-select-option value="#007AFF">Hex — #007AFF (valid)</ion-select-option>
-            <ion-select-option value="#FF0000">Hex — #FF0000 (valid)</ion-select-option>
-            <ion-select-option value="#00FF0080">Hex — #00FF0080 (valid)</ion-select-option>
-            <ion-select-option value="navy">Named — navy (invalid)</ion-select-option>
-            <ion-select-option value="0000FF">Missing # — 0000FF (invalid)</ion-select-option>
-            <ion-select-option value="#F00">Too short — #F00 (invalid)</ion-select-option>
-            <ion-select-option value="#ZZ0000">Non-hex — #ZZ0000 (invalid)</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item lines="none" class="ion-no-padding">
-          <ion-select
-            id="select-calendars-multiple-select"
-            label="Select calendars multiple"
-            label-placement="stacked"
-            interface="popover"
-            value="false"
-            helper-text="Allow selecting more than one calendar in the chooser"
-          >
-            <ion-select-option value="false">Single</ion-select-option>
-            <ion-select-option value="true">Multiple</ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-tabs>
+        <ion-tab tab="methods">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Methods</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-note id="web-platform-note" color="medium" hidden>
+              Web is export-only: use Create event or Create event with prompt for ICS. Permission APIs and other
+              actions are not implemented on web and stay disabled.
+            </ion-note>
 
-        <ion-list id="methods-list" class="ion-margin-top">
-          <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
-          <ion-button id="create-calendar" expand="block">Create calendar</ion-button>
-          <ion-button id="create-event" expand="block">Create event</ion-button>
-          <ion-button id="create-event-with-prompt" expand="block">Create event with prompt</ion-button>
-          <ion-button id="create-reminder" expand="block">Create reminder</ion-button>
-          <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
-          <ion-button id="delete-calendar" expand="block">Delete calendar</ion-button>
-          <ion-button id="delete-event" expand="block">Delete event</ion-button>
-          <ion-button id="delete-event-with-prompt" expand="block">Delete event with prompt</ion-button>
-          <ion-button id="delete-events-by-id" expand="block">Delete events by id</ion-button>
-          <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
-          <ion-button id="get-default-calendar" expand="block">Get default calendar</ion-button>
-          <ion-button id="get-reminder-by-id" expand="block">Get reminder by id</ion-button>
-          <ion-button id="get-reminders-from-lists" expand="block">Get reminders from lists</ion-button>
-          <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
-          <ion-button id="list-calendars" expand="block">List calendars</ion-button>
-          <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
-          <ion-button id="modify-calendar" expand="block">Modify calendar</ion-button>
-          <ion-button id="modify-reminder" expand="block">Modify reminder</ion-button>
-          <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
-          <ion-button id="open-reminders" expand="block">Open reminders</ion-button>
-          <ion-button id="request-full-calendar-access" expand="block" fill="outline"
-            >Request full calendar access</ion-button
-          >
-          <ion-button id="request-full-reminders-access" expand="block" fill="outline"
-            >Request full reminders access</ion-button
-          >
-          <ion-button id="select-calendars-with-prompt" expand="block">Select calendars with prompt</ion-button>
-          <ion-button id="update-reminders-list" expand="block">Update reminders list</ion-button>
-        </ion-list>
-      </ion-content>
+            <ion-list-header>
+              <ion-label>IDs</ion-label>
+            </ion-list-header>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="event-id-select"
+                label="Event ID"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one. Event picks also set Event instance date."
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="calendar-id-select"
+                label="Calendar ID"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one"
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="reminder-id-select"
+                label="Reminder ID"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one"
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="reminders-list-id-select"
+                label="Reminders list ID"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Pick a prior result, or Custom ID… to type one"
+              >
+              </ion-select>
+            </ion-item>
+
+            <ion-list-header>
+              <ion-label>Call a method</ion-label>
+            </ion-list-header>
+            <ion-list id="methods-list">
+              <ion-button id="check-all-permissions" expand="block" fill="outline">Check all permissions</ion-button>
+              <ion-button id="create-calendar" expand="block">Create calendar</ion-button>
+              <ion-button id="create-event" expand="block">Create event</ion-button>
+              <ion-button id="create-event-with-prompt" expand="block">Create event with prompt</ion-button>
+              <ion-button id="create-reminder" expand="block">Create reminder</ion-button>
+              <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
+              <ion-button id="delete-calendar" expand="block">Delete calendar</ion-button>
+              <ion-button id="delete-event" expand="block">Delete event</ion-button>
+              <ion-button id="delete-event-with-prompt" expand="block">Delete event with prompt</ion-button>
+              <ion-button id="delete-events-by-id" expand="block">Delete events by id</ion-button>
+              <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
+              <ion-button id="get-default-calendar" expand="block">Get default calendar</ion-button>
+              <ion-button id="get-reminder-by-id" expand="block">Get reminder by id</ion-button>
+              <ion-button id="get-reminders-from-lists" expand="block">Get reminders from lists</ion-button>
+              <ion-button id="get-reminders-lists" expand="block">Get reminders lists</ion-button>
+              <ion-button id="list-calendars" expand="block">List calendars</ion-button>
+              <ion-button id="list-events-in-range" expand="block">List events in range</ion-button>
+              <ion-button id="modify-calendar" expand="block">Modify calendar</ion-button>
+              <ion-button id="modify-reminder" expand="block">Modify reminder</ion-button>
+              <ion-button id="open-calendar" expand="block">Open calendar</ion-button>
+              <ion-button id="open-reminders" expand="block">Open reminders</ion-button>
+              <ion-button id="request-full-calendar-access" expand="block" fill="outline"
+                >Request full calendar access</ion-button
+              >
+              <ion-button id="request-full-reminders-access" expand="block" fill="outline"
+                >Request full reminders access</ion-button
+              >
+              <ion-button id="select-calendars-with-prompt" expand="block">Select calendars with prompt</ion-button>
+              <ion-button id="update-reminders-list" expand="block">Update reminders list</ion-button>
+            </ion-list>
+          </ion-content>
+        </ion-tab>
+
+        <ion-tab tab="options">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Options</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-note color="medium">
+              Each method has its own fields below. IDs stay on Methods. Global fields apply to recurring event
+              delete/modify flows that share Event ID.
+            </ion-note>
+
+            <ion-list-header>
+              <ion-label>Global</ion-label>
+            </ion-list-header>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-input
+                id="event-instance-date-input"
+                label="Event instance date (ms)"
+                label-placement="stacked"
+                type="number"
+                placeholder="1716153600000"
+                helper-text="Occurrence start (ms); used with Event ID for recurring delete/modify on Android"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="event-span-select"
+                label="Event span"
+                label-placement="stacked"
+                interface="popover"
+                value="0"
+                helper-text="Which occurrences of a recurring event to affect"
+              >
+                <ion-select-option value="0">THIS_EVENT</ion-select-option>
+                <ion-select-option value="1">THIS_AND_FUTURE_EVENTS</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-list-header>
+              <ion-label>Per method</ion-label>
+            </ion-list-header>
+            <ion-accordion-group>
+              <ion-accordion value="create-calendar">
+                <ion-item slot="header" color="light">
+                  <ion-label>createCalendar</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="create-calendar-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Plugin Test Calendar"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-no-padding">
+                    <div slot="start" id="create-calendar-color-swatch" class="color-swatch" aria-hidden="true"></div>
+                    <ion-select
+                      id="create-calendar-color-select"
+                      class="color-select"
+                      data-color-preset="calendar"
+                      data-swatch="create-calendar-color-swatch"
+                      data-omit-title="Color omitted (plugin default)"
+                      label="Color"
+                      label-placement="stacked"
+                      interface="popover"
+                      value=""
+                      helper-text="Named or hex (Android: hex only). Omit uses plugin default #007AFF."
+                    ></ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="create-event">
+                <ion-item slot="header" color="light">
+                  <ion-label>createEvent</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="create-event-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Recurring standup"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-no-padding">
+                    <div slot="start" id="create-event-color-swatch" class="color-swatch" aria-hidden="true"></div>
+                    <ion-select
+                      id="create-event-color-select"
+                      class="color-select"
+                      data-color-preset="event"
+                      data-swatch="create-event-color-swatch"
+                      data-omit-title="Color omitted"
+                      label="Color"
+                      label-placement="stacked"
+                      interface="popover"
+                      value=""
+                      helper-text="Android hex only. Values that do not start with # are omitted; invalid hex is still sent."
+                    ></ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="create-event-with-prompt">
+                <ion-item slot="header" color="light">
+                  <ion-label>createEventWithPrompt</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="create-event-with-prompt-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Planning session"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="create-reminder">
+                <ion-item slot="header" color="light">
+                  <ion-label>createReminder</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="create-reminder-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Weekly grocery check"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="create-reminders-list">
+                <ion-item slot="header" color="light">
+                  <ion-label>createRemindersList</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="create-reminders-list-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Groceries list"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-no-padding">
+                    <div
+                      slot="start"
+                      id="create-reminders-list-color-swatch"
+                      class="color-swatch"
+                      aria-hidden="true"
+                    ></div>
+                    <ion-select
+                      id="create-reminders-list-color-select"
+                      class="color-select"
+                      data-color-preset="list"
+                      data-swatch="create-reminders-list-color-swatch"
+                      data-omit-title="Color omitted (platform chooses)"
+                      label="Color"
+                      label-placement="stacked"
+                      interface="popover"
+                      value=""
+                      helper-text="Named or hex. Omit leaves color unset (platform chooses)."
+                    ></ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="modify-calendar">
+                <ion-item slot="header" color="light">
+                  <ion-label>modifyCalendar</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="modify-calendar-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Updated Plugin Test Calendar"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-no-padding">
+                    <div slot="start" id="modify-calendar-color-swatch" class="color-swatch" aria-hidden="true"></div>
+                    <ion-select
+                      id="modify-calendar-color-select"
+                      class="color-select"
+                      data-color-preset="calendar"
+                      data-swatch="modify-calendar-color-swatch"
+                      data-omit-title="Color omitted (unchanged)"
+                      label="Color"
+                      label-placement="stacked"
+                      interface="popover"
+                      value=""
+                      helper-text="Named or hex (Android: hex only). Omit leaves color unchanged."
+                    ></ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="modify-reminder">
+                <ion-item slot="header" color="light">
+                  <ion-label>modifyReminder</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="modify-reminder-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Updated weekly grocery check"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="select-calendars-with-prompt">
+                <ion-item slot="header" color="light">
+                  <ion-label>selectCalendarsWithPrompt</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-select
+                      id="select-calendars-multiple-select"
+                      label="Multiple"
+                      label-placement="stacked"
+                      interface="popover"
+                      value="false"
+                      helper-text="Allow selecting more than one calendar in the chooser"
+                    >
+                      <ion-select-option value="false">Single</ion-select-option>
+                      <ion-select-option value="true">Multiple</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+
+              <ion-accordion value="update-reminders-list">
+                <ion-item slot="header" color="light">
+                  <ion-label>updateRemindersList</ion-label>
+                </ion-item>
+                <div class="ion-padding method-options" slot="content">
+                  <ion-item lines="none" class="ion-no-padding">
+                    <ion-input
+                      id="update-reminders-list-title-input"
+                      label="Title"
+                      label-placement="stacked"
+                      value="Updated Groceries list"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-no-padding">
+                    <div
+                      slot="start"
+                      id="update-reminders-list-color-swatch"
+                      class="color-swatch"
+                      aria-hidden="true"
+                    ></div>
+                    <ion-select
+                      id="update-reminders-list-color-select"
+                      class="color-select"
+                      data-color-preset="list"
+                      data-swatch="update-reminders-list-color-swatch"
+                      data-omit-title="Color omitted (unchanged)"
+                      label="Color"
+                      label-placement="stacked"
+                      interface="popover"
+                      value=""
+                      helper-text="Named or hex. Omit leaves color unchanged."
+                    ></ion-select>
+                  </ion-item>
+                </div>
+              </ion-accordion>
+            </ion-accordion-group>
+          </ion-content>
+        </ion-tab>
+
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="methods">
+            <ion-label>Methods</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="options">
+            <ion-label>Options</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
     </ion-app>
   </body>
 </html>

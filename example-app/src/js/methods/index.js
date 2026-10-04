@@ -1,0 +1,54 @@
+import { registerCheckAllPermissions } from './check-all-permissions.js';
+import { registerCreateCalendar } from './create-calendar.js';
+import { registerCreateEvent } from './create-event.js';
+import { registerCreateEventWithPrompt } from './create-event-with-prompt.js';
+import { registerCreateReminder } from './create-reminder.js';
+import { registerCreateRemindersList } from './create-reminders-list.js';
+import { registerDeleteCalendar } from './delete-calendar.js';
+import { registerDeleteEvent } from './delete-event.js';
+import { registerDeleteEventWithPrompt } from './delete-event-with-prompt.js';
+import { registerDeleteEventsById } from './delete-events-by-id.js';
+import { registerDeleteRemindersList } from './delete-reminders-list.js';
+import { registerGetDefaultCalendar } from './get-default-calendar.js';
+import { registerGetReminderById } from './get-reminder-by-id.js';
+import { registerGetRemindersFromLists } from './get-reminders-from-lists.js';
+import { registerGetRemindersLists } from './get-reminders-lists.js';
+import { registerListCalendars } from './list-calendars.js';
+import { registerListEventsInRange } from './list-events-in-range.js';
+import { registerModifyCalendar } from './modify-calendar.js';
+import { registerModifyReminder } from './modify-reminder.js';
+import { registerOpenCalendar } from './open-calendar.js';
+import { registerOpenReminders } from './open-reminders.js';
+import { registerRequestFullCalendarAccess } from './request-full-calendar-access.js';
+import { registerRequestFullRemindersAccess } from './request-full-reminders-access.js';
+import { registerSelectCalendarsWithPrompt } from './select-calendars-with-prompt.js';
+import { registerUpdateRemindersList } from './update-reminders-list.js';
+
+/** Wire every Methods-tab button listener. Keep alphabetical by method name. */
+export function registerAllMethods() {
+  registerCheckAllPermissions();
+  registerCreateCalendar();
+  registerCreateEvent();
+  registerCreateEventWithPrompt();
+  registerCreateReminder();
+  registerCreateRemindersList();
+  registerDeleteCalendar();
+  registerDeleteEvent();
+  registerDeleteEventWithPrompt();
+  registerDeleteEventsById();
+  registerDeleteRemindersList();
+  registerGetDefaultCalendar();
+  registerGetReminderById();
+  registerGetRemindersFromLists();
+  registerGetRemindersLists();
+  registerListCalendars();
+  registerListEventsInRange();
+  registerModifyCalendar();
+  registerModifyReminder();
+  registerOpenCalendar();
+  registerOpenReminders();
+  registerRequestFullCalendarAccess();
+  registerRequestFullRemindersAccess();
+  registerSelectCalendarsWithPrompt();
+  registerUpdateRemindersList();
+}

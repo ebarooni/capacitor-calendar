@@ -17,16 +17,16 @@ metadata:
 ## Workflow
 
 1. Identify which method was affected by the change
-2. Check `example-app/src/index.html` and `example-app/src/js/example.js` for an existing button/listener for that method
+2. Check `example-app/src/index.html`, `example-app/src/js/methods/`, and Options-tab accordions for an existing button/listener for that method
 3. Apply the matching action:
 
-   | Change type                                    | Action                                                                          |
-   | ---------------------------------------------- | ------------------------------------------------------------------------------- |
-   | New method (no button yet) or explicitly asked | See [Adding a new method to the example app](references/add-new-method.md)      |
-   | Removed                                        | Delete its button and listener                                                  |
-   | Renamed                                        | Update id, label, and call to the new name; reposition alphabetically if needed |
-   | Options changed                                | Update the call if it no longer matches `src/schemas/`                          |
-   | No change                                      | No action                                                                       |
+   | Change type                                    | Action                                                                           |
+   | ---------------------------------------------- | -------------------------------------------------------------------------------- |
+   | New method (no button yet) or explicitly asked | See [Adding a new method to the example app](references/add-new-method.md)       |
+   | Removed                                        | Delete its button, Options accordion (if any), method module, and index import   |
+   | Renamed                                        | Update id, label, method file, and call to the new name; keep alphabetical order |
+   | Options changed                                | Update the method module (and its Options accordion) to match `src/schemas/`     |
+   | No change                                      | No action                                                                        |
 
 ## Rules
 

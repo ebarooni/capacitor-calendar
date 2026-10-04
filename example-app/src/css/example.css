@@ -1,5 +1,16 @@
-#calendar-color-swatch,
-#reminders-list-color-swatch {
+ion-tabs {
+  height: 100%;
+}
+
+#methods-list ion-button {
+  margin-bottom: 8px;
+}
+
+.method-options ion-item {
+  margin-bottom: 8px;
+}
+
+.color-swatch {
   width: 28px;
   height: 28px;
   border-radius: 6px;
