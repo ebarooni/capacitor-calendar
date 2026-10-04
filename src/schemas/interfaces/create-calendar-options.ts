@@ -1,3 +1,5 @@
+import type { SystemColorName } from '../types/system-color-name';
+
 /**
  * @since 5.2.0
  */
@@ -8,16 +10,17 @@ export interface CreateCalendarOptions {
    */
   title: string;
   /**
-   * The color of the calendar as `#RRGGBB` or `#RRGGBBAA`.
-   *
-   * When omitted, Android and iOS use `#007AFF` (light-mode iOS system blue).
+   * Named color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
+   * When omitted, Android and iOS use `#007AFF`.
+   * On Android, only hex is accepted; named colors reject with `Invalid color format.`
    *
    * @platform Android, iOS
+   * @example 'indigo'
    * @example #007AFF
    * @default #007AFF
    * @since 5.2.0
    */
-  color?: string;
+  color?: SystemColorName | `#${string}`;
   /**
    * The EventKit source (account) where the calendar should be created.
    *

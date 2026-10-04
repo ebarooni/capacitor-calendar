@@ -1,4 +1,4 @@
-import type { RemindersListColor } from '../types/reminders-list-color';
+import type { SystemColorName } from '../types/system-color-name';
 
 /**
  * @since 8.2.0
@@ -13,7 +13,7 @@ export interface UpdateRemindersListOptions {
    * @platform iOS
    * @since 8.2.0
    */
-  color?: RemindersListColor;
+  color?: SystemColorName | `#${string}`;
   /**
    * Whether to save the update immediately.
    * Pass `false` to batch changes and commit them with `CapacitorCalendar.commit()`.

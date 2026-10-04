@@ -41,7 +41,7 @@ Tap a button to call the matching plugin method. Some methods need an input valu
 
 - **Event ID**, **Calendar ID**, **Reminder ID**, **Reminders list ID** — paste an ID returned by a create button, or one you already have.
 - **Event instance date (ms)** and **Event span** — set these before you modify or delete one occurrence of a recurring event.
-- **Calendar color** — a hex color for create/modify calendar and create event. Leave it on "Omit" to leave color unset (createCalendar uses the plugin default), or pick an invalid entry to see the validation error.
+- **Calendar color** — a named system color or hex for create/modify calendar (Android accepts hex only). Create event only uses a value that starts with `#` (named options are omitted). Leave it on "Omit" to leave color unset (createCalendar uses the plugin default), or pick an invalid entry to see the validation error.
 - **Reminders list color** — a named system color or hex for create/update reminders list. Leave it on "Omit" to leave color unset (platform chooses on create), or pick an invalid entry to see the validation error.
 
 Open your browser console (web), the Xcode console (iOS), or Logcat (Android) to see each method's result.
