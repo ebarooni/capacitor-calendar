@@ -85,10 +85,10 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
 Match the npm tag to your Capacitor major. Currently, the `latest` and `latest-7` packages ship the same features.
 
-| Capacitor                                                                                     | npm tag    |                                                                                                                                     |
-| :-------------------------------------------------------------------------------------------- | :--------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| ![Capacitor 8](https://img.shields.io/badge/Capacitor-8-119EFF.svg?style=flat-square)         | `latest`   | ![npm@latest](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest?label=npm%40latest&style=flat-square)                 |
-| ![Capacitor 7](https://img.shields.io/badge/Capacitor-7-119EFF.svg?style=flat-square)         | `latest-7` | ![npm@latest-7](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest-7?label=npm%40latest-7&style=flat-square)           |
+| Capacitor | npm tag    |                                                                                                                           |
+| :-------- | :--------- | :------------------------------------------------------------------------------------------------------------------------ |
+| `8.x`     | `latest`   | ![npm@latest](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest?label=npm%40latest&style=flat-square)       |
+| `7.x`     | `latest-7` | ![npm@latest-7](https://img.shields.io/npm/v/@ebarooni/capacitor-calendar/latest-7?label=npm%40latest-7&style=flat-square) |
 
 ## Installation
 
