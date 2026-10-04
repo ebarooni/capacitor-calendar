@@ -39,7 +39,7 @@ export interface Calendar {
    */
   color: string | null;
   /**
-   * Named color if the stored color matches a system color (light or dark);
+   * Named color if the stored hex matches a known system color (classic or current);
    * otherwise null. Always null on Android.
    *
    * @platform Android, iOS

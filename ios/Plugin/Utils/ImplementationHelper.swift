@@ -3,7 +3,8 @@ import Capacitor
 import UIKit
 
 struct ImplementationHelper {
-    /// Default calendar color when `color` is omitted: `#007AFF` (light-mode iOS system blue).
+    /// Default calendar color when `color` is omitted: classic EventKit / HIG blue (`#007AFF`).
+    /// Newer iOS `UIColor.systemBlue` light resolves to `#0088FF`; EventKit still often stores `#007AFF`.
     static let defaultCalendarColorHex = "#007AFF"
 
     /// Reads a JS number that may arrive as `Int`, `Double`, or `NSNumber`.
@@ -169,18 +170,25 @@ struct ImplementationHelper {
         return try UIColor.fromHex(trimmed).cgColor
     }
 
-    /// Match a stored calendar color to a known `UIColor.system*` name.
-    /// Compares against light and dark resolved values so EventKit’s fixed
-    /// `#007AFF` still maps to `blue` when the app is in dark mode.
+    /// Match a stored calendar/list color to a `SystemColorName`.
+    ///
+    /// EventKit often persists classic HIG hex values (e.g. `#007AFF` for blue).
+    /// Live `UIColor.systemBlue` on newer OS versions resolves to a different hex
+    /// (e.g. `#0088FF`), so matching only the current `UIColor` misses EventKit
+    /// defaults. Prefer the static hex table, then fall back to resolved UIColors.
     static func systemColorName(from color: CGColor) -> String? {
-        guard let hex = cgColorToHex(color) else { return nil }
-        let lightTraits = UITraitCollection(userInterfaceStyle: .light)
-        let darkTraits = UITraitCollection(userInterfaceStyle: .dark)
-        for (name, systemColor) in systemColorPalette {
-            let lightHex = cgColorToHex(systemColor.resolvedColor(with: lightTraits).cgColor)
-            let darkHex = cgColorToHex(systemColor.resolvedColor(with: darkTraits).cgColor)
-            if hex == lightHex || hex == darkHex {
-                return name
+        guard let hex = normalizedOpaqueHex(cgColorToHex(color)) else { return nil }
+
+        if let name = systemColorHexToName[hex] {
+            return name
+        }
+
+        for traits in systemColorTraitCollections {
+            for (name, systemColor) in systemColorPalette {
+                let resolved = systemColor.resolvedColor(with: traits)
+                if let systemHex = normalizedOpaqueHex(hexString(from: resolved)), systemHex == hex {
+                    return name
+                }
             }
         }
         return nil
@@ -200,9 +208,128 @@ struct ImplementationHelper {
         ("yellow", .systemYellow)
     ]
 
+    /// Classic (pre–June 2025) and current Apple HIG hex values for each `SystemColorName`.
+    /// EventKit often persists classic values (notably `#007AFF` for blue) even when
+    /// live `UIColor.system*` resolves to the newer HIG hexes.
+    private static let systemColorHexToName: [String: String] = [
+        // blue — classic + current (+ accessible)
+        "#007AFF": "blue", // classic light / EventKit default
+        "#0A84FF": "blue", // classic dark
+        "#0040DD": "blue", // classic accessible light
+        "#409CFF": "blue", // classic accessible dark
+        "#0088FF": "blue", // current HIG light
+        "#0091FF": "blue", // current HIG dark
+        "#1E6EF4": "blue", // current accessible light
+        "#5CB8FF": "blue", // current accessible dark
+        // brown
+        "#A2845E": "brown", // classic light
+        "#AC8E68": "brown", // classic dark
+        "#AC7F5E": "brown", // current light
+        "#B78A66": "brown", // current dark
+        "#956D51": "brown", // current accessible light
+        "#DBA679": "brown", // current accessible dark
+        // gray (systemGray; light/dark share the default)
+        "#8E8E93": "gray",
+        "#6C6C70": "gray", // accessible light
+        "#AEAEB2": "gray", // accessible dark
+        // green
+        "#34C759": "green",
+        "#30D158": "green",
+        "#008932": "green", // current accessible light
+        "#4AD968": "green", // current accessible dark
+        // indigo
+        "#5856D6": "indigo", // classic light
+        "#5E5CE6": "indigo", // classic dark
+        "#6155F5": "indigo", // current light
+        "#6D7CFF": "indigo", // current dark
+        "#564ADE": "indigo", // current accessible light
+        "#A7AAFF": "indigo", // current accessible dark
+        // orange
+        "#FF9500": "orange", // classic light
+        "#FF9F0A": "orange", // classic dark
+        "#FF8D28": "orange", // current light
+        "#FF9230": "orange", // current dark
+        "#C55300": "orange", // current accessible light
+        "#FFA056": "orange", // current accessible dark
+        // pink
+        "#FF2D55": "pink",
+        "#FF375F": "pink",
+        "#E7124D": "pink", // current accessible light
+        "#FF8AC4": "pink", // current accessible dark
+        // purple
+        "#AF52DE": "purple", // classic light
+        "#BF5AF2": "purple", // classic dark
+        "#CB30E0": "purple", // current light
+        "#DB34F2": "purple", // current dark
+        "#B02FC2": "purple", // current accessible light
+        "#EA8DFF": "purple", // current accessible dark
+        // red
+        "#FF3B30": "red", // classic light
+        "#FF453A": "red", // classic dark
+        "#FF383C": "red", // current light
+        "#FF4245": "red", // current dark
+        "#E9152D": "red", // current accessible light
+        "#FF6165": "red", // current accessible dark
+        // teal (classic teal/cyan-era + current HIG)
+        "#30B0C7": "teal", // classic light
+        "#40C8E0": "teal", // classic dark (HIG R64 G200 B224)
+        "#40CBE0": "teal", // observed classic dark variant
+        "#5AC8FA": "teal", // older cyan-as-teal light
+        "#64D2FF": "teal", // older cyan-as-teal dark
+        "#00C3D0": "teal", // current light
+        "#00D2E0": "teal", // current dark
+        "#008198": "teal", // current accessible light
+        "#3BDDEC": "teal", // current accessible dark
+        // yellow
+        "#FFCC00": "yellow",
+        "#FFD60A": "yellow", // classic dark
+        "#FFD600": "yellow", // current dark
+        "#A16A00": "yellow", // current accessible light
+        "#FEDF43": "yellow" // current accessible dark
+    ]
+
+    private static let systemColorTraitCollections: [UITraitCollection] = [
+        UITraitCollection(userInterfaceStyle: .light),
+        UITraitCollection(userInterfaceStyle: .dark),
+        UITraitCollection(traitsFrom: [
+            UITraitCollection(userInterfaceStyle: .light),
+            UITraitCollection(accessibilityContrast: .high)
+        ]),
+        UITraitCollection(traitsFrom: [
+            UITraitCollection(userInterfaceStyle: .dark),
+            UITraitCollection(accessibilityContrast: .high)
+        ])
+    ]
+
     private static func systemColor(named colorName: String) -> UIColor? {
         let key = colorName.lowercased()
         return systemColorPalette.first(where: { $0.0 == key })?.1
+    }
+
+    private static func hexString(from color: UIColor) -> String? {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        if color.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            let redByte = lroundf(Float(red) * 255)
+            let greenByte = lroundf(Float(green) * 255)
+            let blueByte = lroundf(Float(blue) * 255)
+            let alphaByte = lroundf(Float(alpha) * 255)
+            return alphaByte == 255
+                ? String(format: "#%02lX%02lX%02lX", redByte, greenByte, blueByte)
+                : String(format: "#%02lX%02lX%02lX%02lX", redByte, greenByte, blueByte, alphaByte)
+        }
+        return cgColorToHex(color.cgColor)
+    }
+
+    private static func normalizedOpaqueHex(_ hex: String?) -> String? {
+        guard var value = hex?.uppercased(), value.hasPrefix("#") else { return hex?.uppercased() }
+        // Treat #RRGGBBFF as #RRGGBB for matching.
+        if value.count == 9, value.hasSuffix("FF") {
+            value = String(value.prefix(7))
+        }
+        return value
     }
 
     static func deleteReminder(reminderId: String, eventStore: EKEventStore, commit: Bool = true) throws {
