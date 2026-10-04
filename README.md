@@ -89,16 +89,16 @@ See [`mcp/README.md`](mcp/README.md) for client configuration and full details.
 
 ## Capacitor Compatibility
 
-The plugin supports Capacitor 7 and Capacitor 8 in parallel with the same feature set. The Cap 7 line tracks features from `main`.
+Supports Capacitor 7 and Capacitor 8.
 
-| Capacitor | npm dist-tag | Package | Branch |
-| :-------- | :----------- | :------ | :----- |
-| 8.x       | `latest`     | 8.x     | `main` |
-| 7.x       | `latest-7`   | 7.x     | `7.x`  |
+| Capacitor | npm tag    | Install                                              |
+| :-------- | :--------- | :--------------------------------------------------- |
+| 8         | `latest`   | `npm install @ebarooni/capacitor-calendar@latest`    |
+| 7         | `latest-7` | `npm install @ebarooni/capacitor-calendar@latest-7`  |
 
 ## Installation
 
-**Capacitor 8** (`latest` / 8.x):
+**Capacitor 8:**
 
 ```bash
 npm install @ebarooni/capacitor-calendar
@@ -106,7 +106,7 @@ npm install @ebarooni/capacitor-calendar
 npx cap sync
 ```
 
-**Capacitor 7** (`latest-7` / 7.x):
+**Capacitor 7:**
 
 ```bash
 npm install @ebarooni/capacitor-calendar@latest-7
