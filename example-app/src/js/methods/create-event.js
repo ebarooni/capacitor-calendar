@@ -1,7 +1,8 @@
 import { CapacitorCalendar, EventAvailability } from '@ebarooni/capacitor-calendar';
 import { pickNonHolidayCalendar } from '../utils/calendars.js';
 import { optionalEventHexColor } from '../utils/color.js';
-import { getEventIdInput, getInputValue } from '../utils/dom.js';
+import { getInputValue } from '../utils/dom.js';
+import { setEventId } from '../utils/ids.js';
 import { isWebPlatform } from '../utils/platform.js';
 import { presentToast } from '../utils/toast.js';
 
@@ -45,9 +46,7 @@ export function registerCreateEvent() {
       icsFileName: 'recurring-standup.ics',
     });
 
-    if (result.id) {
-      getEventIdInput().value = result.id;
-    }
+    setEventId(result.id);
     if (result.ics) {
       await presentToast(`Downloaded ${result.ics.name} — open it in your calendar app.`);
     }

@@ -1,5 +1,5 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getEventIdInput, getEventInstanceDateInput } from '../utils/dom.js';
+import { eventToSelectItem, populateResultSelect } from '../utils/result-selects.js';
 
 export function registerListEventsInRange() {
   document.querySelector('#list-events-in-range').addEventListener('click', async () => {
@@ -11,12 +11,7 @@ export function registerListEventsInRange() {
       from: from.getTime(),
       to: to.getTime(),
     });
+    populateResultSelect('#event-results-select', result.result.map(eventToSelectItem));
     console.log('#listEventsInRange', result);
-
-    const event = result.result[0];
-    if (event) {
-      getEventIdInput().value = event.id;
-      getEventInstanceDateInput().value = String(event.startDate);
-    }
   });
 }

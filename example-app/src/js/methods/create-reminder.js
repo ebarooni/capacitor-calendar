@@ -1,5 +1,6 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getInputValue, getReminderIdInput, getRemindersListIdInput } from '../utils/dom.js';
+import { getInputValue, getRemindersListIdInput } from '../utils/dom.js';
+import { setReminderId } from '../utils/ids.js';
 
 export function registerCreateReminder() {
   document.querySelector('#create-reminder').addEventListener('click', async () => {
@@ -22,7 +23,7 @@ export function registerCreateReminder() {
       title: getInputValue('#create-reminder-title-input', 'Weekly grocery check'),
     });
 
-    getReminderIdInput().value = result.id;
+    setReminderId(result.id);
     console.log('#createReminder', result);
   });
 }

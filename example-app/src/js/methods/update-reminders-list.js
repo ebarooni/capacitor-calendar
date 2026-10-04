@@ -1,6 +1,7 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
 import { optionalColorFromSelect } from '../utils/color.js';
 import { getInputValue, getRemindersListIdInput } from '../utils/dom.js';
+import { setRemindersListId } from '../utils/ids.js';
 
 export function registerUpdateRemindersList() {
   document.querySelector('#update-reminders-list').addEventListener('click', async () => {
@@ -10,7 +11,7 @@ export function registerUpdateRemindersList() {
       title: getInputValue('#update-reminders-list-title-input', 'Updated Groceries list'),
     });
 
-    getRemindersListIdInput().value = result.id;
+    setRemindersListId(result.id);
     console.log('#updateRemindersList', result);
   });
 }

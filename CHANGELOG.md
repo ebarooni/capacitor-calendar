@@ -73,6 +73,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Example app: calendar color select marks named colors valid for create/modify calendar (Android stays hex-only; create event stays hex)
 - Example app: Methods / Options tabs — IDs and method buttons on Methods; Options has global recurring-event fields plus per-method accordions with independent title/color fields
 - Example app: split method wire-up into `src/js/methods/` with shared helpers in `src/js/utils/`
+- Example app: list methods populate pickable result selects; create/update paths write returned ids into the matching Methods ID fields
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
 - Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`

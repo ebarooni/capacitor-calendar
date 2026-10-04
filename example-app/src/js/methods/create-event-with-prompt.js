@@ -1,6 +1,7 @@
 import { CapacitorCalendar, EventAvailability } from '@ebarooni/capacitor-calendar';
 import { pickNonHolidayCalendar } from '../utils/calendars.js';
-import { getEventIdInput, getInputValue } from '../utils/dom.js';
+import { getInputValue } from '../utils/dom.js';
+import { setEventId } from '../utils/ids.js';
 import { isWebPlatform } from '../utils/platform.js';
 import { presentToast } from '../utils/toast.js';
 
@@ -35,9 +36,7 @@ export function registerCreateEventWithPrompt() {
 
     const result = await CapacitorCalendar.createEventWithPrompt(promptOptions);
 
-    if (result.id) {
-      getEventIdInput().value = result.id;
-    }
+    setEventId(result.id);
     if (result.ics) {
       await presentToast(`Downloaded ${result.ics.name} — open it in your calendar app.`);
     } else if (isWeb) {

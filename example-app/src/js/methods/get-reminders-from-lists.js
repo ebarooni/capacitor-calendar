@@ -1,5 +1,6 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getReminderIdInput, getRemindersListIdInput } from '../utils/dom.js';
+import { getRemindersListIdInput } from '../utils/dom.js';
+import { populateResultSelect, reminderToSelectItem } from '../utils/result-selects.js';
 
 export function registerGetRemindersFromLists() {
   document.querySelector('#get-reminders-from-lists').addEventListener('click', async () => {
@@ -10,10 +11,7 @@ export function registerGetRemindersFromLists() {
     }
 
     const result = await CapacitorCalendar.getRemindersFromLists({ listIds });
-    const reminder = result.result[0];
-    if (reminder?.id) {
-      getReminderIdInput().value = reminder.id;
-    }
+    populateResultSelect('#reminder-results-select', result.result.map(reminderToSelectItem));
     console.log('#getRemindersFromLists', result);
   });
 }

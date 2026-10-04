@@ -88,6 +88,50 @@
             </ion-item>
 
             <ion-list-header>
+              <ion-label>Pick from last results</ion-label>
+            </ion-list-header>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="calendar-results-select"
+                label="Calendar results"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Filled by listCalendars, selectCalendarsWithPrompt, or getDefaultCalendar"
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="event-results-select"
+                label="Event results"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Filled by listEventsInRange; also sets Event instance date when present"
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="reminder-results-select"
+                label="Reminder results"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Filled by getRemindersFromLists or getReminderById"
+              >
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="ion-no-padding">
+              <ion-select
+                id="reminders-list-results-select"
+                label="Reminders list results"
+                label-placement="stacked"
+                interface="popover"
+                helper-text="Filled by getRemindersLists"
+              >
+              </ion-select>
+            </ion-item>
+
+            <ion-list-header>
               <ion-label>Call a method</ion-label>
             </ion-list-header>
             <ion-list id="methods-list">

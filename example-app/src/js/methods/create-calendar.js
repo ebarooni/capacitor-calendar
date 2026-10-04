@@ -1,6 +1,7 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
 import { optionalColorFromSelect } from '../utils/color.js';
-import { getCalendarIdInput, getInputValue } from '../utils/dom.js';
+import { getInputValue } from '../utils/dom.js';
+import { setCalendarId } from '../utils/ids.js';
 
 export function registerCreateCalendar() {
   document.querySelector('#create-calendar').addEventListener('click', async () => {
@@ -11,7 +12,7 @@ export function registerCreateCalendar() {
       title: getInputValue('#create-calendar-title-input', 'Plugin Test Calendar'),
     });
 
-    getCalendarIdInput().value = result.id;
+    setCalendarId(result.id);
     console.log('#createCalendar', result);
   });
 }
