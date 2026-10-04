@@ -6,11 +6,10 @@ import type { RemindersListColor } from '../types/reminders-list-color';
 export interface CreateRemindersListOptions {
   /**
    * Named color (`blue`, …) or hex `#RRGGBB` / `#RRGGBBAA`.
-   * When omitted, system blue is used.
+   * When omitted, the platform chooses the list color.
    *
    * @example 'indigo'
    * @example #007AFF
-   * @default 'blue'
    * @platform iOS
    * @since 8.1.0
    */

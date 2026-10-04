@@ -1,8 +1,7 @@
 import Capacitor
-import UIKit
 
 struct CreateRemindersListInput {
-    private var color: CGColor
+    private var color: CGColor?
     private let commit: Bool
     private var sourceId: String?
     private let title: String
@@ -19,7 +18,7 @@ struct CreateRemindersListInput {
         }
     }
 
-    func getColor() -> CGColor {
+    func getColor() -> CGColor? {
         return color
     }
 
@@ -35,9 +34,9 @@ struct CreateRemindersListInput {
         return title
     }
 
-    private static func getListColorFromCall(_ call: CAPPluginCall) throws -> CGColor {
+    private static func getListColorFromCall(_ call: CAPPluginCall) throws -> CGColor? {
         guard let colorString = call.getString("color") else {
-            return UIColor.systemBlue.cgColor
+            return nil
         }
         return try ImplementationHelper.listColor(from: colorString)
     }
