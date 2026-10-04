@@ -1,4 +1,5 @@
 import type { CalendarType } from '../enums/calendar-type';
+import type { SystemColorName } from '../types/system-color-name';
 
 import type { CalendarSource } from './calendar-source';
 
@@ -27,10 +28,9 @@ export interface Calendar {
    */
   internalTitle: string | null;
   /**
-   * Calendar color as a hex string.
+   * Hex color string, or null when none is available.
    *
    * Format: `#RRGGBB` when opaque; `#RRGGBBAA` when alpha is below fully opaque.
-   * May be `null` when the platform does not provide a color.
    *
    * @platform Android, iOS
    * @example #0000FF
@@ -38,6 +38,14 @@ export interface Calendar {
    * @since 7.1.0
    */
   color: string | null;
+  /**
+   * Named color if the stored color matches one of the system colors;
+   * otherwise null. May be null in dark mode or for custom hex. Always null on Android.
+   *
+   * @platform Android, iOS
+   * @since 8.8.0
+   */
+  colorName?: SystemColorName | null;
   /**
    * @platform iOS
    * @since 7.1.0

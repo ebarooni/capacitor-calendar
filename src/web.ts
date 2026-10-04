@@ -3,7 +3,6 @@ import { WebPlugin } from '@capacitor/core';
 
 import type { CapacitorCalendarPlugin } from './definitions';
 import type { Calendar } from './schemas/interfaces/calendar';
-import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
 import type { CreateCalendarResult } from './schemas/interfaces/create-calendar-result';
@@ -21,15 +20,18 @@ import type { DeleteEventWithPromptOptions } from './schemas/interfaces/delete-e
 import type { DeleteEventsByIdOptions } from './schemas/interfaces/delete-events-by-id-options';
 import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder-options';
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
+import type { DeleteReminderWithPromptResult } from './schemas/interfaces/delete-reminder-with-prompt-result';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
 import type { DeleteRemindersByIdResult } from './schemas/interfaces/delete-reminders-by-id-result';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
+import type { GetDefaultRemindersListResult } from './schemas/interfaces/get-default-reminders-list-result';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetReminderByIdResult } from './schemas/interfaces/get-reminder-by-id-result';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { GetRemindersFromListsResult } from './schemas/interfaces/get-reminders-from-lists-result';
+import type { GetRemindersListsResult } from './schemas/interfaces/get-reminders-lists-result';
 import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
 import type { ListEventsInRangeResult } from './schemas/interfaces/list-events-in-range-result';
@@ -38,7 +40,6 @@ import type { ModifyEventOptions } from './schemas/interfaces/modify-event-optio
 import type { ModifyEventWithPromptOptions } from './schemas/interfaces/modify-event-with-prompt-options';
 import type { ModifyReminderOptions } from './schemas/interfaces/modify-reminder-options';
 import type { OpenCalendarOptions } from './schemas/interfaces/open-calendar-options';
-import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/select-calendars-with-prompt-result';
@@ -163,7 +164,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.listCalendars.name);
   }
 
-  public fetchAllRemindersSources(): Promise<{ result: CalendarSource[] }> {
+  public fetchAllRemindersSources(): Promise<FetchAllCalendarSourcesResult> {
     return this.throwUnimplemented(this.fetchAllRemindersSources.name);
   }
 
@@ -171,7 +172,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.getDefaultCalendar.name);
   }
 
-  public getDefaultRemindersList(): Promise<{ result: RemindersList | null }> {
+  public getDefaultRemindersList(): Promise<GetDefaultRemindersListResult> {
     return this.throwUnimplemented(this.getDefaultRemindersList.name);
   }
 
@@ -179,7 +180,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.openReminders.name);
   }
 
-  public getRemindersLists(): Promise<{ result: RemindersList[] }> {
+  public getRemindersLists(): Promise<GetRemindersListsResult> {
     return this.throwUnimplemented(this.getRemindersLists.name);
   }
 
@@ -241,7 +242,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.modifyCalendar.name);
   }
 
-  public deleteReminderWithPrompt(_options: DeleteReminderWithPromptOptions): Promise<{ deleted: boolean }> {
+  public deleteReminderWithPrompt(_options: DeleteReminderWithPromptOptions): Promise<DeleteReminderWithPromptResult> {
     return this.throwUnimplemented(this.deleteReminderWithPrompt.name);
   }
 

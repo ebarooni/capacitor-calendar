@@ -82,6 +82,9 @@ export interface ModifyReminderOptions {
    */
   notes?: string | null;
   /**
+   * Priority: `0` none, `1` highest through `9` lowest.
+   * Omit to leave the existing value unchanged.
+   *
    * @since 7.1.0
    */
   priority?: number;

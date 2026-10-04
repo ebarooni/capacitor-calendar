@@ -1,5 +1,6 @@
 import EventKit
 import Capacitor
+import UIKit
 
 struct ImplementationHelper {
     /// Default calendar color when `color` is omitted: `#007AFF` (light-mode iOS system blue).
@@ -147,6 +148,48 @@ struct ImplementationHelper {
             : String(format: "#%02lX%02lX%02lX%02lX", red, green, blue, alpha)
     }
 
+    /// Named system color or hex (`#RRGGBB` / `#RRGGBBAA`). Throws `invalidColor` when neither matches.
+    static func listColor(from colorString: String) throws -> CGColor {
+        if let namedColor = systemColor(named: colorString) {
+            return namedColor.cgColor
+        }
+        let trimmed = colorString.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.hasPrefix("#") else {
+            throw PluginError.invalidColor
+        }
+        return try UIColor.fromHex(trimmed).cgColor
+    }
+
+    /// Best-effort match of a stored calendar color to a known `UIColor.system*` name.
+    static func systemColorName(from color: CGColor) -> String? {
+        guard let hex = cgColorToHex(color) else { return nil }
+        for (name, systemColor) in systemColorPalette {
+            if cgColorToHex(systemColor.cgColor) == hex {
+                return name
+            }
+        }
+        return nil
+    }
+
+    private static let systemColorPalette: [(String, UIColor)] = [
+        ("blue", .systemBlue),
+        ("brown", .systemBrown),
+        ("gray", .systemGray),
+        ("green", .systemGreen),
+        ("indigo", .systemIndigo),
+        ("orange", .systemOrange),
+        ("pink", .systemPink),
+        ("purple", .systemPurple),
+        ("red", .systemRed),
+        ("teal", .systemTeal),
+        ("yellow", .systemYellow)
+    ]
+
+    private static func systemColor(named colorName: String) -> UIColor? {
+        let key = colorName.lowercased()
+        return systemColorPalette.first(where: { $0.0 == key })?.1
+    }
+
     static func deleteReminder(reminderId: String, eventStore: EKEventStore, commit: Bool = true) throws {
         guard let reminder = eventStore.calendarItem(withIdentifier: reminderId) as? EKReminder else {
             throw PluginError.reminderNotFound
@@ -179,6 +222,7 @@ struct ImplementationHelper {
             "id": calendar.calendarIdentifier,
             "title": calendar.title,
             "color": ImplementationHelper.cgColorToHex(calendar.cgColor) ?? NSNull(),
+            "colorName": ImplementationHelper.systemColorName(from: calendar.cgColor) ?? NSNull(),
             "isImmutable": calendar.isImmutable,
             "allowsContentModifications": calendar.allowsContentModifications,
             "type": calendar.type.rawValue,

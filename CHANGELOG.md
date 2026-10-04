@@ -58,19 +58,30 @@ Changelogs for the versions supporting Capacitor 8.
 - Web `createEventWithPrompt` (confirm dialog → ICS; cancel resolves with `ics: null`)
 - `autoDownloadIcsFile` option on Web create paths (`createEvent` default `false`; `createEventWithPrompt` default `true`)
 - `icsFileName` and `promptMessage` on `CreateEventWithPromptOptions` (Web)
+- `GetRemindersListsResult` for `getRemindersLists(...)`
+- `GetDefaultRemindersListResult` for `getDefaultRemindersList(...)`
+- `DeleteReminderWithPromptResult` for `deleteReminderWithPrompt(...)`
+- Optional `Calendar.colorName` (`SystemColorName | null`) on calendar/list payloads (`null` on Android)
+- `SystemColorName` and `RemindersListColor` (`SystemColorName | \`#\${string}\``) for named list colors plus hex write
 
 ### Changed
 
 - Document Web ICS limits and that permission APIs stay unimplemented on Web
 - Align `EventRecurrenceRule` `@platform` tags with the Web ICS builder
 - Example app: toast after ICS download; disable unsupported Web actions; enable prompt path on Web
+- Example app: reminders list color select (named, hex, or omit) for create/update reminders list
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
+- `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
+- Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
+- `createRemindersList` / `updateRemindersList` `color` accepts named colors and hex (`#RRGGBB` / `#RRGGBBAA`); invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
 
 ### Fixed
 
 - Align reminders Info.plist `@permissions` rows to `iOS 13-16` for `NSRemindersUsageDescription`
 - Web `createEventWithPrompt` confirm time summary uses the same end resolution as ICS export
 - Web confirm default title collapses newlines to one line
+- `UpdateRemindersListOptions.color` `@since` tag (`8.2.0`)
+- iOS hex color parsing rejects non-hex digits (previously could resolve to black)
 
 ## 8.7.1
 

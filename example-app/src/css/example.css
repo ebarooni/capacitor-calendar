@@ -1,4 +1,5 @@
-#calendar-color-swatch {
+#calendar-color-swatch,
+#reminders-list-color-swatch {
   width: 28px;
   height: 28px;
   border-radius: 6px;

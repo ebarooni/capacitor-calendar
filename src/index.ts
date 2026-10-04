@@ -32,16 +32,19 @@ import type { DeleteEventWithPromptOptions } from './schemas/interfaces/delete-e
 import type { DeleteEventsByIdOptions } from './schemas/interfaces/delete-events-by-id-options';
 import type { DeleteReminderOptions } from './schemas/interfaces/delete-reminder-options';
 import type { DeleteReminderWithPromptOptions } from './schemas/interfaces/delete-reminder-with-prompt-options';
+import type { DeleteReminderWithPromptResult } from './schemas/interfaces/delete-reminder-with-prompt-result';
 import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-reminders-by-id-options';
 import type { DeleteRemindersByIdResult } from './schemas/interfaces/delete-reminders-by-id-result';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
 import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
+import type { GetDefaultRemindersListResult } from './schemas/interfaces/get-default-reminders-list-result';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetReminderByIdResult } from './schemas/interfaces/get-reminder-by-id-result';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
 import type { GetRemindersFromListsResult } from './schemas/interfaces/get-reminders-from-lists-result';
+import type { GetRemindersListsResult } from './schemas/interfaces/get-reminders-lists-result';
 import type { ListCalendarsResult } from './schemas/interfaces/list-calendars-result';
 import type { ListEventsInRangeOptions } from './schemas/interfaces/list-events-in-range-options';
 import type { ListEventsInRangeResult } from './schemas/interfaces/list-events-in-range-result';
@@ -61,6 +64,8 @@ import type { UpdateRemindersListOptions } from './schemas/interfaces/update-rem
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
+import type { RemindersListColor } from './schemas/types/reminders-list-color';
+import type { SystemColorName } from './schemas/types/system-color-name';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
 import { downloadIcsFile } from './web/download-ics-file';
@@ -93,6 +98,7 @@ export type {
   DeleteEventsByIdResult,
   DeleteReminderOptions,
   DeleteReminderWithPromptOptions,
+  DeleteReminderWithPromptResult,
   DeleteRemindersByIdOptions,
   DeleteRemindersByIdResult,
   DeleteRemindersListOptions,
@@ -100,10 +106,12 @@ export type {
   EventGuest,
   FetchAllCalendarSourcesResult,
   GetDefaultCalendarOptions,
+  GetDefaultRemindersListResult,
   GetReminderByIdOptions,
   GetReminderByIdResult,
   GetRemindersFromListsOptions,
   GetRemindersFromListsResult,
+  GetRemindersListsResult,
   ListCalendarsResult,
   ListEventsInRangeOptions,
   ListEventsInRangeResult,
@@ -116,10 +124,12 @@ export type {
   Reminder,
   ReminderRecurrenceRule,
   RemindersList,
+  RemindersListColor,
   RequestAllPermissionsResult,
   RequestPermissionOptions,
   SelectCalendarsWithPromptOptions,
   SelectCalendarsWithPromptResult,
+  SystemColorName,
   UpdateRemindersListOptions,
   UpdateRemindersListResult,
 };

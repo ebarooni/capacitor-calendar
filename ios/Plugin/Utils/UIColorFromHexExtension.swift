@@ -10,6 +10,11 @@ extension UIColor {
 
         guard cleanedHex.count == 6 || cleanedHex.count == 8 else { throw PluginError.invalidColor }
 
+        let hexDigits = CharacterSet(charactersIn: "0123456789ABCDEF")
+        guard cleanedHex.unicodeScalars.allSatisfy({ hexDigits.contains($0) }) else {
+            throw PluginError.invalidColor
+        }
+
         var rgbValue: UInt64 = 0
         Scanner(string: cleanedHex).scanHexInt64(&rgbValue)
 
