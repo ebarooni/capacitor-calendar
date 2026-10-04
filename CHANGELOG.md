@@ -62,7 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 - `GetDefaultRemindersListResult` for `getDefaultRemindersList(...)`
 - `DeleteReminderWithPromptResult` for `deleteReminderWithPrompt(...)`
 - Optional `Calendar.colorName` (`SystemColorName | null`) on calendar/list payloads (`null` on Android)
-- `SystemColorName` and `SystemOrHexColor` (`SystemColorName | \`#\${string}\``) for named|hex color write; `RemindersListColor` kept as an alias
+- `SystemColorName` for named system colors used in color write/read
 
 ### Changed
 
@@ -74,8 +74,8 @@ Changelogs for the versions supporting Capacitor 8.
 - `ModifyEventWithPromptOptions` no longer extends create-prompt options (avoids Web-only fields in modify docs)
 - `fetchAllRemindersSources(...)` now returns `FetchAllCalendarSourcesResult` (same `{ result }` shape)
 - Reminders JSDoc: `sourceId` / `commit` wording, list color named|hex write and hex/`colorName` read, priority `0`–`9`, and Android-null fields on `RemindersList`
-- `createRemindersList` / `updateRemindersList` `color` accepts named colors and hex (`#RRGGBB` / `#RRGGBBAA`); invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
-- `createCalendar` / `modifyCalendar` `color` accepts named|hex (`SystemOrHexColor`); iOS uses the same parse path as reminders lists; Android stays hex-only (named rejects with `Invalid color format.`); omit-on-create remains `#007AFF` (see [BREAKING.md](BREAKING.md#880))
+- `createRemindersList` / `updateRemindersList` / `createCalendar` / `modifyCalendar` `color` is `SystemColorName | \`#\${string}\`` (named or hex); invalid values reject with `Invalid color format.` (see [BREAKING.md](BREAKING.md#880))
+- iOS calendar create/modify uses the same named|hex parse path as reminders lists; Android calendar color stays hex-only (named rejects); omit-on-create for calendars remains `#007AFF`
 
 ### Fixed
 

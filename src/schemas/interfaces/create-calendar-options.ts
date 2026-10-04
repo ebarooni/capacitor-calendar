@@ -1,4 +1,4 @@
-import type { SystemOrHexColor } from '../types/system-or-hex-color';
+import type { SystemColorName } from '../types/system-color-name';
 
 /**
  * @since 5.2.0
@@ -20,7 +20,7 @@ export interface CreateCalendarOptions {
    * @default #007AFF
    * @since 5.2.0
    */
-  color?: SystemOrHexColor;
+  color?: SystemColorName | `#${string}`;
   /**
    * The EventKit source (account) where the calendar should be created.
    *

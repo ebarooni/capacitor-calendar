@@ -48,12 +48,13 @@ See [CHANGELOG.md](CHANGELOG.md#880).
 
 ### Calendar `color` TypeScript type
 
-`CreateCalendarOptions.color` and `ModifyCalendarOptions.color` are now `SystemOrHexColor` (`SystemColorName | \`#\${string}\``) instead of unbound `string`. Runtime hex write and omit-on-create (`#007AFF`) are unchanged. On iOS, named colors are newly accepted; on Android, named colors still reject with `Invalid color format.`
+`CreateCalendarOptions.color` and `ModifyCalendarOptions.color` are now `SystemColorName | \`#\${string}\`` instead of unbound `string`. Reminders-list create/update use the same inline union (no `RemindersListColor` / `SystemOrHexColor` aliases). Runtime hex write and omit-on-create (`#007AFF`) are unchanged. On iOS, named colors are newly accepted for calendars; on Android, named colors still reject with `Invalid color format.`
 
 #### Migration
 
 1. Pass a `SystemColorName` or hex template literal (`#RRGGBB` / `#RRGGBBAA`), or narrow/cast unbound `string` values.
 2. On Android, keep using hex only for calendar color write.
+3. If you imported `RemindersListColor` from a pre-release 8.8.0 build, use the inline union (or `SystemColorName`) instead.
 
 See [CHANGELOG.md](CHANGELOG.md#880).
 

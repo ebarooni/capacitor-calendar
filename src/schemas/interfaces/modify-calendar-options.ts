@@ -1,4 +1,4 @@
-import type { SystemOrHexColor } from '../types/system-or-hex-color';
+import type { SystemColorName } from '../types/system-color-name';
 
 /**
  * @since 7.2.0
@@ -29,5 +29,5 @@ export interface ModifyCalendarOptions {
    * @example #007AFF
    * @since 7.2.0
    */
-  color?: SystemOrHexColor;
+  color?: SystemColorName | `#${string}`;
 }
