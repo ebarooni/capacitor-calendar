@@ -1,5 +1,5 @@
 /**
- * @since 8.4.0
+ * @since 7.3.0
  */
 export interface GetDefaultCalendarOptions {
   /**
@@ -7,7 +7,7 @@ export interface GetDefaultCalendarOptions {
    *
    * @default false
    * @platform Android, iOS
-   * @since 8.4.0
+   * @since 7.3.0
    */
   useFallbackCalendar?: boolean;
 }

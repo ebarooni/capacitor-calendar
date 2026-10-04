@@ -3,7 +3,8 @@ name: Publish Cap 7 package to npm
 # Capacitor 7 maintenance line (branch 7.x).
 # Mirrors the former Cap 5 LTS publish (`latest-5`): npm dist-tag only.
 # Does not create git tags, GitHub Releases, docs deploys, or MCP/Docker publishes.
-# Does not update CHANGELOG/BREAKING — those always follow main.
+# Markdown docs on this branch must match main (no Cap 7–only README/CONTRIBUTING/CHANGELOG/BREAKING).
+# Consumers: npm install @ebarooni/capacitor-calendar@latest-7
 
 on:
   workflow_dispatch:

@@ -1,5 +1,5 @@
 /**
- * @since 8.2.0
+ * @since 7.3.0
  */
 export interface DeleteRemindersListOptions {
   /**
@@ -9,7 +9,7 @@ export interface DeleteRemindersListOptions {
    * @example false
    * @default true
    * @platform iOS
-   * @since 8.2.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**
@@ -17,7 +17,7 @@ export interface DeleteRemindersListOptions {
    *
    * @example 'A1234567-ABCD-EFGH-IJKL-MNOPQRSTUVWX'
    * @platform iOS
-   * @since 8.2.0
+   * @since 7.3.0
    */
   id: string;
 }

@@ -169,36 +169,6 @@ Maintainers may ask for API or naming changes so the plugin stays consistent acr
 
 Package publishing and GitHub releases are maintainer-only. Contributors do not need to run `npm publish` or bump versions.
 
-### Capacitor 7 maintenance (`7.x`)
-
-This branch supports Capacitor 7 apps. Package versions stay on the `7.x.x` line (same major↔Capacitor major mapping as Cap 5/6/7/8 history). `main` stays on Capacitor 8 and `8.x.x`.
-
-**Release docs follow `main`.** Do not invent Cap 7–only entries in `CHANGELOG.md`, `BREAKING.md`, or similar release notes. When features land on `main`, sync those files onto `7.x` (or cherry-pick). Cap 7 npm publishes do not get a parallel changelog or breaking-change story.
-
-To publish a Cap 7 package:
-
-1. On `7.x`, set the version in `package.json` (next `7.x.x` after the last Cap 7 publish). Keep `CHANGELOG.md` / `BREAKING.md` matching `main`.
-2. In GitHub Actions, run **Publish Cap 7 package to npm** (`.github/workflows/publish-latest-7-to-npm.yml`) from branch `7.x` (`workflow_dispatch`).
-3. The workflow publishes to npm with dist-tag **`latest-7`** (same idea as the old Cap 5 `latest-5` tag). It does not update release docs.
-
-Install for Cap 7 apps:
-
-```bash
-npm install @ebarooni/capacitor-calendar@latest-7
-```
-
-This Cap 7 workflow does **not**:
-
-- create git tags (so `release.yml` and `deploy-docs.yml` on `main` do not run)
-- create a GitHub Release
-- deploy GitHub Pages / docs
-- publish the MCP Docker image
-- write Cap 7–only changelog or breaking-change entries
-
-MCP docs and the MCP image stay aligned with the latest `main` / Capacitor 8 package. Cap 7 releases do not change them. Use `main` workflows for Cap 8 npm publish, GitHub Releases, docs, and MCP.
-
-On this branch, `publish-to-npm.yml` and `publish-docker-mcp.yml` are guarded to `main` only so a Cap 7 checkout cannot publish `latest` or the MCP image by mistake. Those guards live on `7.x`; `main` keeps its own workflow files without them.
-
 ## Questions
 
 If something in this guide is unclear, open an issue or ask on the related pull request. Thanks again for contributing.

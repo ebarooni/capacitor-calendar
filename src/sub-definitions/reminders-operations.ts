@@ -27,7 +27,7 @@ export interface RemindersOperations {
    * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
    *
    * @platform iOS
-   * @since 8.1.0
+   * @since 7.3.0
    */
   createRemindersList(options: CreateRemindersListOptions): Promise<CreateRemindersListResult>;
   /**
@@ -36,7 +36,7 @@ export interface RemindersOperations {
    * @throws {Error} `List not found.` — when no list exists for `id`.
    *
    * @platform iOS
-   * @since 8.2.0
+   * @since 7.3.0
    */
   deleteRemindersList(options: DeleteRemindersListOptions): Promise<void>;
   /**
@@ -148,7 +148,7 @@ export interface RemindersOperations {
    * @throws {Error} `Invalid color format.` — when `color` is present but invalid.
    *
    * @platform iOS
-   * @since 8.2.0
+   * @since 7.3.0
    */
   updateRemindersList(options: UpdateRemindersListOptions): Promise<UpdateRemindersListResult>;
 }

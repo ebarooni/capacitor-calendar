@@ -11,7 +11,7 @@ export interface DeleteEventsByIdOptions {
    * @example false
    * @default true
    * @platform iOS
-   * @since 8.3.0
+   * @since 7.3.0
    */
   commit?: boolean;
   /**
