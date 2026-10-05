@@ -9,18 +9,18 @@ paths:
   - 'src/schemas/**'
   - 'src/sub-definitions/**'
 metadata:
-  version: '1.2'
+  version: '1.3'
 ---
 
 # Example App API Sync
 
-## Layout
+## Where things live
 
-- Methods-tab buttons: `example-app/src/index.html` (`#methods-list`)
-- Shared Options chrome + empty `#options-accordion-group`: `index.html`
-- Per-method listeners: `example-app/src/js/methods/<kebab-method>.js`, registered from `methods/index.js`
-- Per-method Options accordion (only when the method has fields): sibling `example-app/src/js/methods/<kebab-method>.options.html`, imported with Vite `?raw` and injected via `injectMethodOptions` before wiring listeners
-- Boot: `example-app/src/js/example.js` — call `registerAllMethods()` before `initColorSelects()` so injected `.color-select` nodes exist; do not put method listeners here
+- Methods-tab buttons live in `example-app/src/index.html` under `#methods-list`.
+- Shared Options fields and the `#options-accordion-group` host live in `index.html`.
+- Each method’s click handler lives in `example-app/src/js/methods/`. Register handlers from `methods/index.js`.
+- Method Options fields (when needed) live in a sibling `*.options.html` next to that method module. See [Adding a new method to the example app](references/add-new-method.md).
+- In `example-app/src/js/example.js`, call `registerAllMethods()` before `initColorSelects()`. The color selects need the Options markup in the page first.
 
 ## Workflow
 
@@ -39,5 +39,4 @@ metadata:
 ## Rules
 
 - Only sync the method(s) affected by the current change — don't proactively add, remove, or rename other methods that weren't part of it, unless explicitly asked
-- Do not put per-method Options accordion markup in `index.html`
-- Do not add Vite HTML plugins or new deps for options partials — use built-in `?raw` only
+- Do not add Vite HTML plugins or new deps for Options partials. Use Vite’s built-in `?raw` import only.
