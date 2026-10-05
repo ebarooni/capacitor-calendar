@@ -2,7 +2,13 @@ import { EventSpan } from '@ebarooni/capacitor-calendar';
 
 /** Append a method's Options-tab accordion markup into the shared host. */
 export function injectMethodOptions(html) {
-  document.querySelector('#options-accordion-group').insertAdjacentHTML('beforeend', html);
+  const host = document.querySelector('#options-accordion-group');
+  // Skip if this method's accordion is already in the host (e.g. register called twice).
+  const accordionValue = /\bvalue="([^"]+)"/.exec(html)?.[1];
+  if (accordionValue && host.querySelector(`[value="${accordionValue}"]`)) {
+    return;
+  }
+  host.insertAdjacentHTML('beforeend', html);
 }
 
 export function getInputValue(selector, fallback = '') {
