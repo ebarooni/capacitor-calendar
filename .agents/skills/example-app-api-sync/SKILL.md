@@ -9,7 +9,7 @@ paths:
   - 'src/schemas/**'
   - 'src/sub-definitions/**'
 metadata:
-  version: '1.3'
+  version: '1.1'
 ---
 
 # Example App API Sync
