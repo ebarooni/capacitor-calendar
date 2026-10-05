@@ -1,11 +1,13 @@
 import { CapacitorCalendar, EventAvailability } from '@ebarooni/capacitor-calendar';
 import { pickNonHolidayCalendar } from '../utils/calendars.js';
-import { getInputValue } from '../utils/dom.js';
+import { getInputValue, injectMethodOptions } from '../utils/dom.js';
 import { setEventId } from '../utils/ids.js';
 import { isWebPlatform } from '../utils/platform.js';
 import { presentToast } from '../utils/toast.js';
+import optionsHtml from './create-event-with-prompt.options.html?raw';
 
 export function registerCreateEventWithPrompt() {
+  injectMethodOptions(optionsHtml);
   document.querySelector('#create-event-with-prompt').addEventListener('click', async () => {
     const isWeb = isWebPlatform();
     const startDate = Date.now() + 24 * 60 * 60 * 1000;

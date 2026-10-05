@@ -1,12 +1,14 @@
 import { CapacitorCalendar, EventAvailability } from '@ebarooni/capacitor-calendar';
 import { pickNonHolidayCalendar } from '../utils/calendars.js';
 import { optionalEventHexColor } from '../utils/color.js';
-import { getInputValue } from '../utils/dom.js';
+import { getInputValue, injectMethodOptions } from '../utils/dom.js';
 import { setEventId } from '../utils/ids.js';
 import { isWebPlatform } from '../utils/platform.js';
 import { presentToast } from '../utils/toast.js';
+import optionsHtml from './create-event.options.html?raw';
 
 export function registerCreateEvent() {
+  injectMethodOptions(optionsHtml);
   document.querySelector('#create-event').addEventListener('click', async () => {
     const isWeb = isWebPlatform();
     const startDate = Date.now();

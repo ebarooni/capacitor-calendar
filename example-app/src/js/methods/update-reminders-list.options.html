@@ -1,0 +1,30 @@
+<ion-accordion value="update-reminders-list">
+  <ion-item slot="header" color="light">
+    <ion-label>updateRemindersList</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-input
+        id="update-reminders-list-title-input"
+        label="Title"
+        label-placement="stacked"
+        value="Updated Groceries list"
+      ></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="ion-no-padding">
+      <div slot="start" id="update-reminders-list-color-swatch" class="color-swatch" aria-hidden="true"></div>
+      <ion-select
+        id="update-reminders-list-color-select"
+        class="color-select"
+        data-color-preset="list"
+        data-swatch="update-reminders-list-color-swatch"
+        data-omit-title="Color omitted (unchanged)"
+        label="Color"
+        label-placement="stacked"
+        interface="popover"
+        value=""
+        helper-text="Named or hex. Omit leaves color unchanged."
+      ></ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>

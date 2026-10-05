@@ -1,5 +1,10 @@
 import { EventSpan } from '@ebarooni/capacitor-calendar';
 
+/** Append a method's Options-tab accordion markup into the shared host. */
+export function injectMethodOptions(html) {
+  document.querySelector('#options-accordion-group').insertAdjacentHTML('beforeend', html);
+}
+
 export function getInputValue(selector, fallback = '') {
   const element = document.querySelector(selector);
   const value = element?.value?.trim();

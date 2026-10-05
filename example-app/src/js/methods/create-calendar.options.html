@@ -1,0 +1,30 @@
+<ion-accordion value="create-calendar">
+  <ion-item slot="header" color="light">
+    <ion-label>createCalendar</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-input
+        id="create-calendar-title-input"
+        label="Title"
+        label-placement="stacked"
+        value="Plugin Test Calendar"
+      ></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="ion-no-padding">
+      <div slot="start" id="create-calendar-color-swatch" class="color-swatch" aria-hidden="true"></div>
+      <ion-select
+        id="create-calendar-color-select"
+        class="color-select"
+        data-color-preset="calendar"
+        data-swatch="create-calendar-color-swatch"
+        data-omit-title="Color omitted (plugin default)"
+        label="Color"
+        label-placement="stacked"
+        interface="popover"
+        value=""
+        helper-text="Named or hex (Android: hex only). Omit uses plugin default #007AFF."
+      ></ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>

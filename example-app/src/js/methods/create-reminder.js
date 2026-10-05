@@ -1,8 +1,10 @@
 import { CapacitorCalendar } from '@ebarooni/capacitor-calendar';
-import { getInputValue } from '../utils/dom.js';
+import { getInputValue, injectMethodOptions } from '../utils/dom.js';
 import { getRemindersListId, setReminderId } from '../utils/ids.js';
+import optionsHtml from './create-reminder.options.html?raw';
 
 export function registerCreateReminder() {
+  injectMethodOptions(optionsHtml);
   document.querySelector('#create-reminder').addEventListener('click', async () => {
     const startDate = Date.now();
     const dueDate = startDate + 60 * 60 * 1000;
