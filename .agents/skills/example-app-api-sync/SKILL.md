@@ -9,7 +9,7 @@ paths:
   - 'src/schemas/**'
   - 'src/sub-definitions/**'
 metadata:
-  version: '1.1'
+  version: '1.2'
 ---
 
 # Example App API Sync
@@ -20,7 +20,7 @@ metadata:
 - Shared Options chrome + empty `#options-accordion-group`: `index.html`
 - Per-method listeners: `example-app/src/js/methods/<kebab-method>.js`, registered from `methods/index.js`
 - Per-method Options accordion (only when the method has fields): sibling `example-app/src/js/methods/<kebab-method>.options.html`, imported with Vite `?raw` and injected via `injectMethodOptions` before wiring listeners
-- Boot: `example-app/src/js/example.js` (init + `registerAllMethods()`; do not put method listeners here)
+- Boot: `example-app/src/js/example.js` — call `registerAllMethods()` before `initColorSelects()` so injected `.color-select` nodes exist; do not put method listeners here
 
 ## Workflow
 
