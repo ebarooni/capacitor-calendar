@@ -1,0 +1,30 @@
+<ion-accordion value="modify-calendar">
+  <ion-item slot="header" color="light">
+    <ion-label>modifyCalendar</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-input
+        id="modify-calendar-title-input"
+        label="Title"
+        label-placement="stacked"
+        value="Updated Plugin Test Calendar"
+      ></ion-input>
+    </ion-item>
+    <ion-item lines="none" class="ion-no-padding">
+      <div slot="start" id="modify-calendar-color-swatch" class="color-swatch" aria-hidden="true"></div>
+      <ion-select
+        id="modify-calendar-color-select"
+        class="color-select"
+        data-color-preset="calendar"
+        data-swatch="modify-calendar-color-swatch"
+        data-omit-title="Color omitted (unchanged)"
+        label="Color"
+        label-placement="stacked"
+        interface="popover"
+        value=""
+        helper-text="Named or hex (Android: hex only). Omit leaves color unchanged."
+      ></ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>

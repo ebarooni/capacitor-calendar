@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   selectMethodsTab();
+  // Method modules inject Options accordion markup before wiring listeners.
+  registerAllMethods();
   initColorSelects();
   initIdFields();
-  registerAllMethods();
 });
