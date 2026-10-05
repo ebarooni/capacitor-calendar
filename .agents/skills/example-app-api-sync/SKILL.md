@@ -19,7 +19,7 @@ metadata:
 - Methods-tab buttons live in `example-app/src/index.html` under `#methods-list`.
 - Shared Options fields and the `#options-accordion-group` host live in `index.html`.
 - Each method’s click handler lives in `example-app/src/js/methods/`. Register handlers from `methods/index.js`.
-- Method Options fields (when needed) live in a sibling `*.options.html` next to that method module. See [Adding a new method to the example app](references/add-new-method.md).
+- Method Options fields (when needed) live in a sibling `*.options.html` next to that method module.
 - In `example-app/src/js/example.js`, call `registerAllMethods()` before `initColorSelects()`. The color selects need the Options markup in the page first.
 
 ## Workflow
