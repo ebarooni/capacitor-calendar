@@ -1,0 +1,20 @@
+<ion-accordion value="select-calendars-with-prompt">
+  <ion-item slot="header" color="light">
+    <ion-label>selectCalendarsWithPrompt</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-select
+        id="select-calendars-multiple-select"
+        label="Multiple"
+        label-placement="stacked"
+        interface="popover"
+        value="false"
+        helper-text="Allow selecting more than one calendar in the chooser"
+      >
+        <ion-select-option value="false">Single</ion-select-option>
+        <ion-select-option value="true">Multiple</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>
