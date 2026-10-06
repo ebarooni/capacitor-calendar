@@ -53,6 +53,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
+- Structured reject code `EB-CLDR-0100` (`CapacitorCalendarErrorCode.MissingDeclaration`) when a required Info.plist usage description or AndroidManifest permission is missing
 - MCP `docs://web-behavior` resource (export-only web model)
 - Web ICS `duration` support (`endDate` wins when both set; same-day all-day durations bump to a one-day exclusive `DTEND`)
 - Web `createEventWithPrompt` (confirm dialog → ICS; cancel resolves with `ics: null`)
