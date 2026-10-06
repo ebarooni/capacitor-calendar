@@ -8,6 +8,7 @@ import { CalendarChooserDisplayStyle } from './schemas/enums/calendar-chooser-di
 import { CalendarPermissionScope } from './schemas/enums/calendar-permission-scope';
 import { CalendarSourceType } from './schemas/enums/calendar-source-type';
 import { CalendarType } from './schemas/enums/calendar-type';
+import { CapacitorCalendarErrorCode } from './schemas/enums/capacitor-calendar-error-code';
 import { EventAvailability } from './schemas/enums/event-availability';
 import { EventSpan } from './schemas/enums/event-span';
 import { EventStatus } from './schemas/enums/event-status';
@@ -133,6 +134,7 @@ export type {
 };
 export {
   CalendarPermissionScope,
+  CapacitorCalendarErrorCode,
   EventAvailability,
   EventSpan,
   CalendarChooserDisplayStyle,
