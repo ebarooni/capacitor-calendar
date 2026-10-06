@@ -7,7 +7,7 @@ Filled out by the api-design skill. This is the single source of truth handed to
 - Task type: `new-method` | `modify-method` | `remove-method`
 - Source task: (link to GitHub issue/PR, or original task text)
 - Breaking change?: yes / no — if yes, see migration notes
-- Target version: Check if the version in `package.json` has already been updated in the branch, if not, a new method is a minor release, a fix or modification of an existing functionality is a patch release and a breaking change is a major release.
+- Target version: If `package.json` equals the latest published `v*` tag / npm `latest`, it is **not** yet bumped for this work — bump first (`version:minor` for a new method, `version:patch` for a fix or non-breaking modification, `version:major` for breaking), then use that new version in `@since`. Only reuse `package.json` when it is already strictly greater than the published baseline.
 
 ## TypeScript Interface
 
