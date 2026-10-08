@@ -32,6 +32,7 @@
 - [Capacitor Compatibility](#capacitor-compatibility)
 - [Installation](#installation)
 - [Setup](#setup)
+- [Errors](#errors)
 - [Quick Start](#quick-start)
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
@@ -150,6 +151,34 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
+
+## Errors
+
+On Android and iOS, plugin rejects may include a stable `error.code` as well as `error.message`. Compare codes with the exported `CapacitorCalendarErrorCode` enum. More codes will land in later releases; this table lists what ships today.
+
+| Code           | Name                 | When                                                                                                    |
+| :------------- | :------------------- | :------------------------------------------------------------------------------------------------------ |
+| `EB-CLDR-0100` | `MissingDeclaration` | A required Info.plist usage description or AndroidManifest permission is missing for the called method. |
+
+The message names the missing key. Examples:
+
+- `Missing Info.plist usage description: NSCalendarsFullAccessUsageDescription.`
+- `Missing AndroidManifest permission: android.permission.READ_CALENDAR.`
+
+```typescript
+import { CapacitorCalendar, CapacitorCalendarErrorCode } from '@ebarooni/capacitor-calendar';
+
+try {
+  await CapacitorCalendar.createEvent({ title: 'Standup', startDate: Date.now() });
+} catch (error) {
+  if (error?.code === CapacitorCalendarErrorCode.MissingDeclaration) {
+    // Fix app Info.plist / AndroidManifest setup — see Setup above
+    console.error(error.message);
+  }
+}
+```
+
+Web has no Info.plist or app manifest check for this code.
 
 ## Quick Start
 
