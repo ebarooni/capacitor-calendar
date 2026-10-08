@@ -60,6 +60,16 @@ import dev.barooni.capacitor.calendar.utils.DeclarationCheck
 )
 class CapacitorCalendarPlugin : Plugin() {
     private val implementation: CapacitorCalendar by lazy { CapacitorCalendar(this) }
+
+    /**
+     * MissingDeclaration checks match what each method's CalendarContract path uses:
+     * - WRITE only: createCalendar, modifyCalendar, requestWriteOnlyCalendarAccess
+     * - READ only: listCalendars, getDefaultCalendar, listEventsInRange, requestReadOnlyCalendarAccess
+     * - READ+WRITE: createEvent (default-calendar query), modifyEvent (all-day query),
+     *   deleteEvent / deleteEventsById / deleteEventWithPrompt (delete-info query),
+     *   deleteCalendar (account lookup query), requestFullCalendarAccess, requestAllPermissions,
+     *   requestPermission by scope
+     */
     private val declarationCheck: DeclarationCheck by lazy { DeclarationCheck(context) }
     private var eventIdOptional = false
 
@@ -400,12 +410,8 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun createCalendar(call: PluginCall) {
         try {
-            if (!declarationCheck.ensureManifestPermissions(
-                    call,
-                    Manifest.permission.READ_CALENDAR,
-                    Manifest.permission.WRITE_CALENDAR,
-                )
-            ) {
+            // Insert-only path; no CalendarContract query.
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)) {
                 return
             }
             val input = CreateCalendarInput(call)
@@ -543,12 +549,8 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun modifyCalendar(call: PluginCall) {
         try {
-            if (!declarationCheck.ensureManifestPermissions(
-                    call,
-                    Manifest.permission.READ_CALENDAR,
-                    Manifest.permission.WRITE_CALENDAR,
-                )
-            ) {
+            // Update-only path; no CalendarContract query.
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)) {
                 return
             }
             val input = ModifyCalendarInput(call)
