@@ -455,6 +455,14 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func rejectCall(_ call: CAPPluginCall, _ error: Error?) {
+        if let pluginError = error as? PluginError {
+            if let code = pluginError.code {
+                call.reject(pluginError.localizedDescription, code)
+            } else {
+                call.reject(pluginError.localizedDescription)
+            }
+            return
+        }
         if let msg = error?.localizedDescription {
             call.reject(msg)
         } else {

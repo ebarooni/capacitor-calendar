@@ -2,9 +2,8 @@ import Capacitor
 import Foundation
 
 /// Early Info.plist usage-description checks for EB-CLDR-0100 MissingDeclaration.
+/// Callers pass only the access level the method actually uses.
 enum DeclarationCheck {
-    static let missingDeclarationCode = "EB-CLDR-0100"
-
     /// Rejects with EB-CLDR-0100 when the Info.plist key for the scope is missing.
     @discardableResult
     static func ensureUsageDescription(_ call: CAPPluginCall, for scope: CalendarPermissionScope) -> Bool {
@@ -36,10 +35,8 @@ enum DeclarationCheck {
     @discardableResult
     private static func ensureUsageDescriptionKey(_ call: CAPPluginCall, key: String) -> Bool {
         guard hasUsageDescription(forKey: key) else {
-            call.reject(
-                "Missing Info.plist usage description: \(key).",
-                missingDeclarationCode
-            )
+            let error = PluginError.missingDeclaration(key)
+            call.reject(error.localizedDescription, error.code)
             return false
         }
         return true

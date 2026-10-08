@@ -565,7 +565,13 @@ class CapacitorCalendarPlugin : Plugin() {
         call: PluginCall,
         error: Exception?,
     ) {
-        call.reject(error?.message ?: PluginError.CustomError("An unknown error has occurred.").message)
+        when (error) {
+            is PluginError -> call.reject(error)
+            else ->
+                call.reject(
+                    error?.message ?: PluginError.CustomError("An unknown error has occurred.").message,
+                )
+        }
     }
 
     private fun resolveCall(call: PluginCall) {

@@ -21,6 +21,7 @@ enum PluginError: LocalizedError {
     case listNotFound
     case listNotModifiable
     case messageMissing
+    case missingDeclaration(String)
     case missingFrequency
     case missingInterval
     case noFieldsToModify
@@ -76,6 +77,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("List is not modifiable.", comment: "List not modifiable error")
         case .messageMissing:
             return NSLocalizedString("Message must be provided.", comment: "Message missing error")
+        case .missingDeclaration(let key):
+            return "Missing Info.plist usage description: \(key)."
         case .missingFrequency:
             return NSLocalizedString("Frequency must be provided.", comment: "Frequency missing error")
         case .missingInterval:
@@ -100,6 +103,16 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Unhandled permission state.", comment: "Unhandled permission state error")
         case .viewControllerMissing:
             return NSLocalizedString("Missing view controller.", comment: "View controller missing error")
+        }
+    }
+
+    /// Cap-style reject code when this error provides one; nil for message-only cases.
+    var code: String? {
+        switch self {
+        case .missingDeclaration:
+            return "EB-CLDR-0100"
+        default:
+            return nil
         }
     }
 }
