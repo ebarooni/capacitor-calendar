@@ -1,7 +1,10 @@
 package dev.barooni.capacitor.calendar
 
+import com.getcapacitor.PluginCall
+
 sealed class PluginError(
     localizedDescription: String,
+    val code: String? = null,
 ) : Exception(localizedDescription) {
     data object AccountNameMissing : PluginError("Account name must be provided.")
 
@@ -43,6 +46,13 @@ sealed class PluginError(
 
     data object MessageMissing : PluginError("Message must be provided.")
 
+    data class MissingDeclaration(
+        val permission: String,
+    ) : PluginError(
+            "Missing AndroidManifest permission: $permission.",
+            "EB-CLDR-0100",
+        )
+
     data object MissingId : PluginError("Event ID must be provided.")
 
     data object MissingScope : PluginError("Scope must be provided.")
@@ -62,4 +72,14 @@ sealed class PluginError(
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")
+}
+
+/** Rejects with Cap-style code when the PluginError provides one; otherwise message only. */
+fun PluginCall.reject(error: PluginError) {
+    val code = error.code
+    if (code != null) {
+        reject(error.message, code)
+    } else {
+        reject(error.message)
+    }
 }

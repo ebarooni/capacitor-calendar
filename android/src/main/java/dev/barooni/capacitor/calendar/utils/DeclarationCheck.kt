@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import com.getcapacitor.PluginCall
+import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
+import dev.barooni.capacitor.calendar.reject
 
 /**
  * Early AndroidManifest permission checks for EB-CLDR-0100 MissingDeclaration.
@@ -24,10 +26,7 @@ class DeclarationCheck(
     ): Boolean {
         for (permission in permissions) {
             if (!isPermissionDeclared(permission)) {
-                call.reject(
-                    "Missing AndroidManifest permission: $permission.",
-                    MISSING_DECLARATION_CODE,
-                )
+                call.reject(PluginError.MissingDeclaration(permission))
                 return false
             }
         }
@@ -60,9 +59,5 @@ class DeclarationCheck(
                 context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
             }
         return packageInfo.requestedPermissions?.contains(permission) == true
-    }
-
-    companion object {
-        const val MISSING_DECLARATION_CODE = "EB-CLDR-0100"
     }
 }
