@@ -1,8 +1,6 @@
 package dev.barooni.capacitor.calendar
 
 import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -34,6 +32,7 @@ import dev.barooni.capacitor.calendar.models.results.ModifyEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
 import dev.barooni.capacitor.calendar.models.templates.JSResult
+import dev.barooni.capacitor.calendar.utils.DeclarationCheck
 
 @CapacitorPlugin(
     name = "CapacitorCalendar",
@@ -61,6 +60,7 @@ import dev.barooni.capacitor.calendar.models.templates.JSResult
 )
 class CapacitorCalendarPlugin : Plugin() {
     private val implementation: CapacitorCalendar by lazy { CapacitorCalendar(this) }
+    private val declarationCheck: DeclarationCheck by lazy { DeclarationCheck(context) }
     private var eventIdOptional = false
 
     @PluginMethod
@@ -98,7 +98,7 @@ class CapacitorCalendarPlugin : Plugin() {
     fun requestPermission(call: PluginCall) {
         try {
             val input = RequestPermissionInput.FromCall(call, ::requestPermissionCallback.name)
-            if (!ensureManifestPermissionsForScope(call, input.scope)) {
+            if (!declarationCheck.ensureManifestPermissionsForScope(call, input.scope)) {
                 return
             }
             implementation.requestPermission(input, ::requestPermissionForAlias)
@@ -120,7 +120,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestAllPermissions(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -148,7 +148,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestWriteOnlyCalendarAccess(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)) {
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)) {
                 return
             }
             val input =
@@ -176,7 +176,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestReadOnlyCalendarAccess(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
                 return
             }
             val input =
@@ -204,7 +204,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun requestFullCalendarAccess(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -279,7 +279,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun createEvent(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -303,7 +303,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_NONE)
     fun modifyEvent(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -332,7 +332,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun listCalendars(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
                 return
             }
             implementation.listCalendars { result, error ->
@@ -360,7 +360,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getDefaultCalendar(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
                 return
             }
             val input = GetDefaultCalendarInput(call)
@@ -400,7 +400,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun createCalendar(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -419,7 +419,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun deleteCalendar(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -468,7 +468,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun deleteEventsById(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -487,7 +487,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun deleteEvent(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -506,7 +506,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun deleteEventWithPrompt(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -529,7 +529,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun listEventsInRange(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
+            if (!declarationCheck.ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)) {
                 return
             }
             val input = ListEventsInRangeInput(call)
@@ -543,7 +543,7 @@ class CapacitorCalendarPlugin : Plugin() {
     @PluginMethod
     fun modifyCalendar(call: PluginCall) {
         try {
-            if (!ensureManifestPermissions(
+            if (!declarationCheck.ensureManifestPermissions(
                     call,
                     Manifest.permission.READ_CALENDAR,
                     Manifest.permission.WRITE_CALENDAR,
@@ -589,57 +589,5 @@ class CapacitorCalendarPlugin : Plugin() {
         } else {
             call.resolve()
         }
-    }
-
-    /**
-     * Rejects with EB-CLDR-0100 when a required AndroidManifest permission is not declared.
-     * @return true when all permissions are declared; false when the call was rejected.
-     */
-    private fun ensureManifestPermissions(
-        call: PluginCall,
-        vararg permissions: String,
-    ): Boolean {
-        for (permission in permissions) {
-            if (!isPermissionDeclared(permission)) {
-                call.reject(
-                    "Missing AndroidManifest permission: $permission.",
-                    MISSING_DECLARATION_CODE,
-                )
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun ensureManifestPermissionsForScope(
-        call: PluginCall,
-        scope: CalendarPermissionScope,
-    ): Boolean =
-        when (scope) {
-            CalendarPermissionScope.READ_CALENDAR ->
-                ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)
-            CalendarPermissionScope.WRITE_CALENDAR ->
-                ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)
-            CalendarPermissionScope.READ_REMINDERS,
-            CalendarPermissionScope.WRITE_REMINDERS,
-            -> true
-        }
-
-    private fun isPermissionDeclared(permission: String): Boolean {
-        val packageInfo =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.packageManager.getPackageInfo(
-                    context.packageName,
-                    PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong()),
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
-            }
-        return packageInfo.requestedPermissions?.contains(permission) == true
-    }
-
-    companion object {
-        private const val MISSING_DECLARATION_CODE = "EB-CLDR-0100"
     }
 }

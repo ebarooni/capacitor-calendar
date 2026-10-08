@@ -29,7 +29,6 @@ This file provides instructions for AI coding agents working on the `ebarooni/ca
 - Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
 - When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
 - When a release includes a breaking change, document it in `BREAKING.md` under that version: what changed, before/after if helpful, and migration steps. Link new versions from the Contents list. Keep `CHANGELOG.md` for the concise release summary and point to `BREAKING.md` for migration detail.
-- When a change adds or changes public API (new export, new `@since`, or a user-facing `CHANGELOG` entry), `package.json` version must be **strictly greater** than the latest git tag (`v*`) / npm `latest`. If it equals a published version, bump first (`npm run version:minor` for additive API, `version:patch` for fixes, `version:major` for breaking), then put `@since` and the new changelog section under that version. Never append to a changelog section that already matches a published tag.
 - Do not add unit or instrumented tests for the plugin (`src/`, `android/`, `ios/`). The project does not maintain a plugin test suite. Do not suggest or land tests in review follow-ups.
 
 ## Tool Preference
