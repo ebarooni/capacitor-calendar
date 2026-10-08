@@ -4,10 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import com.getcapacitor.PluginCall
 import dev.barooni.capacitor.calendar.PluginError
 import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
-import dev.barooni.capacitor.calendar.reject
 
 /**
  * Early AndroidManifest permission checks for EB-CLDR-0100 MissingDeclaration.
@@ -17,35 +15,27 @@ class DeclarationCheck(
     private val context: Context,
 ) {
     /**
-     * Rejects with EB-CLDR-0100 when a required AndroidManifest permission is not declared.
-     * @return true when all permissions are declared; false when the call was rejected.
+     * Throws [PluginError.MissingDeclaration] when a required AndroidManifest permission is not declared.
      */
-    fun ensureManifestPermissions(
-        call: PluginCall,
-        vararg permissions: String,
-    ): Boolean {
+    fun ensureManifestPermissions(vararg permissions: String) {
         for (permission in permissions) {
             if (!isPermissionDeclared(permission)) {
-                call.reject(PluginError.MissingDeclaration(permission))
-                return false
+                throw PluginError.MissingDeclaration(permission)
             }
         }
-        return true
     }
 
-    fun ensureManifestPermissionsForScope(
-        call: PluginCall,
-        scope: CalendarPermissionScope,
-    ): Boolean =
+    fun ensureManifestPermissionsForScope(scope: CalendarPermissionScope) {
         when (scope) {
             CalendarPermissionScope.READ_CALENDAR ->
-                ensureManifestPermissions(call, Manifest.permission.READ_CALENDAR)
+                ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
             CalendarPermissionScope.WRITE_CALENDAR ->
-                ensureManifestPermissions(call, Manifest.permission.WRITE_CALENDAR)
+                ensureManifestPermissions(Manifest.permission.WRITE_CALENDAR)
             CalendarPermissionScope.READ_REMINDERS,
             CalendarPermissionScope.WRITE_REMINDERS,
-            -> true
+            -> Unit
         }
+    }
 
     private fun isPermissionDeclared(permission: String): Boolean {
         val packageInfo =

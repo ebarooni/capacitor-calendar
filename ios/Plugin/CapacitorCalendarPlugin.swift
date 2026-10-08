@@ -28,8 +28,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func createRemindersList(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try CreateRemindersListInput(call: call)
             implementation.createRemindersList(input) { result, error in
                 if let error {
@@ -44,8 +44,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteRemindersList(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try DeleteRemindersListInput(call: call)
             try implementation.deleteRemindersList(input) { error in
                 if let error {
@@ -63,7 +63,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 let input = try RequestPermissionInput(call: call)
-                guard DeclarationCheck.ensureUsageDescription(call, for: input.getScope()) else { return }
+                try DeclarationCheck.ensureUsageDescription(for: input.getScope())
                 let result = try await implementation.requestionPermission(input: input)
                 resolveCall(call, result)
             } catch let error {
@@ -74,9 +74,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func requestAllPermissions(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
-            guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureFullCalendarUsageDescription()
+                try DeclarationCheck.ensureRemindersUsageDescription()
                 let result = try await implementation.requestAllPermissions()
                 resolveCall(call, result)
             } catch let error {
@@ -87,8 +87,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func requestWriteOnlyCalendarAccess(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureWriteOnlyCalendarUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureWriteOnlyCalendarUsageDescription()
                 let result = try await implementation.requestWriteOnlyCalendarAccess()
                 resolveCall(call, result)
             } catch let error {
@@ -103,8 +103,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func requestFullCalendarAccess(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureFullCalendarUsageDescription()
                 let result = try await implementation.requestFullCalendarAccess()
                 resolveCall(call, result)
             } catch let error {
@@ -115,8 +115,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func requestFullRemindersAccess(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureRemindersUsageDescription()
                 let result = try await implementation.requestFullRemindersAccess()
                 resolveCall(call, result)
             } catch let error {
@@ -127,8 +127,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func createEventWithPrompt(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureWriteOnlyCalendarUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureWriteOnlyCalendarUsageDescription()
                 let input = CreateEventWithPromptInput(call: call)
                 let result = try await implementation.createEventWithPrompt(with: input)
                 resolveCall(call, result)
@@ -140,8 +140,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func modifyEventWithPrompt(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureFullCalendarUsageDescription()
                 let input = try ModifyEventWithPromptInput(call: call)
                 let result = try await implementation.modifyEventWithPrompt(input: input)
                 resolveCall(call, result)
@@ -152,8 +152,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func createEvent(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try CreateEventInput(call: call)
             let result = try implementation.createEvent(input: input)
             resolveCall(call, result)
@@ -163,8 +163,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func commit(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             try implementation.commit()
             resolveCall(call)
         } catch let error {
@@ -173,8 +173,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func modifyEvent(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input: ModifyEventInput = try ModifyEventInput(call: call)
             try implementation.modifyEvent(input: input)
             resolveCall(call)
@@ -184,20 +184,24 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func selectCalendarsWithPrompt(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
-        let input = SelectCalendarsWithPromptInput(call: call)
-        implementation.selectCalendarsWithPrompt(input: input) { result, error in
-            if let error {
-                self.rejectCall(call, error)
-                return
+        do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
+            let input = SelectCalendarsWithPromptInput(call: call)
+            implementation.selectCalendarsWithPrompt(input: input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
             }
-            self.resolveCall(call, result)
+        } catch let error {
+            rejectCall(call, error)
         }
     }
 
     @objc public func fetchAllCalendarSources(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             resolveCall(call, try implementation.fetchAllCalendarSources())
         } catch let error {
             rejectCall(call, error)
@@ -205,13 +209,17 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func listCalendars(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
-        implementation.listCalendars { result, error in
-            if let error {
-                self.rejectCall(call, error)
-                return
+        do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
+            implementation.listCalendars { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
             }
-            self.resolveCall(call, result)
+        } catch let error {
+            rejectCall(call, error)
         }
     }
 
@@ -231,20 +239,24 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func getDefaultCalendar(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
-        let input = GetDefaultCalendarInput(call: call)
-        implementation.getDefaultCalendar(input: input) { result, error in
-            if let error {
-                self.rejectCall(call, error)
-                return
+        do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
+            let input = GetDefaultCalendarInput(call: call)
+            implementation.getDefaultCalendar(input: input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
             }
-            self.resolveCall(call, result)
+        } catch let error {
+            rejectCall(call, error)
         }
     }
 
     @objc public func getDefaultRemindersList(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let result = try implementation.getDefaultRemindersList()
             resolveCall(call, result)
         } catch let error {
@@ -253,8 +265,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func getRemindersLists(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let result = try implementation.getRemindersLists()
             resolveCall(call, result)
         } catch let error {
@@ -275,8 +287,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func createCalendar(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try CreateCalendarInput(call: call)
             let result = try implementation.createCalendar(input: input)
             resolveCall(call, result)
@@ -286,8 +298,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteCalendar(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try DeleteCalendarInput(call: call)
             try implementation.deleteCalendar(input: input)
             resolveCall(call)
@@ -297,8 +309,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func createReminder(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try CreateReminderInput(call: call)
             let result = try implementation.createReminder(input: input)
             resolveCall(call, result)
@@ -308,8 +320,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteRemindersById(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try DeleteRemindersByIdInput(call: call)
             let result = try implementation.deleteRemindersById(input)
             resolveCall(call, result)
@@ -319,8 +331,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteReminder(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try DeleteReminderInput(call: call)
             try implementation.deleteReminder(input)
             resolveCall(call)
@@ -330,8 +342,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func modifyReminder(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try ModifyReminderInput(call: call)
             try implementation.modifyReminder(input)
             resolveCall(call)
@@ -341,8 +353,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func getReminderById(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try GetReminderByIdInput(call: call)
             let result = try implementation.getReminderById(input)
             resolveCall(call, result)
@@ -353,8 +365,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func getRemindersFromLists(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureRemindersUsageDescription()
                 let input = try GetRemindersFromListsInput(call: call)
                 let result = try await implementation.getRemindersFromLists(input)
                 resolveCall(call, result)
@@ -365,8 +377,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteEventsById(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try DeleteEventsByIdInput(call: call)
             let result = try implementation.deleteEventsById(input)
             resolveCall(call, result)
@@ -376,8 +388,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteEvent(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try DeleteEventInput(call: call)
             try implementation.deleteEvent(input)
             resolveCall(call)
@@ -388,8 +400,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func deleteEventWithPrompt(_ call: CAPPluginCall) {
         Task {
-            guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
             do {
+                try DeclarationCheck.ensureFullCalendarUsageDescription()
                 let input = try DeleteEventWithPromptInput(call: call)
                 let result = try await implementation.deleteEventWithPrompt(input)
                 resolveCall(call, result)
@@ -400,8 +412,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try ListEventsInRangeInput(call: call)
             let result = try implementation.listEventsInRange(input)
             resolveCall(call, result)
@@ -411,8 +423,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func modifyCalendar(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureFullCalendarUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try ModifyCalendarInput(call: call)
             try implementation.modifyCalendar(input)
             resolveCall(call)
@@ -422,8 +434,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func deleteReminderWithPrompt(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try DeleteReminderWithPromptInput(call: call)
             try implementation.deleteReminderWithPrompt(input) { result in
                 switch result {
@@ -439,8 +451,8 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func updateRemindersList(_ call: CAPPluginCall) {
-        guard DeclarationCheck.ensureRemindersUsageDescription(call) else { return }
         do {
+            try DeclarationCheck.ensureRemindersUsageDescription()
             let input = try UpdateRemindersListInput(call: call)
             try implementation.updateRemindersList(input) { result, error in
                 if let error {
