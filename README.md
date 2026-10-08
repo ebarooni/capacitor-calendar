@@ -154,10 +154,12 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Error codes
 
-On Android and iOS, a rejected call can expose `error.code` (stable category) and `error.message` (exact cause). Compare codes with the exported `CapacitorCalendarErrorCode` enum. The set will grow; codes shipped today:
+On Android and iOS, a rejected call can expose `error.code` (stable category) and `error.message` (exact cause). Compare codes with the exported `CapacitorCalendarErrorCode` enum.
 
-| Code           | Name                 | When                                                                              |
-| :------------- | :------------------- | :-------------------------------------------------------------------------------- |
+Defined codes:
+
+| Code           | Name                 | When                                                                            |
+| :------------- | :------------------- | :------------------------------------------------------------------------------ |
 | `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set. |
 
 ## Quick Start
