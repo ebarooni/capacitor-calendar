@@ -9,6 +9,7 @@ import dev.barooni.capacitor.calendar.models.enums.CalendarPermissionScope
 
 /**
  * Early AndroidManifest permission checks for EB-CLDR-0100 MissingDeclaration.
+ * Callers pass only the permissions the method actually uses.
  */
 class DeclarationCheck(
     private val context: Context,
