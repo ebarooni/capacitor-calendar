@@ -1,45 +1,36 @@
-import Capacitor
 import Foundation
 
 /// Early Info.plist usage-description checks for EB-CLDR-0100 MissingDeclaration.
 /// Callers pass only the access level the method actually uses.
 enum DeclarationCheck {
-    /// Rejects with EB-CLDR-0100 when the Info.plist key for the scope is missing.
-    @discardableResult
-    static func ensureUsageDescription(_ call: CAPPluginCall, for scope: CalendarPermissionScope) -> Bool {
+    /// Throws `PluginError.missingDeclaration` when the Info.plist key for the scope is missing.
+    static func ensureUsageDescription(for scope: CalendarPermissionScope) throws {
         switch scope {
         case .writeCalendar:
-            return ensureWriteOnlyCalendarUsageDescription(call)
+            try ensureWriteOnlyCalendarUsageDescription()
         case .readCalendar:
-            return ensureFullCalendarUsageDescription(call)
+            try ensureFullCalendarUsageDescription()
         case .writeReminders, .readReminders:
-            return ensureRemindersUsageDescription(call)
+            try ensureRemindersUsageDescription()
         }
     }
 
-    @discardableResult
-    static func ensureWriteOnlyCalendarUsageDescription(_ call: CAPPluginCall) -> Bool {
-        ensureUsageDescriptionKey(call, key: requiredWriteOnlyCalendarUsageDescriptionKey())
+    static func ensureWriteOnlyCalendarUsageDescription() throws {
+        try ensureUsageDescriptionKey(requiredWriteOnlyCalendarUsageDescriptionKey())
     }
 
-    @discardableResult
-    static func ensureFullCalendarUsageDescription(_ call: CAPPluginCall) -> Bool {
-        ensureUsageDescriptionKey(call, key: requiredFullCalendarUsageDescriptionKey())
+    static func ensureFullCalendarUsageDescription() throws {
+        try ensureUsageDescriptionKey(requiredFullCalendarUsageDescriptionKey())
     }
 
-    @discardableResult
-    static func ensureRemindersUsageDescription(_ call: CAPPluginCall) -> Bool {
-        ensureUsageDescriptionKey(call, key: requiredRemindersUsageDescriptionKey())
+    static func ensureRemindersUsageDescription() throws {
+        try ensureUsageDescriptionKey(requiredRemindersUsageDescriptionKey())
     }
 
-    @discardableResult
-    private static func ensureUsageDescriptionKey(_ call: CAPPluginCall, key: String) -> Bool {
+    private static func ensureUsageDescriptionKey(_ key: String) throws {
         guard hasUsageDescription(forKey: key) else {
-            let error = PluginError.missingDeclaration(key)
-            call.reject(error.localizedDescription, error.code)
-            return false
+            throw PluginError.missingDeclaration(key)
         }
-        return true
     }
 
     private static func hasUsageDescription(forKey key: String) -> Bool {
