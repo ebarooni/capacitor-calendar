@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.9.0](#890)
   - [8.8.0](#880)
   - [8.7.1](#871)
   - [8.7.0](#870)
@@ -48,6 +49,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.9.0
+
+### Added
+
+- Structured reject code `EB-CLDR-0100` (`CapacitorCalendarErrorCode.MissingDeclaration`) when a required Info.plist usage description or AndroidManifest permission is missing
 
 ## 8.8.0
 

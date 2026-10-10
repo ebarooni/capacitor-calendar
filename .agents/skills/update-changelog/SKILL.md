@@ -10,21 +10,22 @@ paths:
   - 'ios/**'
   - 'android/**'
 metadata:
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Update Changelog
 
 ## 1. Prepare the release version
 
-1. Read `package.json` and determine the current package version
-2. Decide if a version bump is needed:
-   If the version has already been raised, check the releases on GitHub. If there are no releases for this branch, the current version is the planned release version and doesn't need changing.
-3. If the version has not been raised, ask what the release is (patch/minor/major), then run:
+1. Read `package.json` and determine the current package version `V`
+2. Resolve the published baseline: latest `v*` git tag (fallback: `npm view @ebarooni/capacitor-calendar version` for npm `latest`)
+3. Treat `V` as the planned release only when it is strictly greater than that baseline (not yet published / not yet tagged). If `V` equals the baseline, bump first — do not append new notes under an already-published section:
 
 - patch: `npm run version:patch`
 - minor: `npm run version:minor`
 - major: `npm run version:major`
+
+4. Ask which bump to use when the change type is unclear (additive API → minor; fix → patch; breaking → major)
 
 ## 2. Identify changes
 
@@ -38,7 +39,7 @@ metadata:
 
 - If not, add it to the content table and create a section for the new version
 
-2. If the current version section already exists, reuse the existing section and add only missing changelog-worthy changes (do not duplicate existing entries)
+2. If the current (unpublished) version section already exists, reuse it and add only missing changelog-worthy changes (do not duplicate existing entries)
 3. Use these categories to describe the changes:
 
 - Added: new features
@@ -54,4 +55,5 @@ metadata:
 - Keep entries concise and specific
 - Prefer one entry for one meaningful API change rather than one entry per commit or file
 - Describe user-visible API changes, not implementation details
+- Changelog sections for versions that already have a git tag / npm publish are read-only; never append new release notes there
 - All previous release sections are historical records and are strictly read-only
