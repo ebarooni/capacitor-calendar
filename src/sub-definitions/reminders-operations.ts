@@ -41,7 +41,6 @@ export interface RemindersOperations {
   deleteRemindersList(options: DeleteRemindersListOptions): Promise<void>;
   /**
    * Retrieves a list of calendar sources.
-   * Returns the same result as {@link CalendarOperations#fetchAllCalendarSources}.
    *
    * @deprecated Duplicates {@link CalendarOperations#fetchAllCalendarSources}
    * @platform iOS
