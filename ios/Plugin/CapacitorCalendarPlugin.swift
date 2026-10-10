@@ -223,6 +223,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    /// Returns the same result as `fetchAllCalendarSources` (including its declaration check).
     @objc public func fetchAllRemindersSources(_ call: CAPPluginCall) {
         fetchAllCalendarSources(call)
     }
