@@ -468,19 +468,9 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func rejectCall(_ call: CAPPluginCall, _ error: Error?) {
-        if let pluginError = error as? PluginError {
-            if let code = pluginError.code {
-                call.reject(pluginError.localizedDescription, code)
-            } else {
-                call.reject(pluginError.localizedDescription)
-            }
-            return
-        }
-        if let msg = error?.localizedDescription {
-            call.reject(msg)
-        } else {
-            call.reject(PluginError.customError("An unknown error has occured.").localizedDescription)
-        }
+        let message = error?.localizedDescription
+            ?? PluginError.customError("An unknown error has occured.").localizedDescription
+        call.reject(message, (error as? PluginError)?.code)
     }
 
     private func resolveCall(_ call: CAPPluginCall) {
