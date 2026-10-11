@@ -15,10 +15,10 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 1. Confirm the target major and channel. Prerelease uses `@next`. GA Cap packages use `^N`; peers follow Cap / the current repo pattern (e.g. `>=N.0.0`). Ask if unclear.
 
-2. Before Cap N deps on `main`, prepare `latest-(N-1)` so the publish workflow ends up on both `main` and `N-1.x` (same idea as today’s `publish-latest-7-to-npm.yml` on `main`):
+2. Before Cap N deps on `main`, prepare `latest-(N-1)` with the publish workflow on `main` only (same pattern as today’s `publish-latest-7-to-npm.yml`: dispatch from `main`, job checks out `N-1.x`). Do not require the YAML on `N-1.x`:
    - On `main` still Cap N-1: add or update the `latest-(N-1)` publish workflow.
-   - Create branch `N-1.x` from that tip (e.g. Cap 9 → cut `8.x`) so `N-1.x` also has the workflow.
-   - Then continue the Cap N upgrade on `main`; the workflow stays on `main`.
+   - Create branch `N-1.x` from that tip for the maintenance code line (e.g. Cap 9 → cut `8.x`).
+   - Continue the Cap N upgrade on `main`; the workflow stays on `main` only.
    This is part of the upgrade workstream, not post-merge-only and not README-only.
 
 3. Read Cap’s app and plugin update guides only (full URLs). Do not paste their tables into the PR or this skill.
@@ -49,7 +49,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 ## Out of scope
 
-- Actually publishing or cutting release tags (workflow YAML for `latest-(N-1)` on both `main` and `N-1.x` belongs in step 2; do not skip it)
+- Actually publishing or cutting release tags (workflow YAML for `latest-(N-1)` on `main` belongs in step 2; do not skip it)
 - Mirroring Cap docs into the skill or PR
 - Auto-merge, inventing native test suites, or unrelated feature work in the Cap N upgrade
 - Hard-coding alpha version pins in this skill body
