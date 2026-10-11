@@ -40,6 +40,12 @@ When multiple tools can perform the same task, use them in this order:
 3. Command-line tools
 4. Direct API requests
 
+## Capacitor Major Support
+
+- `main` / `latest`: current Cap major.
+- `N-1.x` / `latest-(N-1)`: previous Cap major; kept in feature sync with `main` when practical. It continues to receive updates while it is N-1.
+- Cap N-2 and earlier (`N-2.x` / `latest-(N-2)`, …): no longer kept in sync with new features (for example, after Cap 9, `7.x` / `latest-7` stops tracking new features).
+
 ## Project Overview
 
 - `src/`: Public TypeScript API and web implementation
