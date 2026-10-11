@@ -25,15 +25,9 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - Prerelease / upcoming major: `https://capacitorjs.com/docs/next/updating/N-0` and `https://capacitorjs.com/docs/next/updating/plugins/N-0`
    - Stable major: drop `next` — e.g. Cap 8 is `https://capacitorjs.com/docs/updating/8-0` and `https://capacitorjs.com/docs/updating/plugins/8-0`
 
-4. On `main`, follow the manual steps in those Cap guides to update the plugin and the example-app. Do not treat Cap migration CLIs as the primary path. Review the diff before further edits.
+4. On `main`, follow the manual steps in those Cap guides to update the plugin and the example-app. Cap guides are authoritative for what to change. Do not treat Cap migration CLIs as the primary path. Review the diff before further edits.
 
-5. Apply Cap N repo touchpoints on `main` for both the plugin and the example-app:
-   - Root and example-app Cap packages; `peerDependencies`
-   - `Package.swift` (platform, Cap SPM, drop unconditional Cordova product when Cap removes it)
-   - `.podspec`
-   - Android Gradle including `gradle-wrapper.properties` and example-app Gradle trees as Cap lists (AGP, SDKs, drop what Cap removes)
-   - Example-app Podfile / AppDelegate
-   - `.nvmrc` if Cap raises Node
+5. After the Cap manual sections, do a short repo-path cross-check (not a second migration checklist). Confirm this repo’s usual paths were touched when the guides called for them: root and example-app Cap packages / `peerDependencies`, `Package.swift`, `.podspec`, plugin and example-app Gradle trees and wrappers, example-app Podfile / AppDelegate, `.nvmrc` if Cap raises Node.
 
 6. Grep removed APIs and symbols from the Cap guides for the target major only. Fix only hits.
 
