@@ -21,6 +21,7 @@
 		7C265CCD2EA98E62005E867C /* UIColorFromHexExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CC52EA98E62005E867C /* UIColorFromHexExtension.swift */; };
 		7C265CCE2EA98E62005E867C /* CreateEventInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C962EA98E62005E867C /* CreateEventInput.swift */; };
 		7C265CCF2EA98E62005E867C /* ImplementationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CC42EA98E62005E867C /* ImplementationHelper.swift */; };
+		7C9DEC022FEA100100A864E4 /* DeclarationCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9DEC012FEA100100A864E4 /* DeclarationCheck.swift */; };
 		7C265CD02EA98E62005E867C /* GetRemindersFromListsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CB72EA98E62005E867C /* GetRemindersFromListsResult.swift */; };
 		7C265CD12EA98E62005E867C /* DeleteEventWithPromptInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C9C2EA98E62005E867C /* DeleteEventWithPromptInput.swift */; };
 		7C265CD22EA98E62005E867C /* OpenCalendarInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CA72EA98E62005E867C /* OpenCalendarInput.swift */; };
@@ -141,6 +142,7 @@
 		7C265CC32EA98E62005E867C /* PluginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginError.swift; sourceTree = "<group>"; };
 		7C265CC42EA98E62005E867C /* ImplementationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImplementationHelper.swift; sourceTree = "<group>"; };
 		7C265CC52EA98E62005E867C /* UIColorFromHexExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorFromHexExtension.swift; sourceTree = "<group>"; };
+		7C9DEC012FEA100100A864E4 /* DeclarationCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclarationCheck.swift; sourceTree = "<group>"; };
 		7C265CF92EA98EFE005E867C /* CapacitorCalendarPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapacitorCalendarPluginTests.swift; sourceTree = "<group>"; };
 		7C265CFA2EA98EFE005E867C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C8CC2FC2FDD4FFE008D1AB7 /* CreateRemindersListInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRemindersListInput.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 		7C265CC62EA98E62005E867C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7C9DEC012FEA100100A864E4 /* DeclarationCheck.swift */,
 				7C265CC42EA98E62005E867C /* ImplementationHelper.swift */,
 				7C265CC52EA98E62005E867C /* UIColorFromHexExtension.swift */,
 			);
@@ -543,6 +546,7 @@
 				7C265CCD2EA98E62005E867C /* UIColorFromHexExtension.swift in Sources */,
 				7C265CCE2EA98E62005E867C /* CreateEventInput.swift in Sources */,
 				7C265CCF2EA98E62005E867C /* ImplementationHelper.swift in Sources */,
+				7C9DEC022FEA100100A864E4 /* DeclarationCheck.swift in Sources */,
 				7C265CD02EA98E62005E867C /* GetRemindersFromListsResult.swift in Sources */,
 				7C265CD12EA98E62005E867C /* DeleteEventWithPromptInput.swift in Sources */,
 				7C265CD22EA98E62005E867C /* OpenCalendarInput.swift in Sources */,

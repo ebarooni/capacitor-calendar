@@ -2,6 +2,7 @@ package dev.barooni.capacitor.calendar
 
 sealed class PluginError(
     localizedDescription: String,
+    val code: String? = null,
 ) : Exception(localizedDescription) {
     data object AccountNameMissing : PluginError("Account name must be provided.")
 
@@ -42,6 +43,13 @@ sealed class PluginError(
     data object InvalidScope : PluginError("Invalid scope.")
 
     data object MessageMissing : PluginError("Message must be provided.")
+
+    data class MissingDeclaration(
+        val permission: String,
+    ) : PluginError(
+            "Missing AndroidManifest permission: $permission.",
+            "EB-CLDR-0100",
+        )
 
     data object MissingId : PluginError("Event ID must be provided.")
 

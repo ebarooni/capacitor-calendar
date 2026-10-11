@@ -32,6 +32,7 @@
 - [Capacitor Compatibility](#capacitor-compatibility)
 - [Installation](#installation)
 - [Setup](#setup)
+- [Error codes](#error-codes)
 - [Quick Start](#quick-start)
 - [Usage Examples](#usage-examples)
 - [Documentation](#documentation)
@@ -150,6 +151,16 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 - **iOS:** [Migrating to the Latest Calendar Access Levels](https://developer.apple.com/documentation/technotes/tn3152-migrating-to-the-latest-calendar-access-levels)
 - **Android:** [Calendar Provider User Permissions](https://developer.android.com/identity/providers/calendar-provider#manifest)
+
+## Error codes
+
+On Android and iOS, a rejected call can expose `error.code` (stable category) and `error.message` (exact cause). Compare codes with the exported `CapacitorCalendarErrorCode` enum.
+
+Defined codes:
+
+| Code           | Name                 | When                                                                            |
+| :------------- | :------------------- | :------------------------------------------------------------------------------ |
+| `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set. |
 
 ## Quick Start
 
