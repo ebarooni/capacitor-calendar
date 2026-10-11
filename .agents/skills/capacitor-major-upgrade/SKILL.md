@@ -35,7 +35,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - Example-app Podfile / AppDelegate
    - `.nvmrc` if Cap raises Node
 
-6. Grep for Cap’s removed APIs and symbols from the current guides. Fix only hits. Treat any Cap 9 name list as illustrative only.
+6. Grep removed APIs and symbols from the Cap guides for the target major only. Fix only hits.
 
 7. Update README Compatibility and header Cap badges for the support model:
    - `main` → Cap N / `latest`
