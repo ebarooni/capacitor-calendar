@@ -4,7 +4,7 @@ description: >
   Use when explicitly asked to upgrade this plugin to a new Capacitor major version.
   Do not use for Cap patch or minor bumps, previous-major Cap backports, API feature work, or publish/release tasks.
 metadata:
-  version: '1.1'
+  version: '1.0'
 ---
 
 # Capacitor Major Upgrade
