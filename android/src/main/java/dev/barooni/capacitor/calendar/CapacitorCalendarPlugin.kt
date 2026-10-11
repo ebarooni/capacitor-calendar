@@ -517,17 +517,10 @@ class CapacitorCalendarPlugin : Plugin() {
         call: PluginCall,
         error: Exception?,
     ) {
-        when (error) {
-            is PluginError -> {
-                call.reject(error)
-            }
-
-            else -> {
-                call.reject(
-                    error?.message ?: PluginError.CustomError("An unknown error has occurred.").message,
-                )
-            }
-        }
+        val message =
+            error?.message
+                ?: PluginError.CustomError("An unknown error has occurred.").message
+        call.reject(message, (error as? PluginError)?.code)
     }
 
     private fun resolveCall(call: PluginCall) {

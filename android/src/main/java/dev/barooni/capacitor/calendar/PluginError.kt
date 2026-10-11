@@ -1,7 +1,5 @@
 package dev.barooni.capacitor.calendar
 
-import com.getcapacitor.PluginCall
-
 sealed class PluginError(
     localizedDescription: String,
     val code: String? = null,
@@ -72,14 +70,4 @@ sealed class PluginError(
     data class Unimplemented(
         val methodName: String,
     ) : PluginError("$methodName is not implemented on Android.")
-}
-
-/** Rejects with Cap-style code when the PluginError provides one; otherwise message only. */
-fun PluginCall.reject(error: PluginError) {
-    val code = error.code
-    if (code != null) {
-        reject(error.message, code)
-    } else {
-        reject(error.message)
-    }
 }
