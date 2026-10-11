@@ -27,13 +27,19 @@ class DeclarationCheck(
 
     fun ensureManifestPermissionsForScope(scope: CalendarPermissionScope) {
         when (scope) {
-            CalendarPermissionScope.READ_CALENDAR ->
+            CalendarPermissionScope.READ_CALENDAR -> {
                 ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
-            CalendarPermissionScope.WRITE_CALENDAR ->
+            }
+
+            CalendarPermissionScope.WRITE_CALENDAR -> {
                 ensureManifestPermissions(Manifest.permission.WRITE_CALENDAR)
+            }
+
             CalendarPermissionScope.READ_REMINDERS,
             CalendarPermissionScope.WRITE_REMINDERS,
-            -> Unit
+            -> {
+                Unit
+            }
         }
     }
 
