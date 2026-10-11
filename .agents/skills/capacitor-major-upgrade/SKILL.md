@@ -15,13 +15,13 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 1. Confirm the target major and channel. Prerelease uses `@next`. GA Cap packages use `^N`; peers follow Cap / the current repo pattern (e.g. `>=N.0.0`). Ask if unclear.
 
-2. Check open GitHub issues whose titles mark a breaking change (usually `!`). Address those before Cap N ships; fold that work into this upgrade when practical.
-
-3. Before Cap N deps on `main`, prepare `latest-(N-1)` with the publish workflow on `main` only (same pattern as today’s `publish-latest-7-to-npm.yml`: dispatch from `main`, job checks out `N-1.x`). Do not require the YAML on `N-1.x`:
+2. Before Cap N deps on `main`, prepare `latest-(N-1)` with the publish workflow on `main` only (same pattern as today’s `publish-latest-7-to-npm.yml`: dispatch from `main`, job checks out `N-1.x`). Do not require the YAML on `N-1.x`:
    - On `main` still Cap N-1: add or update the `latest-(N-1)` publish workflow.
    - Create branch `N-1.x` from that tip for the maintenance code line (e.g. Cap 9 → cut `8.x`).
    - Continue the Cap N upgrade on `main`; the workflow stays on `main` only.
      This is part of the upgrade workstream, not post-merge-only and not README-only.
+
+3. Check all open GitHub issues whose titles mark a breaking change (usually `!`). Implement and close them as part of Cap N work on `main` after the branch cut (not on the N-1 maintenance line). Ask the repo owner before deferring any.
 
 4. Read Cap’s app and plugin update guides only. Do not paste their tables into the PR or this skill.
    - Prerelease / upcoming major: `https://capacitorjs.com/docs/next/updating/N-0` and `https://capacitorjs.com/docs/next/updating/plugins/N-0`
@@ -45,7 +45,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 ## Out of scope
 
-- Actually publishing or cutting release tags (workflow YAML for `latest-(N-1)` on `main` belongs in step 3; do not skip it)
+- Actually publishing or cutting release tags (workflow YAML for `latest-(N-1)` on `main` belongs in step 2; do not skip it)
 - Mirroring Cap docs into the skill or PR
 - Auto-merge, inventing native test suites, or unrelated feature work in the Cap N upgrade
 - Hard-coding alpha version pins in this skill body
