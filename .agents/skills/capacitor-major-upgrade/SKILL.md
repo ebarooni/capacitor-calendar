@@ -9,36 +9,35 @@ metadata:
 
 # Capacitor Major Upgrade
 
-Thin checklist for moving the plugin and example-app to Capacitor major N. Stop at a draft PR. The repo owner owns device test, merge, and publish.
+Thin checklist for moving the plugin and example-app to Capacitor major N. Stop at a draft PR. The repo owner confirms, device-tests, merges, and publishes.
 
 ## Workflow
 
 1. Confirm the target major and channel. Prerelease uses `@next`. GA Cap packages use `^N`; peers follow Cap / the current repo pattern (e.g. `>=N.0.0`). Ask if unclear.
 
-2. Read Cap’s app and plugin update guides only (full URLs). Do not paste their tables into the PR or this skill.
+2. From latest `main` still on Cap N-1 (before any Cap N dep changes): create branch `N-1.x` (e.g. Cap 9 → cut `8.x` from the current Cap 8 tip). In that same step, on that branch, add or update the publish workflow for `latest-(N-1)`. This is part of the upgrade workstream, not post-merge-only and not README-only.
+
+3. Read Cap’s app and plugin update guides only (full URLs). Do not paste their tables into the PR or this skill.
    - Prerelease / upcoming major: `https://capacitorjs.com/docs/next/updating/N-0` and `https://capacitorjs.com/docs/next/updating/plugins/N-0`
    - Stable major: drop `next` — e.g. Cap 8 is `https://capacitorjs.com/docs/updating/8-0` and `https://capacitorjs.com/docs/updating/plugins/8-0`
 
-3. Run Cap migration tooling from the right cwd when documented (`plugin-migration-v{N-1}-to-v{N}` from plugin root; `cap migrate` from `example-app/`). Review the diff before further edits.
+4. On `main`, run Cap migration tooling from the right cwd when documented (`plugin-migration-v{N-1}-to-v{N}` from plugin root; `cap migrate` from `example-app/`). Review the diff before further edits.
 
-4. Apply repo touchpoints for both the plugin and the example-app:
+5. Apply Cap N repo touchpoints on `main` for both the plugin and the example-app:
    - Root and example-app Cap packages; `peerDependencies`
    - `Package.swift` (platform, Cap SPM, drop unconditional Cordova product when Cap removes it)
    - `.podspec`
-   - `android/build.gradle` (AGP, Gradle, SDKs, drop what Cap removes)
-   - Example-app Gradle / Podfile / AppDelegate
+   - Android Gradle including `gradle-wrapper.properties` and example-app Gradle trees as Cap lists (AGP, SDKs, drop what Cap removes)
+   - Example-app Podfile / AppDelegate
    - `.nvmrc` if Cap raises Node
 
-5. Grep for Cap’s removed APIs and symbols from the guides. Fix only hits. Example for Cap 9 today: `hasOption`, Cordova SPM product, Kotlin plugin / `core-ktx` / `targetSdkVersion`.
+6. Grep for Cap’s removed APIs and symbols from the current guides. Fix only hits. Treat any Cap 9 name list as illustrative only.
 
-6. Update README Compatibility and npm-tag wording for the support model on upgrade to Cap N:
+7. Update README Compatibility and header Cap badges for the support model:
    - `main` → Cap N / `latest`
-   - Cut branch `N-1.x` so Cap N-1 can still get updates as `latest-(N-1)` (e.g. Cap 9 → `8.x` / `latest-8`)
-   - Keep Cap N-1 in feature sync with `main` when practical
-   - Cap N-2 and older are no longer kept in sync (e.g. Cap 9 → `7.x` / `latest-7` stops tracking new features)
-   Update badges and tag guidance. Touch BREAKING/CHANGELOG only if needed. No unrelated API work.
-
-7. Note or prepare cutting `N-1.x` from the Cap N-1 tip before `main` is Cap N-only. The repo owner confirms the cut and publish workflows.
+   - Cap N-1 → `latest-(N-1)`, kept in feature sync with `main` when practical
+   - Cap N-2 and older → not kept in sync (e.g. Cap 9 → `7.x` / `latest-7` stops tracking new features)
+   Touch BREAKING/CHANGELOG only if needed. No unrelated API work.
 
 8. Run `npm run bootstrap:app` and whatever else the environment can verify. Note native limits (no Xcode / device smoke here).
 
@@ -46,7 +45,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 ## Out of scope
 
-- Actually publishing or cutting release tags
+- Actually publishing or cutting release tags (workflow YAML for `latest-(N-1)` belongs in step 2; do not skip it)
 - Mirroring Cap docs into the skill or PR
-- Auto-merge, inventing native test suites, or unrelated feature work in the same PR
+- Auto-merge, inventing native test suites, or unrelated feature work in the Cap N upgrade
 - Hard-coding alpha version pins in this skill body
