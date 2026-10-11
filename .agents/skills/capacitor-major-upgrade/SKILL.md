@@ -9,7 +9,7 @@ metadata:
 
 # Capacitor Major Upgrade
 
-Thin checklist for moving the plugin and example-app to Capacitor major N. Stop at a draft PR. Ehsan owns device test, merge, and publish.
+Thin checklist for moving the plugin and example-app to Capacitor major N. Stop at a draft PR. The repo owner owns device test, merge, and publish.
 
 ## Workflow
 
@@ -35,7 +35,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
 
 7. Run `npm run bootstrap:app` and whatever else the environment can verify. Note native limits (no Xcode / device smoke here).
 
-8. Open a draft PR. State that Ehsan must checkout and test before merge. List residual risks.
+8. Open a draft PR. State that the repo owner must checkout and test before merge. List residual risks.
 
 ## Out of scope
 
