@@ -40,6 +40,14 @@ When multiple tools can perform the same task, use them in this order:
 3. Command-line tools
 4. Direct API requests
 
+## Capacitor Major Support
+
+- `main` tracks the current Cap major and publishes as `latest`.
+- On a Cap major bump to N: cut branch `N-1.x` from pre-upgrade `main`, and add the `latest-(N-1)` publish workflow on `main` only (dispatch from `main`, job checkouts `N-1.x`, like Cap 7).
+- Cap N-1 (`N-1.x` / `latest-(N-1)`) is the previous major kept in feature sync with `main` when practical. It continues to receive updates.
+- Cap N-2 and older are no longer kept in sync with new features (for example, when Cap 9 lands, `7.x` / `latest-7` stops tracking new features).
+- For an explicit Cap major upgrade, follow `.agents/skills/capacitor-major-upgrade/SKILL.md`.
+
 ## Project Overview
 
 - `src/`: Public TypeScript API and web implementation
