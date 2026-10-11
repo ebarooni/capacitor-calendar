@@ -518,11 +518,15 @@ class CapacitorCalendarPlugin : Plugin() {
         error: Exception?,
     ) {
         when (error) {
-            is PluginError -> call.reject(error)
-            else ->
+            is PluginError -> {
+                call.reject(error)
+            }
+
+            else -> {
                 call.reject(
                     error?.message ?: PluginError.CustomError("An unknown error has occurred.").message,
                 )
+            }
         }
     }
 
