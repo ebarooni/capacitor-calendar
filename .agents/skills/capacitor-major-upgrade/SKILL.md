@@ -43,7 +43,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - Cap N-2 and older → not kept in sync (e.g. Cap 9 → `7.x` / `latest-7` stops tracking new features)
    Touch BREAKING/CHANGELOG only if needed. No unrelated API work.
 
-8. Run `npm run bootstrap:app` and whatever else the environment can verify. Note native limits (no Xcode / device smoke here).
+8. Run `npm run bootstrap:app`, then `npm run fmt`, and whatever else the environment can verify. Note native limits (no Xcode / device smoke here).
 
 9. Open a draft PR. State that the repo owner must checkout and test before merge. List residual risks.
 
