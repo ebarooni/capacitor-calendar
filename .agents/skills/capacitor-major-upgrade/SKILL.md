@@ -2,9 +2,9 @@
 name: capacitor-major-upgrade
 description: >
   Use when explicitly asked to upgrade this plugin to a new Capacitor major version.
-  Do not use for Cap patch or minor bumps, Cap 7 backports, API feature work, or publish/release tasks.
+  Do not use for Cap patch or minor bumps, previous-major Cap backports, API feature work, or publish/release tasks.
 metadata:
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Capacitor Major Upgrade
