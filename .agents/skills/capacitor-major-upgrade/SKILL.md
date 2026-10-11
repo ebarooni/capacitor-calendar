@@ -19,7 +19,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - On `main` still Cap N-1: add or update the `latest-(N-1)` publish workflow.
    - Create branch `N-1.x` from that tip for the maintenance code line (e.g. Cap 9 → cut `8.x`).
    - Continue the Cap N upgrade on `main`; the workflow stays on `main` only.
-   This is part of the upgrade workstream, not post-merge-only and not README-only.
+     This is part of the upgrade workstream, not post-merge-only and not README-only.
 
 3. Read Cap’s app and plugin update guides only. Do not paste their tables into the PR or this skill.
    - Prerelease / upcoming major: `https://capacitorjs.com/docs/next/updating/N-0` and `https://capacitorjs.com/docs/next/updating/plugins/N-0`
@@ -35,7 +35,7 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - `main` → Cap N / `latest`
    - Cap N-1 → `latest-(N-1)`, kept in feature sync with `main` when practical
    - Cap N-2 and older → not kept in sync (e.g. Cap 9 → `7.x` / `latest-7` stops tracking new features)
-   Touch BREAKING/CHANGELOG only if needed. No unrelated API work.
+     Touch BREAKING/CHANGELOG only if needed. No unrelated API work.
 
 8. Run `npm run bootstrap:app`, then `npm run fmt`, and whatever else the environment can verify. Note native limits (no Xcode / device smoke here).
 
