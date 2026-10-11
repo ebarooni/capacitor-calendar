@@ -45,7 +45,6 @@ When multiple tools can perform the same task, use them in this order:
 - `main` / `latest`: current Cap major.
 - `N-1.x` / `latest-(N-1)`: previous Cap major; kept in feature sync with `main` when practical. It continues to receive updates while it is N-1.
 - Older lines (`N-2.x` / `latest-(N-2)`, …): no longer kept in sync with new features (for example, after Cap 9, `7.x` / `latest-7` stops tracking new features).
-- For an explicit Cap major upgrade, follow `.agents/skills/capacitor-major-upgrade/SKILL.md`.
 
 ## Project Overview
 
