@@ -21,11 +21,11 @@ Thin checklist for moving the plugin and example-app to Capacitor major N. Stop 
    - Continue the Cap N upgrade on `main`; the workflow stays on `main` only.
    This is part of the upgrade workstream, not post-merge-only and not README-only.
 
-3. Read Cap’s app and plugin update guides only (full URLs). Do not paste their tables into the PR or this skill.
+3. Read Cap’s app and plugin update guides only. Do not paste their tables into the PR or this skill.
    - Prerelease / upcoming major: `https://capacitorjs.com/docs/next/updating/N-0` and `https://capacitorjs.com/docs/next/updating/plugins/N-0`
    - Stable major: drop `next` — e.g. Cap 8 is `https://capacitorjs.com/docs/updating/8-0` and `https://capacitorjs.com/docs/updating/plugins/8-0`
 
-4. On `main`, run Cap migration tooling from the right cwd when documented (`plugin-migration-v{N-1}-to-v{N}` from plugin root; `cap migrate` from `example-app/`). Review the diff before further edits.
+4. On `main`, follow the manual steps in those Cap guides to update the plugin and the example-app. Do not treat Cap migration CLIs as the primary path. Review the diff before further edits.
 
 5. Apply Cap N repo touchpoints on `main` for both the plugin and the example-app:
    - Root and example-app Cap packages; `peerDependencies`
