@@ -520,16 +520,25 @@ class CapacitorCalendarPlugin : Plugin() {
     ) {
         val pluginError =
             when (error) {
-                is PluginError -> error
-                is ActivityNotFoundException ->
+                is PluginError -> {
+                    error
+                }
+
+                is ActivityNotFoundException -> {
                     PluginError.NotSupported(
                         wrapSystemError("Failed to launch calendar app.", error.message),
                     )
-                is SecurityException ->
+                }
+
+                is SecurityException -> {
                     PluginError.PermissionDenied(
                         wrapSystemError("Calendar permission was denied.", error.message),
                     )
-                else -> null
+                }
+
+                else -> {
+                    null
+                }
             }
         val message =
             pluginError?.message
