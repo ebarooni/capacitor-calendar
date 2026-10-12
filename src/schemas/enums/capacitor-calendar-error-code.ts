@@ -5,6 +5,20 @@
  */
 export enum CapacitorCalendarErrorCode {
   /**
+   * Missing or invalid method arguments.
+   *
+   * @since 8.10.0
+   */
+  InvalidArgument = 'EB-CLDR-0001',
+
+  /**
+   * Requested calendar, event, list, reminder, or calendar source was not found.
+   *
+   * @since 8.10.0
+   */
+  NotFound = 'EB-CLDR-0002',
+
+  /**
    * Missing Info.plist usage description or AndroidManifest permission declaration.
    *
    * @since 8.9.0
