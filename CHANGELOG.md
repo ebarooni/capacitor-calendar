@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - [8.0.1](#801)
   - [8.0.0](#800)
 - [Version 7.x.x](#version-7xx)
+  - [7.5.0](#750)
   - [7.4.0](#740)
   - [7.2.0](#720)
   - [7.1.0](#710)
@@ -243,6 +244,12 @@ Changelogs for the versions supporting Capacitor 8.
 # Version 7.x.x
 
 Changelogs for the versions supporting Capacitor 7.
+
+## 7.5.0
+
+### Added
+
+- Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`) and `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`) on matching Android and iOS rejects
 
 ## 7.4.0
 

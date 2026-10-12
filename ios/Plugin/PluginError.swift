@@ -109,6 +109,28 @@ enum PluginError: LocalizedError {
     /// Cap-style reject code when this error provides one; nil for message-only cases.
     var code: String? {
         switch self {
+        case .calendarIdMissing,
+             .fromDateMissing,
+             .idMissing,
+             .invalidColor,
+             .invalidFrequency,
+             .invalidScope,
+             .invalidUrl,
+             .listIdsMissing,
+             .messageMissing,
+             .missingFrequency,
+             .missingInterval,
+             .noFieldsToModify,
+             .scopeMissing,
+             .titleMissing,
+             .toDateMissing:
+            return "EB-CLDR-0001"
+        case .calendarNotFound,
+             .calendarSourceNotFound,
+             .eventNotFound,
+             .listNotFound,
+             .reminderNotFound:
+            return "EB-CLDR-0002"
         case .missingDeclaration:
             return "EB-CLDR-0100"
         default:
