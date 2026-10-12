@@ -56,7 +56,7 @@ sealed class PluginError(
 
     data object MissingScope : PluginError("Scope must be provided.", "EB-CLDR-0001")
 
-    data object NoCalendarsAvailable : PluginError("No calendars available.", "EB-CLDR-0001")
+    data object NoCalendarsAvailable : PluginError("No calendars available.")
 
     data object NoFieldsToModify : PluginError("At least one of title or color must be provided.", "EB-CLDR-0001")
 

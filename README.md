@@ -154,15 +154,17 @@ Add the appropriate usage description keys to `ios/App/App/Info.plist`. Starting
 
 ## Error codes
 
-On Android and iOS, a rejected call can expose `error.code` (stable category) and `error.message` (exact cause). Compare codes with the exported `CapacitorCalendarErrorCode` enum.
+On Android and iOS, a rejected call can expose `error.code` (stable category) and `error.message` (exact cause). Compare codes with the exported `CapacitorCalendarErrorCode` enum. Not every reject has a code yet; later releases add more catalog cases.
 
 Defined codes:
 
-| Code           | Name                 | When                                                                            |
-| :------------- | :------------------- | :------------------------------------------------------------------------------ |
-| `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                      |
-| `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, or reminder does not exist.                |
-| `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set. |
+| Code           | Name                 | When                                                                              |
+| :------------- | :------------------- | :-------------------------------------------------------------------------------- |
+| `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                        |
+| `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, reminder, or calendar source does not exist. |
+| `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set.   |
+
+Android rejects a non-numeric calendar `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
 
 ## Quick Start
 
