@@ -21,14 +21,14 @@ export enum CapacitorCalendarErrorCode {
   /**
    * The device cannot open the calendar UI, reminders UI, or target URL.
    *
-   * @since 8.11.0
+   * @since 8.10.0
    */
   NotSupported = 'EB-CLDR-0005',
 
   /**
    * Calendar or reminders access was denied.
    *
-   * @since 8.11.0
+   * @since 8.10.0
    */
   PermissionDenied = 'EB-CLDR-0020',
 

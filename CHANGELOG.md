@@ -7,7 +7,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
-  - [8.11.0](#8110)
   - [8.10.0](#8100)
   - [8.9.0](#890)
   - [8.8.0](#880)
@@ -52,17 +51,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 Changelogs for the versions supporting Capacitor 8.
 
-## 8.11.0
-
-### Added
-
-- Structured reject codes `EB-CLDR-0005` (`CapacitorCalendarErrorCode.NotSupported`) and `EB-CLDR-0020` (`CapacitorCalendarErrorCode.PermissionDenied`) on matching Android and iOS rejects
-
 ## 8.10.0
 
 ### Added
 
-- Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`) and `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`) on matching Android and iOS rejects
+- Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`), `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`), `EB-CLDR-0005` (`CapacitorCalendarErrorCode.NotSupported`), and `EB-CLDR-0020` (`CapacitorCalendarErrorCode.PermissionDenied`) on matching Android and iOS rejects
 
 ## 8.9.0
 
