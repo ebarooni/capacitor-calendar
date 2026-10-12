@@ -162,9 +162,17 @@ Defined codes:
 | :------------- | :------------------- | :-------------------------------------------------------------------------------- |
 | `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                        |
 | `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, reminder, or calendar source does not exist. |
+| `EB-CLDR-0005` | `NotSupported`       | The device cannot open the calendar UI, reminders UI, or target URL.              |
+| `EB-CLDR-0020` | `PermissionDenied`   | Calendar access was denied.                                                       |
 | `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set.   |
 
 Android rejects a non-numeric or empty calendar `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
+
+`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`).
+
+On Android, calendar operations that fail with a permission error reject with `PermissionDenied` (`EB-CLDR-0020`). Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`.
+
+For Android `NotSupported` and `PermissionDenied` rejects, the message starts with a fixed sentence (`Failed to launch calendar app.` or `Calendar permission was denied.`). If the OS provides a different detail, it is appended in parentheses.
 
 ## Quick Start
 
