@@ -27,7 +27,7 @@ export enum CapacitorCalendarErrorCode {
 
   /**
    * Calendar access was denied.
-   * Android emits this today on `SecurityException` rejects. iOS permission APIs still resolve `"denied"`.
+   * On Android, calendar operations that fail with a permission error reject with this code. Permission check and request APIs still resolve `"denied"` on Android and iOS.
    *
    * @since 8.10.0
    */
