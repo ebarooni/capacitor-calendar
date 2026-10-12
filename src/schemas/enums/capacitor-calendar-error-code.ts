@@ -26,7 +26,8 @@ export enum CapacitorCalendarErrorCode {
   NotSupported = 'EB-CLDR-0005',
 
   /**
-   * Calendar or reminders access was denied.
+   * Calendar access was denied.
+   * Android emits this today on `SecurityException` rejects. iOS permission APIs still resolve `"denied"`.
    *
    * @since 8.10.0
    */

@@ -163,10 +163,14 @@ Defined codes:
 | `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                        |
 | `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, reminder, or calendar source does not exist. |
 | `EB-CLDR-0005` | `NotSupported`       | The device cannot open the calendar UI, reminders UI, or target URL.              |
-| `EB-CLDR-0020` | `PermissionDenied`   | Calendar or reminders access was denied.                                          |
+| `EB-CLDR-0020` | `PermissionDenied`   | Calendar access was denied (Android `SecurityException` rejects today).           |
 | `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set.   |
 
 Android rejects a non-numeric or empty calendar `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
+
+`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`).
+
+`PermissionDenied`: Android emits this today when a reject wraps `SecurityException` (typical calendar provider access denial). iOS permission APIs still resolve `"denied"` and do not reject with `0020` yet. The enum case stays exported for the catalog and future iOS mapping.
 
 ## Quick Start
 
