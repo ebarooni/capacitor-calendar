@@ -131,6 +131,10 @@ enum PluginError: LocalizedError {
              .listNotFound,
              .reminderNotFound:
             return "EB-CLDR-0002"
+        case .failedToLaunchCalendar,
+             .failedToLaunchReminders,
+             .unableToOpenUrl:
+            return "EB-CLDR-0005"
         case .missingDeclaration:
             return "EB-CLDR-0100"
         default:
