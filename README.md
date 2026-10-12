@@ -160,6 +160,8 @@ Defined codes:
 
 | Code           | Name                 | When                                                                            |
 | :------------- | :------------------- | :------------------------------------------------------------------------------ |
+| `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                      |
+| `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, or reminder does not exist.                |
 | `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set. |
 
 ## Quick Start

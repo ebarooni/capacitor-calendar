@@ -4,21 +4,21 @@ sealed class PluginError(
     localizedDescription: String,
     val code: String? = null,
 ) : Exception(localizedDescription) {
-    data object AccountNameMissing : PluginError("Account name must be provided.")
+    data object AccountNameMissing : PluginError("Account name must be provided.", "EB-CLDR-0001")
 
-    data object AttendeeEmailMissing : PluginError("Attendee email must be provided.")
+    data object AttendeeEmailMissing : PluginError("Attendee email must be provided.", "EB-CLDR-0001")
 
-    data object CalendarIdMissing : PluginError("Calendar ID must be provided.")
+    data object CalendarIdMissing : PluginError("Calendar ID must be provided.", "EB-CLDR-0001")
 
-    data object CalendarNotFound : PluginError("Calendar not found.")
+    data object CalendarNotFound : PluginError("Calendar not found.", "EB-CLDR-0002")
 
-    data object ColorMissing : PluginError("Color must be provided.")
+    data object ColorMissing : PluginError("Color must be provided.", "EB-CLDR-0001")
 
     data class CustomError(
         val details: String,
     ) : PluginError(details)
 
-    data object EventNotFound : PluginError("Event not found.")
+    data object EventNotFound : PluginError("Event not found.", "EB-CLDR-0002")
 
     data object FailedToDelete : PluginError("Failed to delete.")
 
@@ -28,21 +28,22 @@ sealed class PluginError(
 
     data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
 
-    data object FromDateMissing : PluginError("From date must be provided.")
+    data object FromDateMissing : PluginError("From date must be provided.", "EB-CLDR-0001")
 
     data object InstanceDateMissing : PluginError(
         "Instance date must be provided for this span on recurring events.",
+        "EB-CLDR-0001",
     )
 
-    data object InvalidCalendarId : PluginError("Invalid calendar ID.")
+    data object InvalidCalendarId : PluginError("Invalid calendar ID.", "EB-CLDR-0001")
 
-    data object InvalidColor : PluginError("Invalid color format.")
+    data object InvalidColor : PluginError("Invalid color format.", "EB-CLDR-0001")
 
-    data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.")
+    data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.", "EB-CLDR-0001")
 
-    data object InvalidScope : PluginError("Invalid scope.")
+    data object InvalidScope : PluginError("Invalid scope.", "EB-CLDR-0001")
 
-    data object MessageMissing : PluginError("Message must be provided.")
+    data object MessageMissing : PluginError("Message must be provided.", "EB-CLDR-0001")
 
     data class MissingDeclaration(
         val permission: String,
@@ -51,19 +52,19 @@ sealed class PluginError(
             "EB-CLDR-0100",
         )
 
-    data object MissingId : PluginError("Event ID must be provided.")
+    data object MissingId : PluginError("Event ID must be provided.", "EB-CLDR-0001")
 
-    data object MissingScope : PluginError("Scope must be provided.")
+    data object MissingScope : PluginError("Scope must be provided.", "EB-CLDR-0001")
 
-    data object NoCalendarsAvailable : PluginError("No calendars available.")
+    data object NoCalendarsAvailable : PluginError("No calendars available.", "EB-CLDR-0001")
 
-    data object NoFieldsToModify : PluginError("At least one of title or color must be provided.")
+    data object NoFieldsToModify : PluginError("At least one of title or color must be provided.", "EB-CLDR-0001")
 
-    data object OwnerAccountMissing : PluginError("Owner account must be provided.")
+    data object OwnerAccountMissing : PluginError("Owner account must be provided.", "EB-CLDR-0001")
 
-    data object TitleMissing : PluginError("Title must be provided.")
+    data object TitleMissing : PluginError("Title must be provided.", "EB-CLDR-0001")
 
-    data object ToDateMissing : PluginError("To date must be provided.")
+    data object ToDateMissing : PluginError("To date must be provided.", "EB-CLDR-0001")
 
     data object UnhandledPermissionState : PluginError("Unhandled permission state.")
 
