@@ -1,6 +1,7 @@
 package dev.barooni.capacitor.calendar
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -517,10 +518,24 @@ class CapacitorCalendarPlugin : Plugin() {
         call: PluginCall,
         error: Exception?,
     ) {
+        val pluginError =
+            when (error) {
+                is PluginError -> error
+                is ActivityNotFoundException ->
+                    PluginError.NotSupported(
+                        error.message ?: "Failed to launch calendar app.",
+                    )
+                is SecurityException ->
+                    PluginError.PermissionDenied(
+                        error.message ?: "Calendar permission was denied.",
+                    )
+                else -> null
+            }
         val message =
-            error?.message
+            pluginError?.message
+                ?: error?.message
                 ?: PluginError.CustomError("An unknown error has occurred.").message
-        call.reject(message, (error as? PluginError)?.code)
+        call.reject(message, pluginError?.code)
     }
 
     private fun resolveCall(call: PluginCall) {

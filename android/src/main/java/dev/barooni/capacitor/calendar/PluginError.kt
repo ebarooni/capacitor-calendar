@@ -60,7 +60,15 @@ sealed class PluginError(
 
     data object NoFieldsToModify : PluginError("At least one of title or color must be provided.", "EB-CLDR-0001")
 
+    data class NotSupported(
+        val details: String,
+    ) : PluginError(details, "EB-CLDR-0005")
+
     data object OwnerAccountMissing : PluginError("Owner account must be provided.", "EB-CLDR-0001")
+
+    data class PermissionDenied(
+        val details: String,
+    ) : PluginError(details, "EB-CLDR-0020")
 
     data object TitleMissing : PluginError("Title must be provided.", "EB-CLDR-0001")
 
