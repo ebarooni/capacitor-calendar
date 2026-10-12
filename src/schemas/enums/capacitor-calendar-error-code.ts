@@ -12,7 +12,7 @@ export enum CapacitorCalendarErrorCode {
   InvalidArgument = 'EB-CLDR-0001',
 
   /**
-   * Requested calendar, event, list, or reminder was not found.
+   * Requested calendar, event, list, reminder, or calendar source was not found.
    *
    * @since 8.10.0
    */
