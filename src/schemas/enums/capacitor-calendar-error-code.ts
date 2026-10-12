@@ -19,6 +19,21 @@ export enum CapacitorCalendarErrorCode {
   NotFound = 'EB-CLDR-0002',
 
   /**
+   * The device cannot open the calendar UI, reminders UI, or target URL.
+   *
+   * @since 8.10.0
+   */
+  NotSupported = 'EB-CLDR-0005',
+
+  /**
+   * Calendar access was denied.
+   * On Android, calendar operations that fail with a permission error reject with this code. Permission check and request APIs still resolve `"denied"` on Android and iOS.
+   *
+   * @since 8.10.0
+   */
+  PermissionDenied = 'EB-CLDR-0020',
+
+  /**
    * Missing Info.plist usage description or AndroidManifest permission declaration.
    *
    * @since 8.9.0
