@@ -523,11 +523,11 @@ class CapacitorCalendarPlugin : Plugin() {
                 is PluginError -> error
                 is ActivityNotFoundException ->
                     PluginError.NotSupported(
-                        error.message ?: "Failed to launch calendar app.",
+                        wrapSystemError("Failed to launch calendar app.", error.message),
                     )
                 is SecurityException ->
                     PluginError.PermissionDenied(
-                        error.message ?: "Calendar permission was denied.",
+                        wrapSystemError("Calendar permission was denied.", error.message),
                     )
                 else -> null
             }
@@ -536,6 +536,21 @@ class CapacitorCalendarPlugin : Plugin() {
                 ?: error?.message
                 ?: PluginError.CustomError("An unknown error has occurred.").message
         call.reject(message, pluginError?.code)
+    }
+
+    /**
+     * Lead with the stable plugin sentence; append a different non-blank OS message in parentheses.
+     */
+    private fun wrapSystemError(
+        canonicalMessage: String,
+        systemMessage: String?,
+    ): String {
+        val detail = systemMessage?.trim().orEmpty()
+        return if (detail.isEmpty() || detail == canonicalMessage) {
+            canonicalMessage
+        } else {
+            "$canonicalMessage ($detail)"
+        }
     }
 
     private fun resolveCall(call: PluginCall) {

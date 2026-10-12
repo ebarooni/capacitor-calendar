@@ -172,6 +172,8 @@ Android rejects a non-numeric or empty calendar `id` as `InvalidArgument`. iOS l
 
 `PermissionDenied`: Android emits this today when a reject wraps `SecurityException` (typical calendar provider access denial). iOS permission APIs still resolve `"denied"` and do not reject with `0020` yet. The enum case stays exported for the catalog and future iOS mapping.
 
+On Android, those wraps use a stable plugin sentence as the lead message (`Failed to launch calendar app.` / `Calendar permission was denied.`); a different OS detail is appended in parentheses when present.
+
 ## Quick Start
 
 The sample below is for Android and iOS. For Web, see [Create and download an event on the web](#create-and-download-an-event-on-the-web).
