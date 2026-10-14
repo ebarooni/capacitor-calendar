@@ -294,6 +294,7 @@ class ImplementationHelper {
                     CalendarContract.Calendars.MAX_REMINDERS,
                     CalendarContract.Calendars.CALENDAR_LOCATION,
                     CalendarContract.Calendars.IS_PRIMARY,
+                    CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
                 )
 
             val calendars = mutableListOf<CalendarInfo>()
@@ -385,13 +386,37 @@ class ImplementationHelper {
                         cursor.getColumnIndexOrThrow(CalendarContract.Calendars.IS_PRIMARY).let {
                             if (it < 0) null else cursor.getInt(it) == 1
                         }
+                    val accessLevel =
+                        cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL).let {
+                            if (it < 0 || cursor.isNull(it)) null else cursor.getInt(it)
+                        }
                     calendars.add(
-                        CalendarInfo(id, title, internalName, color, visible, accountName, ownerAccount, maxReminders, location, isPrimary),
+                        CalendarInfo(
+                            id,
+                            title,
+                            internalName,
+                            color,
+                            visible,
+                            accountName,
+                            ownerAccount,
+                            maxReminders,
+                            location,
+                            isPrimary,
+                            allowsContentModifications(accessLevel),
+                        ),
                     )
                 }
             }
             return calendars
         }
+
+        /**
+         * Whether events can be added to a calendar with the given `CALENDAR_ACCESS_LEVEL`: contributor
+         * access or above, the same threshold the AOSP Calendar app uses. `null` when the provider did
+         * not report a level.
+         */
+        fun allowsContentModifications(accessLevel: Int?): Boolean? =
+            accessLevel?.let { it >= CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR }
 
         fun requiresInstanceDateForDelete(
             cr: ContentResolver,
