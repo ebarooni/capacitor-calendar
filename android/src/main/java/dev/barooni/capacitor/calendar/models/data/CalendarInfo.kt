@@ -11,4 +11,5 @@ data class CalendarInfo(
     val maxReminders: Int?,
     val location: String?,
     val isPrimary: Boolean?,
+    val allowsContentModifications: Boolean?,
 )

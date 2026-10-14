@@ -52,7 +52,11 @@ export interface Calendar {
    */
   isImmutable: boolean | null;
   /**
-   * @platform iOS
+   * Whether events can be added to or changed in this calendar.
+   * On Android this is `true` from `CAL_ACCESS_CONTRIBUTOR` access upwards, and `null` when the
+   * provider reports no access level.
+   *
+   * @platform Android, iOS
    * @since 7.1.0
    */
   allowsContentModifications: boolean | null;
