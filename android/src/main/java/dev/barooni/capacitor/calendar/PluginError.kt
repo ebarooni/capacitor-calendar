@@ -20,13 +20,13 @@ sealed class PluginError(
 
     data object EventNotFound : PluginError("Event not found.", "EB-CLDR-0002")
 
-    data object FailedToDelete : PluginError("Failed to delete.")
+    data object FailedToDelete : PluginError("Failed to delete.", "EB-CLDR-0004")
 
-    data object FailedToModify : PluginError("Failed to modify.")
+    data object FailedToModify : PluginError("Failed to modify.", "EB-CLDR-0004")
 
-    data object FailedToRetrieveCalendarId : PluginError("Failed to retrieve calendar ID.")
+    data object FailedToRetrieveCalendarId : PluginError("Failed to retrieve calendar ID.", "EB-CLDR-0004")
 
-    data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.")
+    data object FailedToRetrieveEventId : PluginError("Failed to retrieve event ID.", "EB-CLDR-0004")
 
     data object FromDateMissing : PluginError("From date must be provided.", "EB-CLDR-0001")
 
@@ -34,6 +34,10 @@ sealed class PluginError(
         "Instance date must be provided for this span on recurring events.",
         "EB-CLDR-0001",
     )
+
+    data class IoError(
+        val details: String,
+    ) : PluginError(details, "EB-CLDR-0004")
 
     data object InvalidCalendarId : PluginError("Invalid calendar ID.", "EB-CLDR-0001")
 

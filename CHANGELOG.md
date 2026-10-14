@@ -55,7 +55,7 @@ Changelogs for the versions supporting Capacitor 8.
 
 ### Added
 
-- Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`), `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`), and `EB-CLDR-0005` (`CapacitorCalendarErrorCode.NotSupported`) on matching Android and iOS rejects
+- Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`), `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`), `EB-CLDR-0004` (`CapacitorCalendarErrorCode.IoError`), and `EB-CLDR-0005` (`CapacitorCalendarErrorCode.NotSupported`) on matching Android and iOS rejects
 - Structured reject code `EB-CLDR-0020` (`CapacitorCalendarErrorCode.PermissionDenied`) on Android when a calendar operation fails with a permission error. Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`. The enum is exported for all platforms
 
 ## 8.9.0

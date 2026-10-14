@@ -468,9 +468,31 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     private func rejectCall(_ call: CAPPluginCall, _ error: Error?) {
-        let message = error?.localizedDescription
+        let pluginError: PluginError?
+        if let error = error as? PluginError {
+            pluginError = error
+        } else if let error = error {
+            pluginError = .ioError(
+                wrapSystemError(
+                    "An I/O error occurred while accessing the calendar.",
+                    error.localizedDescription
+                )
+            )
+        } else {
+            pluginError = nil
+        }
+        let message = pluginError?.localizedDescription
             ?? PluginError.customError("An unknown error has occured.").localizedDescription
-        call.reject(message, (error as? PluginError)?.code)
+        call.reject(message, pluginError?.code)
+    }
+
+    /// Lead with the stable plugin sentence; append a different non-blank OS message in parentheses.
+    private func wrapSystemError(_ canonicalMessage: String, _ systemMessage: String?) -> String {
+        let detail = systemMessage?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if detail.isEmpty || detail == canonicalMessage {
+            return canonicalMessage
+        }
+        return "\(canonicalMessage) (\(detail))"
     }
 
     private func resolveCall(_ call: CAPPluginCall) {

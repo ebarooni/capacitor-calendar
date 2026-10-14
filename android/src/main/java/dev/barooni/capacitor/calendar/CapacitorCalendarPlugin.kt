@@ -536,8 +536,17 @@ class CapacitorCalendarPlugin : Plugin() {
                     )
                 }
 
-                else -> {
+                null -> {
                     null
+                }
+
+                else -> {
+                    PluginError.IoError(
+                        wrapSystemError(
+                            "An I/O error occurred while accessing the calendar.",
+                            error.message,
+                        ),
+                    )
                 }
             }
         val message =
