@@ -169,7 +169,7 @@ Defined codes:
 
 Android rejects a non-numeric or empty calendar `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
 
-`IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code.
+`IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code. On iOS, EventKit store or system rejects use this code, including some authorization-related failures; Android permission-provider denials still use `PermissionDenied` (`EB-CLDR-0020`). On iOS, this code also covers the edit-prompt `processFailed` outcome.
 
 `NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`).
 

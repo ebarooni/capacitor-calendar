@@ -482,7 +482,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
             pluginError = nil
         }
         let message = pluginError?.localizedDescription
-            ?? PluginError.customError("An unknown error has occured.").localizedDescription
+            ?? PluginError.customError("An unknown error has occurred.").localizedDescription
         call.reject(message, pluginError?.code)
     }
 
