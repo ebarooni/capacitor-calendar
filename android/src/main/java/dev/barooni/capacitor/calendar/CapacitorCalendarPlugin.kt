@@ -518,43 +518,45 @@ class CapacitorCalendarPlugin : Plugin() {
         call: PluginCall,
         error: Exception?,
     ) {
-        val pluginError =
-            when (error) {
-                is PluginError -> {
-                    error
-                }
-
-                is ActivityNotFoundException -> {
-                    PluginError.NotSupported(
-                        wrapSystemError("Failed to launch calendar app.", error.message),
-                    )
-                }
-
-                is SecurityException -> {
-                    PluginError.PermissionDenied(
-                        wrapSystemError("Calendar permission was denied.", error.message),
-                    )
-                }
-
-                null -> {
-                    null
-                }
-
-                else -> {
-                    PluginError.IoError(
-                        wrapSystemError(
-                            "An I/O error occurred while accessing the calendar.",
-                            error.message,
-                        ),
-                    )
-                }
-            }
+        val pluginError = toPluginError(error)
         val message =
             pluginError?.message
                 ?: error?.message
                 ?: PluginError.CustomError("An unknown error has occurred.").message
         call.reject(message, pluginError?.code)
     }
+
+    private fun toPluginError(error: Exception?): PluginError? =
+        when (error) {
+            is PluginError -> {
+                error
+            }
+
+            is ActivityNotFoundException -> {
+                PluginError.NotSupported(
+                    wrapSystemError("Failed to launch calendar app.", error.message),
+                )
+            }
+
+            is SecurityException -> {
+                PluginError.PermissionDenied(
+                    wrapSystemError("Calendar permission was denied.", error.message),
+                )
+            }
+
+            null -> {
+                null
+            }
+
+            else -> {
+                PluginError.IoError(
+                    wrapSystemError(
+                        "An I/O error occurred while accessing the calendar.",
+                        error.message,
+                    ),
+                )
+            }
+        }
 
     /**
      * Lead with the stable plugin sentence; append a different non-blank OS message in parentheses.
