@@ -252,6 +252,10 @@ Changelogs for the versions supporting Capacitor 7.
 - Structured reject codes `EB-CLDR-0001` (`CapacitorCalendarErrorCode.InvalidArgument`), `EB-CLDR-0002` (`CapacitorCalendarErrorCode.NotFound`), `EB-CLDR-0004` (`CapacitorCalendarErrorCode.IoError`), and `EB-CLDR-0005` (`CapacitorCalendarErrorCode.NotSupported`) on matching Android and iOS rejects
 - Structured reject code `EB-CLDR-0020` (`CapacitorCalendarErrorCode.PermissionDenied`) on Android when a calendar operation fails with a permission error. Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`. The enum is exported for all platforms
 
+### Fixed
+
+- Android rejects a present but non-numeric or empty event `id` with `Invalid event ID.` (`EB-CLDR-0001`) instead of the missing-id message
+
 ## 7.4.0
 
 ### Added

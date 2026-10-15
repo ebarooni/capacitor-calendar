@@ -43,6 +43,8 @@ sealed class PluginError(
 
     data object InvalidColor : PluginError("Invalid color format.", "EB-CLDR-0001")
 
+    data object InvalidEventId : PluginError("Invalid event ID.", "EB-CLDR-0001")
+
     data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.", "EB-CLDR-0001")
 
     data object InvalidScope : PluginError("Invalid scope.", "EB-CLDR-0001")
