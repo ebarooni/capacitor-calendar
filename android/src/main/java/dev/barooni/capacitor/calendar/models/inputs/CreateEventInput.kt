@@ -13,7 +13,10 @@ data class CreateEventInput(
     val title: String = call.getString("title") ?: throw PluginError.TitleMissing
     val isAllDay: Int? = input.isAllDay?.let { if (it) 1 else 0 }
     val alerts: List<Int>? = ImplementationHelper.jsArrayToIntArray(call.getArray("alerts"))
-    val calendarId: Long? = call.getString("calendarId")?.toLong()
+    val calendarId: Long? =
+        call.getString("calendarId")?.let {
+            it.toLongOrNull() ?: throw PluginError.InvalidCalendarId
+        }
     val location: String? = input.location
     val startDate: Long? = input.startDate
     val endDate: Long? = input.endDate
