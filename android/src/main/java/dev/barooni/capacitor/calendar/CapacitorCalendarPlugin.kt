@@ -1,7 +1,6 @@
 package dev.barooni.capacitor.calendar
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import androidx.activity.result.ActivityResult
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
@@ -34,6 +33,7 @@ import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.RequestPermissionResult
 import dev.barooni.capacitor.calendar.models.templates.JSResult
 import dev.barooni.capacitor.calendar.utils.DeclarationCheck
+import dev.barooni.capacitor.calendar.utils.PluginCallRejecter
 
 @CapacitorPlugin(
     name = "CapacitorCalendar",
@@ -518,48 +518,7 @@ class CapacitorCalendarPlugin : Plugin() {
         call: PluginCall,
         error: Exception?,
     ) {
-        val pluginError =
-            when (error) {
-                is PluginError -> {
-                    error
-                }
-
-                is ActivityNotFoundException -> {
-                    PluginError.NotSupported(
-                        wrapSystemError("Failed to launch calendar app.", error.message),
-                    )
-                }
-
-                is SecurityException -> {
-                    PluginError.PermissionDenied(
-                        wrapSystemError("Calendar permission was denied.", error.message),
-                    )
-                }
-
-                else -> {
-                    null
-                }
-            }
-        val message =
-            pluginError?.message
-                ?: error?.message
-                ?: PluginError.CustomError("An unknown error has occurred.").message
-        call.reject(message, pluginError?.code)
-    }
-
-    /**
-     * Lead with the stable plugin sentence; append a different non-blank OS message in parentheses.
-     */
-    private fun wrapSystemError(
-        canonicalMessage: String,
-        systemMessage: String?,
-    ): String {
-        val detail = systemMessage?.trim().orEmpty()
-        return if (detail.isEmpty() || detail == canonicalMessage) {
-            canonicalMessage
-        } else {
-            "$canonicalMessage ($detail)"
-        }
+        PluginCallRejecter.reject(call, error)
     }
 
     private fun resolveCall(call: PluginCall) {

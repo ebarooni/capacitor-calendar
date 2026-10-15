@@ -19,6 +19,13 @@ export enum CapacitorCalendarErrorCode {
   NotFound = 'EB-CLDR-0002',
 
   /**
+   * A calendar store read or write failed.
+   *
+   * @since 7.5.0
+   */
+  IoError = 'EB-CLDR-0004',
+
+  /**
    * The device cannot open the calendar UI, reminders UI, or target URL.
    *
    * @since 7.5.0

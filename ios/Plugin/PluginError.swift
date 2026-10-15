@@ -17,6 +17,7 @@ enum PluginError: LocalizedError {
     case invalidFrequency
     case invalidScope
     case invalidUrl
+    case ioError(String)
     case listIdsMissing
     case listNotFound
     case listNotModifiable
@@ -69,6 +70,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Invalid scope.", comment: "Invalid scope error")
         case .invalidUrl:
             return NSLocalizedString("Invalid URL.", comment: "Invalid URL error")
+        case .ioError(let message):
+            return message
         case .listIdsMissing:
             return NSLocalizedString("List IDs must be provided.", comment: "List IDs missing error")
         case .listNotFound:
@@ -131,6 +134,11 @@ enum PluginError: LocalizedError {
              .listNotFound,
              .reminderNotFound:
             return "EB-CLDR-0002"
+        case .failedToRetrieveCalendarId,
+             .failedToRetrieveEventId,
+             .ioError,
+             .processFailed:
+            return "EB-CLDR-0004"
         case .failedToLaunchCalendar,
              .failedToLaunchReminders,
              .unableToOpenUrl:
