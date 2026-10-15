@@ -162,17 +162,20 @@ Defined codes:
 | :------------- | :------------------- | :-------------------------------------------------------------------------------- |
 | `EB-CLDR-0001` | `InvalidArgument`    | A required argument is missing or invalid.                                        |
 | `EB-CLDR-0002` | `NotFound`           | The requested calendar, event, list, reminder, or calendar source does not exist. |
+| `EB-CLDR-0004` | `IoError`            | A calendar store read or write failed.                                            |
 | `EB-CLDR-0005` | `NotSupported`       | The device cannot open the calendar UI, reminders UI, or target URL.              |
 | `EB-CLDR-0020` | `PermissionDenied`   | Calendar access was denied.                                                       |
 | `EB-CLDR-0100` | `MissingDeclaration` | Required Info.plist usage description or AndroidManifest permission is not set.   |
 
-Android rejects a non-numeric or empty calendar `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
+Android rejects a non-numeric or empty calendar or event `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
+
+`IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code. On iOS, EventKit store or system rejects use this code, including some authorization-related failures; Android permission-provider denials still use `PermissionDenied` (`EB-CLDR-0020`). On iOS, this code also covers the edit-prompt `processFailed` outcome.
 
 `NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`).
 
 On Android, calendar operations that fail with a permission error reject with `PermissionDenied` (`EB-CLDR-0020`). Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`.
 
-For Android `NotSupported` and `PermissionDenied` rejects, the message starts with a fixed sentence (`Failed to launch calendar app.` or `Calendar permission was denied.`). If the OS provides a different detail, it is appended in parentheses.
+For Android and iOS wraps of system store, launch, and permission failures, the message starts with a fixed sentence. If the OS provides a different detail, it is appended in parentheses.
 
 ## Quick Start
 

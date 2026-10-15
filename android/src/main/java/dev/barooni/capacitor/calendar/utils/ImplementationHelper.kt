@@ -123,7 +123,7 @@ class ImplementationHelper {
 
         fun jsArrayToLongArray(array: JSArray): List<Long> {
             val list = array.toList<String>()
-            return list.map { it.toLongOrNull() ?: throw PluginError.MissingId }
+            return list.map { it.toLongOrNull() ?: throw PluginError.InvalidEventId }
         }
 
         fun hexToColorInt(hex: String?): Int? {
