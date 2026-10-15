@@ -9,7 +9,10 @@ import dev.barooni.capacitor.calendar.utils.ImplementationHelper
 data class ModifyEvent(
     private val call: PluginCall,
 ) {
-    val id: Long = call.getString("id")?.toLongOrNull() ?: throw PluginError.MissingId
+    val id: Long =
+        call.getString("id")?.let { idString ->
+            idString.toLongOrNull() ?: throw PluginError.InvalidEventId
+        } ?: throw PluginError.MissingId
     val title: String? = call.getString("title")
     val calendarId: Long? =
         call.getString("calendarId")?.let {
