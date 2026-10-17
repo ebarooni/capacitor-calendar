@@ -255,6 +255,7 @@ Changelogs for the versions supporting Capacitor 7.
 ### Fixed
 
 - Android rejects a present but non-numeric or empty event `id` with `Invalid event ID.` (`EB-CLDR-0001`) instead of the missing-id message
+- Android `listCalendars` and `getDefaultCalendar` now report `allowsContentModifications` from the calendar access level ([#305](https://github.com/ebarooni/capacitor-calendar/issues/305))
 
 ## 7.4.0
 
