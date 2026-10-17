@@ -19,7 +19,7 @@ data class GetDefaultCalendarResult(
                         put("color", cal.color)
                         put("colorName", null)
                         put("isImmutable", null)
-                        put("allowsContentModifications", null)
+                        put("allowsContentModifications", cal.allowsContentModifications)
                         put("type", null)
                         put("isSubscribed", null)
                         put("source", null)

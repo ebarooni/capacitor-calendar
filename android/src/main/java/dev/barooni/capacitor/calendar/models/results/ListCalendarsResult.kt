@@ -24,7 +24,7 @@ data class ListCalendarsResult(
             obj.put("color", calendar.color)
             obj.put("colorName", null)
             obj.put("isImmutable", null)
-            obj.put("allowsContentModifications", null)
+            obj.put("allowsContentModifications", calendar.allowsContentModifications)
             obj.put("type", null)
             obj.put("isSubscribed", null)
             obj.put("source", null)
