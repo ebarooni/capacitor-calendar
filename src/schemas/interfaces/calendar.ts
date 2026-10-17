@@ -52,7 +52,9 @@ export interface Calendar {
    */
   isImmutable: boolean | null;
   /**
-   * @platform iOS
+   * Whether events can be added to or changed in this calendar.
+   *
+   * @platform Android, iOS
    * @since 7.1.0
    */
   allowsContentModifications: boolean | null;
