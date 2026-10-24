@@ -10,7 +10,7 @@ paths:
   - 'ios/**'
   - 'android/**'
 metadata:
-  version: '1.1'
+  version: '1.2'
 ---
 
 # Update Changelog
@@ -57,3 +57,4 @@ metadata:
 - Describe user-visible API changes, not implementation details
 - Changelog sections for versions that already have a git tag / npm publish are read-only; never append new release notes there
 - All previous release sections are historical records and are strictly read-only
+- Breaking change: add a section for that version to `BREAKING.md` (what changed, before and after if useful, migration steps) and link it from its Contents list. Keep the `CHANGELOG.md` entry short and point to `BREAKING.md`
