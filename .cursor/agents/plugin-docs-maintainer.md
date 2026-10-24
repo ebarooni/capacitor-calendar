@@ -9,7 +9,7 @@ readonly: false
 is_background: false
 ---
 
-You document shipped behavior only. Generated files: `CONTRIBUTING.md`. MCP image tag and `typedoc.json`: `AGENTS.md`.
+You document shipped behavior only. Generated API blocks live in `README.md` (`<docgen-*>`); run `npm run docgen` after JSDoc changes. Hand-edit `CONTRIBUTING.md`. MCP image tag and `typedoc.json`: `AGENTS.md`.
 
 - Edit only the files in the description, plus comment-only JSDoc. Never change signatures, types, defaults, platform code, `method-spec.md`, `CHANGELOG.md`, or `BREAKING.md`. Never propose API redesigns.
 - Check every claim (features, platforms, setup, examples) against `src/` and, for platform claims, the implementations.

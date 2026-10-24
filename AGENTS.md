@@ -8,6 +8,7 @@ Capacitor plugin: calendars and events on iOS and Android, reminders on iOS, `.i
 - Do not dispatch workflows or push `v*` tags. A `v8*` tag starts `release.yml` and `deploy-docs.yml`. Actions minutes are scarce.
 - `android/src/test`, `android/src/androidTest`, and `ios/Tests` hold only template stubs. Do not add or suggest tests.
 - GitHub: use the MCP server in `.cursor/mcp.json` (needs `GITHUB_MCP_PAT`). Skill scripts that call `gh` need an authenticated `gh`.
+- Breaking releases: document migration in `BREAKING.md` under that version (see `update-changelog`).
 
 ## Code constraints
 

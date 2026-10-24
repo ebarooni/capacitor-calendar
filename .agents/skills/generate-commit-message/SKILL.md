@@ -25,6 +25,6 @@ metadata:
    - Header: types and `!` from `CONTRIBUTING.md` › Pull requests › Title format. Scope from the touched paths: `android/**` → `android`, `ios/**` → `ios`, `src/web.ts` or `src/web/**` → `web`. Omit the scope when several apply.
    - Subject: imperative, lowercase start, no trailing period, at most 72 characters.
    - Body (optional): why, and how behavior differs from before.
-   - Footer (optional): `BREAKING CHANGE: <what changed, what callers must do>`, or `Closes #<n>` only for a known issue.
+   - Footer (optional): `BREAKING CHANGE: <what changed, what callers must do>`, or `Closes: #<n>` only for a known issue.
 4. Revert: `revert: <exact header of the reverted commit>`, blank line, `This reverts commit <hash>.`
 5. Show the draft. Run `git commit` only when the user asks.
