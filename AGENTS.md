@@ -1,125 +1,33 @@
-# Agent Instructions
+# AGENTS.md
 
-This file provides instructions for AI coding agents working on the `ebarooni/capacitor-calendar` repository, a Capacitor plugin for calendar functionality on Android, iOS, and the web.
+Capacitor plugin: calendars and events on iOS and Android, reminders on iOS, `.ics` files on web. Setup, layout, scripts, generated files, platform rules, and issue/PR/commit format: `CONTRIBUTING.md`.
 
-## Writing Style
+## Gotchas
 
-- Follow ASD-STE100 Simplified Technical English for vocabulary and sentence structure.
-- Apply Zinsser's four principles of quality writing:
-  1. Simplicity: Use common, plain words. Prefer short, direct sentences.
-  2. Brevity: Remove words that do not add meaning. Do not restate the same idea in a second sentence.
-  3. Clarity: State one idea per sentence. Avoid ambiguity.
-  4. Humanity: Write for a person, not a manual. Be direct and respectful.
-- For public API JSDoc:
-  - Prefer a one-line summary.
-  - Add a second sentence only when the name alone is ambiguous.
-  - Do not compare related fields unless the values interact.
-  - Write for web developers who use the plugin. Prefer plugin terms and
-    platform names. Avoid native API jargon (EventKit, CalendarContract,
-    column names, and similar) in the prose. Optional `@see` links to
-    platform docs are fine.
+- No workflow runs on pull requests. Nothing checks a PR for you, so run the checks from `CONTRIBUTING.md` yourself.
+- Do not dispatch workflows or push `v*` tags. A `v8*` tag starts `release.yml` and `deploy-docs.yml`. Actions minutes are scarce.
+- `android/src/test`, `android/src/androidTest`, and `ios/Tests` hold only template stubs. Do not add or suggest tests.
+- GitHub: use the MCP server in `.cursor/mcp.json` (needs `GITHUB_MCP_PAT`). Skill scripts that call `gh` need an authenticated `gh`.
+- Breaking releases: document migration in `BREAKING.md` under that version (see `update-changelog`).
 
-## Naming Conventions
+## Code constraints
 
-- Do not use shortened or cryptic names (for example `d`, `m`, or terse `year`).
-- Prefer simple, direct names that state meaning (for example `dayOfMonth`, `monthIndex`, `fullYear`, `startDay`).
+- List every iOS method in `ios/Plugin/PluginConfig.swift` `methods`.
+- Keep the entry files thin (`android/.../calendar/CapacitorCalendarPlugin.kt`, `ios/Plugin/CapacitorCalendarPlugin.swift`). Declaration checks go in `DeclarationCheck`, reject mapping in `PluginCallRejecter` (Android `utils/`, iOS `Utils/`), and error cases in `PluginError`. Helpers throw `PluginError`; only entry files resolve or reject the call.
+- A method that needs Info.plist usage keys or manifest permissions checks only those keys at its start. It rejects with `EB-CLDR-0100` and names the missing key. `checkPermission` and `checkAllPermissions` stay unguarded.
+- Error codes: `src/schemas/enums/capacitor-calendar-error-code.ts`. Use Capacitor Calendar's number (`OS-PLUG-CLDR-NNNN` → `EB-CLDR-NNNN`) for the same case and an unused number for plugin-only cases. A new code also needs both `PluginError` files and the `README.md` › Error codes table. Messages say exactly what failed; append OS detail in parentheses.
+- Web has no permission model. Web permission methods stay unimplemented; never fake `granted`.
+- The MCP server version is in `mcp/pom.xml`. When you bump it, update the image tag in `README.md` and `mcp/README.md`.
+- `typedoc.json` `projectDocuments` lists only existing files that `README.md` links.
 
-## Important Rules
+## Branches
 
-- Ensure `projectDocuments` in `typedoc.json` doesn't list files that are deleted or not referenced in `README.md`.
-- When bumping the MCP server version, update the image tag in `mcp/README.md` and `README.md` to match.
-- When a release includes a breaking change, document it in `BREAKING.md` under that version: what changed, before/after if helpful, and migration steps. Link new versions from the Contents list. Keep `CHANGELOG.md` for the concise release summary and point to `BREAKING.md` for migration detail.
-- Do not add unit or instrumented tests for the plugin (`src/`, `android/`, `ios/`). The project does not maintain a plugin test suite. Do not suggest or land tests in review follow-ups.
+- `main`: current Capacitor major, npm `latest`. `7.x`: Capacitor 7, npm `latest-7`, published from `main` by `publish-latest-7-to-npm.yml`.
+- Capacitor major upgrade: `capacitor-major-upgrade` skill.
 
-## Tool Preference
+## Conventions
 
-When multiple tools can perform the same task, use them in this order:
-
-1. MCP server
-2. Project-provided tooling
-3. Command-line tools
-4. Direct API requests
-
-## Capacitor Major Support
-
-- `main` / `latest`: current Cap major.
-- `N-1.x` / `latest-(N-1)`: previous Cap major; kept in feature sync with `main` when practical. It continues to receive updates while it is N-1.
-- Cap N-2 and earlier (`N-2.x` / `latest-(N-2)`, …): no longer kept in sync with new features (for example, after Cap 9, `7.x` / `latest-7` stops tracking new features).
-- Before a new Cap major ships, address all open GitHub issues whose titles mark a breaking change (usually `!`).
-
-## Project Overview
-
-- `src/`: Public TypeScript API and web implementation
-- `android/`: Android implementation
-- `ios/`: iOS implementation
-- `example-app/`: Local test/demo application
-- `mcp/`: MCP server
-- `assets/`: Images and GIFs
-- `CHANGELOG.md`: Release history
-- `BREAKING.md`: Breaking changes by version, with migration steps
-
-## Architecture
-
-### Public API
-
-- `src/schemas/`: Types, enums and interfaces used in the public API
-  - `interfaces/`: Options and result interfaces of the methods
-- `src/definitions.ts`: Public TypeScript API for the plugin (extends the interfaces defined in `src/sub-definitions/`)
-- `src/index.ts`: Exports all the definitions
-
-### Android
-
-- `android/src/main/java/dev/barooni/capacitor/calendar/`: Android implementation of the public TypeScript API
-  - `models/inputs/`: Data classes encapsulating the method options
-  - `models/results/`: Data classes encapsulating the method result
-  - `CapacitorCalendarPlugin.kt`: Entry point for the Android implementation; all plugin methods are registered here
-
-### iOS
-
-- `ios/plugin/`: iOS implementation of the public TypeScript API
-  - `Models/Inputs/`: Structs encapsulating the method options
-  - `Models/Results/`: Structs encapsulating the method result
-  - `CapacitorCalendarPlugin.swift`: Entry point for the iOS implementation
-  - `PluginConfig.swift`: The plugin methods are defined here
-
-### Web
-
-- `src/web.ts`: Web implementation of the plugin
-
-## Development Commands
-
-### Build
-
-Install plugin dependencies, build the plugin, then install the latest local version into the example app and sync:
-
-```bash
-npm run bootstrap:app
-```
-
-### Formatting
-
-```bash
-npm run fmt
-```
-
-## Generated Files
-
-Do not manually edit generated content.
-
-- `README.md`: Content between `<docgen-index>` and `<docgen-api>` is generated from the public API definition.
-- `dist/`: Generated from `src/`.
-
-## Deployment
-
-### npm Package
-
-- Workflow: `.github/workflows/publish-to-npm.yml`
-  - Triggered manually
-  - Triggers the `release.yml` workflow to create a release
-  - Triggers the `deploy-docs.yml` workflow to update the docs
-
-### MCP Server
-
-- Workflow: `.github/workflows/publish-docker.yml`
-  - Triggered manually
-  - Publishes the Docker image to `ghcr.io/ebarooni/capacitor-calendar-mcp`
+- Prose: ASD-STE100 Simplified Technical English. Plain words, short sentences, one idea per sentence. Do not restate.
+- Public JSDoc: one-line summary. Add a second sentence only when the name is ambiguous. Compare fields only when their values interact.
+- Names state meaning. No cryptic locals (`d`, `m`, `y`).
+- Skill `metadata.version`: bump once per PR that changes a merged skill. A new skill starts at `1.0`.

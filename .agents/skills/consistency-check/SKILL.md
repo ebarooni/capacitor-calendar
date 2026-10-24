@@ -1,14 +1,16 @@
 ---
 name: consistency-check
 description: >
-  Checks signature parity, error-code parity, partial-support-strategy compliance, and doc-comment accuracy. Do not use this for general code review — it only checks conformance to a specific method-spec.md. Verifies that web, Android, and iOS implementations of a Capacitor plugin method actually match the finalized method-spec.md — not just that each one compiles. Use after all three platform subagents report complete for a method-spec.
+  Use after all three capacitor-platform-developer runs report complete for a method-spec.md.
+  Verifies web, Android, and iOS against the spec: signature, error codes, partial-support
+  strategy, and doc comments. Not a general code review.
 metadata:
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Consistency Check
 
-Called by the `plugin-task-orchestrator` after all three platform subagents (`capacitor-web-developer`, `capacitor-android-developer` and `capacitor-ios-developer`) report `complete` in `agent-reports/`. Never run this before all three are done — a partial check against an incomplete platform will produce false-positive mismatches. Confirms three independently-written platform implementations actually agree with each other and with the contract they were supposed to implement.
+Called by `plugin-task-orchestrator` after all three `capacitor-platform-developer` reports in `agent-reports/` say `complete`. Running earlier produces false mismatches.
 
 ## Inputs
 
@@ -72,5 +74,5 @@ Each finding should name the platform, the category (signature / error-code / pa
 
 ## Rules
 
-- Don't check code quality, style, or test coverage — that's each platform subagent's own job.
+- Don't check code quality or style — that's the platform developer's job.
 - Don't fix anything itself. Only report; the orchestrator decides the resolution path.
