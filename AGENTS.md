@@ -31,3 +31,6 @@ Capacitor plugin: calendars and events on iOS and Android, reminders on iOS, `.i
 - Public JSDoc: one-line summary. Add a second sentence only when the name is ambiguous. Compare fields only when their values interact.
 - Names state meaning. No cryptic locals (`d`, `m`, `y`).
 - Skill `metadata.version`: bump once per PR that changes a merged skill. A new skill starts at `1.0`.
+- Every commit message ends with this trailer, after one empty line:
+  `Co-authored-by: Ehsan Barooni <66495214+ebarooni@users.noreply.github.com>`
+  Do not add any other `Co-authored-by` line. Cursor's commit hook adds the session owner only when no trailer is present, and that adds the wrong email.
