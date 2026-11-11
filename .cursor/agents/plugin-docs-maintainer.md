@@ -21,6 +21,7 @@ Report (to the given path, otherwise in your reply):
 
 ```md
 ## Docs — complete | blocked
+
 - Files changed:
 - Docgen run: yes | no
 - Escalations / blocker: none | factual finding (no redesign)
