@@ -199,6 +199,9 @@ class CapacitorCalendar: NSObject {
         if let alerts = input.getAlerts() {
             event.alarms = alerts
         }
+        if let recurrenceRules = input.getRecurrenceRule() {
+            event.recurrenceRules = recurrenceRules
+        }
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
         }
@@ -271,7 +274,9 @@ class CapacitorCalendar: NSObject {
         if let alerts = input.getAlerts() {
             event.alarms = alerts
         }
-        event.recurrenceRules = input.getRecurrenceRule()
+        if let recurrenceRules = input.getRecurrenceRule() {
+            event.recurrenceRules = recurrenceRules
+        }
 
         try eventStore.save(event, span: input.getSpan())
     }

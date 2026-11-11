@@ -600,6 +600,7 @@ modifyEvent(options: ModifyEventOptions) => Promise<void>
 ```
 
 Modifies an event.
+Fields that you omit keep their current values.
 
 | Param         | Type                                                              |
 | ------------- | ----------------------------------------------------------------- |

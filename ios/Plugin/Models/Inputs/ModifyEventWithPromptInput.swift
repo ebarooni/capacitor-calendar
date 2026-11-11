@@ -10,7 +10,7 @@ struct ModifyEventWithPromptInput {
     private var calendarId: String?
 
     init(call: CAPPluginCall) throws {
-        self.input = CreateEventWithPromptInput(call: call)
+        self.input = try CreateEventWithPromptInput(call: call)
         guard let id = call.getString("id") else {
             throw PluginError.idMissing
         }
@@ -59,6 +59,11 @@ struct ModifyEventWithPromptInput {
 
     func getIsAllDay() -> Bool? {
         return isAllDay
+    }
+
+    /// Returns nil when `recurrence` is omitted, so the event keeps its existing rules.
+    func getRecurrenceRule() -> [EKRecurrenceRule]? {
+        return input.getRecurrenceRuleIfPresent()
     }
 
     func getAlerts() -> [EKAlarm]? {

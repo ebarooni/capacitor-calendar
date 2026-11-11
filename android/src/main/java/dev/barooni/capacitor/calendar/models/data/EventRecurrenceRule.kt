@@ -1,6 +1,7 @@
 package dev.barooni.capacitor.calendar.models.data
 
 import com.getcapacitor.JSObject
+import dev.barooni.capacitor.calendar.PluginError
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.Calendar
@@ -45,8 +46,8 @@ data class EventRecurrenceRule(
     }
 
     companion object {
-        fun parseRecurrence(obj: JSObject): EventRecurrenceRule? {
-            val frequencyString = obj.getString("frequency") ?: return null
+        fun parseRecurrence(obj: JSObject): EventRecurrenceRule {
+            val frequencyString = obj.getString("frequency") ?: throw PluginError.MissingFrequency
             val frequency =
                 try {
                     Frequency.valueOf(
@@ -55,7 +56,7 @@ data class EventRecurrenceRule(
                             .replaceFirstChar { it.uppercase() },
                     )
                 } catch (_: IllegalArgumentException) {
-                    return null
+                    throw PluginError.InvalidFrequency
                 }
 
             val interval = (obj.getInteger("interval") ?: 1).coerceAtLeast(1)

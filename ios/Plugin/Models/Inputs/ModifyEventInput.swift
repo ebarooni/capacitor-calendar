@@ -42,7 +42,7 @@ struct ModifyEventInput {
         if let location = call.getString("location") {
             self.location = location
         }
-        self.recurrence = CreateEventWithPromptInput.getRecurrence(from: call)
+        self.recurrence = try CreateEventWithPromptInput.getRecurrence(from: call)
         if let spanInt = call.getInt("span"), let span = EKSpan(rawValue: spanInt) {
             self.span = span
         } else {
@@ -90,24 +90,9 @@ struct ModifyEventInput {
         return location
     }
 
-    func getRecurrenceRule() -> [EKRecurrenceRule] {
-        guard let recurrence = recurrence else {
-            return []
-        }
-
-        let rule = EKRecurrenceRule(
-            recurrenceWith: recurrence.frequency.toEKFrequency(),
-            interval: recurrence.interval,
-            daysOfTheWeek: recurrence.byWeekDay,
-            daysOfTheMonth: recurrence.byMonthDay,
-            monthsOfTheYear: recurrence.byMonth,
-            weeksOfTheYear: recurrence.weeksOfTheYear,
-            daysOfTheYear: recurrence.daysOfTheYear,
-            setPositions: nil,
-            end: recurrence.end
-        )
-
-        return [rule]
+    /// Returns nil when `recurrence` is omitted, so the event keeps its existing rules.
+    func getRecurrenceRule() -> [EKRecurrenceRule]? {
+        return recurrence.map { [$0.toEKRecurrenceRule()] }
     }
 
     func getStartDate() -> Date? {

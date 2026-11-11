@@ -45,6 +45,8 @@ sealed class PluginError(
 
     data object InvalidEventId : PluginError("Invalid event ID.", "EB-CLDR-0001")
 
+    data object InvalidFrequency : PluginError("Invalid frequency.", "EB-CLDR-0001")
+
     data object InvalidInvitees : PluginError("Invalid invitees. Array must contain only strings.", "EB-CLDR-0001")
 
     data object InvalidScope : PluginError("Invalid scope.", "EB-CLDR-0001")
@@ -57,6 +59,8 @@ sealed class PluginError(
             "Missing AndroidManifest permission: $permission.",
             "EB-CLDR-0100",
         )
+
+    data object MissingFrequency : PluginError("Frequency must be provided.", "EB-CLDR-0001")
 
     data object MissingId : PluginError("Event ID must be provided.", "EB-CLDR-0001")
 

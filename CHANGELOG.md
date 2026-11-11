@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.10.1](#8101)
   - [8.10.0](#8100)
   - [8.9.0](#890)
   - [8.8.0](#880)
@@ -50,6 +51,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.10.1
+
+### Fixed
+
+- iOS `modifyEvent` keeps the recurrence of an event when `recurrence` is omitted
+- iOS `modifyEventWithPrompt` now applies `recurrence`
+- Android `modifyEvent` rejects with `Event not found.` (`EB-CLDR-0002`) when no event exists for `id`
+- Android and iOS event methods reject an invalid or missing `recurrence.frequency` with `Invalid frequency.` or `Frequency must be provided.` (`EB-CLDR-0001`)
 
 ## 8.10.0
 

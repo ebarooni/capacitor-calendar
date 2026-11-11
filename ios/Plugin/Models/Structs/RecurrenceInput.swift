@@ -38,4 +38,18 @@ struct RecurrenceInput {
 
     let weeksOfTheYear: [NSNumber]?
     let daysOfTheYear: [NSNumber]?
+
+    func toEKRecurrenceRule() -> EKRecurrenceRule {
+        return EKRecurrenceRule(
+            recurrenceWith: frequency.toEKFrequency(),
+            interval: interval,
+            daysOfTheWeek: byWeekDay,
+            daysOfTheMonth: byMonthDay,
+            monthsOfTheYear: byMonth,
+            weeksOfTheYear: weeksOfTheYear,
+            daysOfTheYear: daysOfTheYear,
+            setPositions: nil,
+            end: end
+        )
+    }
 }

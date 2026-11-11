@@ -14,7 +14,7 @@ struct CreateEventWithPromptInput {
     private let title: String
     private var url: String?
 
-    init(call: CAPPluginCall) {
+    init(call: CAPPluginCall) throws {
         if let alerts = call.getArray("alerts", []) as? [Double] {
             self.alerts = alerts
         } else {
@@ -36,7 +36,7 @@ struct CreateEventWithPromptInput {
         if let location = call.getString("location") {
             self.location = location
         }
-        self.recurrence = CreateEventWithPromptInput.getRecurrence(from: call)
+        self.recurrence = try CreateEventWithPromptInput.getRecurrence(from: call)
         if let startDate = call.getDouble("startDate") as Double? {
             self.startDate = startDate
         }
@@ -76,23 +76,12 @@ struct CreateEventWithPromptInput {
     }
 
     func getRecurrenceRule() -> [EKRecurrenceRule] {
-        guard let recurrence = recurrence else {
-            return []
-        }
+        return getRecurrenceRuleIfPresent() ?? []
+    }
 
-        let rule = EKRecurrenceRule(
-            recurrenceWith: recurrence.frequency.toEKFrequency(),
-            interval: recurrence.interval,
-            daysOfTheWeek: recurrence.byWeekDay,
-            daysOfTheMonth: recurrence.byMonthDay,
-            monthsOfTheYear: recurrence.byMonth,
-            weeksOfTheYear: recurrence.weeksOfTheYear,
-            daysOfTheYear: recurrence.daysOfTheYear,
-            setPositions: nil,
-            end: recurrence.end
-        )
-
-        return [rule]
+    /// Returns nil when `recurrence` is omitted, so a modify call can keep the existing rules.
+    func getRecurrenceRuleIfPresent() -> [EKRecurrenceRule]? {
+        return recurrence.map { [$0.toEKRecurrenceRule()] }
     }
 
     func getStartDate() -> Date? {
@@ -109,63 +98,65 @@ struct CreateEventWithPromptInput {
         return URL(string: url)
     }
 
-    static func getRecurrence(from call: CAPPluginCall) -> RecurrenceInput? {
-        if let recurrenceObject = call.getObject("recurrence") {
-            if let frequencyString = recurrenceObject["frequency"] as? String, let frequency = RecurrenceInput.Frequency(rawValue: frequencyString) {
-                let interval = ImplementationHelper.int(from: recurrenceObject["interval"]) ?? 1
-                let count = ImplementationHelper.int(from: recurrenceObject["count"])
-
-                var endDate: Date?
-                if let endMs = ImplementationHelper.double(from: recurrenceObject["end"]) {
-                    endDate = ImplementationHelper.dateFromTimestamp(endMs)
-                }
-
-                var end: EKRecurrenceEnd?
-                if let count = count {
-                    end = EKRecurrenceEnd(occurrenceCount: count)
-                } else if let endDate = endDate {
-                    end = EKRecurrenceEnd(end: endDate)
-                } else {
-                    end = nil
-                }
-
-                var byWeekDay: [EKRecurrenceDayOfWeek]?
-                if let days = recurrenceObject["byWeekDay"] as? [Int] {
-                    byWeekDay = days.compactMap { day in
-                        switch day {
-                        case 1: return EKRecurrenceDayOfWeek(.monday)
-                        case 2: return EKRecurrenceDayOfWeek(.tuesday)
-                        case 3: return EKRecurrenceDayOfWeek(.wednesday)
-                        case 4: return EKRecurrenceDayOfWeek(.thursday)
-                        case 5: return EKRecurrenceDayOfWeek(.friday)
-                        case 6: return EKRecurrenceDayOfWeek(.saturday)
-                        case 7: return EKRecurrenceDayOfWeek(.sunday)
-                        default: return nil
-                        }
-                    }
-                }
-
-                let byMonthDay = (recurrenceObject["byMonthDay"] as? [Int])?.map { NSNumber(value: $0) }
-                let byMonth = (recurrenceObject["byMonth"] as? [Int])?.map { NSNumber(value: $0) }
-                let weeksOfTheYear = (recurrenceObject["weeksOfTheYear"] as? [Int])?.map { NSNumber(value: $0) }
-                let daysOfTheYear = (recurrenceObject["daysOfTheYear"] as? [Int])?.map { NSNumber(value: $0) }
-
-                return RecurrenceInput(
-                    frequency: frequency,
-                    interval: max(1, interval),
-                    count: count,
-                    end: end,
-                    byWeekDay: byWeekDay,
-                    byMonthDay: byMonthDay,
-                    byMonth: byMonth,
-                    weeksOfTheYear: weeksOfTheYear,
-                    daysOfTheYear: daysOfTheYear
-                )
-            } else {
-                return nil
-            }
-        } else {
+    static func getRecurrence(from call: CAPPluginCall) throws -> RecurrenceInput? {
+        guard let recurrenceObject = call.getObject("recurrence") else {
             return nil
         }
+        guard recurrenceObject["frequency"] != nil else {
+            throw PluginError.missingFrequency
+        }
+        guard let frequencyString = recurrenceObject["frequency"] as? String,
+              let frequency = RecurrenceInput.Frequency(rawValue: frequencyString) else {
+            throw PluginError.invalidFrequency
+        }
+        let interval = ImplementationHelper.int(from: recurrenceObject["interval"]) ?? 1
+        let count = ImplementationHelper.int(from: recurrenceObject["count"])
+
+        var endDate: Date?
+        if let endMs = ImplementationHelper.double(from: recurrenceObject["end"]) {
+            endDate = ImplementationHelper.dateFromTimestamp(endMs)
+        }
+
+        var end: EKRecurrenceEnd?
+        if let count = count {
+            end = EKRecurrenceEnd(occurrenceCount: count)
+        } else if let endDate = endDate {
+            end = EKRecurrenceEnd(end: endDate)
+        } else {
+            end = nil
+        }
+
+        var byWeekDay: [EKRecurrenceDayOfWeek]?
+        if let days = recurrenceObject["byWeekDay"] as? [Int] {
+            byWeekDay = days.compactMap { day in
+                switch day {
+                case 1: return EKRecurrenceDayOfWeek(.monday)
+                case 2: return EKRecurrenceDayOfWeek(.tuesday)
+                case 3: return EKRecurrenceDayOfWeek(.wednesday)
+                case 4: return EKRecurrenceDayOfWeek(.thursday)
+                case 5: return EKRecurrenceDayOfWeek(.friday)
+                case 6: return EKRecurrenceDayOfWeek(.saturday)
+                case 7: return EKRecurrenceDayOfWeek(.sunday)
+                default: return nil
+                }
+            }
+        }
+
+        let byMonthDay = (recurrenceObject["byMonthDay"] as? [Int])?.map { NSNumber(value: $0) }
+        let byMonth = (recurrenceObject["byMonth"] as? [Int])?.map { NSNumber(value: $0) }
+        let weeksOfTheYear = (recurrenceObject["weeksOfTheYear"] as? [Int])?.map { NSNumber(value: $0) }
+        let daysOfTheYear = (recurrenceObject["daysOfTheYear"] as? [Int])?.map { NSNumber(value: $0) }
+
+        return RecurrenceInput(
+            frequency: frequency,
+            interval: max(1, interval),
+            count: count,
+            end: end,
+            byWeekDay: byWeekDay,
+            byMonthDay: byMonthDay,
+            byMonth: byMonth,
+            weeksOfTheYear: weeksOfTheYear,
+            daysOfTheYear: daysOfTheYear
+        )
     }
 }
