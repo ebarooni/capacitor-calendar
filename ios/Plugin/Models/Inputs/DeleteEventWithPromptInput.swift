@@ -3,6 +3,7 @@ import Capacitor
 struct DeleteEventWithPromptInput {
     private let commit: Bool
     private let id: String
+    private let instanceDate: Double?
     private let span: EventSpan
     private let title: String
     private let message: String
@@ -15,6 +16,7 @@ struct DeleteEventWithPromptInput {
             throw PluginError.idMissing
         }
         self.id = id
+        self.instanceDate = call.getDouble("instanceDate")
         if let spanInt = call.getInt("span"), let span = EventSpan(rawValue: spanInt) {
             self.span = span
         } else {
@@ -38,6 +40,11 @@ struct DeleteEventWithPromptInput {
 
     func getId() -> String {
         return id
+    }
+
+    func getInstanceDate() -> Date? {
+        guard let instanceDate = instanceDate else { return nil }
+        return ImplementationHelper.dateFromTimestamp(instanceDate)
     }
 
     func getSpan() -> EventSpan {

@@ -8,6 +8,7 @@ struct ModifyEventInput {
     private var description: String?
     private var endDate: Double?
     private let id: String
+    private let instanceDate: Double?
     private var isAllDay: Bool?
     private var location: String?
     private let recurrence: RecurrenceInput?
@@ -36,6 +37,7 @@ struct ModifyEventInput {
             throw PluginError.idMissing
         }
         self.id = id
+        self.instanceDate = call.getDouble("instanceDate")
         if let isAllDay = call.getBool("isAllDay") as Bool? {
             self.isAllDay = isAllDay
         }
@@ -72,10 +74,8 @@ struct ModifyEventInput {
     }
 
     func getEvent(from eventStore: EKEventStore) throws -> EKEvent {
-        guard let event = eventStore.event(withIdentifier: id) else {
-            throw PluginError.eventNotFound
-        }
-        return event
+        let occurrenceStart = instanceDate.map { ImplementationHelper.dateFromTimestamp($0) }
+        return try ImplementationHelper.findEvent(id: id, instanceDate: occurrenceStart, eventStore: eventStore)
     }
 
     func getTitle() -> String? {

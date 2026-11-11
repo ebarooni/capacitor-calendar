@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
-  - [8.10.1](#8101)
+  - [8.11.0](#8110)
   - [8.10.0](#8100)
   - [8.9.0](#890)
   - [8.8.0](#880)
@@ -52,7 +52,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 Changelogs for the versions supporting Capacitor 8.
 
-## 8.10.1
+## 8.11.0
+
+### Added
+
+- iOS support for optional `instanceDate` on `deleteEvent` and `deleteEventWithPrompt`, and new optional `instanceDate` on `ModifyEventOptions` and `ModifyEventWithPromptOptions` (iOS), to target one occurrence of a recurring event. If omitted, the first occurrence is the target, as before
 
 ### Fixed
 

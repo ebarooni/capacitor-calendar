@@ -4,6 +4,7 @@ import EventKit
 struct ModifyEventWithPromptInput {
     private let input: CreateEventWithPromptInput
     private let id: String
+    private let instanceDate: Double?
     private var title: String?
     private var isAllDay: Bool?
     private var alerts: [Double]?
@@ -15,6 +16,7 @@ struct ModifyEventWithPromptInput {
             throw PluginError.idMissing
         }
         self.id = id
+        self.instanceDate = call.getDouble("instanceDate")
         let title = input.getTitle()
         if !title.isEmpty {
             self.title = title
@@ -31,10 +33,8 @@ struct ModifyEventWithPromptInput {
     }
 
     func getEvent(from eventStore: EKEventStore) throws -> EKEvent {
-        guard let event = eventStore.event(withIdentifier: id) else {
-            throw PluginError.eventNotFound
-        }
-        return event
+        let occurrenceStart = instanceDate.map { ImplementationHelper.dateFromTimestamp($0) }
+        return try ImplementationHelper.findEvent(id: id, instanceDate: occurrenceStart, eventStore: eventStore)
     }
 
     func getTitle() -> String? {

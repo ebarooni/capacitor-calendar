@@ -49,6 +49,16 @@ export interface ModifyEventWithPromptOptions {
    */
   id: string;
   /**
+   * The start time of the occurrence to modify, in milliseconds since the epoch.
+   * Use `startDate` from `listEventsInRange`.
+   * If omitted, the first occurrence of a recurring series is the target.
+   *
+   * @example 1716153600000
+   * @platform iOS
+   * @since 8.11.0
+   */
+  instanceDate?: number;
+  /**
    * An array of emails to invite.
    *
    * @platform Android

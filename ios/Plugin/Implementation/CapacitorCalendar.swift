@@ -534,16 +534,25 @@ class CapacitorCalendar: NSObject {
     }
 
     func deleteEvent(_ input: DeleteEventInput) throws {
-        try ImplementationHelper.deleteEvent(commit: input.getCommit(), input.getId(), input.getSpan(), eventStore)
+        try ImplementationHelper.deleteEvent(
+            commit: input.getCommit(),
+            input.getId(),
+            input.getSpan(),
+            eventStore,
+            instanceDate: input.getInstanceDate()
+        )
     }
 
     func deleteEventWithPrompt(_ input: DeleteEventWithPromptInput) async throws -> DeleteEventWithPromptResult {
         guard let viewController = plugin.bridge?.viewController else {
             throw PluginError.viewControllerMissing
         }
-        guard let event = eventStore.event(withIdentifier: input.getId()) else {
-            throw PluginError.eventNotFound
-        }
+        // Reject before the dialog opens when the event or the occurrence does not exist.
+        _ = try ImplementationHelper.findEvent(
+            id: input.getId(),
+            instanceDate: input.getInstanceDate(),
+            eventStore: eventStore
+        )
 
         return try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
@@ -559,7 +568,13 @@ class CapacitorCalendar: NSObject {
 
                 alert.addAction(UIAlertAction(title: input.getConfirmButtonText(), style: .destructive, handler: { _ in
                     do {
-                        try ImplementationHelper.deleteEvent(commit: input.getCommit(), event.eventIdentifier, input.getSpan(), self.eventStore)
+                        try ImplementationHelper.deleteEvent(
+                            commit: input.getCommit(),
+                            input.getId(),
+                            input.getSpan(),
+                            self.eventStore,
+                            instanceDate: input.getInstanceDate()
+                        )
                         continuation.resume(returning: DeleteEventWithPromptResult(deleted: true))
                     } catch let error {
                         continuation.resume(throwing: error)

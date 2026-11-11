@@ -43,6 +43,7 @@ export interface EventOperations {
    * }
    * await CapacitorCalendar.modifyEventWithPrompt(options);
    *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency`.
    * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value.
    *
@@ -74,7 +75,7 @@ export interface EventOperations {
    * Modifies an event.
    * Fields that you omit keep their current values.
    *
-   * @throws {Error} `Event not found.` — when no event exists for `id`.
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency`.
    * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value.
    *
@@ -93,6 +94,7 @@ export interface EventOperations {
   /**
    * Deletes an event.
    *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @platform Android, iOS
    * @since 7.1.0
    */
@@ -100,6 +102,7 @@ export interface EventOperations {
   /**
    * Opens a dialog to delete an event.
    *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @platform Android, iOS
    * @since 7.1.0
    */

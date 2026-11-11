@@ -42,9 +42,10 @@ export interface DeleteEventWithPromptOptions {
    * The start time of the occurrence to delete, in milliseconds since the epoch.
    * Use `startDate` from `listEventsInRange`.
    * On Android, required for `THIS_EVENT` on recurring events. If omitted with `THIS_AND_FUTURE_EVENTS`, the whole series is deleted.
+   * On iOS, optional since 8.11.0. If omitted, the first occurrence of the series is the target.
    *
    * @example 1716153600000
-   * @platform Android
+   * @platform Android, iOS
    * @since 8.3.0
    */
   instanceDate?: number;
