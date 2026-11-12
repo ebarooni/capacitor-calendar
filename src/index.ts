@@ -38,9 +38,12 @@ import type { DeleteRemindersByIdOptions } from './schemas/interfaces/delete-rem
 import type { DeleteRemindersByIdResult } from './schemas/interfaces/delete-reminders-by-id-result';
 import type { DeleteRemindersListOptions } from './schemas/interfaces/delete-reminders-list-options';
 import type { EventGuest } from './schemas/interfaces/event-guest';
+import type { EventRecurrenceRule } from './schemas/interfaces/event-recurrence-rule';
 import type { FetchAllCalendarSourcesResult } from './schemas/interfaces/fetch-all-calendar-sources-result';
 import type { GetDefaultCalendarOptions } from './schemas/interfaces/get-default-calendar-options';
 import type { GetDefaultRemindersListResult } from './schemas/interfaces/get-default-reminders-list-result';
+import type { GetEventByIdOptions } from './schemas/interfaces/get-event-by-id-options';
+import type { GetEventByIdResult } from './schemas/interfaces/get-event-by-id-result';
 import type { GetReminderByIdOptions } from './schemas/interfaces/get-reminder-by-id-options';
 import type { GetReminderByIdResult } from './schemas/interfaces/get-reminder-by-id-result';
 import type { GetRemindersFromListsOptions } from './schemas/interfaces/get-reminders-from-lists-options';
@@ -104,9 +107,12 @@ export type {
   DeleteRemindersListOptions,
   EventEditAction,
   EventGuest,
+  EventRecurrenceRule,
   FetchAllCalendarSourcesResult,
   GetDefaultCalendarOptions,
   GetDefaultRemindersListResult,
+  GetEventByIdOptions,
+  GetEventByIdResult,
   GetReminderByIdOptions,
   GetReminderByIdResult,
   GetRemindersFromListsOptions,

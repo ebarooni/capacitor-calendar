@@ -136,9 +136,12 @@ class ImplementationHelper {
             return list
         }
 
-        fun jsArrayToLongArray(array: JSArray): List<Long> {
+        fun jsArrayToLongArray(
+            array: JSArray,
+            error: PluginError = PluginError.InvalidEventId,
+        ): List<Long> {
             val list = array.toList<String>()
-            return list.map { it.toLongOrNull() ?: throw PluginError.InvalidEventId }
+            return list.map { it.toLongOrNull() ?: throw error }
         }
 
         fun hexToColorInt(hex: String?): Int? {
