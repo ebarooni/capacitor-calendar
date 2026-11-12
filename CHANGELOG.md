@@ -57,6 +57,9 @@ Changelogs for the versions supporting Capacitor 8.
 ### Added
 
 - iOS support for optional `instanceDate` on `deleteEvent` and `deleteEventWithPrompt`, and new optional `instanceDate` on `ModifyEventOptions` and `ModifyEventWithPromptOptions` (iOS), to target one occurrence of a recurring event. If omitted, the first occurrence is the target, as before
+- `getEventById(...)` on Android and iOS. It returns the event for an id, or `null` when none exists
+- Optional `calendarIds` on `ListEventsInRangeOptions`. It limits the search to the given calendars. If omitted or empty, all calendars are searched, as before
+- `EventRecurrenceRule` is now exported from the package entry
 
 ### Fixed
 
