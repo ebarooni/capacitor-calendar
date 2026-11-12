@@ -5,6 +5,8 @@ import type { CreateEventWithPromptResult } from '../schemas/interfaces/create-e
 import type { DeleteEventOptions } from '../schemas/interfaces/delete-event-options';
 import type { DeleteEventWithPromptOptions } from '../schemas/interfaces/delete-event-with-prompt-options';
 import type { DeleteEventsByIdOptions } from '../schemas/interfaces/delete-events-by-id-options';
+import type { GetEventByIdOptions } from '../schemas/interfaces/get-event-by-id-options';
+import type { GetEventByIdResult } from '../schemas/interfaces/get-event-by-id-result';
 import type { ListEventsInRangeOptions } from '../schemas/interfaces/list-events-in-range-options';
 import type { ListEventsInRangeResult } from '../schemas/interfaces/list-events-in-range-result';
 import type { ModifyEventOptions } from '../schemas/interfaces/modify-event-options';
@@ -113,6 +115,7 @@ export interface EventOperations {
    *
    * An event is included when its time interval intersects `[from, to]`, including
    * multi-day events that span the range without starting or ending inside it.
+   * Pass `calendarIds` to search only some calendars.
    *
    * @example
    * const startOfDay = new Date();
@@ -129,6 +132,18 @@ export interface EventOperations {
    * @since 0.10.0
    */
   listEventsInRange(options: ListEventsInRangeOptions): Promise<ListEventsInRangeResult>;
+  /**
+   * Retrieves an event by id.
+   *
+   * For a recurring event, the result is the first occurrence on iOS and the series master on Android.
+   *
+   * @example
+   * const { result } = await CapacitorCalendar.getEventById({ id: eventId });
+   *
+   * @platform Android, iOS
+   * @since 8.11.0
+   */
+  getEventById(options: GetEventByIdOptions): Promise<GetEventByIdResult>;
 }
 
 /**

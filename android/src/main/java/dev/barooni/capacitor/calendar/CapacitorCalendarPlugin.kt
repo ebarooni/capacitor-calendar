@@ -20,6 +20,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.GetDefaultCalendarInput
+import dev.barooni.capacitor.calendar.models.inputs.GetEventByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
@@ -485,6 +486,18 @@ class CapacitorCalendarPlugin : Plugin() {
             declarationCheck.ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
             val input = ListEventsInRangeInput(call)
             val result = implementation.listEventsInRange(input)
+            call.resolve(result.toJSON())
+        } catch (error: Exception) {
+            rejectCall(call, error)
+        }
+    }
+
+    @PluginMethod
+    fun getEventById(call: PluginCall) {
+        try {
+            declarationCheck.ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
+            val input = GetEventByIdInput(call)
+            val result = implementation.getEventById(input)
             call.resolve(result.toJSON())
         } catch (error: Exception) {
             rejectCall(call, error)

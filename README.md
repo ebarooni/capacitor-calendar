@@ -353,6 +353,7 @@ See [BREAKING.md](BREAKING.md) for breaking changes and migration steps.
 - [`deleteEvent(...)`](#deleteevent)
 - [`deleteEventWithPrompt(...)`](#deleteeventwithprompt)
 - [`listEventsInRange(...)`](#listeventsinrange)
+- [`getEventById(...)`](#geteventbyid)
 - [`commit()`](#commit)
 - [`selectCalendarsWithPrompt(...)`](#selectcalendarswithprompt)
 - [`fetchAllCalendarSources()`](#fetchallcalendarsources)
@@ -680,6 +681,7 @@ Retrieves events that overlap a date range.
 
 An event is included when its time interval intersects `[from, to]`, including
 multi-day events that span the range without starting or ending inside it.
+Pass `calendarIds` to search only some calendars.
 
 | Param         | Type                                                                          |
 | ------------- | ----------------------------------------------------------------------------- |
@@ -688,6 +690,28 @@ multi-day events that span the range without starting or ending inside it.
 **Returns:** <code>Promise&lt;<a href="#listeventsinrangeresult">ListEventsInRangeResult</a>&gt;</code>
 
 **Since:** 0.10.0
+
+**Platform:** Android, iOS
+
+---
+
+### getEventById(...)
+
+```typescript
+getEventById(options: GetEventByIdOptions) => Promise<GetEventByIdResult>
+```
+
+Retrieves an event by id.
+
+For a recurring event, the result is the first occurrence on iOS and the series master on Android.
+
+| Param         | Type                                                                |
+| ------------- | ------------------------------------------------------------------- |
+| **`options`** | <code><a href="#geteventbyidoptions">GetEventByIdOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#geteventbyidresult">GetEventByIdResult</a>&gt;</code>
+
+**Since:** 8.11.0
 
 **Platform:** Android, iOS
 
@@ -1348,10 +1372,23 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### ListEventsInRangeOptions
 
-| Prop       | Type                | Description                                                                                                                                                                             | Since |
-| ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **`from`** | <code>number</code> | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0 |
-| **`to`**   | <code>number</code> | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0 |
+| Prop              | Type                  | Description                                                                                                                                                                             | Since  |
+| ----------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| **`from`**        | <code>number</code>   | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0  |
+| **`to`**          | <code>number</code>   | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0  |
+| **`calendarIds`** | <code>string[]</code> | Ids of the calendars to search. When omitted or empty, all calendars are searched.                                                                                                      | 8.11.0 |
+
+#### GetEventByIdResult
+
+| Prop         | Type                                                            | Description                                             | Since  | Platform     |
+| ------------ | --------------------------------------------------------------- | ------------------------------------------------------- | ------ | ------------ |
+| **`result`** | <code><a href="#calendarevent">CalendarEvent</a> \| null</code> | The event for the given id, or `null` when none exists. | 8.11.0 | Android, iOS |
+
+#### GetEventByIdOptions
+
+| Prop     | Type                | Description   | Since  |
+| -------- | ------------------- | ------------- | ------ |
+| **`id`** | <code>string</code> | The event id. | 8.11.0 |
 
 #### SelectCalendarsWithPromptResult
 

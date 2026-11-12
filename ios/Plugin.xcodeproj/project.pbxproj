@@ -38,6 +38,7 @@
 		7C265CDB2EA98E62005E867C /* DeleteEventsByIdInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C9B2EA98E62005E867C /* DeleteEventsByIdInput.swift */; };
 		7C265CDC2EA98E62005E867C /* CalendarPermissionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C902EA98E62005E867C /* CalendarPermissionScope.swift */; };
 		7C265CDD2EA98E62005E867C /* GetReminderByIdInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CA02EA98E62005E867C /* GetReminderByIdInput.swift */; };
+		7C265DA32EA98E62005E867C /* GetEventByIdInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265DA12EA98E62005E867C /* GetEventByIdInput.swift */; };
 		7C265CDE2EA98E62005E867C /* RequestPermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CBC2EA98E62005E867C /* RequestPermissionResult.swift */; };
 		7C265CDF2EA98E62005E867C /* JSResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CBF2EA98E62005E867C /* JSResult.swift */; };
 		7C265CE02EA98E62005E867C /* ListCalendarsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CB82EA98E62005E867C /* ListCalendarsResult.swift */; };
@@ -52,6 +53,7 @@
 		7C265CE92EA98E62005E867C /* ModifyEventInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CA42EA98E62005E867C /* ModifyEventInput.swift */; };
 		7C265CEA2EA98E62005E867C /* ModifyEventWithPromptResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CBA2EA98E62005E867C /* ModifyEventWithPromptResult.swift */; };
 		7C265CEB2EA98E62005E867C /* GetReminderByIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CB62EA98E62005E867C /* GetReminderByIdResult.swift */; };
+		7C265DA42EA98E62005E867C /* GetEventByIdResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265DA22EA98E62005E867C /* GetEventByIdResult.swift */; };
 		7C265CEC2EA98E62005E867C /* DeleteReminderInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265C9D2EA98E62005E867C /* DeleteReminderInput.swift */; };
 		7C265CED2EA98E62005E867C /* GetDefaultCalendarResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CB52EA98E62005E867C /* GetDefaultCalendarResult.swift */; };
 		7C265CEE2EA98E62005E867C /* SelectCalendarsWithPromptInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C265CA92EA98E62005E867C /* SelectCalendarsWithPromptInput.swift */; };
@@ -110,6 +112,7 @@
 		7C265C9E2EA98E62005E867C /* DeleteRemindersByIdInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteRemindersByIdInput.swift; sourceTree = "<group>"; };
 		7C265C9F2EA98E62005E867C /* DeleteReminderWithPromptInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReminderWithPromptInput.swift; sourceTree = "<group>"; };
 		7C265CA02EA98E62005E867C /* GetReminderByIdInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReminderByIdInput.swift; sourceTree = "<group>"; };
+		7C265DA12EA98E62005E867C /* GetEventByIdInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEventByIdInput.swift; sourceTree = "<group>"; };
 		7C265CA12EA98E62005E867C /* GetRemindersFromListsInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRemindersFromListsInput.swift; sourceTree = "<group>"; };
 		7C265CA22EA98E62005E867C /* ListEventsInRangeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEventsInRangeInput.swift; sourceTree = "<group>"; };
 		7C265CA32EA98E62005E867C /* ModifyCalendarInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyCalendarInput.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		7C265CB42EA98E62005E867C /* FetchAllCalendarSourcesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllCalendarSourcesResult.swift; sourceTree = "<group>"; };
 		7C265CB52EA98E62005E867C /* GetDefaultCalendarResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDefaultCalendarResult.swift; sourceTree = "<group>"; };
 		7C265CB62EA98E62005E867C /* GetReminderByIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReminderByIdResult.swift; sourceTree = "<group>"; };
+		7C265DA22EA98E62005E867C /* GetEventByIdResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEventByIdResult.swift; sourceTree = "<group>"; };
 		7C265CB72EA98E62005E867C /* GetRemindersFromListsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRemindersFromListsResult.swift; sourceTree = "<group>"; };
 		7C265CB82EA98E62005E867C /* ListCalendarsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCalendarsResult.swift; sourceTree = "<group>"; };
 		7C265CB92EA98E62005E867C /* ListEventsInRangeResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEventsInRangeResult.swift; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 				7C265C9E2EA98E62005E867C /* DeleteRemindersByIdInput.swift */,
 				7C265C9F2EA98E62005E867C /* DeleteReminderWithPromptInput.swift */,
 				7C265CA02EA98E62005E867C /* GetReminderByIdInput.swift */,
+				7C265DA12EA98E62005E867C /* GetEventByIdInput.swift */,
 				7C265CA12EA98E62005E867C /* GetRemindersFromListsInput.swift */,
 				7C265CA22EA98E62005E867C /* ListEventsInRangeInput.swift */,
 				7C265CA32EA98E62005E867C /* ModifyCalendarInput.swift */,
@@ -285,6 +290,7 @@
 				7C265CB42EA98E62005E867C /* FetchAllCalendarSourcesResult.swift */,
 				7C265CB52EA98E62005E867C /* GetDefaultCalendarResult.swift */,
 				7C265CB62EA98E62005E867C /* GetReminderByIdResult.swift */,
+				7C265DA22EA98E62005E867C /* GetEventByIdResult.swift */,
 				7C265CB72EA98E62005E867C /* GetRemindersFromListsResult.swift */,
 				7C265CB82EA98E62005E867C /* ListCalendarsResult.swift */,
 				7C265CB92EA98E62005E867C /* ListEventsInRangeResult.swift */,
@@ -567,6 +573,7 @@
 				7C8CC2FD2FDD5007008D1AB7 /* CreateRemindersListInput.swift in Sources */,
 				7C265CDC2EA98E62005E867C /* CalendarPermissionScope.swift in Sources */,
 				7C265CDD2EA98E62005E867C /* GetReminderByIdInput.swift in Sources */,
+				7C265DA32EA98E62005E867C /* GetEventByIdInput.swift in Sources */,
 				7C0DEF022FDF210100A864E4 /* GetDefaultCalendarInput.swift in Sources */,
 				7CABD3812FDF141300A864E4 /* UpdateRemindersListInput.swift in Sources */,
 				7C265CDE2EA98E62005E867C /* RequestPermissionResult.swift in Sources */,
@@ -585,6 +592,7 @@
 				7C265CEA2EA98E62005E867C /* ModifyEventWithPromptResult.swift in Sources */,
 				7CABD3832FDF14E200A864E4 /* UpdateRemindersListResult.swift in Sources */,
 				7C265CEB2EA98E62005E867C /* GetReminderByIdResult.swift in Sources */,
+				7C265DA42EA98E62005E867C /* GetEventByIdResult.swift in Sources */,
 				7C265CEC2EA98E62005E867C /* DeleteReminderInput.swift in Sources */,
 				7C265CED2EA98E62005E867C /* GetDefaultCalendarResult.swift in Sources */,
 				7C265CEE2EA98E62005E867C /* SelectCalendarsWithPromptInput.swift in Sources */,

@@ -21,6 +21,7 @@ import dev.barooni.capacitor.calendar.models.inputs.DeleteEventInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.DeleteEventsByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.GetDefaultCalendarInput
+import dev.barooni.capacitor.calendar.models.inputs.GetEventByIdInput
 import dev.barooni.capacitor.calendar.models.inputs.ListEventsInRangeInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.ModifyEvent
@@ -36,6 +37,7 @@ import dev.barooni.capacitor.calendar.models.results.DeleteEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.DeleteEventsByIdResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
 import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
+import dev.barooni.capacitor.calendar.models.results.GetEventByIdResult
 import dev.barooni.capacitor.calendar.models.results.ListEventsInRangeResult
 import dev.barooni.capacitor.calendar.models.templates.PluginCompletion
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
@@ -414,10 +416,17 @@ class CapacitorCalendar(
                 CalendarContract.Instances.DTSTART,
             )
 
+        val calendarIds = input.calendarIds
+        val calendarFilter =
+            calendarIds
+                ?.let { " AND (${CalendarContract.Instances.CALENDAR_ID} IN (${it.joinToString(",") { "?" }}))" }
+                ?: ""
         val selection =
             "(${CalendarContract.Instances.BEGIN} < ?) AND " +
-                "(${CalendarContract.Instances.END} > ?)"
-        val selectionArgs = arrayOf(input.to.toString(), input.from.toString())
+                "(${CalendarContract.Instances.END} > ?)" + calendarFilter
+        val selectionArgs =
+            arrayOf(input.to.toString(), input.from.toString()) +
+                (calendarIds?.map { it.toString() } ?: emptyList())
 
         val sortOrder = "${CalendarContract.Instances.BEGIN} ASC"
 
@@ -570,6 +579,97 @@ class CapacitorCalendar(
         }
         cursor?.close()
         return ListEventsInRangeResult(events)
+    }
+
+    fun getEventById(input: GetEventByIdInput): GetEventByIdResult {
+        val cr = plugin.context.contentResolver
+        val eventUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, input.id)
+        val projection =
+            arrayOf(
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events.CALENDAR_ID,
+                CalendarContract.Events.EVENT_LOCATION,
+                CalendarContract.Events.DTSTART,
+                CalendarContract.Events.DTEND,
+                CalendarContract.Events.ALL_DAY,
+                CalendarContract.Events.DESCRIPTION,
+                CalendarContract.Events.AVAILABILITY,
+                CalendarContract.Events.ORGANIZER,
+                CalendarContract.Events.EVENT_COLOR,
+                CalendarContract.Events.EVENT_TIMEZONE,
+                CalendarContract.Events.STATUS,
+                CalendarContract.Events.DURATION,
+                CalendarContract.Events.RRULE,
+                CalendarContract.Events.ORIGINAL_ID,
+                CalendarContract.Events.DELETED,
+            )
+
+        val event =
+            cr.query(eventUri, projection, null, null, null)?.use { cursor ->
+                if (!cursor.moveToFirst()) {
+                    return@use null
+                }
+
+                fun column(name: String): Int? = cursor.getColumnIndex(name).takeIf { it != -1 && !cursor.isNull(it) }
+
+                if (column(CalendarContract.Events.DELETED)?.let { cursor.getInt(it) == 1 } == true) {
+                    return@use null
+                }
+
+                val startDate = column(CalendarContract.Events.DTSTART)?.let { cursor.getLong(it) } ?: 0L
+                val isAllDay = column(CalendarContract.Events.ALL_DAY)?.let { cursor.getInt(it) == 1 } ?: false
+                val rrule = column(CalendarContract.Events.RRULE)?.let { cursor.getString(it) }
+                val originalId = column(CalendarContract.Events.ORIGINAL_ID)?.let { cursor.getLong(it) }?.takeIf { it != 0L }
+                val storedDuration = column(CalendarContract.Events.DURATION)?.let { cursor.getString(it) }
+                // Recurring masters have DURATION and no DTEND.
+                val endDate =
+                    column(CalendarContract.Events.DTEND)?.let { cursor.getLong(it) }
+                        ?: startDate
+                val duration = storedDuration ?: ImplementationHelper.buildDurationFromBeginEnd(startDate, endDate, isAllDay)
+                val isPartOfSeries = !rrule.isNullOrEmpty() || originalId != null
+                val seriesStartDate =
+                    originalId?.let { masterId ->
+                        cr
+                            .query(
+                                ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, masterId),
+                                arrayOf(CalendarContract.Events.DTSTART),
+                                null,
+                                null,
+                                null,
+                            )?.use { masterCursor ->
+                                if (masterCursor.moveToFirst() && !masterCursor.isNull(0)) masterCursor.getLong(0) else null
+                            }
+                    } ?: startDate
+
+                CalendarEvent(
+                    input.id.toString(),
+                    (originalId ?: input.id).toString(),
+                    column(CalendarContract.Events.TITLE)?.let { cursor.getString(it) } ?: "",
+                    column(CalendarContract.Events.CALENDAR_ID)?.let { cursor.getLong(it).toString() },
+                    null,
+                    column(CalendarContract.Events.EVENT_LOCATION)?.let { cursor.getString(it) },
+                    startDate,
+                    seriesStartDate,
+                    endDate,
+                    isAllDay,
+                    ImplementationHelper.getEventAlerts(cr, input.id),
+                    null,
+                    column(CalendarContract.Events.DESCRIPTION)?.let { cursor.getString(it) },
+                    column(CalendarContract.Events.AVAILABILITY)?.let { cursor.getInt(it) },
+                    column(CalendarContract.Events.ORGANIZER)?.let { cursor.getString(it) },
+                    column(CalendarContract.Events.EVENT_COLOR)?.let { ImplementationHelper.intToHexColor(cursor.getInt(it)) },
+                    duration,
+                    null,
+                    isPartOfSeries,
+                    null,
+                    column(CalendarContract.Events.STATUS)?.let { ImplementationHelper.mapEventStatus(cursor.getInt(it)) },
+                    null,
+                    null,
+                    ImplementationHelper.getEventAttendees(cr, input.id),
+                    column(CalendarContract.Events.EVENT_TIMEZONE)?.let { cursor.getString(it) },
+                )
+            }
+        return GetEventByIdResult(event)
     }
 
     fun modifyCalendar(input: ModifyCalendarInput) {
