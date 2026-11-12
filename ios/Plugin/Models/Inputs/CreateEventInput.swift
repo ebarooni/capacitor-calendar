@@ -8,7 +8,7 @@ struct CreateEventInput {
 
     init(call: CAPPluginCall) throws {
         self.commit = call.getBool("commit", true)
-        self.input = CreateEventWithPromptInput(call: call)
+        self.input = try CreateEventWithPromptInput(call: call)
         guard let title = call.getString("title") else {
             throw PluginError.titleMissing
         }

@@ -129,7 +129,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         Task {
             do {
                 try DeclarationCheck.ensureWriteOnlyCalendarUsageDescription()
-                let input = CreateEventWithPromptInput(call: call)
+                let input = try CreateEventWithPromptInput(call: call)
                 let result = try await implementation.createEventWithPrompt(with: input)
                 resolveCall(call, result)
             } catch let error {

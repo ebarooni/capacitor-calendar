@@ -8,6 +8,7 @@ struct ModifyEventInput {
     private var description: String?
     private var endDate: Double?
     private let id: String
+    private let instanceDate: Double?
     private var isAllDay: Bool?
     private var location: String?
     private let recurrence: RecurrenceInput?
@@ -36,13 +37,14 @@ struct ModifyEventInput {
             throw PluginError.idMissing
         }
         self.id = id
+        self.instanceDate = call.getDouble("instanceDate")
         if let isAllDay = call.getBool("isAllDay") as Bool? {
             self.isAllDay = isAllDay
         }
         if let location = call.getString("location") {
             self.location = location
         }
-        self.recurrence = CreateEventWithPromptInput.getRecurrence(from: call)
+        self.recurrence = try CreateEventWithPromptInput.getRecurrence(from: call)
         if let spanInt = call.getInt("span"), let span = EKSpan(rawValue: spanInt) {
             self.span = span
         } else {
@@ -72,10 +74,8 @@ struct ModifyEventInput {
     }
 
     func getEvent(from eventStore: EKEventStore) throws -> EKEvent {
-        guard let event = eventStore.event(withIdentifier: id) else {
-            throw PluginError.eventNotFound
-        }
-        return event
+        let occurrenceStart = instanceDate.map { ImplementationHelper.dateFromTimestamp($0) }
+        return try ImplementationHelper.findEvent(id: id, instanceDate: occurrenceStart, eventStore: eventStore)
     }
 
     func getTitle() -> String? {
@@ -90,24 +90,9 @@ struct ModifyEventInput {
         return location
     }
 
-    func getRecurrenceRule() -> [EKRecurrenceRule] {
-        guard let recurrence = recurrence else {
-            return []
-        }
-
-        let rule = EKRecurrenceRule(
-            recurrenceWith: recurrence.frequency.toEKFrequency(),
-            interval: recurrence.interval,
-            daysOfTheWeek: recurrence.byWeekDay,
-            daysOfTheMonth: recurrence.byMonthDay,
-            monthsOfTheYear: recurrence.byMonth,
-            weeksOfTheYear: recurrence.weeksOfTheYear,
-            daysOfTheYear: recurrence.daysOfTheYear,
-            setPositions: nil,
-            end: recurrence.end
-        )
-
-        return [rule]
+    /// Returns nil when `recurrence` is omitted, so the event keeps its existing rules.
+    func getRecurrenceRule() -> [EKRecurrenceRule]? {
+        return recurrence.map { [$0.toEKRecurrenceRule()] }
     }
 
     func getStartDate() -> Date? {
@@ -131,6 +116,11 @@ struct ModifyEventInput {
 
     func getAvailability() -> EKEventAvailability? {
         return availability
+    }
+
+    /// True when `instanceDate` selects one occurrence of a series.
+    func targetsOccurrence() -> Bool {
+        return instanceDate != nil
     }
 
     func getSpan() -> EKSpan {

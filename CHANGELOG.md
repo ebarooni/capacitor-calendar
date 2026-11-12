@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.11.0](#8110)
   - [8.10.0](#8100)
   - [8.9.0](#890)
   - [8.8.0](#880)
@@ -50,6 +51,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.11.0
+
+### Added
+
+- iOS support for optional `instanceDate` on `deleteEvent` and `deleteEventWithPrompt`, and new optional `instanceDate` on `ModifyEventOptions` and `ModifyEventWithPromptOptions` (iOS), to target one occurrence of a recurring event. If omitted, the first occurrence is the target, as before
+
+### Fixed
+
+- iOS `modifyEvent` keeps the recurrence of an event when `recurrence` is omitted
+- iOS `modifyEventWithPrompt` now applies `recurrence`
+- Android `modifyEvent` rejects with `Event not found.` (`EB-CLDR-0002`) when no event exists for `id`
+- Android and iOS event methods reject an invalid or missing `recurrence.frequency` with `Invalid frequency.` or `Frequency must be provided.` (`EB-CLDR-0001`)
+- iOS `modifyEvent` rejects with `Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.` (`EB-CLDR-0001`) when `recurrence` is set with `instanceDate` and `THIS_EVENT` on a recurring event. Before, this call was not possible
 
 ## 8.10.0
 

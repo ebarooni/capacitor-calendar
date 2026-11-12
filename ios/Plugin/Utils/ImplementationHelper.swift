@@ -197,10 +197,41 @@ struct ImplementationHelper {
         try eventStore.remove(reminder, commit: commit)
     }
 
-    static func deleteEvent(commit: Bool, _ id: String, _ span: EventSpan, _ eventStore: EKEventStore) throws {
-        guard let event = eventStore.event(withIdentifier: id) else {
+    /// Finds the event for `id`.
+    /// Without `instanceDate`, a recurring series resolves to its first occurrence.
+    /// With `instanceDate`, resolves to the occurrence that starts at that time.
+    static func findEvent(id: String, instanceDate: Date?, eventStore: EKEventStore) throws -> EKEvent {
+        guard let instanceDate = instanceDate else {
+            guard let event = eventStore.event(withIdentifier: id) else {
+                throw PluginError.eventNotFound
+            }
+            return event
+        }
+
+        let toleranceInSeconds: TimeInterval = 1
+        let predicate = eventStore.predicateForEvents(
+            withStart: instanceDate.addingTimeInterval(-toleranceInSeconds),
+            end: instanceDate.addingTimeInterval(toleranceInSeconds),
+            calendars: nil
+        )
+        let occurrence = eventStore.events(matching: predicate).first { candidate in
+            candidate.eventIdentifier == id
+                && abs(candidate.startDate.timeIntervalSince(instanceDate)) < toleranceInSeconds
+        }
+        guard let occurrence = occurrence else {
             throw PluginError.eventNotFound
         }
+        return occurrence
+    }
+
+    static func deleteEvent(
+        commit: Bool,
+        _ id: String,
+        _ span: EventSpan,
+        _ eventStore: EKEventStore,
+        instanceDate: Date? = nil
+    ) throws {
+        let event = try findEvent(id: id, instanceDate: instanceDate, eventStore: eventStore)
         switch span {
         case .thisEvent:
             try eventStore.remove(event, span: .thisEvent, commit: commit)

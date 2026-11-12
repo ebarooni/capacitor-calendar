@@ -4,17 +4,19 @@ import EventKit
 struct ModifyEventWithPromptInput {
     private let input: CreateEventWithPromptInput
     private let id: String
+    private let instanceDate: Double?
     private var title: String?
     private var isAllDay: Bool?
     private var alerts: [Double]?
     private var calendarId: String?
 
     init(call: CAPPluginCall) throws {
-        self.input = CreateEventWithPromptInput(call: call)
+        self.input = try CreateEventWithPromptInput(call: call)
         guard let id = call.getString("id") else {
             throw PluginError.idMissing
         }
         self.id = id
+        self.instanceDate = call.getDouble("instanceDate")
         let title = input.getTitle()
         if !title.isEmpty {
             self.title = title
@@ -31,10 +33,8 @@ struct ModifyEventWithPromptInput {
     }
 
     func getEvent(from eventStore: EKEventStore) throws -> EKEvent {
-        guard let event = eventStore.event(withIdentifier: id) else {
-            throw PluginError.eventNotFound
-        }
-        return event
+        let occurrenceStart = instanceDate.map { ImplementationHelper.dateFromTimestamp($0) }
+        return try ImplementationHelper.findEvent(id: id, instanceDate: occurrenceStart, eventStore: eventStore)
     }
 
     func getTitle() -> String? {
@@ -59,6 +59,11 @@ struct ModifyEventWithPromptInput {
 
     func getIsAllDay() -> Bool? {
         return isAllDay
+    }
+
+    /// Returns nil when `recurrence` is omitted, so the event keeps its existing rules.
+    func getRecurrenceRule() -> [EKRecurrenceRule]? {
+        return input.getRecurrenceRuleIfPresent()
     }
 
     func getAlerts() -> [EKAlarm]? {

@@ -121,6 +121,7 @@ class CapacitorCalendar(
 
     fun modifyEvent(input: ModifyEvent) {
         val cr = plugin.context.contentResolver
+        ImplementationHelper.ensureEventExists(cr, input.id)
         val updatingDates = input.startDate != null || input.endDate != null
         val settingAllDay = input.isAllDay == 1
         // Normalize when setting all-day, or when editing dates on an existing all-day event

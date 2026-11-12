@@ -72,6 +72,17 @@ export interface ModifyEventOptions {
    */
   id: string;
   /**
+   * The start time of the occurrence to modify, in milliseconds since the epoch.
+   * Use `startDate` from `listEventsInRange`.
+   * If omitted, the first occurrence of a recurring series is the target.
+   * The call rejects when `recurrence` is also set and `span` is `THIS_EVENT`. Use `THIS_AND_FUTURE_EVENTS` to change the rule from this occurrence.
+   *
+   * @example 1716153600000
+   * @platform iOS
+   * @since 8.11.0
+   */
+  instanceDate?: number;
+  /**
    * @platform Android, iOS
    * @since 0.1.0
    */

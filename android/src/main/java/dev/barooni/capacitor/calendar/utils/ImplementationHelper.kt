@@ -88,6 +88,21 @@ class ImplementationHelper {
         }
 
         /**
+         * Throws [PluginError.EventNotFound] when no event row has this id.
+         */
+        fun ensureEventExists(
+            cr: ContentResolver,
+            eventId: Long,
+        ) {
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+            val projection = arrayOf(CalendarContract.Events._ID)
+            val exists = cr.query(uri, projection, null, null, null)?.use { cursor -> cursor.moveToFirst() } ?: false
+            if (!exists) {
+                throw PluginError.EventNotFound
+            }
+        }
+
+        /**
          * Reads [CalendarContract.Events.ALL_DAY] for an existing event.
          * Throws [PluginError.EventNotFound] when the row is missing or unreadable,
          * so callers that need the flag cannot silently skip all-day normalization.

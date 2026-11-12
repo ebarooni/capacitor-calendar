@@ -29,5 +29,6 @@ metadata:
    - Always end with one empty line, then exactly this trailer (see `AGENTS.md` › Conventions). Do not add any other `Co-authored-by` line:
 
      `Co-authored-by: Ehsan Barooni <66495214+ebarooni@users.noreply.github.com>`
+
 4. Revert: `revert: <exact header of the reverted commit>`, blank line, `This reverts commit <hash>.`, then the same `Co-authored-by` trailer after one empty line.
 5. Show the draft. Run `git commit` only when the user asks.

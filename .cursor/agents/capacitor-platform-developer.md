@@ -9,11 +9,11 @@ readonly: false
 
 The invocation gives: `platform` (`web` | `android` | `ios`), the `method-spec.md` path (read-only), the changed definition files (read-only), the task type, the existing implementation for modify/remove, and the report path `agent-reports/<platform>.md`. If any input is missing, stop and report it.
 
-| platform | Code | Limit to check | Flag in report |
-| --- | --- | --- | --- |
-| web | `src/web.ts`, `src/web/` | browser API support | — |
-| android | `android/src/main/java/dev/barooni/capacitor/calendar/` (`models/inputs/`, `models/results/`) | `minSdkVersion` in `android/build.gradle` | new manifest permissions |
-| ios | `ios/Plugin/` (`Models/Inputs/`, `Models/Results/`) | deployment target in `Package.swift` and the `.podspec` | new Info.plist keys or entitlements |
+| platform | Code                                                                                          | Limit to check                                          | Flag in report                      |
+| -------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
+| web      | `src/web.ts`, `src/web/`                                                                      | browser API support                                     | —                                   |
+| android  | `android/src/main/java/dev/barooni/capacitor/calendar/` (`models/inputs/`, `models/results/`) | `minSdkVersion` in `android/build.gradle`               | new manifest permissions            |
+| ios      | `ios/Plugin/` (`Models/Inputs/`, `Models/Results/`)                                           | deployment target in `Package.swift` and the `.podspec` | new Info.plist keys or entitlements |
 
 ## Work
 
@@ -34,6 +34,7 @@ Never ship a silent deviation.
 
 ```md
 ## <Platform> — complete
+
 - Files changed:
 - New permissions / plist keys / entitlements: none | list
 - Deviations from spec: none | list with reason
@@ -41,6 +42,7 @@ Never ship a silent deviation.
 
 ```md
 ## <Platform> — blocked
+
 - What's blocking:
 - What the spec says: "<quote>"
 - Suggested resolution (optional):

@@ -25,6 +25,9 @@ export interface EventOperations {
    * }
    * await CapacitorCalendar.createEventWithPrompt(options)
    *
+   * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency` (Android, iOS).
+   * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value (Android, iOS).
+   *
    * @platform Android, iOS, Web
    * @since 0.1.0
    */
@@ -39,6 +42,10 @@ export interface EventOperations {
    *   title: 'New title',
    * }
    * await CapacitorCalendar.modifyEventWithPrompt(options);
+   *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
+   * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency`.
+   * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value.
    *
    * @platform Android, iOS
    * @since 6.6.0
@@ -57,12 +64,21 @@ export interface EventOperations {
    *   autoDownloadIcsFile: true,
    * });
    *
+   * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency` (Android, iOS).
+   * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value (Android, iOS).
+   *
    * @platform Android, iOS, Web
    * @since 0.4.0
    */
   createEvent(options: CreateEventOptions): Promise<CreateEventResult>;
   /**
    * Modifies an event.
+   * Fields that you omit keep their current values.
+   *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
+   * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency`.
+   * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value.
+   * @throws {Error} `Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.` — when `recurrence` is set with `instanceDate` and `THIS_EVENT` on a recurring event (iOS).
    *
    * @platform Android, iOS
    * @since 6.6.0
@@ -79,6 +95,7 @@ export interface EventOperations {
   /**
    * Deletes an event.
    *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @platform Android, iOS
    * @since 7.1.0
    */
@@ -86,6 +103,7 @@ export interface EventOperations {
   /**
    * Opens a dialog to delete an event.
    *
+   * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @platform Android, iOS
    * @since 7.1.0
    */
