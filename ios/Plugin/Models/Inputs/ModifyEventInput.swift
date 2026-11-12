@@ -118,6 +118,11 @@ struct ModifyEventInput {
         return availability
     }
 
+    /// True when `instanceDate` selects one occurrence of a series.
+    func targetsOccurrence() -> Bool {
+        return instanceDate != nil
+    }
+
     func getSpan() -> EKSpan {
         return span
     }

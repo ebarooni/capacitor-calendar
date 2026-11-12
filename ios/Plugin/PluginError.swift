@@ -27,6 +27,7 @@ enum PluginError: LocalizedError {
     case missingInterval
     case noFieldsToModify
     case processFailed
+    case recurrenceNotChangeableForOccurrence
     case reminderNotFound
     case scopeMissing
     case titleMissing
@@ -90,6 +91,11 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("At least one of title or color must be provided.", comment: "No fields to modify error")
         case .processFailed:
             return NSLocalizedString("Process failed.", comment: "Process failed error")
+        case .recurrenceNotChangeableForOccurrence:
+            return NSLocalizedString(
+                "Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.",
+                comment: "Recurrence not changeable for occurrence error"
+            )
         case .reminderNotFound:
             return NSLocalizedString("Reminder not found.", comment: "Reminder not found error")
         case .scopeMissing:
@@ -124,6 +130,7 @@ enum PluginError: LocalizedError {
              .missingFrequency,
              .missingInterval,
              .noFieldsToModify,
+             .recurrenceNotChangeableForOccurrence,
              .scopeMissing,
              .titleMissing,
              .toDateMissing:

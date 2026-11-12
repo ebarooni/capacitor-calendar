@@ -78,6 +78,7 @@ export interface EventOperations {
    * @throws {Error} `Event not found.` — when no event exists for `id`, or no occurrence starts at `instanceDate` (iOS).
    * @throws {Error} `Frequency must be provided.` — when `recurrence` is set without `frequency`.
    * @throws {Error} `Invalid frequency.` — when `recurrence.frequency` is not a supported value.
+   * @throws {Error} `Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.` — when `recurrence` is set with `instanceDate` and `THIS_EVENT` on a recurring event (iOS).
    *
    * @platform Android, iOS
    * @since 6.6.0

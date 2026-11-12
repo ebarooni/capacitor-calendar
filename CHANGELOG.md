@@ -64,6 +64,7 @@ Changelogs for the versions supporting Capacitor 8.
 - iOS `modifyEventWithPrompt` now applies `recurrence`
 - Android `modifyEvent` rejects with `Event not found.` (`EB-CLDR-0002`) when no event exists for `id`
 - Android and iOS event methods reject an invalid or missing `recurrence.frequency` with `Invalid frequency.` or `Frequency must be provided.` (`EB-CLDR-0001`)
+- iOS `modifyEvent` rejects with `Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.` (`EB-CLDR-0001`) when `recurrence` is set with `instanceDate` and `THIS_EVENT` on a recurring event. Before, this call was not possible
 
 ## 8.10.0
 

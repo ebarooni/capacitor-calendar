@@ -244,6 +244,11 @@ class CapacitorCalendar: NSObject {
 
     func modifyEvent(input: ModifyEventInput) throws {
         let event = try input.getEvent(from: eventStore)
+        // With a new rule and `.thisEvent`, EventKit makes the occurrence a new series and removes the old one.
+        if input.targetsOccurrence(), input.getRecurrenceRule() != nil, input.getSpan() == .thisEvent,
+           event.hasRecurrenceRules {
+            throw PluginError.recurrenceNotChangeableForOccurrence
+        }
         if let title = input.getTitle() {
             event.title = title
         }
