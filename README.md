@@ -1376,7 +1376,7 @@ Options for {@link CalendarAccess#requestPermission}.
 | ----------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | **`from`**        | <code>number</code>   | The start of the range, in milliseconds since the epoch. Events still in progress at this time are included.                                                                            | 7.1.0  |
 | **`to`**          | <code>number</code>   | The end of the range, in milliseconds since the epoch. Events that begin at or after this time are typically excluded; prefer the next day's start when querying a single calendar day. | 7.1.0  |
-| **`calendarIds`** | <code>string[]</code> | Ids of the calendars to search. When omitted or empty, all calendars are searched.                                                                                                      | 8.11.0 |
+| **`calendarIds`** | <code>string[]</code> | Ids of the calendars to search. When omitted or empty, all calendars are searched. Rejects if an id does not match a calendar.                                                          | 8.11.0 |
 
 #### GetEventByIdResult
 

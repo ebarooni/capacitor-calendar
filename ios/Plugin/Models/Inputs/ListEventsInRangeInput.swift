@@ -15,7 +15,12 @@ struct ListEventsInRangeInput {
             throw PluginError.toDateMissing
         }
         self.to = to
-        self.calendarIds = call.getArray("calendarIds") as? [String]
+        if let rawIds = call.getArray("calendarIds") {
+            guard let ids = rawIds as? [String] else {
+                throw PluginError.calendarNotFound
+            }
+            self.calendarIds = ids
+        }
     }
 
     func getFrom() -> Date {

@@ -819,6 +819,20 @@ class ImplementationHelper {
             }
         }
 
+        fun durationToMillis(duration: String): Long {
+            val match =
+                Regex("^P(?:(\\d+)W)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?)?$").matchEntire(duration.trim())
+                    ?: return 0L
+            val (weeks, days, hours, minutes, seconds) = match.destructured
+            fun part(value: String) = value.toLongOrNull() ?: 0L
+            return (
+                (part(weeks) * 7 + part(days)) * 24 * 3600 +
+                    part(hours) * 3600 +
+                    part(minutes) * 60 +
+                    part(seconds)
+            ) * 1000
+        }
+
         fun mapAttendeeRelationship(relationship: Int): String =
             when (relationship) {
                 CalendarContract.Attendees.RELATIONSHIP_ATTENDEE -> "attendee"

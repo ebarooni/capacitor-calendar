@@ -36,8 +36,8 @@ import dev.barooni.capacitor.calendar.models.results.CreateEventResult
 import dev.barooni.capacitor.calendar.models.results.DeleteEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.DeleteEventsByIdResult
 import dev.barooni.capacitor.calendar.models.results.GetDefaultCalendarResult
-import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.models.results.GetEventByIdResult
+import dev.barooni.capacitor.calendar.models.results.ListCalendarsResult
 import dev.barooni.capacitor.calendar.models.results.ListEventsInRangeResult
 import dev.barooni.capacitor.calendar.models.templates.PluginCompletion
 import dev.barooni.capacitor.calendar.utils.ImplementationHelper
@@ -417,6 +417,20 @@ class CapacitorCalendar(
             )
 
         val calendarIds = input.calendarIds
+        calendarIds?.forEach { calendarId ->
+            val exists =
+                cr
+                    .query(
+                        ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, calendarId),
+                        arrayOf(CalendarContract.Calendars._ID),
+                        null,
+                        null,
+                        null,
+                    )?.use { it.moveToFirst() } ?: false
+            if (!exists) {
+                throw PluginError.CalendarNotFound
+            }
+        }
         val calendarFilter =
             calendarIds
                 ?.let { " AND (${CalendarContract.Instances.CALENDAR_ID} IN (${it.joinToString(",") { "?" }}))" }
@@ -624,7 +638,7 @@ class CapacitorCalendar(
                 // Recurring masters have DURATION and no DTEND.
                 val endDate =
                     column(CalendarContract.Events.DTEND)?.let { cursor.getLong(it) }
-                        ?: startDate
+                        ?: (startDate + (storedDuration?.let { ImplementationHelper.durationToMillis(it) } ?: 0L))
                 val duration = storedDuration ?: ImplementationHelper.buildDurationFromBeginEnd(startDate, endDate, isAllDay)
                 val isPartOfSeries = !rrule.isNullOrEmpty() || originalId != null
                 val seriesStartDate =
