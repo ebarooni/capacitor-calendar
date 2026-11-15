@@ -136,9 +136,12 @@ class ImplementationHelper {
             return list
         }
 
-        fun jsArrayToLongArray(array: JSArray): List<Long> {
+        fun jsArrayToLongArray(
+            array: JSArray,
+            error: PluginError = PluginError.InvalidEventId,
+        ): List<Long> {
             val list = array.toList<String>()
-            return list.map { it.toLongOrNull() ?: throw PluginError.InvalidEventId }
+            return list.map { it.toLongOrNull() ?: throw error }
         }
 
         fun hexToColorInt(hex: String?): Int? {
@@ -814,6 +817,21 @@ class ImplementationHelper {
                     if (hours == 0L && minutes == 0L && seconds == 0L) append("1S")
                 }
             }
+        }
+
+        fun durationToMillis(duration: String): Long {
+            val match =
+                Regex("^P(?:(\\d+)W)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?)?$").matchEntire(duration.trim())
+                    ?: return 0L
+            val (weeks, days, hours, minutes, seconds) = match.destructured
+
+            fun part(value: String) = value.toLongOrNull() ?: 0L
+            return (
+                (part(weeks) * 7 + part(days)) * 24 * 3600 +
+                    part(hours) * 3600 +
+                    part(minutes) * 60 +
+                    part(seconds)
+            ) * 1000
         }
 
         fun mapAttendeeRelationship(relationship: Int): String =

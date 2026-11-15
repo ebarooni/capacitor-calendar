@@ -19,4 +19,12 @@ export interface ListEventsInRangeOptions {
    * @since 7.1.0
    */
   to: number;
+  /**
+   * Ids of the calendars to search. When omitted or empty, all calendars are searched.
+   * Rejects if an id does not match a calendar.
+   *
+   * @example ["1", "2"]
+   * @since 8.11.0
+   */
+  calendarIds?: string[];
 }

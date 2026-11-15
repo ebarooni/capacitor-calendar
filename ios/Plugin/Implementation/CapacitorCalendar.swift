@@ -594,10 +594,19 @@ class CapacitorCalendar: NSObject {
     func listEventsInRange(_ input: ListEventsInRangeInput) throws -> ListEventsInRangeResult {
         let predicate = eventStore.predicateForEvents(
             withStart: input.getFrom(),
-            end: input.getTo(), calendars: nil
+            end: input.getTo(),
+            calendars: try input.getCalendars(from: eventStore)
         )
         let events = eventStore.events(matching: predicate)
         return ListEventsInRangeResult(events, eventStore: eventStore)
+    }
+
+    func getEventById(
+        _ input: GetEventByIdInput,
+        completion: @escaping (GetEventByIdResult?, Error?) -> Void
+    ) {
+        let event = eventStore.event(withIdentifier: input.getId())
+        completion(GetEventByIdResult(event, eventStore: eventStore), nil)
     }
 
     func modifyCalendar(_ input: ModifyCalendarInput) throws {

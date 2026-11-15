@@ -412,6 +412,22 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func getEventById(_ call: CAPPluginCall) {
+        do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
+            let input = try GetEventByIdInput(call: call)
+            implementation.getEventById(input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
+            }
+        } catch let error {
+            rejectCall(call, error)
+        }
+    }
+
     @objc public func listEventsInRange(_ call: CAPPluginCall) {
         do {
             try DeclarationCheck.ensureFullCalendarUsageDescription()

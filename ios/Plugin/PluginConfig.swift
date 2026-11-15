@@ -24,6 +24,7 @@ struct PluginConfig {
         CAPPluginMethod(name: "fetchAllRemindersSources", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getDefaultCalendar", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getDefaultRemindersList", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getEventById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getReminderById", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getRemindersFromLists", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getRemindersLists", returnType: CAPPluginReturnPromise),
