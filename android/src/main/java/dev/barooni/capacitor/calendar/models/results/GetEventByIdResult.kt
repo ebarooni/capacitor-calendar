@@ -9,7 +9,7 @@ data class GetEventByIdResult(
 ) : JSResult {
     override fun toJSON(): JSObject {
         val result = JSObject()
-        result.put("result", event?.toJSObject() ?: JSObject.NULL)
+        result.put("event", event?.toJSObject() ?: JSObject.NULL)
         return result
     }
 }

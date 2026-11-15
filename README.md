@@ -1380,9 +1380,9 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### GetEventByIdResult
 
-| Prop         | Type                                                            | Description                                             | Since  | Platform     |
-| ------------ | --------------------------------------------------------------- | ------------------------------------------------------- | ------ | ------------ |
-| **`result`** | <code><a href="#calendarevent">CalendarEvent</a> \| null</code> | The event for the given id, or `null` when none exists. | 8.11.0 | Android, iOS |
+| Prop        | Type                                                            | Description                                             | Since  | Platform     |
+| ----------- | --------------------------------------------------------------- | ------------------------------------------------------- | ------ | ------------ |
+| **`event`** | <code><a href="#calendarevent">CalendarEvent</a> \| null</code> | The event for the given id, or `null` when none exists. | 8.11.0 | Android, iOS |
 
 #### GetEventByIdOptions
 

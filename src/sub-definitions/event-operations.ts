@@ -138,7 +138,7 @@ export interface EventOperations {
    * For a recurring event, the result is the first occurrence on iOS and the series master on Android.
    *
    * @example
-   * const { result } = await CapacitorCalendar.getEventById({ id: eventId });
+   * const { event } = await CapacitorCalendar.getEventById({ id: eventId });
    *
    * @platform Android, iOS
    * @since 8.11.0

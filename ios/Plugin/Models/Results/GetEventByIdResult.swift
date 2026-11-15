@@ -14,13 +14,13 @@ struct GetEventByIdResult: JSResult {
         var result = JSObject()
         if let event = event {
             var seriesStartDateCache: [String: Double] = [:]
-            result["result"] = ImplementationHelper.eventToJSObject(
+            result["event"] = ImplementationHelper.eventToJSObject(
                 event,
                 eventStore: eventStore,
                 seriesStartDateCache: &seriesStartDateCache
             )
         } else {
-            result["result"] = NSNull()
+            result["event"] = NSNull()
         }
         return result
     }

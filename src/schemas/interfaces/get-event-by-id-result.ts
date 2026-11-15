@@ -10,5 +10,5 @@ export interface GetEventByIdResult {
    * @platform Android, iOS
    * @since 8.11.0
    */
-  result: CalendarEvent | null;
+  event: CalendarEvent | null;
 }
