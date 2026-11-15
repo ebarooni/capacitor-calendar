@@ -601,9 +601,12 @@ class CapacitorCalendar: NSObject {
         return ListEventsInRangeResult(events, eventStore: eventStore)
     }
 
-    func getEventById(_ input: GetEventByIdInput) throws -> GetEventByIdResult {
+    func getEventById(
+        _ input: GetEventByIdInput,
+        completion: @escaping (GetEventByIdResult?, Error?) -> Void
+    ) {
         let event = eventStore.event(withIdentifier: input.getId())
-        return GetEventByIdResult(event, eventStore: eventStore)
+        completion(GetEventByIdResult(event, eventStore: eventStore), nil)
     }
 
     func modifyCalendar(_ input: ModifyCalendarInput) throws {

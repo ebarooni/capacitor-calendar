@@ -492,13 +492,18 @@ class CapacitorCalendarPlugin : Plugin() {
         }
     }
 
-    @PluginMethod
+    @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)
     fun getEventById(call: PluginCall) {
         try {
             declarationCheck.ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
             val input = GetEventByIdInput(call)
-            val result = implementation.getEventById(input)
-            call.resolve(result.toJSON())
+            implementation.getEventById(input) { result, error ->
+                if (error != null) {
+                    rejectCall(call, error)
+                    return@getEventById
+                }
+                resolveCall(call, result)
+            }
         } catch (error: Exception) {
             rejectCall(call, error)
         }

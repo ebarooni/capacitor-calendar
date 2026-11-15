@@ -595,7 +595,18 @@ class CapacitorCalendar(
         return ListEventsInRangeResult(events)
     }
 
-    fun getEventById(input: GetEventByIdInput): GetEventByIdResult {
+    fun getEventById(
+        input: GetEventByIdInput,
+        completion: PluginCompletion<GetEventByIdResult>,
+    ) {
+        try {
+            completion(getEventByIdResult(input), null)
+        } catch (error: Exception) {
+            completion(null, error)
+        }
+    }
+
+    private fun getEventByIdResult(input: GetEventByIdInput): GetEventByIdResult {
         val cr = plugin.context.contentResolver
         val eventUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, input.id)
         val projection =

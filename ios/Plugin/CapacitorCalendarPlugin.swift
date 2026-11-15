@@ -416,8 +416,13 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         do {
             try DeclarationCheck.ensureFullCalendarUsageDescription()
             let input = try GetEventByIdInput(call: call)
-            let result = try implementation.getEventById(input)
-            resolveCall(call, result)
+            implementation.getEventById(input) { result, error in
+                if let error {
+                    self.rejectCall(call, error)
+                    return
+                }
+                self.resolveCall(call, result)
+            }
         } catch let error {
             rejectCall(call, error)
         }
