@@ -10,6 +10,7 @@ import { registerDeleteEventWithPrompt } from './delete-event-with-prompt.js';
 import { registerDeleteEventsById } from './delete-events-by-id.js';
 import { registerDeleteRemindersList } from './delete-reminders-list.js';
 import { registerGetDefaultCalendar } from './get-default-calendar.js';
+import { registerGetEventById } from './get-event-by-id.js';
 import { registerGetReminderById } from './get-reminder-by-id.js';
 import { registerGetRemindersFromLists } from './get-reminders-from-lists.js';
 import { registerGetRemindersLists } from './get-reminders-lists.js';
@@ -38,6 +39,7 @@ export function registerAllMethods() {
   registerDeleteEventsById();
   registerDeleteRemindersList();
   registerGetDefaultCalendar();
+  registerGetEventById();
   registerGetReminderById();
   registerGetRemindersFromLists();
   registerGetRemindersLists();
