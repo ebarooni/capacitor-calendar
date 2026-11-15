@@ -824,6 +824,7 @@ class ImplementationHelper {
                 Regex("^P(?:(\\d+)W)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?)?$").matchEntire(duration.trim())
                     ?: return 0L
             val (weeks, days, hours, minutes, seconds) = match.destructured
+
             fun part(value: String) = value.toLongOrNull() ?: 0L
             return (
                 (part(weeks) * 7 + part(days)) * 24 * 3600 +
