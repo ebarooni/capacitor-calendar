@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.12.0](#8120)
   - [8.11.0](#8110)
   - [8.10.0](#8100)
   - [8.9.0](#890)
@@ -51,6 +52,21 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.12.0
+
+### Added
+
+- Web: `getCalendarLinks(...)` builds "add event" links for Google Calendar, Outlook.com, Microsoft 365, and Yahoo Calendar
+- Web: `shareIcsFile(...)` opens the share sheet for an `.ics` file, and downloads the file when the browser cannot share files
+- Web: `createIcsFile(...)` builds one `.ics` file for many events, or a cancel file (`method: 'CANCEL'`)
+- Web: optional `uid` and `sequence` on `CreateEventOptions`, so re-imported files update or cancel an event
+- Web: optional `skipPrompt` on `CreateEventWithPromptOptions`
+- Web: optional `provider` on `OpenCalendarOptions` opens the day view of Google Calendar, Outlook.com, or Microsoft 365 in a new tab
+
+### Changed
+
+- Web: the message of unimplemented methods now names the web alternatives. The error code is unchanged
 
 ## 8.11.0
 

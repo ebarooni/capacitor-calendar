@@ -116,6 +116,15 @@ export interface CreateEventOptions {
    */
   recurrence?: EventRecurrenceRule;
   /**
+   * Sequence number of the event in the `.ics` file.
+   * Raise it each time you re-issue the same `uid`, so calendar apps update the event.
+   * Calendar apps ignore a lower number for the same `uid`.
+   *
+   * @platform Web
+   * @since 8.12.0
+   */
+  sequence?: number;
+  /**
    * @platform Android, iOS, Web
    * @since 0.1.0
    */
@@ -125,6 +134,15 @@ export interface CreateEventOptions {
    * @since 0.4.0
    */
   title: string;
+  /**
+   * Stable id of the event in the `.ics` file.
+   * When omitted, a new random id is made for each file.
+   * Reuse the same `uid` with a higher `sequence` to update or cancel an event that the user imported before.
+   *
+   * @platform Web
+   * @since 8.12.0
+   */
+  uid?: string;
   /**
    * @platform iOS, Web
    * @since 0.1.0

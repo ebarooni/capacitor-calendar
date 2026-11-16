@@ -4,11 +4,23 @@
 
 ## What works
 
-| Surface                      | Behavior                                                                                                                                                                                    |
-| :--------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `createEvent(...)`           | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Set `autoDownloadIcsFile: true` to also trigger a download (default **false**).    |
-| `createEventWithPrompt(...)` | Confirm dialog (title + time, or `promptMessage`). On OK, builds ICS like `createEvent`. On cancel, resolves `{ id: null, ics: null }` (no reject). `autoDownloadIcsFile` default **true**. |
-| `downloadIcsFile(...)`       | Package helper. Triggers a browser download for that `File`.                                                                                                                                |
+| Surface                        | Behavior                                                                                                                                                                                       |
+| :----------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createEvent(...)`             | Builds one RFC 5545 `VCALENDAR` / `VEVENT` as a `File` (`CreateEventResult.ics`). `id` is always `null`. Set `autoDownloadIcsFile: true` to also trigger a download (default **false**).       |
+| `createEventWithPrompt(...)`   | Confirm dialog (title + time, or `promptMessage`). On OK, builds ICS like `createEvent`. On cancel, resolves `{ id: null, ics: null }` (no reject). `autoDownloadIcsFile` default **true**.    |
+| `downloadIcsFile(...)`         | Package helper. Triggers a browser download for that `File`.                                                                                                                                   |
+| `shareIcsFile(file, opts?)`    | Package helper. Opens the share sheet (`navigator.share`). Falls back to a download when the browser cannot share files. Resolves `'shared'`, `'cancelled'`, or `'downloaded'`. Needs a click. |
+| `createIcsFile(events, opts?)` | Package helper. One `File` for one event or many. `{ method: 'CANCEL' }` makes a cancel file. Use the same `uid` as the file you made before.                                                  |
+| `getCalendarLinks(event)`      | Package helper. Returns `{ google, outlook, office365, yahoo }` links that open a web calendar with the event filled in. The user must confirm there.                                          |
+| `openCalendar({ provider })`   | Opens the day view of `google`, `outlook`, or `office365` in a new tab. Without `provider` it rejects with `unimplemented`.                                                                    |
+
+## Updating and cancelling events
+
+Web has no calendar store, so `modifyEvent` and `deleteEvent` stay unimplemented. Set `uid` and a higher `sequence` on `createEvent` to make an updated file for an event the user imported before. Use `createIcsFile(..., { method: 'CANCEL' })` to cancel it. Support for updates differs by calendar app.
+
+## `createEventWithPrompt` and the confirm dialog
+
+The dialog is `window.confirm`. Some browsers block it (for example in some iframes) and it then counts as cancel. Set `skipPrompt: true` to skip the dialog.
 
 ## Permissions
 

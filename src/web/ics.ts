@@ -6,27 +6,46 @@ const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const CRLF = '\r\n';
 
+export type IcsMethod = 'PUBLISH' | 'CANCEL';
+
 /**
  * Builds an RFC 5545 `VCALENDAR` document with one `VEVENT` from CreateEventOptions.
  * End comes from `endDate`, else `duration` (RFC 2445), else one hour (or next day if all-day).
  * All-day ends that fall on the start's local day bump to the next day (exclusive `DTEND`).
  */
 export function buildEventIcs(options: CreateEventOptions): string {
-  const startDate = options.startDate ?? Date.now();
-  const isAllDay = options.isAllDay === true;
-  const endDate = resolveEndDate(startDate, options.endDate, options.duration, isAllDay);
+  return buildCalendarIcs([options]);
+}
 
+/**
+ * Builds one `VCALENDAR` document with one `VEVENT` for each item in `events`.
+ * With method `CANCEL`, each event gets `STATUS:CANCELLED` and a `SEQUENCE` of at least 1.
+ */
+export function buildCalendarIcs(events: CreateEventOptions[], method: IcsMethod = 'PUBLISH'): string {
   const lines: string[] = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//ebarooni/capacitor-calendar//EN',
     'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+    `METHOD:${method}`,
+  ];
+  for (const event of events) {
+    lines.push(...buildEventLines(event, method));
+  }
+  lines.push('END:VCALENDAR');
+  return lines.map(foldLine).join(CRLF) + CRLF;
+}
+
+function buildEventLines(options: CreateEventOptions, method: IcsMethod): string[] {
+  const startDate = options.startDate ?? Date.now();
+  const isAllDay = options.isAllDay === true;
+  const endDate = resolveEndDate(startDate, options.endDate, options.duration, isAllDay);
+
+  const lines: string[] = [
     'BEGIN:VEVENT',
-    `UID:${generateUid()}`,
+    `UID:${options.uid != null && options.uid.length > 0 ? escapeText(options.uid) : generateUid()}`,
     `DTSTAMP:${formatDateTimeUtc(Date.now())}`,
   ];
-
   if (isAllDay) {
     lines.push(`DTSTART;VALUE=DATE:${formatDateOnlyLocal(startDate)}`);
     lines.push(`DTEND;VALUE=DATE:${formatDateOnlyLocal(endDate)}`);
@@ -75,9 +94,17 @@ export function buildEventIcs(options: CreateEventOptions): string {
     }
   }
 
-  lines.push('END:VEVENT', 'END:VCALENDAR');
+  if (method === 'CANCEL') {
+    lines.push('STATUS:CANCELLED');
+  }
 
-  return lines.map(foldLine).join(CRLF) + CRLF;
+  const sequence = method === 'CANCEL' ? Math.max(1, options.sequence ?? 1) : options.sequence;
+  if (sequence != null && sequence > 0) {
+    lines.push(`SEQUENCE:${Math.floor(sequence)}`);
+  }
+
+  lines.push('END:VEVENT');
+  return lines;
 }
 
 /**
@@ -181,7 +208,7 @@ function mapTransparency(availability: EventAvailability | undefined): 'OPAQUE' 
   return 'OPAQUE';
 }
 
-function toRRule(rule: EventRecurrenceRule, isAllDay: boolean): string {
+export function toRRule(rule: EventRecurrenceRule, isAllDay: boolean): string {
   const parts: string[] = [`FREQ=${rule.frequency.toUpperCase()}`, `INTERVAL=${Math.max(1, rule.interval ?? 1)}`];
 
   if (rule.count != null) {
@@ -247,7 +274,7 @@ function generateUid(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}@capacitor-calendar`;
 }
 
-function formatDateTimeUtc(ms: number): string {
+export function formatDateTimeUtc(ms: number): string {
   const date = new Date(ms);
   const fullYear = date.getUTCFullYear();
   const month = padTwoDigits(date.getUTCMonth() + 1);
@@ -258,7 +285,7 @@ function formatDateTimeUtc(ms: number): string {
   return `${fullYear}${month}${dayOfMonth}T${hours}${minutes}${seconds}Z`;
 }
 
-function formatDateOnlyLocal(ms: number): string {
+export function formatDateOnlyLocal(ms: number): string {
   const date = new Date(ms);
   return `${date.getFullYear()}${padTwoDigits(date.getMonth() + 1)}${padTwoDigits(date.getDate())}`;
 }

@@ -50,10 +50,14 @@ import type { UpdateRemindersListResult } from './schemas/interfaces/update-remi
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
+import { getCalendarDayLink } from './web/calendar-links';
 import { downloadIcsFile } from './web/download-ics-file';
 import { buildEventIcs, resolveEndDate, resolveIcsFileName } from './web/ics';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const WEB_HINT =
+  'The web has no calendar store. Use createEvent or createIcsFile for an .ics file, ' +
+  'getCalendarLinks for web calendar links, and shareIcsFile or downloadIcsFile to hand the file to the user.';
 
 export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendarPlugin {
   public checkPermission(_options: CheckPermissionOptions): Promise<{ result: PermissionState }> {
@@ -102,7 +106,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
 
   public async createEventWithPrompt(options: CreateEventWithPromptOptions = {}): Promise<CreateEventWithPromptResult> {
     try {
-      const confirmed = window.confirm(buildCreateEventConfirmMessage(options));
+      const confirmed = options.skipPrompt === true || window.confirm(buildCreateEventConfirmMessage(options));
       if (!confirmed) {
         return { id: null, ics: null };
       }
@@ -186,8 +190,12 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
     return this.throwUnimplemented(this.getRemindersLists.name);
   }
 
-  public openCalendar(_options?: OpenCalendarOptions): Promise<void> {
-    return this.throwUnimplemented(this.openCalendar.name);
+  public async openCalendar(options?: OpenCalendarOptions): Promise<void> {
+    if (options?.provider == null) {
+      return this.throwUnimplemented(this.openCalendar.name);
+    }
+    const url = getCalendarDayLink(options.provider, options.date ?? Date.now());
+    window.open(url, '_blank', 'noopener');
   }
 
   public createCalendar(_options: CreateCalendarOptions): Promise<CreateCalendarResult> {
@@ -257,7 +265,7 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
   }
 
   private throwUnimplemented<T>(methodName: string): Promise<T> {
-    return Promise.reject(this.unimplemented(`${methodName} is not implemented on the web.`));
+    return Promise.reject(this.unimplemented(`${methodName} is not implemented on the web. ${WEB_HINT}`));
   }
 }
 
