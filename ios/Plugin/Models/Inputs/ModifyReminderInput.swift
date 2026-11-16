@@ -29,7 +29,7 @@ struct ModifyReminderInput {
 
     init(call: CAPPluginCall) throws {
         guard let id = call.getString("id") else {
-            throw PluginError.idMissing
+            throw PluginError.reminderIdMissing
         }
         self.id = id
         self.title = call.getString("title")
