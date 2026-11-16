@@ -2,6 +2,7 @@ package dev.barooni.capacitor.calendar
 
 import android.Manifest
 import androidx.activity.result.ActivityResult
+import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
@@ -28,6 +29,7 @@ import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
+import dev.barooni.capacitor.calendar.models.inputs.StartListeningInput
 import dev.barooni.capacitor.calendar.models.results.CreateEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.ModifyEventWithPromptResult
 import dev.barooni.capacitor.calendar.models.results.RequestAllPermissionsResult
@@ -490,6 +492,41 @@ class CapacitorCalendarPlugin : Plugin() {
         } catch (error: Exception) {
             rejectCall(call, error)
         }
+    }
+
+    @PluginMethod
+    fun startListening(call: PluginCall) {
+        try {
+            declarationCheck.ensureManifestPermissions(Manifest.permission.READ_CALENDAR)
+            val input = StartListeningInput(call)
+            implementation.startListening(input)
+            resolveCall(call)
+        } catch (error: Exception) {
+            rejectCall(call, error)
+        }
+    }
+
+    @PluginMethod
+    fun stopListening(call: PluginCall) {
+        implementation.stopListening()
+        resolveCall(call)
+    }
+
+    fun hasCalendarChangedListeners(): Boolean = hasListeners("calendarChanged")
+
+    @PluginMethod
+    override fun removeAllListeners(call: PluginCall) {
+        implementation.stopListening()
+        super.removeAllListeners(call)
+    }
+
+    fun emitCalendarChanged(payload: JSObject) {
+        notifyListeners("calendarChanged", payload)
+    }
+
+    override fun handleOnDestroy() {
+        implementation.stopListening()
+        super.handleOnDestroy()
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_PROMISE)

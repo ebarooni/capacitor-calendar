@@ -14,6 +14,7 @@ import { EventSpan } from './schemas/enums/event-span';
 import { EventStatus } from './schemas/enums/event-status';
 import { ReminderRecurrenceFrequency } from './schemas/enums/reminder-recurrence-frequency';
 import type { Calendar } from './schemas/interfaces/calendar';
+import type { CalendarChangedEvent } from './schemas/interfaces/calendar-changed-event';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
 import type { CalendarLinks } from './schemas/interfaces/calendar-links';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
@@ -67,6 +68,7 @@ import type { RequestPermissionOptions } from './schemas/interfaces/request-perm
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/select-calendars-with-prompt-result';
 import type { ShareIcsFileOptions } from './schemas/interfaces/share-ics-file-options';
+import type { StartListeningOptions } from './schemas/interfaces/start-listening-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { CalendarDayViewProvider } from './schemas/types/calendar-day-view-provider';
@@ -88,6 +90,7 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCale
 export * from './definitions';
 export type {
   Calendar,
+  CalendarChangedEvent,
   CalendarDayViewProvider,
   CalendarEvent,
   CalendarLinkProvider,
@@ -147,6 +150,7 @@ export type {
   SelectCalendarsWithPromptOptions,
   SelectCalendarsWithPromptResult,
   ShareIcsFileOptions,
+  StartListeningOptions,
   SystemColorName,
   UpdateRemindersListOptions,
   UpdateRemindersListResult,
