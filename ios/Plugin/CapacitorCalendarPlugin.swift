@@ -98,7 +98,7 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc public func requestReadOnlyCalendarAccess(_ call: CAPPluginCall) {
-        rejectCall(call, PluginError.unimplemented(#function))
+        call.unimplemented(PluginError.unimplemented(#function).localizedDescription)
     }
 
     @objc public func requestFullCalendarAccess(_ call: CAPPluginCall) {

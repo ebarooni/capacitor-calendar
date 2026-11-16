@@ -26,7 +26,7 @@ export enum CapacitorCalendarErrorCode {
   IoError = 'EB-CLDR-0004',
 
   /**
-   * The device cannot open the calendar UI, reminders UI, or target URL. Also used on iOS for an unimplemented method, a missing view controller, and a calendar chooser that is already open.
+   * The device cannot open the calendar UI, reminders UI, or target URL. Also used on iOS for a missing view controller and a calendar chooser that is already open.
    *
    * @since 8.10.0
    */

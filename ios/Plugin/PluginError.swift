@@ -165,14 +165,14 @@ enum PluginError: LocalizedError {
              .failedToLaunchReminders,
              .unableToOpenUrl,
              .calendarChooserAlreadyPresented,
-             .unimplemented,
              .viewControllerMissing:
             return "EB-CLDR-0005"
         case .permissionDenied:
             return "EB-CLDR-0020"
         case .missingDeclaration:
             return "EB-CLDR-0100"
-        case .customError:
+        case .customError,
+             .unimplemented:
             return nil
         }
     }
