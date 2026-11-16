@@ -58,7 +58,7 @@ Changelogs for the versions supporting Capacitor 8.
 ### Fixed
 
 - iOS rejects with `Calendar access was denied.` (`EB-CLDR-0020`) when EventKit reports `eventStoreNotAuthorized`. Before, this case rejected with `EB-CLDR-0004`
-- iOS `requestReadOnlyCalendarAccess`, a missing view controller, and an already open calendar chooser now reject with `EB-CLDR-0005`. Before, they had no `EB-CLDR` code. The `requestReadOnlyCalendarAccess` reject no longer uses the Capacitor `unimplemented` reject
+- iOS rejects with `EB-CLDR-0005` for a missing view controller and for an already open calendar chooser. Before, these had no `EB-CLDR` code
 - iOS unhandled permission status now rejects with `EB-CLDR-0004`. Before, it had no code
 - iOS rejects a missing `id` with `List ID must be provided.` for `updateRemindersList` and `deleteRemindersList`, and with `Reminder ID must be provided.` for reminder methods. Before, these used `Event ID must be provided.`. The code stays `EB-CLDR-0001`
 

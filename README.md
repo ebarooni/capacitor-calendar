@@ -171,7 +171,7 @@ Android rejects a non-numeric or empty calendar or event `id` as `InvalidArgumen
 
 `IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code. On iOS, EventKit store or system rejects use this code, except an EventKit authorization denial, which uses `PermissionDenied` (`EB-CLDR-0020`). On iOS, an unhandled permission status also uses this code. On iOS, this code also covers the edit-prompt `processFailed` outcome.
 
-`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`). iOS also uses this code for an unimplemented method (`requestReadOnlyCalendarAccess`), a missing view controller, and a calendar chooser that is already open.
+`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`). iOS also uses this code for a missing view controller and a calendar chooser that is already open.
 
 On Android and iOS, calendar operations that fail with a permission error reject with `PermissionDenied` (`EB-CLDR-0020`). On iOS, this applies when EventKit reports `eventStoreNotAuthorized`. Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`.
 
