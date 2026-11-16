@@ -85,6 +85,15 @@ export interface CreateEventWithPromptOptions {
    */
   promptMessage?: string;
   /**
+   * Skip the confirm dialog and build the `.ics` file at once.
+   * Use it when the browser blocks `window.confirm` (for example in some iframes), or when you show your own prompt.
+   *
+   * @default false
+   * @platform Web
+   * @since 8.12.0
+   */
+  skipPrompt?: boolean;
+  /**
    * Rules for creating a recurring event.
    *
    * @platform Android, iOS, Web
