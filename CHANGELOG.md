@@ -62,6 +62,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Web: `createIcsFile(...)` builds one `.ics` file for many events, or a cancel file (`method: 'CANCEL'`)
 - Web: optional `uid` and `sequence` on `CreateEventOptions`, so re-imported files update or cancel an event
 - Web: optional `skipPrompt` on `CreateEventWithPromptOptions`
+- Android, iOS: `startListening(...)`, `stopListening()` and the `calendarChanged` listener report calendar changes in a time window. The event lists the created and updated events, the deleted ids, `calendarsChanged`, and (iOS) `remindersChanged`
 - Web: optional `provider` on `OpenCalendarOptions` opens the day view of Google Calendar, Outlook.com, or Microsoft 365 in a new tab
 
 ### Changed

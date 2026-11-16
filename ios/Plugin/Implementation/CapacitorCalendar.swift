@@ -10,6 +10,12 @@ class CapacitorCalendar: NSObject {
     private let plugin: CapacitorCalendarPlugin
     private var selectCalendarsWithPromptCompletion: ((SelectCalendarsWithPromptResult?, Error?) -> Void)?
 
+    private lazy var calendarChangeObserver = CalendarChangeObserver(
+        eventStore: eventStore,
+        hasListeners: { [weak plugin] in plugin?.hasListeners("calendarChanged") ?? false },
+        emit: { [weak plugin] payload in plugin?.notifyListeners("calendarChanged", data: payload) }
+    )
+
     init(plugin: CapacitorCalendarPlugin) {
         self.plugin = plugin
     }
@@ -599,6 +605,14 @@ class CapacitorCalendar: NSObject {
         )
         let events = eventStore.events(matching: predicate)
         return ListEventsInRangeResult(events, eventStore: eventStore)
+    }
+
+    func startListening(_ input: StartListeningInput) throws {
+        try calendarChangeObserver.start(input)
+    }
+
+    func stopListening() {
+        calendarChangeObserver.stop()
     }
 
     func getEventById(

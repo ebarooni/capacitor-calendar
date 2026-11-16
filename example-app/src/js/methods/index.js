@@ -23,6 +23,8 @@ import { registerOpenReminders } from './open-reminders.js';
 import { registerRequestFullCalendarAccess } from './request-full-calendar-access.js';
 import { registerRequestFullRemindersAccess } from './request-full-reminders-access.js';
 import { registerSelectCalendarsWithPrompt } from './select-calendars-with-prompt.js';
+import { registerStartListening } from './start-listening.js';
+import { registerStopListening } from './stop-listening.js';
 import { registerUpdateRemindersList } from './update-reminders-list.js';
 
 /** Wire every Methods-tab button listener. Keep alphabetical by method name. */
@@ -52,5 +54,7 @@ export function registerAllMethods() {
   registerRequestFullCalendarAccess();
   registerRequestFullRemindersAccess();
   registerSelectCalendarsWithPrompt();
+  registerStartListening();
+  registerStopListening();
   registerUpdateRemindersList();
 }
