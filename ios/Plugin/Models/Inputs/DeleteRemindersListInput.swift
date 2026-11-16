@@ -7,7 +7,7 @@ struct DeleteRemindersListInput {
     init(call: CAPPluginCall) throws {
         self.commit = call.getBool("commit", true)
         guard let id = call.getString("id") else {
-            throw PluginError.idMissing
+            throw PluginError.listIdMissing
         }
         self.id = id
     }

@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## Contents
 
 - [Version 8.x.x](#version-8xx)
+  - [8.12.0](#8120)
   - [8.11.0](#8110)
   - [8.10.0](#8100)
   - [8.9.0](#890)
@@ -51,6 +52,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 # Version 8.x.x
 
 Changelogs for the versions supporting Capacitor 8.
+
+## 8.12.0
+
+### Fixed
+
+- iOS rejects with `Calendar access was denied.` (`EB-CLDR-0020`) when EventKit reports `eventStoreNotAuthorized`. Before, this case rejected with `EB-CLDR-0004`
+- iOS rejects with `EB-CLDR-0005` for a missing view controller and for an already open calendar chooser. Before, these had no `EB-CLDR` code
+- iOS unhandled permission status now rejects with `EB-CLDR-0004`. Before, it had no code
+- iOS rejects a missing `id` with `List ID must be provided.` for `updateRemindersList` and `deleteRemindersList`, and with `Reminder ID must be provided.` for reminder methods. Before, these used `Event ID must be provided.`. The code stays `EB-CLDR-0001`
 
 ## 8.11.0
 

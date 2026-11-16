@@ -169,11 +169,11 @@ Defined codes:
 
 Android rejects a non-numeric or empty calendar or event `id` as `InvalidArgument`. iOS looks up the string in the system calendar store and may reject as `NotFound` when nothing matches.
 
-`IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code. On iOS, EventKit store or system rejects use this code, including some authorization-related failures; Android permission-provider denials still use `PermissionDenied` (`EB-CLDR-0020`). On iOS, this code also covers the edit-prompt `processFailed` outcome.
+`IoError`: Android and iOS map store failures such as failed create/delete ID retrieval and delete failures. Other calendar store errors that are not permission or launch failures also use this code. On iOS, EventKit store or system rejects use this code, except an EventKit authorization denial, which uses `PermissionDenied` (`EB-CLDR-0020`). On iOS, an unhandled permission status also uses this code. On iOS, this code also covers the edit-prompt `processFailed` outcome.
 
-`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`).
+`NotSupported`: Android maps a missing calendar activity handler (`ActivityNotFoundException`, for example `openCalendar`) to this code. iOS maps launch and URL failures (`Failed to launch calendar app.`, reminders, `Unable to open URL.`). iOS also uses this code for a missing view controller and a calendar chooser that is already open.
 
-On Android, calendar operations that fail with a permission error reject with `PermissionDenied` (`EB-CLDR-0020`). Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`.
+On Android and iOS, calendar operations that fail with a permission error reject with `PermissionDenied` (`EB-CLDR-0020`). On iOS, this applies when EventKit reports `eventStoreNotAuthorized`. Permission check and request APIs still resolve `"denied"` on Android and iOS; they do not reject with `0020`.
 
 For Android and iOS wraps of system store, launch, and permission failures, the message starts with a fixed sentence. If the OS provides a different detail, it is appended in parentheses.
 
