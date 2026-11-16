@@ -1,6 +1,7 @@
 import Foundation
 
 enum PluginError: LocalizedError {
+    case calendarChooserAlreadyPresented
     case calendarIdMissing
     case calendarNotFound
     case calendarNotModifiable
@@ -18,6 +19,7 @@ enum PluginError: LocalizedError {
     case invalidScope
     case invalidUrl
     case ioError(String)
+    case listIdMissing
     case listIdsMissing
     case listNotFound
     case listNotModifiable
@@ -26,8 +28,10 @@ enum PluginError: LocalizedError {
     case missingFrequency
     case missingInterval
     case noFieldsToModify
+    case permissionDenied(String)
     case processFailed
     case recurrenceNotChangeableForOccurrence
+    case reminderIdMissing
     case reminderNotFound
     case scopeMissing
     case titleMissing
@@ -39,6 +43,8 @@ enum PluginError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
+        case .calendarChooserAlreadyPresented:
+            return NSLocalizedString("Calendar chooser is already presented.", comment: "Calendar chooser already presented error")
         case .calendarIdMissing:
             return NSLocalizedString("Calendar ID must be provided.", comment: "Calendar ID missing error")
         case .calendarNotFound:
@@ -73,6 +79,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Invalid URL.", comment: "Invalid URL error")
         case .ioError(let message):
             return message
+        case .listIdMissing:
+            return NSLocalizedString("List ID must be provided.", comment: "List ID missing error")
         case .listIdsMissing:
             return NSLocalizedString("List IDs must be provided.", comment: "List IDs missing error")
         case .listNotFound:
@@ -89,6 +97,8 @@ enum PluginError: LocalizedError {
             return NSLocalizedString("Interval must be provided.", comment: "Interval missing error")
         case .noFieldsToModify:
             return NSLocalizedString("At least one of title or color must be provided.", comment: "No fields to modify error")
+        case .permissionDenied(let message):
+            return message
         case .processFailed:
             return NSLocalizedString("Process failed.", comment: "Process failed error")
         case .recurrenceNotChangeableForOccurrence:
@@ -96,6 +106,8 @@ enum PluginError: LocalizedError {
                 "Recurrence cannot be changed for a single occurrence. Use THIS_AND_FUTURE_EVENTS.",
                 comment: "Recurrence not changeable for occurrence error"
             )
+        case .reminderIdMissing:
+            return NSLocalizedString("Reminder ID must be provided.", comment: "Reminder ID missing error")
         case .reminderNotFound:
             return NSLocalizedString("Reminder not found.", comment: "Reminder not found error")
         case .scopeMissing:
@@ -125,12 +137,14 @@ enum PluginError: LocalizedError {
              .invalidFrequency,
              .invalidScope,
              .invalidUrl,
+             .listIdMissing,
              .listIdsMissing,
              .messageMissing,
              .missingFrequency,
              .missingInterval,
              .noFieldsToModify,
              .recurrenceNotChangeableForOccurrence,
+             .reminderIdMissing,
              .scopeMissing,
              .titleMissing,
              .toDateMissing:
@@ -144,15 +158,21 @@ enum PluginError: LocalizedError {
         case .failedToRetrieveCalendarId,
              .failedToRetrieveEventId,
              .ioError,
-             .processFailed:
+             .processFailed,
+             .unhandledPermissionState:
             return "EB-CLDR-0004"
         case .failedToLaunchCalendar,
              .failedToLaunchReminders,
-             .unableToOpenUrl:
+             .unableToOpenUrl,
+             .calendarChooserAlreadyPresented,
+             .unimplemented,
+             .viewControllerMissing:
             return "EB-CLDR-0005"
+        case .permissionDenied:
+            return "EB-CLDR-0020"
         case .missingDeclaration:
             return "EB-CLDR-0100"
-        default:
+        case .customError:
             return nil
         }
     }

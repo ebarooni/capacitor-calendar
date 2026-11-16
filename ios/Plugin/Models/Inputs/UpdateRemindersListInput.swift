@@ -8,7 +8,7 @@ struct UpdateRemindersListInput {
 
     init(call: CAPPluginCall) throws {
         guard let id = call.getString("id") else {
-            throw PluginError.idMissing
+            throw PluginError.listIdMissing
         }
         self.id = id
         self.title = call.getString("title")

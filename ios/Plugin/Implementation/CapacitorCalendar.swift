@@ -301,7 +301,7 @@ class CapacitorCalendar: NSObject {
             return
         }
         guard selectCalendarsWithPromptCompletion == nil else {
-            completion(nil, PluginError.customError("Calendar chooser is already presented."))
+            completion(nil, PluginError.calendarChooserAlreadyPresented)
             return
         }
 
