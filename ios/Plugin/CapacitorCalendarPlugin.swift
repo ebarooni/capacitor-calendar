@@ -439,6 +439,25 @@ public class CapacitorCalendarPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc public func startListening(_ call: CAPPluginCall) {
+        do {
+            try DeclarationCheck.ensureFullCalendarUsageDescription()
+            let input = try StartListeningInput(call: call)
+            if input.getIncludeReminders() {
+                try DeclarationCheck.ensureRemindersUsageDescription()
+            }
+            try implementation.startListening(input)
+            resolveCall(call)
+        } catch let error {
+            rejectCall(call, error)
+        }
+    }
+
+    @objc public func stopListening(_ call: CAPPluginCall) {
+        implementation.stopListening()
+        resolveCall(call)
+    }
+
     @objc public func modifyCalendar(_ call: CAPPluginCall) {
         do {
             try DeclarationCheck.ensureFullCalendarUsageDescription()

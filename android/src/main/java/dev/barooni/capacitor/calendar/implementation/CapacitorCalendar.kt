@@ -29,6 +29,7 @@ import dev.barooni.capacitor.calendar.models.inputs.ModifyEventWithPromptInput
 import dev.barooni.capacitor.calendar.models.inputs.OpenCalendarInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestAllPermissionsInput
 import dev.barooni.capacitor.calendar.models.inputs.RequestPermissionInput
+import dev.barooni.capacitor.calendar.models.inputs.StartListeningInput
 import dev.barooni.capacitor.calendar.models.results.CheckAllPermissionsResult
 import dev.barooni.capacitor.calendar.models.results.CheckPermissionResult
 import dev.barooni.capacitor.calendar.models.results.CreateCalendarResult
@@ -358,7 +359,45 @@ class CapacitorCalendar(
         dialog.show()
     }
 
-    fun listEventsInRange(input: ListEventsInRangeInput): ListEventsInRangeResult {
+    private val calendarChangeObserver: CalendarChangeObserver by lazy {
+        CalendarChangeObserver(
+            plugin.context.contentResolver,
+            ::queryEventsInRange,
+            plugin::hasCalendarChangedListeners,
+            plugin::emitCalendarChanged,
+        )
+    }
+
+    fun startListening(input: StartListeningInput) {
+        input.calendarIds?.forEach { calendarId ->
+            val exists =
+                plugin.context.contentResolver
+                    .query(
+                        ContentUris.withAppendedId(CalendarContract.Calendars.CONTENT_URI, calendarId),
+                        arrayOf(CalendarContract.Calendars._ID),
+                        null,
+                        null,
+                        null,
+                    )?.use { it.moveToFirst() } ?: false
+            if (!exists) {
+                throw PluginError.CalendarNotFound
+            }
+        }
+        calendarChangeObserver.start(input.from, input.to, input.calendarIds, input.includeEvents)
+    }
+
+    fun stopListening() {
+        calendarChangeObserver.stop()
+    }
+
+    fun listEventsInRange(input: ListEventsInRangeInput): ListEventsInRangeResult =
+        ListEventsInRangeResult(queryEventsInRange(input.from, input.to, input.calendarIds))
+
+    fun queryEventsInRange(
+        from: Long,
+        to: Long,
+        calendarIds: List<Long>?,
+    ): List<CalendarEvent> {
         val cr = plugin.context.contentResolver
         val events = mutableListOf<CalendarEvent>()
         // Cache master Events.DTSTART by master id for this call only.
@@ -391,8 +430,8 @@ class CapacitorCalendar(
         }
 
         val builder: Uri.Builder = CalendarContract.Instances.CONTENT_URI.buildUpon()
-        ContentUris.appendId(builder, input.from)
-        ContentUris.appendId(builder, input.to)
+        ContentUris.appendId(builder, from)
+        ContentUris.appendId(builder, to)
         val uri: Uri = builder.build()
 
         val projection =
@@ -416,7 +455,6 @@ class CapacitorCalendar(
                 CalendarContract.Instances.DTSTART,
             )
 
-        val calendarIds = input.calendarIds
         calendarIds?.forEach { calendarId ->
             val exists =
                 cr
@@ -439,7 +477,7 @@ class CapacitorCalendar(
             "(${CalendarContract.Instances.BEGIN} < ?) AND " +
                 "(${CalendarContract.Instances.END} > ?)" + calendarFilter
         val selectionArgs =
-            arrayOf(input.to.toString(), input.from.toString()) +
+            arrayOf(to.toString(), from.toString()) +
                 (calendarIds?.map { it.toString() } ?: emptyList())
 
         val sortOrder = "${CalendarContract.Instances.BEGIN} ASC"
@@ -592,7 +630,7 @@ class CapacitorCalendar(
             }
         }
         cursor?.close()
-        return ListEventsInRangeResult(events)
+        return events
     }
 
     fun getEventById(

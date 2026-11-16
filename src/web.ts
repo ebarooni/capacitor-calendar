@@ -45,6 +45,7 @@ import type { OpenCalendarOptions } from './schemas/interfaces/open-calendar-opt
 import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/select-calendars-with-prompt-result';
+import type { StartListeningOptions } from './schemas/interfaces/start-listening-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
 import type { EventEditAction } from './schemas/types/event-edit-action';
@@ -164,6 +165,14 @@ export class CapacitorCalendarWeb extends WebPlugin implements CapacitorCalendar
 
   public fetchAllCalendarSources(): Promise<FetchAllCalendarSourcesResult> {
     return this.throwUnimplemented(this.fetchAllCalendarSources.name);
+  }
+
+  public startListening(_options: StartListeningOptions): Promise<void> {
+    return this.throwUnimplemented(this.startListening.name);
+  }
+
+  public stopListening(): Promise<void> {
+    return this.throwUnimplemented(this.stopListening.name);
   }
 
   public listCalendars(): Promise<ListCalendarsResult> {
