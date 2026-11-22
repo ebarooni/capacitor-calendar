@@ -25,6 +25,7 @@ export function registerCreateEventWithPrompt() {
         frequency: 'weekly',
         interval: 1,
       },
+      skipPrompt: document.querySelector('#create-event-with-prompt-skip-prompt-select').value === 'true',
       startDate,
       title: getInputValue('#create-event-with-prompt-title-input', 'Planning session'),
       url: 'https://example.com/planning',

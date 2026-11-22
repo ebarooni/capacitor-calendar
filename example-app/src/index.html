@@ -39,8 +39,9 @@
           </ion-header>
           <ion-content class="ion-padding">
             <ion-note id="web-platform-note" color="medium" hidden>
-              Web is export-only: use Create event or Create event with prompt for ICS. Permission APIs and other
-              actions are not implemented on web and stay disabled.
+              Web is export-only: use Create event, Create event with prompt, or Create ICS file for ICS. Share ICS
+              file, Get calendar links, and Open calendar (Google) also work. Permission APIs and other actions are not
+              implemented on web and stay disabled.
             </ion-note>
 
             <ion-list-header>
@@ -95,6 +96,7 @@
               <ion-button id="create-calendar" expand="block">Create calendar</ion-button>
               <ion-button id="create-event" expand="block">Create event</ion-button>
               <ion-button id="create-event-with-prompt" expand="block">Create event with prompt</ion-button>
+              <ion-button id="create-ics-file" expand="block">Create ICS file</ion-button>
               <ion-button id="create-reminder" expand="block">Create reminder</ion-button>
               <ion-button id="create-reminders-list" expand="block">Create reminders list</ion-button>
               <ion-button id="delete-calendar" expand="block">Delete calendar</ion-button>
@@ -102,6 +104,7 @@
               <ion-button id="delete-event-with-prompt" expand="block">Delete event with prompt</ion-button>
               <ion-button id="delete-events-by-id" expand="block">Delete events by id</ion-button>
               <ion-button id="delete-reminders-list" expand="block">Delete reminders list</ion-button>
+              <ion-button id="get-calendar-links" expand="block">Get calendar links</ion-button>
               <ion-button id="get-default-calendar" expand="block">Get default calendar</ion-button>
               <ion-button id="get-event-by-id" expand="block">Get event by id</ion-button>
               <ion-button id="get-reminder-by-id" expand="block">Get reminder by id</ion-button>
@@ -120,6 +123,7 @@
                 >Request full reminders access</ion-button
               >
               <ion-button id="select-calendars-with-prompt" expand="block">Select calendars with prompt</ion-button>
+              <ion-button id="share-ics-file" expand="block">Share ICS file</ion-button>
               <ion-button id="update-reminders-list" expand="block">Update reminders list</ion-button>
             </ion-list>
           </ion-content>

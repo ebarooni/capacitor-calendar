@@ -11,5 +11,18 @@
         value="Planning session"
       ></ion-input>
     </ion-item>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-select
+        id="create-event-with-prompt-skip-prompt-select"
+        label="Skip prompt"
+        label-placement="stacked"
+        interface="popover"
+        value="false"
+        helper-text="Web only: skip the confirm dialog and build the ICS file at once"
+      >
+        <ion-select-option value="false">No</ion-select-option>
+        <ion-select-option value="true">Yes</ion-select-option>
+      </ion-select>
+    </ion-item>
   </div>
 </ion-accordion>

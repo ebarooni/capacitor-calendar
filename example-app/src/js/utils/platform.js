@@ -1,6 +1,13 @@
 import { Capacitor } from '@capacitor/core';
 
-const WEB_SUPPORTED_METHOD_IDS = new Set(['create-event', 'create-event-with-prompt']);
+const WEB_SUPPORTED_METHOD_IDS = new Set([
+  'create-event',
+  'create-event-with-prompt',
+  'create-ics-file',
+  'get-calendar-links',
+  'open-calendar',
+  'share-ics-file',
+]);
 
 export function isWebPlatform() {
   return Capacitor.getPlatform() === 'web';
