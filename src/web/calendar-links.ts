@@ -1,6 +1,6 @@
 import type { CalendarLinks } from '../schemas/interfaces/calendar-links';
 import type { CreateEventOptions } from '../schemas/interfaces/create-event-options';
-import type { CalendarLinkProvider } from '../schemas/types/calendar-link-provider';
+import type { CalendarDayViewProvider } from '../schemas/types/calendar-day-view-provider';
 
 import { formatDateOnlyLocal, formatDateTimeUtc, resolveEndDate, toRRule } from './ics';
 
@@ -34,18 +34,23 @@ export function getCalendarLinks(options: CreateEventOptions): CalendarLinks {
 /**
  * Builds the link that opens the day view of a web calendar.
  *
+ * @throws If `provider` is not `google`, `outlook`, or `office365`.
+ *
  * @since 8.12.0
  */
-export function getCalendarDayLink(provider: Exclude<CalendarLinkProvider, 'yahoo'>, date: number): string {
+export function getCalendarDayLink(provider: CalendarDayViewProvider, date: number): string {
   const day = new Date(date);
-  const year = day.getFullYear();
-  const month = day.getMonth() + 1;
-  const dayOfMonth = day.getDate();
-  if (provider === 'google') {
-    return `https://calendar.google.com/calendar/r/day/${year}/${month}/${dayOfMonth}`;
+  const datePath = `${day.getFullYear()}/${day.getMonth() + 1}/${day.getDate()}`;
+  switch (provider) {
+    case 'google':
+      return `https://calendar.google.com/calendar/r/day/${datePath}`;
+    case 'outlook':
+      return `https://outlook.live.com/calendar/0/view/day/${datePath}`;
+    case 'office365':
+      return `https://outlook.office.com/calendar/0/view/day/${datePath}`;
+    default:
+      throw new Error(`Unsupported calendar provider: ${String(provider)}. Use google, outlook, or office365.`);
   }
-  const host = provider === 'office365' ? 'https://outlook.office.com' : 'https://outlook.live.com';
-  return `${host}/calendar/0/view/day?startdt=${formatIsoDate(date)}`;
 }
 
 function buildGoogleLink(options: CreateEventOptions, startDate: number, endDate: number, isAllDay: boolean): string {
@@ -62,7 +67,7 @@ function buildGoogleLink(options: CreateEventOptions, startDate: number, endDate
   if (emails.length > 0) {
     params.set('add', emails.join(','));
   }
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  return `https://calendar.google.com/calendar/render?${toQuery(params)}`;
 }
 
 function buildOutlookLink(
@@ -83,7 +88,7 @@ function buildOutlookLink(
   }
   setIfPresent(params, 'body', options.description);
   setIfPresent(params, 'location', options.location);
-  return `${host}/calendar/0/deeplink/compose?${params.toString()}`;
+  return `${host}/calendar/0/deeplink/compose?${toQuery(params)}`;
 }
 
 function buildYahooLink(options: CreateEventOptions, startDate: number, endDate: number, isAllDay: boolean): string {
@@ -98,7 +103,15 @@ function buildYahooLink(options: CreateEventOptions, startDate: number, endDate:
   }
   setIfPresent(params, 'desc', options.description);
   setIfPresent(params, 'in_loc', options.location);
-  return `https://calendar.yahoo.com/?${params.toString()}`;
+  return `https://calendar.yahoo.com/?${toQuery(params)}`;
+}
+
+/**
+ * Encodes spaces as `%20`, not `+`.
+ * Outlook shows a literal `+` when the link goes through its sign-in redirect.
+ */
+function toQuery(params: URLSearchParams): string {
+  return [...params].map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
 }
 
 function setIfPresent(params: URLSearchParams, key: string, value: string | undefined): void {

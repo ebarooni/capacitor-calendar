@@ -68,6 +68,10 @@ Changelogs for the versions supporting Capacitor 8.
 
 - Web: the message of unimplemented methods now names the web alternatives. The error code is unchanged
 
+### Fixed
+
+- Web: folded `.ics` continuation lines were one octet longer than the 75-octet limit of RFC 5545
+
 ## 8.11.0
 
 ### Added

@@ -319,6 +319,7 @@ function formatParamValue(value: string): string {
 
 /**
  * Folds a content line so each physical line is at most 75 octets (RFC 5545 §3.1).
+ * A continuation line starts with one space, so it holds at most 74 octets of content.
  */
 export function foldLine(line: string): string {
   const max = 75;
@@ -326,32 +327,24 @@ export function foldLine(line: string): string {
     return line;
   }
 
-  const chars = [...line];
-  let result = '';
+  const parts: string[] = [];
   let current = '';
+  let currentBytes = 0;
 
-  for (const ch of chars) {
-    const next = current + ch;
-    if (byteLength(next) > max) {
-      result += result.length === 0 ? current : `${CRLF} ${current}`;
-      current = ch;
-      // Continuations are limited to 74 octets of content + leading space = 75
-      while (byteLength(current) > max - 1) {
-        // Extremely rare for a single code point; split by taking first unit as-is
-        result += `${CRLF} ${current}`;
-        current = '';
-        break;
-      }
-    } else {
-      current = next;
+  for (const ch of line) {
+    const chBytes = byteLength(ch);
+    const limit = parts.length === 0 ? max : max - 1;
+    if (currentBytes + chBytes > limit && current.length > 0) {
+      parts.push(current);
+      current = '';
+      currentBytes = 0;
     }
+    current += ch;
+    currentBytes += chBytes;
   }
+  parts.push(current);
 
-  if (current.length > 0) {
-    result += result.length === 0 ? current : `${CRLF} ${current}`;
-  }
-
-  return result;
+  return parts.join(`${CRLF} `);
 }
 
 function byteLength(s: string): number {

@@ -33,6 +33,8 @@ export function registerCreateEvent() {
       },
       startDate,
       title: getInputValue('#create-event-title-input', 'Recurring standup'),
+      // Web only: a stable uid lets a re-imported file update the same event
+      uid: 'example-app-recurring-standup',
       url: 'https://example.com/standup',
     };
 

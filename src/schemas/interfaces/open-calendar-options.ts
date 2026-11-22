@@ -1,4 +1,4 @@
-import type { CalendarLinkProvider } from '../types/calendar-link-provider';
+import type { CalendarDayViewProvider } from '../types/calendar-day-view-provider';
 
 /**
  * @since 7.1.0
@@ -16,10 +16,9 @@ export interface OpenCalendarOptions {
   /**
    * Web calendar to open in a new browser tab, at the day of `date`.
    * Without it, `openCalendar` rejects on Web, because browsers cannot open a calendar app.
-   * Yahoo has no day view and is not supported here.
    *
    * @platform Web
    * @since 8.12.0
    */
-  provider?: Exclude<CalendarLinkProvider, 'yahoo'>;
+  provider?: CalendarDayViewProvider;
 }

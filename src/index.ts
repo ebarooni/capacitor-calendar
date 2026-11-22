@@ -69,6 +69,7 @@ import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/selec
 import type { ShareIcsFileOptions } from './schemas/interfaces/share-ics-file-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
+import type { CalendarDayViewProvider } from './schemas/types/calendar-day-view-provider';
 import type { CalendarLinkProvider } from './schemas/types/calendar-link-provider';
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
@@ -87,6 +88,7 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCale
 export * from './definitions';
 export type {
   Calendar,
+  CalendarDayViewProvider,
   CalendarEvent,
   CalendarLinkProvider,
   CalendarLinks,

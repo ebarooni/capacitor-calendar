@@ -236,9 +236,9 @@ import { CapacitorCalendar, createIcsFile, getCalendarLinks, shareIcsFile } from
 
 const event = { title: 'Team standup', startDate: Date.now() + 60 * 60 * 1000, uid: 'standup-1' };
 
-// Open the share sheet. The file downloads when the browser cannot share files. Call it from a click.
-const { ics } = await CapacitorCalendar.createEvent(event);
-if (ics) await shareIcsFile(ics);
+// Open the share sheet from a click. Build the file synchronously so the click still counts.
+// The file downloads when the browser cannot share .ics files (for example Chrome).
+await shareIcsFile(createIcsFile(event));
 
 // Links open a web calendar with the event filled in. The user confirms there.
 const { google, outlook, office365, yahoo } = getCalendarLinks(event);
@@ -855,6 +855,7 @@ openCalendar(options?: OpenCalendarOptions | undefined) => Promise<void>
 ```
 
 Opens the calendar app.
+On Web, opens a web calendar in a new tab when `provider` is set, and rejects otherwise.
 
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
@@ -862,7 +863,7 @@ Opens the calendar app.
 
 **Since:** 7.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -1476,10 +1477,10 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### OpenCalendarOptions
 
-| Prop           | Type                                                                                                                 | Description                                                                                                                                                                                               | Default                 | Since  | Platform     |
-| -------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------ | ------------ |
-| **`date`**     | <code>number</code>                                                                                                  | The date to open the calendar at, in milliseconds since the epoch.                                                                                                                                        | <code>Date.now()</code> | 7.1.0  | Android, iOS |
-| **`provider`** | <code><a href="#exclude">Exclude</a>&lt;<a href="#calendarlinkprovider">CalendarLinkProvider</a>, 'yahoo'&gt;</code> | Web calendar to open in a new browser tab, at the day of `date`. Without it, `openCalendar` rejects on Web, because browsers cannot open a calendar app. Yahoo has no day view and is not supported here. |                         | 8.12.0 | Web          |
+| Prop           | Type                                                                        | Description                                                                                                                                              | Default                 | Since  | Platform     |
+| -------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------ | ------------ |
+| **`date`**     | <code>number</code>                                                         | The date to open the calendar at, in milliseconds since the epoch.                                                                                       | <code>Date.now()</code> | 7.1.0  | Android, iOS |
+| **`provider`** | <code><a href="#calendardayviewprovider">CalendarDayViewProvider</a></code> | Web calendar to open in a new browser tab, at the day of `date`. Without it, `openCalendar` rejects on Web, because browsers cannot open a calendar app. |                         | 8.12.0 | Web          |
 
 #### CreateCalendarResult
 
@@ -1730,17 +1731,12 @@ Named iOS system color.
 
 <code>'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow'</code>
 
-#### Exclude
+#### CalendarDayViewProvider
 
-<a href="#exclude">Exclude</a> from T those types that are assignable to U
+Web calendar services that `openCalendar` can open at a day view.
+Yahoo <a href="#calendar">Calendar</a> has no day view link.
 
-<code>T extends U ? never : T</code>
-
-#### CalendarLinkProvider
-
-Web calendar services that `getCalendarLinks` can build a link for.
-
-<code>'google' | 'outlook' | 'office365' | 'yahoo'</code>
+<code>'google' | 'outlook' | 'office365'</code>
 
 #### RemindersList
 
