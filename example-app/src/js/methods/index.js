@@ -2,6 +2,7 @@ import { registerCheckAllPermissions } from './check-all-permissions.js';
 import { registerCreateCalendar } from './create-calendar.js';
 import { registerCreateEvent } from './create-event.js';
 import { registerCreateEventWithPrompt } from './create-event-with-prompt.js';
+import { registerCreateIcsFile } from './create-ics-file.js';
 import { registerCreateReminder } from './create-reminder.js';
 import { registerCreateRemindersList } from './create-reminders-list.js';
 import { registerDeleteCalendar } from './delete-calendar.js';
@@ -9,6 +10,7 @@ import { registerDeleteEvent } from './delete-event.js';
 import { registerDeleteEventWithPrompt } from './delete-event-with-prompt.js';
 import { registerDeleteEventsById } from './delete-events-by-id.js';
 import { registerDeleteRemindersList } from './delete-reminders-list.js';
+import { registerGetCalendarLinks } from './get-calendar-links.js';
 import { registerGetDefaultCalendar } from './get-default-calendar.js';
 import { registerGetEventById } from './get-event-by-id.js';
 import { registerGetReminderById } from './get-reminder-by-id.js';
@@ -23,6 +25,7 @@ import { registerOpenReminders } from './open-reminders.js';
 import { registerRequestFullCalendarAccess } from './request-full-calendar-access.js';
 import { registerRequestFullRemindersAccess } from './request-full-reminders-access.js';
 import { registerSelectCalendarsWithPrompt } from './select-calendars-with-prompt.js';
+import { registerShareIcsFile } from './share-ics-file.js';
 import { registerUpdateRemindersList } from './update-reminders-list.js';
 
 /** Wire every Methods-tab button listener. Keep alphabetical by method name. */
@@ -31,6 +34,7 @@ export function registerAllMethods() {
   registerCreateCalendar();
   registerCreateEvent();
   registerCreateEventWithPrompt();
+  registerCreateIcsFile();
   registerCreateReminder();
   registerCreateRemindersList();
   registerDeleteCalendar();
@@ -38,6 +42,7 @@ export function registerAllMethods() {
   registerDeleteEventWithPrompt();
   registerDeleteEventsById();
   registerDeleteRemindersList();
+  registerGetCalendarLinks();
   registerGetDefaultCalendar();
   registerGetEventById();
   registerGetReminderById();
@@ -52,5 +57,6 @@ export function registerAllMethods() {
   registerRequestFullCalendarAccess();
   registerRequestFullRemindersAccess();
   registerSelectCalendarsWithPrompt();
+  registerShareIcsFile();
   registerUpdateRemindersList();
 }

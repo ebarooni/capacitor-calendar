@@ -1,0 +1,22 @@
+<ion-accordion value="get-calendar-links">
+  <ion-item slot="header" color="light">
+    <ion-label>getCalendarLinks</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-select
+        id="get-calendar-links-provider-select"
+        label="Open"
+        label-placement="stacked"
+        interface="popover"
+        value="google"
+        helper-text="The link to open in a new tab. All links are logged."
+      >
+        <ion-select-option value="google">Google Calendar</ion-select-option>
+        <ion-select-option value="outlook">Outlook.com</ion-select-option>
+        <ion-select-option value="office365">Microsoft 365</ion-select-option>
+        <ion-select-option value="yahoo">Yahoo Calendar</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>

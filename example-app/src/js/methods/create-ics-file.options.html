@@ -1,0 +1,20 @@
+<ion-accordion value="create-ics-file">
+  <ion-item slot="header" color="light">
+    <ion-label>createIcsFile</ion-label>
+  </ion-item>
+  <div class="ion-padding method-options" slot="content">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-select
+        id="create-ics-file-method-select"
+        label="Method"
+        label-placement="stacked"
+        interface="popover"
+        value="PUBLISH"
+        helper-text="CANCEL asks calendar apps to remove the events that were imported before (same uid)"
+      >
+        <ion-select-option value="PUBLISH">PUBLISH</ion-select-option>
+        <ion-select-option value="CANCEL">CANCEL</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-accordion>

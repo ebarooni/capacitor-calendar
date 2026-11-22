@@ -1,3 +1,5 @@
+import type { CalendarDayViewProvider } from '../types/calendar-day-view-provider';
+
 /**
  * @since 7.1.0
  */
@@ -11,4 +13,12 @@ export interface OpenCalendarOptions {
    * @since 7.1.0
    */
   date?: number;
+  /**
+   * Web calendar to open in a new browser tab, at the day of `date`.
+   * Without it, `openCalendar` rejects on Web, because browsers cannot open a calendar app.
+   *
+   * @platform Web
+   * @since 8.12.0
+   */
+  provider?: CalendarDayViewProvider;
 }

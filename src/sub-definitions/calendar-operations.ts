@@ -71,11 +71,12 @@ export interface CalendarOperations {
   getDefaultCalendar(options?: GetDefaultCalendarOptions): Promise<{ result: Calendar | null }>;
   /**
    * Opens the calendar app.
+   * On Web, opens a web calendar in a new tab when `provider` is set, and rejects otherwise.
    *
    * @example
    * CapacitorCalendar.openCalendar({ date: Date.now() });
    *
-   * @platform Android, iOS
+   * @platform Android, iOS, Web
    * @since 7.1.0
    */
   openCalendar(options?: OpenCalendarOptions): Promise<void>;

@@ -44,18 +44,18 @@
 
 ## Features and Platforms
 
-| Capability                                        | iOS | Android |      Web      |
-| :------------------------------------------------ | :-: | :-----: | :-----------: |
-| Create, update, and delete events                 | ✅  |   ✅    | Create only\* |
-| Native prompts to create, edit, and delete events | ✅  |   ✅    | Create only\* |
-| List events in a date range                       | ✅  |   ✅    |       –       |
-| Request calendar permissions                      | ✅  |   ✅    |       –       |
-| List, create, modify, and delete calendars        | ✅  |   ✅    |       –       |
-| Open the native Calendar app                      | ✅  |   ✅    |       –       |
-| Calendar sources and a calendar picker prompt     | ✅  |    –    |       –       |
-| Reminders and reminder lists                      | ✅  |    –    |       –       |
+| Capability                                        | iOS | Android |      Web       |
+| :------------------------------------------------ | :-: | :-----: | :------------: |
+| Create, update, and delete events                 | ✅  |   ✅    | Create only\*  |
+| Native prompts to create, edit, and delete events | ✅  |   ✅    | Create only\*  |
+| List events in a date range                       | ✅  |   ✅    |       –        |
+| Request calendar permissions                      | ✅  |   ✅    |       –        |
+| List, create, modify, and delete calendars        | ✅  |   ✅    |       –        |
+| Open the native Calendar app                      | ✅  |   ✅    | Web calendar\* |
+| Calendar sources and a calendar picker prompt     | ✅  |    –    |       –        |
+| Reminders and reminder lists                      | ✅  |    –    |       –        |
 
-\* On the web, `createEvent` and `createEventWithPrompt` return a downloadable `.ics` file. They do not write to a device calendar. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
+\* On the web, `createEvent` and `createEventWithPrompt` return a downloadable `.ics` file. They do not write to a device calendar. `openCalendar({ provider })` opens a web calendar in a new tab. See [Create and download an event on the web](#create-and-download-an-event-on-the-web).
 
 ## Demo
 
@@ -227,6 +227,28 @@ const { ics } = await CapacitorCalendar.createEvent({
   icsFileName: 'team-standup.ics',
   autoDownloadIcsFile: true,
 });
+```
+
+#### Share the file, or open a web calendar
+
+```typescript
+import { CapacitorCalendar, createIcsFile, getCalendarLinks, shareIcsFile } from '@ebarooni/capacitor-calendar';
+
+const event = { title: 'Team standup', startDate: Date.now() + 60 * 60 * 1000, uid: 'standup-1' };
+
+// Open the share sheet from a click. Build the file synchronously so the click still counts.
+// The file downloads when the browser cannot share .ics files (for example Chrome).
+await shareIcsFile(createIcsFile(event));
+
+// Links open a web calendar with the event filled in. The user confirms there.
+const { google, outlook, office365, yahoo } = getCalendarLinks(event);
+window.open(google, '_blank', 'noopener');
+
+// Cancel an event that the user imported before
+const cancelFile = createIcsFile({ ...event, sequence: 1 }, { method: 'CANCEL' });
+
+// Open the day view of a web calendar
+await CapacitorCalendar.openCalendar({ provider: 'google', date: event.startDate });
 ```
 
 ### Open the native event editor
@@ -833,6 +855,7 @@ openCalendar(options?: OpenCalendarOptions | undefined) => Promise<void>
 ```
 
 Opens the calendar app.
+On Web, opens a web calendar in a new tab when `provider` is set, and rejects otherwise.
 
 | Param         | Type                                                                |
 | ------------- | ------------------------------------------------------------------- |
@@ -840,7 +863,7 @@ Opens the calendar app.
 
 **Since:** 7.1.0
 
-**Platform:** Android, iOS
+**Platform:** Android, iOS, Web
 
 ---
 
@@ -1186,23 +1209,24 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateEventWithPromptOptions
 
-| Prop                      | Type                                                                | Description                                                                                                                                                                                      | Default           | Since | Platform          |
-| ------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- | ----- | ----------------- |
-| **`alerts`**              | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for reminders before the start, and positive numbers for reminders after the start. On iOS only 2 alerts are supported. |                   | 7.1.0 | iOS, Web          |
-| **`autoDownloadIcsFile`** | <code>boolean</code>                                                | Start a browser download of the ICS file.                                                                                                                                                        | <code>true</code> | 8.8.0 | Web               |
-| **`availability`**        | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                                                  |                   | 7.1.0 | Android, iOS, Web |
-| **`calendarId`**          | <code>string</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | iOS               |
-| **`description`**         | <code>string</code>                                                 |                                                                                                                                                                                                  |                   | 7.1.0 | Android, iOS, Web |
-| **`endDate`**             | <code>number</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | Android, iOS, Web |
-| **`icsFileName`**         | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended.                            |                   | 8.8.0 | Web               |
-| **`invitees`**            | <code>string[]</code>                                               | An array of emails to invite.                                                                                                                                                                    |                   | 7.1.0 | Android           |
-| **`isAllDay`**            | <code>boolean</code>                                                |                                                                                                                                                                                                  |                   | 0.1.0 | Android, iOS, Web |
-| **`location`**            | <code>string</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | Android, iOS, Web |
-| **`promptMessage`**       | <code>string</code>                                                 | Confirm dialog message. When omitted, the dialog uses the event title and time summary.                                                                                                          |                   | 8.8.0 | Web               |
-| **`recurrence`**          | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                                            |                   | 7.3.0 | Android, iOS, Web |
-| **`startDate`**           | <code>number</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | Android, iOS, Web |
-| **`title`**               | <code>string</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | Android, iOS, Web |
-| **`url`**                 | <code>string</code>                                                 |                                                                                                                                                                                                  |                   | 0.1.0 | iOS, Web          |
+| Prop                      | Type                                                                | Description                                                                                                                                                                                      | Default            | Since  | Platform          |
+| ------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ | ------ | ----------------- |
+| **`alerts`**              | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for reminders before the start, and positive numbers for reminders after the start. On iOS only 2 alerts are supported. |                    | 7.1.0  | iOS, Web          |
+| **`autoDownloadIcsFile`** | <code>boolean</code>                                                | Start a browser download of the ICS file.                                                                                                                                                        | <code>true</code>  | 8.8.0  | Web               |
+| **`availability`**        | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                                                  |                    | 7.1.0  | Android, iOS, Web |
+| **`calendarId`**          | <code>string</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | iOS               |
+| **`description`**         | <code>string</code>                                                 |                                                                                                                                                                                                  |                    | 7.1.0  | Android, iOS, Web |
+| **`endDate`**             | <code>number</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | Android, iOS, Web |
+| **`icsFileName`**         | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended.                            |                    | 8.8.0  | Web               |
+| **`invitees`**            | <code>string[]</code>                                               | An array of emails to invite.                                                                                                                                                                    |                    | 7.1.0  | Android           |
+| **`isAllDay`**            | <code>boolean</code>                                                |                                                                                                                                                                                                  |                    | 0.1.0  | Android, iOS, Web |
+| **`location`**            | <code>string</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | Android, iOS, Web |
+| **`promptMessage`**       | <code>string</code>                                                 | Confirm dialog message. When omitted, the dialog uses the event title and time summary.                                                                                                          |                    | 8.8.0  | Web               |
+| **`skipPrompt`**          | <code>boolean</code>                                                | Skip the confirm dialog and build the `.ics` file at once. Use it when the browser blocks `window.confirm` (for example in some iframes), or when you show your own prompt.                      | <code>false</code> | 8.12.0 | Web               |
+| **`recurrence`**          | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                                            |                    | 7.3.0  | Android, iOS, Web |
+| **`startDate`**           | <code>number</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | Android, iOS, Web |
+| **`title`**               | <code>string</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | Android, iOS, Web |
+| **`url`**                 | <code>string</code>                                                 |                                                                                                                                                                                                  |                    | 0.1.0  | iOS, Web          |
 
 #### EventRecurrenceRule
 
@@ -1246,26 +1270,28 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### CreateEventOptions
 
-| Prop                      | Type                                                                | Description                                                                                                                                                           | Default            | Since | Platform          |
-| ------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- | ----------------- |
-| **`alerts`**              | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start.                |                    | 7.1.0 | Android, iOS, Web |
-| **`attendees`**           | <code>EventGuest[]</code>                                           | The event guests.                                                                                                                                                     |                    | 7.1.0 | Android, Web      |
-| **`autoDownloadIcsFile`** | <code>boolean</code>                                                | Start a browser download of the ICS file.                                                                                                                             | <code>false</code> | 8.8.0 | Web               |
-| **`availability`**        | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                       |                    | 7.1.0 | Android, iOS, Web |
-| **`calendarId`**          | <code>string</code>                                                 |                                                                                                                                                                       |                    | 0.1.0 | Android, iOS      |
-| **`color`**               | <code>string</code>                                                 |                                                                                                                                                                       |                    | 7.1.0 | Android           |
-| **`commit`**              | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`).                                                                                            | <code>true</code>  | 7.1.0 | iOS               |
-| **`description`**         | <code>string</code>                                                 |                                                                                                                                                                       |                    | 7.1.0 | Android, iOS, Web |
-| **`duration`**            | <code>string</code>                                                 | Duration of the event in RFC2445 format. On Web, used when `endDate` is omitted; `endDate` wins if both are set.                                                      |                    | 7.1.0 | Android, Web      |
-| **`endDate`**             | <code>number</code>                                                 |                                                                                                                                                                       |                    | 0.1.0 | Android, iOS, Web |
-| **`icsFileName`**         | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended. |                    | 8.5.0 | Web               |
-| **`isAllDay`**            | <code>boolean</code>                                                |                                                                                                                                                                       |                    | 0.1.0 | Android, iOS, Web |
-| **`location`**            | <code>string</code>                                                 |                                                                                                                                                                       |                    | 0.1.0 | Android, iOS, Web |
-| **`organizer`**           | <code>string</code>                                                 | Email of the event organizer.                                                                                                                                         |                    | 7.1.0 | Android, Web      |
-| **`recurrence`**          | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                 |                    | 7.3.0 | Android, iOS, Web |
-| **`startDate`**           | <code>number</code>                                                 |                                                                                                                                                                       |                    | 0.1.0 | Android, iOS, Web |
-| **`title`**               | <code>string</code>                                                 |                                                                                                                                                                       |                    | 0.4.0 | Android, iOS, Web |
-| **`url`**                 | <code>string</code>                                                 |                                                                                                                                                                       |                    | 0.1.0 | iOS, Web          |
+| Prop                      | Type                                                                | Description                                                                                                                                                                                               | Default            | Since  | Platform          |
+| ------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------ | ----------------- |
+| **`alerts`**              | <code>number[]</code>                                               | Alert times in minutes relative to the event start. Use negative numbers for alerts before the start, and positive numbers for alerts after the start.                                                    |                    | 7.1.0  | Android, iOS, Web |
+| **`attendees`**           | <code>EventGuest[]</code>                                           | The event guests.                                                                                                                                                                                         |                    | 7.1.0  | Android, Web      |
+| **`autoDownloadIcsFile`** | <code>boolean</code>                                                | Start a browser download of the ICS file.                                                                                                                                                                 | <code>false</code> | 8.8.0  | Web               |
+| **`availability`**        | <code><a href="#eventavailability">EventAvailability</a></code>     |                                                                                                                                                                                                           |                    | 7.1.0  | Android, iOS, Web |
+| **`calendarId`**          | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 0.1.0  | Android, iOS      |
+| **`color`**               | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 7.1.0  | Android           |
+| **`commit`**              | <code>boolean</code>                                                | Whether to save immediately (`true`) or batch changes for later (`false`).                                                                                                                                | <code>true</code>  | 7.1.0  | iOS               |
+| **`description`**         | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 7.1.0  | Android, iOS, Web |
+| **`duration`**            | <code>string</code>                                                 | Duration of the event in RFC2445 format. On Web, used when `endDate` is omitted; `endDate` wins if both are set.                                                                                          |                    | 7.1.0  | Android, Web      |
+| **`endDate`**             | <code>number</code>                                                 |                                                                                                                                                                                                           |                    | 0.1.0  | Android, iOS, Web |
+| **`icsFileName`**         | <code>string</code>                                                 | Download filename for the `.ics` file. When omitted, a name is derived from `title` (fallback `event.ics`). If the value has no `.ics` extension, `.ics` is appended.                                     |                    | 8.5.0  | Web               |
+| **`isAllDay`**            | <code>boolean</code>                                                |                                                                                                                                                                                                           |                    | 0.1.0  | Android, iOS, Web |
+| **`location`**            | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 0.1.0  | Android, iOS, Web |
+| **`organizer`**           | <code>string</code>                                                 | Email of the event organizer.                                                                                                                                                                             |                    | 7.1.0  | Android, Web      |
+| **`recurrence`**          | <code><a href="#eventrecurrencerule">EventRecurrenceRule</a></code> | Rules for creating a recurring event.                                                                                                                                                                     |                    | 7.3.0  | Android, iOS, Web |
+| **`sequence`**            | <code>number</code>                                                 | Sequence number of the event in the `.ics` file. Raise it each time you re-issue the same `uid`, so calendar apps update the event. Calendar apps ignore a lower number for the same `uid`.               |                    | 8.12.0 | Web               |
+| **`startDate`**           | <code>number</code>                                                 |                                                                                                                                                                                                           |                    | 0.1.0  | Android, iOS, Web |
+| **`title`**               | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 0.4.0  | Android, iOS, Web |
+| **`uid`**                 | <code>string</code>                                                 | Stable id of the event in the `.ics` file. When omitted, a new random id is made for each file. Reuse the same `uid` with a higher `sequence` to update or cancel an event that the user imported before. |                    | 8.12.0 | Web               |
+| **`url`**                 | <code>string</code>                                                 |                                                                                                                                                                                                           |                    | 0.1.0  | iOS, Web          |
 
 #### EventGuest
 
@@ -1451,9 +1477,10 @@ Options for {@link CalendarAccess#requestPermission}.
 
 #### OpenCalendarOptions
 
-| Prop       | Type                | Description                                                        | Default                 | Since | Platform     |
-| ---------- | ------------------- | ------------------------------------------------------------------ | ----------------------- | ----- | ------------ |
-| **`date`** | <code>number</code> | The date to open the calendar at, in milliseconds since the epoch. | <code>Date.now()</code> | 7.1.0 | Android, iOS |
+| Prop           | Type                                                                        | Description                                                                                                                                              | Default                 | Since  | Platform     |
+| -------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------ | ------------ |
+| **`date`**     | <code>number</code>                                                         | The date to open the calendar at, in milliseconds since the epoch.                                                                                       | <code>Date.now()</code> | 7.1.0  | Android, iOS |
+| **`provider`** | <code><a href="#calendardayviewprovider">CalendarDayViewProvider</a></code> | Web calendar to open in a new browser tab, at the day of `date`. Without it, `openCalendar` rejects on Web, because browsers cannot open a calendar app. |                         | 8.12.0 | Web          |
 
 #### CreateCalendarResult
 
@@ -1703,6 +1730,13 @@ Construct a type with a set of properties K of type T
 Named iOS system color.
 
 <code>'blue' | 'brown' | 'gray' | 'green' | 'indigo' | 'orange' | 'pink' | 'purple' | 'red' | 'teal' | 'yellow'</code>
+
+#### CalendarDayViewProvider
+
+Web calendar services that `openCalendar` can open at a day view.
+Yahoo <a href="#calendar">Calendar</a> has no day view link.
+
+<code>'google' | 'outlook' | 'office365'</code>
 
 #### RemindersList
 

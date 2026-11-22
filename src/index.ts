@@ -15,6 +15,7 @@ import { EventStatus } from './schemas/enums/event-status';
 import { ReminderRecurrenceFrequency } from './schemas/enums/reminder-recurrence-frequency';
 import type { Calendar } from './schemas/interfaces/calendar';
 import type { CalendarEvent } from './schemas/interfaces/calendar-event';
+import type { CalendarLinks } from './schemas/interfaces/calendar-links';
 import type { CalendarSource } from './schemas/interfaces/calendar-source';
 import type { CheckPermissionOptions } from './schemas/interfaces/check-permission-options';
 import type { CreateCalendarOptions } from './schemas/interfaces/create-calendar-options';
@@ -23,6 +24,7 @@ import type { CreateEventOptions } from './schemas/interfaces/create-event-optio
 import type { CreateEventResult } from './schemas/interfaces/create-event-result';
 import type { CreateEventWithPromptOptions } from './schemas/interfaces/create-event-with-prompt-options';
 import type { CreateEventWithPromptResult } from './schemas/interfaces/create-event-with-prompt-result';
+import type { CreateIcsFileOptions } from './schemas/interfaces/create-ics-file-options';
 import type { CreateReminderOptions } from './schemas/interfaces/create-reminder-options';
 import type { CreateReminderResult } from './schemas/interfaces/create-reminder-result';
 import type { CreateRemindersListOptions } from './schemas/interfaces/create-reminders-list-options';
@@ -64,14 +66,20 @@ import type { RemindersList } from './schemas/interfaces/reminders-list';
 import type { RequestPermissionOptions } from './schemas/interfaces/request-permission-options';
 import type { SelectCalendarsWithPromptOptions } from './schemas/interfaces/select-calendars-with-prompt-options';
 import type { SelectCalendarsWithPromptResult } from './schemas/interfaces/select-calendars-with-prompt-result';
+import type { ShareIcsFileOptions } from './schemas/interfaces/share-ics-file-options';
 import type { UpdateRemindersListOptions } from './schemas/interfaces/update-reminders-list-options';
 import type { UpdateRemindersListResult } from './schemas/interfaces/update-reminders-list-result';
+import type { CalendarDayViewProvider } from './schemas/types/calendar-day-view-provider';
+import type { CalendarLinkProvider } from './schemas/types/calendar-link-provider';
 import type { EventEditAction } from './schemas/types/event-edit-action';
 import type { RecurrenceFrequency } from './schemas/types/recurrence-frequency';
 import type { SystemColorName } from './schemas/types/system-color-name';
 import type { CheckAllPermissionsResult, RequestAllPermissionsResult } from './sub-definitions/calendar-access';
 import type { DeleteEventsByIdResult } from './sub-definitions/event-operations';
+import { getCalendarDayLink, getCalendarLinks } from './web/calendar-links';
+import { createIcsFile } from './web/create-ics-file';
 import { downloadIcsFile } from './web/download-ics-file';
+import { shareIcsFile } from './web/share-ics-file';
 
 const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCalendar', {
   web: () => import('./web').then((m) => new m.CapacitorCalendarWeb()),
@@ -80,7 +88,10 @@ const CapacitorCalendar = registerPlugin<CapacitorCalendarPlugin>('CapacitorCale
 export * from './definitions';
 export type {
   Calendar,
+  CalendarDayViewProvider,
   CalendarEvent,
+  CalendarLinkProvider,
+  CalendarLinks,
   CalendarSource,
   CheckAllPermissionsResult,
   CheckPermissionOptions,
@@ -90,6 +101,7 @@ export type {
   CreateEventResult,
   CreateEventWithPromptOptions,
   CreateEventWithPromptResult,
+  CreateIcsFileOptions,
   CreateReminderOptions,
   CreateReminderResult,
   CreateRemindersListOptions,
@@ -134,6 +146,7 @@ export type {
   RequestPermissionOptions,
   SelectCalendarsWithPromptOptions,
   SelectCalendarsWithPromptResult,
+  ShareIcsFileOptions,
   SystemColorName,
   UpdateRemindersListOptions,
   UpdateRemindersListResult,
@@ -154,4 +167,8 @@ export {
   AttendeeStatus,
   CapacitorCalendar,
   downloadIcsFile,
+  createIcsFile,
+  getCalendarLinks,
+  getCalendarDayLink,
+  shareIcsFile,
 };
