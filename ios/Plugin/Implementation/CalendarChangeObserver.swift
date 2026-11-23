@@ -115,7 +115,34 @@ final class CalendarChangeObserver {
         }
         let freshEntries = toEntries(freshEvents)
         let freshCalendars = readCalendars()
+        let diff = diffEvents(freshEvents, freshEntries: freshEntries)
+        let calendarsChanged = freshCalendars != calendarSnapshot
 
+        eventSnapshot = freshEntries
+        calendarSnapshot = freshCalendars
+
+        // The store does not say if a reminder changed. Without an event or calendar change,
+        // a reminder change is the likely cause.
+        let remindersChanged = includeReminders && hasRemindersAccess() && !diff.hasChange && !calendarsChanged
+        guard diff.hasChange || calendarsChanged || remindersChanged else {
+            return
+        }
+        emit(makePayload(diff, calendarsChanged: calendarsChanged, remindersChanged: remindersChanged))
+    }
+
+    private struct EventDiff {
+        let created: [EKEvent]
+        let updated: [EKEvent]
+        let deletedIds: [String]
+        /// An occurrence left the window while its series stays. The lists cannot express it.
+        let occurrenceRemoved: Bool
+
+        var hasChange: Bool {
+            return !created.isEmpty || !updated.isEmpty || !deletedIds.isEmpty || occurrenceRemoved
+        }
+    }
+
+    private func diffEvents(_ freshEvents: [EKEvent], freshEntries: [String: Entry]) -> EventDiff {
         let oldCounts = countById(eventSnapshot)
         let freshCounts = countById(freshEntries)
         // A new start time for a known id is a moved event or occurrence, not a new event.
@@ -134,34 +161,27 @@ final class CalendarChangeObserver {
                 deletedIds.append(entry.id)
             }
         }
-        // An occurrence left the window while its series stays. The lists cannot express it.
         let occurrenceRemoved = freshCounts.contains { id, count in count < (oldCounts[id] ?? 0) }
-        let calendarsChanged = freshCalendars != calendarSnapshot
+        return EventDiff(
+            created: created,
+            updated: updated,
+            deletedIds: deletedIds,
+            occurrenceRemoved: occurrenceRemoved
+        )
+    }
 
-        eventSnapshot = freshEntries
-        calendarSnapshot = freshCalendars
-
-        let hasEventChange = !created.isEmpty || !updated.isEmpty || !deletedIds.isEmpty || occurrenceRemoved
-        // The store does not say if a reminder changed. Without an event or calendar change,
-        // a reminder change is the likely cause.
-        let remindersChanged = includeReminders && hasRemindersAccess() && !hasEventChange && !calendarsChanged
-        guard hasEventChange || calendarsChanged || remindersChanged else {
-            return
-        }
-
+    private func makePayload(_ diff: EventDiff, calendarsChanged: Bool, remindersChanged: Bool) -> JSObject {
         var payload = JSObject()
         var seriesStartDateCache: [String: Double] = [:]
-        if includeEvents {
-            if !created.isEmpty {
-                payload["created"] = toJSArray(created, cache: &seriesStartDateCache)
-            }
-            if !updated.isEmpty {
-                payload["updated"] = toJSArray(updated, cache: &seriesStartDateCache)
-            }
+        if includeEvents && !diff.created.isEmpty {
+            payload["created"] = toJSArray(diff.created, cache: &seriesStartDateCache)
         }
-        if !deletedIds.isEmpty {
+        if includeEvents && !diff.updated.isEmpty {
+            payload["updated"] = toJSArray(diff.updated, cache: &seriesStartDateCache)
+        }
+        if !diff.deletedIds.isEmpty {
             var ids = JSArray()
-            deletedIds.forEach { ids.append($0) }
+            diff.deletedIds.forEach { ids.append($0) }
             payload["deletedIds"] = ids
         }
         if calendarsChanged {
@@ -171,9 +191,9 @@ final class CalendarChangeObserver {
             payload["remindersChanged"] = true
         }
         // A reminder signal carries no list. Events that are not sent are not listed either.
-        payload["precise"] = !remindersChanged && !occurrenceRemoved
-            && (includeEvents || (created.isEmpty && updated.isEmpty))
-        emit(payload)
+        payload["precise"] = !remindersChanged && !diff.occurrenceRemoved
+            && (includeEvents || (diff.created.isEmpty && diff.updated.isEmpty))
+        return payload
     }
 
     private func readEvents(_ range: ListEventsInRangeInput) throws -> [EKEvent] {

@@ -162,11 +162,9 @@ class CalendarChangeObserver(
         }
     }
 
-    private fun readCalendars(): Map<String, Int> =
-        ImplementationHelper.listCalendars(contentResolver).associate { it.id to it.hashCode() }
+    private fun readCalendars(): Map<String, Int> = ImplementationHelper.listCalendars(contentResolver).associate { it.id to it.hashCode() }
 
-    private fun toEntries(events: List<CalendarEvent>): Map<String, Entry> =
-        events.associate { key(it) to Entry(it.id, it.hashCode()) }
+    private fun toEntries(events: List<CalendarEvent>): Map<String, Entry> = events.associate { key(it) to Entry(it.id, it.hashCode()) }
 
     // One event id has one instance for each occurrence of a series.
     private fun key(event: CalendarEvent): String = "${event.id}|${event.startDate}"
