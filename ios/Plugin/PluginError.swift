@@ -171,7 +171,9 @@ enum PluginError: LocalizedError {
             return "EB-CLDR-0020"
         case .missingDeclaration:
             return "EB-CLDR-0100"
-        case .customError,
+        case .calendarNotModifiable,
+             .customError,
+             .listNotModifiable,
              .unimplemented:
             return nil
         }
