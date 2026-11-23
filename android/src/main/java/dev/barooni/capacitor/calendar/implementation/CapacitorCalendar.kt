@@ -98,6 +98,16 @@ class CapacitorCalendar(
                 Pair(input.startDate, input.endDate)
             }
         val timezoneId = if (isAllDay) "UTC" else input.timezoneId
+        // The provider needs DURATION and no DTEND on a repeating event.
+        // Without DURATION it cannot add exceptions, so deleting or editing one occurrence fails.
+        val isRecurring = input.recurrence != null
+        val duration =
+            input.duration
+                ?: if (isRecurring && startDate != null && endDate != null) {
+                    ImplementationHelper.buildDurationFromBeginEnd(startDate, endDate, isAllDay)
+                } else {
+                    null
+                }
 
         val values =
             ContentValues().apply {
@@ -107,11 +117,13 @@ class CapacitorCalendar(
                 input.isAllDay?.let { put(CalendarContract.Events.ALL_DAY, it) }
                 input.location?.let { put(CalendarContract.Events.EVENT_LOCATION, it) }
                 startDate?.let { put(CalendarContract.Events.DTSTART, it) }
-                endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                if (!isRecurring || duration == null) {
+                    endDate?.let { put(CalendarContract.Events.DTEND, it) }
+                }
                 input.description?.let { put(CalendarContract.Events.DESCRIPTION, it) }
                 input.availability?.let { put(CalendarContract.Events.AVAILABILITY, it) }
                 input.organizer?.let { put(CalendarContract.Events.ORGANIZER, it) }
-                input.duration?.let { put(CalendarContract.Events.DURATION, it) }
+                duration?.let { put(CalendarContract.Events.DURATION, it) }
                 input.color?.let { put(CalendarContract.Events.EVENT_COLOR, it) }
                 input.recurrence?.let { put(CalendarContract.Events.RRULE, it.toRRule()) }
             }
