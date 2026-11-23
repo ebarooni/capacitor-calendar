@@ -75,6 +75,10 @@ Changelogs for the versions supporting Capacitor 8.
 - Android: `createEvent(...)` with `recurrence` stored `DTEND` instead of `DURATION`. Then `deleteEvent(...)` with `span: THIS_EVENT` failed with `EB-CLDR-0004` for an occurrence
 - Android: `deleteEvent(...)` with `span: THIS_EVENT` on a local series (no sync id) removed all occurrences from the instance list. It now adds the occurrence to `EXDATE`
 - Android: `deleteEvent(...)` with `span: THIS_AND_FUTURE_EVENTS` did not remove the later occurrences from the instance list
+- iOS rejects with `Calendar access was denied.` (`EB-CLDR-0020`) when EventKit reports `eventStoreNotAuthorized`. Before, this case rejected with `EB-CLDR-0004`. Permission request methods resolve `denied` for this case and do not reject
+- iOS rejects with `EB-CLDR-0005` for a missing view controller and for an already open calendar chooser. Before, these had no `EB-CLDR` code
+- iOS unhandled permission status now rejects with `EB-CLDR-0004`. Before, it had no code
+- iOS rejects a missing `id` with `List ID must be provided.` for `updateRemindersList` and `deleteRemindersList`, and with `Reminder ID must be provided.` for reminder methods. Before, these used `Event ID must be provided.`. The code stays `EB-CLDR-0001`
 
 ## 8.11.0
 

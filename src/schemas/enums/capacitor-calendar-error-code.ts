@@ -26,7 +26,7 @@ export enum CapacitorCalendarErrorCode {
   IoError = 'EB-CLDR-0004',
 
   /**
-   * The device cannot open the calendar UI, reminders UI, or target URL.
+   * The device cannot open the calendar UI, reminders UI, or target URL. Also used on iOS for a missing view controller and a calendar chooser that is already open.
    *
    * @since 8.10.0
    */
@@ -34,7 +34,7 @@ export enum CapacitorCalendarErrorCode {
 
   /**
    * Calendar access was denied.
-   * On Android, calendar operations that fail with a permission error reject with this code. Permission check and request APIs still resolve `"denied"` on Android and iOS.
+   * On Android and iOS, calendar operations that fail with a permission error reject with this code. Permission check and request APIs still resolve `"denied"` on Android and iOS.
    *
    * @since 8.10.0
    */
