@@ -26,6 +26,8 @@ import { registerRequestFullCalendarAccess } from './request-full-calendar-acces
 import { registerRequestFullRemindersAccess } from './request-full-reminders-access.js';
 import { registerSelectCalendarsWithPrompt } from './select-calendars-with-prompt.js';
 import { registerShareIcsFile } from './share-ics-file.js';
+import { registerStartListening } from './start-listening.js';
+import { registerStopListening } from './stop-listening.js';
 import { registerUpdateRemindersList } from './update-reminders-list.js';
 
 /** Wire every Methods-tab button listener. Keep alphabetical by method name. */
@@ -58,5 +60,7 @@ export function registerAllMethods() {
   registerRequestFullRemindersAccess();
   registerSelectCalendarsWithPrompt();
   registerShareIcsFile();
+  registerStartListening();
+  registerStopListening();
   registerUpdateRemindersList();
 }

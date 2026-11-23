@@ -1,0 +1,20 @@
+package dev.barooni.capacitor.calendar.models.inputs
+
+import com.getcapacitor.PluginCall
+import dev.barooni.capacitor.calendar.PluginError
+import dev.barooni.capacitor.calendar.utils.ImplementationHelper
+
+data class StartListeningInput(
+    private var call: PluginCall,
+) {
+    val from: Long =
+        call.getLong("from")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis } ?: throw PluginError.FromDateMissing
+    val to: Long =
+        call.getLong("to")?.let { ImplementationHelper.getCalendarFromTimestamp(it).timeInMillis } ?: throw PluginError.ToDateMissing
+    val calendarIds: List<Long>? =
+        call
+            .getArray("calendarIds")
+            ?.let { ImplementationHelper.jsArrayToLongArray(it, PluginError.InvalidCalendarId) }
+            ?.takeIf { it.isNotEmpty() }
+    val includeEvents: Boolean = call.getBoolean("includeEvents", true) ?: true
+}

@@ -473,7 +473,13 @@ class ImplementationHelper {
 
                         isRecurringMaster -> {
                             val date = instanceDate ?: throw PluginError.InstanceDateMissing
-                            insertCanceledException(cr, masterId, date)
+                            // The provider links exceptions to a series by its sync id.
+                            // A series without a sync id loses all its instances when an exception is added.
+                            if (info.syncId.isNullOrEmpty()) {
+                                excludeOccurrence(cr, masterId, info, date)
+                            } else {
+                                insertCanceledException(cr, masterId, date)
+                            }
                         }
 
                         else -> {
@@ -572,7 +578,7 @@ class ImplementationHelper {
             }
 
             val values =
-                ContentValues().apply {
+                recurrenceValues(info).apply {
                     put(CalendarContract.Events.RRULE, rruleEndingBefore(rrule, instanceDate))
                 }
             val uri =
@@ -581,6 +587,58 @@ class ImplementationHelper {
                     masterId,
                 )
             return cr.update(uri, values, null, null) > 0
+        }
+
+        /**
+         * Adds the occurrence that starts at [instanceDate] to the EXDATE list of the series.
+         */
+        private fun excludeOccurrence(
+            cr: ContentResolver,
+            masterId: Long,
+            info: EventDeleteInfo,
+            instanceDate: Long,
+        ): Boolean {
+            val excluded = formatExdate(instanceDate, info.isAllDay)
+            val values =
+                recurrenceValues(info).apply {
+                    put(
+                        CalendarContract.Events.EXDATE,
+                        listOfNotNull(info.exdate?.takeIf { it.isNotBlank() }, excluded).joinToString(","),
+                    )
+                }
+            val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, masterId)
+            return cr.update(uri, values, null, null) > 0
+        }
+
+        /**
+         * The provider expands the instances of a series only from the fields in the update.
+         * Fields that are not in the update are ignored. An update of the rule must send all of them.
+         * A series must have DURATION and no DTEND.
+         */
+        private fun recurrenceValues(info: EventDeleteInfo): ContentValues =
+            ContentValues().apply {
+                info.dtStart?.let { put(CalendarContract.Events.DTSTART, it) }
+                info.rrule?.let { put(CalendarContract.Events.RRULE, it) }
+                info.exdate?.let { put(CalendarContract.Events.EXDATE, it) }
+                info.timezone?.let { put(CalendarContract.Events.EVENT_TIMEZONE, it) }
+                put(CalendarContract.Events.ALL_DAY, if (info.isAllDay) 1 else 0)
+                val duration =
+                    info.duration
+                        ?: info.dtStart?.let { start ->
+                            info.dtEnd?.let { end -> buildDurationFromBeginEnd(start, end, info.isAllDay) }
+                        }
+                if (duration != null) {
+                    put(CalendarContract.Events.DURATION, duration)
+                    putNull(CalendarContract.Events.DTEND)
+                }
+            }
+
+        private fun formatExdate(
+            instanceDate: Long,
+            isAllDay: Boolean,
+        ): String {
+            val utc = formatUntilUtc(instanceDate)
+            return if (isAllDay) utc.substringBefore("T") else utc
         }
 
         private fun rruleEndingBefore(
@@ -633,80 +691,43 @@ class ImplementationHelper {
                     CalendarContract.Events.CONTENT_URI,
                     eventId,
                 )
-
             val projection =
                 arrayOf(
                     CalendarContract.Events.DTSTART,
                     CalendarContract.Events.ORIGINAL_ID,
                     CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
                     CalendarContract.Events.RRULE,
+                    CalendarContract.Events.DTEND,
+                    CalendarContract.Events.DURATION,
+                    CalendarContract.Events.EXDATE,
+                    CalendarContract.Events.EVENT_TIMEZONE,
+                    CalendarContract.Events.ALL_DAY,
+                    CalendarContract.Events._SYNC_ID,
                 )
-
-            cr
-                .query(
-                    uri,
-                    projection,
-                    null,
-                    null,
-                    null,
-                )?.use { cursor ->
-                    if (!cursor.moveToFirst()) {
-                        return EventDeleteInfo(
-                            dtStart = null,
-                            originalId = null,
-                            originalInstanceTime = null,
-                            rrule = null,
-                        )
-                    }
-
-                    val dtStartIndex = cursor.getColumnIndex(CalendarContract.Events.DTSTART)
-                    val originalIdIndex = cursor.getColumnIndex(CalendarContract.Events.ORIGINAL_ID)
-                    val originalInstanceTimeIndex =
-                        cursor.getColumnIndex(CalendarContract.Events.ORIGINAL_INSTANCE_TIME)
-                    val rruleIndex = cursor.getColumnIndex(CalendarContract.Events.RRULE)
-
-                    val dtStart =
-                        if (dtStartIndex >= 0 && !cursor.isNull(dtStartIndex)) {
-                            cursor.getLong(dtStartIndex)
-                        } else {
-                            null
-                        }
-
-                    val originalId =
-                        if (originalIdIndex >= 0 && !cursor.isNull(originalIdIndex)) {
-                            cursor.getLong(originalIdIndex)
-                        } else {
-                            null
-                        }
-
-                    val originalInstanceTime =
-                        if (originalInstanceTimeIndex >= 0 && !cursor.isNull(originalInstanceTimeIndex)) {
-                            cursor.getLong(originalInstanceTimeIndex)
-                        } else {
-                            null
-                        }
-
-                    val rrule =
-                        if (rruleIndex >= 0 && !cursor.isNull(rruleIndex)) {
-                            cursor.getString(rruleIndex)
-                        } else {
-                            null
-                        }
-
-                    return EventDeleteInfo(
-                        dtStart = dtStart,
-                        originalId = originalId,
-                        originalInstanceTime = originalInstanceTime,
-                        rrule = rrule,
-                    )
+            val empty = EventDeleteInfo(dtStart = null, originalId = null, originalInstanceTime = null, rrule = null)
+            return cr.query(uri, projection, null, null, null)?.use { cursor ->
+                if (!cursor.moveToFirst()) {
+                    return@use empty
                 }
 
-            return EventDeleteInfo(
-                dtStart = null,
-                originalId = null,
-                originalInstanceTime = null,
-                rrule = null,
-            )
+                fun column(name: String): Int? = cursor.getColumnIndex(name).takeIf { it >= 0 && !cursor.isNull(it) }
+
+                fun long(name: String): Long? = column(name)?.let { cursor.getLong(it) }
+
+                fun string(name: String): String? = column(name)?.let { cursor.getString(it) }
+                EventDeleteInfo(
+                    dtStart = long(CalendarContract.Events.DTSTART),
+                    originalId = long(CalendarContract.Events.ORIGINAL_ID),
+                    originalInstanceTime = long(CalendarContract.Events.ORIGINAL_INSTANCE_TIME),
+                    rrule = string(CalendarContract.Events.RRULE),
+                    dtEnd = long(CalendarContract.Events.DTEND),
+                    duration = string(CalendarContract.Events.DURATION),
+                    exdate = string(CalendarContract.Events.EXDATE),
+                    timezone = string(CalendarContract.Events.EVENT_TIMEZONE),
+                    isAllDay = long(CalendarContract.Events.ALL_DAY) == 1L,
+                    syncId = string(CalendarContract.Events._SYNC_ID),
+                )
+            } ?: empty
         }
 
         fun getEventAlerts(

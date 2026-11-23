@@ -63,6 +63,7 @@ Changelogs for the versions supporting Capacitor 8.
 - Web: optional `uid` and `sequence` on `CreateEventOptions`, so re-imported files update or cancel an event
 - Web: optional `skipPrompt` on `CreateEventWithPromptOptions`
 - Web: optional `provider` on `OpenCalendarOptions` opens the day view of Google Calendar, Outlook.com, or Microsoft 365 in a new tab
+- Android, iOS: `startListening(...)`, `stopListening()` and the `calendarChanged` listener report calendar changes in a time window. The event lists the created and updated events, the deleted ids, `calendarsChanged`, and (iOS) `remindersChanged`
 
 ### Changed
 
@@ -71,6 +72,9 @@ Changelogs for the versions supporting Capacitor 8.
 ### Fixed
 
 - Web: folded `.ics` continuation lines were one octet longer than the 75-octet limit of RFC 5545
+- Android: `createEvent(...)` with `recurrence` stored `DTEND` instead of `DURATION`. Then `deleteEvent(...)` with `span: THIS_EVENT` failed with `EB-CLDR-0004` for an occurrence
+- Android: `deleteEvent(...)` with `span: THIS_EVENT` on a local series (no sync id) removed all occurrences from the instance list. It now adds the occurrence to `EXDATE`
+- Android: `deleteEvent(...)` with `span: THIS_AND_FUTURE_EVENTS` did not remove the later occurrences from the instance list
 
 ## 8.11.0
 

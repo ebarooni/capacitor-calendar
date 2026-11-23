@@ -43,6 +43,8 @@ struct PluginConfig {
         CAPPluginMethod(name: "requestReadOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestWriteOnlyCalendarAccess", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "selectCalendarsWithPrompt", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "startListening", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopListening", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "updateRemindersList", returnType: CAPPluginReturnPromise)
     ]
 }
