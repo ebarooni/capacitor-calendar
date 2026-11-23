@@ -2,8 +2,6 @@ package dev.barooni.capacitor.calendar.implementation
 
 import android.content.ContentResolver
 import android.database.ContentObserver
-import android.os.Handler
-import android.os.Looper
 import android.provider.CalendarContract
 import com.getcapacitor.JSArray
 import com.getcapacitor.JSObject
@@ -62,7 +60,8 @@ class CalendarChangeObserver(
         calendarSnapshot = readCalendars()
         executor = Executors.newSingleThreadScheduledExecutor()
         val observer =
-            object : ContentObserver(Handler(Looper.getMainLooper())) {
+            // No handler: onChange runs on a binder thread, so a running check never blocks the main thread.
+            object : ContentObserver(null) {
                 override fun onChange(selfChange: Boolean) {
                     scheduleCheck()
                 }
@@ -110,25 +109,34 @@ class CalendarChangeObserver(
             val freshEntries = toEntries(freshEvents)
             val freshCalendars = readCalendars()
 
-            val created = freshEvents.filter { key(it) !in eventSnapshot }
+            val oldCounts = eventSnapshot.values.groupingBy { it.id }.eachCount()
+            val freshCounts = freshEntries.values.groupingBy { it.id }.eachCount()
+            // A new start time for a known id is a moved event or occurrence, not a new event.
+            val created = freshEvents.filter { key(it) !in eventSnapshot && it.id !in oldCounts }
             val updated =
                 freshEvents.filter { event ->
-                    eventSnapshot[key(event)]?.let { it.fingerprint != freshEntries[key(event)]?.fingerprint } == true
+                    val old = eventSnapshot[key(event)]
+                    if (old == null) {
+                        event.id in oldCounts
+                    } else {
+                        old.fingerprint != freshEntries[key(event)]?.fingerprint
+                    }
                 }
-            val freshIds = freshEntries.values.map { it.id }.toSet()
             val deletedIds =
                 eventSnapshot
                     .filterKeys { it !in freshEntries }
                     .values
                     .map { it.id }
-                    .filter { it !in freshIds }
+                    .filter { it !in freshCounts }
                     .distinct()
+            // An occurrence left the window while its series stays. The lists cannot express it.
+            val occurrenceRemoved = freshCounts.any { (id, count) -> count < (oldCounts[id] ?: 0) }
             val calendarsChanged = freshCalendars != calendarSnapshot
 
             eventSnapshot = freshEntries
             calendarSnapshot = freshCalendars
 
-            if (created.isEmpty() && updated.isEmpty() && deletedIds.isEmpty() && !calendarsChanged) {
+            if (created.isEmpty() && updated.isEmpty() && deletedIds.isEmpty() && !occurrenceRemoved && !calendarsChanged) {
                 return
             }
             val payload = JSObject()
@@ -146,7 +154,7 @@ class CalendarChangeObserver(
             if (calendarsChanged) {
                 payload.put("calendarsChanged", true)
             }
-            payload.put("precise", includeEvents || (created.isEmpty() && updated.isEmpty()))
+            payload.put("precise", !occurrenceRemoved && (includeEvents || (created.isEmpty() && updated.isEmpty())))
             emit(payload)
         } catch (error: Exception) {
             // The snapshot stays as it is. The next check compares with it again.

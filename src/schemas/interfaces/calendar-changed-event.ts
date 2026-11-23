@@ -14,7 +14,7 @@ export interface CalendarChangedEvent {
    */
   created?: CalendarEvent[];
   /**
-   * Events in the watched window that changed.
+   * Events in the watched window that changed. A moved event is listed here, with its new `startDate`.
    * Not present when `includeEvents` is `false`.
    *
    * @since 8.12.0
@@ -43,7 +43,8 @@ export interface CalendarChangedEvent {
   remindersChanged?: boolean;
   /**
    * `true` when the lists above are complete for the watched window.
-   * `false` when something changed but the change could not be found.
+   * `false` when something changed but the change could not be found, or when an occurrence of a repeating event
+   * was removed from the window while the series stays (its id is not in `deletedIds`).
    * Then read the data again with `listEventsInRange`.
    *
    * @since 8.12.0

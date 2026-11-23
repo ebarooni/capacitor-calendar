@@ -105,7 +105,6 @@ final class CalendarChangeObserver {
             return
         }
         listenerSeen = true
-        eventStore.refreshSourcesIfNecessary()
         let freshEvents: [EKEvent]
         do {
             freshEvents = try readEvents(range)
@@ -117,26 +116,32 @@ final class CalendarChangeObserver {
         let freshEntries = toEntries(freshEvents)
         let freshCalendars = readCalendars()
 
-        let created = freshEvents.filter { eventSnapshot[key(for: $0)] == nil }
+        let oldCounts = countById(eventSnapshot)
+        let freshCounts = countById(freshEntries)
+        // A new start time for a known id is a moved event or occurrence, not a new event.
+        let created = freshEvents.filter { event in
+            eventSnapshot[key(for: event)] == nil && oldCounts[event.eventIdentifier ?? ""] == nil
+        }
         let updated = freshEvents.filter { event in
             guard let old = eventSnapshot[key(for: event)] else {
-                return false
+                return oldCounts[event.eventIdentifier ?? ""] != nil
             }
             return old.fingerprint != freshEntries[key(for: event)]?.fingerprint
         }
-        let freshIds = Set(freshEntries.values.map { $0.id })
         var deletedIds: [String] = []
         for (entryKey, entry) in eventSnapshot where freshEntries[entryKey] == nil {
-            if !freshIds.contains(entry.id) && !deletedIds.contains(entry.id) {
+            if freshCounts[entry.id] == nil && !deletedIds.contains(entry.id) {
                 deletedIds.append(entry.id)
             }
         }
+        // An occurrence left the window while its series stays. The lists cannot express it.
+        let occurrenceRemoved = freshCounts.contains { id, count in count < (oldCounts[id] ?? 0) }
         let calendarsChanged = freshCalendars != calendarSnapshot
 
         eventSnapshot = freshEntries
         calendarSnapshot = freshCalendars
 
-        let hasEventChange = !created.isEmpty || !updated.isEmpty || !deletedIds.isEmpty
+        let hasEventChange = !created.isEmpty || !updated.isEmpty || !deletedIds.isEmpty || occurrenceRemoved
         // The store does not say if a reminder changed. Without an event or calendar change,
         // a reminder change is the likely cause.
         let remindersChanged = includeReminders && hasRemindersAccess() && !hasEventChange && !calendarsChanged
@@ -166,7 +171,8 @@ final class CalendarChangeObserver {
             payload["remindersChanged"] = true
         }
         // A reminder signal carries no list. Events that are not sent are not listed either.
-        payload["precise"] = !remindersChanged && (includeEvents || (created.isEmpty && updated.isEmpty))
+        payload["precise"] = !remindersChanged && !occurrenceRemoved
+            && (includeEvents || (created.isEmpty && updated.isEmpty))
         emit(payload)
     }
 
@@ -201,6 +207,14 @@ final class CalendarChangeObserver {
     private func key(for event: EKEvent) -> String {
         let start = ImplementationHelper.dateToMillis(event.startDate) ?? 0
         return "\(event.eventIdentifier ?? "")|\(start)"
+    }
+
+    private func countById(_ entries: [String: Entry]) -> [String: Int] {
+        var result: [String: Int] = [:]
+        for entry in entries.values {
+            result[entry.id, default: 0] += 1
+        }
+        return result
     }
 
     private func toEntries(_ events: [EKEvent]) -> [String: Entry] {
