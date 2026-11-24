@@ -77,7 +77,7 @@
 `@ebarooni/capacitor-calendar` ships an official [MCP](https://modelcontextprotocol.io) server. It gives AI coding assistants accurate, grounded knowledge of the plugin.
 
 ```bash
-docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.2.0
+docker run --rm -d --name capacitor-calendar-mcp -p 8080:8080 ghcr.io/ebarooni/capacitor-calendar-mcp:1.3.0
 ```
 
 See [`mcp/README.md`](mcp/README.md) for client configuration and full details.

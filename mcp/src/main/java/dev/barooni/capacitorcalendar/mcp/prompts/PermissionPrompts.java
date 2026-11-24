@@ -69,7 +69,10 @@ public class PermissionPrompts {
                 2. The correct access level method is being called at runtime.
                 3. The permission has not been permanently denied by the user.
                 4. The app is not running on the simulator with restricted permissions.
-                Refer to the @ebarooni/capacitor-calendar permission documentation for the exact keys and methods required.
+                5. The error.code of the rejected call: EB-CLDR-0100 (MissingDeclaration) means a key is not declared,
+                   EB-CLDR-0020 (PermissionDenied) means the user or the system denied access.
+                Refer to the @ebarooni/capacitor-calendar permission documentation for the exact keys and methods required,
+                and to docs://error-codes for the error codes.
                 """.formatted(platform, accessLevel)
             ))
         );

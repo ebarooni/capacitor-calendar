@@ -24,12 +24,14 @@ public class MethodTools {
         ),
         new PluginMethod(
             "requestAllPermissions",
-            "Requests permission for all calendar and reminder permissions.",
+            "Requests permission for all calendar and reminder permissions. " +
+                "Use requestFullCalendarAccess or requestFullRemindersAccess instead.",
             List.of("Android", "iOS"), "0.1.0", true
         ),
         new PluginMethod(
             "requestPermission",
-            "Requests permission for a given scope.",
+            "Requests permission for a given scope. Use requestWriteOnlyCalendarAccess, " +
+                "requestReadOnlyCalendarAccess (Android), requestFullCalendarAccess, or requestFullRemindersAccess instead.",
             List.of("Android", "iOS"), "0.1.0", true
         ),
         new PluginMethod(
@@ -93,8 +95,9 @@ public class MethodTools {
         ),
         new PluginMethod(
             "openCalendar",
-            "Opens the calendar app.",
-            List.of("Android", "iOS"), "7.1.0", false
+            "Opens the calendar app. On Web, opens the day view of a web calendar in a new tab when provider " +
+                "(google, outlook, or office365) is set, and rejects with unimplemented otherwise.",
+            List.of("Android", "iOS", "Web"), "7.1.0", false
         ),
         new PluginMethod(
             "selectCalendarsWithPrompt",
@@ -111,8 +114,10 @@ public class MethodTools {
         ),
         new PluginMethod(
             "createEventWithPrompt",
-            "Opens the system calendar interface to create a new event. On Android always returns null.",
-            List.of("Android", "iOS"), "0.1.0", false
+            "Opens a calendar interface to create a new event. On Android and iOS, opens the system editor; " +
+                "on Android id is always null. On Web, shows a confirm dialog and returns an .ics File as ics; " +
+                "on cancel, resolves with id and ics null. Set skipPrompt to skip the dialog.",
+            List.of("Android", "iOS", "Web"), "0.1.0", false
         ),
         new PluginMethod(
             "deleteEvent",
@@ -121,7 +126,7 @@ public class MethodTools {
         ),
         new PluginMethod(
             "deleteEventsById",
-            "Deletes multiple events.",
+            "Deletes multiple events. Use deleteEvent instead.",
             List.of("Android", "iOS"), "0.11.0", true
         ),
         new PluginMethod(
@@ -131,18 +136,49 @@ public class MethodTools {
         ),
         new PluginMethod(
             "listEventsInRange",
-            "Retrieves the events within a date range.",
+            "Retrieves events that overlap a date range. Pass calendarIds to search only some calendars.",
             List.of("Android", "iOS"), "0.10.0", false
         ),
         new PluginMethod(
+            "getEventById",
+            "Retrieves an event by id. For a recurring event, returns the first occurrence on iOS and " +
+                "the series master on Android.",
+            List.of("Android", "iOS"), "8.11.0", false
+        ),
+        new PluginMethod(
             "modifyEvent",
-            "Modifies an event.",
+            "Modifies an event. Fields that you omit keep their current values.",
             List.of("Android", "iOS"), "6.6.0", false
         ),
         new PluginMethod(
             "modifyEventWithPrompt",
             "Opens a system calendar interface to modify an event. On Android always returns null.",
             List.of("Android", "iOS"), "6.6.0", false
+        ),
+
+        // --- Calendar Listening ---
+        new PluginMethod(
+            "startListening",
+            "Starts to watch the calendar for changes in a time window (from, to, optional calendarIds). " +
+                "Changes arrive through addListener('calendarChanged', ...). A new call replaces the previous window. " +
+                "Needs calendar read access.",
+            List.of("Android", "iOS"), "8.12.0", false
+        ),
+        new PluginMethod(
+            "stopListening",
+            "Stops to watch the calendar. Listeners stay registered.",
+            List.of("Android", "iOS"), "8.12.0", false
+        ),
+        new PluginMethod(
+            "addListener",
+            "Adds a listener for the calendarChanged event. The payload has created, updated, deletedIds, " +
+                "calendarsChanged, remindersChanged, and precise. Call startListening to start the events.",
+            List.of("Android", "iOS"), "8.12.0", false
+        ),
+        new PluginMethod(
+            "removeAllListeners",
+            "Removes all listeners of this plugin.",
+            List.of("Android", "iOS"), "8.12.0", false
         ),
 
         // --- Reminders Operations ---
@@ -163,7 +199,7 @@ public class MethodTools {
         ),
         new PluginMethod(
             "deleteRemindersById",
-            "Deletes multiple reminders.",
+            "Deletes multiple reminders. Use deleteReminder instead.",
             List.of("iOS"), "5.3.0", true
         ),
         new PluginMethod(
@@ -178,7 +214,7 @@ public class MethodTools {
         ),
         new PluginMethod(
             "fetchAllRemindersSources",
-            "Retrieves a list of reminders sources.",
+            "Retrieves a list of reminders sources. Use fetchAllCalendarSources instead.",
             List.of("iOS"), "6.6.0", true
         ),
         new PluginMethod(
