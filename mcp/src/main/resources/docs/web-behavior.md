@@ -50,4 +50,4 @@ These fields have no effect: `calendarId`, `invitees`.
 
 ## What stays unimplemented
 
-Permission APIs, list/modify/delete events, calendar CRUD, sources, chooser, other native prompts (`modifyEventWithPrompt`, `deleteEventWithPrompt`), `openCalendar`, and all reminder APIs reject with Capacitor `unimplemented`.
+Permission APIs, list/get/modify/delete events (`listEventsInRange`, `getEventById`), calendar CRUD, sources, chooser, other native prompts (`modifyEventWithPrompt`, `deleteEventWithPrompt`), `openCalendar` without `provider`, change listening (`startListening`, `stopListening`, `calendarChanged`), and all reminder APIs reject with Capacitor `unimplemented`.
